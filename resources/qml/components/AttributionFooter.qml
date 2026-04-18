@@ -14,7 +14,14 @@ Rectangle {
     readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
     readonly property string etkeProjectLink: "<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=attribution\">etke.cc</a>"
 
-    implicitHeight: Komai.navigationRowHeight
+    // Drop to a two-row layout (text above, buttons below) when a single row
+    // would leave the attribution text with no room to breathe.
+    readonly property real stackThreshold: footerLogo.logoSize + 180 + buttonsGroup.implicitWidth + 5 * Komai.paddingMedium
+    readonly property bool stacked: width > 0 && width < stackThreshold
+
+    implicitHeight: stacked
+        ? (textGroup.implicitHeight + buttonsGroup.implicitHeight + content.rowSpacing + 2 * Komai.paddingSmall)
+        : Komai.navigationRowHeight
     Layout.fillWidth: true
     Layout.preferredHeight: implicitHeight
     color: palette.alternateBase
@@ -27,69 +34,90 @@ Rectangle {
         color: Komai.theme.separator
     }
 
-    RowLayout {
+    GridLayout {
+        id: content
+
         anchors.fill: parent
         anchors.leftMargin: Komai.paddingMedium
         anchors.rightMargin: Komai.paddingMedium
-        spacing: Komai.paddingMedium
+        anchors.topMargin: root.stacked ? Komai.paddingSmall : 0
+        anchors.bottomMargin: root.stacked ? Komai.paddingSmall : 0
+        columns: root.stacked ? 1 : 2
+        rowSpacing: Komai.paddingSmall
+        columnSpacing: Komai.paddingMedium
 
-        Image {
-            id: footerLogo
-
-            readonly property real logoSize: footerText.implicitHeight * 1.5
-
-            Layout.preferredWidth: logoSize
-            Layout.preferredHeight: logoSize
-            Layout.alignment: Qt.AlignVCenter
-            source: "qrc:/logos/komai.svg"
-            sourceSize: Qt.size(logoSize * 2, logoSize * 2)
-
-            MouseArea {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onClicked: Qt.openUrlExternally("https://github.com/etkecc/komai")
-            }
-        }
-
-        Text {
-            id: footerText
+        RowLayout {
+            id: textGroup
 
             Layout.fillWidth: true
-            textFormat: Text.RichText
-            font.pointSize: Settings.uiFontSizePt
-            color: palette.buttonText
-            horizontalAlignment: Text.AlignLeft
-            elide: Text.ElideRight
-            text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                  qsTr("%1 is created by %2 (managed Matrix server hosting).")
-                  .arg(root.komaiProjectLink)
-                  .arg(root.etkeProjectLink)
+            Layout.alignment: Qt.AlignVCenter
+            spacing: Komai.paddingMedium
 
-            onLinkActivated: function(link) { Qt.openUrlExternally(link) }
+            Image {
+                id: footerLogo
 
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.NoButton
-                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                readonly property real logoSize: footerText.implicitHeight * 1.5
+
+                Layout.preferredWidth: logoSize
+                Layout.preferredHeight: logoSize
+                Layout.alignment: Qt.AlignVCenter
+                source: "qrc:/logos/komai.svg"
+                sourceSize: Qt.size(logoSize * 2, logoSize * 2)
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: Qt.openUrlExternally("https://github.com/etkecc/komai")
+                }
+            }
+
+            Text {
+                id: footerText
+
+                Layout.fillWidth: true
+                textFormat: Text.RichText
+                font.pointSize: Settings.uiFontSizePt
+                color: palette.buttonText
+                horizontalAlignment: Text.AlignLeft
+                elide: Text.ElideRight
+                text: "<style>a { color: " + palette.highlight + "; }</style>" +
+                      qsTr("%1 is created by %2 (managed Matrix server hosting).")
+                      .arg(root.komaiProjectLink)
+                      .arg(root.etkeProjectLink)
+
+                onLinkActivated: function(link) { Qt.openUrlExternally(link) }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                }
             }
         }
 
-        KomaiButton {
-            id: supportButton
+        RowLayout {
+            id: buttonsGroup
 
-            readonly property string heartIcon: Settings.sponsoringStatus === "sponsoring"
-                ? "qrc:/icons/icons/ui/heart-filled.svg" : "qrc:/icons/icons/ui/heart.svg"
+            Layout.alignment: root.stacked ? Qt.AlignHCenter : Qt.AlignVCenter | Qt.AlignRight
+            spacing: Komai.paddingMedium
 
-            visible: root.showSponsor && Settings.sponsoringStatus !== "hidden"
-            text: Settings.sponsoringStatus === "sponsoring" ? qsTr("Sponsoring!") : qsTr("Sponsor")
-            icon.source: "image://colorimage/:" + heartIcon.substring(4) + "?" + Komai.theme.error
-            onClicked: supportDialog.open()
-        }
+            KomaiButton {
+                id: supportButton
 
-        KomaiButton {
-            text: qsTr("Report an issue")
-            icon.source: "qrc:/icons/icons/ui/bug.svg"
-            onClicked: Qt.openUrlExternally("https://github.com/etkecc/komai/issues")
+                readonly property string heartIcon: Settings.sponsoringStatus === "sponsoring"
+                    ? "qrc:/icons/icons/ui/heart-filled.svg" : "qrc:/icons/icons/ui/heart.svg"
+
+                visible: root.showSponsor && Settings.sponsoringStatus !== "hidden"
+                text: Settings.sponsoringStatus === "sponsoring" ? qsTr("Sponsoring!") : qsTr("Sponsor")
+                icon.source: "image://colorimage/:" + heartIcon.substring(4) + "?" + Komai.theme.error
+                onClicked: supportDialog.open()
+            }
+
+            KomaiButton {
+                text: qsTr("Report an issue")
+                icon.source: "qrc:/icons/icons/ui/bug.svg"
+                onClicked: Qt.openUrlExternally("https://github.com/etkecc/komai/issues")
+            }
         }
     }
 

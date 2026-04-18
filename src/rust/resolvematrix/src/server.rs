@@ -9,6 +9,7 @@ use std::net::{IpAddr, SocketAddr};
 use std::str::FromStr;
 
 use hickory_resolver::TokioResolver;
+use hickory_resolver::proto::rr::RData;
 use reqwest::{Client, StatusCode};
 use serde::Deserialize;
 
@@ -24,7 +25,7 @@ pub enum ResolveServerError {
     Http(#[from] reqwest::Error),
 
     #[error("DNS resolution error: {0}")]
-    Dns(#[from] hickory_resolver::ResolveError),
+    Dns(#[from] hickory_resolver::net::NetError),
 
     #[error("Invalid port number: {0}")]
     InvalidPort(#[from] std::num::ParseIntError),
@@ -77,7 +78,7 @@ pub struct MatrixResolver {
 impl MatrixResolver {
     /// Create a new MatrixResolver.
     pub async fn new() -> Result<Self, ResolveServerError> {
-        let resolver = hickory_resolver::Resolver::builder_tokio()?.build();
+        let resolver = hickory_resolver::Resolver::builder_tokio()?.build()?;
 
         let client = Client::builder()
             .timeout(std::time::Duration::from_secs(10))
@@ -196,10 +197,13 @@ impl MatrixResolver {
         for srv in &srv_names {
             let lookup = self.resolver.srv_lookup(srv).await;
             if let Ok(result) = lookup
-                && let Some(record) = result.iter().next()
+                && let Some(srv_data) = result.answers().iter().find_map(|r| match &r.data {
+                    RData::SRV(srv) => Some(srv),
+                    _ => None,
+                })
             {
-                let target = record.target().to_utf8();
-                let port = record.port();
+                let target = srv_data.target.to_utf8();
+                let port = srv_data.port;
                 return Ok(Some((target.trim_end_matches('.').to_owned(), port)));
             }
         }

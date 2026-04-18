@@ -16,8 +16,10 @@ Item {
     required property var tabController
 
     // Search field and button row share this maximum width so they stay aligned.
+    // Caps at the natural three-button row width, then clamps to the window so
+    // narrow windows let both the row stack vertically and the search field shrink.
     readonly property real sharedMaxWidth: Math.min(
-        Math.max(actions.implicitWidth, 400),
+        actions.preferredRowWidth,
         root.width - 2 * Komai.paddingLarge)
     readonly property real resultsMaxWidth: Math.min(800, root.width * 0.8)
 
@@ -98,6 +100,7 @@ Item {
             id: actions
 
             Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
             Layout.maximumWidth: root.sharedMaxWidth
             Layout.topMargin: Komai.paddingLarge
             dialogHost: root.dialogHost

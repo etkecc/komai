@@ -156,14 +156,6 @@ QtObject {
             && roomHasMethod(roomModel, "showReadReceipts");
     }
 
-    function canMarkAsRead(messageModel, roomModel) {
-        return !!messageModel
-            && !messageModel.isLocalEcho
-            && !!messageModel.eventId
-            && actionCapability(messageModel, "supportsMarkAsRead", true)
-            && roomHasMethod(roomModel, "markEventAsRead");
-    }
-
     function canReport(messageModel, chatRoot) {
         return !!messageModel
             && !messageModel.isLocalEcho

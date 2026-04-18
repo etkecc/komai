@@ -225,10 +225,6 @@ Item {
         TimelineManager.copyMatrixEventLink(roomId, String(eventId || ""));
     }
 
-    function markEventAsRead(eventId) {
-        TimelineManager.markActiveMatrixTimelineEventAsRead(String(eventId || ""));
-    }
-
     function pin(eventId) {
         TimelineManager.pinActiveMatrixTimelineEvent(String(eventId || ""));
     }

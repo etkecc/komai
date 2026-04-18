@@ -114,7 +114,6 @@ Components.OverlayDialog {
         addVisibleAction(buttons, copyLinkLocationBtn);
         addVisibleAction(buttons, copyPermalinkBtn);
         addVisibleAction(buttons, pinBtn);
-        addVisibleAction(buttons, markReadBtn);
         addVisibleAction(buttons, saveAsBtn);
         addVisibleAction(buttons, openExternalBtn);
         addVisibleAction(buttons, readReceiptsBtn);
@@ -369,7 +368,7 @@ Components.OverlayDialog {
                 label: qsTr("Manage")
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
-                visible: pinBtn.visible || markReadBtn.visible
+                visible: pinBtn.visible
             }
 
             ActionButton {
@@ -388,19 +387,6 @@ Components.OverlayDialog {
                     else
                         root.effectiveRoomModel.pin(root.eventId);
                     showFeedback(root.isPinned ? qsTr("Unpinned!") : qsTr("Pinned!"));
-                }
-            }
-
-            ActionButton {
-                id: markReadBtn
-                labelText: qsTr("Mark as read")
-                iconSource: ":/icons/icons/ui/double-checkmark.svg"
-                shortcutSequence: "M"
-                shortcutDisplayText: qsTr("M")
-                visible: !root.isLocalEcho && !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.markEventAsRead === "function"
-                onClicked: {
-                    root.effectiveRoomModel.markEventAsRead(root.eventId);
-                    showFeedback(qsTr("Done!"));
                 }
             }
 

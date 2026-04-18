@@ -54,7 +54,7 @@ Control {
         },
         State {
             name: "shown"
-            when: !chatList.atYEnd
+            when: !chatList.isEffectivelyAtLiveEdge()
 
             PropertyChanges {
                 toEndButton.width: toEndButton.fullWidth

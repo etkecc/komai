@@ -14,6 +14,14 @@ QtObject {
     property bool destroyed: false
     Component.onDestruction: destroyed = true
 
+    // Pixel tolerance used when deciding whether the viewport should be
+    // considered "at the bottom" of the timeline.  Qt's atYEnd has an
+    // essentially zero-pixel tolerance, so tiny contentHeight fluctuations
+    // (e.g. a reaction chip settling under the last message) can drop it
+    // to false even right after positionViewAtBeginning().  Anything
+    // within this many pixels of the visual bottom counts as pinned.
+    readonly property real liveEdgeTolerancePx: 8
+
     property var readMarkerUpdateTimer: Timer {
         interval: 0
         onTriggered: support.updateReadMarkerForVisibleContent()
@@ -98,19 +106,40 @@ QtObject {
         return "";
     }
 
+    function isNearLiveEdge() {
+        if (!timelineList)
+            return false;
+
+        const viewportHeight = Number(timelineList.height || 0);
+        const contentHeight = Number(timelineList.contentHeight || 0);
+        if (viewportHeight <= 0 || contentHeight <= 0)
+            return false;
+
+        // Content fits entirely inside the viewport — there is no scrolling
+        // to do, so we are implicitly at the live edge.
+        if (contentHeight <= viewportHeight + support.liveEdgeTolerancePx)
+            return true;
+
+        const originY = Number(timelineList.originY || 0);
+        const contentY = Number(timelineList.contentY || 0);
+        const bottomSlack = (originY + contentHeight) - (contentY + viewportHeight);
+        return bottomSlack <= support.liveEdgeTolerancePx;
+    }
+
     function isEffectivelyAtLiveEdge() {
         if (!timelineList)
             return false;
 
-        if (timelineList.keepPinnedToBottom || rootItem.initialBottomPinPending || timelineList.atYEnd)
+        if (timelineList.keepPinnedToBottom || rootItem.initialBottomPinPending)
+            return true;
+
+        if (support.isNearLiveEdge())
             return true;
 
         if (timelineList.userUnpinned)
             return false;
 
-        const viewportHeight = Number(timelineList.height || 0);
-        const contentHeight = Number(timelineList.contentHeight || 0);
-        return viewportHeight > 0 && contentHeight > 0 && contentHeight <= viewportHeight + 2;
+        return false;
     }
 
     function selectableEventIdNearMatrixRow(row) {

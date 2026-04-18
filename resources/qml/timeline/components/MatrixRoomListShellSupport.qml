@@ -23,8 +23,15 @@ QtObject {
     property var wheelSettleTimer: Timer {
         interval: 250
         onTriggered: {
-            if (!support.timelineList.userUnpinned)
-                support.timelineList.keepPinnedToBottom = support.timelineList.atYEnd;
+            // If the wheel came to rest near the bottom, treat it as a
+            // deliberate return to the live edge — re-pin and clear the
+            // userUnpinned flag so new messages auto-scroll again.
+            if (support.timelineList.isNearLiveEdge()) {
+                support.timelineList.keepPinnedToBottom = true;
+                support.timelineList.userUnpinned = false;
+            } else if (!support.timelineList.userUnpinned) {
+                support.timelineList.keepPinnedToBottom = false;
+            }
             support.updateStableThumbSize();
         }
     }
@@ -55,14 +62,14 @@ QtObject {
 
         if (rootItem.initialBottomPinPending) {
             timelineList.keepPinnedToBottom = true;
-            if (timelineList.atYEnd) {
+            if (timelineList.isNearLiveEdge()) {
                 rootItem.initialBottomPinPending = false;
                 rootItem.scheduleInitialTimelineBufferCheck();
             }
             return;
         }
 
-        timelineList.keepPinnedToBottom = timelineList.atYEnd;
+        timelineList.keepPinnedToBottom = timelineList.isNearLiveEdge();
     }
 
     function maybeScrollToBottom(force) {
@@ -127,7 +134,7 @@ QtObject {
         if (idx >= 0)
             timelineList.savedTopIndex = idx;
 
-        if (!timelineList.atYEnd) {
+        if (!timelineList.isNearLiveEdge()) {
             timelineList.keepPinnedToBottom = false;
             timelineList.userUnpinned = true;
             if (rootItem.initialBottomPinPending)
@@ -147,10 +154,11 @@ QtObject {
             return;
 
         support.updateLastScroll();
-        timelineList.keepPinnedToBottom = timelineList.atYEnd;
-        if (timelineList.atYEnd)
+        const atEdge = timelineList.isNearLiveEdge();
+        timelineList.keepPinnedToBottom = atEdge;
+        if (atEdge)
             timelineList.userUnpinned = false;
-        rootItem.scheduleReadMarkerUpdate(timelineList.atYEnd);
+        rootItem.scheduleReadMarkerUpdate(atEdge);
         support.updateStableThumbSize();
     }
 
@@ -177,7 +185,7 @@ QtObject {
         }
 
         if ((timelineList.moving || timelineList.flicking || timelineList.dragging)
-                && !timelineList.atYEnd) {
+                && !timelineList.isNearLiveEdge()) {
             if (rootItem.initialBottomPinPending)
                 rootItem.initialBottomPinPending = false;
             if (rootItem.initialTimelineBufferPending)

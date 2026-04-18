@@ -258,6 +258,7 @@ ColumnLayout {
     function ensureInitialBottomPin() { return viewportSupport.ensureInitialBottomPin(); }
     function updatePreferredInitialTimelinePageSize() { return viewportSupport.updatePreferredInitialTimelinePageSize(); }
     function isEffectivelyAtLiveEdge() { return viewportSupport.isEffectivelyAtLiveEdge(); }
+    function isNearLiveEdge() { return viewportSupport.isNearLiveEdge(); }
     function bottomMostVisibleEventId() { return viewportSupport.bottomMostVisibleEventId(); }
     function selectableEventIdNearMatrixRow(row) { return viewportSupport.selectableEventIdNearMatrixRow(row); }
 
@@ -483,6 +484,8 @@ ColumnLayout {
                     function updateLastScroll() { return listShellSupport.updateLastScroll(); }
                     function updateBottomPin() { return listShellSupport.updateBottomPin(); }
                     function maybeScrollToBottom(force) { return listShellSupport.maybeScrollToBottom(force); }
+                    function isNearLiveEdge() { return viewportSupport.isNearLiveEdge(); }
+                    function isEffectivelyAtLiveEdge() { return viewportSupport.isEffectivelyAtLiveEdge(); }
 
                     anchors.fill: parent
                     anchors.margins: Komai.paddingLarge

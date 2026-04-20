@@ -401,6 +401,51 @@ test-cpp|test-all)
 	ctest --test-dir "${build_dir}" --output-on-failure -L integration "$@"
 	;;
 install)
+	# Packagers (Arch PKGBUILD, Snap, Flatpak, AppImage) invoke `cmake --install`
+	# directly with a staging DESTDIR; they don't go through this wrapper. A
+	# human running `just install` / `native.sh install` on a system prefix
+	# almost always wants their distro package instead -- those files would
+	# otherwise end up outside any package manager's control. Warn + confirm
+	# in that specific case.
+
+	effective_prefix="$(sed -n 's/^CMAKE_INSTALL_PREFIX:PATH=//p' "${build_dir}/CMakeCache.txt" 2>/dev/null || true)"
+	effective_prefix="${effective_prefix:-/usr/local}"
+	prev_arg=""
+	for arg in "$@"; do
+		case "${prev_arg}" in
+		--prefix) effective_prefix="${arg}" ;;
+		esac
+		case "${arg}" in
+		--prefix=*) effective_prefix="${arg#--prefix=}" ;;
+		esac
+		prev_arg="${arg}"
+	done
+
+	needs_prompt="false"
+	case "${effective_prefix}" in
+	/usr | /usr/* | /opt | /opt/* | /) needs_prompt="true" ;;
+	esac
+
+	if [[ "${needs_prompt}" == "true" && -t 0 && -z "${DESTDIR:-}" ]]; then
+		cat >&2 <<EOF
+About to install Komai into '${effective_prefix}'.
+
+This writes files outside any package manager's control. If your distro
+provides a Komai package (Arch, Snap, AppImage, Flatpak), prefer that --
+it keeps the installed files tracked and cleanly removable.
+
+Continue anyway? [y/N]
+EOF
+		read -r reply
+		case "${reply}" in
+		y | Y | yes | YES) ;;
+		*)
+			echo "Install aborted." >&2
+			exit 1
+			;;
+		esac
+	fi
+
 	cmake --install "${build_dir}" "$@"
 	;;
 clean)

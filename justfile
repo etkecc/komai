@@ -62,7 +62,7 @@ test-integration *args: _ensure_just_temp_directory
 rebuild *args:
 	bash {{ justfile_directory() }}/bin/build/native.sh rebuild {{ args }}
 
-# Installs the compiled binary (may require sudo)
+# Installs the compiled binary (may require sudo; prompts before writing to /usr, /opt)
 install:
 	bash {{ justfile_directory() }}/bin/build/native.sh install
 

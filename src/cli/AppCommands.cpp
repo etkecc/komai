@@ -11,54 +11,72 @@
 #include <QJsonObject>
 
 #include "IpcClient.h"
+#include "schema/Dispatcher.h"
+#include "schema/SchemaTypes.h"
+
+namespace {
 
 int
-runAppCommand(int argc, char *argv[], QCoreApplication & /*app*/)
+emitPlainIpcString(const QString &profileId,
+                   const QString &method,
+                   const QString &resultKey,
+                   const char *failLabel)
 {
-    auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("app"));
-    auto subcmd = args.isEmpty() ? QString{} : args.first();
-
-    if (subcmd.isEmpty()) {
-        std::cout << "Usage: komai [-p <profile>] app <subcommand>\n\n"
-                  << "Subcommands:\n"
-                  << "  version        Print the Komai version (JSON)\n"
-                  << "  api-version    Print the D-Bus API version (JSON)\n";
-        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
-    }
-
-    auto profileId = cli_ipc::profileFromArgs(argc, argv);
-    if (!cli_ipc::ensureConnected(profileId))
+    auto response = cli_ipc::call(profileId, method);
+    auto result   = response.value(QStringLiteral("result")).toString();
+    if (result.isEmpty()) {
+        std::cerr << "Error: failed to get " << failLabel << "\n";
         return 1;
-
-    if (subcmd == QLatin1String("version")) {
-        auto response = cli_ipc::call(profileId, QStringLiteral("app.version"));
-        auto result   = response.value(QStringLiteral("result")).toString();
-        if (result.isEmpty()) {
-            std::cerr << "Error: failed to get app version\n";
-            return 1;
-        }
-        std::cout << QJsonDocument(QJsonObject{{QStringLiteral("version"), result}})
-                       .toJson(QJsonDocument::Compact)
-                       .toStdString()
-                  << "\n";
-        return 0;
     }
+    std::cout << QJsonDocument(QJsonObject{{resultKey, result}})
+                   .toJson(QJsonDocument::Compact)
+                   .toStdString()
+              << "\n";
+    return 0;
+}
 
-    if (subcmd == QLatin1String("api-version")) {
-        auto response = cli_ipc::call(profileId, QStringLiteral("app.apiVersion"));
-        auto result   = response.value(QStringLiteral("result")).toString();
-        if (result.isEmpty()) {
-            std::cerr << "Error: failed to get API version\n";
-            return 1;
-        }
-        std::cout << QJsonDocument(QJsonObject{{QStringLiteral("apiVersion"), result}})
-                       .toJson(QJsonDocument::Compact)
-                       .toStdString()
-                  << "\n";
-        return 0;
-    }
+int
+handleVersion(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    return emitPlainIpcString(
+      parsed.profileId, QStringLiteral("app.version"), QStringLiteral("version"), "app version");
+}
 
-    std::cerr << "Unknown subcommand: " << subcmd.toStdString() << "\n"
-              << "Run 'komai app --help' for a list of subcommands.\n";
-    return 1;
+int
+handleApiVersion(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    return emitPlainIpcString(parsed.profileId,
+                              QStringLiteral("app.apiVersion"),
+                              QStringLiteral("apiVersion"),
+                              "API version");
+}
+
+cli_schema::GroupDef
+appGroup()
+{
+    cli_schema::GroupDef group;
+    group.name = QStringLiteral("app");
+    group.help = QStringLiteral("Instance metadata (JSON)");
+
+    cli_schema::SubcommandDef version;
+    version.name    = QStringLiteral("version");
+    version.help    = QStringLiteral("Print the Komai version (JSON)");
+    version.handler = handleVersion;
+    group.subcommands.append(version);
+
+    cli_schema::SubcommandDef apiVersion;
+    apiVersion.name    = QStringLiteral("api-version");
+    apiVersion.help    = QStringLiteral("Print the D-Bus API version (JSON)");
+    apiVersion.handler = handleApiVersion;
+    group.subcommands.append(apiVersion);
+
+    return group;
+}
+
+} // namespace
+
+int
+runAppCommand(int argc, char *argv[], QCoreApplication &app)
+{
+    return cli_schema::dispatchGroup(appGroup(), argc, argv, app);
 }

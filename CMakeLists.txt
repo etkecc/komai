@@ -612,6 +612,11 @@ set(SRC_FILES
     src/cli/IpcClient.h
     src/cli/CliDispatch.cpp
     src/cli/CliDispatch.h
+    src/cli/schema/Dispatcher.cpp
+    src/cli/schema/Dispatcher.h
+    src/cli/schema/HelpRenderer.cpp
+    src/cli/schema/HelpRenderer.h
+    src/cli/schema/SchemaTypes.h
     src/cli/AppCommands.cpp
     src/cli/AppCommands.h
     src/cli/MediaCommands.cpp

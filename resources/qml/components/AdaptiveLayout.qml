@@ -57,6 +57,7 @@ Container {
 
         property int maximumWidth: parent.maximumWidth
         property int collapsedWidth: parent.collapsedWidth
+        property int snapUpperWidth: parent.snapUpperWidth
         property int calculatedWidth: visible ? x : 0
 
         height: container.height
@@ -82,8 +83,15 @@ Container {
             grabPermissions: PointerHandler.CanTakeOverFromAnything | PointerHandler.ApprovesTakeOverByHandlersOfSameType
             onActiveChanged: {
                 if (!active) {
-                    splitter.x = splitter.calculatedWidth;
-                    splitter.parent.preferredWidth = splitter.calculatedWidth;
+                    let finalX = splitter.calculatedWidth;
+                    if (splitter.snapUpperWidth > splitter.collapsedWidth
+                        && finalX > splitter.collapsedWidth
+                        && finalX < splitter.snapUpperWidth) {
+                        const midpoint = (splitter.collapsedWidth + splitter.snapUpperWidth) / 2;
+                        finalX = finalX < midpoint ? splitter.collapsedWidth : splitter.snapUpperWidth;
+                    }
+                    splitter.x = finalX;
+                    splitter.parent.preferredWidth = finalX;
                 }
             }
         }

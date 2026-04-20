@@ -103,7 +103,9 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: communityListC
 
-                collapsedWidth: Math.max(Komai.navigationRowHeight, 1)
+                collapsedWidth: Math.max(Komai.navigationRowHeight,
+                                         communitiesList.iconOnlyMinWidth, 1)
+                snapUpperWidth: communitiesList.fullMinWidth
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
                 preferredWidth: Settings.navigationCommunitiesWidthPx > collapsedWidth
                                 ? Settings.navigationCommunitiesWidthPx
@@ -114,7 +116,6 @@ Rectangle {
                     id: communitiesList
 
                     adaptiveView: adaptiveView
-                    collapsed: parent.collapsed
                     roomListTarget: roomlist
                 }
                 Binding {

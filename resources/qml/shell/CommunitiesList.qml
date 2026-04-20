@@ -16,9 +16,39 @@ Page {
     //rightPadding: Komai.paddingSmall
     required property var adaptiveView
     property int avatarSize: Komai.iconSize
-    property bool collapsed: false
     property var roomListTarget: null
     property bool pendingGoToTopRequest: false
+
+    // Row layout metrics mirrored from CommunitiesListItemDelegate so we can
+    // compute the widths at which rows render without clipping. Two row
+    // shapes need to fit at the icon-only minimum:
+    //  - Non-collapsible rows use leading + trailing fillWidth spacers,
+    //    adding a paddingMedium of spacing on both sides of the avatar.
+    //  - Collapsible rows (only possible when a space has children) use a
+    //    chevron + a single spacing before the avatar; no trailing spacing.
+    readonly property int rowLineSpacing: Math.max(1, Math.round(Komai.fontPixelSize * 1.2))
+    readonly property real deepestAvatarSize: Math.max(avatarSize * 0.5,
+        Math.round(avatarSize * Math.pow(0.85, Communities.maxDepth)))
+    readonly property int outerRowPadding: 2 * (Komai.paddingMedium + Komai.paddingSmall)
+    readonly property int nonCollapsibleRowMinWidth: outerRowPadding
+        + 2 * Komai.paddingMedium
+        + avatarSize
+    readonly property int collapsibleRowMinWidth: outerRowPadding
+        + rowLineSpacing + Komai.paddingMedium
+        + avatarSize
+    readonly property int iconOnlyMinWidth: Communities.containsSubspaces
+        ? Math.max(nonCollapsibleRowMinWidth, collapsibleRowMinWidth)
+        : nonCollapsibleRowMinWidth
+    readonly property int fullMinWidth: iconOnlyMinWidth
+        + rowLineSpacing * Communities.maxDepth
+        + Komai.paddingMedium
+        - avatarSize
+        + deepestAvatarSize
+
+    // True when the sidebar is too narrow to render the full layout; in this
+    // mode we collapse rows and the profile header to icon-only so the
+    // deepest subspace avatar is never clipped by the depth indent.
+    readonly property bool iconOnly: width < fullMinWidth
 
     function eventMatchesLatinKey(event, latinKey) {
         if (!event)
@@ -131,7 +161,7 @@ Page {
         readonly property bool hasVerticalOverflow: contentHeight > height
         readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
         readonly property bool scrollbarVisible: {
-            if (communitySidebar.collapsed)
+            if (communitySidebar.iconOnly)
                 return false;
             switch (scrollbarPolicy) {
             case Settings.ScrollbarPolicy.Always:
@@ -288,14 +318,15 @@ Page {
 
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: Komai.paddingMedium
+                anchors.leftMargin: Komai.paddingMedium + Komai.paddingSmall
                 anchors.rightMargin: Komai.paddingMedium + Komai.paddingSmall
                 anchors.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium
                 anchors.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium
                 spacing: Komai.paddingMedium
 
                 UserSettingsFlipButton {
-                    Layout.alignment: Qt.AlignVCenter
+                    Layout.alignment: communitySidebar.iconOnly ? Qt.AlignCenter : Qt.AlignVCenter
+                    Layout.fillWidth: communitySidebar.iconOnly
                     Layout.preferredHeight: communitySidebar.avatarSize
                     Layout.preferredWidth: communitySidebar.avatarSize
                     avatarButtonSize: communitySidebar.avatarSize
@@ -310,7 +341,7 @@ Page {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                     spacing: 0
-                    visible: !communitySidebar.collapsed
+                    visible: !communitySidebar.iconOnly
 
                     ElidedLabel {
                         Layout.fillWidth: true
@@ -460,7 +491,7 @@ Page {
         }
         delegate: CommunitiesListItemDelegate {
             avatarSize: communitySidebar.avatarSize
-            collapsed: communitySidebar.collapsed
+            collapsed: communitySidebar.iconOnly
             communityContextMenu: communitySidebarContextMenu
             scrollbarReservedWidth: communitiesList.reservedScrollbarWidth
         }

@@ -44,6 +44,7 @@ class CommunitiesModel final : public QAbstractListModel
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
     Q_PROPERTY(QStringList tagsWithDefault READ tagsWithDefault NOTIFY tagsChanged)
     Q_PROPERTY(bool containsSubspaces READ containsSubspaces NOTIFY containsSubspacesChanged)
+    Q_PROPERTY(int maxDepth READ maxDepth NOTIFY containsSubspacesChanged)
 
     struct FixedFilterRow
     {
@@ -171,6 +172,15 @@ public:
             if (e.depth > 0)
                 return true;
         return false;
+    }
+
+    int maxDepth() const
+    {
+        int max = 0;
+        for (const auto &e : spaceOrder_.tree)
+            if (e.depth > max)
+                max = e.depth;
+        return max;
     }
 
 public slots:

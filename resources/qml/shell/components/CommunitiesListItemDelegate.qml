@@ -136,13 +136,19 @@ ItemDelegate {
             toolTipVisible: hovered
             hoverEnabled: true
             image: model.collapsed ? ":/icons/icons/ui/collapsed.svg" : ":/icons/icons/ui/expanded.svg"
-            visible: !collapsed && model.collapsible
+            visible: model.collapsible
 
             onClicked: model.collapsed = !model.collapsed
         }
         Item {
             Layout.preferredWidth: lineSpacing
             visible: !collapsed && !model.collapsible && Communities.containsSubspaces
+        }
+        Item {
+            // Leading fill in icon-only mode for non-collapsible rows; pairs
+            // with the trailing fill Item below to center the avatar.
+            Layout.fillWidth: true
+            visible: collapsed && !model.collapsible
         }
         Avatar {
             id: avatar
@@ -187,6 +193,7 @@ ItemDelegate {
         }
         Item {
             Layout.fillWidth: true
+            visible: !collapsed || !model.collapsible
         }
         NotificationBubble {
             Layout.alignment: Qt.AlignRight

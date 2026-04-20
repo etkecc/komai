@@ -13,118 +13,160 @@
 #include <QTemporaryFile>
 
 #include "IpcClient.h"
+#include "schema/Dispatcher.h"
+#include "schema/SchemaTypes.h"
+
+namespace {
+
+bool
+handleIpcError(const QJsonObject &response)
+{
+    if (!response.contains(QStringLiteral("error")))
+        return false;
+    std::cerr << "Error: " << response.value(QStringLiteral("error")).toString().toStdString()
+              << "\n";
+    return true;
+}
 
 int
-runMediaCommand(int argc, char *argv[], QCoreApplication & /*app*/)
+handleFetch(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
-    auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("media"));
-    auto subcmd = args.isEmpty() ? QString{} : args.first();
-
-    if (subcmd.isEmpty()) {
-        std::cout << "Usage: komai [-p <profile>] media <subcommand> [args...]\n\n"
-                  << "Subcommands:\n"
-                  << "  fetch <mxc-uri>              Fetch an image and write PNG to stdout\n"
-                  << "  upload <path>                Upload a file and return its mxc:// URI\n"
-                  << "    --filename <name>          Override the filename\n"
-                  << "    --content-type <mime>      Override the MIME type\n"
-                  << "  upload --stdin               Upload from stdin (requires --filename)\n"
-                  << "    --filename <name>          Filename for the upload (required)\n"
-                  << "    --content-type <mime>      MIME type (required if not deducible)\n";
-        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
+    if (parsed.positionals.isEmpty()) {
+        std::cerr << "Error: mxc-uri must not be empty\n";
+        return 1;
+    }
+    const auto mxcUri = parsed.positionals.first().trimmed();
+    if (mxcUri.isEmpty()) {
+        std::cerr << "Error: mxc-uri must not be empty\n";
+        return 1;
     }
 
-    auto profileId = cli_ipc::profileFromArgs(argc, argv);
-    if (!cli_ipc::ensureConnected(profileId))
+    auto response = cli_ipc::call(
+      parsed.profileId, QStringLiteral("media.fetch"), {{QStringLiteral("mxcUri"), mxcUri}});
+    if (handleIpcError(response))
         return 1;
 
-    if (subcmd == QLatin1String("fetch")) {
-        if (args.size() < 2) {
-            std::cerr << "Usage: komai media fetch <mxc-uri>\n";
+    auto base64Data = response.value(QStringLiteral("result")).toString();
+    if (base64Data.isEmpty()) {
+        std::cerr << "Error: failed to fetch image or empty response\n";
+        return 1;
+    }
+    auto pngData = QByteArray::fromBase64(base64Data.toLatin1());
+    std::fwrite(pngData.constData(), 1, pngData.size(), stdout);
+    return 0;
+}
+
+int
+handleUpload(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const bool fromStdin   = parsed.hasFlag(QStringLiteral("--stdin"));
+    const auto filename    = parsed.flagOr(QStringLiteral("--filename"));
+    const auto contentType = parsed.flagOr(QStringLiteral("--content-type"));
+
+    QString filePath;
+    QTemporaryFile tempFile;
+
+    if (fromStdin) {
+        if (filename.isEmpty()) {
+            std::cerr << "Error: --stdin requires --filename\n";
             return 1;
         }
-        const auto mxcUri = args.at(1).trimmed();
-        if (mxcUri.isEmpty()) {
-            std::cerr << "Error: mxc-uri must not be empty\n";
+        tempFile.setAutoRemove(true);
+        if (!tempFile.open()) {
+            std::cerr << "Error: failed to create temporary file\n";
             return 1;
         }
-        auto response = cli_ipc::call(
-          profileId, QStringLiteral("media.fetch"), {{QStringLiteral("mxcUri"), mxcUri}});
-        if (response.contains(QStringLiteral("error"))) {
-            std::cerr << "Error: "
-                      << response.value(QStringLiteral("error")).toString().toStdString() << "\n";
+        QByteArray chunk;
+        chunk.resize(65536);
+        while (!std::cin.eof()) {
+            std::cin.read(chunk.data(), chunk.size());
+            auto bytesRead = std::cin.gcount();
+            if (bytesRead > 0)
+                tempFile.write(chunk.constData(), bytesRead);
+        }
+        tempFile.flush();
+        filePath = tempFile.fileName();
+    } else {
+        if (parsed.positionals.isEmpty()) {
+            std::cerr << "Error: upload requires <path> (or use --stdin with --filename)\n";
             return 1;
         }
-        auto base64Data = response.value(QStringLiteral("result")).toString();
-        if (base64Data.isEmpty()) {
-            std::cerr << "Error: failed to fetch image or empty response\n";
+        filePath = parsed.positionals.first().trimmed();
+        if (filePath.isEmpty()) {
+            std::cerr << "Error: path must not be empty\n";
             return 1;
         }
-        auto pngData = QByteArray::fromBase64(base64Data.toLatin1());
-        fwrite(pngData.constData(), 1, pngData.size(), stdout);
-        return 0;
     }
 
-    if (subcmd == QLatin1String("upload")) {
-        const bool fromStdin = cli_ipc::hasFlag(argc, argv, QStringLiteral("--stdin"));
-        auto filenameFlag    = cli_ipc::flagValue(argc, argv, QStringLiteral("--filename"));
-        auto contentTypeFlag = cli_ipc::flagValue(argc, argv, QStringLiteral("--content-type"));
+    QJsonObject params{{QStringLiteral("path"), filePath}};
+    if (!filename.isEmpty())
+        params.insert(QStringLiteral("filename"), filename);
+    if (!contentType.isEmpty())
+        params.insert(QStringLiteral("contentType"), contentType);
 
-        QString filePath;
-        QTemporaryFile tempFile;
+    auto response = cli_ipc::call(parsed.profileId, QStringLiteral("media.upload"), params);
+    if (handleIpcError(response))
+        return 1;
 
-        if (fromStdin) {
-            if (filenameFlag.isEmpty()) {
-                std::cerr << "Error: --stdin requires --filename\n";
-                return 1;
-            }
-            tempFile.setAutoRemove(true);
-            if (!tempFile.open()) {
-                std::cerr << "Error: failed to create temporary file\n";
-                return 1;
-            }
-            QByteArray chunk;
-            chunk.resize(65536);
-            while (!std::cin.eof()) {
-                std::cin.read(chunk.data(), chunk.size());
-                auto bytesRead = std::cin.gcount();
-                if (bytesRead > 0)
-                    tempFile.write(chunk.constData(), bytesRead);
-            }
-            tempFile.flush();
-            filePath = tempFile.fileName();
-        } else {
-            if (args.size() < 2) {
-                std::cerr << "Usage: komai media upload <path> [--filename <name>] "
-                             "[--content-type <mime>]\n"
-                          << "       komai media upload --stdin --filename <name> "
-                             "[--content-type <mime>]\n";
-                return 1;
-            }
-            filePath = args.at(1).trimmed();
-            if (filePath.isEmpty()) {
-                std::cerr << "Error: path must not be empty\n";
-                return 1;
-            }
-        }
+    auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
 
-        QJsonObject params{{QStringLiteral("path"), filePath}};
-        if (!filenameFlag.isEmpty())
-            params.insert(QStringLiteral("filename"), filenameFlag);
-        if (!contentTypeFlag.isEmpty())
-            params.insert(QStringLiteral("contentType"), contentTypeFlag);
+cli_schema::GroupDef
+mediaGroup()
+{
+    cli_schema::GroupDef group;
+    group.name = QStringLiteral("media");
+    group.help = QStringLiteral("Media content resolution");
 
-        auto response = cli_ipc::call(profileId, QStringLiteral("media.upload"), params);
-        if (response.contains(QStringLiteral("error"))) {
-            std::cerr << "Error: "
-                      << response.value(QStringLiteral("error")).toString().toStdString() << "\n";
-            return 1;
-        }
-        auto result = response.value(QStringLiteral("result")).toObject();
-        std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
-        return 0;
-    }
+    cli_schema::SubcommandDef fetch;
+    fetch.name = QStringLiteral("fetch");
+    fetch.help = QStringLiteral("Fetch an image and write PNG bytes to standard output");
+    cli_schema::PositionalDef mxc;
+    mxc.name = QStringLiteral("mxc-uri");
+    fetch.positionals.append(mxc);
+    fetch.handler = handleFetch;
+    group.subcommands.append(fetch);
 
-    std::cerr << "Unknown subcommand: " << subcmd.toStdString() << "\n"
-              << "Run 'komai media --help' for a list of subcommands.\n";
-    return 1;
+    cli_schema::SubcommandDef upload;
+    upload.name = QStringLiteral("upload");
+    upload.help = QStringLiteral("Upload a file (or stdin) and return its mxc:// URI (JSON)");
+    cli_schema::PositionalDef path;
+    path.name     = QStringLiteral("path");
+    path.help     = QStringLiteral("Local file path; omit when --stdin is used.");
+    path.optional = true;
+    upload.positionals.append(path);
+
+    cli_schema::FlagDef stdinFlag;
+    stdinFlag.longName = QStringLiteral("--stdin");
+    stdinFlag.help     = QStringLiteral("Upload from standard input; requires --filename.");
+    upload.flags.append(stdinFlag);
+
+    cli_schema::FlagDef filenameFlag;
+    filenameFlag.longName         = QStringLiteral("--filename");
+    filenameFlag.takesValue       = true;
+    filenameFlag.valuePlaceholder = QStringLiteral("<name>");
+    filenameFlag.help = QStringLiteral("Override the on-wire filename (required with --stdin).");
+    upload.flags.append(filenameFlag);
+
+    cli_schema::FlagDef contentTypeFlag;
+    contentTypeFlag.longName         = QStringLiteral("--content-type");
+    contentTypeFlag.takesValue       = true;
+    contentTypeFlag.valuePlaceholder = QStringLiteral("<mime>");
+    contentTypeFlag.help             = QStringLiteral("Override the MIME type.");
+    upload.flags.append(contentTypeFlag);
+
+    upload.handler = handleUpload;
+    group.subcommands.append(upload);
+
+    return group;
+}
+
+} // namespace
+
+int
+runMediaCommand(int argc, char *argv[], QCoreApplication &app)
+{
+    return cli_schema::dispatchGroup(mediaGroup(), argc, argv, app);
 }

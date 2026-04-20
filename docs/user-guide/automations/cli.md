@@ -35,6 +35,18 @@ komai -p work rooms list
 
 If `-p` is omitted, the `default` profile is used.
 
+## ⌨️ Shell completions
+
+Komai's bash, zsh, and fish completion scripts are installed alongside the binary by its packages. On a typical distro install, open a new shell and `komai <TAB>` just works.
+
+If tab completion isn't picked up (source build, non-standard shell dir, ...), regenerate it yourself:
+
+```bash
+komai completions bash > ~/.local/share/bash-completion/completions/komai
+komai completions zsh  > ~/.local/share/zsh/site-functions/_komai
+komai completions fish > ~/.config/fish/completions/komai.fish
+```
+
 ## 📡 App
 
 Instance metadata.

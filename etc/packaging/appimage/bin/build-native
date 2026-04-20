@@ -71,6 +71,8 @@ cmake -GNinja -H"$src_dir" -B"$build_dir" \
     -DBUILD_TESTING=OFF \
     -DMAN=OFF \
     -DFETCHCONTENT_QUIET=OFF
+# MAN=OFF: AppImageBuilder.yml already excludes usr/share/man from the
+# bundled AppDir, so rendering the man page would just be wasted work.
 
 echo "=== Compiling ($(nproc) jobs) ==="
 cmake --build "$build_dir" --parallel "$(nproc)"

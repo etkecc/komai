@@ -20,6 +20,7 @@ depends=(
 	qtkeychain-qt6
 )
 makedepends=(
+	asciidoctor
 	cmake
 	fontconfig
 	git
@@ -47,7 +48,7 @@ build() {
 		-DCMAKE_INSTALL_PREFIX='/usr' \
 		-DCMAKE_INSTALL_LIBDIR='lib' \
 		-DBUILD_TESTING=OFF \
-		-DMAN=OFF \
+		-DMAN=ON \
 		-DCPM_USE_LOCAL_PACKAGES=ON \
 		-Wno-dev
 	cmake --build build

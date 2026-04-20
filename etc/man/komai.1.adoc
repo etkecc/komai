@@ -1,6 +1,6 @@
 = komai(1)
 :doctype:       manpage
-:Date:          2022-01-27
+:Date:          @MAN_DATE@
 :Revision:      @PROJECT_VERSION@
 :man source:    komai
 :man manual:    General Commands Manual

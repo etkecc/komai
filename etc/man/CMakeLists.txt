@@ -2,15 +2,22 @@
 
 include(GNUInstallDirs)
 
+# Use the last modification time of the man page source so the rendered date
+# reflects the current content instead of a hand-maintained constant.
+file(TIMESTAMP "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.1.adoc"
+     MAN_DATE "%Y-%m-%d" UTC)
+
 configure_file("${PROJECT_NAME}.1.adoc" "${PROJECT_NAME}.1.adoc" @ONLY)
 
 find_program (ASCIIDOC_COMPILER a2x)
 if (NOT ASCIIDOC_COMPILER)
   find_program (ASCIIDOCTOR_COMPILER asciidoctor)
   if(NOT ASCIIDOCTOR_COMPILER)
-    message(FATAL_ERROR
+    message(WARNING
       "Could not find asciidoc (a2x) or asciidoctor. "
-      "Man page generation not possible.")
+      "Skipping man page generation. "
+      "Install asciidoctor (or asciidoc) to build the man page.")
+    return()
   endif()
 endif()
 
@@ -40,9 +47,7 @@ if(ASCIIDOCTOR_COMPILER)
     ARGS "--backend=manpage" "--doctype=manpage" "${PROJECT_NAME}.1.adoc")
 endif()
 
-if(ASCIIDOC_COMPILER OR ASCIIDOCTOR_COMPILER)
-  add_custom_target(man ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.1")
+add_custom_target(man ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.1")
 
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
-endif()
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.1
+  DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)

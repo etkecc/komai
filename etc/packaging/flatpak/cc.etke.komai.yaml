@@ -82,6 +82,9 @@ modules:
       - -DCMAKE_BUILD_TYPE=Release
       - -DBUILD_TESTING=OFF
       - -DCOMPILE_QML=ON
+      # Flatpak doesn't ship a man page: asciidoctor (Ruby) is not in the KDE
+      # runtime, and users can't easily `man komai` against a flatpak-installed
+      # binary anyway since /var/lib/flatpak/.../share/man isn't in $MANPATH.
       - -DMAN=OFF
       - -DFLATPAK=ON
       # Pre-fetched CPM dependency sources — absolute paths required with builddir: true.

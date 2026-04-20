@@ -65,9 +65,10 @@ parts:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DBUILD_TESTING=OFF
-      - -DMAN=OFF
+      - -DMAN=ON
       - -DFETCHCONTENT_QUIET=OFF
     build-packages:
+      - asciidoctor
       - g++
       - git
       - ca-certificates

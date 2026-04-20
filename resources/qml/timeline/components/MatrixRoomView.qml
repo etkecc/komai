@@ -646,7 +646,12 @@ ColumnLayout {
                                 sendError: timelineItemDelegate.sendError
                                 isRecoverable: timelineItemDelegate.isRecoverable
                                 replyTo: timelineItemDelegate.replyTo
-                                room: root.perRoomModel
+                                // Must track the same model the ListView is bound to —
+                                // EventDelegateChooser reads the inner delegate's content
+                                // (formattedBody, type, …) via dataById/multiData on this
+                                // model, and a mismatch between the row's identity and the
+                                // source data causes stale/Unsupported flashes on local echo.
+                                room: root.threadViewActive ? root.threadTimelineModel : root.perRoomModel
                                 index: timelineItemDelegate.index
                                 day: timelineItemDelegate.day
                                 isSender: timelineItemDelegate.isSender
@@ -692,7 +697,7 @@ ColumnLayout {
                                 sendError: timelineItemDelegate.sendError
                                 isRecoverable: timelineItemDelegate.isRecoverable
                                 replyTo: timelineItemDelegate.replyTo
-                                room: root.perRoomModel
+                                room: root.threadViewActive ? root.threadTimelineModel : root.perRoomModel
                                 index: timelineItemDelegate.index
                                 day: timelineItemDelegate.day
                                 isSender: timelineItemDelegate.isSender

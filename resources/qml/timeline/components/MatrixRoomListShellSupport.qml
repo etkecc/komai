@@ -298,6 +298,21 @@ QtObject {
         if (!timelineList)
             return;
 
+        // Qt's delegate reuse pool retains delegates across model-instance
+        // swaps (e.g. entering/leaving thread view). On reuse for the new
+        // model it can leave required properties pointing at the previous
+        // model's row, which surfaces as "Unsupported message" for events
+        // that live in the old model but not the new one. Briefly toggling
+        // reuseItems destroys the pooled items so new reuses re-read roles
+        // from the current model.
+        if (timelineList.reuseItems) {
+            timelineList.reuseItems = false;
+            Qt.callLater(function () {
+                if (timelineList)
+                    timelineList.reuseItems = true;
+            });
+        }
+
         timelineList.previousCount = timelineList.count;
         if (!timelineList.userUnpinned && timelineList.keepPinnedToBottom && timelineList.count > 0)
             timelineList.positionViewAtBeginning();

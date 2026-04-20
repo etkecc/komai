@@ -3062,15 +3062,6 @@ TimelineViewManager::clearActiveMatrixThread()
     }
     matrixThreadTimelineLoading_ = false;
     emit matrixThreadTimelineChanged();
-
-    // Force a full model reset on the per-room model so the ListView
-    // destroys all recycled delegates and recreates them from scratch.
-    // Without this, delegates recycled from the thread model via
-    // reuseItems carry stale visual state (the data is correct but
-    // the rendering is corrupted).
-    if (auto *perRoomModel = perRoomModels_.value(activeMatrixTimelineRoomId_)) {
-        perRoomModel->forceModelReset();
-    }
 }
 
 QAbstractItemModel *

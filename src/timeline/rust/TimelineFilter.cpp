@@ -203,9 +203,8 @@ TimelineFilter::onSourceRowsInserted()
 void
 TimelineFilter::onSourceModelReset()
 {
-    // After a source model reset (e.g. thread exit forceModelReset),
-    // the proxy may not re-apply the collapse filter correctly.
-    // Force a full re-evaluation when collapse is active.
+    // After a source model reset the proxy may not re-apply the collapse
+    // filter correctly. Force a full re-evaluation when collapse is active.
     if (collapseThreadReplies_) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
         beginFilterChange();

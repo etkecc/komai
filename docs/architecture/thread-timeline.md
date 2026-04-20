@@ -80,15 +80,15 @@ richer data (reactions, reply previews, delivery state).
 The C++ side triggers `Refresh` on each `handleMatrixBackendRoomTimelineSnapshotUpdated`
 for the active room while in thread mode.
 
-## Thread exit and delegate recycling
+## Thread entry/exit and delegate recycling
 
-When exiting the thread view, the signal ordering matters for correct rendering:
-
-1. `matrixTimelineStateChanged` is emitted first, causing QML to switch the
-   ListView model from `threadTimelineModel` to `perRoomModel`
-2. The thread model is then cleared (no longer bound to the ListView)
-3. `forceModelReset()` is called on the per-room model to force delegate
-   recreation, preventing stale visual state from recycled thread delegates
+The QML delegate binds its `EventDelegateChooser.room` to whichever model the
+ListView is showing — `threadTimelineModel` in thread view, `perRoomModel`
+otherwise. Because `EventDelegateChooser::setRoom` re-incubates the inner
+child, the transition itself flushes any stale content in recycled delegates
+without a full model reset. This also avoids the local-echo race where the
+per-room snapshot lags the thread diff by ~100 ms and the chooser would
+otherwise resolve the echo's id against a model that didn't have it yet.
 
 ## SDK limitation: sync events and thread timelines
 
@@ -137,5 +137,4 @@ server.
 | FFI | `src/rust/src/ffi.rs` | CXX bridge declarations |
 | FFI | `src/rust/src/matrix_backend/ffi/active_timeline.rs` | FFI wrappers |
 | C++ | `src/timeline/view/TimelineViewManagerMatrixTimeline.cpp` | Subscribe/refresh/clear, notification handler, pagination, thread exit |
-| C++ | `src/timeline/rust/MatrixTimelineModel.cpp` | `forceModelReset()` for thread exit delegate cleanup |
-| QML | `resources/qml/timeline/components/MatrixRoomView.qml` | Model swap (`threadViewActive`), thread pagination trigger |
+| QML | `resources/qml/timeline/components/MatrixRoomView.qml` | Model swap (`threadViewActive`), chooser `room` binding, thread pagination trigger |

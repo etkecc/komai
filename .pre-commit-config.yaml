@@ -104,6 +104,12 @@ repos:
         entry: ./bin/license/check.sh
         language: system
         pass_filenames: false
+      - id: completions-check
+        name: Verify generated shell completion files are up to date
+        entry: ./bin/prek/completions-check.sh
+        language: system
+        files: '^(src/cli/.*|resources/completions/.*)$'
+        pass_filenames: false
       - id: tests
         name: Run C++ test suite
         entry: ./bin/prek/tests.sh

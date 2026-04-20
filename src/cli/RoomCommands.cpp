@@ -12,6 +12,8 @@
 #include <QJsonObject>
 
 #include "IpcClient.h"
+#include "schema/Dispatcher.h"
+#include "schema/SchemaTypes.h"
 
 namespace {
 
@@ -20,7 +22,6 @@ requireNonEmptyValue(const QString &value, const char *label)
 {
     if (!value.trimmed().isEmpty())
         return true;
-
     std::cerr << "Error: " << label << " must not be empty\n";
     return false;
 }
@@ -30,218 +31,302 @@ handleIpcError(const QJsonObject &response)
 {
     if (!response.contains(QStringLiteral("error")))
         return false;
-
     std::cerr << "Error: " << response.value(QStringLiteral("error")).toString().toStdString()
               << "\n";
     return true;
 }
 
-bool
-parseIntFlag(const QString &value, const char *label, int *parsed)
+int
+handleList(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
-    if (value.isEmpty())
-        return true;
+    auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.list"));
+    auto arr      = response.value(QStringLiteral("result")).toArray();
+    std::cout << QJsonDocument(arr).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
 
-    bool ok         = false;
-    const int asInt = value.toInt(&ok);
-    if (!ok) {
-        std::cerr << "Error: " << label << " must be an integer\n";
-        return false;
+int
+handleTimeline(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+
+    QJsonObject params{{QStringLiteral("roomIdOrAlias"), room}};
+
+    const auto limitFlag = parsed.flagOr(QStringLiteral("--limit"));
+    if (!limitFlag.isEmpty()) {
+        bool ok     = false;
+        const int n = limitFlag.toInt(&ok);
+        if (!ok) {
+            std::cerr << "Error: --limit must be an integer\n";
+            return 1;
+        }
+        params.insert(QStringLiteral("limit"), n);
     }
 
-    *parsed = asInt;
-    return true;
+    const auto beforeEventId = parsed.flagOr(QStringLiteral("--before-event-id"));
+    if (!beforeEventId.isEmpty())
+        params.insert(QStringLiteral("beforeEventId"), beforeEventId);
+
+    if (parsed.hasFlag(QStringLiteral("--include-unsigned-fields")))
+        params.insert(QStringLiteral("includeUnsignedFields"), true);
+
+    const auto fetchMode = parsed.flagOr(QStringLiteral("--fetch-mode"));
+    if (!fetchMode.isEmpty())
+        params.insert(QStringLiteral("fetchMode"), fetchMode);
+
+    const auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.timeline"), params);
+    if (handleIpcError(response))
+        return 1;
+
+    const auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
+
+int
+handleJoin(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+    auto response = cli_ipc::call(
+      parsed.profileId, QStringLiteral("rooms.join"), {{QStringLiteral("roomIdOrAlias"), room}});
+    if (handleIpcError(response))
+        return 1;
+    return 0;
+}
+
+int
+handleNewDirectChat(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto userId = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(userId, "user-id"))
+        return 1;
+    auto response = cli_ipc::call(parsed.profileId,
+                                  QStringLiteral("rooms.newDirectChat"),
+                                  {{QStringLiteral("userId"), userId}});
+    if (handleIpcError(response))
+        return 1;
+    return 0;
+}
+
+int
+handleSend(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    if (parsed.positionals.size() < 2) {
+        std::cerr << "Error: send requires <room-id-or-alias> <message>\n";
+        return 1;
+    }
+    const auto room = parsed.positionals.value(0);
+    // Join remaining positionals into the message body so unquoted multi-word
+    // messages work.
+    QStringList bodyParts;
+    for (int i = 1; i < parsed.positionals.size(); ++i)
+        bodyParts.append(parsed.positionals.at(i));
+    const auto body = bodyParts.join(QLatin1Char(' '));
+
+    const auto msgtypeFlag = parsed.flagOr(QStringLiteral("--msgtype"), QStringLiteral("text"));
+    const auto msgtype     = (msgtypeFlag == QLatin1String("notice")) ? QStringLiteral("m.notice")
+                                                                      : QStringLiteral("m.text");
+    const auto format      = parsed.flagOr(QStringLiteral("--format"), QStringLiteral("auto"));
+
+    auto response = cli_ipc::call(parsed.profileId,
+                                  QStringLiteral("rooms.send"),
+                                  {{QStringLiteral("roomIdOrAlias"), room},
+                                   {QStringLiteral("body"), body},
+                                   {QStringLiteral("msgtype"), msgtype},
+                                   {QStringLiteral("format"), format}});
+    if (handleIpcError(response))
+        return 1;
+    auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
+
+int
+handleSendImage(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    if (parsed.positionals.size() < 2) {
+        std::cerr << "Error: send-image requires <room-id-or-alias> <path-or-mxc>\n";
+        return 1;
+    }
+    const auto room         = parsed.positionals.value(0);
+    const auto pathOrMxc    = parsed.positionals.value(1);
+    const auto caption      = parsed.flagOr(QStringLiteral("--caption"));
+    const auto filenameFlag = parsed.flagOr(QStringLiteral("--filename"));
+
+    QJsonObject response;
+    if (pathOrMxc.startsWith(QLatin1String("mxc://"))) {
+        QJsonObject params{
+          {QStringLiteral("roomIdOrAlias"), room},
+          {QStringLiteral("mxcUri"), pathOrMxc},
+        };
+        if (!caption.isEmpty())
+            params.insert(QStringLiteral("body"), caption);
+        if (!filenameFlag.isEmpty())
+            params.insert(QStringLiteral("filename"), filenameFlag);
+        response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.sendImage"), params);
+    } else {
+        QJsonObject params{
+          {QStringLiteral("roomIdOrAlias"), room},
+          {QStringLiteral("path"), pathOrMxc},
+        };
+        if (!caption.isEmpty())
+            params.insert(QStringLiteral("body"), caption);
+        response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.sendImageFile"), params);
+    }
+
+    if (handleIpcError(response))
+        return 1;
+    auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
+
+cli_schema::GroupDef
+roomsGroup()
+{
+    cli_schema::GroupDef group;
+    group.name = QStringLiteral("rooms");
+    group.help = QStringLiteral("Room discovery and navigation (JSON)");
+
+    // list
+    cli_schema::SubcommandDef list;
+    list.name    = QStringLiteral("list");
+    list.help    = QStringLiteral("List all joined rooms (JSON)");
+    list.handler = handleList;
+    group.subcommands.append(list);
+
+    // timeline <room> [flags]
+    cli_schema::SubcommandDef timeline;
+    timeline.name = QStringLiteral("timeline");
+    timeline.help = QStringLiteral("Read visible timeline events (JSON)");
+    cli_schema::PositionalDef timelineRoom;
+    timelineRoom.name = QStringLiteral("room-id-or-alias");
+    timeline.positionals.append(timelineRoom);
+
+    cli_schema::FlagDef limit;
+    limit.longName         = QStringLiteral("--limit");
+    limit.takesValue       = true;
+    limit.valuePlaceholder = QStringLiteral("<n>");
+    limit.help             = QStringLiteral("Max events to return (default: 10, max: 500).");
+    timeline.flags.append(limit);
+
+    cli_schema::FlagDef beforeEventId;
+    beforeEventId.longName         = QStringLiteral("--before-event-id");
+    beforeEventId.takesValue       = true;
+    beforeEventId.valuePlaceholder = QStringLiteral("<id>");
+    beforeEventId.help             = QStringLiteral("Return events older than this event ID.");
+    timeline.flags.append(beforeEventId);
+
+    cli_schema::FlagDef includeUnsigned;
+    includeUnsigned.longName = QStringLiteral("--include-unsigned-fields");
+    includeUnsigned.help     = QStringLiteral("Include Matrix 'unsigned' event fields.");
+    timeline.flags.append(includeUnsigned);
+
+    cli_schema::FlagDef fetchMode;
+    fetchMode.longName   = QStringLiteral("--fetch-mode");
+    fetchMode.takesValue = true;
+    fetchMode.valueEnum = {QStringLiteral("cached_only"), QStringLiteral("server_fetch_if_needed")};
+    fetchMode.help      = QStringLiteral("Fetch older history from the server when needed.");
+    timeline.flags.append(fetchMode);
+
+    timeline.handler = handleTimeline;
+    group.subcommands.append(timeline);
+
+    // join <room>
+    cli_schema::SubcommandDef join;
+    join.name = QStringLiteral("join");
+    join.help = QStringLiteral("Join a room");
+    cli_schema::PositionalDef joinRoom;
+    joinRoom.name = QStringLiteral("room-id-or-alias");
+    join.positionals.append(joinRoom);
+    join.handler = handleJoin;
+    group.subcommands.append(join);
+
+    // new-direct-chat <user-id>
+    cli_schema::SubcommandDef ndc;
+    ndc.name = QStringLiteral("new-direct-chat");
+    ndc.help = QStringLiteral("Start or open a direct chat");
+    cli_schema::PositionalDef userId;
+    userId.name = QStringLiteral("user-id");
+    ndc.positionals.append(userId);
+    ndc.handler = handleNewDirectChat;
+    group.subcommands.append(ndc);
+
+    // send <room> <message>...
+    cli_schema::SubcommandDef send;
+    send.name = QStringLiteral("send");
+    send.help = QStringLiteral("Send a message to a room");
+    cli_schema::PositionalDef sendRoom;
+    sendRoom.name = QStringLiteral("room-id-or-alias");
+    send.positionals.append(sendRoom);
+    cli_schema::PositionalDef message;
+    message.name     = QStringLiteral("message");
+    message.variadic = true;
+    message.help     = QStringLiteral("Message body; multiple words are joined with spaces.");
+    send.positionals.append(message);
+
+    cli_schema::FlagDef msgtype;
+    msgtype.longName     = QStringLiteral("--msgtype");
+    msgtype.takesValue   = true;
+    msgtype.valueEnum    = {QStringLiteral("text"), QStringLiteral("notice")};
+    msgtype.defaultValue = QStringLiteral("text");
+    msgtype.help         = QStringLiteral("Matrix msgtype.");
+    send.flags.append(msgtype);
+
+    cli_schema::FlagDef format;
+    format.longName     = QStringLiteral("--format");
+    format.takesValue   = true;
+    format.valueEnum    = {QStringLiteral("auto"), QStringLiteral("plain"), QStringLiteral("html")};
+    format.defaultValue = QStringLiteral("auto");
+    format.help         = QStringLiteral("Formatting mode (auto honours the Composer setting).");
+    send.flags.append(format);
+
+    send.handler = handleSend;
+    group.subcommands.append(send);
+
+    // send-image <room> <path-or-mxc> [--caption <text>] [--filename <name>]
+    cli_schema::SubcommandDef sendImage;
+    sendImage.name     = QStringLiteral("send-image");
+    sendImage.help     = QStringLiteral("Upload and send an image, or send a pre-uploaded mxc://");
+    sendImage.longHelp = QStringLiteral(
+      "Pass a local <path> to upload and send (encryption-aware), or an 'mxc://' URI to\n"
+      "send a pre-uploaded image (unencrypted rooms only; --filename is required).");
+
+    cli_schema::PositionalDef imgRoom;
+    imgRoom.name = QStringLiteral("room-id-or-alias");
+    sendImage.positionals.append(imgRoom);
+    cli_schema::PositionalDef pathOrMxc;
+    pathOrMxc.name = QStringLiteral("path-or-mxc");
+    sendImage.positionals.append(pathOrMxc);
+
+    cli_schema::FlagDef caption;
+    caption.longName         = QStringLiteral("--caption");
+    caption.takesValue       = true;
+    caption.valuePlaceholder = QStringLiteral("<text>");
+    caption.help             = QStringLiteral("Image caption.");
+    sendImage.flags.append(caption);
+
+    cli_schema::FlagDef imgFilename;
+    imgFilename.longName         = QStringLiteral("--filename");
+    imgFilename.takesValue       = true;
+    imgFilename.valuePlaceholder = QStringLiteral("<name>");
+    imgFilename.help             = QStringLiteral("Filename (required with an mxc:// URI).");
+    sendImage.flags.append(imgFilename);
+
+    sendImage.handler = handleSendImage;
+    group.subcommands.append(sendImage);
+
+    return group;
 }
 
 } // namespace
 
 int
-runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
+runRoomsCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("rooms"));
-    auto subcmd = args.isEmpty() ? QString{} : args.first();
-
-    if (subcmd.isEmpty()) {
-        std::cout
-          << "Usage: komai [-p <profile>] rooms <subcommand> [args...]\n\n"
-          << "Subcommands:\n"
-          << "  list                         List all joined rooms (JSON)\n"
-          << "  timeline <room-id-or-alias> Read visible timeline events (JSON)\n"
-          << "    --limit <n>                     Max events to return (default: 10, max: 500)\n"
-          << "    --before-event-id <id>         Return events older than this event ID\n"
-          << "    --include-unsigned-fields      Include Matrix unsigned event fields\n"
-          << "    --fetch-mode cached_only|server_fetch_if_needed\n"
-          << "                                   Fetch older history from the server when needed\n"
-          << "  join <room-id-or-alias>      Join a room\n"
-          << "  new-direct-chat <user-id>    Start or open a direct chat\n"
-          << "  send <room-id-or-alias> <message>  Send a message to a room\n"
-          << "    --msgtype text|notice            Message type (default: text)\n"
-          << "    --format  auto|plain|html        Markdown handling (default: auto)\n"
-          << "  send-image <room> <path>           Upload and send an image (encryption-aware)\n"
-          << "  send-image <room> <mxc-uri>       Send a pre-uploaded image (unencrypted only)\n"
-          << "    --caption <text>                 Image caption\n"
-          << "    --filename <name>                Filename (required with mxc:// URI)\n";
-        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
-    }
-
-    auto profileId = cli_ipc::profileFromArgs(argc, argv);
-    if (!cli_ipc::ensureConnected(profileId))
-        return 1;
-
-    if (subcmd == QLatin1String("list")) {
-        auto response = cli_ipc::call(profileId, QStringLiteral("rooms.list"));
-        auto arr      = response.value(QStringLiteral("result")).toArray();
-        std::cout << QJsonDocument(arr).toJson(QJsonDocument::Compact).toStdString() << "\n";
-        return 0;
-    }
-
-    if (subcmd == QLatin1String("timeline")) {
-        if (args.size() < 2) {
-            std::cerr << "Usage: komai rooms timeline <room-id-or-alias> [--limit <n>] "
-                         "[--before-event-id <id>] [--include-unsigned-fields] "
-                         "[--fetch-mode cached_only|server_fetch_if_needed]\n";
-            return 1;
-        }
-        if (!requireNonEmptyValue(args.at(1), "room-id-or-alias"))
-            return 1;
-
-        QJsonObject params{{QStringLiteral("roomIdOrAlias"), args.at(1)}};
-
-        int limit            = 10;
-        const auto limitFlag = cli_ipc::flagValue(argc, argv, QStringLiteral("--limit"));
-        if (!parseIntFlag(limitFlag, "--limit", &limit))
-            return 1;
-        if (!limitFlag.isEmpty())
-            params.insert(QStringLiteral("limit"), limit);
-
-        const auto beforeEventId =
-          cli_ipc::flagValue(argc, argv, QStringLiteral("--before-event-id"));
-        if (!beforeEventId.isEmpty())
-            params.insert(QStringLiteral("beforeEventId"), beforeEventId);
-
-        if (cli_ipc::hasFlag(argc, argv, QStringLiteral("--include-unsigned-fields")))
-            params.insert(QStringLiteral("includeUnsignedFields"), true);
-
-        const auto fetchMode = cli_ipc::flagValue(argc, argv, QStringLiteral("--fetch-mode"));
-        if (!fetchMode.isEmpty())
-            params.insert(QStringLiteral("fetchMode"), fetchMode);
-
-        const auto response = cli_ipc::call(profileId, QStringLiteral("rooms.timeline"), params);
-        if (handleIpcError(response))
-            return 1;
-
-        const auto result = response.value(QStringLiteral("result")).toObject();
-        std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
-        return 0;
-    }
-
-    if (subcmd == QLatin1String("join")) {
-        if (args.size() < 2) {
-            std::cerr << "Usage: komai rooms join <room-id-or-alias>\n";
-            return 1;
-        }
-        if (!requireNonEmptyValue(args.at(1), "room-id-or-alias"))
-            return 1;
-        auto response = cli_ipc::call(
-          profileId, QStringLiteral("rooms.join"), {{QStringLiteral("roomIdOrAlias"), args.at(1)}});
-        if (handleIpcError(response))
-            return 1;
-        return 0;
-    }
-
-    if (subcmd == QLatin1String("new-direct-chat")) {
-        if (args.size() < 2) {
-            std::cerr << "Usage: komai rooms new-direct-chat <user-id>\n";
-            return 1;
-        }
-        if (!requireNonEmptyValue(args.at(1), "user-id"))
-            return 1;
-        auto response = cli_ipc::call(profileId,
-                                      QStringLiteral("rooms.newDirectChat"),
-                                      {{QStringLiteral("userId"), args.at(1)}});
-        if (handleIpcError(response))
-            return 1;
-        return 0;
-    }
-
-    if (subcmd == QLatin1String("send")) {
-        if (args.size() < 3) {
-            std::cerr << "Usage: komai rooms send <room-id-or-alias> <message> "
-                         "[--msgtype text|notice] [--format auto|plain|html]\n";
-            return 1;
-        }
-
-        // All positionals after the room ID are joined as the message body.
-        QStringList bodyParts;
-        for (int i = 2; i < args.size(); ++i)
-            bodyParts.append(args.at(i));
-        const auto body = bodyParts.join(QLatin1Char(' '));
-
-        auto msgtypeFlag =
-          cli_ipc::flagValue(argc, argv, QStringLiteral("--msgtype"), QStringLiteral("text"));
-        auto msgtype = (msgtypeFlag == QLatin1String("notice")) ? QStringLiteral("m.notice")
-                                                                : QStringLiteral("m.text");
-        auto format =
-          cli_ipc::flagValue(argc, argv, QStringLiteral("--format"), QStringLiteral("auto"));
-
-        auto response = cli_ipc::call(profileId,
-                                      QStringLiteral("rooms.send"),
-                                      {{QStringLiteral("roomIdOrAlias"), args.at(1)},
-                                       {QStringLiteral("body"), body},
-                                       {QStringLiteral("msgtype"), msgtype},
-                                       {QStringLiteral("format"), format}});
-        if (handleIpcError(response)) {
-            return 1;
-        }
-        auto result = response.value(QStringLiteral("result")).toObject();
-        std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
-        return 0;
-    }
-
-    if (subcmd == QLatin1String("send-image")) {
-        if (args.size() < 3) {
-            std::cerr << "Usage: komai rooms send-image <room-id-or-alias> <path-or-mxc>\n"
-                      << "       [--caption <text>] [--filename <name>]\n";
-            return 1;
-        }
-
-        const auto roomArg   = args.at(1);
-        const auto pathOrMxc = args.at(2);
-        auto caption         = cli_ipc::flagValue(argc, argv, QStringLiteral("--caption"));
-        auto filenameFlag    = cli_ipc::flagValue(argc, argv, QStringLiteral("--filename"));
-
-        QJsonObject response;
-        if (pathOrMxc.startsWith(QLatin1String("mxc://"))) {
-            QJsonObject params{
-              {QStringLiteral("roomIdOrAlias"), roomArg},
-              {QStringLiteral("mxcUri"), pathOrMxc},
-            };
-            if (!caption.isEmpty())
-                params.insert(QStringLiteral("body"), caption);
-            if (!filenameFlag.isEmpty())
-                params.insert(QStringLiteral("filename"), filenameFlag);
-            response = cli_ipc::call(profileId, QStringLiteral("rooms.sendImage"), params);
-        } else {
-            QJsonObject params{
-              {QStringLiteral("roomIdOrAlias"), roomArg},
-              {QStringLiteral("path"), pathOrMxc},
-            };
-            if (!caption.isEmpty())
-                params.insert(QStringLiteral("body"), caption);
-            response = cli_ipc::call(profileId, QStringLiteral("rooms.sendImageFile"), params);
-        }
-
-        if (response.contains(QStringLiteral("error"))) {
-            std::cerr << "Error: "
-                      << response.value(QStringLiteral("error")).toString().toStdString() << "\n";
-            return 1;
-        }
-        auto result = response.value(QStringLiteral("result")).toObject();
-        std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
-        return 0;
-    }
-
-    std::cerr << "Unknown subcommand: " << subcmd.toStdString() << "\n"
-              << "Run 'komai rooms --help' for a list of subcommands.\n";
-    return 1;
+    return cli_schema::dispatchGroup(roomsGroup(), argc, argv, app);
 }

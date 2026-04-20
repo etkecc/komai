@@ -8,7 +8,12 @@
 
 #include <QString>
 
+#include "schema/SchemaTypes.h"
+
 class QCoreApplication;
+
+cli_schema::GroupDef
+profilesGroupDef();
 
 namespace profile_commands {
 

@@ -60,8 +60,10 @@ handleUiSetTheme(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*
     return 0;
 }
 
+} // namespace
+
 cli_schema::GroupDef
-settingsGroup()
+settingsGroupDef()
 {
     cli_schema::GroupDef group;
     group.name = QStringLiteral("settings");
@@ -94,10 +96,8 @@ settingsGroup()
     return group;
 }
 
-} // namespace
-
 int
 runSettingsCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(settingsGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(settingsGroupDef(), argc, argv, app);
 }

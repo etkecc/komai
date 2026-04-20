@@ -51,8 +51,10 @@ handleApiVersion(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*
                               "API version");
 }
 
+} // namespace
+
 cli_schema::GroupDef
-appGroup()
+appGroupDef()
 {
     cli_schema::GroupDef group;
     group.name = QStringLiteral("app");
@@ -73,10 +75,8 @@ appGroup()
     return group;
 }
 
-} // namespace
-
 int
 runAppCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(appGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(appGroupDef(), argc, argv, app);
 }

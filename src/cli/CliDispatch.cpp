@@ -12,6 +12,7 @@
 #include <QString>
 
 #include "AppCommands.h"
+#include "CompletionsCommands.h"
 #include "McpCommands.h"
 #include "MediaCommands.h"
 #include "ProfileCommands.h"
@@ -27,6 +28,7 @@ commandGroups()
 {
     static const std::map<QString, HandlerFn> groups = {
       {QStringLiteral("app"), runAppCommand},
+      {QStringLiteral("completions"), runCompletionsCommand},
       {QStringLiteral("media"), runMediaCommand},
       {QStringLiteral("mcp"), runMcpCommand},
       {QStringLiteral("profiles"), runProfileCommand},

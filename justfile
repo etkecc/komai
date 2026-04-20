@@ -24,6 +24,12 @@ configure *args:
 build *args: _ensure_just_temp_directory
 	bash {{ justfile_directory() }}/bin/build/native.sh build {{ args }}
 
+# Regenerates the committed shell completion files in resources/completions/
+completions-generate: build
+	{{ build_dir }}/komai completions bash > {{ justfile_directory() }}/resources/completions/bash/komai
+	{{ build_dir }}/komai completions zsh  > {{ justfile_directory() }}/resources/completions/zsh/_komai
+	{{ build_dir }}/komai completions fish > {{ justfile_directory() }}/resources/completions/fish/komai.fish
+
 # Runs the full supported test suite (C++ unit + integration, then Rust unit tests)
 test: _ensure_just_temp_directory
 	just --justfile {{ justfile() }} test-cpp

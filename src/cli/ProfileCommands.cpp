@@ -96,8 +96,10 @@ handleLauncherRemove(const cli_schema::ParsedArgs &parsed, QCoreApplication &app
     return runLauncherAction(parsed, app, /*isCreate=*/false);
 }
 
+} // namespace
+
 cli_schema::GroupDef
-profilesGroup()
+profilesGroupDef()
 {
     cli_schema::GroupDef group;
     group.name = QStringLiteral("profiles");
@@ -138,10 +140,8 @@ profilesGroup()
     return group;
 }
 
-} // namespace
-
 int
 runProfileCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(profilesGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(profilesGroupDef(), argc, argv, app);
 }

@@ -619,6 +619,8 @@ set(SRC_FILES
     src/cli/schema/SchemaTypes.h
     src/cli/AppCommands.cpp
     src/cli/AppCommands.h
+    src/cli/CompletionsCommands.cpp
+    src/cli/CompletionsCommands.h
     src/cli/MediaCommands.cpp
     src/cli/MediaCommands.h
     src/cli/McpCommands.cpp

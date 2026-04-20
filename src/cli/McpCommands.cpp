@@ -92,8 +92,10 @@ handleServe(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 #endif
 }
 
+} // namespace
+
 cli_schema::GroupDef
-mcpGroup()
+mcpGroupDef()
 {
     cli_schema::GroupDef group;
     group.name     = QStringLiteral("mcp");
@@ -123,8 +125,6 @@ mcpGroup()
     return group;
 }
 
-} // namespace
-
 namespace mcp_commands {
 
 QStringList
@@ -153,5 +153,5 @@ buildServeCommand(const cli_schema::ParsedArgs &parsed)
 int
 runMcpCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(mcpGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(mcpGroupDef(), argc, argv, app);
 }

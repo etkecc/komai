@@ -30,5 +30,8 @@ buildServeCommand(const cli_schema::ParsedArgs &parsed);
 
 } // namespace mcp_commands
 
+cli_schema::GroupDef
+mcpGroupDef();
+
 int
 runMcpCommand(int argc, char *argv[], QCoreApplication &app);

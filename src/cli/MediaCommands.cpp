@@ -113,8 +113,10 @@ handleUpload(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
     return 0;
 }
 
+} // namespace
+
 cli_schema::GroupDef
-mediaGroup()
+mediaGroupDef()
 {
     cli_schema::GroupDef group;
     group.name = QStringLiteral("media");
@@ -163,10 +165,8 @@ mediaGroup()
     return group;
 }
 
-} // namespace
-
 int
 runMediaCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(mediaGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(mediaGroupDef(), argc, argv, app);
 }

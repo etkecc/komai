@@ -4,7 +4,12 @@
 
 #pragma once
 
+#include "schema/SchemaTypes.h"
+
 class QCoreApplication;
+
+cli_schema::GroupDef
+roomsGroupDef();
 
 int
 runRoomsCommand(int argc, char *argv[], QCoreApplication &app);

@@ -79,8 +79,10 @@ handleSetStatus(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/
     return 0;
 }
 
+} // namespace
+
 cli_schema::GroupDef
-userGroup()
+userGroupDef()
 {
     cli_schema::GroupDef group;
     group.name = QStringLiteral("user");
@@ -124,10 +126,8 @@ userGroup()
     return group;
 }
 
-} // namespace
-
 int
 runUserCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(userGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(userGroupDef(), argc, argv, app);
 }

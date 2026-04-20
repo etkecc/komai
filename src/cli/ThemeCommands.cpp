@@ -12,8 +12,10 @@
 
 namespace {
 
+} // namespace
+
 cli_schema::GroupDef
-themeGroup()
+themeGroupDef()
 {
     cli_schema::GroupDef group;
     group.name = QStringLiteral("theme");
@@ -97,10 +99,8 @@ themeGroup()
     return group;
 }
 
-} // namespace
-
 int
 runThemeCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(themeGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(themeGroupDef(), argc, argv, app);
 }

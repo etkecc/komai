@@ -185,8 +185,10 @@ handleSendImage(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/
     return 0;
 }
 
+} // namespace
+
 cli_schema::GroupDef
-roomsGroup()
+roomsGroupDef()
 {
     cli_schema::GroupDef group;
     group.name = QStringLiteral("rooms");
@@ -323,10 +325,8 @@ roomsGroup()
     return group;
 }
 
-} // namespace
-
 int
 runRoomsCommand(int argc, char *argv[], QCoreApplication &app)
 {
-    return cli_schema::dispatchGroup(roomsGroup(), argc, argv, app);
+    return cli_schema::dispatchGroup(roomsGroupDef(), argc, argv, app);
 }

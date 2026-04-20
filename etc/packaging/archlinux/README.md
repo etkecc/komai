@@ -41,10 +41,22 @@ When releasing a new Komai version:
 
 ## Testing locally
 
+The `source=` line fetches the git tag from GitHub, so `makepkg` validates the **tagged release**, not the working tree. Use it when you want to verify that a published tag builds cleanly as an Arch package:
+
 ```sh
-# Build the package (from this directory)
+# Build from this directory. Builds the tag referenced by `pkgver`.
 makepkg -si
 
 # Or in a clean chroot (recommended for verifying makedeps)
 extra-x86_64-build
 ```
+
+To test work-in-progress changes *before* tagging a release, build from the local tree instead:
+
+```sh
+# From the repository root
+just build                                           # build the binary
+cmake --install var/build/native --prefix /tmp/check # stage files into /tmp/check for inspection
+```
+
+`just install` is also available and will prompt before writing into a system prefix.

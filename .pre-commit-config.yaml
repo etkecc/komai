@@ -110,6 +110,12 @@ repos:
         language: system
         files: '^(src/cli/.*|resources/completions/.*)$'
         pass_filenames: false
+      - id: version-drift
+        name: Verify version-bearing files agree with VERSION
+        entry: ./bin/prek/version-drift.sh
+        language: system
+        files: '^(VERSION|CHANGELOG\.md|etc/packaging/archlinux/PKGBUILD|resources/komai\.appdata\.xml\.in|bin/prek/version-drift\.sh|bin/release/prepare\.py)$'
+        pass_filenames: false
       - id: tests
         name: Run C++ test suite
         entry: ./bin/prek/tests.sh

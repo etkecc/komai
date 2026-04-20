@@ -1,6 +1,11 @@
 # Maintainer: Slavi Pantaleev <slavi@devture.com>
+#
+# Upstream location: https://github.com/etkecc/komai/blob/main/etc/packaging/archlinux/PKGBUILD
+# Komai develops this PKGBUILD in-tree. The copy submitted to AUR
+# (aur.archlinux.org:komai.git) is kept in sync from the upstream file above.
+# Patches are welcome at the upstream repository, not against the AUR copy.
 pkgname=komai
-pkgver=0.1.0
+pkgver=2026.04.20.0
 pkgrel=1
 pkgdesc="A usability-focused Matrix desktop client (fork of nheko)"
 arch=('x86_64')

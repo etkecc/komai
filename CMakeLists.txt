@@ -1121,6 +1121,21 @@ if(BUILD_TESTING)
     add_test(NAME komai_mcp_commands_test COMMAND komai_mcp_commands_test)
     komai_configure_test(komai_mcp_commands_test "unit;cli")
 
+    add_executable(komai_dispatcher_test
+        tests/DispatcherTest.cpp
+        src/cli/schema/Dispatcher.cpp
+        src/cli/schema/HelpRenderer.cpp
+        src/app/MainApplicationSupport.cpp
+    )
+    target_include_directories(komai_dispatcher_test PRIVATE src src/cli/)
+    target_link_libraries(komai_dispatcher_test PRIVATE
+        Qt::Core
+        Qt::Network
+        Qt::Widgets
+    )
+    add_test(NAME komai_dispatcher_test COMMAND komai_dispatcher_test)
+    komai_configure_test(komai_dispatcher_test "unit;cli")
+
     add_executable(komai_profile_commands_test
         tests/ProfileCommandsTest.cpp
         src/cli/ProfileCommands.cpp
@@ -1228,6 +1243,7 @@ if(BUILD_TESTING)
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
         komai_mcp_commands_test
+        komai_dispatcher_test
         komai_profile_commands_test
         komai_bot_detection_test
         komai_emoji_completion_search_test

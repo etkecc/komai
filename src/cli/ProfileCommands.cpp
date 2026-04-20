@@ -11,162 +11,38 @@
 
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
+#include "schema/Dispatcher.h"
+#include "schema/SchemaTypes.h"
 
 namespace profile_commands {
 
-namespace {
-
-QStringList
-positionalsAfter(int argc, char *argv[], const QString &keyword)
+std::optional<QString>
+validateLauncherProfileId(const QString &profileId)
 {
-    static const QString optionsWithValues[] = {
-      QStringLiteral("-p"),
-      QStringLiteral("--profile"),
-      QStringLiteral("-l"),
-      QStringLiteral("--log-level"),
-      QStringLiteral("-L"),
-      QStringLiteral("--log-type"),
-    };
+    const auto normalized = profile_id::normalized(profileId);
+    if (const auto validationError = profile_id::validate(normalized); validationError)
+        return QStringLiteral("Invalid profile id: %1").arg(*validationError);
 
-    QStringList result;
-    bool pastKeyword = false;
-    for (int i = 1; i < argc; ++i) {
-        QString arg{argv[i]};
-
-        bool skipped = false;
-        for (const auto &opt : optionsWithValues) {
-            if (arg == opt) {
-                ++i;
-                skipped = true;
-                break;
-            }
-            if (arg.startsWith(opt + QLatin1Char('='))) {
-                skipped = true;
-                break;
-            }
-        }
-        if (skipped)
-            continue;
-
-        if (arg.startsWith(QLatin1Char('-')))
-            continue;
-
-        if (!pastKeyword) {
-            if (arg == keyword)
-                pastKeyword = true;
-            continue;
-        }
-
-        result.append(arg);
-    }
-
-    return result;
-}
-
-bool
-hasHelpFlag(int argc, char *argv[])
-{
-    for (int i = 1; i < argc; ++i) {
-        const QString arg{argv[i]};
-        if (arg == QLatin1String("--help") || arg == QLatin1String("-h"))
-            return true;
-    }
-
-    return false;
-}
-
-} // namespace
-
-QString
-usageText()
-{
-    return QStringLiteral(
-      "Usage: komai profiles launcher <create|remove> <profile-id>\n"
-      "\n"
-      "Create or remove an explicit desktop launcher for a non-default profile.\n"
-      "On native Linux, launching a profile from its own desktop launcher makes\n"
-      "app/taskbar badges and launcher grouping reliable for that profile.\n"
-      "\n"
-      "Commands:\n"
-      "  launcher create <profile-id>    Create or update a launcher for the profile\n"
-      "  launcher remove <profile-id>    Remove the launcher for the profile\n");
-}
-
-LauncherCommand
-parseLauncherCommand(int argc, char *argv[])
-{
-    LauncherCommand command;
-
-    const auto args = positionalsAfter(argc, argv, QStringLiteral("profiles"));
-    if (hasHelpFlag(argc, argv) || args.isEmpty()) {
-        command.status = ParseStatus::Help;
-        return command;
-    }
-
-    if (args.first() != QLatin1String("launcher")) {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral("Unknown subcommand group: ") + args.first();
-        return command;
-    }
-
-    if (args.size() < 3) {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral("Expected 'launcher <create|remove> <profile-id>'.");
-        return command;
-    }
-
-    if (args.size() > 3) {
-        command.status = ParseStatus::Error;
-        command.errorMessage =
-          QStringLiteral("Unexpected positional arguments after <profile-id>.");
-        return command;
-    }
-
-    const auto action = args.at(1);
-    if (action == QLatin1String("create")) {
-        command.action = LauncherAction::Create;
-    } else if (action == QLatin1String("remove")) {
-        command.action = LauncherAction::Remove;
-    } else {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral("Unknown launcher action: ") + action;
-        return command;
-    }
-
-    command.profileId = profile_id::normalized(args.at(2));
-    if (const auto validationError = profile_id::validate(command.profileId); validationError) {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral("Invalid profile id: %1").arg(*validationError);
-        return command;
-    }
-
-    if (command.profileId == QLatin1String("default")) {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral(
+    if (normalized == QLatin1String("default"))
+        return QStringLiteral(
           "The default profile already uses the packaged Komai launcher. Explicit profile "
           "launchers are only needed for non-default profiles.");
-        return command;
-    }
 
-    command.status = ParseStatus::Ready;
-    return command;
+    return std::nullopt;
 }
 
 } // namespace profile_commands
 
+namespace {
+
 int
-runProfileCommand(int argc, char *argv[], QCoreApplication &app)
+runLauncherAction(const cli_schema::ParsedArgs &parsed, QCoreApplication &app, bool isCreate)
 {
-    const auto command = profile_commands::parseLauncherCommand(argc, argv);
+    const auto rawProfile = parsed.positionals.value(0);
+    const auto profileId  = profile_id::normalized(rawProfile);
 
-    if (command.status == profile_commands::ParseStatus::Help) {
-        std::cout << profile_commands::usageText().toStdString();
-        return 0;
-    }
-
-    if (command.status == profile_commands::ParseStatus::Error) {
-        std::cerr << "Error: " << command.errorMessage.toStdString() << "\n\n"
-                  << profile_commands::usageText().toStdString();
+    if (const auto error = profile_commands::validateLauncherProfileId(profileId); error) {
+        std::cerr << "Error: " << error->toStdString() << "\n";
         return 1;
     }
 
@@ -181,25 +57,24 @@ runProfileCommand(int argc, char *argv[], QCoreApplication &app)
         return 1;
     }
 
-    const auto launcherPath   = app_paths::desktop::profileDesktopEntryFile(command.profileId);
+    const auto launcherPath   = app_paths::desktop::profileDesktopEntryFile(profileId);
     const bool launcherExists = QFileInfo::exists(launcherPath);
 
     QString error;
-    if (command.action == profile_commands::LauncherAction::Create) {
+    if (isCreate) {
         if (!app_paths::desktop::ensureProfileDesktopEntry(
-              command.profileId, app.applicationFilePath(), &error)) {
+              profileId, app.applicationFilePath(), &error)) {
             std::cerr << "Error: " << error.toStdString() << "\n";
             return 1;
         }
-
         std::cout << (launcherExists ? "Updated" : "Created")
                   << " profile launcher: " << launcherPath.toStdString() << "\n"
-                  << "Launch '" << command.profileId.toStdString()
+                  << "Launch '" << profileId.toStdString()
                   << "' from this desktop launcher to get reliable app/taskbar badges.\n";
         return 0;
     }
 
-    if (!app_paths::desktop::removeProfileDesktopEntry(command.profileId, &error)) {
+    if (!app_paths::desktop::removeProfileDesktopEntry(profileId, &error)) {
         std::cerr << "Error: " << error.toStdString() << "\n";
         return 1;
     }
@@ -207,4 +82,66 @@ runProfileCommand(int argc, char *argv[], QCoreApplication &app)
     std::cout << (launcherExists ? "Removed" : "No launcher present at") << ": "
               << launcherPath.toStdString() << "\n";
     return 0;
+}
+
+int
+handleLauncherCreate(const cli_schema::ParsedArgs &parsed, QCoreApplication &app)
+{
+    return runLauncherAction(parsed, app, /*isCreate=*/true);
+}
+
+int
+handleLauncherRemove(const cli_schema::ParsedArgs &parsed, QCoreApplication &app)
+{
+    return runLauncherAction(parsed, app, /*isCreate=*/false);
+}
+
+cli_schema::GroupDef
+profilesGroup()
+{
+    cli_schema::GroupDef group;
+    group.name = QStringLiteral("profiles");
+    group.help = QStringLiteral("Profile launcher management (offline)");
+    group.longHelp =
+      QStringLiteral("Create or remove an explicit desktop launcher for a non-default "
+                     "profile.\n"
+                     "On native Linux, launching a profile from its own desktop launcher makes\n"
+                     "app/taskbar badges and launcher grouping reliable for that profile.");
+
+    cli_schema::SubcommandDef launcher;
+    launcher.name            = QStringLiteral("launcher");
+    launcher.help            = QStringLiteral("Manage per-profile desktop launchers");
+    launcher.requiresProfile = false;
+
+    cli_schema::PositionalDef profileIdPos;
+    profileIdPos.name = QStringLiteral("profile-id");
+    profileIdPos.help = QStringLiteral("Target profile id (not 'default').");
+
+    cli_schema::SubcommandDef create;
+    create.name            = QStringLiteral("create");
+    create.help            = QStringLiteral("Create or update a launcher for the profile");
+    create.requiresProfile = false;
+    create.positionals.append(profileIdPos);
+    create.handler = handleLauncherCreate;
+    launcher.subcommands.append(create);
+
+    cli_schema::SubcommandDef remove;
+    remove.name            = QStringLiteral("remove");
+    remove.help            = QStringLiteral("Remove the launcher for the profile");
+    remove.requiresProfile = false;
+    remove.positionals.append(profileIdPos);
+    remove.handler = handleLauncherRemove;
+    launcher.subcommands.append(remove);
+
+    group.subcommands.append(launcher);
+
+    return group;
+}
+
+} // namespace
+
+int
+runProfileCommand(int argc, char *argv[], QCoreApplication &app)
+{
+    return cli_schema::dispatchGroup(profilesGroup(), argc, argv, app);
 }

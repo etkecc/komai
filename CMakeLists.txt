@@ -1141,12 +1141,17 @@ if(BUILD_TESTING)
     add_executable(komai_profile_commands_test
         tests/ProfileCommandsTest.cpp
         src/cli/ProfileCommands.cpp
+        src/cli/schema/Dispatcher.cpp
+        src/cli/schema/HelpRenderer.cpp
+        src/app/MainApplicationSupport.cpp
         src/profile/Paths.cpp
         src/profile/KeyringEnvironment.cpp
     )
     target_include_directories(komai_profile_commands_test PRIVATE src src/cli/ ${CMAKE_CURRENT_BINARY_DIR})
     target_link_libraries(komai_profile_commands_test PRIVATE
         Qt::Core
+        Qt::Network
+        Qt::Widgets
     )
     add_test(NAME komai_profile_commands_test COMMAND komai_profile_commands_test)
     komai_configure_test(komai_profile_commands_test "unit;cli")

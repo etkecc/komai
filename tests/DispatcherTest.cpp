@@ -405,6 +405,33 @@ testNestedSubcommandReachesLeaf(QCoreApplication &app)
 }
 
 static void
+testTrailingPositionalRejectedWhenNoPositionalsDeclared(QCoreApplication &app)
+{
+    HandlerCapture s1, s2, leaf;
+    auto group = buildTestGroup(s1, s2, leaf);
+
+    ArgvBuilder args{"komai", "testgroup", "sub1", "extra"};
+    const int rc = cli_schema::dispatchGroup(group, args.argc(), args.argv.data(), app);
+
+    expect(rc == 1, "trailing positional rejected when none declared");
+    expect(!s1.invoked, "trailing-positional error does not invoke handler");
+}
+
+static void
+testTrailingPositionalRejectedBeyondDeclaredCountWhenNotVariadic(QCoreApplication &app)
+{
+    // nested leaf has no positionals; passing one must fail.
+    HandlerCapture s1, s2, leaf;
+    auto group = buildTestGroup(s1, s2, leaf);
+
+    ArgvBuilder args{"komai", "testgroup", "nested", "leaf", "extra"};
+    const int rc = cli_schema::dispatchGroup(group, args.argc(), args.argv.data(), app);
+
+    expect(rc == 1, "trailing positional beyond declared count rejected");
+    expect(!leaf.invoked, "trailing-positional error does not invoke leaf handler");
+}
+
+static void
 testNestedGroupWithoutLeafShowsHelp(QCoreApplication &app)
 {
     HandlerCapture s1, s2, leaf;
@@ -471,6 +498,8 @@ main(int argc, char *argv[])
 
     testMissingRequiredPositionalFails(app);
     testVariadicPositionalCaptures(app);
+    testTrailingPositionalRejectedWhenNoPositionalsDeclared(app);
+    testTrailingPositionalRejectedBeyondDeclaredCountWhenNotVariadic(app);
 
     testNestedSubcommandReachesLeaf(app);
     testNestedGroupWithoutLeafShowsHelp(app);

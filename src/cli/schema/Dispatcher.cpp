@@ -245,6 +245,19 @@ walkAndParse(const GroupDef &group, int startIndex, int argc, char *argv[])
         return r;
     }
 
+    // Reject trailing extras when the final positional isn't variadic. Without
+    // this, `komai foo subcmd extra-arg` would silently accept `extra-arg`
+    // when `subcmd` has no (or fewer) declared positionals — masking user typos.
+    const bool hasVariadic =
+      !current->positionals.isEmpty() && current->positionals.last().variadic;
+    if (!hasVariadic && r.parsed.positionals.size() > current->positionals.size()) {
+        r.ok           = false;
+        r.errorMessage = QStringLiteral("Unexpected positional argument for: komai %1")
+                           .arg(r.subcommandPath.join(QLatin1Char(' ')));
+        r.target = current;
+        return r;
+    }
+
     return r;
 }
 

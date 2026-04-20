@@ -7,32 +7,26 @@
 #include <QString>
 #include <QStringList>
 
+#include "schema/SchemaTypes.h"
+
 class QCoreApplication;
 
 namespace mcp_commands {
 
-enum class ParseStatus
-{
-    Help,
-    Ready,
-    Error,
-};
-
+// Concrete "serve" invocation: the normalised profile id and access mode,
+// plus the argv vector we hand off to the `komai-mcp` helper binary.
 struct ServeCommand
 {
-    ParseStatus status = ParseStatus::Help;
     QString profileId;
     QString accessMode;
-    QString errorMessage;
 
     QStringList childArguments() const;
 };
 
+// Builds a ServeCommand from arguments already parsed by the schema
+// dispatcher. Normalises the profile id (empty -> "default").
 ServeCommand
-parseServeCommand(int argc, char *argv[]);
-
-QString
-usageText();
+buildServeCommand(const cli_schema::ParsedArgs &parsed);
 
 } // namespace mcp_commands
 

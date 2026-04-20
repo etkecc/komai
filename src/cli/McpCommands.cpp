@@ -15,8 +15,9 @@
 #include <QProcess>
 #include <QStandardPaths>
 
-#include "IpcClient.h"
 #include "profile/ProfileId.h"
+#include "schema/Dispatcher.h"
+#include "schema/SchemaTypes.h"
 
 #if !defined(Q_OS_WIN)
 #include <unistd.h>
@@ -34,97 +35,10 @@ resolveBinaryPath()
     return QStandardPaths::findExecutable(QStringLiteral("komai-mcp"));
 }
 
-} // namespace
-
-namespace mcp_commands {
-
-QStringList
-ServeCommand::childArguments() const
-{
-    return {
-      QStringLiteral("serve"),
-      QStringLiteral("--profile"),
-      profileId,
-      QStringLiteral("--access"),
-      accessMode,
-    };
-}
-
-QString
-usageText()
-{
-    return QStringLiteral("Usage: komai [-p <profile>] mcp serve [--access read_only|read_write]\n"
-                          "\n"
-                          "Expose a running Komai profile as an MCP server over stdio.\n"
-                          "The target profile must already be running.\n"
-                          "\n"
-                          "Subcommands:\n"
-                          "  serve    Start the MCP stdio server\n"
-                          "\n"
-                          "Options:\n"
-                          "  -p, --profile <profile>        Target profile (default: default)\n"
-                          "      --access <mode>            Access mode (default: read_only)\n"
-                          "                                 Values: read_only, read_write\n");
-}
-
-ServeCommand
-parseServeCommand(int argc, char *argv[])
-{
-    ServeCommand command;
-
-    const auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("mcp"));
-    const auto subcmd = args.isEmpty() ? QString{} : args.first();
-
-    if (cli_ipc::hasHelpFlag(argc, argv) || subcmd.isEmpty()) {
-        command.status = ParseStatus::Help;
-        return command;
-    }
-
-    if (subcmd != QLatin1String("serve")) {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral("Unknown subcommand: ") + subcmd;
-        return command;
-    }
-
-    if (args.size() > 1) {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral("Unexpected positional arguments after 'serve'.");
-        return command;
-    }
-
-    const auto accessMode =
-      cli_ipc::flagValue(argc, argv, QStringLiteral("--access"), QStringLiteral("read_only"));
-    if (accessMode != QLatin1String("read_only") && accessMode != QLatin1String("read_write")) {
-        command.status       = ParseStatus::Error;
-        command.errorMessage = QStringLiteral("Invalid --access value: ") + accessMode +
-                               QStringLiteral(" (expected read_only or read_write)");
-        return command;
-    }
-
-    const auto rawProfile = cli_ipc::profileFromArgs(argc, argv);
-    command.status        = ParseStatus::Ready;
-    command.profileId     = profile_id::normalized(rawProfile);
-    command.accessMode    = accessMode;
-    return command;
-}
-
-} // namespace mcp_commands
-
 int
-runMcpCommand(int argc, char *argv[], QCoreApplication & /*app*/)
+handleServe(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
-    const auto command = mcp_commands::parseServeCommand(argc, argv);
-
-    if (command.status == mcp_commands::ParseStatus::Help) {
-        std::cout << mcp_commands::usageText().toStdString();
-        return 0;
-    }
-
-    if (command.status == mcp_commands::ParseStatus::Error) {
-        std::cerr << "Error: " << command.errorMessage.toStdString() << "\n\n"
-                  << mcp_commands::usageText().toStdString();
-        return 1;
-    }
+    const auto command = mcp_commands::buildServeCommand(parsed);
 
     const auto binaryPath = resolveBinaryPath();
     if (binaryPath.isEmpty()) {
@@ -176,4 +90,68 @@ runMcpCommand(int argc, char *argv[], QCoreApplication & /*app*/)
               << "': " << std::strerror(errno) << "\n";
     return 1;
 #endif
+}
+
+cli_schema::GroupDef
+mcpGroup()
+{
+    cli_schema::GroupDef group;
+    group.name     = QStringLiteral("mcp");
+    group.help     = QStringLiteral("Model Context Protocol stdio server wrapper");
+    group.longHelp = QStringLiteral("Expose a running Komai profile as an MCP server over stdio.\n"
+                                    "The target profile must already be running.");
+
+    cli_schema::SubcommandDef serve;
+    serve.name = QStringLiteral("serve");
+    serve.help = QStringLiteral("Start the MCP stdio server");
+    // The serve handler execs into komai-mcp, which connects to the running
+    // Komai instance itself. We don't need ensureConnected() here — that's the
+    // child's job — so skip the dispatcher's IPC probe.
+    serve.requiresProfile = false;
+
+    cli_schema::FlagDef access;
+    access.longName     = QStringLiteral("--access");
+    access.takesValue   = true;
+    access.valueEnum    = {QStringLiteral("read_only"), QStringLiteral("read_write")};
+    access.defaultValue = QStringLiteral("read_only");
+    access.help         = QStringLiteral("Access mode passed to the MCP server.");
+    serve.flags.append(access);
+
+    serve.handler = handleServe;
+    group.subcommands.append(serve);
+
+    return group;
+}
+
+} // namespace
+
+namespace mcp_commands {
+
+QStringList
+ServeCommand::childArguments() const
+{
+    return {
+      QStringLiteral("serve"),
+      QStringLiteral("--profile"),
+      profileId,
+      QStringLiteral("--access"),
+      accessMode,
+    };
+}
+
+ServeCommand
+buildServeCommand(const cli_schema::ParsedArgs &parsed)
+{
+    ServeCommand command;
+    command.profileId  = profile_id::normalized(parsed.profileId);
+    command.accessMode = parsed.flagOr(QStringLiteral("--access"), QStringLiteral("read_only"));
+    return command;
+}
+
+} // namespace mcp_commands
+
+int
+runMcpCommand(int argc, char *argv[], QCoreApplication &app)
+{
+    return cli_schema::dispatchGroup(mcpGroup(), argc, argv, app);
 }

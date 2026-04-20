@@ -4,9 +4,9 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 
 #include "cli/McpCommands.h"
+#include "cli/schema/SchemaTypes.h"
 
 static int failures = 0;
 
@@ -21,94 +21,69 @@ expect(bool condition, const char *message)
     return false;
 }
 
-struct ArgvBuilder
-{
-    std::vector<std::string> storage;
-    std::vector<char *> argv;
-
-    explicit ArgvBuilder(std::initializer_list<const char *> args)
-    {
-        storage.reserve(args.size());
-        argv.reserve(args.size());
-        for (const auto *arg : args)
-            storage.emplace_back(arg);
-        for (auto &arg : storage)
-            argv.push_back(arg.data());
-    }
-
-    int argc() const { return static_cast<int>(argv.size()); }
-};
-
 static void
-testProfileBeforeGroupIsForwarded()
+testBuildPopulatesDefaultAccessMode()
 {
-    ArgvBuilder args{"komai", "-p", "work", "mcp", "serve"};
-    const auto command = mcp_commands::parseServeCommand(args.argc(), args.argv.data());
+    cli_schema::ParsedArgs parsed;
+    parsed.profileId = QStringLiteral("work");
 
-    expect(command.status == mcp_commands::ParseStatus::Ready,
-           "profile before group parses successfully");
-    expect(command.profileId == "work", "profile before group forwards work");
-    expect(command.accessMode == "read_only", "default access mode is read_only");
-    expect(command.childArguments() ==
-             QStringList{
-               "serve",
-               "--profile",
-               "work",
-               "--access",
-               "read_only",
-             },
-           "profile before group child args");
+    const auto command = mcp_commands::buildServeCommand(parsed);
+
+    expect(command.profileId == QLatin1String("work"),
+           "provided profile id round-trips into ServeCommand");
+    expect(command.accessMode == QLatin1String("read_only"),
+           "default access mode is read_only when --access is absent");
 }
 
 static void
-testProfileAfterServeIsForwarded()
+testBuildReadsAccessFlag()
 {
-    ArgvBuilder args{"komai", "mcp", "serve", "--profile", "work"};
-    const auto command = mcp_commands::parseServeCommand(args.argc(), args.argv.data());
+    cli_schema::ParsedArgs parsed;
+    parsed.profileId = QStringLiteral("work");
+    parsed.flagValues.insert(QStringLiteral("--access"), QStringLiteral("read_write"));
 
-    expect(command.status == mcp_commands::ParseStatus::Ready,
-           "profile after serve parses successfully");
-    expect(command.profileId == "work", "profile after serve forwards work");
+    const auto command = mcp_commands::buildServeCommand(parsed);
+
+    expect(command.accessMode == QLatin1String("read_write"),
+           "--access read_write flows through to ServeCommand");
 }
 
 static void
-testDefaultProfileIsNormalized()
+testBuildNormalizesEmptyProfileToDefault()
 {
-    ArgvBuilder args{"komai", "mcp", "serve"};
-    const auto command = mcp_commands::parseServeCommand(args.argc(), args.argv.data());
+    cli_schema::ParsedArgs parsed;
+    // profileId left empty — matches what the dispatcher hands us for `komai mcp serve`
+    // without `-p`.
 
-    expect(command.status == mcp_commands::ParseStatus::Ready,
-           "default profile parses successfully");
-    expect(command.profileId == "default", "default profile forwards default");
+    const auto command = mcp_commands::buildServeCommand(parsed);
+
+    expect(command.profileId == QLatin1String("default"),
+           "empty profile id is normalised to 'default'");
 }
 
 static void
-testAccessFlagIsParsed()
+testChildArgumentsWireFormat()
 {
-    ArgvBuilder args{"komai", "mcp", "serve", "--access", "read_write"};
-    const auto command = mcp_commands::parseServeCommand(args.argc(), args.argv.data());
+    mcp_commands::ServeCommand command;
+    command.profileId  = QStringLiteral("work");
+    command.accessMode = QStringLiteral("read_write");
 
-    expect(command.status == mcp_commands::ParseStatus::Ready, "read_write access parses");
-    expect(command.accessMode == "read_write", "read_write access forwards correctly");
-}
-
-static void
-testInvalidAccessFails()
-{
-    ArgvBuilder args{"komai", "mcp", "serve", "--access", "invalid"};
-    const auto command = mcp_commands::parseServeCommand(args.argc(), args.argv.data());
-
-    expect(command.status == mcp_commands::ParseStatus::Error, "invalid access is rejected");
+    const auto child = command.childArguments();
+    expect(child == QStringList({QStringLiteral("serve"),
+                                 QStringLiteral("--profile"),
+                                 QStringLiteral("work"),
+                                 QStringLiteral("--access"),
+                                 QStringLiteral("read_write")}),
+           "childArguments() emits the expected komai-mcp argv");
 }
 
 int
 main()
 {
-    testProfileBeforeGroupIsForwarded();
-    testProfileAfterServeIsForwarded();
-    testDefaultProfileIsNormalized();
-    testAccessFlagIsParsed();
-    testInvalidAccessFails();
+    testBuildPopulatesDefaultAccessMode();
+    testBuildReadsAccessFlag();
+    testBuildNormalizesEmptyProfileToDefault();
+    testChildArgumentsWireFormat();
 
     if (failures != 0)
         std::cerr << failures << " test(s) failed.\n";

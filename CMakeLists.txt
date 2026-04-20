@@ -1110,6 +1110,8 @@ if(BUILD_TESTING)
     add_executable(komai_mcp_commands_test
         tests/McpCommandsTest.cpp
         src/cli/McpCommands.cpp
+        src/cli/schema/Dispatcher.cpp
+        src/cli/schema/HelpRenderer.cpp
         src/app/MainApplicationSupport.cpp
     )
     target_include_directories(komai_mcp_commands_test PRIVATE src src/cli/)

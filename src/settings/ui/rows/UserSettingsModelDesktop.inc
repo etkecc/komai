@@ -74,7 +74,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // DesktopSystemTrayEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Minimize to tray",
+      "Close to tray",
       QT_TR_NOOP("Keep the application running in the background after closing the client window."),
       SM::TabDesktop, desktopSystemTrayEnabled, setDesktopSystemTrayEnabled, nullptr, DesktopSystemTrayEnabled, SettingKey::DesktopSystemTrayEnabled),
     // DesktopSystemTrayAutostart

@@ -48,7 +48,7 @@ Note:
 | Navigation | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::NavigationCommunitiesFilterDirectChats` | `-` | `navigation.communities.filters.direct_chats` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Favourites filter | `settings::core::SettingId::NavigationCommunitiesFilterFavourites` | `-` | `navigation.communities.filters.favourites` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Low Priority filter | `settings::core::SettingId::NavigationCommunitiesFilterLowPriority` | `-` | `navigation.communities.filters.low_priority` | config.yml | yes |
-| Desktop | SYSTEM TRAY | Minimize to tray | `settings::core::SettingId::DesktopSystemTrayEnabled` | `tray` | `desktop.system_tray.enabled` | config.yml | yes |
+| Desktop | SYSTEM TRAY | Close to tray | `settings::core::SettingId::DesktopSystemTrayEnabled` | `tray` | `desktop.system_tray.enabled` | config.yml | yes |
 | Desktop | SYSTEM TRAY | Start in tray | `settings::core::SettingId::DesktopSystemTrayAutostart` | `start_in_tray` | `desktop.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `settings::core::SettingId::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `settings::core::SettingId::IntegrationsBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |

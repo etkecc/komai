@@ -20,7 +20,7 @@
 namespace theme_command {
 
 int
-handleList(int /*argc*/, char * /*argv*/[], QCoreApplication & /*app*/)
+handleList(const cli_schema::ParsedArgs & /*parsed*/, QCoreApplication & /*app*/)
 {
     // ThemeRegistry uses komai::logging for diagnostics; initialize a minimal stderr logger.
     komai::logging::init(QStringLiteral("off"), false);
@@ -45,38 +45,12 @@ handleList(int /*argc*/, char * /*argv*/[], QCoreApplication & /*app*/)
 }
 
 int
-handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
+handleCreateSample(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
-    // Parse args: komai theme create-sample <light|dark> <name> [--force]
-    bool force      = false;
-    bool pastSubcmd = false;
-    std::vector<QString> positionals;
+    const bool force = parsed.hasFlag(QStringLiteral("--force"));
 
-    for (int i = 1; i < argc; ++i) {
-        QString arg{argv[i]};
-        if (arg == QLatin1String("theme"))
-            continue;
-        if (arg == QLatin1String("create-sample")) {
-            pastSubcmd = true;
-            continue;
-        }
-        if (!pastSubcmd)
-            continue;
-
-        if (arg == QLatin1String("--force")) {
-            force = true;
-        } else if (!arg.startsWith(QLatin1Char('-'))) {
-            positionals.push_back(arg);
-        }
-    }
-
-    if (positionals.size() < 2) {
-        std::cerr << "Usage: komai theme create-sample <light|dark> <name> [--force]\n";
-        return 1;
-    }
-
-    auto variant = positionals[0].toStdString();
-    auto name    = positionals[1].toStdString();
+    auto variant = parsed.positionals.value(0).toStdString();
+    auto name    = parsed.positionals.value(1).toStdString();
 
     if (variant != "light" && variant != "dark") {
         std::cerr << "ERROR: variant must be 'light' or 'dark'\n";

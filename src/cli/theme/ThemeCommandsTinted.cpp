@@ -28,46 +28,12 @@ static const char *SCHEMES_URL =
   "https://raw.githubusercontent.com/tinted-theming/schemes/refs/heads/spec-0.11/base16";
 
 int
-handleTintedImport(int argc, char *argv[], QCoreApplication & /*app*/)
+handleTintedImport(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
-    // Parse args: komai theme tinted-import <slug> [name] [--force] [--variant light|dark]
-    QString slug;
-    QString customName;
-    bool force = false;
-    QString variantFlag;
-
-    // Find positional args after "tinted-import"
-    bool pastSubcmd = false;
-    std::vector<QString> positionals;
-    for (int i = 1; i < argc; ++i) {
-        QString arg{argv[i]};
-        if (arg == QLatin1String("theme"))
-            continue;
-        if (arg == QLatin1String("tinted-import")) {
-            pastSubcmd = true;
-            continue;
-        }
-        if (!pastSubcmd)
-            continue;
-
-        if (arg == QLatin1String("--force")) {
-            force = true;
-        } else if (arg == QLatin1String("--variant")) {
-            if (i + 1 < argc)
-                variantFlag = QString{argv[++i]};
-        } else if (!arg.startsWith(QLatin1Char('-'))) {
-            positionals.push_back(arg);
-        }
-    }
-
-    if (positionals.empty()) {
-        std::cerr
-          << "Usage: komai theme tinted-import <slug> [name] [--force] [--variant light|dark]\n";
-        return 1;
-    }
-    slug = positionals[0];
-    if (positionals.size() > 1)
-        customName = positionals[1];
+    const bool force       = parsed.hasFlag(QStringLiteral("--force"));
+    const auto variantFlag = parsed.flagOr(QStringLiteral("--variant"));
+    const auto slug        = parsed.positionals.value(0);
+    const auto customName  = parsed.positionals.value(1);
 
     QNetworkAccessManager nam;
 
@@ -153,26 +119,9 @@ handleTintedImport(int argc, char *argv[], QCoreApplication & /*app*/)
 }
 
 int
-handleTintedSearch(int argc, char *argv[], QCoreApplication & /*app*/)
+handleTintedSearch(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
-    // Parse optional query
-    QString query;
-    bool pastSubcmd = false;
-    for (int i = 1; i < argc; ++i) {
-        QString arg{argv[i]};
-        if (arg == QLatin1String("theme"))
-            continue;
-        if (arg == QLatin1String("tinted-search")) {
-            pastSubcmd = true;
-            continue;
-        }
-        if (!pastSubcmd)
-            continue;
-        if (!arg.startsWith(QLatin1Char('-'))) {
-            query = arg;
-            break;
-        }
-    }
+    const auto query = parsed.positionals.value(0);
 
     std::cout << "Fetching theme list from tinted-theming/schemes...\n";
 

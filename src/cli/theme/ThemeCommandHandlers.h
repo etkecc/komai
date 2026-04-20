@@ -4,17 +4,22 @@
 
 #pragma once
 
+#include "cli/schema/SchemaTypes.h"
+
 class QCoreApplication;
 
 namespace theme_command {
 
 int
-handleTintedImport(int argc, char *argv[], QCoreApplication &app);
+handleTintedImport(const cli_schema::ParsedArgs &parsed, QCoreApplication &app);
+
 int
-handleTintedSearch(int argc, char *argv[], QCoreApplication &app);
+handleTintedSearch(const cli_schema::ParsedArgs &parsed, QCoreApplication &app);
+
 int
-handleList(int argc, char *argv[], QCoreApplication &app);
+handleList(const cli_schema::ParsedArgs &parsed, QCoreApplication &app);
+
 int
-handleCreateSample(int argc, char *argv[], QCoreApplication &app);
+handleCreateSample(const cli_schema::ParsedArgs &parsed, QCoreApplication &app);
 
 } // namespace theme_command

@@ -7,114 +7,241 @@
 
 == NAME
 
-komai - Desktop client for Matrix using Qt and C++20
+komai - Desktop client for Matrix, built with Qt, C++20 and Rust
 
 == SYNOPSIS
 
 *komai* [_OPTIONS_]
 
-*komai theme tinted-import* _<slug>_ _[name]_ [*--force*] [*--variant* _<light|dark>_]
+*komai* [_-p_ _<profile>_] *app* _<subcommand>_
 
-*komai theme tinted-search* _[query]_
+*komai* *profiles launcher* _<create|remove>_ _<profile-id>_
 
-*komai theme list*
+*komai* [_-p_ _<profile>_] *rooms* _<subcommand>_ [_<args>_]
 
-*komai theme create-sample* _<light|dark>_ _<name>_ [*--force*]
+*komai* [_-p_ _<profile>_] *user* _<subcommand>_ [_<args>_]
+
+*komai* [_-p_ _<profile>_] *settings ui* _<subcommand>_ [_<args>_]
+
+*komai* [_-p_ _<profile>_] *media* _<subcommand>_ [_<args>_]
+
+*komai* [_-p_ _<profile>_] *mcp serve* [*--access* _<read_only|read_write>_]
+
+*komai* *theme* _<subcommand>_ [_<args>_]
 
 == DESCRIPTION
 
-The motivation behind the project is to provide a native desktop app for Matrix
-that feels more like a mainstream chat app (Element, Telegram etc) and less like
-an IRC client.
+Komai is a desktop-first Matrix client built with Qt, C++20 and Rust. It is
+a fork of nheko that aims to provide a native desktop app for Matrix that
+feels more like a mainstream chat app (Element, Telegram, etc.) and less
+like an IRC client, with a keyboard-driven workflow optimised for
+productivity.
+
+Subcommands that do not require a display server (_app_, _profiles_,
+_rooms_, _user_, _settings_, _media_, _mcp_, _theme_) use *QCoreApplication*
+and work over SSH or in containers. They emit JSON on standard output
+unless stated otherwise.
 
 == OPTIONS
 
 *-h*, *--help*::
-Displays help on commandline options.
+Display help on command-line options.
 
 *--help-all*::
-Displays help including Qt specific options.
+Display help, including generic Qt options.
 
 *-v*, *--version*::
-Displays version information.
+Display version information.
 
 *--debug*::
 Alias for _--log-level trace_.
 
 *-l*, *--log-level* _<level>_::
-Set the global log level, or a comma-separated list of _<component>=<level>_
-pairs, or both. For example, to set the default log level to _warn_ but
-disable logging for the _ui_ component, pass _warn,ui=off_.
+Set the global log level, or a comma-separated list of
+_<target>=<level>_ pairs, or both. For example, to set the default log
+level to _warn_ but disable logging for the _ui_ target, pass
+_warn,ui=off_.
 +
-levels: _trace_ _debug_ _info_ _warning_ _error_ _critical_ _off_
+levels: _trace_ _debug_ _info_ _warn_ _error_ _off_
 +
-components: _crypto_ _db_ _mtx_ _net_ _qml_ _ui_
+targets: _ui_ _db_ _net_ _crypto_ _qml_ _rust_ _cpp_
 +
-Log levels can also be set in the KOMAI_LOG_LEVEL environment variable, using
-the same syntax. It will be overridden by this command line option.
+The *RUST_LOG* environment variable is used as a fallback when this flag
+is not set.
 
 *-L*, *--log-type* _<type>_::
-Set the log output type. A comma-separated list is allowed. The default is _file,stderr_.
+Set the log output type. The default is _stderr_.
 +
-types: _file_ _stderr_ _none_
-+
-The log type can also be set in the KOMAI_LOG_TYPE environment variable,
-which will be overridden by this command line option.
+types: _stderr_ _none_
 
 *-p* _<profile>_, *--profile* _<profile>_::
-Creates a unique profile, which allows you to log into several accounts at the
-same time and start multiple instances of komai. Use _default_ to start with the
-default profile.
+Run with the given profile. A new profile is created automatically if
+it does not exist yet. Multiple profiles allow separate accounts and
+concurrent instances.
++
+Allowed non-empty profile ids: the first character must be a letter
+(A-Z, a-z) or an underscore; remaining characters may additionally
+include digits (0-9) and hyphens.
 
 == SUBCOMMANDS
 
+All _komai <group> <subcommand>_ forms run without a display server. Output
+is JSON unless stated otherwise.
+
+=== komai app
+
+Instance metadata.
+
+*komai app version*::
+Print the Komai version.
+
+*komai app api-version*::
+Print the D-Bus API version.
+
+=== komai profiles
+
+Manage explicit desktop launchers for non-default profiles. On native
+Linux, launching a profile from its own desktop launcher makes
+app/taskbar badges and launcher grouping reliable for that profile.
+
+*komai profiles launcher create* _<profile-id>_::
+Create or update a desktop launcher for the given profile.
+
+*komai profiles launcher remove* _<profile-id>_::
+Remove the desktop launcher for the given profile.
+
+=== komai rooms
+
+Room discovery and navigation against a running Komai profile.
+
+*komai rooms list*::
+List all joined rooms.
+
+*komai rooms timeline* _<room-id-or-alias>_ [*--limit* _<n>_] [*--before-event-id* _<id>_] [*--include-unsigned-fields*] [*--fetch-mode* _<cached_only|server_fetch_if_needed>_]::
+Read visible timeline events.
++
+*--limit* caps the number of events (default _10_, max _500_).
+*--before-event-id* returns events older than the given event ID.
+*--include-unsigned-fields* includes Matrix _unsigned_ event fields.
+*--fetch-mode* controls whether older history is fetched from the
+server when needed.
+
+*komai rooms join* _<room-id-or-alias>_::
+Join a room.
+
+*komai rooms new-direct-chat* _<user-id>_::
+Start or open a direct chat with the given user.
+
+*komai rooms send* _<room-id-or-alias>_ _<message>_ [*--msgtype* _<text|notice>_] [*--format* _<auto|plain|html>_]::
+Send a message to a room. *--msgtype* defaults to _text_. *--format*
+defaults to _auto_ (honour Markdown per the Composer setting).
+
+*komai rooms send-image* _<room>_ _<path-or-mxc-uri>_ [*--caption* _<text>_] [*--filename* _<name>_]::
+Upload and send an image from a local _<path>_ (encryption-aware), or
+send an already-uploaded image from an _mxc://_ URI (unencrypted rooms
+only). *--filename* is required when passing an _mxc://_ URI.
+
+=== komai user
+
+Account and presence information for the running profile.
+
+*komai user id*::
+Print the Matrix user ID.
+
+*komai user homeserver-url*::
+Print the homeserver URL.
+
+*komai user device-id*::
+Print the current device ID.
+
+*komai user status*::
+Print the user's status message.
+
+*komai user set-status* _<message>_::
+Set the user's status message.
+
+=== komai settings ui
+
+Appearance settings.
+
+*komai settings ui theme*::
+Print the current theme slug.
+
+*komai settings ui set-theme* _<slug>_::
+Set the active theme.
+
+=== komai media
+
+Matrix media content resolution.
+
+*komai media fetch* _<mxc-uri>_::
+Fetch an image and write PNG bytes to standard output.
+
+*komai media upload* _<path>_ [*--filename* _<name>_] [*--content-type* _<mime>_]::
+Upload a file and print its _mxc://_ URI. *--filename* overrides the
+on-wire filename; *--content-type* overrides the MIME type.
+
+*komai media upload* *--stdin* *--filename* _<name>_ [*--content-type* _<mime>_]::
+Upload from standard input. *--filename* is required; *--content-type*
+is required if it cannot be deduced.
+
+=== komai mcp
+
+Expose a running Komai profile as a Model Context Protocol (MCP) server
+over standard input and output. The target profile must already be
+running.
+
+*komai mcp serve* [*--access* _<read_only|read_write>_]::
+Start the MCP stdio server. *--access* defaults to _read_only_.
+
 === komai theme
 
-Manage themes without a display server. All theme subcommands use
-*QCoreApplication* and work over SSH or in containers.
-
-*komai theme tinted-import* _<slug>_ _[name]_ [*--force*] [*--variant* _<light|dark>_]::
-Fetch a Base16 theme from the tinted-theming/schemes repository, apply the
-QPalette mapping and contrast heuristics, and write the result to the user
-themes directory (_~/.local/share/komai/themes/_). The optional _name_ argument
-saves the file as _{name}-{variant}.yml_ instead of _{slug}-{variant}.yml_.
-Use *--force* to overwrite an existing file. Use *--variant* to override
-automatic light/dark detection.
-
-*komai theme tinted-search* _[query]_::
-List available Base16 themes from the tinted-theming/schemes repository. If
-_query_ is given, filter by substring match.
+Manage Komai theme YAML files. _theme_ does not require a running
+profile.
 
 *komai theme list*::
-List all available themes (built-in and user) with slug, name, variant, and source.
-Source shows _builtin_ for compiled themes or the full file path for external
-themes.
+List all available themes (built-in and user) with slug, name,
+variant, and source. Source is _builtin_ for compiled themes or the
+full file path for external themes.
+
+*komai theme tinted-import* _<slug>_ [_<name>_] [*--force*] [*--variant* _<light|dark>_]::
+Fetch a Base16 theme from the _tinted-theming/schemes_ repository,
+apply the QPalette mapping and contrast heuristics, and write the
+result to the user themes directory. The optional _<name>_ saves the
+file as _{name}-{variant}.yml_ instead of _{slug}-{variant}.yml_. Use
+*--force* to overwrite an existing file. Use *--variant* to override
+automatic light/dark detection.
+
+*komai theme tinted-search* [_<query>_]::
+List available Base16 themes from the _tinted-theming/schemes_
+repository. If _<query>_ is given, filter by substring match.
 
 *komai theme create-sample* _<light|dark>_ _<name>_ [*--force*]::
-Write a starter theme YAML to the user themes directory for manual customisation.
-Both _variant_ and _name_ are required. Use *--force* to overwrite an existing
-file.
+Write a starter theme YAML to the user themes directory for manual
+customisation. Both _variant_ and _name_ are required. Use *--force*
+to overwrite an existing file.
 
 == FAQ
 
 === How do I add stickers and custom emojis?
 
-Stickers and custom emojis are organized in image packs. There is one user image
-pack that only your account has access to and there are room image packs that
-are accessible by everyone in the room they are defined in. You can activate a
-room image pack globally to use it in any room.
+Stickers and custom emojis are organised in image packs. There is one
+user image pack that only your account has access to, and there are room
+image packs that are accessible to everyone in the room they are defined
+in. You can activate a room image pack globally to use it in any room.
 
-To manage image packs in komai, go to the room settings and enter the Sticker &
-Emote Settings. You will see the Private pack (your user image pack) and can
-edit it there. The Shortcode is a unique identifier you use to select the image
-with and the Body is the alternate text that is displayed on clients that don't
-support images (like the alt tag in HTML images).
+To manage image packs in Komai, go to the room settings and enter the
+Sticker & Emote Settings. You will see the Private pack (your user image
+pack) and can edit it there. The Shortcode is a unique identifier you
+use to select the image with and the Body is the alternate text that is
+displayed on clients that don't support images (like the _alt_ tag in
+HTML images).
 
-If you have the necessary permissions you can create new room packs with the
-button at the bottom of the image pack list. They are the same as the user pack
-but you can create as many as you want and everyone in the room can use them. It
-might be a good idea to create an extra room just for your image packs to make
-sharing easier.
+If you have the necessary permissions you can create new room packs
+with the button at the bottom of the image pack list. They are the same
+as the user pack but you can create as many as you want and everyone in
+the room can use them. It might be a good idea to create an extra room
+just for your image packs to make sharing easier.
 
 == COMPLETERS
 
@@ -122,220 +249,204 @@ Completers spawn a popup with completion candidates when you type them in
 the input line.
 
 *@*::
-Open username completer.
+Open the username completer.
 
 *#*::
-Open room completer.
+Open the room completer.
 
 *:*::
-Open the emoji picker. Unicode emoji are inserted directly. Custom emoji will
-insert the HTML code for them into the input line. You can configure custom
-emoji in the room settings.
+Open the emoji picker. Unicode emoji are inserted directly. Custom emoji
+insert the HTML code for them into the input line. You can configure
+custom emoji in the room settings.
 
 == KEYBOARD SHORTCUTS
 
 === Room list
 
-*Ctrl-Up/Ctrl-Down*::
-Navigate within the room list.
-
-*Ctrl-W*::
-Close the currently open room.
-
-*Ctrl-K*::
-Search and select rooms from the room list.
+*Ctrl-Up/Ctrl-Down*, *Ctrl-PgUp/Ctrl-PgDown*::
+Navigate between rooms.
 
 *Alt-A*, *Ctrl-Shift-A*::
-Select next room with activity.
+Select the next room with activity.
 
-=== Timeline/Messaging
+*Ctrl-Shift-R*::
+Focus the Rooms list filter.
+
+*Ctrl-K*, *Ctrl-P*::
+Open a new tab via the room search.
+
+*Ctrl-N*, *Ctrl-Shift-N*::
+Open the Join/Create Room dialog.
+
+=== Tabs
+
+*Ctrl-T*::
+Open a new tab.
+
+*Ctrl-W*::
+Close the current tab.
+
+*Ctrl-Shift-T*::
+Reopen the most recently closed tab.
+
+*Ctrl-Tab*, *Ctrl-Shift-Tab*::
+Switch to the next or previous tab.
+
+*Alt-1*, *Alt-2* ... *Alt-9*::
+Switch directly to tab 1 through 9.
+
+=== Timeline
 
 *PgUp/PgDn*::
-Scroll timeline per page.
+Scroll the timeline per page.
 
-*Alt-Up/Alt-Down*::
-Reply to a message.
+*Escape*::
+Exit selection mode, dismiss a pending reply/edit/thread, or close the
+active media overlay.
 
-*Up/Down*::
-Edit a message.
+*Ctrl-C*, *Ctrl-Shift-C*::
+Copy the selected messages while in selection mode (plain text and
+formatted respectively).
 
-*Ctrl-E*::
-Edit message currently selected as reply.
+=== Appearance
 
-*Alt-F*::
-Forward message currently selected as reply.
+*Ctrl-+*, *Ctrl--*::
+Zoom in / zoom out.
 
-*Ctrl-P/Ctrl-N*::
-Reenter previous/next message.
+=== Composer
 
-*Ctrl-U*::
-Delete everything in the input line.
-
-*Ctrl-Left/Ctrl-Right*::
-Jump one word left/right in the input line.
-
-*Shift-Enter*::
-Insert line break.
-
-*Enter*::
-Submit message.
+The send key is configurable (Enter, Shift+Enter, or Ctrl+Enter) under
+Settings -> Composer. The non-send variant inserts a line break.
 
 == COMMANDS
 
-Commands only work when they are used at the beginning of text.
+Commands only work when they are used at the beginning of an input line.
 
 === Custom messages
 
 */me* _<message>_::
-Send a message as an emote, where your username is prefixed.
+Send a message expressing an action (emote); your username is prefixed.
 
 */react* _<text>_::
-Send a message as a reaction when you’re replying to a message.
+Send _<text>_ as a reaction when you are replying to a message.
 
 */markdown* _<message>_::
-Try Markdown formatting when sending the current message, even if the composer
-setting is disabled.
+Apply Markdown formatting to this message, even if the Composer setting
+for Markdown is disabled.
 
 */plain* _<message>_::
-Force plain text when sending the current message.
-
-*/rainbow* _<message>_::
-Send a message in rainbow colors.
-
-*/rainbowme* _<message>_::
-Send a message as a rainbow-colored emote, where your username is prefixed.
+Force a plain text message without Markdown formatting.
 
 */notice* _<message>_::
-Send a message as a notice.
+Send the message as a notice (bot message).
 
-*/rainbownotice* _<notice>_::
-Send a message as a rainbow-colored notice.
+*/msgtype* _<msgtype>_ [_<message>_]::
+Send a message with a custom Matrix msgtype.
 
 === Room management
 
-*/join* _<roomname>_ _[reason]_::
-Join a room. _reason_ is optional.
+*/join* _<!roomid|#alias>_ [_<reason>_]::
+Join a room.
 
-*/knock* _<roomname>_ _[reason]_::
-Ask to join a room. _reason_ is optional.
+*/knock* _<!roomid|#alias>_ [_<reason>_]::
+Ask to join a room.
 
-*/part*, */leave* _[reason]_::
-Leave the current room. _reason_ is optional.
+*/leave* [_<reason>_]::
+Leave the current room.
 
-*/invite* _<username>_ _[reason]_::
-Invite a user into the current room. _reason_ is optional.
+*/invite* _<@userid>_ [_<reason>_]::
+Invite a user into the current room.
 
-*/kick* _<username>_ _[reason]_::
-Kick a user from the current room. _reason_ is optional. You can alternatively kick the user you are replying to by leaving out the _username_.
+*/kick* _<@userid>_ [_<reason>_]::
+Kick a user from the current room. If the username is left out, Komai
+will try to kick the user you are replying to.
 
-*/ban* _<username>_ _[reason]_::
-Ban a user from the current room. _reason_ is optional. You can alternatively ban the user you are replying to by leaving out the _username_.
+*/ban* _<@userid>_ [_<reason>_]::
+Ban a user from the current room. If the username is left out, Komai
+will try to ban the user you are replying to.
 
-*/unban* _<username>_ _[reason]_::
-Unban a user. _reason_ is optional. You can alternatively unban the user you are replying to by leaving out the _username_.
+*/unban* _<@userid>_ [_<reason>_]::
+Unban a user. If the username is left out, Komai will try to unban the
+user you are replying to.
 
-*/redact* _<username>_ _[reason]_::
-Redacts all visible messages of the specified user. You will run into rate limits quickly.
+*/redact* _<$eventid|@userid>_ [_<reason>_]::
+Redact an event by ID, the event you are replying to, or all locally
+cached messages of a user.
 
-*/redact* _<eventid>_ _[reason]_::
-Redacts a specific event. You can alternatively redact the event you are replying to by specifying neither an _eventid_ nor _username_.
-
-*/roomnick* _<roomname>_::
-Change your nickname in a single room.
-
-*/glitch* _<message>_::
-Applies a glitch effect to the given _message_. Beware that this will break mentions, HTML, and some Markdown in your message.
-
-*/gradualglitch* _<message>_::
-Applies a progressively more severe glitch effect to the _message_. Again, this will break mentions, HTML, and some Markdown.
+*/roomnick* _<displayname>_::
+Change your display name in the current room only.
 
 === Emoticons
 
-*/shrug* _[message]_::
-Inserts `¯\_(ツ)_/¯` followed by an optional _message_.
-
-*/fliptable*::
-Inserts `(╯°□°)╯︵ ┻━┻`
-
-*/unfliptable*::
-Inserts `┯━┯╭( º _ º╭)`
-
-*/sovietflip*::
-Inserts `ノ┬─┬ノ ︵ ( \\o°o)\\`
+*/shrug* [_<message>_]::
+Insert +¯\_(ツ)_/¯+ followed by an optional trailing _<message>_.
 
 === User management
 
-*/ignore* _<username>_::
-Ignore a user, invites from them are also rejected.
+*/ignore* _<@userid>_::
+Ignore a Matrix user; invites from them are also rejected.
 
-*/unignore* _<username>_::
-Stops ignoring a user.
+*/unignore* _<@userid>_::
+Stop ignoring a Matrix user.
 
 === Advanced
 
-*/clear-timeline*::
-Removes all but the most recent messages from the currently rendered timeline
-and then refetches it from the server; can be used to fix some cache issues.
-
-*/reset-state*::
-Fetches all the state events in the current room again; can be used to fix some
-cache issues.
-
-*/rotate-megolm-session*::
-Rotates the encryption key used to send encrypted messages in a room.
-
-*/goto* _<address>_::
-
-_address_ can be one of:
-
-    _<event ID>_;;
-    Jumps to event with the specified ID and highlights it.
-
-    _<message index>_;;
-    Jumps to the message with the specified index and highlights it.
-
-    _<Matrix URI>_;;
-    Handles Matrix URI as if you clicked on it.
+*/goto* _<message reference>_::
+Jump to a message. The reference can be an event ID, a numeric message
+index, or a Matrix URI. A Matrix URI is handled as if you clicked on it.
 
 */converttodm*::
-Converts a room to a direct conversation.
+Mark the current room as a direct message.
 
 */converttoroom*::
-Converts a direct conversation to a normal room.
+Remove the direct-message marker from the current room.
 
 == MARKDOWN EXTENSIONS
 
 *newline (+\n+)*::
-A single newline will be turned into `<br>` instead of a space.
+A single newline is turned into `<br>` instead of a space.
 
 *+~~text~~+*::
-Make text strikethrough. HTML putput: `<del>text</del>`
+Strikethrough. HTML output: `<del>text</del>`
 
 *`||spoiler warning|text||`*::
-Hide text and set an optional spoiler warning. Note that Komai does not display
-the spoiler warning currently. HTML output:
+Hide text and set an optional spoiler warning. HTML output:
 `<span data-mx-spoiler="spoiler">text</span>`
 
 == ENVIRONMENT
 
+*RUST_LOG*::
+Fallback log-level filter used when _--log-level_ is not passed on the
+command line. Accepts the same syntax as _--log-level_ (for example
+_info,ui=debug_).
+
 *KOMAI_ALLOW_QML_DISK_CACHE*::
-Komai by default disables the qml disk cache to prevent crashes. This allows
-you to reenable it at your own risk.
+Komai disables the QML disk cache by default to prevent crashes on
+updates. Set this variable to any non-empty value to re-enable it at
+your own risk.
 
 == FILES
 
-*Configuration file*::
-`${XDG_CONFIG_HOME:-~/.config}/komai/komai.conf`
+Komai is profile-scoped. Most paths include a _<profile-id>_ component
+(`default` for the default profile).
 
-*Log file*::
-`${XDG_CACHE_HOME:-~/.cache}/komai/komai/komai.log`
+*Configuration and session state*::
+`${XDG_CONFIG_HOME:-~/.config}/komai/profiles/<profile-id>/`
 
-*Database*::
-`${XDG_DATA_HOME:-~/.local/share}/komai/komai/*/data.mdb`
+*Matrix SDK state store*::
+`${XDG_DATA_HOME:-~/.local/share}/komai/profiles/<profile-id>/matrix-sdk/state-store/`
+
+*Matrix SDK runtime cache*::
+`${XDG_CACHE_HOME:-~/.cache}/komai/profiles/<profile-id>/matrix-sdk/cache/`
 
 *Media cache*::
-`${XDG_CACHE_HOME:-~/.cache}/komai/komai/media_cache`
+`${XDG_CACHE_HOME:-~/.cache}/komai/profiles/<profile-id>/media/`
 
+*Log file (only when file logging is enabled)*::
+`${XDG_CACHE_HOME:-~/.cache}/komai/profiles/<profile-id>/logs/komai.log`
+
+*User themes*::
+`${XDG_DATA_HOME:-~/.local/share}/komai/themes/`
 
 == REPORTING BUGS
 

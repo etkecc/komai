@@ -10,6 +10,7 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QQuickItem>
 #include <QQuickTextDocument>
 #include <QStandardPaths>
@@ -21,6 +22,7 @@
 #include "logging/Logging.h"
 #include "providers/MxcImageProvider.h"
 #include "ui/MainWindow.h"
+#include "ui/NotificationAction.h"
 #include "utils/Utils.h"
 
 void
@@ -146,9 +148,14 @@ TimelineViewManager::saveMedia(QString mxcUrl)
       id,
       QSize{},
       [filename, mxcUrl](QString, QSize, QImage, QString filePath) {
+          auto *mainWindow = MainWindow::instance();
           if (filePath.isEmpty()) {
               komai::logging::ui()->warn("Failed to resolve local file path for media '{}'",
                                          mxcUrl.toStdString());
+              if (mainWindow) {
+                  mainWindow->showNotification(
+                    TimelineViewManager::tr("Failed to resolve media for saving"));
+              }
               return;
           }
 
@@ -156,10 +163,31 @@ TimelineViewManager::saveMedia(QString mxcUrl)
           if (!QFile::copy(filePath, filename)) {
               komai::logging::ui()->warn(
                 "Failed to save media '{}' to '{}'", mxcUrl.toStdString(), filename.toStdString());
+              if (mainWindow) {
+                  mainWindow->showNotification(
+                    TimelineViewManager::tr("Failed to save media to '%1'").arg(filename));
+              }
               return;
           }
 
           utils::markFileAsFromWeb(filename);
+
+          if (mainWindow) {
+              const QUrl fileUrl = QUrl::fromLocalFile(filename);
+              const QList<komai::NotificationAction> actions{
+                {komai::NotificationAction::OpenUrl,
+                 TimelineViewManager::tr("Open"),
+                 QStringLiteral("qrc:/icons/icons/ui/open-externally.svg"),
+                 fileUrl},
+                {komai::NotificationAction::RevealInFolder,
+                 TimelineViewManager::tr("Show in folder"),
+                 QStringLiteral("qrc:/icons/icons/ui/folder-open.svg"),
+                 fileUrl},
+              };
+              emit mainWindow->showNotificationWithActions(
+                TimelineViewManager::tr("Saved to '%1'").arg(QFileInfo(filename).fileName()),
+                komai::toVariantList(actions));
+          }
       },
       false,
       0);

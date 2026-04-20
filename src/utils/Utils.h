@@ -173,4 +173,10 @@ parseMatrixUri(QString uri);
 void
 markFileAsFromWeb(const QString &file);
 
+//! Reveal the given file in the desktop file manager, selecting/highlighting it.
+//! Falls back to opening the parent directory if per-item selection is unavailable.
+//! Returns true if some form of reveal was initiated.
+bool
+revealInFileManager(const QString &filePath);
+
 }

@@ -481,6 +481,7 @@ set(SRC_FILES
     src/auth/RegisterPage.h
     src/ui/MainWindow.cpp
     src/ui/MainWindow.h
+    src/ui/NotificationAction.h
     src/matrix/backend/MatrixAuthService.cpp
     src/matrix/backend/MatrixAuthService.h
     src/matrix/backend/MatrixRegistrationService.cpp
@@ -596,6 +597,7 @@ set(SRC_FILES
     src/utils/Utils.h
     src/utils/UtilsColor.cpp
     src/utils/UtilsMessageDescription.cpp
+    src/utils/UtilsReveal.cpp
     src/utils/UtilsRoomMaintenance.cpp
     src/utils/UtilsTextAndUri.cpp
 

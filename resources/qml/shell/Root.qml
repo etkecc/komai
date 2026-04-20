@@ -312,6 +312,10 @@ function openCatalogDialog(componentUrl, properties) {
             snackbar.showNotification(msg);
             console.log("New snack: " + msg);
         }
+        function onShowNotificationWithActions(msg, actions) {
+            snackbar.showNotificationWithActions(msg, actions);
+            console.log("New snack with " + (actions ? actions.length : 0) + " action(s): " + msg);
+        }
         function onSwitchToStartupRestorePage() {
             mainWindow.replace(null, startupRestorePage);
         }

@@ -18,6 +18,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/NotificationAction.h"
 #include "ui/Theme.h"
 #include "ui/TrayIcon.h"
 #include "utils/QtWorkerTask.h"
@@ -25,6 +26,7 @@
 #include "voip/CallManager.h"
 #include "voip/WebRTCSession.h"
 #include <QApplication>
+#include <QDesktopServices>
 #include <QEvent>
 #include <QGuiApplication>
 #include <QKeyEvent>
@@ -203,6 +205,10 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
         transitionToLoginPage(msg);
     });
     connect(chat_page_, &ChatPage::showNotification, this, &MainWindow::showNotification);
+    connect(chat_page_,
+            &ChatPage::showNotificationWithActions,
+            this,
+            &MainWindow::showNotificationWithActions);
 
     connect(
       userSettings_.get(), &UserSettings::uiThemeSlugChanged, this, [this](const QString &theme) {
@@ -354,6 +360,31 @@ MainWindow::refreshDbusAvailability()
         chatRoomModel->setDbusInterfaceEnabled(true);
 }
 #endif
+
+void
+MainWindow::runNotificationAction(int kind, const QUrl &target)
+{
+    if (target.isEmpty())
+        return;
+
+    switch (kind) {
+    case komai::NotificationAction::RevealInFolder: {
+        const QString localPath = target.isLocalFile() ? target.toLocalFile() : target.toString();
+        if (!utils::revealInFileManager(localPath)) {
+            komai::logging::ui()->warn("Failed to reveal file '{}' in file manager",
+                                       localPath.toStdString());
+        }
+        return;
+    }
+    case komai::NotificationAction::OpenUrl:
+    default:
+        if (!QDesktopServices::openUrl(target)) {
+            komai::logging::ui()->warn("Failed to open notification action target '{}'",
+                                       target.toString().toStdString());
+        }
+        return;
+    }
+}
 
 void
 MainWindow::setWindowTitle(int attentionCount)

@@ -17,8 +17,10 @@ Popup {
 
     property Item contentAreaItem: null
     property Item avoidBottomItem: null
+    // Queue of `{msg: string, actions: [{kind,label,iconSource,target}, ...]}` objects.
     property var messages: []
     property string currentMessage: ""
+    property var currentActions: []
     property bool interactionLocked: false
     property real slideOffset: 0
     property real timeoutProgress: 0
@@ -71,12 +73,24 @@ Popup {
     }
 
     function showNotification(msg) {
-        messages.push(msg);
-        currentMessage = messages[0];
+        showNotificationWithActions(msg, []);
+    }
+
+    function showNotificationWithActions(msg, actions) {
+        messages.push({ msg: msg, actions: actions || [] });
+        currentMessage = messages[0].msg;
+        currentActions = messages[0].actions;
         if (!visible) {
             open();
             startLifetime();
         }
+    }
+
+    function triggerAction(action) {
+        if (!action)
+            return;
+        MainWindow.runNotificationAction(action.kind, action.target);
+        dismissCurrent();
     }
 
     function startLifetime() {
@@ -123,10 +137,12 @@ Popup {
     }
     onClosed: {
         if (messages.length > 0) {
-            currentMessage = messages[0];
+            currentMessage = messages[0].msg;
+            currentActions = messages[0].actions;
             open();
             startLifetime();
         } else {
+            currentActions = [];
             interactionLocked = false;
             timeoutProgress = 0;
         }
@@ -330,6 +346,62 @@ Popup {
                                 }
                             }
 
+                        }
+                    }
+                }
+
+                RowLayout {
+                    id: actionsRow
+
+                    Layout.fillWidth: true
+                    Layout.topMargin: Komai.paddingSmall
+                    Layout.minimumWidth: 0
+                    spacing: Komai.paddingSmall
+                    visible: snackbar.currentActions && snackbar.currentActions.length > 0
+
+                    // With 2+ actions, the first action is pinned to the left
+                    // edge and the remainder to the right, maximising distance
+                    // between click targets. With a single action, it sits on
+                    // the right to line up with the dismiss control above.
+                    Repeater {
+                        model: snackbar.currentActions.length >= 2
+                               ? [snackbar.currentActions[0]]
+                               : []
+
+                        KomaiButton {
+                            required property var modelData
+
+                            text: modelData.label
+                            icon.source: modelData.iconSource || ""
+                            HoverHandler {
+                                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                                onHoveredChanged: if (hovered)
+                                    snackbar.lockCurrent()
+                            }
+                            onClicked: snackbar.triggerAction(modelData)
+                        }
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    Repeater {
+                        model: snackbar.currentActions.length >= 2
+                               ? snackbar.currentActions.slice(1)
+                               : snackbar.currentActions
+
+                        KomaiButton {
+                            required property var modelData
+
+                            text: modelData.label
+                            icon.source: modelData.iconSource || ""
+                            HoverHandler {
+                                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                                onHoveredChanged: if (hovered)
+                                    snackbar.lockCurrent()
+                            }
+                            onClicked: snackbar.triggerAction(modelData)
                         }
                     }
                 }

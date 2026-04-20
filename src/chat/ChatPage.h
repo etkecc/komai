@@ -10,6 +10,7 @@
 
 #include <QSharedPointer>
 #include <QTimer>
+#include <QVariantList>
 
 #include "ui/RoomSummary.h"
 
@@ -96,6 +97,9 @@ signals:
     void changeWindowTitle(const int);
     void attentionCountChanged(int count);
     void showNotification(const QString &msg);
+    //! `actions` is a QVariantList of QVariantMap produced by
+    //! `komai::NotificationAction::toVariantMap()`.
+    void showNotificationWithActions(const QString &msg, const QVariantList &actions);
     void showLoginPage(const QString &msg);
     void showUserSettingsPage();
 

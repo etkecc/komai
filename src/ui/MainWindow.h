@@ -11,6 +11,8 @@
 #include <QQuickView>
 #include <QSharedPointer>
 #include <QSystemTrayIcon>
+#include <QUrl>
+#include <QVariantList>
 
 #include "dock/Dock.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -113,6 +115,10 @@ public:
     QWindow *windowForRoom(const QString &room);
     QString focusedRoom() const;
 
+    //! Dispatch a Snackbar action payload. Called from QML when the user
+    //! clicks an action button; `kind` matches `komai::NotificationAction::Kind`.
+    Q_INVOKABLE void runNotificationAction(int kind, const QUrl &target);
+
 protected:
     bool event(QEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
@@ -135,6 +141,9 @@ signals:
     void reload();
 
     void showNotification(QString msg);
+    //! `actions` is a QVariantList of QVariantMap objects produced by
+    //! `komai::NotificationAction::toVariantMap()`.
+    void showNotificationWithActions(QString msg, QVariantList actions);
     void altPressedChanged();
     void startupStatusChanged();
 

@@ -42,6 +42,7 @@
 #include "timeline/formattedcode/RawJsonFormatter.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
+#include "ui/NotificationAction.h"
 #include "ui/Theme.h"
 #include "utils/MediaIcons.h"
 #include "utils/QtWorkerTask.h"
@@ -3331,14 +3332,34 @@ TimelineViewManager::fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
                   return;
               }
 
-              if (openAfterSave && !QDesktopServices::openUrl(QUrl::fromLocalFile(outputPath))) {
-                  komai::logging::ui()->warn(
-                    "Failed to open fetched matrix-sdk timeline media '{}'",
-                    outputPath.toStdString());
-                  if (mainWindow) {
-                      mainWindow->showNotification(
-                        tr("Saved attachment '%1' but failed to open it").arg(userVisibleName));
+              if (openAfterSave) {
+                  if (!QDesktopServices::openUrl(QUrl::fromLocalFile(outputPath))) {
+                      komai::logging::ui()->warn(
+                        "Failed to open fetched matrix-sdk timeline media '{}'",
+                        outputPath.toStdString());
+                      if (mainWindow) {
+                          mainWindow->showNotification(
+                            tr("Saved attachment '%1' but failed to open it").arg(userVisibleName));
+                      }
                   }
+                  return;
+              }
+
+              if (mainWindow) {
+                  const QUrl fileUrl = QUrl::fromLocalFile(outputPath);
+                  const QList<komai::NotificationAction> actions{
+                    {komai::NotificationAction::OpenUrl,
+                     tr("Open"),
+                     QStringLiteral("qrc:/icons/icons/ui/open-externally.svg"),
+                     fileUrl},
+                    {komai::NotificationAction::RevealInFolder,
+                     tr("Show in folder"),
+                     QStringLiteral("qrc:/icons/icons/ui/folder-open.svg"),
+                     fileUrl},
+                  };
+                  emit mainWindow->showNotificationWithActions(
+                    tr("Saved attachment '%1'").arg(userVisibleName),
+                    komai::toVariantList(actions));
               }
           },
           Qt::QueuedConnection);

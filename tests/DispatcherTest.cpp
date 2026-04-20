@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -227,6 +228,33 @@ testUnknownNestedSubcommandIsRejected(QCoreApplication &app)
     expect(!leaf.invoked, "unknown nested subcommand invokes no handler");
 }
 
+// Regression guard: an unknown subcommand *below* a valid subgroup must print
+// the nested subgroup's listing, not the top-level group listing. Captured
+// here by redirecting stderr to a temp file and grepping for the nested leaf
+// name.
+static void
+testUnknownNestedSubcommandErrorShowsNestedListing(QCoreApplication &app)
+{
+    HandlerCapture s1, s2, leaf;
+    auto group = buildTestGroup(s1, s2, leaf);
+
+    std::string captured;
+    {
+        // Redirect stderr into a memory-backed streambuf.
+        std::stringstream buffer;
+        auto *saved = std::cerr.rdbuf(buffer.rdbuf());
+        ArgvBuilder args{"komai", "testgroup", "nested", "bogus"};
+        cli_schema::dispatchGroup(group, args.argc(), args.argv.data(), app);
+        std::cerr.rdbuf(saved);
+        captured = buffer.str();
+    }
+
+    expect(captured.find("leaf") != std::string::npos,
+           "nested-unknown error lists 'leaf' from the nested subgroup");
+    expect(captured.find("sub1") == std::string::npos,
+           "nested-unknown error does NOT list top-level 'sub1'");
+}
+
 static void
 testUnknownFlagIsRejected(QCoreApplication &app)
 {
@@ -431,6 +459,7 @@ main(int argc, char *argv[])
 
     testUnknownSubcommandIsRejected(app);
     testUnknownNestedSubcommandIsRejected(app);
+    testUnknownNestedSubcommandErrorShowsNestedListing(app);
     testUnknownFlagIsRejected(app);
 
     testBooleanFlagRecorded(app);

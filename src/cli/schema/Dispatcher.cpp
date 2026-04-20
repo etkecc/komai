@@ -135,6 +135,10 @@ walkAndParse(const GroupDef &group, int startIndex, int argc, char *argv[])
             if (expectsSubcommand) {
                 r.ok           = false;
                 r.errorMessage = QStringLiteral("Unknown subcommand: ") + arg;
+                // Surface `current` as the target so the error message renders
+                // the *nested* subcommand listing (e.g. `settings ui <sub>`),
+                // not the top-level group listing.
+                r.target = current;
                 return r;
             }
         }

@@ -11,94 +11,123 @@
 #include <QJsonObject>
 
 #include "IpcClient.h"
+#include "schema/Dispatcher.h"
+#include "schema/SchemaTypes.h"
+
+namespace {
 
 int
-runUserCommand(int argc, char *argv[], QCoreApplication & /*app*/)
+emitPlainIpcString(const QString &profileId,
+                   const QString &method,
+                   const QString &resultKey,
+                   const char *failLabel,
+                   bool allowEmpty = false)
 {
-    auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("user"));
-    auto subcmd = args.isEmpty() ? QString{} : args.first();
-
-    if (subcmd.isEmpty()) {
-        std::cout << "Usage: komai [-p <profile>] user <subcommand> [args...]\n\n"
-                  << "Subcommands:\n"
-                  << "  id                     Print the user's Matrix ID (JSON)\n"
-                  << "  homeserver-url         Print the homeserver URL (JSON)\n"
-                  << "  device-id              Print the device ID (JSON)\n"
-                  << "  status                 Print the user's status message (JSON)\n"
-                  << "  set-status <message>   Set the user's status message\n";
-        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
-    }
-
-    auto profileId = cli_ipc::profileFromArgs(argc, argv);
-    if (!cli_ipc::ensureConnected(profileId))
+    auto response = cli_ipc::call(profileId, method);
+    auto result   = response.value(QStringLiteral("result")).toString();
+    if (result.isEmpty() && !allowEmpty) {
+        std::cerr << "Error: failed to get " << failLabel << "\n";
         return 1;
-
-    if (subcmd == QLatin1String("id")) {
-        auto response = cli_ipc::call(profileId, QStringLiteral("user.userId"));
-        auto result   = response.value(QStringLiteral("result")).toString();
-        if (result.isEmpty()) {
-            std::cerr << "Error: failed to get user ID\n";
-            return 1;
-        }
-        std::cout << QJsonDocument(QJsonObject{{QStringLiteral("userId"), result}})
-                       .toJson(QJsonDocument::Compact)
-                       .toStdString()
-                  << "\n";
-        return 0;
     }
+    std::cout << QJsonDocument(QJsonObject{{resultKey, result}})
+                   .toJson(QJsonDocument::Compact)
+                   .toStdString()
+              << "\n";
+    return 0;
+}
 
-    if (subcmd == QLatin1String("homeserver-url")) {
-        auto response = cli_ipc::call(profileId, QStringLiteral("user.homeserverUrl"));
-        auto result   = response.value(QStringLiteral("result")).toString();
-        if (result.isEmpty()) {
-            std::cerr << "Error: failed to get homeserver URL\n";
-            return 1;
-        }
-        std::cout << QJsonDocument(QJsonObject{{QStringLiteral("homeserverUrl"), result}})
-                       .toJson(QJsonDocument::Compact)
-                       .toStdString()
-                  << "\n";
-        return 0;
-    }
+int
+handleId(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    return emitPlainIpcString(
+      parsed.profileId, QStringLiteral("user.userId"), QStringLiteral("userId"), "user ID");
+}
 
-    if (subcmd == QLatin1String("device-id")) {
-        auto response = cli_ipc::call(profileId, QStringLiteral("user.deviceId"));
-        auto result   = response.value(QStringLiteral("result")).toString();
-        if (result.isEmpty()) {
-            std::cerr << "Error: failed to get device ID\n";
-            return 1;
-        }
-        std::cout << QJsonDocument(QJsonObject{{QStringLiteral("deviceId"), result}})
-                       .toJson(QJsonDocument::Compact)
-                       .toStdString()
-                  << "\n";
-        return 0;
-    }
+int
+handleHomeserverUrl(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    return emitPlainIpcString(parsed.profileId,
+                              QStringLiteral("user.homeserverUrl"),
+                              QStringLiteral("homeserverUrl"),
+                              "homeserver URL");
+}
 
-    if (subcmd == QLatin1String("status")) {
-        auto response = cli_ipc::call(profileId, QStringLiteral("user.statusMessage"));
-        auto result   = response.value(QStringLiteral("result")).toString();
-        std::cout << QJsonDocument(QJsonObject{{QStringLiteral("statusMessage"), result}})
-                       .toJson(QJsonDocument::Compact)
-                       .toStdString()
-                  << "\n";
-        return 0;
-    }
+int
+handleDeviceId(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    return emitPlainIpcString(
+      parsed.profileId, QStringLiteral("user.deviceId"), QStringLiteral("deviceId"), "device ID");
+}
 
-    if (subcmd == QLatin1String("set-status")) {
-        if (args.size() < 2) {
-            std::cerr << "Usage: komai user set-status <message>\n";
-            return 1;
-        }
-        // Join remaining args so unquoted multi-word messages work
-        auto message = QStringList(args.mid(1)).join(QLatin1Char(' '));
-        cli_ipc::call(profileId,
-                      QStringLiteral("user.setStatusMessage"),
-                      {{QStringLiteral("message"), message}});
-        return 0;
-    }
+int
+handleStatus(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    return emitPlainIpcString(parsed.profileId,
+                              QStringLiteral("user.statusMessage"),
+                              QStringLiteral("statusMessage"),
+                              "status message",
+                              /*allowEmpty=*/true);
+}
 
-    std::cerr << "Unknown subcommand: " << subcmd.toStdString() << "\n"
-              << "Run 'komai user --help' for a list of subcommands.\n";
-    return 1;
+int
+handleSetStatus(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto message = parsed.positionals.join(QLatin1Char(' '));
+    cli_ipc::call(parsed.profileId,
+                  QStringLiteral("user.setStatusMessage"),
+                  {{QStringLiteral("message"), message}});
+    return 0;
+}
+
+cli_schema::GroupDef
+userGroup()
+{
+    cli_schema::GroupDef group;
+    group.name = QStringLiteral("user");
+    group.help = QStringLiteral("Account and presence (JSON)");
+
+    cli_schema::SubcommandDef id;
+    id.name    = QStringLiteral("id");
+    id.help    = QStringLiteral("Print the user's Matrix ID (JSON)");
+    id.handler = handleId;
+    group.subcommands.append(id);
+
+    cli_schema::SubcommandDef homeserver;
+    homeserver.name    = QStringLiteral("homeserver-url");
+    homeserver.help    = QStringLiteral("Print the homeserver URL (JSON)");
+    homeserver.handler = handleHomeserverUrl;
+    group.subcommands.append(homeserver);
+
+    cli_schema::SubcommandDef device;
+    device.name    = QStringLiteral("device-id");
+    device.help    = QStringLiteral("Print the device ID (JSON)");
+    device.handler = handleDeviceId;
+    group.subcommands.append(device);
+
+    cli_schema::SubcommandDef status;
+    status.name    = QStringLiteral("status");
+    status.help    = QStringLiteral("Print the user's status message (JSON)");
+    status.handler = handleStatus;
+    group.subcommands.append(status);
+
+    cli_schema::SubcommandDef setStatus;
+    setStatus.name = QStringLiteral("set-status");
+    setStatus.help = QStringLiteral("Set the user's status message");
+    cli_schema::PositionalDef message;
+    message.name     = QStringLiteral("message");
+    message.help     = QStringLiteral("Status text; multiple words are joined with spaces.");
+    message.variadic = true;
+    setStatus.positionals.append(message);
+    setStatus.handler = handleSetStatus;
+    group.subcommands.append(setStatus);
+
+    return group;
+}
+
+} // namespace
+
+int
+runUserCommand(int argc, char *argv[], QCoreApplication &app)
+{
+    return cli_schema::dispatchGroup(userGroup(), argc, argv, app);
 }

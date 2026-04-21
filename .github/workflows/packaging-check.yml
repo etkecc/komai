@@ -1,0 +1,78 @@
+name: Packaging check
+
+# Manually-triggered sanity check for the AppImage / Flatpak / Snap build
+# recipes on the self-hosted k150 runner. Used to iterate on each packaging
+# format independently before relying on it from publish.yml, and kept
+# long-term for periodic runtime/SDK drift checks (e.g. Flathub KDE bumps).
+
+on:
+  workflow_dispatch:
+    inputs:
+      format:
+        description: "Which packaging format to build"
+        type: choice
+        default: all
+        options:
+          - all
+          - appimage
+          - flatpak
+          - snap
+
+permissions:
+  contents: read
+
+concurrency:
+  group: packaging-check-${{ github.ref }}-${{ inputs.format }}
+  cancel-in-progress: true
+
+jobs:
+  appimage:
+    if: inputs.format == 'all' || inputs.format == 'appimage'
+    runs-on: [self-hosted, k150]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build AppImage
+        run: just appimage-build-docker
+
+      - name: Upload AppImage artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: komai-appimage
+          path: var/build/appimage/*.AppImage
+          if-no-files-found: error
+
+  flatpak:
+    if: inputs.format == 'all' || inputs.format == 'flatpak'
+    runs-on: [self-hosted, k150]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build Flatpak
+        run: just flatpak-build
+
+      - name: Upload Flatpak artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: komai-flatpak
+          path: var/build/flatpak/komai.flatpak
+          if-no-files-found: error
+
+  snap:
+    if: inputs.format == 'all' || inputs.format == 'snap'
+    runs-on: [self-hosted, k150]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build Snap
+        run: just snap-build-docker
+
+      - name: Upload Snap artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: komai-snap
+          path: var/build/snap/komai_*.snap
+          if-no-files-found: error

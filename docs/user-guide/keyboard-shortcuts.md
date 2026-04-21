@@ -174,6 +174,26 @@ platforms or keyboard layouts, some `Ctrl+letter` combinations may also do that 
 are not dedicated composer shortcuts.
 
 
+## 😀 Emoji / Sticker Picker
+
+Opened with `Ctrl+.` from the composer, or via the emoji/sticker buttons. The search field is focused on open; typing filters results.
+
+| Shortcut | Action |
+| --- | --- |
+| `Tab` | Move forward between regions: search → grid → categories → settings → close |
+| `Shift+Tab` | Move backward between the same regions |
+| `Down` / `j` | In the grid: move to the next row. In the search field: jump into the grid. In the categories list: move to the next category |
+| `Up` / `k` | In the grid or categories list: move to the previous row/category |
+| `Left` / `Right` | Move between emojis within the current grid row |
+| `Ctrl+D` / `Ctrl+U` | Move the grid cursor down/up by about half a screen |
+| `gg` | Jump to the first row of the grid or the first category |
+| `Shift+G` | Jump to the last row of the grid or the last category |
+| `Home` / `End` | Jump to the first/last row of the grid or the first/last category |
+| `Enter` | Pick the focused emoji/sticker, or activate the focused category/button |
+| Any printable character in the grid | Returns focus to the search field and inserts the typed character |
+| `Escape` | Close the picker |
+
+
 ## ➕ New Dialog
 
 In the **New** dialog opened by `Ctrl+N`:

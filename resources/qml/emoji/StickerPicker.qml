@@ -50,6 +50,9 @@ Popup {
     property int activeSectionIndex: -1
     property int activeSectionFirstRow: -1
     property string activeSectionName: ""
+    property int focusedColumn: 0
+    property int focusedRowLength: 0
+    property bool pendingGoToTopRequest: false
     property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
     readonly property bool darkPopupChrome: palette.window.hslLightness < 0.5
     readonly property color popupOutlineColor: Qt.tint(
@@ -65,6 +68,160 @@ Popup {
 
     function clamp(value, minValue, maxValue) {
         return Math.max(minValue, Math.min(value, maxValue));
+    }
+
+    function eventMatchesLatinKey(event, latinKey) {
+        if (!event)
+            return false;
+
+        return LayoutAgnosticKeys.matchesLatinKey(latinKey,
+                                                  event.key,
+                                                  event.nativeScanCode);
+    }
+
+    function eventUsesNoModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesNavigationModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function eventUsesCtrlOnlyModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ControlModifier) !== 0
+            && (modifiers & (Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesShiftOnlyModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ShiftModifier) !== 0
+            && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function isForwardTabEvent(event) {
+        if (!event)
+            return false;
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) !== 0)
+            return false;
+        return event.key === Qt.Key_Tab;
+    }
+
+    function isBackwardTabEvent(event) {
+        if (!event)
+            return false;
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+            return false;
+        return event.key === Qt.Key_Backtab
+            || (event.key === Qt.Key_Tab && (modifiers & Qt.ShiftModifier) !== 0);
+    }
+
+    function resetGoToTopSequence() {
+        pendingGoToTopRequest = false;
+        goToTopSequenceTimer.stop();
+    }
+
+    function resetKeyboardCursor() {
+        focusedColumn = 0;
+        focusedRowLength = 0;
+        if (gridView)
+            gridView.currentIndex = -1;
+    }
+
+    function enterGridFromSearch() {
+        if (!gridView || gridView.count <= 0)
+            return false;
+        if (gridView.currentIndex < 0)
+            gridView.currentIndex = 0;
+        focusedColumn = clamp(focusedColumn, 0, Math.max(0, focusedRowLength - 1));
+        gridView.positionViewAtIndex(gridView.currentIndex, ListView.Contain);
+        gridView.forceActiveFocus();
+        return true;
+    }
+
+    function moveGridCursorVertical(delta) {
+        if (!gridView || gridView.count <= 0)
+            return;
+        const next = clamp(gridView.currentIndex + delta, 0, gridView.count - 1);
+        if (next === gridView.currentIndex)
+            return;
+        gridView.currentIndex = next;
+        gridView.positionViewAtIndex(next, ListView.Contain);
+    }
+
+    function moveGridCursorByChunk(delta) {
+        if (!gridView || gridView.count <= 0 || gridView.cellHeight <= 0)
+            return;
+        const visibleRows = Math.max(1, Math.floor(gridView.height / gridView.cellHeight));
+        const chunk = Math.max(1, Math.floor(visibleRows / 2));
+        moveGridCursorVertical(delta * chunk);
+    }
+
+    function moveGridCursorHorizontal(delta) {
+        if (!gridView || gridView.count <= 0 || focusedRowLength <= 0)
+            return;
+        const next = clamp(focusedColumn + delta, 0, focusedRowLength - 1);
+        focusedColumn = next;
+    }
+
+    function gridGoToFirstRow() {
+        if (!gridView || gridView.count <= 0)
+            return;
+        gridView.currentIndex = 0;
+        gridView.positionViewAtIndex(0, ListView.Beginning);
+    }
+
+    function gridGoToLastRow() {
+        if (!gridView || gridView.count <= 0)
+            return;
+        gridView.currentIndex = gridView.count - 1;
+        gridView.positionViewAtIndex(gridView.currentIndex, ListView.End);
+    }
+
+    function pickItem(modelData) {
+        if (!modelData || typeof callback !== "function")
+            return;
+        stickerPopup.close();
+        if (!stickerPopup.emoji) {
+            callback.call(null, modelData.descriptor);
+        } else if (modelData.unicode) {
+            callback.call(null, modelData.unicode, modelData.unicode);
+        } else {
+            callback.call(null, modelData.url, modelData.markdown);
+        }
+    }
+
+    function activateCategoryIndex(idx) {
+        if (!gridView.model || !gridView.model.sections)
+            return false;
+        const sections = gridView.model.sections;
+        if (idx < 0 || idx >= sections.length)
+            return false;
+        const section = sections[idx];
+        activeSectionIndex = idx;
+        activeSectionFirstRow = sectionFirstRow(section);
+        activeSectionName = sectionName(section);
+        gridView.positionViewAtIndex(section.firstRowWith, ListView.Beginning);
+        Qt.callLater(updateActiveSectionIndex);
+        return true;
+    }
+
+    function activateFocusedCell() {
+        if (!gridView || gridView.currentIndex < 0)
+            return false;
+        const rowItem = gridView.itemAtIndex(gridView.currentIndex);
+        if (!rowItem || !rowItem.row)
+            return false;
+        const col = clamp(focusedColumn, 0, rowItem.row.length - 1);
+        const data = rowItem.row[col];
+        if (!data)
+            return false;
+        pickItem(data);
+        return true;
     }
 
     function isMxcUrl(url) {
@@ -194,7 +351,19 @@ Popup {
         color: timelineRoot.overlayBackdropColor
     }
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    onOpened: Qt.callLater(updateActiveSectionIndex)
+    onOpened: {
+        resetKeyboardCursor();
+        Qt.callLater(updateActiveSectionIndex);
+    }
+    onClosed: resetGoToTopSequence()
+
+    Timer {
+        id: goToTopSequenceTimer
+
+        interval: 500
+        repeat: false
+        onTriggered: stickerPopup.pendingGoToTopRequest = false
+    }
     width: sidebarPaneWidth + Komai.paddingSmall + gridColumnWidth + padding * 2
     height: contentColumn.implicitHeight + topPadding + bottomPadding
 
@@ -247,7 +416,26 @@ Popup {
                 width: height
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
+                activeFocusOnTab: false
                 onClicked: stickerPopup.close()
+
+                Keys.onShortcutOverride: event => {
+                    if (stickerPopup.isForwardTabEvent(event) || stickerPopup.isBackwardTabEvent(event))
+                        event.accepted = true;
+                }
+                Keys.priority: Keys.BeforeItem
+                Keys.onPressed: event => {
+                    if (stickerPopup.isForwardTabEvent(event)) {
+                        emojiSearch.forceActiveFocus();
+                        event.accepted = true;
+                        return;
+                    }
+                    if (stickerPopup.isBackwardTabEvent(event)) {
+                        settingsButton.forceActiveFocus();
+                        event.accepted = true;
+                        return;
+                    }
+                }
             }
         }
 
@@ -288,11 +476,36 @@ Popup {
                         clear();
                 }
 
+                Keys.onShortcutOverride: event => {
+                    if (stickerPopup.isForwardTabEvent(event) || stickerPopup.isBackwardTabEvent(event))
+                        event.accepted = true;
+                }
+                Keys.priority: Keys.BeforeItem
+                Keys.onPressed: event => {
+                    if (stickerPopup.isForwardTabEvent(event)) {
+                        stickerPopup.enterGridFromSearch();
+                        event.accepted = true;
+                        return;
+                    }
+                    if (stickerPopup.isBackwardTabEvent(event)) {
+                        closeButton.forceActiveFocus();
+                        event.accepted = true;
+                        return;
+                    }
+                    if (event.key === Qt.Key_Down && stickerPopup.eventUsesNoModifiers(event)) {
+                        if (stickerPopup.enterGridFromSearch())
+                            event.accepted = true;
+                    }
+                }
+
                 Timer {
                     id: searchTimer
 
                     interval: 350 // tweak as needed?
-                    onTriggered: stickerPopup.model.searchString = emojiSearch.text
+                    onTriggered: {
+                        stickerPopup.model.searchString = emojiSearch.text;
+                        stickerPopup.resetKeyboardCursor();
+                    }
                 }
 
                 ImageButton {
@@ -327,8 +540,124 @@ Popup {
                 boundsBehavior: Flickable.StopAtBounds
                 clip: true
                 currentIndex: -1 // prevent sorting from stealing focus
+                activeFocusOnTab: false
                 onContentYChanged: stickerPopup.updateActiveSectionIndex()
-                onModelChanged: Qt.callLater(stickerPopup.updateActiveSectionIndex)
+                onModelChanged: {
+                    stickerPopup.resetKeyboardCursor();
+                    Qt.callLater(stickerPopup.updateActiveSectionIndex);
+                }
+
+                Keys.onShortcutOverride: event => {
+                    if (stickerPopup.isForwardTabEvent(event) || stickerPopup.isBackwardTabEvent(event))
+                        event.accepted = true;
+                }
+                Keys.priority: Keys.BeforeItem
+                Keys.onPressed: event => {
+                    const gKeyPressed = stickerPopup.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
+                    const plainGPressed = gKeyPressed && stickerPopup.eventUsesNoModifiers(event);
+                    const shiftGPressed = gKeyPressed && stickerPopup.eventUsesShiftOnlyModifiers(event);
+
+                    if (stickerPopup.isForwardTabEvent(event)) {
+                        stickerPopup.resetGoToTopSequence();
+                        categoriesListView.focusFromNeighbor();
+                        event.accepted = true;
+                        return;
+                    }
+                    if (stickerPopup.isBackwardTabEvent(event)) {
+                        stickerPopup.resetGoToTopSequence();
+                        emojiSearch.forceActiveFocus();
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if (!plainGPressed)
+                        stickerPopup.resetGoToTopSequence();
+
+                    if ((event.key === Qt.Key_Up
+                                || stickerPopup.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
+                            && stickerPopup.eventUsesNavigationModifiers(event)) {
+                        stickerPopup.moveGridCursorVertical(-1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if ((event.key === Qt.Key_Down
+                                || stickerPopup.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.J))
+                            && stickerPopup.eventUsesNavigationModifiers(event)) {
+                        stickerPopup.moveGridCursorVertical(1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if (event.key === Qt.Key_Left && stickerPopup.eventUsesNavigationModifiers(event)) {
+                        stickerPopup.moveGridCursorHorizontal(-1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if (event.key === Qt.Key_Right && stickerPopup.eventUsesNavigationModifiers(event)) {
+                        stickerPopup.moveGridCursorHorizontal(1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if (stickerPopup.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)
+                            && stickerPopup.eventUsesCtrlOnlyModifiers(event)) {
+                        stickerPopup.moveGridCursorByChunk(-1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if (stickerPopup.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.D)
+                            && stickerPopup.eventUsesCtrlOnlyModifiers(event)) {
+                        stickerPopup.moveGridCursorByChunk(1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if (shiftGPressed) {
+                        stickerPopup.gridGoToLastRow();
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if (plainGPressed) {
+                        if (stickerPopup.pendingGoToTopRequest) {
+                            stickerPopup.resetGoToTopSequence();
+                            stickerPopup.gridGoToFirstRow();
+                        } else {
+                            stickerPopup.pendingGoToTopRequest = true;
+                            goToTopSequenceTimer.restart();
+                        }
+                        event.accepted = true;
+                        return;
+                    }
+
+                    switch (event.key) {
+                    case Qt.Key_Home:
+                        stickerPopup.gridGoToFirstRow();
+                        event.accepted = true;
+                        return;
+                    case Qt.Key_End:
+                        stickerPopup.gridGoToLastRow();
+                        event.accepted = true;
+                        return;
+                    case Qt.Key_Return:
+                    case Qt.Key_Enter:
+                        if (stickerPopup.activateFocusedCell())
+                            event.accepted = true;
+                        return;
+                    }
+
+                    // Any other printable character routes back to the search field.
+                    if (event.text && event.text.length > 0
+                            && event.text.charCodeAt(0) >= 0x20
+                            && !(Number(event.modifiers) & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier))) {
+                        emojiSearch.forceActiveFocus();
+                        emojiSearch.insert(emojiSearch.cursorPosition, event.text);
+                        event.accepted = true;
+                    }
+                }
 
                 section.property: "packname"
                 section.criteria: ViewSection.FullString
@@ -394,9 +723,37 @@ Popup {
 
                 // Individual emoji
                 delegate: Row {
+                    id: rowDelegate
+
                     required property var row;
+                    required property int index
+
+                    readonly property int rowLength: (row && row.length !== undefined) ? row.length : 0
+                    readonly property bool isCurrentRow: index === gridView.currentIndex
 
                     spacing: Komai.paddingSmall
+
+                    onIsCurrentRowChanged: {
+                        if (isCurrentRow) {
+                            stickerPopup.focusedRowLength = rowLength;
+                            if (stickerPopup.focusedColumn >= rowLength)
+                                stickerPopup.focusedColumn = Math.max(0, rowLength - 1);
+                        }
+                    }
+                    onRowLengthChanged: {
+                        if (isCurrentRow) {
+                            stickerPopup.focusedRowLength = rowLength;
+                            if (stickerPopup.focusedColumn >= rowLength)
+                                stickerPopup.focusedColumn = Math.max(0, rowLength - 1);
+                        }
+                    }
+                    Component.onCompleted: {
+                        if (isCurrentRow) {
+                            stickerPopup.focusedRowLength = rowLength;
+                            if (stickerPopup.focusedColumn >= rowLength)
+                                stickerPopup.focusedColumn = Math.max(0, rowLength - 1);
+                        }
+                    }
 
                     Repeater {
                         model: row
@@ -405,6 +762,9 @@ Popup {
                             id: del
 
                             required property var modelData
+                            required property int index
+
+                            readonly property bool keyboardFocused: rowDelegate.isCurrentRow && stickerPopup.focusedColumn === index
 
                             width: stickerDim
                             height: stickerDim
@@ -416,24 +776,11 @@ Popup {
                                 anchorY: 0
                                 text: ":" + del.modelData.shortcode + ": - " + (del.modelData.unicode ? del.modelData.unicodeName : del.modelData.body)
                                 delay: Komai.tooltipDelay
-                                requestedVisible: del.hovered
+                                requestedVisible: del.hovered || del.keyboardFocused
                             }
 
                             // TODO: maybe add favorites at some point?
-                            onClicked: {
-                                console.debug("Picked " + modelData);
-                                stickerPopup.close();
-                                if (!stickerPopup.emoji) {
-                                    // return descriptor to calculate sticker to send
-                                    callback(modelData.descriptor);
-                                } else if (modelData.unicode) {
-                                    // return the emoji unicode as both plain text and markdown
-                                    callback(modelData.unicode, modelData.unicode);
-                                } else {
-                                    // return the emoji url as plain text and a markdown link as markdown
-                                    callback(modelData.url, modelData.markdown);
-                                }
-                            }
+                            onClicked: stickerPopup.pickItem(modelData)
 
                             contentItem: Item {
                                 Text {
@@ -458,8 +805,10 @@ Popup {
 
                             background: Rectangle {
                                 anchors.fill: parent
-                                color: hovered ? palette.highlight : 'transparent'
+                                color: del.hovered ? palette.highlight : 'transparent'
                                 radius: 5
+                                border.color: palette.highlight
+                                border.width: (del.keyboardFocused && !del.hovered) ? 2 : 0
                             }
 
                         }
@@ -473,6 +822,22 @@ Popup {
             }
 
             ListView {
+                id: categoriesListView
+
+                function focusFromNeighbor() {
+                    if (count <= 0)
+                        return false;
+                    if (currentIndex < 0)
+                        currentIndex = Math.max(0, stickerPopup.activeSectionIndex);
+                    positionViewAtIndex(currentIndex, ListView.Contain);
+                    forceActiveFocus();
+                    return true;
+                }
+
+                function activateCurrent() {
+                    return stickerPopup.activateCategoryIndex(currentIndex);
+                }
+
                 Layout.row: 1
                 Layout.column: 0
                 Layout.preferredWidth: sidebarPaneWidth
@@ -483,6 +848,61 @@ Popup {
                 boundsBehavior: Flickable.StopAtBounds
                 spacing: 0
                 clip: true
+                currentIndex: -1
+                activeFocusOnTab: false
+                highlightFollowsCurrentItem: false
+
+                Keys.onShortcutOverride: event => {
+                    if (stickerPopup.isForwardTabEvent(event) || stickerPopup.isBackwardTabEvent(event))
+                        event.accepted = true;
+                }
+                Keys.priority: Keys.BeforeItem
+                Keys.onPressed: event => {
+                    if (stickerPopup.isForwardTabEvent(event)) {
+                        settingsButton.forceActiveFocus();
+                        event.accepted = true;
+                        return;
+                    }
+                    if (stickerPopup.isBackwardTabEvent(event)) {
+                        gridView.forceActiveFocus();
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if ((event.key === Qt.Key_Up
+                                || stickerPopup.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
+                            && stickerPopup.eventUsesNavigationModifiers(event)) {
+                        if (count > 0)
+                            currentIndex = Math.max(0, currentIndex - 1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    if ((event.key === Qt.Key_Down
+                                || stickerPopup.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.J))
+                            && stickerPopup.eventUsesNavigationModifiers(event)) {
+                        if (count > 0)
+                            currentIndex = Math.min(count - 1, currentIndex + 1);
+                        event.accepted = true;
+                        return;
+                    }
+
+                    switch (event.key) {
+                    case Qt.Key_Home:
+                        if (count > 0) currentIndex = 0;
+                        event.accepted = true;
+                        return;
+                    case Qt.Key_End:
+                        if (count > 0) currentIndex = count - 1;
+                        event.accepted = true;
+                        return;
+                    case Qt.Key_Return:
+                    case Qt.Key_Enter:
+                        if (activateCurrent())
+                            event.accepted = true;
+                        return;
+                    }
+                }
 
                 delegate: AbstractButton {
                     id: categoryButton
@@ -491,12 +911,14 @@ Popup {
                     required property int index
                     readonly property string sectionName: stickerPopup.sectionName(modelData)
                     readonly property bool active: sectionName.length > 0 && sectionName === stickerPopup.activeSectionName
+                    readonly property bool keyboardFocused: categoriesListView.activeFocus && categoriesListView.currentIndex === index
                     property color backgroundColor: "transparent"
                     property color textColor: stickerPopup.sidebarPalette.text
 
-                    width: ListView.view.width
+                    width: categoriesListView.width
                     height: sidebarRowHeight
                     hoverEnabled: true
+                    focusPolicy: Qt.NoFocus
                     leftPadding: Komai.paddingSmall
                     rightPadding: Komai.paddingSmall
                     topPadding: Komai.paddingMedium
@@ -514,17 +936,14 @@ Popup {
                     }
 
                     onClicked: {
-                        stickerPopup.activeSectionIndex = index;
-                        stickerPopup.activeSectionFirstRow = stickerPopup.sectionFirstRow(modelData);
-                        stickerPopup.activeSectionName = sectionName;
-                        gridView.positionViewAtIndex(modelData.firstRowWith, ListView.Beginning);
-                        Qt.callLater(stickerPopup.updateActiveSectionIndex);
+                        categoriesListView.currentIndex = index;
+                        stickerPopup.activateCategoryIndex(index);
                     }
 
                     states: [
                         State {
                             name: "hover"
-                            when: categoryButton.hovered && !categoryButton.active
+                            when: (categoryButton.hovered || categoryButton.keyboardFocused) && !categoryButton.active
 
                             PropertyChanges {
                                 categoryButton {
@@ -549,6 +968,8 @@ Popup {
                     background: Rectangle {
                         radius: Komai.paddingSmall
                         color: categoryButton.backgroundColor
+                        border.color: palette.highlight
+                        border.width: (categoryButton.keyboardFocused && !categoryButton.active) ? 2 : 0
                     }
 
                     contentItem: RowLayout {
@@ -609,6 +1030,7 @@ Popup {
                 Layout.preferredHeight: sidebarRowHeight
                 Layout.rightMargin: Komai.paddingSmall
                 hoverEnabled: true
+                activeFocusOnTab: false
                 property color backgroundColor: "transparent"
                 property color textColor: stickerPopup.sidebarPalette.text
                 leftPadding: Komai.paddingSmall
@@ -629,10 +1051,28 @@ Popup {
 
                 onClicked: TimelineManager.openImagePackSettings(stickerPopup.roomid)
 
+                Keys.onShortcutOverride: event => {
+                    if (stickerPopup.isForwardTabEvent(event) || stickerPopup.isBackwardTabEvent(event))
+                        event.accepted = true;
+                }
+                Keys.priority: Keys.BeforeItem
+                Keys.onPressed: event => {
+                    if (stickerPopup.isForwardTabEvent(event)) {
+                        closeButton.forceActiveFocus();
+                        event.accepted = true;
+                        return;
+                    }
+                    if (stickerPopup.isBackwardTabEvent(event)) {
+                        categoriesListView.focusFromNeighbor();
+                        event.accepted = true;
+                        return;
+                    }
+                }
+
                 states: [
                     State {
                         name: "hover"
-                        when: settingsButton.hovered
+                        when: settingsButton.hovered || settingsButton.activeFocus
 
                         PropertyChanges {
                             settingsButton {
@@ -646,6 +1086,8 @@ Popup {
                 background: Rectangle {
                     radius: Komai.paddingSmall
                     color: settingsButton.backgroundColor
+                    border.color: palette.highlight
+                    border.width: (settingsButton.activeFocus && !settingsButton.hovered) ? 2 : 0
                 }
 
                 contentItem: RowLayout {

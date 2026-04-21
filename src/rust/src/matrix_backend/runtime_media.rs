@@ -84,10 +84,11 @@ pub async fn send_room_image(
         return Err("cannot send a matrix-sdk room image without an mxc uri".to_owned());
     }
 
-    let uri = Box::<MxcUri>::from(normalized_mxc_uri);
-    uri.validate()
+    let uri_ref = <&MxcUri>::from(normalized_mxc_uri);
+    uri_ref
+        .validate()
         .map_err(|e| format!("invalid mxc uri '{normalized_mxc_uri}': {e}"))?;
-    let uri = uri.to_owned();
+    let uri = uri_ref.to_owned();
 
     let encryption_state = room
         .latest_encryption_state()

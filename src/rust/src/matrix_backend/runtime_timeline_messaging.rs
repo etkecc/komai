@@ -11,7 +11,7 @@ use matrix_sdk::{
         AttachmentConfig, AttachmentInfo, BaseAudioInfo, BaseFileInfo, BaseImageInfo,
         BaseVideoInfo,
     },
-    room::{Receipts, ReportedContentScore},
+    room::Receipts,
     room::edit::EditedContent,
     room::reply::{EnforceThread, Reply},
     ruma::{
@@ -19,7 +19,8 @@ use matrix_sdk::{
         html::{HtmlSanitizerMode, RemoveReplyFallback},
         events::EventContentFromType,
         events::room::message::{
-            MessageType, RoomMessageEventContentWithoutRelation, TextMessageEventContent,
+            AddMentions, MessageType, RoomMessageEventContentWithoutRelation,
+            TextMessageEventContent,
         },
     },
 };
@@ -27,6 +28,25 @@ use image::GenericImageView;
 use mime::Mime;
 use serde_json::{Map as JsonMap, Value as JsonValue};
 use std::{fs, path::Path};
+
+// ---------------------------------------------------------------------------
+// Diagnostic helpers
+// ---------------------------------------------------------------------------
+
+/// Stable snake_case tag for a room's cached encryption state, for inclusion
+/// in send-time trace logs. Lets us diagnose the "plaintext-in-encrypted-room"
+/// class of bugs (see var/plans/matrix-sdk-bump-and-cleartext-send-bug.md)
+/// by grepping server-side logs for sends where the local cache reported
+/// `not_encrypted` — a wire capture of a plaintext event in such a send
+/// confirms the mismatch.
+fn encryption_state_tag(room: &matrix_sdk::Room) -> &'static str {
+    use matrix_sdk_base::EncryptionState;
+    match room.encryption_state() {
+        EncryptionState::Encrypted => "encrypted",
+        EncryptionState::NotEncrypted => "not_encrypted",
+        EncryptionState::Unknown => "unknown",
+    }
+}
 
 // ---------------------------------------------------------------------------
 // Message formatting helpers
@@ -135,6 +155,7 @@ pub async fn send_room_message(
         room_id,
         message_kind,
         has_formatted_html,
+        encryption_state = encryption_state_tag(&room),
         "Queueing matrix-sdk room message"
     );
 
@@ -187,6 +208,7 @@ pub async fn send_room_reply_message(
         message_kind,
         has_formatted_html,
         is_threaded,
+        encryption_state = encryption_state_tag(&room),
         "Sending matrix-sdk room reply"
     );
 
@@ -202,6 +224,7 @@ pub async fn send_room_reply_message(
         let reply = Reply {
             event_id: parsed_event_id,
             enforce_thread: EnforceThread::Threaded(reply_within_thread),
+            add_mentions: AddMentions::Yes,
         };
         let reply_content = room.make_reply_event(content, reply)
             .await
@@ -257,6 +280,7 @@ pub async fn send_room_message_like_event_json(
         handle_id,
         room_id = room_id.trim(),
         event_type,
+        encryption_state = encryption_state_tag(&room),
         "Queueing matrix-sdk room message-like event from raw json"
     );
 
@@ -299,6 +323,7 @@ pub async fn send_room_edit_message(
         target_event_id,
         message_kind,
         has_formatted_html,
+        encryption_state = encryption_state_tag(&room),
         "Queueing matrix-sdk room edit"
     );
 
@@ -387,6 +412,7 @@ pub async fn send_room_attachment(
             event_id: EventId::parse(effective_reply_event_id)
                 .map_err(|e| format!("invalid reply event id '{effective_reply_event_id}': {e}"))?,
             enforce_thread,
+            add_mentions: AddMentions::Yes,
         })
     };
 
@@ -409,6 +435,7 @@ pub async fn send_room_attachment(
         has_reply = !reply_event_id.trim().is_empty(),
         mime_type,
         file_size = data.len(),
+        encryption_state = encryption_state_tag(&room),
         "Sending matrix-sdk room attachment"
     );
 
@@ -751,23 +778,17 @@ pub async fn report_room_event(
     let parsed_event_id =
         EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
     let trimmed_reason = trim_reason(reason);
-    let clamped_score = score.clamp(
-        i32::from(ReportedContentScore::MIN.value()),
-        i32::from(ReportedContentScore::MAX.value()),
-    );
-    let reported_score = ReportedContentScore::try_from(clamped_score)
-        .map_err(|_| format!("invalid reported-content score '{score}'"))?;
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         event_id,
-        score = clamped_score,
+        score,
         has_reason = trimmed_reason.is_some(),
-        "Reporting matrix-sdk room event"
+        "Reporting matrix-sdk room event (score field is accepted for UI compatibility but ignored: removed from the Matrix spec)"
     );
 
-    room.report_content(parsed_event_id, Some(reported_score), trimmed_reason)
+    room.report_content(parsed_event_id, trimmed_reason)
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to report matrix-sdk room event: {e}"))

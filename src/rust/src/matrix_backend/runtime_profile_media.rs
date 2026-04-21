@@ -43,8 +43,8 @@ fn room_member_to_user_profile(member: &matrix_sdk::room::RoomMember) -> MatrixU
 fn explicit_room_member_display_name(member: &matrix_sdk::room::RoomMember) -> Option<String> {
     member
         .event()
-        .original_content()
-        .and_then(|content| content.displayname.clone())
+        .displayname_value()
+        .map(str::to_owned)
 }
 
 async fn fetch_own_room_member(
@@ -389,10 +389,11 @@ pub async fn fetch_media_content(
 ) -> Result<Vec<u8>, String> {
     let client = client_for_handle(handle_id)?;
     let normalized_mxc_uri = normalize_mxc_uri(mxc_uri.trim().to_owned());
-    let uri = Box::<MxcUri>::from(normalized_mxc_uri.as_str());
-    uri.validate()
+    let uri_ref = <&MxcUri>::from(normalized_mxc_uri.as_str());
+    uri_ref
+        .validate()
         .map_err(|e| format!("invalid mxc uri '{normalized_mxc_uri}': {e}"))?;
-    let uri = uri.to_owned();
+    let uri = uri_ref.to_owned();
 
     let request = if width > 0 && height > 0 {
         let width =

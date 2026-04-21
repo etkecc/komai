@@ -8,32 +8,34 @@
 use super::*;
 use super::event_summary::summarize_timeline_content;
 
-use matrix_sdk::deserialized_responses::{ShieldState, ShieldStateCode};
+use matrix_sdk_ui::timeline::{TimelineEventShieldState, TimelineEventShieldStateCode};
 
 use std::collections::{HashMap, HashSet};
 
 /// Map matrix-sdk-ui's `get_shield(false)` to the `(color, code)` snake_case
 /// tags we ship to the UI. `""` for color means "no shield — render as
 /// verified/clean"; an empty code means no shield was present at all.
-fn shield_tags(shield: Option<ShieldState>) -> (String, String) {
+fn shield_tags(shield: TimelineEventShieldState) -> (String, String) {
     match shield {
-        None | Some(ShieldState::None) => (String::new(), String::new()),
-        Some(ShieldState::Red { code, .. }) => ("red".to_owned(), shield_code_tag(code).to_owned()),
-        Some(ShieldState::Grey { code, .. }) => {
+        TimelineEventShieldState::None => (String::new(), String::new()),
+        TimelineEventShieldState::Red { code, .. } => {
+            ("red".to_owned(), shield_code_tag(code).to_owned())
+        }
+        TimelineEventShieldState::Grey { code, .. } => {
             ("grey".to_owned(), shield_code_tag(code).to_owned())
         }
     }
 }
 
-fn shield_code_tag(code: ShieldStateCode) -> &'static str {
+fn shield_code_tag(code: TimelineEventShieldStateCode) -> &'static str {
     match code {
-        ShieldStateCode::AuthenticityNotGuaranteed => "authenticity_not_guaranteed",
-        ShieldStateCode::UnknownDevice => "unknown_device",
-        ShieldStateCode::UnsignedDevice => "unsigned_device",
-        ShieldStateCode::UnverifiedIdentity => "unverified_identity",
-        ShieldStateCode::SentInClear => "sent_in_clear",
-        ShieldStateCode::VerificationViolation => "verification_violation",
-        ShieldStateCode::MismatchedSender => "mismatched_sender",
+        TimelineEventShieldStateCode::AuthenticityNotGuaranteed => "authenticity_not_guaranteed",
+        TimelineEventShieldStateCode::UnknownDevice => "unknown_device",
+        TimelineEventShieldStateCode::UnsignedDevice => "unsigned_device",
+        TimelineEventShieldStateCode::UnverifiedIdentity => "unverified_identity",
+        TimelineEventShieldStateCode::SentInClear => "sent_in_clear",
+        TimelineEventShieldStateCode::VerificationViolation => "verification_violation",
+        TimelineEventShieldStateCode::MismatchedSender => "mismatched_sender",
     }
 }
 

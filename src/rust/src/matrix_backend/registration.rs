@@ -584,7 +584,7 @@ fn format_registration_error(error: &matrix_sdk::Error) -> String {
         if api_error.status_code.as_u16() == 403 {
             return "Registration is disabled on this server.".to_owned();
         }
-        if let matrix_sdk::ruma::api::client::error::ErrorBody::Standard(body) = &api_error.body {
+        if let matrix_sdk::ruma::api::error::ErrorBody::Standard(body) = &api_error.body {
             if !body.message.is_empty() {
                 return body.message.clone();
             }

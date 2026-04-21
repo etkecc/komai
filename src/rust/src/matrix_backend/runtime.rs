@@ -27,12 +27,12 @@ use matrix_sdk::{
         MxcUri, OwnedDeviceId, OwnedEventId, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
         RoomOrAliasId, ServerName, UInt, UserId,
         api::client::{
-            error::ErrorKind,
             membership::invite_user,
             room::{Visibility, create_room},
         },
         api::client::media::get_content_thumbnail::v3::Method,
         api::client::profile::{AvatarUrl, DisplayName},
+        api::error::ErrorKind,
         events::{
             AnyMessageLikeEventContent, InitialStateEvent,
             room::{

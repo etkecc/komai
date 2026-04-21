@@ -9,7 +9,7 @@ edition = "2024"
 publish = false
 
 [features]
-default = ["server", "reqwest/default-tls", "hickory-resolver/system-config"]
+default = ["server", "reqwest/rustls", "hickory-resolver/system-config"]
 
 server = ["hickory-resolver"]
 
@@ -23,5 +23,5 @@ thiserror = { version = "2.0.18", default-features = false }
 rstest = "0.26.1"
 tokio = { version = "1.50.0", default-features = false, features = ["tokio-macros", "test-util"] }
 
-reqwest = { version = "0.13.2", default-features = false, features = ["default-tls"] }
+reqwest = { version = "0.13.2", default-features = false, features = ["rustls"] }
 hickory-resolver = { version = "0.26.0", default-features = false, features = ["system-config"] }

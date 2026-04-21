@@ -17,6 +17,7 @@ use matrix_sdk::{
         serde::Raw,
     },
 };
+use matrix_sdk_base::latest_event::LatestEventValue as BaseLatestEventValue;
 
 pub fn start_sync(handle_id: u64) -> Result<(), String> {
     let (client, room_list_snapshot) = {
@@ -113,7 +114,7 @@ async fn run_sync_loop(
     };
 
     let (entries_stream, entries_controller) =
-        room_list.entries_with_dynamic_adapters_with(ROOM_LIST_PAGE_SIZE, true);
+        room_list.entries_with_dynamic_adapters(ROOM_LIST_PAGE_SIZE);
     if !entries_controller.set_filter(Box::new(filters::new_filter_non_left())) {
         tracing::warn!(handle_id, "Failed to install matrix-sdk-ui room-list filter");
     }
@@ -255,7 +256,8 @@ async fn run_sync_loop(
                 }
             } => {
                 match maybe_ignored {
-                    Some(mut user_ids) => {
+                    Some(user_ids) => {
+                        let mut user_ids: Vec<String> = user_ids;
                         user_ids.sort();
                         user_ids.dedup();
                         crate::ffi::matrix_notify_ignored_user_list_updated(handle_id, user_ids.clone());
@@ -629,63 +631,51 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let hero_candidates = room_hero_candidates(room);
     let classification = classify_room(room, &hero_candidates);
-    let latest_event = room.latest_event();
-    let latest_preview = latest_event.as_ref().and_then(|event| {
-        let raw_event: Raw<AnySyncTimelineEvent> = event.event().raw().clone();
+    // `matrix_sdk_base::Room::latest_event` is a synchronous inherent method
+    // that returns a `BaseLatestEventValue` populated directly from the room's
+    // cached `RoomInfo`. We call it via UFCS to avoid dispatching to
+    // `matrix_sdk_ui::timeline::RoomExt::latest_event`, which is async and
+    // recomputes the value from the event cache.
+    let latest_event: BaseLatestEventValue = matrix_sdk_base::Room::latest_event(room);
+    let remote_latest_event = match &latest_event {
+        BaseLatestEventValue::Remote(event) => Some(event),
+        _ => None,
+    };
+    let latest_preview = remote_latest_event.and_then(|event| {
+        let raw_event: Raw<AnySyncTimelineEvent> = event.raw().clone();
         let event = raw_event.deserialize().ok()?;
         summarize_sync_timeline_event(&event)
     });
-    // The SDK exposes two independent timestamp sources:
-    // - latest_event() from sliding sync (the same source as the preview text)
-    // - new_latest_event_timestamp() from the event cache
-    // Neither is consistently more up-to-date: sliding sync may lag behind
-    // the event cache for rooms outside the visible window, and the event
-    // cache may lag behind sliding sync for rooms without an active timeline
-    // subscription. Using the maximum of both ensures we always pick the
-    // freshest timestamp for room list sorting and display.
-    let latest_event_ts = latest_event
-        .as_ref()
-        .and_then(|event| event.event().timestamp())
+    // `latest_event_timestamp()` unifies what used to be two separate sources
+    // (sliding sync's latest event vs. the event cache's latest timestamp).
+    let timestamp = room
+        .latest_event_timestamp()
         .map(|ts| u64::from(ts.get()))
         .unwrap_or_default();
-    let new_latest_event_ts = room
-        .new_latest_event_timestamp()
-        .map(|ts| u64::from(ts.get()))
-        .unwrap_or_default();
-    let timestamp = latest_event_ts.max(new_latest_event_ts);
     let latest_event_id = latest_event
-        .as_ref()
-        .and_then(|event| event.event_id())
+        .event_id()
         .map(|id| id.to_string())
         .unwrap_or_default();
-    let (last_message_sender_id, last_message_sender_display_name) = match latest_event.as_ref() {
+    let (last_message_sender_id, last_message_sender_display_name) = match remote_latest_event {
         Some(event) => {
             let sender_id = event
-                .event()
                 .raw()
                 .get_field::<OwnedUserId>("sender")
                 .ok()
                 .flatten();
-            let mut sender_display_name = event
-                .sender_display_name()
-                .map(str::trim)
-                .filter(|name| !name.is_empty())
-                .map(ToOwned::to_owned)
-                .unwrap_or_default();
+            let mut sender_display_name = String::new();
 
-            if sender_display_name.is_empty() {
-                if let Some(sender_id) = sender_id.as_ref() {
-                    match room.get_member_no_sync(sender_id).await {
-                        Ok(Some(member)) => {
-                            sender_display_name = member
-                                .display_name()
-                                .map(str::trim)
-                                .filter(|name| !name.is_empty())
-                                .map(ToOwned::to_owned)
-                                .unwrap_or_default();
-                        }
-                        Ok(None) | Err(_) => {}
+            if let Some(sender_id) = sender_id.as_ref() {
+                match room.get_member_no_sync(sender_id).await {
+                    Ok(Some(member)) => {
+                        sender_display_name = member
+                            .display_name()
+                            .map(str::trim)
+                            .filter(|name| !name.is_empty())
+                            .map(ToOwned::to_owned)
+                            .unwrap_or_default();
                     }
+                    Ok(None) | Err(_) => {}
                 }
             }
             (

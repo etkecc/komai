@@ -291,10 +291,7 @@ pub async fn set_own_room_display_name(
 
     let trimmed_display_name = display_name.trim();
     let mut content = RoomMemberEventContent::new(MembershipState::Join);
-    content.avatar_url = member
-        .event()
-        .original_content()
-        .and_then(|original_content| original_content.avatar_url.clone());
+    content.avatar_url = member.event().avatar_url().map(ToOwned::to_owned);
     content.displayname = (!trimmed_display_name.is_empty()).then(|| trimmed_display_name.to_owned());
 
     tracing::info!(
@@ -325,19 +322,19 @@ pub async fn invite_user(
     let client = client_for_handle(handle_id)?;
     let parsed_room_id = parse_room_id(room_id)?;
     let parsed_user_id = parse_user_id(user_id)?;
-    let mut request = invite_user::v3::Request::new(
+    let invite_reason = trim_reason(reason);
+    let mut invite_user_id = invite_user::v3::InviteUserId::new(parsed_user_id);
+    invite_user_id.reason = invite_reason.clone();
+    let request = invite_user::v3::Request::new(
         parsed_room_id,
-        invite_user::v3::InvitationRecipient::UserId {
-            user_id: parsed_user_id,
-        },
+        invite_user::v3::InvitationRecipient::UserId(invite_user_id),
     );
-    request.reason = trim_reason(reason);
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         user_id = user_id.trim(),
-        has_reason = request.reason.is_some(),
+        has_reason = invite_reason.is_some(),
         "Inviting user via matrix-sdk backend runtime"
     );
 

@@ -30,21 +30,29 @@ image = { version = "0.25", default-features = false, features = ["jpeg", "png",
 blurhash = "0.2"
 linkify = "0.11"
 syntect = { version = "5", default-features = false, features = ["default-fancy"] }
-ruma = { version = "0.14", features = ["unstable-msc2545", "markdown", "html"] }
-matrix-sdk = { version = "0.16.0", features = ["native-tls", "sqlite", "bundled-sqlite"] }
-matrix-sdk-base = "0.16.0"
-matrix-sdk-ui = { version = "0.16.0", default-features = false, features = ["native-tls"] }
+# matrix-sdk pinned to a specific matrix-rust-sdk main SHA (post-0.16.0) to pick up
+# `fix(base): Handle sync state events that fail to deserialize` (e77e2ae18), which
+# prevents the SDK from silently dropping undeserializable `m.room.encryption`
+# state events from sliding-sync responses — otherwise an encrypted room can end
+# up cached as `NotEncrypted` and sends go out as plaintext.
+# See var/plans/matrix-sdk-bump-and-cleartext-send-bug.md.
+#
+# ruma is pinned to the same git rev matrix-rust-sdk uses at this SHA to avoid
+# duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.
+ruma = { git = "https://github.com/ruma/ruma", rev = "7680eebd9586669e1a4e5b1fd1c2c691221369d4", features = ["unstable-msc2545", "markdown", "html"] }
+matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite"] }
+matrix-sdk-base = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da" }
+matrix-sdk-ui = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da" }
 
-# resolvematrix defaults to reqwest's default-tls (rustls + aws-lc-rs). We override
-# to native-tls (OpenSSL) because:
-#   1. Komai already links OpenSSL via native-tls on the C++ side — no point bundling a second
-#      TLS implementation.
-#   2. aws-lc-sys includes C sources that require -O0, which conflicts with build
-#      environments that inject optimization flags (Flatpak).
-#   3. Fewer dependencies (~48 crates fewer).
+# TLS backend: rustls with aws-lc-rs as the crypto provider, matching what
+# matrix-sdk now hard-wires. Previously we forced native-tls (OpenSSL) to avoid
+# a second TLS stack and a Flatpak issue with aws-lc-sys' Jitterentropy C code
+# requiring `-O0`. matrix-sdk dropped native-tls in 2026-04, and aws-lc-sys
+# 0.39+ now filters `-O*` CFLAGS for the Jitterentropy compile unit on its own
+# (see its `jitter_entropy_cflags_guard`), so we can safely unify on rustls.
 resolvematrix = { path = "resolvematrix", default-features = false, features = ["server"] }
 hickory-resolver = { version = "0.26", default-features = false, features = ["tokio", "system-config"] }
-reqwest = { version = "0.13", default-features = false, features = ["native-tls", "stream"] }
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "stream"] }
 hyper = { version = "1", features = ["http1", "server"] }
 hyper-util = { version = "0.1", features = ["tokio"] }
 http-body-util = "0.1"

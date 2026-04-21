@@ -145,10 +145,11 @@ fn parse_pack_image_url(url: &str) -> Result<ruma::OwnedMxcUri, String> {
         return Err("image pack image url cannot be empty".to_owned());
     }
 
-    let uri = Box::<MxcUri>::from(trimmed);
-    uri.validate()
+    let uri_ref = <&MxcUri>::from(trimmed);
+    uri_ref
+        .validate()
         .map_err(|error| format!("invalid image pack mxc uri '{trimmed}': {error}"))?;
-    Ok(uri.to_owned().into())
+    Ok(uri_ref.to_owned().into())
 }
 
 fn pack_info_from_matrix_pack(pack: &MatrixImagePack) -> Result<Option<PackInfo>, String> {

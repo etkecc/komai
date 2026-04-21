@@ -379,6 +379,9 @@ pub async fn fetch_notification_items(
             Ok(NotificationStatus::EventNotFound) => {
                 tracing::debug!(handle_id, %event_id, "Notification event was not found");
             }
+            Ok(NotificationStatus::EventRedacted) => {
+                tracing::debug!(handle_id, %event_id, "Skipping redacted notification event");
+            }
             Err(error) => {
                 tracing::warn!(
                     handle_id,

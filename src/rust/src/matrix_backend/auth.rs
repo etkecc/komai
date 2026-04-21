@@ -16,17 +16,15 @@ use std::{
 
 use matrix_sdk::{
     authentication::oauth::{
-        ClientRegistrationData, UrlOrQuery,
+        ClientRegistrationData,
         registration::{ApplicationType, ClientMetadata, Localized, OAuthGrantType},
     },
+    utils::UrlOrQuery,
     Client, ClientBuildError, Error as MatrixSdkError, HttpError, RumaApiError,
     ruma::{
         api::{
-            client::{
-                error::ErrorBody,
-                session::get_login_types::v3::LoginType,
-            },
-            error::FromHttpResponseError,
+            client::session::get_login_types::v3::LoginType,
+            error::{ErrorBody, FromHttpResponseError},
         },
         serde::Raw,
     },
@@ -885,7 +883,7 @@ fn html_escape(s: &str) -> String {
         .replace('\'', "&#x27;")
 }
 
-fn format_client_api_error(prefix: &str, error: &matrix_sdk::ruma::api::client::Error) -> String {
+fn format_client_api_error(prefix: &str, error: &matrix_sdk::ruma::api::error::Error) -> String {
     if error.status_code.as_u16() == 404 {
         return "The required endpoints were not found. Possibly not a Matrix server.".to_owned();
     }

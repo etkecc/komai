@@ -8,7 +8,7 @@ use matrix_sdk::{
         UInt,
         events::{
             AnySyncMessageLikeEvent, AnySyncStateEvent, AnySyncTimelineEvent,
-            FullStateEventContent,
+            StateEventContentChange,
             room::{
                 MediaSource,
                 guest_access::GuestAccess,
@@ -23,7 +23,7 @@ use matrix_sdk::{
     },
 };
 use matrix_sdk_ui::timeline::{
-    AnyOtherFullStateEventContent, EncryptedMessage, InReplyToDetails, MemberProfileChange,
+    AnyOtherStateEventContentChange, EncryptedMessage, InReplyToDetails, MemberProfileChange,
     MembershipChange, MsgLikeContent, MsgLikeKind, OtherState, ReactionsByKeyBySender,
     RoomMembershipChange, TimelineDetails, TimelineEventItemId, TimelineItemContent,
 };
@@ -133,7 +133,7 @@ pub fn summarize_timeline_content(
             summary("failed_to_parse_state", &event_type, "[Unreadable state event]")
         }
         TimelineItemContent::CallInvite => summary("call_invite", "m.call.invite", "[Call invite]"),
-        TimelineItemContent::RtcNotification => summary(
+        TimelineItemContent::RtcNotification { .. } => summary(
             "rtc_notification",
             "m.rtc.notification",
             "[RTC notification]",
@@ -190,6 +190,9 @@ fn summarize_msg_like_kind(kind: &MsgLikeKind) -> MatrixEventSummary {
         MsgLikeKind::Other(other) => {
             let event_type = other.event_type().to_string();
             summary("other_message", &event_type, "[Unsupported message event]")
+        }
+        MsgLikeKind::LiveLocation(_) => {
+            summary("live_location", "m.beacon", "[Live location]")
         }
     }
 }
@@ -303,10 +306,10 @@ fn summarize_membership_change(
 
     // Extract reason from the membership event content, if available.
     let reason = match change.content() {
-        FullStateEventContent::Original { content, .. } => content
+        StateEventContentChange::Original { content, .. } => content
             .reason
             .as_deref()
-            .filter(|r| !r.is_empty())
+            .filter(|r: &&str| !r.is_empty())
             .map(truncate_reason),
         _ => None,
     };
@@ -365,20 +368,20 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
     // Extract a machine-readable detail key for state changes that have variants.
     // The C++ side maps (matrix_event_type, state_event_detail) to translated text.
     let detail = match state.content() {
-        AnyOtherFullStateEventContent::RoomName(content) => match content {
-            FullStateEventContent::Original { content, .. } if !content.name.is_empty() => {
+        AnyOtherStateEventContentChange::RoomName(content) => match content {
+            StateEventContentChange::Original { content, .. } if !content.name.is_empty() => {
                 content.name.clone()
             }
             _ => String::new(),
         },
-        AnyOtherFullStateEventContent::RoomTopic(content) => match content {
-            FullStateEventContent::Original { content, .. } if !content.topic.is_empty() => {
+        AnyOtherStateEventContentChange::RoomTopic(content) => match content {
+            StateEventContentChange::Original { content, .. } if !content.topic.is_empty() => {
                 content.topic.clone()
             }
             _ => String::new(),
         },
-        AnyOtherFullStateEventContent::RoomJoinRules(content) => match content {
-            FullStateEventContent::Original { content, .. } => match &content.join_rule {
+        AnyOtherStateEventContentChange::RoomJoinRules(content) => match content {
+            StateEventContentChange::Original { content, .. } => match &content.join_rule {
                 JoinRule::Invite => "invite".to_owned(),
                 JoinRule::Knock => "knock".to_owned(),
                 JoinRule::Public => "public".to_owned(),
@@ -389,8 +392,8 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
             },
             _ => String::new(),
         },
-        AnyOtherFullStateEventContent::RoomHistoryVisibility(content) => match content {
-            FullStateEventContent::Original { content, .. } => {
+        AnyOtherStateEventContentChange::RoomHistoryVisibility(content) => match content {
+            StateEventContentChange::Original { content, .. } => {
                 match content.history_visibility {
                     HistoryVisibility::Invited => "invited".to_owned(),
                     HistoryVisibility::Joined => "joined".to_owned(),
@@ -401,8 +404,8 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
             }
             _ => String::new(),
         },
-        AnyOtherFullStateEventContent::RoomGuestAccess(content) => match content {
-            FullStateEventContent::Original { content, .. } => match content.guest_access {
+        AnyOtherStateEventContentChange::RoomGuestAccess(content) => match content {
+            StateEventContentChange::Original { content, .. } => match content.guest_access {
                 GuestAccess::CanJoin => "can_join".to_owned(),
                 GuestAccess::Forbidden => "forbidden".to_owned(),
                 _ => String::new(),
@@ -415,7 +418,7 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
     // Extract power level user changes for enriched messages.
     // Translated in C++ `StateEventText::translatePowerLevels()`.
     let power_level_changes = match state.content() {
-        AnyOtherFullStateEventContent::RoomPowerLevels(FullStateEventContent::Original {
+        AnyOtherStateEventContentChange::RoomPowerLevels(StateEventContentChange::Original {
             content,
             prev_content: Some(prev),
         }) => super::event_detail::diff_power_level_users(content, prev),
@@ -425,7 +428,7 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
     // Extract server ACL changes for enriched messages.
     // Translated in C++ `StateEventText::translateServerAcl()`.
     let server_acl_changes = match state.content() {
-        AnyOtherFullStateEventContent::RoomServerAcl(FullStateEventContent::Original {
+        AnyOtherStateEventContentChange::RoomServerAcl(StateEventContentChange::Original {
             content,
             prev_content: Some(prev),
         }) => {

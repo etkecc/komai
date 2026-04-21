@@ -4,11 +4,12 @@
 
 use matrix_sdk::{
     AuthSession,
-    authentication::oauth::AccountManagementActionFull,
     ruma::{
         OwnedDeviceId,
         api::client::{
-            discovery::get_authorization_server_metadata::v1::AccountManagementAction,
+            discovery::get_authorization_server_metadata::v1::{
+                AccountManagementAction, AccountManagementActionData, DeviceDeleteData,
+            },
             uiaa::{self, AuthData},
         },
     },
@@ -47,35 +48,57 @@ pub async fn start_sign_out_device(
     {
         AuthSession::OAuth(_) => {
             let oauth = client.oauth();
-            let Some(url_builder) = oauth
-                .account_management_url()
+            let metadata = oauth
+                .server_metadata()
                 .await
-                .map_err(|e| format!("failed to fetch OAuth account-management URL: {e}"))?
-            else {
+                .map_err(|e| format!("failed to fetch OAuth server metadata: {e}"))?;
+            if metadata.account_management_uri.is_none() {
                 return Err(
                     "This homeserver does not advertise an OAuth account-management URL for session management."
                         .to_owned(),
                 );
+            }
+
+            let supports_device_delete = metadata
+                .account_management_actions_supported
+                .contains(&AccountManagementAction::DeviceDelete)
+                || metadata
+                    .account_management_actions_supported
+                    .contains(&AccountManagementAction::UnstableSessionEnd);
+            let supports_devices_list = metadata
+                .account_management_actions_supported
+                .contains(&AccountManagementAction::DevicesList)
+                || metadata
+                    .account_management_actions_supported
+                    .contains(&AccountManagementAction::UnstableSessionsList);
+
+            let action = if supports_device_delete {
+                Some(AccountManagementActionData::DeviceDelete(DeviceDeleteData::new(
+                    &parsed_device_id,
+                )))
+            } else if supports_devices_list {
+                Some(AccountManagementActionData::DevicesList)
+            } else {
+                None
             };
 
-            let approval_url = match oauth.account_management_actions_supported().await.ok() {
-                Some(actions) if actions.contains(&AccountManagementAction::SessionEnd) => {
-                    url_builder
-                        .clone()
-                        .action(AccountManagementActionFull::SessionEnd {
-                            device_id: parsed_device_id,
-                        })
-                        .build()
-                        .to_string()
-                }
-                Some(actions) if actions.contains(&AccountManagementAction::SessionsList) => {
-                    url_builder
-                        .clone()
-                        .action(AccountManagementActionFull::SessionsList)
-                        .build()
-                        .to_string()
-                }
-                _ => url_builder.build().to_string(),
+            let approval_url = if let Some(action) = action {
+                metadata
+                    .account_management_url_with_action(action)
+                    .map(|url| url.to_string())
+                    .unwrap_or_else(|| {
+                        metadata
+                            .account_management_uri
+                            .as_ref()
+                            .map(|url| url.to_string())
+                            .unwrap_or_default()
+                    })
+            } else {
+                metadata
+                    .account_management_uri
+                    .as_ref()
+                    .map(|url| url.to_string())
+                    .unwrap_or_default()
             };
 
             Ok(MatrixDeviceSignOutResult {

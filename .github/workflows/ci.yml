@@ -8,41 +8,28 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   build-and-lint:
     runs-on: [self-hosted, k150]
     container:
-      image: docker.io/archlinux:base-devel
+      # Pre-baked image with every pacman dep installed and a non-root
+      # `ci` user whose UID matches the host runner. See etc/ci/Dockerfile
+      # and .github/workflows/ci-image.yml for how it's built.
+      image: ghcr.io/etkecc/komai/ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      # git must be installed before checkout so it does a proper clone
-      # (with .git directory) instead of a tarball download.
-      - name: Install git
-        run: pacman -Sy --noconfirm git
-
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install dependencies
-        run: |
-          # Keep Arch package resolution non-interactive in CI by pinning
-          # concrete providers for virtual deps that otherwise trigger prompts:
-          # - qt6-multimedia-backend -> qt6-multimedia-ffmpeg
-          # - org.freedesktop.secrets -> kwallet
-          # - jack -> pipewire-jack (pulled transitively via ffmpeg)
-          # Also install python-yaml because the emoji pipeline requires PyYAML.
-          # Use rustup instead of Arch's rolling rust package so Corrosion and
-          # rust-toolchain.toml can honor the repo's pinned toolchain.
-          pacman -S --noconfirm --needed \
-            cmake just python python-yaml mise reuse rustup \
-            qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
-            cmark openssl \
-            qtkeychain-qt6 kdsingleapplication litehtml \
-            curl libsecret kwallet pipewire-jack
-          # Warm the repo-pinned toolchain before CMake/Corrosion enumerates
-          # installed rustup toolchains during configure.
-          cargo --version
+      - name: Warm Rust toolchain
+        # Installs the repo-pinned toolchain before CMake/Corrosion
+        # enumerates it during configure.
+        run: cargo --version
 
       - name: Configure
         run: |

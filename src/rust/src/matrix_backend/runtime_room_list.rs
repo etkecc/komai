@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use super::*;
 use super::event_summary::summarize_sync_timeline_event;
@@ -128,6 +128,10 @@ async fn run_sync_loop(
     let mut current_values = Vector::<RoomListItem>::new();
     let mut initial_sync_ready_notified = false;
     let mut sync_connected = true;
+    // Rooms we have already registered with the SDK's `LatestEvents`
+    // subsystem. See `listen_to_latest_events_for_new_rooms` below for
+    // why we need to do this ourselves.
+    let mut rooms_listening_latest_events: HashSet<OwnedRoomId> = HashSet::new();
     crate::ffi::matrix_notify_ignored_user_list_updated(
         handle_id,
         load_ignored_user_ids(&client).await,
@@ -142,6 +146,13 @@ async fn run_sync_loop(
                         for diff in diffs.iter().cloned() {
                             diff.apply(&mut current_values);
                         }
+
+                        listen_to_latest_events_for_new_rooms(
+                            &client,
+                            &current_values,
+                            &mut rooms_listening_latest_events,
+                        )
+                        .await;
 
                         let snapshot = build_room_list_snapshot(&current_values).await;
                         let room_count = snapshot.len();
@@ -285,6 +296,60 @@ async fn run_sync_loop(
     sync_service.stop().await;
 
     tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
+}
+
+/// Register every non-invite, non-space room we know about with the SDK's
+/// `LatestEvents` subsystem so it computes and persists `RoomInfo::latest_event`
+/// for each.
+///
+/// The SDK only auto-registers rooms that enter a sliding-sync response window;
+/// rooms living outside the window never get a latest event computed, so
+/// `matrix_sdk_base::Room::latest_event()` keeps returning
+/// `LatestEventValue::None`, which in turn blanks the room-list preview on
+/// every snapshot rebuild. Registering every room we've ever seen — even ones
+/// not currently visible — keeps the preview stable.
+///
+/// We do this unconditionally (rather than conditionally on a user setting),
+/// so that toggling a preview visibility setting at runtime does not require
+/// re-populating caches.
+async fn listen_to_latest_events_for_new_rooms(
+    client: &Client,
+    rooms: &Vector<RoomListItem>,
+    already_listening: &mut HashSet<OwnedRoomId>,
+) {
+    let mut to_register: Vec<OwnedRoomId> = Vec::new();
+    for room in rooms.iter() {
+        if room.is_space() {
+            continue;
+        }
+        if matches!(room.state(), RoomState::Invited) {
+            continue;
+        }
+        let room_id = room.room_id().to_owned();
+        if already_listening.contains(&room_id) {
+            continue;
+        }
+        to_register.push(room_id);
+    }
+
+    if to_register.is_empty() {
+        return;
+    }
+
+    let latest_events = client.latest_events().await;
+    for room_id in to_register {
+        match latest_events.listen_to_room(&room_id).await {
+            Ok(_) => {}
+            Err(error) => {
+                tracing::debug!(
+                    %room_id,
+                    %error,
+                    "Failed to register room with matrix-sdk latest-events subsystem"
+                );
+            }
+        }
+        already_listening.insert(room_id);
+    }
 }
 
 fn is_auth_failure(error_message: &str) -> bool {

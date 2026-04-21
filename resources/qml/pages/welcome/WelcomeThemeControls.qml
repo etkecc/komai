@@ -21,10 +21,14 @@ ColumnLayout {
             color: palette.text
         }
 
-        KomaiComboBox {
-            id: variantCombo
-            model: [qsTr("Light"), qsTr("Dark")]
+        SegmentedButton {
+            id: variantSegment
+            Layout.alignment: Qt.AlignVCenter
             currentIndex: Settings.themeVariantIndex()
+            model: [
+                { text: qsTr("Light") },
+                { text: qsTr("Dark") }
+            ]
             onActivated: function(index) {
                 Settings.setThemeVariantByIndex(index)
             }
@@ -127,7 +131,7 @@ ColumnLayout {
         target: Settings
 
         function onUiThemeSlugChanged() {
-            variantCombo.currentIndex = Settings.themeVariantIndex()
+            variantSegment.currentIndex = Settings.themeVariantIndex()
             themeCombo.model = Settings.themeNamesForCurrentVariant()
             themeCombo.currentIndex = Settings.themeIndexInCurrentVariant()
         }

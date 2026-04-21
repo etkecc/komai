@@ -98,6 +98,18 @@ Rectangle {
         return true;
     }
 
+    function toggleEmojiPicker() {
+        if (emojiPopup.visible) {
+            emojiPopup.close();
+            return;
+        }
+
+        emojiPopup.show(emojiButton, room ? room.roomId : "", function (plaintext, markdown) {
+            messageInput.insert(messageInput.cursorPosition, markdown);
+            TimelineManager.focusMessageInput();
+        }, inputBar);
+    }
+
     function eventMatchesLatinKey(event, latinKey) {
         if (!event)
             return false;
@@ -208,6 +220,12 @@ Rectangle {
                 TimelineManager.stageVoiceRecording(VoiceRecorder.filePath);
             }
         }
+    }
+
+    Shortcut {
+        sequence: "Ctrl+."
+        enabled: inputBar.composerEnabled && !inputBar.hasVoiceRecording && emojiButton.visible
+        onActivated: inputBar.toggleEmojiPicker()
     }
 
     Shortcut {
@@ -975,10 +993,7 @@ Rectangle {
             image: ":/icons/icons/ui/smile.svg"
             visible: inputBar.composerEnabled && !inputBar.hasVoiceRecording
 
-            onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(emojiButton, room.roomId, function (plaintext, markdown) {
-                    messageInput.insert(messageInput.cursorPosition, markdown);
-                    TimelineManager.focusMessageInput();
-                }, inputBar)
+            onClicked: inputBar.toggleEmojiPicker()
 
             StickerPicker {
                 id: emojiPopup

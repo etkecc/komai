@@ -161,6 +161,7 @@ These shortcuts apply in the message composer.
 | `Ctrl+P` | Load the previous composer draft/history entry |
 | `Ctrl+N` | Load the next composer draft/history entry |
 | `Ctrl+R` | Toggle voice recording (start, pause, or resume) |
+| `Ctrl+.` | Open or close the emoji picker |
 | `Tab` | Open the inline completer, or move within completer results. During voice recording, cycle through composer controls |
 | `Shift+Tab` | Move the other direction within completer results. During voice recording, cycle through composer controls in reverse |
 | `Up` | Move up inside the completer, or enter Selection mode when the caret is already at the start of the top composer line |

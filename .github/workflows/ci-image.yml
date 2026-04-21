@@ -67,3 +67,18 @@ jobs:
             --tag "ghcr.io/${GITHUB_REPOSITORY,,}/ci:latest" \
             etc/ci
           docker push "ghcr.io/${GITHUB_REPOSITORY,,}/ci:latest"
+
+      - name: Restore workspace ownership to host runner user
+        # This job runs as root in the container, so actions/checkout
+        # creates root-owned files in the bind-mounted workspace. When
+        # subsequent non-root workflows (ci.yml under the `ci` user,
+        # packaging-check.yml, publish.yml) try to use the same
+        # workspace, they can't clean up the residue. Chowning to the
+        # workspace dir's own UID/GID (which matches the host runner
+        # user, since `_work/<repo>/<repo>` was created by the runner)
+        # keeps the workspace cleanable by any subsequent job.
+        if: always()
+        run: |
+          HOST_UID=$(stat -c '%u' "$GITHUB_WORKSPACE")
+          HOST_GID=$(stat -c '%g' "$GITHUB_WORKSPACE")
+          chown -R "${HOST_UID}:${HOST_GID}" "$GITHUB_WORKSPACE" || true

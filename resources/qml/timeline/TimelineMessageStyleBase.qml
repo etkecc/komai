@@ -57,6 +57,13 @@ TimelineEvent {
     required property var reactions
     required property int status
     required property int trustlevel
+    // Per-message shield from matrix-sdk-ui's `get_shield(false)`; see
+    // `crypto::MessageShield`. ShieldNone (= 0, the default) is the
+    // "no warning" state.
+    property int messageShield: Crypto.ShieldNone
+    // Rust-side item_kind (e.g. "message", "unable_to_decrypt"). Used by
+    // the metadata row to suppress the shield for UTDs.
+    property string typeString: ""
     required property int notificationlevel
     required property int type
     required property bool isEditable

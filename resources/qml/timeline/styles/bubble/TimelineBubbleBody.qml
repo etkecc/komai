@@ -575,6 +575,8 @@ Item {
             isRecoverable: root.wrapper.isRecoverable
             status: root.wrapper.status
             trustlevel: root.wrapper.trustlevel
+            messageShield: root.wrapper.messageShield
+            typeString: root.wrapper.typeString
             isEdited: root.wrapper.isEdited
             isEncrypted: root.wrapper.isEncrypted
             isStateEvent: root.wrapper.isStateEvent

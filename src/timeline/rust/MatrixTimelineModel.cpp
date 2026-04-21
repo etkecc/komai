@@ -291,6 +291,33 @@ trustlevelFromShield(const QString &shieldColor, const QString &shieldCode)
     return static_cast<int>(crypto::Trust::Unverified);
 }
 
+// Map the snake_case `shield_code` string (from the Rust FFI, originally
+// matrix-sdk-common's `ShieldStateCode`) onto the richer `crypto::MessageShield`
+// enum. Empty/unknown → ShieldNone; unrecognised codes fall through to
+// ShieldAuthenticityNotGuaranteed so the UI shows a generic grey shield
+// instead of silently claiming the message is clean.
+int
+messageShieldFromCode(const QString &shieldColor, const QString &shieldCode)
+{
+    if (shieldColor.isEmpty())
+        return static_cast<int>(crypto::MessageShield::ShieldNone);
+    if (shieldCode == QLatin1String("authenticity_not_guaranteed"))
+        return static_cast<int>(crypto::MessageShield::ShieldAuthenticityNotGuaranteed);
+    if (shieldCode == QLatin1String("unknown_device"))
+        return static_cast<int>(crypto::MessageShield::ShieldUnknownDevice);
+    if (shieldCode == QLatin1String("unsigned_device"))
+        return static_cast<int>(crypto::MessageShield::ShieldUnsignedDevice);
+    if (shieldCode == QLatin1String("sent_in_clear"))
+        return static_cast<int>(crypto::MessageShield::ShieldSentInClear);
+    if (shieldCode == QLatin1String("unverified_identity"))
+        return static_cast<int>(crypto::MessageShield::ShieldUnverifiedIdentity);
+    if (shieldCode == QLatin1String("verification_violation"))
+        return static_cast<int>(crypto::MessageShield::ShieldVerificationViolation);
+    if (shieldCode == QLatin1String("mismatched_sender"))
+        return static_cast<int>(crypto::MessageShield::ShieldMismatchedSender);
+    return static_cast<int>(crypto::MessageShield::ShieldAuthenticityNotGuaranteed);
+}
+
 void
 computeDerivedFields(MatrixTimelineItem &item,
                      const QString &roomId,
@@ -456,6 +483,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
             list.append(v);
         return list;
     }
+    case MessageShield:      return messageShieldFromCode(item.shieldColor, item.shieldCode);
 
     default:                 return {};
     }
@@ -536,6 +564,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case FileTypeIconSource: return replyFileTypeIcon;
     case IsVoiceMessage:     return false;
     case Waveform:           return QVariantList{};
+    case MessageShield:      return static_cast<int>(crypto::MessageShield::ShieldNone);
     default:                 return {};
     }
     // clang-format on
@@ -607,6 +636,7 @@ MatrixTimelineModel::roleNames() const
       {ThreadReplyCount, "threadReplyCount"},
       {IsVoiceMessage, "isVoiceMessage"},
       {Waveform, "waveform"},
+      {MessageShield, "messageShield"},
     };
 }
 
@@ -760,6 +790,8 @@ MatrixTimelineModel::previewDataForEvent(const QString &eventId, const QString &
         previewData.insert(QStringLiteral("isEditable"), item.cachedIsEditable);
         previewData.insert(QStringLiteral("isEncrypted"), item.cachedIsEncrypted);
         previewData.insert(QStringLiteral("isStateEvent"), item.cachedIsStateEvent);
+        previewData.insert(QStringLiteral("messageShield"),
+                           messageShieldFromCode(item.shieldColor, item.shieldCode));
         previewData.insert(QStringLiteral("replyTo"),
                            item.cachedIsStateEvent ? QString() : item.replyEventId);
         previewData.insert(QStringLiteral("threadId"), item.threadId);
@@ -819,6 +851,7 @@ MatrixTimelineModel::previewDataForEvent(const QString &eventId, const QString &
     insertReplyRole(QStringLiteral("threadId"), replyData(parentItem, ThreadId));
     insertReplyRole(QStringLiteral("isVoiceMessage"), replyData(parentItem, IsVoiceMessage));
     insertReplyRole(QStringLiteral("waveform"), replyData(parentItem, Waveform));
+    insertReplyRole(QStringLiteral("messageShield"), replyData(parentItem, MessageShield));
     return previewData;
 }
 

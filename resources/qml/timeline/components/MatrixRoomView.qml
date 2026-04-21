@@ -584,6 +584,7 @@ ColumnLayout {
                         required property bool isStateEvent
                         required property int status
                         required property bool isEncrypted
+                        required property int messageShield
                         required property bool isEditable
                         required property bool isHiddenEvent
                         required property string replyTo
@@ -668,6 +669,8 @@ ColumnLayout {
                                 reactions: timelineItemDelegate.reactions
                                 status: timelineItemDelegate.status
                                 trustlevel: 0
+                                messageShield: timelineItemDelegate.messageShield
+                                typeString: timelineItemDelegate.typeString
                                 notificationlevel: MtxEvent.Empty
                                 type: timelineItemDelegate.type
                                 isEditable: timelineItemDelegate.isEditable
@@ -714,6 +717,8 @@ ColumnLayout {
                                 reactions: timelineItemDelegate.reactions
                                 status: timelineItemDelegate.status
                                 trustlevel: 0
+                                messageShield: timelineItemDelegate.messageShield
+                                typeString: timelineItemDelegate.typeString
                                 notificationlevel: MtxEvent.Empty
                                 type: timelineItemDelegate.type
                                 isEditable: timelineItemDelegate.isEditable

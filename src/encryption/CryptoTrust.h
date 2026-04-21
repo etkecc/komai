@@ -25,4 +25,26 @@ enum Trust
     Verified,
 };
 Q_ENUM_NS(Trust)
+
+/// Per-message shield state, mirroring matrix-sdk-common's `ShieldStateCode`
+/// plus an explicit "no shield" entry for verified/clean messages. The old
+/// `Trust` enum is a nheko-era 4-bucket summary used for per-user and
+/// per-room aggregates; this richer enum is what the timeline indicator
+/// consumes so each SDK code can surface its own tooltip and severity.
+/// Values are grouped by severity tier so QML can `case`-fall-through.
+enum MessageShield
+{
+    // No shield — the message is encrypted by a device we trust.
+    ShieldNone,
+    // Grey tier — authenticity caveats, no active impersonation signal.
+    ShieldAuthenticityNotGuaranteed,
+    ShieldUnknownDevice,
+    ShieldUnsignedDevice,
+    // Red tier — actively suspicious; demand user attention.
+    ShieldSentInClear,
+    ShieldUnverifiedIdentity,
+    ShieldVerificationViolation,
+    ShieldMismatchedSender,
+};
+Q_ENUM_NS(MessageShield)
 }

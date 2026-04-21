@@ -82,6 +82,14 @@ RowLayout {
     property bool isRecoverable: false
     required property int status
     required property int trustlevel
+    // Richer per-message shield code (Crypto.MessageShield). Default is
+    // ShieldNone = 0 so callers that don't plumb a value yet get the
+    // "verified/no warning" rendering, consistent with the pre-shield behaviour.
+    property int messageShield: Crypto.ShieldNone
+    // Item kind from the Rust backend ("message", "unable_to_decrypt", …).
+    // Used to suppress the shield for UTDs — matrix-sdk returns no shield
+    // for them, and the Encrypted delegate already explains the status.
+    property string typeString: ""
     required property bool isEdited
     required property bool isEncrypted
     required property bool isStateEvent
@@ -195,10 +203,19 @@ RowLayout {
         sourceSize.height: parent.buttonSize
         sourceSize.width: parent.buttonSize
         trust: metadata.trustlevel
+        // Drive the indicator off the richer per-message shield code; the
+        // legacy `trust` bucket is kept as a fallback for UI surfaces that
+        // haven't been migrated (room header, member list).
+        shield: metadata.messageShield
+        useShield: true
         // Matrix state events (m.room.create, m.room.encryption, membership,
         // topic, …) are sent in the clear by spec — flagging them as
-        // unencrypted next to every state event is just noise.
-        visible: metadata.roomIsEncrypted && !metadata.isStateEvent
+        // unencrypted next to every state event is just noise. UTDs are
+        // handled by the Encrypted delegate itself, and matrix-sdk's
+        // `get_shield()` returns None for them anyway, so skip the shield.
+        visible: metadata.roomIsEncrypted
+            && !metadata.isStateEvent
+            && metadata.typeString !== "unable_to_decrypt"
     }
     ImageButton {
         id: unpinButton

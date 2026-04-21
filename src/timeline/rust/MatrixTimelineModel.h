@@ -91,6 +91,7 @@ public:
         ThreadReplyCount,
         IsVoiceMessage,
         Waveform,
+        MessageShield,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);

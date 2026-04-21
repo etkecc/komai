@@ -33,6 +33,7 @@ RUN pacman -Syu --noconfirm --needed \
         cmark openssl \
         qtkeychain-qt6 kdsingleapplication litehtml \
         curl libsecret kwallet pipewire-jack \
+        gst-plugins-bad-libs \
     && pacman -Scc --noconfirm
 
 # Build args passed by ci-image.yml — values derived at build time from

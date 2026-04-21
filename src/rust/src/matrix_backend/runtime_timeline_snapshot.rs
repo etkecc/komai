@@ -8,7 +8,34 @@
 use super::*;
 use super::event_summary::summarize_timeline_content;
 
+use matrix_sdk::deserialized_responses::{ShieldState, ShieldStateCode};
+
 use std::collections::{HashMap, HashSet};
+
+/// Map matrix-sdk-ui's `get_shield(false)` to the `(color, code)` snake_case
+/// tags we ship to the UI. `""` for color means "no shield — render as
+/// verified/clean"; an empty code means no shield was present at all.
+fn shield_tags(shield: Option<ShieldState>) -> (String, String) {
+    match shield {
+        None | Some(ShieldState::None) => (String::new(), String::new()),
+        Some(ShieldState::Red { code, .. }) => ("red".to_owned(), shield_code_tag(code).to_owned()),
+        Some(ShieldState::Grey { code, .. }) => {
+            ("grey".to_owned(), shield_code_tag(code).to_owned())
+        }
+    }
+}
+
+fn shield_code_tag(code: ShieldStateCode) -> &'static str {
+    match code {
+        ShieldStateCode::AuthenticityNotGuaranteed => "authenticity_not_guaranteed",
+        ShieldStateCode::UnknownDevice => "unknown_device",
+        ShieldStateCode::UnsignedDevice => "unsigned_device",
+        ShieldStateCode::UnverifiedIdentity => "unverified_identity",
+        ShieldStateCode::SentInClear => "sent_in_clear",
+        ShieldStateCode::VerificationViolation => "verification_violation",
+        ShieldStateCode::MismatchedSender => "mismatched_sender",
+    }
+}
 
 /// Compute which own event IDs should show "read" status based on other
 /// members' read receipt positions in the timeline.  `receipt_target_event_ids`
@@ -172,6 +199,13 @@ fn timeline_item_to_summary(
 
         let (delivery_state, send_error, is_recoverable) =
             matrix_timeline_delivery_state(event, own_user_id, read_own_event_ids);
+        // `encryption_info()` is `Some` only for events decrypted from a Megolm
+        // session. UTDs are encrypted on the wire but haven't been decrypted,
+        // so treat them as encrypted too — otherwise the UI would render the
+        // "sent in clear" warning on top of the UTD placeholder.
+        let is_encrypted_event =
+            event.encryption_info().is_some() || item_kind == "unable_to_decrypt";
+        let (shield_color, shield_code) = shield_tags(event.get_shield(false));
         return Some((
             MatrixTimelineItem {
                 item_id,
@@ -289,6 +323,9 @@ fn timeline_item_to_summary(
                 state_event_reason,
                 state_event_has_sender,
                 utd_cause,
+                is_encrypted_event,
+                shield_color,
+                shield_code,
                 power_level_changes,
                 server_acl_changes,
             },
@@ -358,6 +395,9 @@ fn timeline_item_to_summary(
                 state_event_reason: String::new(),
                 state_event_has_sender: false,
                 utd_cause: String::new(),
+                is_encrypted_event: false,
+                shield_color: String::new(),
+                shield_code: String::new(),
                 power_level_changes: Vec::new(),
                 server_acl_changes: None,
             },

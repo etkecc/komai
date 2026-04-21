@@ -4,6 +4,7 @@
 
 #include "timeline/rust/MatrixTimelineModel.h"
 
+#include "encryption/CryptoTrust.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/StateEventText.h"
 #include "timeline/TimelineEventTypes.h"
@@ -272,6 +273,24 @@ effectiveReplyPreviewDisplayName(const MatrixTimelineItem &item)
     return QStringLiteral("Unknown sender");
 }
 
+// Translate matrix-sdk-ui's shield tags into Komai's 4-bucket `crypto::Trust`.
+// Keep the mapping coarse: the QML indicator only distinguishes verified /
+// TOFU / unverified / message-unverified, so grey shields collapse into
+// MessageUnverified (or TOFU when the grey code is `authenticity_not_guaranteed`)
+// and every red shield becomes Unverified.
+int
+trustlevelFromShield(const QString &shieldColor, const QString &shieldCode)
+{
+    if (shieldColor.isEmpty())
+        return static_cast<int>(crypto::Trust::Verified);
+    if (shieldColor == QLatin1String("grey")) {
+        if (shieldCode == QLatin1String("authenticity_not_guaranteed"))
+            return static_cast<int>(crypto::Trust::TOFU);
+        return static_cast<int>(crypto::Trust::MessageUnverified);
+    }
+    return static_cast<int>(crypto::Trust::Unverified);
+}
+
 void
 computeDerivedFields(MatrixTimelineItem &item,
                      const QString &roomId,
@@ -288,14 +307,13 @@ computeDerivedFields(MatrixTimelineItem &item,
     item.cachedDay            = dayKeyFromTimestamp(item.timestamp);
     item.cachedStatus         = deliveryStateToEventState(item.deliveryState);
     item.cachedIsStateEvent   = isState;
-    item.cachedIsEncrypted    = item.mediaIsEncrypted || item.thumbnailIsEncrypted ||
-                             item.itemKind == QStringLiteral("unable_to_decrypt");
-    item.cachedIsEditable    = item.isOwn && (item.itemKind == QStringLiteral("message") ||
+    item.cachedIsEncrypted    = item.isEncryptedEvent;
+    item.cachedIsEditable     = item.isOwn && (item.itemKind == QStringLiteral("message") ||
                                            item.itemKind == QStringLiteral("notice") ||
                                            item.itemKind == QStringLiteral("emote"));
-    item.cachedProportionalH = (item.mediaWidth > 0 && item.mediaHeight > 0)
-                                 ? static_cast<double>(item.mediaHeight) / item.mediaWidth
-                                 : 0.0;
+    item.cachedProportionalH  = (item.mediaWidth > 0 && item.mediaHeight > 0)
+                                  ? static_cast<double>(item.mediaHeight) / item.mediaWidth
+                                  : 0.0;
     item.cachedFormattedBody =
       isState ? QString() : formatBodyHtml(item.body, item.formattedBody, pillAvatars);
 
@@ -392,7 +410,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case IsEditable:         return item.cachedIsEditable;
     case IsEncrypted:        return item.cachedIsEncrypted;
     case IsStateEvent:       return item.cachedIsStateEvent;
-    case Trustlevel:         return 0;
+    case Trustlevel:         return trustlevelFromShield(item.shieldColor, item.shieldCode);
     case Notificationlevel:  return static_cast<int>(qml_mtx_events::Nothing);
     case UtdCause:           return item.utdCause;
     case ReplyTo:            return item.cachedIsStateEvent ? QString() : item.replyEventId;

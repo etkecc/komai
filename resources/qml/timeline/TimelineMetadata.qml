@@ -195,7 +195,10 @@ RowLayout {
         sourceSize.height: parent.buttonSize
         sourceSize.width: parent.buttonSize
         trust: metadata.trustlevel
-        visible: metadata.roomIsEncrypted
+        // Matrix state events (m.room.create, m.room.encryption, membership,
+        // topic, …) are sent in the clear by spec — flagging them as
+        // unencrypted next to every state event is just noise.
+        visible: metadata.roomIsEncrypted && !metadata.isStateEvent
     }
     ImageButton {
         id: unpinButton

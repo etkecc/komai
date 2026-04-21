@@ -668,6 +668,13 @@ async fn raw_event_to_timeline_item(
         String::new()
     };
 
+    // Raw-path items (thread roots loaded via /relations) lack the
+    // EventTimelineItem wrapper, so we can only see the wire-level
+    // encryption flag, not the shield state. Compute this before the
+    // summary fields get moved into the struct literal below.
+    let is_encrypted_event =
+        event.encryption_info().is_some() || summary.kind == "unable_to_decrypt";
+
     Some(MatrixTimelineItem {
         item_id: event_id.clone(),
         event_id,
@@ -727,6 +734,12 @@ async fn raw_event_to_timeline_item(
         state_event_reason: String::new(),
         state_event_has_sender: false,
         utd_cause: summary.utd_cause,
+        is_encrypted_event,
+        // Shield tags left empty on the raw path; the UI treats that as
+        // "no shield" (verified/clean), which is a safe default for a
+        // thread-root preview fetched out-of-band.
+        shield_color: String::new(),
+        shield_code: String::new(),
         power_level_changes: Vec::new(),
         server_acl_changes: None,
     })

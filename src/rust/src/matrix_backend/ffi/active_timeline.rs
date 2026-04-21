@@ -85,6 +85,9 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
         state_event_reason: item.state_event_reason,
         state_event_has_sender: item.state_event_has_sender,
         utd_cause: item.utd_cause,
+        is_encrypted_event: item.is_encrypted_event,
+        shield_color: item.shield_color,
+        shield_code: item.shield_code,
         power_level_changes: item
             .power_level_changes
             .into_iter()

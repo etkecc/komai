@@ -369,6 +369,16 @@ struct MatrixTimelineItem
     // items, empty otherwise. See `runtime_event_summary::utd_cause_tag` in
     // the Rust backend for the full set of values.
     QString utdCause;
+    // True when the on-wire event was encrypted (decrypted successfully or
+    // UTD). False for cleartext events — including Matrix state events,
+    // which are always sent in the clear per spec — and local echoes.
+    bool isEncryptedEvent = false;
+    // matrix-sdk-ui's `get_shield(false)` decomposed into snake_case tags.
+    // `shieldColor` is "" / "red" / "grey"; empty means no shield. `shieldCode`
+    // is the `ShieldStateCode` name, e.g. "sent_in_clear",
+    // "unverified_identity", "unsigned_device".
+    QString shieldColor;
+    QString shieldCode;
     QList<PowerLevelChange> powerLevelChanges;
     ServerAclChange serverAclChange;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).

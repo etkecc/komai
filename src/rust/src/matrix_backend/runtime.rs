@@ -525,6 +525,18 @@ pub struct MatrixTimelineItem {
     /// `"sent_before_we_joined"`, `"withheld_by_sender"`. See
     /// `runtime_event_summary::utd_cause_tag`.
     pub utd_cause: String,
+    /// True when the on-wire event was encrypted (either successfully
+    /// decrypted, or a UTD). False for cleartext events (including state
+    /// events, which are always sent in the clear per Matrix spec) and
+    /// local echoes.
+    pub is_encrypted_event: bool,
+    /// Shield severity recommended by matrix-sdk-ui's `get_shield(false)`.
+    /// `""` = no shield, `"red"` = red, `"grey"` = grey.
+    pub shield_color: String,
+    /// Snake_case `ShieldStateCode` when a shield is present, empty
+    /// otherwise. E.g. `"sent_in_clear"`, `"unverified_identity"`,
+    /// `"unsigned_device"`, `"authenticity_not_guaranteed"`.
+    pub shield_code: String,
     pub power_level_changes: Vec<event_detail::PowerLevelChange>,
     pub server_acl_changes: Option<event_detail::ServerAclChange>,
 }

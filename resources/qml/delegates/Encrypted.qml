@@ -12,7 +12,6 @@ import cc.etke.komai 1.0
 Control {
     id: r
 
-    required property int encryptionError
     required property string eventId
     required property QtObject styleProfile
     readonly property bool canRequestKey: false

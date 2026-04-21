@@ -480,7 +480,7 @@ Rectangle {
 
                 KeyNavigation.backtab: voiceButton.visible ? voiceButton : (attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()))
                 background: null
-                bottomPadding: 6
+                bottomPadding: Komai.composerTextAreaPadding
                 color: palette.text
                 enabled: inputBar.composerEnabled
                 focus: true
@@ -490,7 +490,7 @@ Rectangle {
                 placeholderText: inputBar.hasUploads ? "" : qsTr("Write a message, or press Up to select messages.")
                 placeholderTextColor: palette.buttonText
                 selectByMouse: true
-                topPadding: 6
+                topPadding: Komai.composerTextAreaPadding
                 verticalAlignment: TextEdit.AlignVCenter
                 implicitHeight: textInput.targetTextAreaHeight
                 width: textInput.width

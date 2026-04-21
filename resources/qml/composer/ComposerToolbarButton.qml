@@ -12,7 +12,10 @@ import cc.etke.komai
 AbstractButton {
     id: root
 
-    property int buttonSize: Komai.iconSize
+    // Floor at the composer textarea's single-line height so Dense mode doesn't
+    // shrink icons below the vertical space the textarea already forces.
+    property int buttonSize: Math.max(Komai.iconSize,
+                                       Math.ceil(buttonFontMetrics.lineSpacing) + 2 * Komai.composerTextAreaPadding)
     property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     property string image: ""
@@ -63,6 +66,12 @@ AbstractButton {
 
         font: root.font
         text: root.toolTipText
+    }
+
+    FontMetrics {
+        id: buttonFontMetrics
+
+        font: root.font
     }
 
     KomaiToolTip {

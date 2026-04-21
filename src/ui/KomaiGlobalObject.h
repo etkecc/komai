@@ -34,6 +34,9 @@ class Komai : public QObject
     Q_PROPERTY(int paddingSmall READ paddingSmall CONSTANT)
     Q_PROPERTY(int paddingMedium READ paddingMedium CONSTANT)
     Q_PROPERTY(int paddingLarge READ paddingLarge CONSTANT)
+    // Vertical padding inside the composer's multi-line text area. Shared so
+    // that composer action buttons can match the textarea's single-line height.
+    Q_PROPERTY(int composerTextAreaPadding READ composerTextAreaPadding CONSTANT)
     Q_PROPERTY(int tooltipDelay READ tooltipDelay CONSTANT)
     // Size of the Komai logo shown in the main timeline empty state
     // and the initial sync spinner.
@@ -79,6 +82,7 @@ public:
     int paddingSmall() const { return 4; }
     int paddingMedium() const { return 8; }
     int paddingLarge() const { return 20; }
+    int composerTextAreaPadding() const { return 6; }
 
     int tooltipDelay() const;
     int timelineLogoSize() const { return 128; }

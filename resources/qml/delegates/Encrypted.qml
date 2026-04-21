@@ -13,8 +13,32 @@ Control {
     id: r
 
     required property string eventId
+    required property string utdCause
     required property QtObject styleProfile
     readonly property bool canRequestKey: false
+
+    readonly property string explanation: {
+        switch (r.utdCause) {
+        case "sent_before_we_joined":
+            return qsTr("You weren't in the room when this message was sent.");
+        case "verification_violation":
+            return qsTr("This message couldn't be decrypted because the sender's identity is no longer verified.");
+        case "unsigned_device":
+            return qsTr("This message was sent from a device that isn't signed by its owner.");
+        case "unknown_device":
+            return qsTr("This message was sent from a device we couldn't securely identify.");
+        case "historical_message_and_backup_disabled":
+            return qsTr("History isn't available on this device. Turn on key backup to access older messages.");
+        case "historical_message_and_device_unverified":
+            return qsTr("Verify this device to access messages sent before it was added to your account.");
+        case "withheld_for_unverified_or_insecure_device":
+            return qsTr("The sender's security settings prevented sharing encryption keys with this device.");
+        case "withheld_by_sender":
+            return qsTr("The sender didn't share the encryption keys with this device.");
+        default:
+            return qsTr("This message couldn't be decrypted.");
+        }
+    }
 
     padding: Komai.paddingMedium
     implicitHeight: contents.implicitHeight + Komai.paddingMedium * 2
@@ -41,9 +65,7 @@ Control {
 
             Label {
                 id: encryptedText
-                text: r.canRequestKey
-                    ? qsTr("This message couldn't be decrypted. The app requested the key automatically, but you can try requesting it again.")
-                    : qsTr("This message couldn't be decrypted.")
+                text: r.explanation
                 textFormat: Text.PlainText
                 wrapMode: Label.WordWrap
                 color: palette.text

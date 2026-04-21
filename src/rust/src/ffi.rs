@@ -1031,6 +1031,7 @@ mod bridge {
         state_event_detail: String,
         state_event_reason: String,
         state_event_has_sender: bool,
+        utd_cause: String,
         power_level_changes: Vec<MatrixPowerLevelChange>,
         server_acl_allowed_added: Vec<String>,
         server_acl_allowed_removed: Vec<String>,

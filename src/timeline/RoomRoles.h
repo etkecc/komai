@@ -46,7 +46,7 @@ enum Roles
     IsStateEvent,
     Trustlevel,
     Notificationlevel,
-    EncryptionError,
+    UtdCause,
     ReplyTo,
     ThreadId,
     Reactions,

@@ -365,6 +365,10 @@ struct MatrixTimelineItem
     QString stateEventDetail;
     QString stateEventReason;
     bool stateEventHasSender = false;
+    // Snake_case tag from matrix-sdk's `UtdCause` for `unable_to_decrypt`
+    // items, empty otherwise. See `runtime_event_summary::utd_cause_tag` in
+    // the Rust backend for the full set of values.
+    QString utdCause;
     QList<PowerLevelChange> powerLevelChanges;
     ServerAclChange serverAclChange;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).

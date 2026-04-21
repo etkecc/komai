@@ -520,6 +520,11 @@ pub struct MatrixTimelineItem {
     pub state_event_detail: String,
     pub state_event_reason: String,
     pub state_event_has_sender: bool,
+    /// Cause tag for `unable_to_decrypt` items, empty otherwise. Values are
+    /// snake_case names from matrix-sdk's `UtdCause`, e.g.
+    /// `"sent_before_we_joined"`, `"withheld_by_sender"`. See
+    /// `runtime_event_summary::utd_cause_tag`.
+    pub utd_cause: String,
     pub power_level_changes: Vec<event_detail::PowerLevelChange>,
     pub server_acl_changes: Option<event_detail::ServerAclChange>,
 }

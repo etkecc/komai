@@ -61,7 +61,7 @@ public:
         IsStateEvent,                // 30
         Trustlevel,                  // 31
         Notificationlevel,           // 32
-        EncryptionError,             // 33
+        UtdCause,                    // 33 (was EncryptionError in nheko)
         ReplyTo,                     // 34
         ThreadId,                    // 35
         Reactions,                   // 36

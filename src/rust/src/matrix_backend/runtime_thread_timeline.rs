@@ -726,6 +726,7 @@ async fn raw_event_to_timeline_item(
         state_event_detail: String::new(),
         state_event_reason: String::new(),
         state_event_has_sender: false,
+        utd_cause: summary.utd_cause,
         power_level_changes: Vec::new(),
         server_acl_changes: None,
     })

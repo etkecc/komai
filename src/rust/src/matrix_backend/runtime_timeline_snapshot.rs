@@ -156,6 +156,7 @@ fn timeline_item_to_summary(
         let state_event_has_sender = summary.state_event_has_sender;
         let power_level_changes = summary.power_level_changes;
         let server_acl_changes = summary.server_acl_changes;
+        let utd_cause = summary.utd_cause;
         let media_request = media.as_ref().and_then(|media| {
             media.source.clone().map(|source| MatrixTimelineMediaRequest {
                 source,
@@ -287,6 +288,7 @@ fn timeline_item_to_summary(
                 state_event_detail,
                 state_event_reason,
                 state_event_has_sender,
+                utd_cause,
                 power_level_changes,
                 server_acl_changes,
             },
@@ -355,6 +357,7 @@ fn timeline_item_to_summary(
                 state_event_detail: String::new(),
                 state_event_reason: String::new(),
                 state_event_has_sender: false,
+                utd_cause: String::new(),
                 power_level_changes: Vec::new(),
                 server_acl_changes: None,
             },

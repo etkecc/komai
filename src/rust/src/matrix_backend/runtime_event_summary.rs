@@ -23,9 +23,9 @@ use matrix_sdk::{
     },
 };
 use matrix_sdk_ui::timeline::{
-    AnyOtherFullStateEventContent, InReplyToDetails, MemberProfileChange, MembershipChange,
-    MsgLikeContent, MsgLikeKind, OtherState, ReactionsByKeyBySender, RoomMembershipChange,
-    TimelineDetails, TimelineEventItemId, TimelineItemContent,
+    AnyOtherFullStateEventContent, EncryptedMessage, InReplyToDetails, MemberProfileChange,
+    MembershipChange, MsgLikeContent, MsgLikeKind, OtherState, ReactionsByKeyBySender,
+    RoomMembershipChange, TimelineDetails, TimelineEventItemId, TimelineItemContent,
 };
 
 use super::MatrixReactionSummary;
@@ -64,6 +64,10 @@ pub struct MatrixEventSummary {
     pub state_event_reason: String,
     /// Whether the sender is distinct from the target user.
     pub state_event_has_sender: bool,
+    /// Cause tag for `unable_to_decrypt` items. Empty for every other kind.
+    /// Values are snake_case names from matrix-sdk's `UtdCause`, e.g.
+    /// `"sent_before_we_joined"`, `"withheld_by_sender"`.
+    pub utd_cause: String,
     /// Power level user changes for enriched m.room.power_levels messages.
     pub power_level_changes: Vec<super::event_detail::PowerLevelChange>,
     /// Server ACL changes for enriched m.room.server_acl messages.
@@ -177,12 +181,46 @@ fn summarize_msg_like_kind(kind: &MsgLikeKind) -> MatrixEventSummary {
         MsgLikeKind::Sticker(sticker) => summarize_sticker(sticker.content()),
         MsgLikeKind::Poll(_) => summary("poll", "", "[Poll]"),
         MsgLikeKind::Redacted => summary("redacted", "m.room.message", "Deleted message"),
-        MsgLikeKind::UnableToDecrypt(_) => {
-            summary("unable_to_decrypt", "m.room.encrypted", "[Unable to decrypt message]")
+        MsgLikeKind::UnableToDecrypt(encrypted_message) => {
+            let mut s =
+                summary("unable_to_decrypt", "m.room.encrypted", "[Unable to decrypt message]");
+            s.utd_cause = utd_cause_tag(encrypted_message).to_owned();
+            s
         }
         MsgLikeKind::Other(other) => {
             let event_type = other.event_type().to_string();
             summary("other_message", &event_type, "[Unsupported message event]")
+        }
+    }
+}
+
+/// Map matrix-sdk's `UtdCause` to a stable snake_case tag. Non-Megolm
+/// encrypted messages carry no cause information, so report them as `unknown`.
+fn utd_cause_tag(encrypted_message: &EncryptedMessage) -> &'static str {
+    use matrix_sdk_base::crypto::types::events::UtdCause;
+
+    let cause = match encrypted_message {
+        EncryptedMessage::MegolmV1AesSha2 { cause, .. } => *cause,
+        EncryptedMessage::OlmV1Curve25519AesSha2 { .. } | EncryptedMessage::Unknown => {
+            UtdCause::Unknown
+        }
+    };
+
+    match cause {
+        UtdCause::Unknown => "unknown",
+        UtdCause::SentBeforeWeJoined => "sent_before_we_joined",
+        UtdCause::VerificationViolation => "verification_violation",
+        UtdCause::UnsignedDevice => "unsigned_device",
+        UtdCause::UnknownDevice => "unknown_device",
+        UtdCause::HistoricalMessageAndBackupIsDisabled => {
+            "historical_message_and_backup_disabled"
+        }
+        UtdCause::WithheldForUnverifiedOrInsecureDevice => {
+            "withheld_for_unverified_or_insecure_device"
+        }
+        UtdCause::WithheldBySender => "withheld_by_sender",
+        UtdCause::HistoricalMessageAndDeviceIsUnverified => {
+            "historical_message_and_device_unverified"
         }
     }
 }
@@ -592,6 +630,7 @@ fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummar
         state_event_detail: String::new(),
         state_event_reason: String::new(),
         state_event_has_sender: false,
+        utd_cause: String::new(),
         power_level_changes: Vec::new(),
         server_acl_changes: None,
     }
@@ -632,6 +671,7 @@ fn summary_with_media(
         state_event_detail: String::new(),
         state_event_reason: String::new(),
         state_event_has_sender: false,
+        utd_cause: String::new(),
         power_level_changes: Vec::new(),
         server_acl_changes: None,
     }

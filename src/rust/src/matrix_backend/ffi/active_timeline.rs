@@ -84,6 +84,7 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
         state_event_detail: item.state_event_detail,
         state_event_reason: item.state_event_reason,
         state_event_has_sender: item.state_event_has_sender,
+        utd_cause: item.utd_cause,
         power_level_changes: item
             .power_level_changes
             .into_iter()

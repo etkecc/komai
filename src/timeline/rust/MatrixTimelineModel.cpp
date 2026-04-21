@@ -394,7 +394,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case IsStateEvent:       return item.cachedIsStateEvent;
     case Trustlevel:         return 0;
     case Notificationlevel:  return static_cast<int>(qml_mtx_events::Nothing);
-    case EncryptionError:    return QString();
+    case UtdCause:           return item.utdCause;
     case ReplyTo:            return item.cachedIsStateEvent ? QString() : item.replyEventId;
     case ThreadId:           return item.threadId;
     case Reactions:          return item.reactions;
@@ -505,7 +505,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case IsStateEvent:       return false;
     case Trustlevel:         return 0;
     case Notificationlevel:  return 0;
-    case EncryptionError:    return QString();
+    case UtdCause:           return QString();
     case ReplyTo:            return QString();
     case ThreadId:           return QString();
     case Reactions:          return QVariant();
@@ -562,7 +562,7 @@ MatrixTimelineModel::roleNames() const
       {IsStateEvent, "isStateEvent"},
       {Trustlevel, "trustlevel"},
       {Notificationlevel, "notificationlevel"},
-      {EncryptionError, "encryptionError"},
+      {UtdCause, "utdCause"},
       {ReplyTo, "replyTo"},
       {ThreadId, "threadId"},
       {Reactions, "reactions"},

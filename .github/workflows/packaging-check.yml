@@ -37,7 +37,7 @@ jobs:
         run: just appimage-build-docker
 
       - name: Upload AppImage artefact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: komai-appimage
           path: var/build/appimage/*.AppImage
@@ -54,7 +54,7 @@ jobs:
         run: just flatpak-build
 
       - name: Upload Flatpak artefact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: komai-flatpak
           path: var/build/flatpak/komai.flatpak
@@ -71,7 +71,7 @@ jobs:
         run: just snap-build-docker
 
       - name: Upload Snap artefact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: komai-snap
           path: var/build/snap/komai_*.snap

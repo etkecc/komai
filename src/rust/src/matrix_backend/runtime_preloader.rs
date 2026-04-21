@@ -131,8 +131,8 @@ async fn run_preload(
 
     tracing::info!(
         handle_id,
-        preload_count = rooms_to_preload.len(),
-        warm_count = rooms_to_warm.len(),
+        preload_pending = rooms_to_preload.len(),
+        warm_pending = rooms_to_warm.len(),
         "Background preloader: starting"
     );
 

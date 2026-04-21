@@ -1,0 +1,69 @@
+name: CI image
+
+# Builds and pushes the CI base image used by ci.yml. Decoupled from
+# ci.yml so (a) the image doesn't get rebuilt on every CI run and
+# (b) Arch package drift can be refreshed without a Dockerfile change.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'etc/ci/Dockerfile'
+      - '.github/workflows/ci-image.yml'
+  # Manual "refresh now" trigger — useful after a new CI dep is added,
+  # or to pick up a fresh Arch package version on demand.
+  workflow_dispatch:
+  # Weekly drift refresh. Arch rolls fast, so a stale image lags behind
+  # on compiler / Qt versions; a weekly rebuild keeps it current with
+  # minimal fuss.
+  schedule:
+    - cron: '0 4 * * 1'
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: ci-image-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: [self-hosted, k150]
+    # Run inside a container (as root) so actions/checkout can always
+    # clean residue left by prior ci.yml runs, regardless of ownership.
+    # The host Docker socket is mounted in so `docker build` / `docker
+    # push` from inside this container drive the host daemon.
+    container:
+      image: docker.io/archlinux:base-devel
+      options: --volume /var/run/docker.sock:/var/run/docker.sock
+
+    steps:
+      - name: Install git + docker CLI
+        run: pacman -Sy --noconfirm git docker
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Log in to ghcr.io
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" \
+            | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Build and push image
+        run: |
+          # Match the image's internal `ci` user UID/GID to whoever owns
+          # the bind-mounted workspace on the host runner. That way any
+          # files ci.yml writes through the container end up owned by
+          # the host runner user and can be cleaned up by subsequent
+          # host-mode jobs without permission issues.
+          HOST_UID=$(stat -c '%u' "$GITHUB_WORKSPACE")
+          HOST_GID=$(stat -c '%g' "$GITHUB_WORKSPACE")
+          echo "Building with CI_UID=${HOST_UID} CI_GID=${HOST_GID}"
+          docker build \
+            --build-arg CI_UID="${HOST_UID}" \
+            --build-arg CI_GID="${HOST_GID}" \
+            --tag "ghcr.io/${GITHUB_REPOSITORY,,}/ci:latest" \
+            etc/ci
+          docker push "ghcr.io/${GITHUB_REPOSITORY,,}/ci:latest"

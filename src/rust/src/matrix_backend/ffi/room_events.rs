@@ -439,7 +439,11 @@ pub(crate) fn matrix_fetch_active_room_raw_event_dialog_data(
     )?;
 
     Ok(ffi::MatrixRawEventDialogData {
-        pretty_json: result.pretty_json,
+        cleartext_json: result.cleartext_json,
+        cleartext_error: result.cleartext_error,
+        wire_json: result.wire_json,
+        wire_error: result.wire_error,
+        wire_matches_cleartext: result.wire_matches_cleartext,
         body: result.body,
         formatted_body: result.formatted_body,
     })

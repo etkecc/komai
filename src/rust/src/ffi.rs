@@ -870,7 +870,11 @@ mod bridge {
     }
 
     struct MatrixRawEventDialogData {
-        pretty_json: String,
+        cleartext_json: String,
+        cleartext_error: String,
+        wire_json: String,
+        wire_error: String,
+        wire_matches_cleartext: bool,
         body: String,
         formatted_body: String,
     }

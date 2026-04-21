@@ -746,9 +746,13 @@ MatrixBackendRuntimeService::fetchActiveRoomRawEventDialogData(
                 eventId.toStdString());
           });
         return RawEventDialogData{
-          .prettyJson    = QString::fromStdString(std::string(result.pretty_json)),
-          .body          = QString::fromStdString(std::string(result.body)),
-          .formattedBody = QString::fromStdString(std::string(result.formatted_body)),
+          .cleartextJson        = QString::fromStdString(std::string(result.cleartext_json)),
+          .cleartextError       = QString::fromStdString(std::string(result.cleartext_error)),
+          .wireJson             = QString::fromStdString(std::string(result.wire_json)),
+          .wireError            = QString::fromStdString(std::string(result.wire_error)),
+          .wireMatchesCleartext = result.wire_matches_cleartext,
+          .body                 = QString::fromStdString(std::string(result.body)),
+          .formattedBody        = QString::fromStdString(std::string(result.formatted_body)),
         };
     } catch (const std::exception &e) {
         if (errorOut)

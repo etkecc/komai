@@ -118,7 +118,6 @@ Components.OverlayDialog {
         addVisibleAction(buttons, openExternalBtn);
         addVisibleAction(buttons, readReceiptsBtn);
         addVisibleAction(buttons, viewRawBtn);
-        addVisibleAction(buttons, viewDecryptedRawBtn);
         addVisibleAction(buttons, removeBtn);
         addVisibleAction(buttons, reportBtn);
         return buttons;
@@ -429,7 +428,7 @@ Components.OverlayDialog {
                 label: qsTr("Inspect")
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
-                visible: readReceiptsBtn.visible || viewRawBtn.visible || viewDecryptedRawBtn.visible
+                visible: readReceiptsBtn.visible || viewRawBtn.visible
             }
 
             ActionButton {
@@ -455,19 +454,6 @@ Components.OverlayDialog {
                 onClicked: {
                     root.close();
                     root.effectiveRoomModel.viewRawMessage(root.eventId);
-                }
-            }
-
-            ActionButton {
-                id: viewDecryptedRawBtn
-                labelText: qsTr("View decrypted raw message")
-                iconSource: ":/icons/icons/ui/raw-message.svg"
-                shortcutSequence: "E"
-                shortcutDisplayText: qsTr("E")
-                visible: !root.isLocalEcho && root.isEncrypted && root.effectiveRoomModel && typeof root.effectiveRoomModel.viewDecryptedRawMessage === "function"
-                onClicked: {
-                    root.close();
-                    root.effectiveRoomModel.viewDecryptedRawMessage(root.eventId);
                 }
             }
 

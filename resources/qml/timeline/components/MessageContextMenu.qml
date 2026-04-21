@@ -336,16 +336,6 @@ Menu {
                 onTriggered: messageContextMenuRoot.effectiveRoomModel.viewRawMessage(messageContextMenuRoot.eventId)
             }
         }
-        Component {
-            MenuItem {
-                text: qsTr("View decrypted raw message")
-                icon.source: "qrc:/icons/icons/ui/raw-message.svg"
-                visible: messageContextMenuRoot.isEncrypted
-                    && messageActionSupport.canViewRaw(messageContextMenuRoot.effectiveMessageModel)
-
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.viewDecryptedRawMessage(messageContextMenuRoot.eventId)
-            }
-        }
 
         // --- Separator: Inspect / Moderate ---
         Component {

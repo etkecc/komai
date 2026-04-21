@@ -10,6 +10,7 @@ use matrix_sdk_base::event_cache::store::EventCacheStoreLockState;
 use matrix_sdk::room::ListThreadsOptions;
 use matrix_sdk::ruma::{
     EventId,
+    api::client::room::get_room_event,
     events::{
         AnySyncMessageLikeEvent, AnySyncTimelineEvent,
         reaction::ReactionEventContent,
@@ -328,7 +329,27 @@ pub async fn fetch_room_redaction_permissions(
 // ---------------------------------------------------------------------------
 
 pub struct RawEventDialogData {
-    pub pretty_json: String,
+    /// Cleartext form (post-decryption for encrypted events, identical to
+    /// the wire form for plaintext events). Empty when `cleartext_error`
+    /// is populated (UTDs).
+    pub cleartext_json: String,
+    /// Populated when the cleartext can't be produced — typically a UTD.
+    /// When non-empty, the dialog should still let the user inspect the
+    /// wire form to see the encrypted ciphertext.
+    pub cleartext_error: String,
+    /// Wire form: the JSON the homeserver delivered. For decrypted events
+    /// this requires a separate `/rooms/{id}/event/{id}` fetch since
+    /// matrix-sdk drops the original ciphertext after decryption. For
+    /// UTDs and plaintext events it's already in the cached timeline item
+    /// and no network call is made.
+    pub wire_json: String,
+    /// Populated when the wire-form fetch failed (e.g. server error).
+    /// `wire_json` is empty in that case.
+    pub wire_error: String,
+    /// True when the wire form is byte-equivalent to the cleartext (i.e.
+    /// the event was sent in the clear). The dialog uses this to annotate
+    /// the wire-form segment with a "(same)" hint.
+    pub wire_matches_cleartext: bool,
     pub body: String,
     pub formatted_body: String,
 }
@@ -444,38 +465,78 @@ pub async fn fetch_active_room_raw_event_dialog_data(
                 "matrix-sdk room event '{event_id}' does not currently have raw JSON available"
             )
         })?;
+        let cleartext_raw_str = raw_event.json().get();
 
-        let raw_json_str = raw_event.json().get();
-        let parsed: serde_json::Value = serde_json::from_str(raw_json_str).map_err(|e| {
-            format!("failed to parse raw JSON for matrix-sdk room event '{event_id}': {e}")
-        })?;
+        // Classify the event so we know which payloads to render in the
+        // dialog and whether a server fetch is needed for the wire form.
+        // matrix-sdk-ui exposes:
+        //   - encryption_info().is_some()        => decrypted Megolm event
+        //   - content().is_unable_to_decrypt()   => UTD (encrypted, not decrypted)
+        //   - neither                            => sent in the clear
+        let is_decrypted = event.encryption_info().is_some();
+        let is_utd = event.content().is_unable_to_decrypt();
 
-        let pretty_json = {
-            let mut buf = Vec::new();
-            let formatter = serde_json::ser::PrettyFormatter::with_indent(b"    ");
-            let mut serializer = serde_json::Serializer::with_formatter(&mut buf, formatter);
-            serde::Serialize::serialize(&parsed, &mut serializer)
-                .ok()
-                .and_then(|_| String::from_utf8(buf).ok())
-                .unwrap_or_else(|| raw_json_str.to_owned())
+        let (cleartext_json, cleartext_error, body, formatted_body) = if is_utd {
+            // UTDs have no cleartext to show — surface the SDK's `UtdCause`
+            // (already plumbed through `summarize_msg_like_kind`) so the
+            // dialog can explain why decryption failed.
+            (
+                String::new(),
+                "This event is encrypted but couldn't be decrypted on this device.\n\
+                 Switch to the wire form to inspect the ciphertext."
+                    .to_owned(),
+                String::new(),
+                String::new(),
+            )
+        } else {
+            let cleartext_pretty = pretty_print_json(cleartext_raw_str)
+                .unwrap_or_else(|_| cleartext_raw_str.to_owned());
+            let parsed: serde_json::Value = serde_json::from_str(cleartext_raw_str)
+                .map_err(|e| {
+                    format!("failed to parse raw JSON for matrix-sdk room event '{event_id}': {e}")
+                })?;
+            let body = parsed
+                .get("content")
+                .and_then(|c| c.get("body"))
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_owned();
+            let formatted_body = parsed
+                .get("content")
+                .and_then(|c| c.get("formatted_body"))
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_owned();
+            (cleartext_pretty, String::new(), body, formatted_body)
         };
 
-        let body = parsed
-            .get("content")
-            .and_then(|c| c.get("body"))
-            .and_then(|v| v.as_str())
-            .unwrap_or("")
-            .to_owned();
-
-        let formatted_body = parsed
-            .get("content")
-            .and_then(|c| c.get("formatted_body"))
-            .and_then(|v| v.as_str())
-            .unwrap_or("")
-            .to_owned();
+        // Wire form. Three cases:
+        //   - Plaintext event: same as cleartext (annotate "(same)" client-side).
+        //   - UTD: matrix-sdk's cached `latest_json` IS the encrypted ciphertext
+        //     (it was never decrypted), no server round-trip needed.
+        //   - Decrypted event: matrix-sdk drops the ciphertext after
+        //     decryption, so fetch the raw event from the homeserver.
+        let (wire_json, wire_error, wire_matches_cleartext) = if !is_decrypted {
+            // Plaintext or UTD — `latest_json` already holds the wire form.
+            let wire_pretty = pretty_print_json(cleartext_raw_str)
+                .unwrap_or_else(|_| cleartext_raw_str.to_owned());
+            // For UTDs the cleartext is empty/error, so they're never "(same)";
+            // for plaintext they always are.
+            let matches = !is_utd;
+            (wire_pretty, String::new(), matches)
+        } else {
+            match fetch_wire_form_from_server(&room, event_id).await {
+                Ok(json) => (json, String::new(), false),
+                Err(err) => (String::new(), err, false),
+            }
+        };
 
         return Ok(RawEventDialogData {
-            pretty_json,
+            cleartext_json,
+            cleartext_error,
+            wire_json,
+            wire_error,
+            wire_matches_cleartext,
             body,
             formatted_body,
         });
@@ -486,6 +547,38 @@ pub async fn fetch_active_room_raw_event_dialog_data(
         room_id.trim(),
         event_id
     ))
+}
+
+fn pretty_print_json(raw: &str) -> Result<String, serde_json::Error> {
+    let parsed: serde_json::Value = serde_json::from_str(raw)?;
+    let mut buf = Vec::new();
+    let formatter = serde_json::ser::PrettyFormatter::with_indent(b"    ");
+    let mut serializer = serde_json::Serializer::with_formatter(&mut buf, formatter);
+    serde::Serialize::serialize(&parsed, &mut serializer)?;
+    Ok(String::from_utf8(buf).unwrap_or_else(|_| raw.to_owned()))
+}
+
+/// Fetch the on-the-wire JSON for an event via `/rooms/{id}/event/{id}`.
+/// Used only for events matrix-sdk has already decrypted — the SDK
+/// doesn't keep the original ciphertext, so we re-ask the homeserver.
+async fn fetch_wire_form_from_server(
+    room: &matrix_sdk::Room,
+    event_id: &str,
+) -> Result<String, String> {
+    let parsed_event_id = EventId::parse(event_id)
+        .map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
+    let request = get_room_event::v3::Request::new(
+        room.room_id().to_owned(),
+        parsed_event_id,
+    );
+    let response = room
+        .client()
+        .send(request)
+        .await
+        .map_err(|e| format!("failed to fetch wire form from server: {e}"))?;
+
+    let raw_str = response.event.json().get();
+    Ok(pretty_print_json(raw_str).unwrap_or_else(|_| raw_str.to_owned()))
 }
 
 // ---------------------------------------------------------------------------

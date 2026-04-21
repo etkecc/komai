@@ -243,10 +243,6 @@ Item {
         root.rootItem.openRawMessageDialog(String(eventId || ""));
     }
 
-    function viewDecryptedRawMessage(eventId) {
-        viewRawMessage(eventId);
-    }
-
     function showReadReceipts(eventId) {
         root.rootItem.openReadReceiptsDialog(String(eventId || ""));
     }

@@ -187,10 +187,22 @@ Item {
                 return;
 
             support.pendingRawMessageEventId = "";
-            if (!payload || !payload.rawMessageJson) {
+            // No payload, or both segments empty (likely a redacted event with
+            // nothing left to show). Keep the dialog informative either way —
+            // surface a single error string rather than an empty shell.
+            const hasCleartext = payload && (String(payload.cleartextJson || "").length > 0
+                || String(payload.cleartextError || "").length > 0);
+            const hasWire = payload && (String(payload.wireJson || "").length > 0
+                || String(payload.wireError || "").length > 0);
+            if (!payload || (!hasCleartext && !hasWire)) {
                 support.showDialogFromComponent(rawMessageDialogComponent, {
-                    "renderedRawMessage": qsTr("Raw JSON is not available for this event. It may have been redacted."),
-                    "rawMessageJson": "",
+                    "cleartextRendered": "",
+                    "cleartextJson": "",
+                    "cleartextError": qsTr("Raw JSON is not available for this event. It may have been redacted."),
+                    "wireRendered": "",
+                    "wireJson": "",
+                    "wireError": "",
+                    "wireMatchesCleartext": false,
                     "rawMessageBody": "",
                     "rawMessageFormattedBody": ""
                 });

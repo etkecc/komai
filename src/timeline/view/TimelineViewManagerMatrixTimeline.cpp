@@ -198,7 +198,11 @@ struct MatrixTimelineRawMessageFetchResult
     uint64_t handleId = 0;
     QString roomId;
     QString eventId;
-    QString prettyJson;
+    QString cleartextJson;
+    QString cleartextError;
+    QString wireJson;
+    QString wireError;
+    bool wireMatchesCleartext = false;
     QString body;
     QString formattedBody;
     QString error;
@@ -2300,14 +2304,18 @@ TimelineViewManager::requestRawMessageDialogForActiveMatrixTimelineEvent(const Q
             komai::MatrixBackendRuntimeService::fetchActiveRoomRawEventDialogData(
               context, handleId, roomId, trimmedEventId, &error);
           return MatrixTimelineRawMessageFetchResult{
-            .handleId      = handleId,
-            .roomId        = roomId,
-            .eventId       = trimmedEventId,
-            .prettyJson    = dialogData ? dialogData->prettyJson : QString(),
-            .body          = dialogData ? dialogData->body : QString(),
-            .formattedBody = dialogData ? dialogData->formattedBody : QString(),
-            .error         = error,
-            .ok            = dialogData.has_value(),
+            .handleId             = handleId,
+            .roomId               = roomId,
+            .eventId              = trimmedEventId,
+            .cleartextJson        = dialogData ? dialogData->cleartextJson : QString(),
+            .cleartextError       = dialogData ? dialogData->cleartextError : QString(),
+            .wireJson             = dialogData ? dialogData->wireJson : QString(),
+            .wireError            = dialogData ? dialogData->wireError : QString(),
+            .wireMatchesCleartext = dialogData ? dialogData->wireMatchesCleartext : false,
+            .body                 = dialogData ? dialogData->body : QString(),
+            .formattedBody        = dialogData ? dialogData->formattedBody : QString(),
+            .error                = error,
+            .ok                   = dialogData.has_value(),
           };
       },
       [themeSlug](TimelineViewManager *manager, MatrixTimelineRawMessageFetchResult result) {
@@ -2329,10 +2337,25 @@ TimelineViewManager::requestRawMessageDialogForActiveMatrixTimelineEvent(const Q
           }
 
           const auto timelinePalette = Theme::paletteFromTheme(themeSlug);
-          const auto renderedRawMessage =
-            timeline::formattedcode::formatRawJsonForDialog(result.prettyJson, timelinePalette);
-          dialogData.insert(QStringLiteral("renderedRawMessage"), renderedRawMessage);
-          dialogData.insert(QStringLiteral("rawMessageJson"), result.prettyJson);
+          // Pre-render syntax-highlighted HTML for both segments. The dialog
+          // only reads from these two fields when it's ready to display; the
+          // raw JSON strings are kept around for the "Copy" buttons.
+          const auto renderedCleartext = result.cleartextJson.isEmpty()
+                                           ? QString()
+                                           : timeline::formattedcode::formatRawJsonForDialog(
+                                               result.cleartextJson, timelinePalette);
+          const auto renderedWire =
+            result.wireJson.isEmpty()
+              ? QString()
+              : timeline::formattedcode::formatRawJsonForDialog(result.wireJson, timelinePalette);
+
+          dialogData.insert(QStringLiteral("cleartextRendered"), renderedCleartext);
+          dialogData.insert(QStringLiteral("cleartextJson"), result.cleartextJson);
+          dialogData.insert(QStringLiteral("cleartextError"), result.cleartextError);
+          dialogData.insert(QStringLiteral("wireRendered"), renderedWire);
+          dialogData.insert(QStringLiteral("wireJson"), result.wireJson);
+          dialogData.insert(QStringLiteral("wireError"), result.wireError);
+          dialogData.insert(QStringLiteral("wireMatchesCleartext"), result.wireMatchesCleartext);
           dialogData.insert(QStringLiteral("rawMessageBody"), result.body);
           dialogData.insert(QStringLiteral("rawMessageFormattedBody"), result.formattedBody);
 

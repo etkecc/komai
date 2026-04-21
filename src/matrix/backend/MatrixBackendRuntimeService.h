@@ -706,7 +706,18 @@ public:
 
     struct RawEventDialogData
     {
-        QString prettyJson;
+        // Cleartext (post-decryption for encrypted events, identical to the
+        // wire form for plaintext events). Empty when `cleartextError` is set.
+        QString cleartextJson;
+        // Populated when cleartext can't be produced — typically a UTD.
+        QString cleartextError;
+        // What the homeserver actually delivered. Empty when `wireError` is set.
+        QString wireJson;
+        QString wireError;
+        // True when the wire form is byte-equivalent to the cleartext (i.e. the
+        // event was sent in the clear). Drives the "(same)" annotation in the
+        // dialog's wire-form segment.
+        bool wireMatchesCleartext = false;
         QString body;
         QString formattedBody;
     };

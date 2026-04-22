@@ -34,13 +34,24 @@ jobs:
       CARGO_HOME: ${{ github.workspace }}/var/cache/cargo-home
       RUSTUP_HOME: ${{ github.workspace }}/var/cache/rustup
       # Unifies Corrosion's cargo target dir with direct `cargo test`
-      # invocations so both share incremental state and one cache.
+      # invocations so both share incremental state. Not cached across
+      # runs: Cargo.lock-scoped keys miss on every Renovate bump, and
+      # the catch-all fallback restore of a stale target dir mostly
+      # forces cargo to rebuild anyway — meanwhile the save step
+      # uploads ~2-3 GB of target output per run. Cost > benefit.
       CARGO_TARGET_DIR: ${{ github.workspace }}/var/cache/cargo-target
       # ccache wraps both C and C++ compiles; CMake enables it via the
       # -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache flags on Configure.
       CCACHE_DIR: ${{ github.workspace }}/var/cache/ccache
       CCACHE_MAXSIZE: "2G"
       CCACHE_COMPRESS: "true"
+      # Without these sloppiness flags, ccache refuses to cache any
+      # compile using precompiled headers — and target_precompile_headers
+      # is set on the main `komai` target, which is 85% of the build. The
+      # flags tell ccache that PCH define hashes, __TIME__/__DATE__
+      # macros, and header mtimes/ctimes can vary without changing the
+      # actual output. Standard ccache-with-PCH configuration.
+      CCACHE_SLOPPINESS: "pch_defines,time_macros,include_file_mtime,include_file_ctime"
 
     steps:
       - name: Checkout
@@ -68,17 +79,6 @@ jobs:
           key: cargo-home-${{ hashFiles('src/rust/Cargo.lock') }}
           restore-keys: |
             cargo-home-
-
-      - name: Cache cargo target dir
-        uses: actions/cache@v5
-        with:
-          path: var/cache/cargo-target
-          # SHA-scoped save key so each commit writes its own snapshot;
-          # restore falls through to any compile for the same lockfile.
-          key: cargo-target-${{ hashFiles('src/rust/Cargo.lock', 'rust-toolchain.toml') }}-${{ github.sha }}
-          restore-keys: |
-            cargo-target-${{ hashFiles('src/rust/Cargo.lock', 'rust-toolchain.toml') }}-
-            cargo-target-
 
       - name: Cache ccache
         uses: actions/cache@v5

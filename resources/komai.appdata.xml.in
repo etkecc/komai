@@ -74,7 +74,7 @@
   <url type="homepage">https://github.com/etkecc/komai</url>
   <update_contact>https://github.com/etkecc</update_contact>
   <releases>
-    <release version="2026.04.20.0" date="2026-04-20"/>
+    <release version="2026.04.22.0" date="2026-04-22"/>
   </releases>
   <developer_name>Komai</developer_name>
   <url type="bugtracker">https://github.com/etkecc/komai/issues</url>

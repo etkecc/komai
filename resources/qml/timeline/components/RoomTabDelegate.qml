@@ -94,6 +94,17 @@ Rectangle {
         return Rooms.unfilteredRoomData(roomId, tabController.roleAvatarUrl) || "";
     }
 
+    // DM partner info — needed so the default-avatar seed matches the room list
+    // and room header (which seed by the peer's user ID for direct chats).
+    readonly property bool isDirect: {
+        var r = _attRev;
+        return !!Rooms.unfilteredRoomData(roomId, tabController.roleIsDirect);
+    }
+    readonly property string directChatOtherUserId: {
+        var r = _attRev;
+        return Rooms.unfilteredRoomData(roomId, tabController.roleDirectChatOtherUserId) || "";
+    }
+
     // Draft activity base color (blended highlight + attention), matching the room list.
     readonly property color draftActivityBase: Qt.rgba(
         (Komai.theme.attention.r + palette.highlight.r) / 2,
@@ -521,6 +532,7 @@ Rectangle {
                 displayName: tabDelegate.displayName
                 url: tabDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
                 roomid: tabDelegate.roomId
+                userid: tabDelegate.isDirect ? tabDelegate.directChatOtherUserId : ""
                 enabled: false
             }
 

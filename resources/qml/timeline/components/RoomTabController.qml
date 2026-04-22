@@ -54,6 +54,8 @@ QtObject {
     readonly property int roleHasLoudNotification: 263
     readonly property int roleHasDraft: 265
     readonly property int roleTags: 271
+    readonly property int roleIsDirect: 273
+    readonly property int roleDirectChatOtherUserId: 274
 
     // Persist tab list to Settings after any mutation.
     // Empty tabs (roomId="") are persisted as startup-restorable "new tab" entries.

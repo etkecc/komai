@@ -88,8 +88,17 @@ jobs:
   release:
     needs: [ build-appimage, build-flatpak, build-snap ]
     runs-on: [self-hosted, k150]
+    # Runs inside the CI image so the `gh` CLI (and awk) come from the
+    # image, not the host. Keeps the release-creation path self-contained
+    # instead of tying it to another host package.
+    container:
+      image: ghcr.io/etkecc/komai/ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     permissions:
       contents: write
+      packages: read
     steps:
       - name: Checkout tagged commit
         uses: actions/checkout@v6

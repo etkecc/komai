@@ -1,0 +1,145 @@
+name: Publish
+
+# Fires after CI succeeds on a `v*` tag push. Builds AppImage, Flatpak,
+# and Snap bundles on the self-hosted runner, then creates a GitHub
+# Release with the CHANGELOG section for that version as release notes
+# and the three artefacts attached.
+
+on:
+  workflow_run:
+    workflows: [ "CI" ]
+    types: [ completed ]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Scope to the tagged commit so re-runs for the same tag serialise.
+  group: publish-${{ github.event.workflow_run.head_sha || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-appimage:
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: [self-hosted, k150]
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Build AppImage
+        run: just appimage-build-docker
+
+      - name: Upload AppImage artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-appimage
+          path: var/build/appimage/*.AppImage
+          if-no-files-found: error
+
+  build-flatpak:
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: [self-hosted, k150]
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Build Flatpak
+        run: just flatpak-build
+
+      - name: Upload Flatpak artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-flatpak
+          path: var/build/flatpak/komai.flatpak
+          if-no-files-found: error
+
+  build-snap:
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: [self-hosted, k150]
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Build Snap
+        run: just snap-build-docker
+
+      - name: Upload Snap artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-snap
+          path: var/build/snap/komai_*.snap
+          if-no-files-found: error
+
+  release:
+    needs: [ build-appimage, build-flatpak, build-snap ]
+    runs-on: [self-hosted, k150]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Download all artefacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artefacts
+
+      - name: Extract release notes from CHANGELOG
+        id: notes
+        run: |
+          set -euo pipefail
+          VERSION="$(cat VERSION)"
+          TAG="${{ github.event.workflow_run.head_branch }}"
+
+          # Sanity: the tag should match `v${VERSION}`. The version-drift
+          # hook already guarantees VERSION / PKGBUILD / CHANGELOG /
+          # appdata.xml.in agree with one another; this just verifies the
+          # *tag* name lines up with the VERSION file the tagged commit
+          # contains.
+          if [[ "${TAG}" != "v${VERSION}" ]]; then
+            echo "Tag '${TAG}' does not match 'v${VERSION}' from the VERSION file." >&2
+            echo "Refusing to publish a release where the tag and VERSION disagree." >&2
+            exit 1
+          fi
+
+          awk -v v="${VERSION}" '
+            $0 ~ "^## " v "([[:space:]]|$)" { inside = 1; next }
+            inside && $0 ~ "^## "             { exit }
+            inside                            { print }
+          ' CHANGELOG.md > notes.md
+
+          if [[ ! -s notes.md ]]; then
+            echo "CHANGELOG.md has no section for version '${VERSION}'." >&2
+            echo "Populate it via 'just release-prepare ${VERSION}' before tagging." >&2
+            exit 1
+          fi
+
+          echo "tag=${TAG}" >> "${GITHUB_OUTPUT}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.notes.outputs.tag }}" \
+            --title "${{ steps.notes.outputs.tag }}" \
+            --notes-file notes.md \
+            artefacts/komai-appimage/*.AppImage \
+            artefacts/komai-flatpak/komai.flatpak \
+            artefacts/komai-snap/komai_*.snap

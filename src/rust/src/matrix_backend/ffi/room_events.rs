@@ -365,18 +365,6 @@ pub(crate) fn matrix_fetch_room_thread_roots(
     )
 }
 
-pub(crate) fn matrix_fetch_room_pinned_event_ids(
-    context: ffi::MatrixFfiBlockingContext,
-    handle_id: u64,
-    room_id: &str,
-) -> Result<Vec<String>, String> {
-    ffi_block_on(
-        context,
-        "matrix_fetch_room_pinned_event_ids",
-        matrix_backend::runtime::fetch_room_pinned_event_ids(handle_id, room_id),
-    )
-}
-
 pub(crate) fn matrix_fetch_room_frequent_reactions(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

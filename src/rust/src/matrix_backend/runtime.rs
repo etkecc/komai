@@ -107,6 +107,8 @@ mod runtime_calls;
 mod media_proxy;
 #[path = "runtime_preloader.rs"]
 mod preloader;
+#[path = "runtime_subscriptions.rs"]
+mod subscriptions;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_presence, fetch_own_profile, fetch_room_member_profile,
@@ -135,6 +137,7 @@ pub use room_actions::{
 };
 pub use preloader::start_preload;
 pub use room_list::{fetch_room_list, start_sync};
+pub use subscriptions::{subscribe_room, unsubscribe_room};
 pub use room_settings::{
     MatrixChildSpaceEntry,
     apply_room_aliases, apply_room_power_levels, enable_room_encryption, fetch_room_aliases,
@@ -156,7 +159,7 @@ pub use timeline_messaging::{
 };
 pub use timeline_events::{
     fetch_active_room_event_content_for_forwarding, fetch_active_room_raw_event_dialog_data,
-    fetch_room_frequent_reactions, fetch_room_pinned_event_ids, fetch_room_read_receipts,
+    fetch_room_frequent_reactions, fetch_room_read_receipts,
     fetch_room_redaction_permissions, fetch_room_thread_roots, pin_room_event, unpin_room_event,
 };
 pub use runtime_media::{send_room_image, upload_media};
@@ -592,6 +595,13 @@ struct MatrixBackendHandle {
     pending_device_sign_out: Arc<Mutex<Option<PendingDeviceSignOut>>>,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
     pending_verification_flow_ids: Arc<Mutex<Vec<String>>>,
+    /// Reference-counted set of rooms that have open UI surfaces (main-window
+    /// active tab, detached room windows). The sync-loop-owned reconciler
+    /// debounces changes and applies them as sliding-sync room subscriptions,
+    /// which pulls the extended `required_state` (notably
+    /// `m.room.pinned_events`) into the local state store and enables live
+    /// state-event updates via `Room::pinned_event_ids_stream`.
+    subscribed_rooms: Arc<subscriptions::SubscribedRooms>,
     _verification_event_handlers: Vec<EventHandlerDropGuard>,
     _call_event_handlers: Vec<EventHandlerDropGuard>,
 }
@@ -704,6 +714,17 @@ fn pending_verification_flow_ids_for_handle(
         .expect("poisoned matrix backend handle registry mutex")
         .get(&handle_id)
         .map(|handle| Arc::clone(&handle.pending_verification_flow_ids))
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+pub(super) fn subscribed_rooms_for_handle(
+    handle_id: u64,
+) -> Result<Arc<subscriptions::SubscribedRooms>, String> {
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| Arc::clone(&handle.subscribed_rooms))
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
 }
 

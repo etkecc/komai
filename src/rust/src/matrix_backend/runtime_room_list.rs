@@ -121,6 +121,33 @@ async fn run_sync_loop(
 
     sync_service.start().await;
 
+    // Spawn the room-subscription reconciler. It applies FFI-driven
+    // subscribe/unsubscribe changes to sliding-sync room subscriptions,
+    // and forwards per-room `pinned_event_ids_stream` updates to the UI.
+    // See `runtime_subscriptions.rs` for the full design.
+    let reconciler_stop = Arc::clone(&stop_requested);
+    let reconciler_handle = match super::subscribed_rooms_for_handle(handle_id) {
+        Ok(subscribed_rooms) => {
+            let reconciler_client = client.clone();
+            let reconciler_room_list_service = Arc::clone(&room_list_service);
+            Some(tokio::spawn(super::subscriptions::run_reconciler(
+                handle_id,
+                reconciler_client,
+                reconciler_room_list_service,
+                subscribed_rooms,
+                reconciler_stop,
+            )))
+        }
+        Err(error) => {
+            tracing::warn!(
+                handle_id,
+                %error,
+                "Failed to acquire subscribed-rooms state; live pinned-events updates will not work"
+            );
+            None
+        }
+    };
+
     let mut state_subscriber = sync_service.state();
     let mut entries_stream = Box::pin(entries_stream);
     let mut ignored_user_list_changes = Some(Box::pin(client.subscribe_to_ignore_user_list_changes()));
@@ -294,6 +321,13 @@ async fn run_sync_loop(
     }
 
     sync_service.stop().await;
+
+    if let Some(handle) = reconciler_handle {
+        // The reconciler observes `stop_requested` within ~250ms and exits
+        // cleanly. Await it so any in-flight `subscribe_to_rooms` call
+        // finishes before we return.
+        let _ = handle.await;
+    }
 
     tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
 }

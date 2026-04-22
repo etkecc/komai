@@ -1192,6 +1192,12 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);
         #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_room_pinned_events_changed(
+            handle_id: u64,
+            room_id: &str,
+            event_ids: Vec<String>,
+        );
+        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_thread_timeline_snapshot_updated(
             handle_id: u64,
             room_id: &str,
@@ -1838,6 +1844,8 @@ mod bridge {
             page_size: u16,
         ) -> Result<()>;
         fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
+        fn matrix_subscribe_to_room(handle_id: u64, room_id: &str) -> Result<()>;
+        fn matrix_unsubscribe_from_room(handle_id: u64, room_id: &str) -> Result<()>;
         fn matrix_fetch_active_room_timeline(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -2013,11 +2021,6 @@ mod bridge {
             reason: &str,
             score: i32,
         ) -> Result<()>;
-        fn matrix_fetch_room_pinned_event_ids(
-            context: MatrixFfiBlockingContext,
-            handle_id: u64,
-            room_id: &str,
-        ) -> Result<Vec<String>>;
         fn matrix_fetch_room_thread_roots(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

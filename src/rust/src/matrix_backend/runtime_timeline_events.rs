@@ -205,15 +205,6 @@ pub async fn fetch_room_thread_roots(
 // Pinned events
 // ---------------------------------------------------------------------------
 
-pub async fn fetch_room_pinned_event_ids(
-    handle_id: u64,
-    room_id: &str,
-) -> Result<Vec<String>, String> {
-    let room = joined_room_for_handle(handle_id, room_id)?;
-
-    load_pinned_event_ids_from_server(&room).await
-}
-
 pub async fn pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
     update_room_pinned_event_ids(handle_id, room_id, event_id, true).await
 }
@@ -241,16 +232,20 @@ async fn update_room_pinned_event_ids(
     let parsed_event_id =
         EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
 
-    // Fetch current pinned events from the server (not the local state store,
-    // which is empty because sliding sync does not request m.room.pinned_events).
-    let mut pinned_event_ids = load_pinned_event_ids_from_server(&room)
-        .await?
-        .into_iter()
-        .map(|event_id| {
-            EventId::parse(&event_id)
-                .map_err(|e| format!("invalid pinned event id '{event_id}' from server: {e}"))
-        })
-        .collect::<Result<Vec<_>, _>>()?;
+    // Get the current pinned event list before doing a read-modify-write.
+    // Prefer the state store, which is populated for rooms we've opened (via
+    // `runtime_subscriptions::subscribe_room`). Fall back to `/state` in the
+    // cold-start window between subscribe and the first sync response, and
+    // for the rare case where a pin/unpin is triggered for a room Komai has
+    // never opened.
+    let mut pinned_event_ids: Vec<OwnedEventId> = match room.pinned_event_ids() {
+        Some(ids) => ids,
+        None => room
+            .load_pinned_events()
+            .await
+            .map_err(|e| format!("failed to fetch pinned events from server: {e}"))?
+            .unwrap_or_default(),
+    };
 
     let mut changed = false;
     if should_pin {
@@ -281,20 +276,6 @@ async fn update_room_pinned_event_ids(
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to update matrix-sdk room pinned events: {e}"))
-}
-
-/// Fetch pinned event IDs from the server via the `/state` endpoint.
-///
-/// The local SDK state store is not used because sliding sync does not include
-/// `m.room.pinned_events` in its default required state — only room
-/// subscriptions (which Komai does not use) add it.  Reading from the state
-/// store would always return an empty list.
-async fn load_pinned_event_ids_from_server(room: &Room) -> Result<Vec<String>, String> {
-    match room.load_pinned_events().await {
-        Ok(Some(ids)) => Ok(ids.into_iter().map(|id| id.to_string()).collect()),
-        Ok(None) => Ok(Vec::new()),
-        Err(e) => Err(format!("failed to fetch pinned events from server: {e}")),
-    }
 }
 
 // ---------------------------------------------------------------------------

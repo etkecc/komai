@@ -136,6 +136,12 @@ matrix_notify_room_timeline_snapshot_updated(std::uint64_t, ::rust::Str)
 {}
 
 void
+matrix_notify_room_pinned_events_changed(std::uint64_t,
+                                         ::rust::Str,
+                                         ::rust::Vec<::rust::String>)
+{}
+
+void
 matrix_notify_thread_timeline_snapshot_updated(std::uint64_t, ::rust::Str, ::rust::Str)
 {}
 

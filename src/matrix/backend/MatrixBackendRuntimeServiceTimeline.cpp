@@ -217,6 +217,36 @@ MatrixBackendRuntimeService::stopRoomTimeline(uint64_t handleId,
     }
 }
 
+bool
+MatrixBackendRuntimeService::subscribeToRoom(uint64_t handleId,
+                                             const QString &roomId,
+                                             QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_subscribe_to_room(handleId, roomId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::unsubscribeFromRoom(uint64_t handleId,
+                                                 const QString &roomId,
+                                                 QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_unsubscribe_from_room(handleId, roomId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<QVector<MatrixTimelineItem>>
 MatrixBackendRuntimeService::fetchRoomTimelineSnapshot(matrix_backend::BlockingCallContext context,
                                                        uint64_t handleId,
@@ -516,32 +546,6 @@ MatrixBackendRuntimeService::reportRoomEvent(matrix_backend::BlockingCallContext
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return false;
-    }
-}
-
-std::optional<QStringList>
-MatrixBackendRuntimeService::fetchRoomPinnedEventIds(matrix_backend::BlockingCallContext context,
-                                                     uint64_t handleId,
-                                                     const QString &roomId,
-                                                     QString *errorOut)
-{
-    try {
-        const auto result = matrix_backend::invokeBlockingCall(
-          "matrix_fetch_room_pinned_event_ids",
-          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, context]() {
-              return ::komai::rust::matrix_fetch_room_pinned_event_ids(
-                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
-          });
-        QStringList pinnedEventIds;
-        pinnedEventIds.reserve(static_cast<qsizetype>(result.size()));
-        for (const auto &eventId : result)
-            pinnedEventIds.push_back(QString::fromStdString(std::string(eventId)));
-        return pinnedEventIds;
-    } catch (const std::exception &e) {
-        if (errorOut)
-            *errorOut = QString::fromUtf8(e.what());
-        return std::nullopt;
     }
 }
 

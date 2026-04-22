@@ -401,6 +401,9 @@ public slots:
                                                  const QString &eventId);
     void
     handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
+    void handleMatrixBackendRoomPinnedEventsChanged(std::uint64_t handleId,
+                                                    const QString &roomId,
+                                                    const QStringList &eventIds);
     void handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint64_t handleId,
                                                           const QString &roomId,
                                                           const QString &threadRootId);
@@ -565,8 +568,7 @@ private:
     void scheduleCurrentMatrixTimelineRefresh();
     void updateCurrentMatrixTimelineSelection();
     void refreshActiveMatrixTimelineRoomStateAsync();
-    bool applyActiveMatrixTimelineRoomState(QStringList pinnedEventIds,
-                                            QStringList frequentReactions,
+    bool applyActiveMatrixTimelineRoomState(QStringList frequentReactions,
                                             bool canRedactOwn,
                                             bool canRedactOther);
     void invalidateMatrixTimelineFrequentReactionsCache(const QString &roomId);

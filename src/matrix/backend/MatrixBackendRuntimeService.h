@@ -485,6 +485,12 @@ public:
     selectActiveRoomTimeline(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
 
     static bool
+    subscribeToRoom(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool
+    unsubscribeFromRoom(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool
     stopRoomTimeline(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixTimelineItem>>
@@ -650,12 +656,6 @@ public:
                                 const QString &reason,
                                 int score,
                                 QString *errorOut = nullptr);
-
-    static std::optional<QStringList>
-    fetchRoomPinnedEventIds(matrix_backend::BlockingCallContext context,
-                            uint64_t handleId,
-                            const QString &roomId,
-                            QString *errorOut = nullptr);
 
     struct ThreadRootsResult
     {

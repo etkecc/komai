@@ -53,6 +53,7 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
                 pending_device_sign_out: Arc::new(Mutex::new(None)),
                 verification_sessions,
                 pending_verification_flow_ids,
+                subscribed_rooms: subscriptions::SubscribedRooms::new(),
                 _verification_event_handlers: verification_event_handlers,
                 _call_event_handlers: call_event_handlers,
             },

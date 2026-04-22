@@ -96,6 +96,11 @@ void
 matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, ::rust::Str room_id);
 
 void
+matrix_notify_room_pinned_events_changed(std::uint64_t handle_id,
+                                         ::rust::Str room_id,
+                                         ::rust::Vec<::rust::String> event_ids);
+
+void
 matrix_notify_thread_timeline_snapshot_updated(std::uint64_t handle_id,
                                                ::rust::Str room_id,
                                                ::rust::Str thread_root_id);

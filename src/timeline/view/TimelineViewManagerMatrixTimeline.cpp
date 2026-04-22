@@ -165,7 +165,10 @@ shouldIgnoreMatrixTimelineWarmupShrink(int currentCount, int nextCount)
 
 struct MatrixTimelineRoomStateSnapshot
 {
-    QStringList pinnedEventIds;
+    // Pinned event IDs are no longer fetched here — they arrive via the
+    // Rust-side sliding-sync room subscription (see
+    // `matrix_notify_room_pinned_events_changed` /
+    // `handleMatrixBackendRoomPinnedEventsChanged`).
     QStringList frequentReactions;
     bool fetchedFrequentReactions       = false;
     bool canCacheEmptyFrequentReactions = false;
@@ -404,6 +407,24 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     }
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_done");
 
+    // Release any stale subscription from the previous active room, then
+    // subscribe to the new one.  Subscriptions populate the state store
+    // with `m.room.pinned_events` and keep it live-updated, so pinned state
+    // stays fresh without us polling `/state` on every room switch.
+    if (!activeMatrixTimelineRoomId_.isEmpty() && activeMatrixTimelineRoomId_ != roomId) {
+        komai::MatrixBackendRuntimeService::unsubscribeFromRoom(handleId,
+                                                                activeMatrixTimelineRoomId_);
+    }
+    // The new room's pinned event list will arrive via
+    // `handleMatrixBackendRoomPinnedEventsChanged` once the Rust reconciler
+    // spawns the per-room forwarder. Clear the stale list from the previous
+    // room so the header doesn't briefly show the wrong pins.
+    if (!matrixTimelinePinnedEventIds_.isEmpty()) {
+        matrixTimelinePinnedEventIds_.clear();
+        emit matrixTimelineStateChanged();
+    }
+    komai::MatrixBackendRuntimeService::subscribeToRoom(handleId, roomId);
+
     activeMatrixTimelineRoomId_             = roomId;
     matrixTimelineInitialPrefetchAttempted_ = false;
     {
@@ -496,7 +517,7 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
     const auto roomId   = activeMatrixTimelineRoomId_;
 
     if (handleId == 0 || roomId.isEmpty()) {
-        if (applyActiveMatrixTimelineRoomState({}, {}, false, false))
+        if (applyActiveMatrixTimelineRoomState({}, false, false))
             emit matrixTimelineStateChanged();
         return;
     }
@@ -538,14 +559,9 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
                  canCacheEmptyFrequentReactions]() {
         const auto context = komai::matrix_backend::blockingCallContext();
         MatrixTimelineRoomStateSnapshot snapshot;
-        QString pinnedError;
         QString frequentReactionsError;
         QString permissionsError;
 
-        const auto pinned = komai::MatrixBackendRuntimeService::fetchRoomPinnedEventIds(
-          context, handleId, roomId, &pinnedError);
-        if (pinned)
-            snapshot.pinnedEventIds = *pinned;
         snapshot.frequentReactions              = cachedFrequentReactions;
         snapshot.canCacheEmptyFrequentReactions = canCacheEmptyFrequentReactions;
 
@@ -582,7 +598,6 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
            roomId,
            requestId,
            snapshot               = std::move(snapshot),
-           pinnedError            = std::move(pinnedError),
            frequentReactionsError = std::move(frequentReactionsError),
            permissionsError       = std::move(permissionsError)]() mutable {
               if (!guard)
@@ -607,15 +622,6 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
                       guard->refreshActiveMatrixTimelineRoomStateAsync();
                   }
                   return;
-              }
-
-              if (!pinnedError.isEmpty()) {
-                  komai::logging::ui()->warn(
-                    "Failed to fetch matrix-sdk room pinned events for '{}' on "
-                    "handle {}: {}",
-                    roomId.toStdString(),
-                    handleId,
-                    pinnedError.toStdString());
               }
 
               if (!frequentReactionsError.isEmpty()) {
@@ -646,8 +652,7 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
                     });
               }
 
-              if (guard->applyActiveMatrixTimelineRoomState(std::move(snapshot.pinnedEventIds),
-                                                            std::move(snapshot.frequentReactions),
+              if (guard->applyActiveMatrixTimelineRoomState(std::move(snapshot.frequentReactions),
                                                             snapshot.canRedactOwn,
                                                             snapshot.canRedactOther)) {
                   emit guard->matrixTimelineStateChanged();
@@ -663,19 +668,16 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
 }
 
 bool
-TimelineViewManager::applyActiveMatrixTimelineRoomState(QStringList pinnedEventIds,
-                                                        QStringList frequentReactions,
+TimelineViewManager::applyActiveMatrixTimelineRoomState(QStringList frequentReactions,
                                                         bool canRedactOwn,
                                                         bool canRedactOther)
 {
-    if (matrixTimelinePinnedEventIds_ == pinnedEventIds &&
-        matrixTimelineFrequentReactions_ == frequentReactions &&
+    if (matrixTimelineFrequentReactions_ == frequentReactions &&
         matrixTimelineCanRedactOwn_ == canRedactOwn &&
         matrixTimelineCanRedactOther_ == canRedactOther) {
         return false;
     }
 
-    matrixTimelinePinnedEventIds_    = std::move(pinnedEventIds);
     matrixTimelineFrequentReactions_ = std::move(frequentReactions);
     matrixTimelineCanRedactOwn_      = canRedactOwn;
     matrixTimelineCanRedactOther_    = canRedactOther;
@@ -1025,6 +1027,8 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
             const auto *mainWindow = MainWindow::instance();
             const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
             if (handleId != 0) {
+                komai::MatrixBackendRuntimeService::unsubscribeFromRoom(
+                  handleId, activeMatrixTimelineRoomId_);
                 QString error;
                 if (!komai::MatrixBackendRuntimeService::selectActiveRoomTimeline(
                       handleId, QString(), &error)) {
@@ -2831,6 +2835,29 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
         } catch (const std::exception &) {
         }
     }
+}
+
+void
+TimelineViewManager::handleMatrixBackendRoomPinnedEventsChanged(std::uint64_t handleId,
+                                                                const QString &roomId,
+                                                                const QStringList &eventIds)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    // The Rust reconciler only keeps forwarders alive for subscribed rooms,
+    // but subscribe/unsubscribe is debounced so a late update for a room
+    // we've already switched away from can still land here. Only apply for
+    // the currently active room.
+    if (roomId != activeMatrixTimelineRoomId_)
+        return;
+
+    if (matrixTimelinePinnedEventIds_ == eventIds)
+        return;
+
+    matrixTimelinePinnedEventIds_ = eventIds;
+    emit matrixTimelineStateChanged();
 }
 
 void

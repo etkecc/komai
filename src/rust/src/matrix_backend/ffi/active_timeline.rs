@@ -129,6 +129,14 @@ pub(crate) fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) 
     matrix_backend::runtime::select_active_room_timeline(handle_id, room_id)
 }
 
+pub(crate) fn matrix_subscribe_to_room(handle_id: u64, room_id: &str) -> Result<(), String> {
+    matrix_backend::runtime::subscribe_room(handle_id, room_id)
+}
+
+pub(crate) fn matrix_unsubscribe_from_room(handle_id: u64, room_id: &str) -> Result<(), String> {
+    matrix_backend::runtime::unsubscribe_room(handle_id, room_id)
+}
+
 pub(crate) fn matrix_set_active_room_timeline_initial_page_size(
     handle_id: u64,
     page_size: u16,

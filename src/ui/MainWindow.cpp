@@ -789,11 +789,17 @@ void
 MainWindow::addPerRoomWindow(const QString &room, QWindow *window)
 {
     roomWindows_.insert(room, window);
+    if (matrixBackendHandleId_ != 0 && !room.isEmpty()) {
+        komai::MatrixBackendRuntimeService::subscribeToRoom(matrixBackendHandleId_, room);
+    }
 }
 void
 MainWindow::removePerRoomWindow(const QString &room, QWindow *window)
 {
     roomWindows_.remove(room, window);
+    if (matrixBackendHandleId_ != 0 && !room.isEmpty()) {
+        komai::MatrixBackendRuntimeService::unsubscribeFromRoom(matrixBackendHandleId_, room);
+    }
 }
 QWindow *
 MainWindow::windowForRoom(const QString &room)

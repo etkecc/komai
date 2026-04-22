@@ -187,7 +187,7 @@ set(KDSingleApplication_EXAMPLES OFF CACHE BOOL INTERNAL)
 CPMAddPackage(
     NAME kdsingleapplication
     GIT_REPOSITORY https://github.com/KDAB/KDSingleApplication.git
-    GIT_TAG v1.2.0
+    GIT_TAG v1.2.1
 )
 
 if(Qt6Widgets_FOUND)

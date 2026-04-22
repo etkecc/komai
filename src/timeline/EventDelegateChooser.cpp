@@ -536,12 +536,18 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
 
     this->currentId = id;
 
-    int role = -1;
+    int role         = -1;
+    bool foundInRoom = false;
     if (chooser.room_) {
         const int typeRoleId = lookupTypeRole(chooser.room_);
-        if (typeRoleId >= 0)
-            role = chooser.room_->dataById(id, typeRoleId, forReply ? chooser.eventId_ : QString())
-                     .toInt();
+        if (typeRoleId >= 0) {
+            const auto typeValue =
+              chooser.room_->dataById(id, typeRoleId, forReply ? chooser.eventId_ : QString());
+            if (typeValue.isValid()) {
+                foundInRoom = true;
+                role        = typeValue.toInt();
+            }
+        }
     } else {
         QVariant roleValue;
         auto previewData = chooser.property(forReply ? "replyPreviewData" : "previewData");
@@ -566,15 +572,25 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
 
     if (churnPerfEnabled()) {
         komai::logging::ui()->info("[churn] reset chooser={} event={} forReply={} hadObject={} "
-                                   "oldType={} newType={} hasRoom={}",
+                                   "oldType={} newType={} hasRoom={} foundInRoom={}",
                                    (void *)&chooser,
                                    id.toStdString(),
                                    forReply,
                                    object() != nullptr,
                                    oldType,
                                    role,
-                                   chooser.room_ != nullptr);
+                                   chooser.room_ != nullptr,
+                                   foundInRoom);
     }
+
+    // Stale-delegate guard: if the chooser has a room but the event isn't in
+    // it, `eventId_` is a leftover from a previous model — the delegate's
+    // required-property update hasn't caught up with the view's model swap
+    // (e.g. thread↔per-room transition). Skip the fallback so we don't
+    // flash "Unsupported"; the ListView will release or rebind the delegate
+    // shortly, and setEventId will trigger a proper reset then.
+    if (chooser.room_ && !foundInRoom)
+        return;
 
     // For roomless delegates, if the type hasn't changed and we already have
     // a delegate, update its properties in-place instead of destroying and

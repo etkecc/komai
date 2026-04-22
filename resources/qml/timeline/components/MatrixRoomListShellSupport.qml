@@ -313,6 +313,21 @@ QtObject {
             });
         }
 
+        // Cached-item flush: offscreen delegates sitting in the cacheBuffer
+        // region aren't always released on model swap, so stragglers from
+        // the old model can keep rendering alongside new-model items (and
+        // their EventDelegateChooser.room binding flips under them on a
+        // thread↔per-room swap). Zeroing cacheBuffer forces release of
+        // those cached items; restore on the next tick.
+        const savedCacheBuffer = timelineList.cacheBuffer;
+        if (savedCacheBuffer > 0) {
+            timelineList.cacheBuffer = 0;
+            Qt.callLater(function () {
+                if (timelineList)
+                    timelineList.cacheBuffer = savedCacheBuffer;
+            });
+        }
+
         timelineList.previousCount = timelineList.count;
         if (!timelineList.userUnpinned && timelineList.keepPinnedToBottom && timelineList.count > 0)
             timelineList.positionViewAtBeginning();

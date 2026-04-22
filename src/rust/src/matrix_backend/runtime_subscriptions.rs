@@ -235,28 +235,20 @@ impl PinnedForwarder {
                 tokio::time::sleep(FORWARDER_ROOM_WAIT).await;
             };
 
-            // Seed the UI with the authoritative current value. The state
-            // store is our first choice, but may be empty on a first
-            // subscription (before sliding sync has delivered the
-            // `m.room.pinned_events` state event). In that case we do a
-            // single `/state` fallback per session per room, which gives
-            // us immediate data for the header bar rather than making the
-            // user wait a sync round to see anything.
-            let mut last_emitted = match room.pinned_event_ids() {
-                Some(ids) => ids,
-                None => match room.load_pinned_events().await {
-                    Ok(Some(ids)) => ids,
-                    Ok(None) => Vec::new(),
-                    Err(error) => {
-                        tracing::debug!(
-                            room_id = %room.room_id(),
-                            %error,
-                            "Initial pinned-events /state fetch failed; starting from empty"
-                        );
-                        Vec::new()
-                    }
-                },
-            };
+            // Seed the UI with whatever the state store currently has. On a
+            // first subscription the value may be `None` because the
+            // sliding-sync response carrying `m.room.pinned_events` as
+            // required_state hasn't landed yet — in that case we emit an
+            // empty list and wait for the stream below. The gap is one
+            // sync round (sub-second on a healthy server, since
+            // `subscribe_to_rooms` cancels the in-flight request).
+            //
+            // We deliberately do NOT fall back to `/state` here: it
+            // produces an unavoidable `matrix_sdk::http_client: Error
+            // while sending request ... status=404` log for every room
+            // that has no pinned events — of which the vast majority of a
+            // normal user's rooms qualify — drowning out real HTTP errors.
+            let mut last_emitted = room.pinned_event_ids().unwrap_or_default();
             emit(handle_id, room.room_id(), &last_emitted);
 
             let mut stream = Box::pin(room.pinned_event_ids_stream());

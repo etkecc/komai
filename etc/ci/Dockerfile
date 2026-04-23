@@ -27,7 +27,7 @@ FROM docker.io/archlinux:base-devel
 # rust-toolchain.toml honor the repo's pinned toolchain.
 RUN pacman -Syu --noconfirm --needed \
         git \
-        ccache \
+        ccache mold \
         cmake just python python-yaml mise reuse rustup \
         qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
         cmark openssl \

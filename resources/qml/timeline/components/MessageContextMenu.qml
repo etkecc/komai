@@ -166,6 +166,9 @@ Menu {
                 // Capture targets into locals: triggering the MenuItem closes
                 // the Menu and `onClosed` nulls out actionRoomModel, so the
                 // async emoji-pick callback must not read effectiveRoomModel.
+                // `actionMessageModel` is the message wrapper delegate Item in
+                // the default flow — pass it as the emoji popup anchor so the
+                // picker opens near the clicked message rather than the origin.
                 onTriggered: {
                     if (emojiPopup.visible) {
                         emojiPopup.close();
@@ -173,9 +176,14 @@ Menu {
                     }
                     const targetRoom = messageContextMenuRoot.effectiveRoomModel;
                     const targetEventId = messageContextMenuRoot.eventId;
+                    const candidateAnchor = messageContextMenuRoot.actionMessageModel;
+                    const anchor = (candidateAnchor
+                        && typeof candidateAnchor.mapToGlobal === "function")
+                        ? candidateAnchor
+                        : null;
                     if (!targetRoom)
                         return;
-                    emojiPopup.show(null, targetRoom.roomId, function (plaintext, markdown) {
+                    emojiPopup.show(anchor, targetRoom.roomId, function (plaintext, markdown) {
                         if (targetRoom && targetRoom.input)
                             targetRoom.input.reaction(targetEventId, plaintext);
                         TimelineManager.focusMessageInput();

@@ -297,44 +297,51 @@ Popup {
         console.debug("Showing sticker picker");
         roomid = roomid_;
         stickerPopup.callback = callback;
-        if (showAt && stickerPopup.parent) {
+        if (stickerPopup.parent) {
             const parentItem = stickerPopup.parent;
             const popupWidth = Math.max(stickerPopup.width, stickerPopup.implicitWidth);
             const popupHeight = Math.max(stickerPopup.height, stickerPopup.implicitHeight);
             const maxX = Math.max(0, parentItem.width - popupWidth);
             const maxY = Math.max(0, parentItem.height - popupHeight);
 
-            const anchorTopLeftGlobal = showAt.mapToGlobal(0, 0);
-            const anchorBottomRightGlobal = showAt.mapToGlobal(showAt.width, showAt.height);
-            const anchorTopLeft = parentItem.mapFromGlobal(anchorTopLeftGlobal.x, anchorTopLeftGlobal.y);
-            const anchorBottomRight = parentItem.mapFromGlobal(anchorBottomRightGlobal.x, anchorBottomRightGlobal.y);
+            if (showAt && typeof showAt.mapToGlobal === "function") {
+                const anchorTopLeftGlobal = showAt.mapToGlobal(0, 0);
+                const anchorBottomRightGlobal = showAt.mapToGlobal(showAt.width, showAt.height);
+                const anchorTopLeft = parentItem.mapFromGlobal(anchorTopLeftGlobal.x, anchorTopLeftGlobal.y);
+                const anchorBottomRight = parentItem.mapFromGlobal(anchorBottomRightGlobal.x, anchorBottomRightGlobal.y);
 
-            const preferredX = anchorBottomRight.x - popupWidth;
-            const belowY = anchorBottomRight.y;
+                const preferredX = anchorBottomRight.x - popupWidth;
+                const belowY = anchorBottomRight.y;
 
-            let aboveReferenceY = anchorTopLeft.y;
-            if (openAbove) {
-                const aboveGlobal = openAbove.mapToGlobal(0, 0);
-                const aboveLocal = parentItem.mapFromGlobal(aboveGlobal.x, aboveGlobal.y);
-                aboveReferenceY = aboveLocal.y;
+                let aboveReferenceY = anchorTopLeft.y;
+                if (openAbove) {
+                    const aboveGlobal = openAbove.mapToGlobal(0, 0);
+                    const aboveLocal = parentItem.mapFromGlobal(aboveGlobal.x, aboveGlobal.y);
+                    aboveReferenceY = aboveLocal.y;
+                }
+                const aboveY = aboveReferenceY - popupHeight;
+
+                const canOpenAbove = aboveY >= 0;
+                const canOpenBelow = belowY + popupHeight <= parentItem.height;
+                const visibleAreaAbove = Math.max(0, Math.min(aboveReferenceY, popupHeight));
+                const visibleAreaBelow = Math.max(0, Math.min(parentItem.height - belowY, popupHeight));
+
+                let targetY = aboveY;
+                if (!canOpenAbove) {
+                    if (canOpenBelow)
+                        targetY = belowY;
+                    else
+                        targetY = visibleAreaAbove >= visibleAreaBelow ? aboveY : belowY;
+                }
+
+                stickerPopup.x = clamp(preferredX, 0, maxX);
+                stickerPopup.y = clamp(targetY, 0, maxY);
+            } else {
+                // Fallback: center in parent rather than leaving the popup at
+                // (0, 0) in the top-left when no anchor is provided.
+                stickerPopup.x = clamp((parentItem.width - popupWidth) / 2, 0, maxX);
+                stickerPopup.y = clamp((parentItem.height - popupHeight) / 2, 0, maxY);
             }
-            const aboveY = aboveReferenceY - popupHeight;
-
-            const canOpenAbove = aboveY >= 0;
-            const canOpenBelow = belowY + popupHeight <= parentItem.height;
-            const visibleAreaAbove = Math.max(0, Math.min(aboveReferenceY, popupHeight));
-            const visibleAreaBelow = Math.max(0, Math.min(parentItem.height - belowY, popupHeight));
-
-            let targetY = aboveY;
-            if (!canOpenAbove) {
-                if (canOpenBelow)
-                    targetY = belowY;
-                else
-                    targetY = visibleAreaAbove >= visibleAreaBelow ? aboveY : belowY;
-            }
-
-            stickerPopup.x = clamp(preferredX, 0, maxX);
-            stickerPopup.y = clamp(targetY, 0, maxY);
         }
         stickerPopup.open();
     }

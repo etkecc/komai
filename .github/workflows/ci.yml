@@ -133,10 +133,23 @@ jobs:
       - name: ccache — show stats
         run: ccache --show-stats -v
 
-      - name: Lint & test
+      # The three steps below used to be a single "Lint & test" step that
+      # ran `just prek-run-on-all`. Splitting surfaces per-step timing in
+      # the GH Actions UI: the `tests` prek hook calls `just test`, which
+      # builds `komai_tests` and runs cargo test against a different
+      # feature set than the main build -- so it's worth measuring
+      # separately from the fast lint hooks.
+
+      - name: Lint (prek hooks, excluding tests)
         run: |
           # The checkout action sets safe.directory using its own bundled
           # git (/usr/sbin/git), which is separate from the pacman-installed
           # git (/usr/bin/git) that prek uses.
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          just prek-run-on-all
+          just prek-run-on-all --skip tests
+
+      - name: Build & run C++ tests
+        run: just test-cpp
+
+      - name: Run Rust unit tests
+        run: just test-rust-unit

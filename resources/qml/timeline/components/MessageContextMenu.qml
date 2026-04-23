@@ -163,10 +163,24 @@ Menu {
                 visible: messageActionSupport.canReact(messageContextMenuRoot.effectiveMessageModel,
                                                        messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(null, messageContextMenuRoot.effectiveRoomModel.roomId, function (plaintext, markdown) {
-                    messageContextMenuRoot.effectiveRoomModel.input.reaction(messageContextMenuRoot.eventId, plaintext);
-                    TimelineManager.focusMessageInput();
-                })
+                // Capture targets into locals: triggering the MenuItem closes
+                // the Menu and `onClosed` nulls out actionRoomModel, so the
+                // async emoji-pick callback must not read effectiveRoomModel.
+                onTriggered: {
+                    if (emojiPopup.visible) {
+                        emojiPopup.close();
+                        return;
+                    }
+                    const targetRoom = messageContextMenuRoot.effectiveRoomModel;
+                    const targetEventId = messageContextMenuRoot.eventId;
+                    if (!targetRoom)
+                        return;
+                    emojiPopup.show(null, targetRoom.roomId, function (plaintext, markdown) {
+                        if (targetRoom && targetRoom.input)
+                            targetRoom.input.reaction(targetEventId, plaintext);
+                        TimelineManager.focusMessageInput();
+                    });
+                }
             }
         }
         Component {

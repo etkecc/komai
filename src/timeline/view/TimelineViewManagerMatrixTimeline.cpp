@@ -3057,6 +3057,17 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
     if (trimmedThreadEventId.isEmpty())
         return false;
 
+    // Re-entering the same thread (e.g. clicking "Reply in thread" on a
+    // message while already viewing that thread) must not re-subscribe.
+    // A re-subscription rebuilds the SDK TimelineFocus::Thread timeline,
+    // which drops local echoes (sync events don't flow into thread-focused
+    // timelines in matrix-sdk 0.16) and briefly replaces the snapshot with
+    // server state lagging behind the user's just-sent reply.
+    if (matrixTimelineThreadEventId_ == trimmedThreadEventId) {
+        focusMessageInput();
+        return true;
+    }
+
     if (setActiveMatrixThreadState(trimmedThreadEventId))
         emit matrixTimelineStateChanged();
 

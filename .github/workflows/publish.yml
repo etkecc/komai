@@ -53,6 +53,22 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
 
+      # Persist flatpak-builder's state-dir across releases. The dir
+      # accumulates OSTree module caches, downloaded source tarballs,
+      # and an internal ccache — which together turn a 41 min cold
+      # build into a ~7-8 min warm one (measured locally 2026-04-24).
+      # Keyed on the flatpak manifest hash so SDK/dep bumps invalidate
+      # cleanly; restore-keys fallback lets a manifest change still
+      # benefit from previously-downloaded tarballs and unchanged
+      # module builds.
+      - name: Cache flatpak-builder state
+        uses: actions/cache@v5
+        with:
+          path: var/build/flatpak/.flatpak-builder
+          key: flatpak-state-${{ hashFiles('etc/packaging/flatpak/cc.etke.komai.yaml') }}
+          restore-keys: |
+            flatpak-state-
+
       - name: Build Flatpak
         run: just flatpak-build
 

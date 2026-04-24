@@ -38,9 +38,15 @@ syntect = { version = "5", default-features = false, features = ["default-fancy"
 # See var/plans/matrix-sdk-bump-and-cleartext-send-bug.md.
 #
 # ruma is pinned to the same git rev matrix-rust-sdk uses at this SHA to avoid
-# duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.
-ruma = { git = "https://github.com/ruma/ruma", rev = "7680eebd9586669e1a4e5b1fd1c2c691221369d4", features = ["unstable-msc2545", "markdown", "html"] }
-matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite"] }
+# duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.  The
+# direct ruma dep only exists to enable the `unstable-msc2545` feature (image
+# packs / sticker packs) that matrix-sdk doesn't enable on its own; the
+# `markdown` feature comes through matrix-sdk's own `markdown` feature below,
+# and `html` is pulled transitively by matrix-sdk-ui.  Code should import ruma
+# types through `matrix_sdk::ruma::*` rather than `ruma::*` directly so we
+# don't build in a hard coupling to the direct ruma version.
+ruma = { git = "https://github.com/ruma/ruma", rev = "7680eebd9586669e1a4e5b1fd1c2c691221369d4", features = ["unstable-msc2545"] }
+matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite", "markdown"] }
 matrix-sdk-base = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da" }
 matrix-sdk-ui = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da" }
 

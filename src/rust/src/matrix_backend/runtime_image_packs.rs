@@ -5,11 +5,20 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use super::*;
-use matrix_sdk::{Room, room::ParentSpace, ruma::events::SyncStateEvent};
-use ruma::{MxcUri, events::image_pack::{
-    AccountImagePackEventContent, ImagePackRoomContent, ImagePackRoomsEventContent, PackImage,
-    PackInfo, PackUsage, RoomImagePackEventContent,
-}};
+use matrix_sdk::{
+    Room,
+    room::ParentSpace,
+    ruma::{
+        MxcUri, OwnedMxcUri, OwnedRoomId,
+        events::{
+            SyncStateEvent,
+            image_pack::{
+                AccountImagePackEventContent, ImagePackRoomContent, ImagePackRoomsEventContent,
+                PackImage, PackInfo, PackUsage, RoomImagePackEventContent,
+            },
+        },
+    },
+};
 
 fn pack_usage_allows(usage: &BTreeSet<PackUsage>, target: PackUsage) -> bool {
     usage.is_empty() || usage.contains(&target)
@@ -139,7 +148,7 @@ fn pack_usage_from_matrix_pack(pack: &MatrixImagePack) -> BTreeSet<PackUsage> {
     usage
 }
 
-fn parse_pack_image_url(url: &str) -> Result<ruma::OwnedMxcUri, String> {
+fn parse_pack_image_url(url: &str) -> Result<OwnedMxcUri, String> {
     let trimmed = url.trim();
     if trimmed.is_empty() {
         return Err("image pack image url cannot be empty".to_owned());
@@ -309,7 +318,7 @@ async fn store_enabled_room_packs(
 
 fn set_room_pack_enabled(
     content: &mut ImagePackRoomsEventContent,
-    room_id: &ruma::OwnedRoomId,
+    room_id: &OwnedRoomId,
     state_key: &str,
     enabled: bool,
 ) {

@@ -10,7 +10,10 @@ use matrix_sdk_base::event_cache::store::EventCacheStoreLockState;
 use matrix_sdk::room::ListThreadsOptions;
 use matrix_sdk::ruma::{
     EventId,
-    api::client::room::get_room_event,
+    api::client::{
+        room::get_room_event,
+        threads::get_threads::v1::IncludeThreads,
+    },
     events::{
         AnySyncMessageLikeEvent, AnySyncTimelineEvent,
         reaction::ReactionEventContent,
@@ -19,7 +22,6 @@ use matrix_sdk::ruma::{
     },
 };
 use matrix_sdk_base::deserialized_responses::ThreadSummaryStatus;
-use ruma::api::client::threads::get_threads::v1::IncludeThreads;
 
 // ---------------------------------------------------------------------------
 // Frequent reactions

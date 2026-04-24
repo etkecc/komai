@@ -372,6 +372,7 @@ AbstractButton {
                     // we have no text there, Qt culls the item before we fill it.
                     text: r.userName || "."
                     color: Komai.readableAccentTextColor(r.userColor, r.roomColor)
+                    font.pointSize: Settings.uiFontSizePt
                     textFormat: Text.RichText
                     width: usernameBtn.width
                 }

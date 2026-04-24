@@ -7746,7 +7746,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Edytowane</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+43"/>
         <source>Unpin</source>
         <translation type="unfinished">Odepnij</translation>
     </message>

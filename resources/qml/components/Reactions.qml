@@ -70,7 +70,7 @@ Flow {
                 Text {
                     id: reactionText
 
-                    anchors.baseline: reactionCounter.baseline
+                    anchors.verticalCenter: parent.verticalCenter
                     color: reaction.hovered ? palette.brightText : palette.text
                     font.family: Settings.uiFontEmojiFamily
                     font.pointSize: Settings.uiFontSizePt * 2

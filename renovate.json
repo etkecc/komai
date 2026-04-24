@@ -109,14 +109,14 @@
       "groupName": "rust dependencies"
     },
     {
-      "description": "matrix-sdk (currently 0.16.0, awaiting 0.17.0) and ruma are consumed as git revs, not crates.io releases. Upstream HEAD moves fast and occasionally changes API in ways that need code adaptation on our side; Renovate proposing a digest bump multiple times a day just creates noise. The dependency dashboard still surfaces updates for manual approval so we retain visibility — we bump when we're ready to follow through on any API changes.",
+      "description": "matrix-sdk (currently 0.16.0, awaiting 0.17.0) and ruma are consumed as git revs, not crates.io releases. Upstream HEAD moves fast and occasionally changes API in ways that need code adaptation on our side; Renovate proposing a digest bump multiple times a day just creates noise. Disable updates entirely — the dependency dashboard still lists these under Detected Dependencies for visibility, and we bump manually when we're ready to follow through on any API changes.",
       "matchPackageNames": [
         "ruma",
         "matrix-sdk",
         "matrix-sdk-base",
         "matrix-sdk-ui"
       ],
-      "dependencyDashboardApproval": true
+      "enabled": false
     }
   ]
 }

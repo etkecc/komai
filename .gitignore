@@ -35,6 +35,11 @@ AppDir/
 package.dir
 *.bz2
 
+# Packaging recipe fallback — written by just flatpak-build /
+# appimage-build-docker / snap-build-docker so CMake can embed the
+# git hash in builds that happen without a real .git directory.
+.git-commit-hash
+
 # Dependencies/tool vendor dirs
 .third-party
 .deps

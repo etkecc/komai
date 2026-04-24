@@ -248,7 +248,12 @@ set(PROJECT_VERSION "${KOMAI_VERSION_STRING}")
 
 message(STATUS "Version: ${PROJECT_VERSION}")
 
-# Get git commit hash for version info
+# Get git commit hash for version info. Packaging recipes (flatpak,
+# appimage, snap) build in environments where `git rev-parse` can't
+# reach the repo — sources are copied in without `.git`, or with
+# ownership mismatches that trip git's safe.directory check. Those
+# recipes write `.git-commit-hash` in the source root on the host
+# before launching the sandboxed build; CMake reads it as a fallback.
 execute_process(
     COMMAND git rev-parse --short=8 HEAD
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -256,6 +261,10 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
 )
+if(NOT GIT_COMMIT_HASH AND EXISTS "${CMAKE_SOURCE_DIR}/.git-commit-hash")
+    file(READ "${CMAKE_SOURCE_DIR}/.git-commit-hash" GIT_COMMIT_HASH)
+    string(STRIP "${GIT_COMMIT_HASH}" GIT_COMMIT_HASH)
+endif()
 if(NOT GIT_COMMIT_HASH)
     set(GIT_COMMIT_HASH "unknown")
 endif()

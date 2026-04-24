@@ -282,6 +282,16 @@ flatpak-build: _ensure_just_temp_directory emoji-fetch flatpak-cargo-sources
 	#!/usr/bin/env bash
 	set -euo pipefail
 
+	# flatpak-builder skips .git (see cc.etke.komai.yaml), so CMake inside
+	# the sandbox can't probe the commit hash.  Write it to a file that
+	# CMakeLists.txt reads as a fallback — only the value is shipped, no
+	# git history exposure.
+	if git -C "{{ justfile_directory() }}" rev-parse --short=8 HEAD >"{{ justfile_directory() }}/.git-commit-hash" 2>/dev/null; then
+		echo "Wrote .git-commit-hash: $(cat "{{ justfile_directory() }}/.git-commit-hash")"
+	else
+		rm -f "{{ justfile_directory() }}/.git-commit-hash"
+	fi
+
 	# Ensure flathub is available as a user remote (needed for --install-deps-from)
 	if ! flatpak remotes --user --columns=name | grep -qx flathub; then
 		echo "Adding flathub user remote..."
@@ -319,7 +329,20 @@ flatpak-clean:
 
 # Builds an AppImage bundle inside a Docker container (works on any distro)
 appimage-build-docker: emoji-fetch
-	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-docker "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
+	#!/usr/bin/env bash
+	set -euo pipefail
+
+	# The Docker build copies the source tree into a container where git's
+	# safe.directory check may reject the repo (bind-mount ownership
+	# mismatch), causing CMake's git probe to fail and the hash to land
+	# as "unknown".  Write the hash on the host so CMake has a fallback.
+	if git -C "{{ justfile_directory() }}" rev-parse --short=8 HEAD >"{{ justfile_directory() }}/.git-commit-hash" 2>/dev/null; then
+		echo "Wrote .git-commit-hash: $(cat "{{ justfile_directory() }}/.git-commit-hash")"
+	else
+		rm -f "{{ justfile_directory() }}/.git-commit-hash"
+	fi
+
+	"{{ justfile_directory() }}/etc/packaging/appimage/bin/build-docker" "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
 
 # Builds an AppImage bundle natively (requires Ubuntu 25.04+ with appimage-builder installed)
 appimage-build-native: emoji-fetch
@@ -327,7 +350,19 @@ appimage-build-native: emoji-fetch
 
 # Builds a snap package inside a Docker container (works on any distro)
 snap-build-docker: emoji-fetch
-	{{ justfile_directory() }}/etc/packaging/snap/bin/build-docker "{{ justfile_directory() }}" "{{ snap_build_dir }}"
+	#!/usr/bin/env bash
+	set -euo pipefail
+
+	# Snap build-docker tars the source with `--exclude=.git`, so CMake
+	# inside the container has nothing to probe.  Write the hash on the
+	# host so CMake reads it as a fallback.
+	if git -C "{{ justfile_directory() }}" rev-parse --short=8 HEAD >"{{ justfile_directory() }}/.git-commit-hash" 2>/dev/null; then
+		echo "Wrote .git-commit-hash: $(cat "{{ justfile_directory() }}/.git-commit-hash")"
+	else
+		rm -f "{{ justfile_directory() }}/.git-commit-hash"
+	fi
+
+	"{{ justfile_directory() }}/etc/packaging/snap/bin/build-docker" "{{ justfile_directory() }}" "{{ snap_build_dir }}"
 
 # Builds a snap package natively (requires snapcraft + LXD)
 snap-build-native: emoji-fetch

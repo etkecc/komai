@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Manage Komai translations: normalize .ts files and auto-translate via Claude CLI.
+"""Manage Komai translations: normalize .ts files and auto-translate via an LLM.
 
 Subcommands:
     normalize   Normalize .ts files to a canonical XML format (idempotent).
-    translate   Translate unfinished strings for a language using Claude CLI.
+    translate   Translate unfinished strings for a language using an LLM.
 
 Examples:
     python3 bin/translations/translate.py normalize
@@ -14,11 +14,13 @@ Examples:
 
 The translate subcommand:
 1. Parses resources/langs/<lang>/komai_<lang>.ts for unfinished translations
-2. Sends batches of source strings to the Claude CLI for translation
+2. Sends batches of source strings to the configured LLM for translation
 3. Injects each batch back into the .ts file immediately (incremental save)
 4. On re-run, only processes remaining unfinished strings
 
-Requires the `claude` CLI to be installed and authenticated.
+The current LLM integration uses the `claude` CLI — see `call_claude()`. If
+you need a different provider, swap that one function; the rest of the
+pipeline is provider-neutral.
 """
 
 import argparse
@@ -29,6 +31,7 @@ import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+from collections import Counter
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.join(SCRIPT_DIR, "..", "..")
@@ -92,10 +95,18 @@ def read_guide_instructions(lang: str) -> str:
     return "\n\n".join(parts)
 
 
+def _clean_location(filename: str) -> str:
+    """Strip lupdate's '../../' relative prefix for readability in prompts."""
+    return re.sub(r"^(?:\.\./)+", "", filename)
+
+
 def extract_unfinished(ts_path: str) -> tuple[list[dict], int]:
     """Extract all unfinished translation entries from a .ts file.
 
     Returns (unfinished_list, skipped_numerus_count).
+    Each entry dict always has 'source' and 'context'; the optional
+    'location', 'comment', and 'extracomment' fields are included when
+    present in the .ts file to give the translator more context.
     Numerus (plural) messages are skipped because they require special
     handling with multiple plural forms that varies by language.
     """
@@ -104,23 +115,51 @@ def extract_unfinished(ts_path: str) -> tuple[list[dict], int]:
     unfinished = []
     skipped_numerus = 0
 
+    # lupdate emits <location filename="..."/> only on the first location
+    # of each run of same-file messages; subsequent <location line="+N"/>
+    # tags inherit the filename from the previous one. Track the most
+    # recent filename so we can attach it to every message, not just the
+    # first in each file-run.
+    current_filename: str | None = None
+
     for context_elem in root.findall("context"):
-        context_name = context_elem.findtext("name", "")
         for message in context_elem.findall("message"):
+            # Update current_filename from any <location> with an explicit
+            # filename attribute, in document order — do this regardless
+            # of whether the message is unfinished, so state stays correct.
+            for loc in message.findall("location"):
+                fname = loc.get("filename")
+                if fname:
+                    current_filename = _clean_location(fname)
+                    break
+
             translation = message.find("translation")
-            if translation is not None and translation.get("type") == "unfinished":
-                # Skip numerus (plural) messages — they need special handling
-                if message.get("numerus") == "yes":
-                    skipped_numerus += 1
-                    continue
-                source = message.findtext("source", "")
-                if source:
-                    unfinished.append(
-                        {
-                            "source": source,
-                            "context": context_name,
-                        }
-                    )
+            if translation is None or translation.get("type") != "unfinished":
+                continue
+            # Skip numerus (plural) messages — they need special handling
+            if message.get("numerus") == "yes":
+                skipped_numerus += 1
+                continue
+            source = message.findtext("source", "")
+            if not source:
+                continue
+
+            entry = {
+                "source": source,
+                "context": context_elem.findtext("name", ""),
+            }
+            if current_filename:
+                entry["location"] = current_filename
+
+            comment = message.findtext("comment")
+            if comment:
+                entry["comment"] = comment.strip()
+
+            extracomment = message.findtext("extracomment")
+            if extracomment:
+                entry["extracomment"] = extracomment.strip()
+
+            unfinished.append(entry)
 
     return unfinished, skipped_numerus
 
@@ -202,6 +241,80 @@ def inject_translations(ts_path: str, translations: dict[tuple[str, str], str]):
     return injected
 
 
+_PLACEHOLDER_RE = re.compile(r"%(?:L?\d|n)")
+_HTML_TAG_RE = re.compile(r"</?[a-zA-Z][^>]*/?>")
+_SHORTCUT_RE = re.compile(
+    r"(?:Ctrl|Alt|Shift|Meta|Cmd|Super)\+"
+    r"(?:F\d+|[A-Za-z0-9]+|Enter|Return|Space|Tab|Esc|Escape|"
+    r"Delete|Del|Backspace|Insert|Home|End|PageUp|PageDown|"
+    r"Left|Right|Up|Down)"
+)
+
+
+def validate_translation(source: str, translation: str) -> list[str]:
+    """Return a list of problems found in `translation` relative to `source`.
+
+    Empty list means the translation is structurally sound. Checks:
+    - every placeholder (%1, %2, %n, %L1, ...) in source appears at
+      least as many times in translation
+    - HTML-like tag count matches (we tolerate attribute reordering)
+    - the count of '&&' literal ampersand escapes is preserved
+    - every keyboard shortcut token (Ctrl+K etc.) in source appears
+      verbatim in translation
+
+    Intentionally lenient on anything cosmetic (quote style, whitespace,
+    XML entities — those are already decoded by ElementTree before we
+    see them) to avoid false positives. The goal is catching breakage
+    the user would see at runtime, not style nits.
+    """
+    problems: list[str] = []
+
+    src_ph = Counter(_PLACEHOLDER_RE.findall(source))
+    tr_ph = Counter(_PLACEHOLDER_RE.findall(translation))
+    for ph, count in src_ph.items():
+        if tr_ph.get(ph, 0) < count:
+            problems.append(
+                f"placeholder {ph!r} missing "
+                f"(source: {count}, translation: {tr_ph.get(ph, 0)})"
+            )
+
+    src_tags = len(_HTML_TAG_RE.findall(source))
+    tr_tags = len(_HTML_TAG_RE.findall(translation))
+    if src_tags != tr_tags:
+        problems.append(
+            f"HTML tag count mismatch (source: {src_tags}, translation: {tr_tags})"
+        )
+
+    src_amp = source.count("&&")
+    tr_amp = translation.count("&&")
+    if src_amp != tr_amp:
+        problems.append(
+            f"'&&' count mismatch (source: {src_amp}, translation: {tr_amp})"
+        )
+
+    for sc in set(_SHORTCUT_RE.findall(source)):
+        if sc not in translation:
+            problems.append(f"keyboard shortcut {sc!r} missing from translation")
+
+    return problems
+
+
+def build_prompt(batch: list[dict], lang: str, instructions: str) -> str:
+    """Render the LLM prompt for a batch. Exposed for --print-prompt."""
+    lang_name = LANGUAGE_NAMES.get(lang, lang)
+    return f"""{instructions}
+
+---
+
+Translate the following UI strings from English to **{lang_name}** ({lang}).
+
+Return ONLY a JSON array. Each element must have "source" (unchanged) and "translation" fields. Return exactly one object per input item, in the same order — do not omit any.
+
+```json
+{json.dumps(batch, ensure_ascii=False, indent=2)}
+```"""
+
+
 def call_claude(prompt: str, model: str | None) -> str:
     """Call the Claude CLI with a prompt and return the response."""
     cmd = [
@@ -231,7 +344,7 @@ def call_claude(prompt: str, model: str | None) -> str:
 
 
 def extract_json_from_response(response: str) -> list[dict]:
-    """Extract JSON array from Claude's response, handling markdown fences."""
+    """Extract JSON array from the LLM's response, handling markdown fences."""
     # Try direct parse first
     try:
         return json.loads(response)
@@ -254,7 +367,7 @@ def extract_json_from_response(response: str) -> list[dict]:
         except json.JSONDecodeError:
             pass
 
-    raise ValueError(f"Could not extract JSON from Claude response:\n{response[:500]}")
+    raise ValueError(f"Could not extract JSON from LLM response:\n{response[:500]}")
 
 
 def translate_batch(
@@ -263,24 +376,14 @@ def translate_batch(
     instructions: str,
     model: str | None,
 ) -> dict[tuple[str, str], str]:
-    """Translate a batch of strings using Claude.
+    """Translate a batch of strings using the configured LLM.
 
-    Returns dict of (context, source) -> translation.
+    Returns dict of (context, source) -> translation. Translations that
+    fail validation (missing placeholders, dropped HTML tags, etc.) are
+    excluded so they remain 'unfinished' and get re-processed on the
+    next run.
     """
-    lang_name = LANGUAGE_NAMES.get(lang, lang)
-
-    prompt = f"""{instructions}
-
----
-
-Translate the following UI strings from English to **{lang_name}** ({lang}).
-
-Return ONLY a JSON array. Each element must have "source" (unchanged) and "translation" fields.
-
-```json
-{json.dumps(batch, ensure_ascii=False, indent=2)}
-```"""
-
+    prompt = build_prompt(batch, lang, instructions)
     response = call_claude(prompt, model)
     results = extract_json_from_response(response)
 
@@ -290,13 +393,40 @@ Return ONLY a JSON array. Each element must have "source" (unchanged) and "trans
     for item in batch:
         source_to_contexts.setdefault(item["source"], []).append(item["context"])
 
-    translations = {}
+    returned_sources: set[str] = set()
+    translations: dict[tuple[str, str], str] = {}
+    rejected = 0
+
     for item in results:
         source = item.get("source", "")
         translation = item.get("translation", "")
-        if source and translation:
-            for context in source_to_contexts.get(source, [""]):
-                translations[(context, source)] = translation
+        if not (source and translation):
+            continue
+        returned_sources.add(source)
+
+        problems = validate_translation(source, translation)
+        if problems:
+            rejected += 1
+            print(
+                f"  REJECTED [{source!r}]: {'; '.join(problems)}",
+                file=sys.stderr,
+            )
+            print(f"    translation was: {translation!r}", file=sys.stderr)
+            continue
+
+        for context in source_to_contexts.get(source, [""]):
+            translations[(context, source)] = translation
+
+    missing = [item["source"] for item in batch if item["source"] not in returned_sources]
+    if missing:
+        print(f"  SKIPPED by model ({len(missing)}):", file=sys.stderr)
+        for source in missing[:10]:
+            print(f"    - {source!r}", file=sys.stderr)
+        if len(missing) > 10:
+            print(f"    ... and {len(missing) - 10} more", file=sys.stderr)
+
+    if rejected:
+        print(f"  Rejected {rejected} translations by validator", file=sys.stderr)
 
     return translations
 
@@ -326,7 +456,7 @@ def cmd_normalize(args):
 
 
 def cmd_translate(args):
-    """Translate unfinished strings for a language using Claude CLI."""
+    """Translate unfinished strings for a language using the configured LLM."""
     ts_path = os.path.join(LANGS_DIR, args.lang, f"komai_{args.lang}.ts")
     if not os.path.isfile(ts_path):
         print(f"ERROR: {ts_path} not found", file=sys.stderr)
@@ -341,6 +471,10 @@ def cmd_translate(args):
             print(f"  ({skipped_numerus} plural forms skipped — not yet supported)")
         return
 
+    # Cluster by (context, source) so related strings stay in the same
+    # batch — gives the model consistency pressure within one call.
+    unfinished.sort(key=lambda e: (e.get("context", ""), e["source"]))
+
     lang_name = LANGUAGE_NAMES.get(args.lang, args.lang)
     print(f"Language: {lang_name} ({args.lang})")
     print(f"Unfinished: {len(unfinished)} strings")
@@ -351,13 +485,24 @@ def cmd_translate(args):
     if args.dry_run:
         print(f"\nDry run — first 10 unfinished strings:")
         for item in unfinished[:10]:
-            print(f"  [{item['context']}] {item['source']}")
+            extras = []
+            if item.get("location"):
+                extras.append(f"loc={item['location']}")
+            if item.get("extracomment"):
+                extras.append(f"hint={item['extracomment']!r}")
+            suffix = f" ({', '.join(extras)})" if extras else ""
+            print(f"  [{item['context']}] {item['source']}{suffix}")
         if len(unfinished) > 10:
             print(f"  ... and {len(unfinished) - 10} more")
         return
 
     # Read agent instructions
     instructions = read_guide_instructions(args.lang)
+
+    if args.print_prompt:
+        first_batch = unfinished[: args.batch_size]
+        print(build_prompt(first_batch, args.lang, instructions))
+        return
 
     # Process in batches
     total_batches = (len(unfinished) + args.batch_size - 1) // args.batch_size
@@ -387,7 +532,7 @@ def cmd_translate(args):
         if received < expected:
             print(
                 f"  WARNING: received {received}/{expected} translations "
-                f"(some may have been skipped by Claude)"
+                f"(some may have been skipped by the model)"
             )
 
         # Inject immediately
@@ -425,24 +570,29 @@ def main():
 
     # translate subcommand
     trans_parser = subparsers.add_parser(
-        "translate", help="Translate unfinished strings using Claude CLI"
+        "translate", help="Translate unfinished strings using an LLM"
     )
     trans_parser.add_argument("lang", help="Language code (e.g., de, fr, ja)")
     trans_parser.add_argument(
         "--batch-size",
         type=int,
         default=75,
-        help="Number of strings per Claude call (default: 75)",
+        help="Number of strings per LLM call (default: 75)",
     )
     trans_parser.add_argument(
         "--model",
         default=None,
-        help="Claude model to use (default: CLI default)",
+        help="Model to use (default: CLI default)",
     )
     trans_parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Extract and show unfinished strings without translating",
+    )
+    trans_parser.add_argument(
+        "--print-prompt",
+        action="store_true",
+        help="Print the prompt for the first batch and exit (debug aid)",
     )
 
     args = parser.parse_args()

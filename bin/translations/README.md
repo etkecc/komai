@@ -1,17 +1,17 @@
 # Translation Tooling 🌐
 
-This directory contains tooling for translation normalization and AI-assisted updates; see [`docs/maintainers/translations.md`](../../docs/maintainers/translations.md), [`docs/architecture/translations.md`](../../docs/architecture/translations.md), and the [`Claude CLI` docs](https://docs.anthropic.com/en/docs/claude-cli).
+This directory contains tooling for translation normalization and AI-assisted updates; see [`docs/maintainers/translations.md`](../../docs/maintainers/translations.md) and [`docs/architecture/translations.md`](../../docs/architecture/translations.md). The current LLM backend is the [`Claude CLI`](https://docs.anthropic.com/en/docs/claude-cli) — swap `call_claude()` in `translate.py` to use a different provider.
 
 ## Why It Exists
 
-Qt `.ts` files are XML and easily drift in formatting. We also support incremental translation filling via Claude CLI. These scripts keep translation maintenance reproducible and reviewable.
+Qt `.ts` files are XML and easily drift in formatting. We also support incremental translation filling via an LLM. These scripts keep translation maintenance reproducible and reviewable.
 
 ## Files
 
 - `check-normalized.py` - verifies staged (or all) `.ts` files are in canonical normalized XML form.
 - `translate.py` - command tool with two subcommands:
   - `normalize`: canonicalize XML formatting for `.ts` files
-  - `translate`: translate unfinished strings in batches via Claude CLI
+  - `translate`: translate unfinished strings in batches via an LLM
 
 ## Command Mapping
 
@@ -31,7 +31,7 @@ Qt `.ts` files are XML and easily drift in formatting. We also support increment
 ## Dependencies
 
 - `python3`
-- `claude` CLI (only for the `translate` subcommand)
+- An LLM CLI configured in `translate.py` (currently the `claude` CLI)
 - Qt `lupdate` tool (via the `just translations-update` workflow)
 
 Related docs:

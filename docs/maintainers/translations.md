@@ -77,9 +77,13 @@ Options (passed after the language code):
 | Flag | Default | Description |
 |------|---------|-------------|
 | `--batch-size N` | 75 | Strings per LLM call |
-| `--model MODEL` | CLI default | Model to use |
+| `--model MODEL` | `sonnet` | Model to use — see below |
 | `--dry-run` | off | Show unfinished strings without translating |
 | `--print-prompt` | off | Print the rendered prompt for the first batch and exit (debug aid) |
+
+### Model choice
+
+The pipeline defaults to **Sonnet** because translation is a high-volume structured-output task: Sonnet is roughly 3-5× faster than Opus per batch, noticeably cheaper, and equally reliable at JSON framing. Opus's extra reasoning adds no translation-quality gain for typical UI strings. Use `--model opus` for languages where you want to trade speed for maximum fluency (e.g., a final polish pass on a high-traffic language), or `--model haiku` for maximum throughput when quality can tolerate a small hit.
 
 Example with options:
 

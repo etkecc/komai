@@ -637,8 +637,14 @@ def main():
     )
     trans_parser.add_argument(
         "--model",
-        default=None,
-        help="Model to use (default: CLI default)",
+        default="sonnet",
+        help=(
+            "Model to use (default: sonnet). Pass 'opus' or a full model "
+            "ID to override. Sonnet is the default because translation is "
+            "a high-volume structured-output task — Opus is slower and "
+            "its extra reasoning adds no quality here, while Sonnet is "
+            "~3-5x faster and equally reliable at JSON framing."
+        ),
     )
     trans_parser.add_argument(
         "--dry-run",

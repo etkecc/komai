@@ -50,12 +50,10 @@ Flow {
             }
 
             background: Rectangle {
-                anchors.centerIn: parent
+                anchors.fill: parent
                 border.color: reaction.hovered ? palette.dark : (modelData.selfReactedEvent !== '' ? palette.highlight : gentleText)
                 border.width: 1
                 color: reaction.hovered ? palette.dark : (modelData.selfReactedEvent !== '' ? gentleHighlight : palette.window)
-                implicitHeight: reaction.implicitHeight
-                implicitWidth: reaction.implicitWidth
                 radius: Komai.paddingMedium
             }
             contentItem: Row {
@@ -67,6 +65,7 @@ Flow {
                     elide: Text.ElideRight
                     elideWidth: 150
                     font.family: Settings.uiFontEmojiFamily
+                    font.pointSize: Settings.uiFontSizePt
                     text: modelData.displayKey
                 }
                 Text {
@@ -110,7 +109,7 @@ Flow {
 
                     anchors.verticalCenter: divider.verticalCenter
                     color: reaction.hovered ? palette.brightText : palette.windowText
-                    font: reaction.font
+                    font.pointSize: Settings.uiFontSizePt
                     text: modelData.count
                 }
             }

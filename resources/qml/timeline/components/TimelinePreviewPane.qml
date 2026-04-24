@@ -44,7 +44,7 @@ ColumnLayout {
     MatrixText {
         horizontalAlignment: TextEdit.AlignHCenter
         Layout.fillWidth: true
-        font.pixelSize: 24
+        font.pointSize: Settings.uiFontSizePt * 2
         text: (!room && !(roomPreview?.isFetched ?? false)) ? qsTr("No preview available") : preview.roomName
     }
     ImageButton {

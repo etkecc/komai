@@ -150,6 +150,19 @@ LitehtmlItem::setLeftPadding(qreal padding)
 }
 
 void
+LitehtmlItem::setRightPadding(qreal padding)
+{
+    if (qFuzzyCompare(m_rightPadding, padding))
+        return;
+    m_rightPadding = padding;
+    emit rightPaddingChanged();
+    if (m_document) {
+        relayout();
+        update();
+    }
+}
+
+void
 LitehtmlItem::setCompact(bool compact)
 {
     if (m_compact == compact)
@@ -246,13 +259,14 @@ LitehtmlItem::relayout()
     if (itemWidth < 1)
         return;
 
-    int w = qMax(1, itemWidth - static_cast<int>(m_leftPadding));
+    int w = qMax(1, itemWidth - static_cast<int>(m_leftPadding) - static_cast<int>(m_rightPadding));
     m_container->setViewportSize(w, static_cast<int>(height()));
     QElapsedTimer timer;
     timer.start();
     m_document->render(w);
     const qint64 renderUs = timer.nsecsElapsed() / 1000;
-    int cw                = m_document->content_width() + static_cast<int>(m_leftPadding);
+    int cw                = m_document->content_width() + static_cast<int>(m_leftPadding) +
+             static_cast<int>(m_rightPadding);
     setImplicitWidth(cw);
     setImplicitHeight(m_document->height());
     updateTextureSize();

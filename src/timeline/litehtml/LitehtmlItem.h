@@ -45,6 +45,8 @@ class LitehtmlItem : public QQuickPaintedItem
     Q_PROPERTY(QString perfEventId READ perfEventId WRITE setPerfEventId)
     Q_PROPERTY(QString selectedText READ selectedText NOTIFY selectedTextChanged)
     Q_PROPERTY(qreal leftPadding READ leftPadding WRITE setLeftPadding NOTIFY leftPaddingChanged)
+    Q_PROPERTY(
+      qreal rightPadding READ rightPadding WRITE setRightPadding NOTIFY rightPaddingChanged)
     Q_PROPERTY(bool compact READ compact WRITE setCompact NOTIFY compactChanged)
 
 public:
@@ -78,6 +80,9 @@ public:
     qreal leftPadding() const { return m_leftPadding; }
     void setLeftPadding(qreal padding);
 
+    qreal rightPadding() const { return m_rightPadding; }
+    void setRightPadding(qreal padding);
+
     bool compact() const { return m_compact; }
     void setCompact(bool compact);
 
@@ -95,6 +100,7 @@ signals:
     void fontChanged();
     void selectedTextChanged();
     void leftPaddingChanged();
+    void rightPaddingChanged();
     void compactChanged();
     void linkActivated(const QString &link);
 
@@ -130,8 +136,9 @@ private:
     QColor m_surfaceColor;
     QFont m_font;
     QString m_selectedText;
-    qreal m_leftPadding = 0;
-    bool m_compact      = false;
+    qreal m_leftPadding  = 0;
+    qreal m_rightPadding = 0;
+    bool m_compact       = false;
     QString m_masterCss;
     bool m_masterCssDirty = true;
     bool m_rebuildPending = false;

@@ -105,7 +105,7 @@ TimelineMessageStyleBase {
     mainInset: threadId ? (4 + Komai.paddingSmall) : 0
     replyInset: mainInset + 4 + Komai.paddingMedium + Komai.paddingMedium
 
-    property int bubbleMargin: Math.max(bubbleBody.metadataItem.width + Komai.paddingSmall + (wrapper.isStateEvent ? 0 : 2 * messageBubbleHorizontalPadding), Math.round((chat.delegateMaxWidth - avatarMargin) * (1 - Settings.timelineMessagesLayoutMaxWidthPercent / 100)))
+    property int bubbleMargin: Math.max(bubbleBody.metadataItem.width + Komai.paddingSmall + 2 * messageBubbleHorizontalPadding, Math.round((chat.delegateMaxWidth - avatarMargin) * (1 - Settings.timelineMessagesLayoutMaxWidthPercent / 100)))
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - bubbleMargin
     hoverDismissTimerRef: bubbleBody.hoverDismissTimer

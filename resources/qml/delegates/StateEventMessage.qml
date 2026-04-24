@@ -11,6 +11,10 @@ TextMessage {
     id: root
 
     property bool isStateEvent
+    // When true, the inline state-event icon sits at the text's trailing edge.
+    // Used for right-aligned rows so the icon moves to the side opposite the
+    // metadata column instead of crowding it.
+    property bool stateEventIconOnRight: false
     property string stateEventIconSource: ":/icons/icons/ui/state-event.svg"
     property string stateEventIconColorCategory: "neutral"
     readonly property int rawStateEventIconSize: Math.round(Math.floor(stateEventFontMetrics.ascent * 0.9) * 2)
@@ -27,7 +31,8 @@ TextMessage {
     font.italic: true
     color: palette.buttonText
     font.pointSize: isStateEvent? 0.95*Settings.uiFontSizePt : Settings.uiFontSizePt
-    leftPadding: isStateEvent ? (stateEventIconSize + Komai.paddingSmall) : 0
+    leftPadding: (isStateEvent && !stateEventIconOnRight) ? (stateEventIconSize + Komai.paddingSmall) : 0
+    rightPadding: (isStateEvent && stateEventIconOnRight) ? (stateEventIconSize + Komai.paddingSmall) : 0
 
     FontMetrics {
         id: stateEventFontMetrics
@@ -38,7 +43,8 @@ TextMessage {
         id: stateEventIcon
 
         visible: root.isStateEvent
-        anchors.left: root.left
+        anchors.left: root.stateEventIconOnRight ? undefined : root.left
+        anchors.right: root.stateEventIconOnRight ? root.right : undefined
         y: Math.round((stateEventFontMetrics.lineSpacing - height) / 2)
         height: root.stateEventIconSize
         width: root.stateEventIconSize

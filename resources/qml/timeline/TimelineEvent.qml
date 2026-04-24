@@ -390,6 +390,7 @@ EventDelegateChooser {
             required property var room
             required property string userId
             required property string userName
+            property bool stateEventIconOnRight: false
             readonly property bool hasKnockAction: room && typeof room.showAcceptKnockButton === "function" && room.showAcceptKnockButton(eventId)
 
             StateEventMessage {
@@ -401,6 +402,7 @@ EventDelegateChooser {
                 isStateEvent: true
                 stateEventIconSource: member.stateEventIconSource
                 stateEventIconColorCategory: member.stateEventIconColorCategory
+                stateEventIconOnRight: member.stateEventIconOnRight
                 keepFullText: true
             }
             Components.KomaiButton {
@@ -426,6 +428,7 @@ EventDelegateChooser {
             required property var room
             required property string userId
             required property string userName
+            property bool stateEventIconOnRight: false
 
             StateEventMessage {
                 Layout.fillWidth: true
@@ -435,6 +438,7 @@ EventDelegateChooser {
                 isReply: EventDelegateChooser.isReply
                 isStateEvent: true
                 stateEventIconColorCategory: "negative"
+                stateEventIconOnRight: tombstone.stateEventIconOnRight
                 keepFullText: true
             }
             Components.KomaiButton {

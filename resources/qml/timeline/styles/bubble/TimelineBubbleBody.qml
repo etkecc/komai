@@ -257,10 +257,8 @@ Item {
         anchors.horizontalCenter: undefined
         anchors.left: undefined
         anchors.right: undefined
-        x: (root.wrapper.isStateEvent || !root.wrapper.messageIsRightAligned) ? 0 : (parent.width - width)
-        y: root.wrapper.isStateEvent
-            ? Math.round((parent.height - height) / 2)
-            : (root.wrapper.alignBubbleToTop ? 0 : (parent.height - height))
+        x: root.wrapper.messageIsRightAligned ? (parent.width - width) : 0
+        y: root.wrapper.alignBubbleToTop ? 0 : (parent.height - height)
 
         property color roomColor: root.wrapper.resolveUserColor(root.wrapper.userId, root.wrapper.themeBaseColor)
         property var roomBubblePalette: root.wrapper.resolveUserBubblePalette(root.wrapper.userId, roomColor)
@@ -501,14 +499,33 @@ Item {
             value: chat.height
         }
 
-        leftPadding: root.wrapper.isStateEvent ? 0 : root.wrapper.messageBubbleHorizontalPadding
-        rightPadding: root.wrapper.isStateEvent ? 0 : root.wrapper.messageBubbleHorizontalPadding
-        topPadding: root.wrapper.isStateEvent ? 0 : root.wrapper.messageBubbleVerticalPadding
-        bottomPadding: root.wrapper.isStateEvent ? 0 : root.wrapper.messageBubbleVerticalPadding
+        Binding {
+            target: root.wrapper.main
+            property: "stateEventIconOnRight"
+            when: root.wrapper.isStateEvent
+                  && !!root.wrapper.main
+                  && typeof root.wrapper.main.stateEventIconOnRight !== "undefined"
+            value: root.wrapper.messageIsRightAligned
+        }
+
+        leftPadding: root.wrapper.messageBubbleHorizontalPadding
+        rightPadding: root.wrapper.messageBubbleHorizontalPadding
+        topPadding: root.wrapper.messageBubbleVerticalPadding
+        bottomPadding: root.wrapper.messageBubbleVerticalPadding
         background: Rectangle {
-            color: (!root.wrapper.isStateEvent && root.wrapper.messageBubbleBackgroundEnabled)
-                ? messageBubble.roomColor
-                : "transparent"
+            // State events get a subdued tint of the actor's room color when bubble
+            // chrome is enabled, so they read as "system-y" while still aligning with
+            // regular message bubbles. Plain style disables bubble chrome entirely.
+            color: {
+                if (!root.wrapper.messageBubbleBackgroundEnabled)
+                    return "transparent";
+                if (root.wrapper.isStateEvent)
+                    return Qt.rgba(messageBubble.roomColor.r,
+                                   messageBubble.roomColor.g,
+                                   messageBubble.roomColor.b,
+                                   0.35);
+                return messageBubble.roomColor;
+            }
             radius: root.wrapper.messageBubbleRadius
             border.color: Komai.theme.attention
             border.width: root.wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
@@ -539,13 +556,11 @@ Item {
         TimelineMetadata {
             scaling: 0.9
             readonly property real visualAnchorHeight: Math.max(buttonSize, indicatorSize)
-            readonly property real bubbleBottomMargin: root.wrapper.isStateEvent
-                ? 0
-                // Center the metadata row vertically with the last line of
-                // message text instead of bottom-aligning it.  The row is
-                // taller than a text line (driven by buttonSize), so without
-                // this correction it sits visually too high.
-                : Math.round(Math.max(0, messageBubble.bottomPadding - (visualAnchorHeight - fontMetrics.height) / 2))
+            // Center the metadata row vertically with the last line of
+            // message text instead of bottom-aligning it.  The row is
+            // taller than a text line (driven by buttonSize), so without
+            // this correction it sits visually too high.
+            readonly property real bubbleBottomMargin: Math.round(Math.max(0, messageBubble.bottomPadding - (visualAnchorHeight - fontMetrics.height) / 2))
 
             visible: !root.wrapper.isStateEvent
                 || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
@@ -553,23 +568,16 @@ Item {
             x: {
                 if (root.wrapper.pushMetadataToEdge) {
                     var threadInset = root.wrapper.threadId ? Komai.paddingSmall : 0;
-                    // State events are always pinned to x = 0 (see messageBubble.x), so push
-                    // their metadata to the right edge to line up with left-aligned messages.
-                    var pinToLeftEdge = !root.wrapper.isStateEvent && root.wrapper.messageIsRightAligned;
-                    return Math.round(pinToLeftEdge
+                    return Math.round(root.wrapper.messageIsRightAligned
                         ? threadInset
                         : (root.width - width - threadInset));
                 }
-                if (root.wrapper.isStateEvent)
-                    return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
                 const sideX = root.wrapper.messageIsRightAligned
                     ? (messageBubble.x - width - Komai.paddingSmall)
                     : (messageBubble.x + messageBubble.width + Komai.paddingSmall);
                 return Math.round(sideX);
             }
-            y: root.wrapper.isStateEvent
-                ? Math.round((root.height - height) / 2)
-                : Math.max(0, Math.round(messageBubble.y + messageBubble.height - height - bubbleBottomMargin))
+            y: Math.max(0, Math.round(messageBubble.y + messageBubble.height - height - bubbleBottomMargin))
 
             eventId: root.wrapper.eventId
             isLocalEcho: root.wrapper.isLocalEcho

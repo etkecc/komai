@@ -1,0 +1,33 @@
+# Czech translation instructions
+
+These supplement the common rules. No prior translations exist to mine — translate fresh, following modern Czech UI conventions.
+
+## Register
+
+Prefer **impersonal constructions** where possible. When direct address is unavoidable, use **informal "ty"** (modern FOSS convention) — not formal "vy/Vy".
+
+## Matrix / chat vocabulary
+
+| English | Czech |
+|---|---|
+| room | **místnost** (pl. **místnosti**) |
+| space | **prostor** |
+| thread | **vlákno** |
+| direct message, DM | **přímá zpráva** |
+| invite (verb / noun) | **pozvat** / **pozvánka** |
+| join (a room) | **připojit se k** |
+| leave (a room) | **opustit** |
+| redact (= delete a message) | **smazat** / **odstranit** |
+| encryption | **šifrování** |
+| encrypted | **šifrovaný/á/é** |
+| verify / verification / verified (E2EE) | **ověřit** / **ověření** / **ověřený/á** |
+| user | **uživatel/ka** |
+| message | **zpráva** |
+| device | **zařízení** |
+
+## Typography
+
+- Use typographic quotes **„…"** (Czech convention) or ASCII `"..."`.
+- Use the **horizontal ellipsis `…`** (U+2026), not `...`.
+- Buttons/labels: use imperative/infinitive ("Uložit", "Zrušit", "Odeslat").
+- Preserve diacritics precisely (á č ď é ě í ň ó ř š ť ú ů ý ž).

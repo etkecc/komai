@@ -380,12 +380,46 @@ def _find_json_array(text: str) -> str | None:
     return None
 
 
+def _recover_entries(text: str) -> list[dict]:
+    """Best-effort entry recovery from a malformed JSON response.
+
+    Walks the text forward, attempting raw_decode from each '{' position.
+    Keeps every well-formed object that has the expected translation shape
+    ('source' and 'translation' fields); silently drops any entry that
+    doesn't parse. Useful when the outer array parse fails because a
+    single entry is corrupted (e.g. mixed typographic and ASCII quotes
+    inside one translation string) — the rest of the batch is still
+    salvageable, no Claude call wasted.
+    """
+    decoder = json.JSONDecoder()
+    entries: list[dict] = []
+    i = 0
+    while i < len(text):
+        j = text.find("{", i)
+        if j < 0:
+            break
+        try:
+            obj, consumed = decoder.raw_decode(text[j:])
+        except json.JSONDecodeError:
+            i = j + 1
+            continue
+        if (
+            isinstance(obj, dict)
+            and isinstance(obj.get("source"), str)
+            and isinstance(obj.get("translation"), str)
+        ):
+            entries.append(obj)
+        i = j + consumed
+    return entries
+
+
 def extract_json_from_response(response: str) -> list[dict]:
     """Extract JSON array from the LLM's response, handling prose and fences.
 
-    Tries, in order: direct parse, markdown code fence, and bracket-matched
-    array scan — the last copes with responses that include preamble text
-    like "Here are the translations: [...]".
+    Tries, in order: direct parse, markdown code fence, bracket-matched
+    array scan, and finally per-entry salvage. The last fallback returns
+    whatever well-formed objects can be recovered one at a time — so a
+    single corrupted entry only loses itself, not the whole batch.
     """
     try:
         return json.loads(response)
@@ -405,6 +439,15 @@ def extract_json_from_response(response: str) -> list[dict]:
             return json.loads(array_text)
         except json.JSONDecodeError:
             pass
+
+    recovered = _recover_entries(response)
+    if recovered:
+        print(
+            f"  NOTE: strict JSON parse failed; recovered {len(recovered)} "
+            "entries via per-entry salvage",
+            file=sys.stderr,
+        )
+        return recovered
 
     raise ValueError(f"Could not extract JSON from LLM response:\n{response[:500]}")
 

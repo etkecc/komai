@@ -36,11 +36,15 @@ jobs:
       CARGO_HOME: ${{ github.workspace }}/var/cache/cargo-home
       RUSTUP_HOME: ${{ github.workspace }}/var/cache/rustup
       # Unifies Corrosion's cargo target dir with direct `cargo test`
-      # invocations so both share incremental state. Not cached across
-      # runs: Cargo.lock-scoped keys miss on every Renovate bump, and
-      # the catch-all fallback restore of a stale target dir mostly
-      # forces cargo to rebuild anyway — meanwhile the save step
-      # uploads ~2-3 GB of target output per run. Cost > benefit.
+      # invocations so both share incremental state. Cached across runs
+      # via the "Cache cargo target dir" step below. An earlier version
+      # of this workflow explicitly excluded the cargo-target cache
+      # because Cargo.lock-scoped exact-match keys miss on every
+      # Renovate bump; the current strategy uses a per-commit save
+      # with a restore-keys cascade (branch → main → anywhere) so
+      # cargo's fingerprinting gets a warm partial target dir to
+      # incrementally update, which is dramatically cheaper than
+      # rebuilding ~1k crates cold every run.
       CARGO_TARGET_DIR: ${{ github.workspace }}/var/cache/cargo-target
       # ccache wraps both C and C++ compiles; CMake enables it via the
       # -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache flags on Configure.
@@ -101,6 +105,30 @@ jobs:
             ccache-${{ github.ref_name }}-
             ccache-main-
             ccache-
+
+      - name: Cache cargo target dir
+        uses: actions/cache@v5
+        with:
+          # The `incremental/` subtree regenerates cheaply from scratch
+          # (dep-graph.bin + query-cache.bin total hundreds of MB but
+          # rustc rebuilds them per-compile). Excluding saves ~25% on
+          # cache transfer — meaningful since GH's cache backend from
+          # the k150 runner is ~10 MB/s.
+          path: |
+            var/cache/cargo-target
+            !var/cache/cargo-target/**/incremental/**
+          # Same per-commit + cascading-restore strategy as ccache.
+          # cargo's fingerprinting gracefully handles partial-hit
+          # restores: a stale target dir with older Cargo.lock state
+          # still lets cargo skip crates whose fingerprint matches and
+          # only rebuild the ones that actually changed. On an
+          # unchanged lockfile the hit is essentially total and the
+          # Rust portion of Build collapses to incremental-level work.
+          key: cargo-target-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            cargo-target-${{ github.ref_name }}-
+            cargo-target-main-
+            cargo-target-
 
       - name: Cache mise + prek
         uses: actions/cache@v5

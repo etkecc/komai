@@ -26,7 +26,8 @@
       nullptr,
       CORE_CONFIG_ID(UiFontFamily, SettingKey::UiFontFamily) },
     SIMPLE_DOUBLE_CONFIG_ID_SETTING("Font size",
-                                    nullptr,
+                                    QT_TR_NOOP("Most UI elements resize live. "
+                                               "Some labels may only update after restarting the app."),
                                     SM::TabLookFeel,
                                     uiFontSizePt,
                                     setUiFontSizePt,

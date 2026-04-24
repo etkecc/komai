@@ -148,24 +148,47 @@ jobs:
           path: |
             var/build/native/cargo
             !var/build/native/cargo/**/incremental/**
-          # Same per-commit + cascading-restore strategy as ccache.
-          # Earlier attempts at Cargo.lock-scoped exact-match keys
-          # missed on every Renovate bump, so we use a per-commit save
-          # with a cascade (branch → main → anywhere) that lets cargo
-          # fingerprinting take a warm partial target dir and
-          # incrementally update. On an unchanged lockfile the hit is
-          # essentially total and the Rust portion of Build collapses
-          # to incremental-level work.
+          # Cache key intentionally hashes only Cargo.lock + the
+          # rustc toolchain pin — NOT the commit SHA. Rationale:
           #
-          # The `v2-` prefix distinguishes entries saved under the
-          # unified path from legacy `cargo-target-*` entries saved
-          # from the old `var/cache/cargo-target` path — those would
-          # restore to the wrong path and waste ~2 min. Legacy keys
-          # age out via GH's 7-day unused-cache eviction.
-          key: cargo-target-v2-${{ github.ref_name }}-${{ github.sha }}
+          # Cargo fingerprints for the ~1000 dependency crates are
+          # determined by resolved dep versions (Cargo.lock) and
+          # rustc version (rust-toolchain.toml). Our own source code
+          # doesn't affect those fingerprints — only our own crate,
+          # which rebuilds cheaply on every run (~1-2 min on this
+          # runner). So a re-saved tarball on an unchanged-lock
+          # commit would be nearly identical to the existing entry.
+          #
+          # With this key, actions/cache detects that the primary
+          # key already exists in the cache and SKIPS the Post Cache
+          # save step entirely. On the measured seed run that step
+          # took ~11 min (most of it uploading ~2-3 GB compressed to
+          # GH's cache backend over k150's ~10 MB/s link). Skipping
+          # it on every lock-unchanged commit is the biggest single
+          # CI-wall-time lever available.
+          #
+          # TTL: GH evicts caches after 7 days of non-access. A
+          # successful restore counts as access and resets the
+          # clock, so the entry stays alive as long as CI is active.
+          # A 7+ day silence would force a cold full rebuild on the
+          # next run — acceptable given Komai's activity level. If
+          # we ever go quiet for that long, a one-off cold run is a
+          # small price.
+          #
+          # The `v2-` prefix is a manual version gate. If anything
+          # in this workflow changes the rustc/cargo command line in
+          # a fingerprint-affecting way (RUSTFLAGS, linker choice,
+          # profile tweaks, etc.), bump to `v3-` so we don't restore
+          # stale entries built with different flags.
+          key: cargo-target-v2-${{ hashFiles('src/rust/Cargo.lock', 'rust-toolchain.toml') }}
+          # Cascade fallback: on Cargo.lock or toolchain changes the
+          # primary key misses. Matching any previous `cargo-target-v2-`
+          # entry gives us a warm starting dep tree; cargo's
+          # fingerprinting then rebuilds only the crates that actually
+          # changed (typically a handful per Renovate bump), which is
+          # dramatically cheaper than starting from an empty target
+          # dir. The new primary-key entry is then saved at end of job.
           restore-keys: |
-            cargo-target-v2-${{ github.ref_name }}-
-            cargo-target-v2-main-
             cargo-target-v2-
 
       - name: Cache mise + prek

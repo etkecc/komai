@@ -52,6 +52,7 @@ Column {
 
         anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
         color: palette.text
+        font.pointSize: Settings.uiFontSizePt
         height: Math.round(fontMetrics.height * 1.4)
         horizontalAlignment: Text.AlignHCenter
         text: roomRef ? (dayBoundaryChanged ? roomRef.formatDateSeparator(timestamp) : roomRef.formatLaterSeparator(previousMessageTimestamp, timestamp)) : ""

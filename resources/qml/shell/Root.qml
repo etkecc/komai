@@ -126,6 +126,16 @@ function openCatalogDialog(componentUrl, properties) {
     FontMetrics {
         id: fontMetrics
 
+        // Bind explicitly to Settings.uiFontSizePt and Komai.fontFamily rather
+        // than inheriting from Qt.application.font. Qt Quick does not reliably
+        // re-resolve the default-font cascade when QGuiApplication::setFont()
+        // is called at runtime, so the derived ascent/lineSpacing/height
+        // values stay frozen for the many callers that use this singleton
+        // (TimelineMetadata iconSize, TypingIndicator row height, avatar
+        // sizing via lineSpacing, etc.). Binding the source font to the
+        // reactive settings directly gives those callers live updates.
+        font.pointSize: Settings.uiFontSizePt
+        font.family: Komai.fontFamily
     }
     UserDirectoryModel {
         id: userDirectory

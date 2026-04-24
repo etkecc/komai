@@ -338,14 +338,34 @@ app::runMainApplication(int argc, char *argv[])
     auto filter = new KomaiFixupPaletteEventFilter(&app);
     app.installEventFilter(filter);
 
-    QFont font;
-    QString userFontFamily = settings.lock()->uiFontFamily();
-    if (!userFontFamily.isEmpty() && userFontFamily != QLatin1String("default")) {
-        font.setFamily(userFontFamily);
-    }
-    font.setPointSizeF(settings.lock()->uiFontSizePt());
+    const auto applyApplicationFont = [] {
+        const auto currentSettings = UserSettings::instance();
+        if (!currentSettings)
+            return;
+        QFont font;
+        const QString userFontFamily = currentSettings->uiFontFamily();
+        if (!userFontFamily.isEmpty() && userFontFamily != QLatin1String("default")) {
+            font.setFamily(userFontFamily);
+        }
+        font.setPointSizeF(currentSettings->uiFontSizePt());
+        QGuiApplication::setFont(font);
+    };
 
-    app.setFont(font);
+    applyApplicationFont();
+
+    // Re-apply the application font whenever the user changes the font size
+    // or family at runtime. Without this, QGuiApplication::font() stays frozen
+    // at the startup value, so Qt.application.font, default FontMetrics, and
+    // derived Komai layout metrics (iconSize, navigationRowHeight, etc.) all
+    // keep reporting stale sizes until the next restart.
+    QObject::connect(UserSettings::instance().get(),
+                     &UserSettings::uiFontSizePtChanged,
+                     &app,
+                     applyApplicationFont);
+    QObject::connect(UserSettings::instance().get(),
+                     &UserSettings::uiFontFamilyChanged,
+                     &app,
+                     applyApplicationFont);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
     if (auto emojiFont = settings.lock()->uiFontEmojiFamily(); !emojiFont.isEmpty()) {

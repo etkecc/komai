@@ -213,9 +213,15 @@ RowLayout {
         // unencrypted next to every state event is just noise. UTDs are
         // handled by the Encrypted delegate itself, and matrix-sdk's
         // `get_shield()` returns None for them anyway, so skip the shield.
+        // Local echoes report `isEncrypted=false` until matrix-sdk populates
+        // `encryption_info()` on the sent event — rendering the indicator
+        // during that window flashes a red "not encrypted" shield for a
+        // message that's about to be encrypted, so hide it until the remote
+        // echo lands and the real shield code is available.
         visible: metadata.roomIsEncrypted
             && !metadata.isStateEvent
             && metadata.typeString !== "unable_to_decrypt"
+            && !metadata.isLocalEcho
     }
     ImageButton {
         id: unpinButton

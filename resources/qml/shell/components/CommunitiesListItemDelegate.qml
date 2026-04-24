@@ -187,6 +187,7 @@ ItemDelegate {
             Layout.fillWidth: true
             color: communityItem.importantText
             elideWidth: width
+            font.pixelSize: communityItem.baseFontPixelSize
             fullText: model.displayName
             textFormat: Text.PlainText
             visible: !collapsed

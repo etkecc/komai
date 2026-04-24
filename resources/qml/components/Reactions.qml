@@ -73,7 +73,7 @@ Flow {
                     anchors.baseline: reactionCounter.baseline
                     color: reaction.hovered ? palette.brightText : palette.text
                     font.family: Settings.uiFontEmojiFamily
-                    font.pixelSize: 24
+                    font.pointSize: Settings.uiFontSizePt * 2
                     textFormat: Text.StyledText
                     maximumLineCount: 1
                     text: {

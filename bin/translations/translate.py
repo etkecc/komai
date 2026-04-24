@@ -308,8 +308,9 @@ def build_prompt(batch: list[dict], lang: str, instructions: str) -> str:
 
 Translate the following UI strings from English to **{lang_name}** ({lang}).
 
-Return ONLY a JSON array. Each element must have "source" (unchanged) and "translation" fields. Return exactly one object per input item, in the same order — do not omit any.
+Your response MUST start with `[` and end with `]`. No preamble, no explanation, no markdown fences — just the JSON array. Each element must have "source" (unchanged from input) and "translation" fields. Return exactly one object per input item, in the same order — do not omit any.
 
+Input:
 ```json
 {json.dumps(batch, ensure_ascii=False, indent=2)}
 ```"""
@@ -343,15 +344,54 @@ def call_claude(prompt: str, model: str | None) -> str:
     return result.stdout.strip()
 
 
+def _find_json_array(text: str) -> str | None:
+    """Bracket-match the outermost JSON array in `text`, respecting string literals.
+
+    Returns the substring '[...]' (no surrounding prose/fences), or None if no
+    balanced array is found. Tolerates arbitrary prefix/suffix text and
+    embedded backticks — more forgiving than a plain regex.
+    """
+    start = text.find("[")
+    if start < 0:
+        return None
+    depth = 0
+    in_string = False
+    escape_next = False
+    for i in range(start, len(text)):
+        c = text[i]
+        if escape_next:
+            escape_next = False
+            continue
+        if in_string:
+            if c == "\\":
+                escape_next = True
+            elif c == '"':
+                in_string = False
+            continue
+        if c == '"':
+            in_string = True
+            continue
+        if c == "[":
+            depth += 1
+        elif c == "]":
+            depth -= 1
+            if depth == 0:
+                return text[start : i + 1]
+    return None
+
+
 def extract_json_from_response(response: str) -> list[dict]:
-    """Extract JSON array from the LLM's response, handling markdown fences."""
-    # Try direct parse first
+    """Extract JSON array from the LLM's response, handling prose and fences.
+
+    Tries, in order: direct parse, markdown code fence, and bracket-matched
+    array scan — the last copes with responses that include preamble text
+    like "Here are the translations: [...]".
+    """
     try:
         return json.loads(response)
     except json.JSONDecodeError:
         pass
 
-    # Try extracting from markdown code fence
     fence_match = re.search(r"```(?:json)?\s*\n(.*?)\n```", response, re.DOTALL)
     if fence_match:
         try:
@@ -359,11 +399,10 @@ def extract_json_from_response(response: str) -> list[dict]:
         except json.JSONDecodeError:
             pass
 
-    # Try finding the array directly
-    bracket_match = re.search(r"\[.*\]", response, re.DOTALL)
-    if bracket_match:
+    array_text = _find_json_array(response)
+    if array_text:
         try:
-            return json.loads(bracket_match.group(0))
+            return json.loads(array_text)
         except json.JSONDecodeError:
             pass
 
@@ -504,9 +543,13 @@ def cmd_translate(args):
         print(build_prompt(first_batch, args.lang, instructions))
         return
 
-    # Process in batches
+    # Process in batches. Individual batch failures (model returning
+    # unparseable output, transient CLI errors) don't abort the run —
+    # those strings stay 'unfinished' and get retried on the next
+    # invocation.
     total_batches = (len(unfinished) + args.batch_size - 1) // args.batch_size
     total_injected = 0
+    failed_batches: list[tuple[int, str]] = []
 
     for batch_idx in range(total_batches):
         start = batch_idx * args.batch_size
@@ -521,11 +564,15 @@ def cmd_translate(args):
         try:
             translations = translate_batch(batch, args.lang, instructions, args.model)
         except (RuntimeError, ValueError, subprocess.TimeoutExpired) as e:
+            reason = str(e).splitlines()[0][:120] if str(e) else type(e).__name__
             print(f"  ERROR: {e}", file=sys.stderr)
             print(
-                f"  Stopping. {total_injected} strings saved so far.", file=sys.stderr
+                "  Skipping batch — strings stay unfinished and will be "
+                "retried on the next run.",
+                file=sys.stderr,
             )
-            sys.exit(1)
+            failed_batches.append((batch_idx + 1, reason))
+            continue
 
         received = len(translations)
         expected = len(batch)
@@ -541,6 +588,15 @@ def cmd_translate(args):
         print(f"  Injected {injected} translations (total: {total_injected})")
 
     print(f"\nDone. {total_injected} translations written to komai_{args.lang}.ts")
+
+    if failed_batches:
+        print(
+            f"WARNING: {len(failed_batches)} batch(es) failed and were skipped — "
+            "re-run the command to retry them:",
+            file=sys.stderr,
+        )
+        for idx, reason in failed_batches:
+            print(f"  batch {idx}: {reason}", file=sys.stderr)
 
     # Report remaining
     remaining, remaining_numerus = extract_unfinished(ts_path)

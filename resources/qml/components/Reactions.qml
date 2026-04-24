@@ -36,6 +36,8 @@ Flow {
             hoverEnabled: true
             leftPadding: textMetrics.height / 2
             rightPadding: textMetrics.height / 2
+            topPadding: Komai.paddingSmall / 2
+            bottomPadding: Komai.paddingSmall / 2
 
             KomaiToolTip {
                 anchorItem: reaction
@@ -73,7 +75,7 @@ Flow {
                     anchors.verticalCenter: parent.verticalCenter
                     color: reaction.hovered ? palette.brightText : palette.text
                     font.family: Settings.uiFontEmojiFamily
-                    font.pointSize: Settings.uiFontSizePt * 2
+                    font.pointSize: Settings.uiFontSizePt * 1.5
                     textFormat: Text.StyledText
                     maximumLineCount: 1
                     text: {

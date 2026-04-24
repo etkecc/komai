@@ -551,14 +551,17 @@ Item {
                 || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
             x: {
-                if (root.wrapper.isStateEvent)
-                    return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
                 if (root.wrapper.pushMetadataToEdge) {
                     var threadInset = root.wrapper.threadId ? Komai.paddingSmall : 0;
-                    return Math.round(root.wrapper.messageIsRightAligned
+                    // State events are always pinned to x = 0 (see messageBubble.x), so push
+                    // their metadata to the right edge to line up with left-aligned messages.
+                    var pinToLeftEdge = !root.wrapper.isStateEvent && root.wrapper.messageIsRightAligned;
+                    return Math.round(pinToLeftEdge
                         ? threadInset
                         : (root.width - width - threadInset));
                 }
+                if (root.wrapper.isStateEvent)
+                    return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
                 const sideX = root.wrapper.messageIsRightAligned
                     ? (messageBubble.x - width - Komai.paddingSmall)
                     : (messageBubble.x + messageBubble.width + Komai.paddingSmall);

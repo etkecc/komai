@@ -109,7 +109,7 @@ AbstractButton {
         return 0.75;
     }
     readonly property real compactMediaMaxWidth: Math.min(
-        Math.max(64, maxWidth - leftPadding - rightPadding - colorline.width - Komai.paddingMedium * 4),
+        Math.max(64, maxWidth - leftPadding - rightPadding - Komai.paddingMedium * 4),
         144)
     readonly property real compactMediaMaxHeight: limitHeight ? 56 : 72
     readonly property int compactMediaWidth: {
@@ -181,7 +181,7 @@ AbstractButton {
     implicitHeight: replyContainer.height + topPadding + bottomPadding
     implicitWidth: replyContainer.implicitWidth + leftPadding + rightPadding
 
-    leftPadding: 4 + Komai.paddingMedium
+    leftPadding: Komai.paddingSmall + Komai.paddingMedium
     rightPadding: Komai.paddingMedium
     topPadding: Komai.paddingMedium
     bottomPadding: Komai.paddingMedium
@@ -292,7 +292,7 @@ AbstractButton {
 
     onClicked: {
         const previewDelegate = usesCompactMediaPreview ? mediaPreviewLoader.item : timelineEvent.main;
-        let link = previewDelegate && previewDelegate.linkAt != undefined && previewDelegate.linkAt(pressX-colorline.width, pressY - userName_.implicitHeight);
+        let link = previewDelegate && previewDelegate.linkAt != undefined && previewDelegate.linkAt(pressX - Komai.paddingSmall, pressY - userName_.implicitHeight);
         if (link) {
             Komai.openLink(link)
         } else {
@@ -306,7 +306,7 @@ AbstractButton {
             return;
 
         effectiveReplyContextMenu.show(previewDelegate.copyText,
-                                       previewDelegate.linkAt(pressX - colorline.width,
+                                       previewDelegate.linkAt(pressX - Komai.paddingSmall,
                                                               pressY - userName_.implicitHeight),
                                        r.eventId)
     }
@@ -323,7 +323,7 @@ AbstractButton {
 
             effectiveReplyContextMenu.show(
                         previewDelegate.copyText,
-                        previewDelegate.linkAt(eventPoint.position.x - colorline.width,
+                        previewDelegate.linkAt(eventPoint.position.x - Komai.paddingSmall,
                                                eventPoint.position.y - userName_.implicitHeight),
                         r.eventId)
         }
@@ -393,7 +393,7 @@ AbstractButton {
                 room: (r.roleDataSource instanceof EventDataSource) ? r.roleDataSource : null
                 eventId: r.eventId
                 replyTo: ""
-                mainInset: 4 + Komai.paddingMedium
+                mainInset: Komai.paddingSmall + Komai.paddingMedium
                 maxWidth: r.maxWidth
                 limitAsReply: true
                 previewData: r.effectivePreviewData
@@ -548,17 +548,6 @@ AbstractButton {
         z: -1
         color: r.roomColor
         radius: Komai.paddingMedium
-        clip: true
-
-        Rectangle {
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-
-            id: colorline
-            color: r.roomColor
-            width: 4
-        }
     }
 
     // Border overlay drawn on top of content so rounded

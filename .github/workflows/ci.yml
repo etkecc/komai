@@ -35,17 +35,10 @@ jobs:
       # cacheable via actions/cache below.
       CARGO_HOME: ${{ github.workspace }}/var/cache/cargo-home
       RUSTUP_HOME: ${{ github.workspace }}/var/cache/rustup
-      # Unifies Corrosion's cargo target dir with direct `cargo test`
-      # invocations so both share incremental state. Cached across runs
-      # via the "Cache cargo target dir" step below. An earlier version
-      # of this workflow explicitly excluded the cargo-target cache
-      # because Cargo.lock-scoped exact-match keys miss on every
-      # Renovate bump; the current strategy uses a per-commit save
-      # with a restore-keys cascade (branch → main → anywhere) so
-      # cargo's fingerprinting gets a warm partial target dir to
-      # incrementally update, which is dramatically cheaper than
-      # rebuilding ~1k crates cold every run.
-      CARGO_TARGET_DIR: ${{ github.workspace }}/var/cache/cargo-target
+      # CARGO_TARGET_DIR is set dynamically by the "Compute unified
+      # cargo target dir" step below — it has to match Corrosion's own
+      # computed path, which depends on ${GITHUB_WORKSPACE}. See that
+      # step for the full explanation.
       # ccache wraps both C and C++ compiles; CMake enables it via the
       # -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache flags on Configure.
       CCACHE_DIR: ${{ github.workspace }}/var/cache/ccache
@@ -70,6 +63,36 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Compute unified cargo target dir
+        # Corrosion passes `--target-dir <path>` on its cargo CLI
+        # invocation (Corrosion.cmake `_add_cargo_build`, line ~898),
+        # which OVERRIDES the CARGO_TARGET_DIR env var. The path is
+        # computed at CMake-configure time as:
+        #     ${CMAKE_BINARY_DIR}/cargo/${folder}_${sha1_abs_path:0:5}
+        # where `folder` is the manifest's parent dir name ("rust" for
+        # src/rust/Cargo.toml) and the SHA1 input is the *absolute*
+        # manifest path. As of Corrosion v0.6.1 and upstream master
+        # (2026-04) there is no knob to override this.
+        #
+        # Before this step existed, CARGO_TARGET_DIR was set to an
+        # unrelated path (var/cache/cargo-target). Corrosion ignored
+        # the env var and wrote release artefacts to its own path,
+        # which the cache step below was never pointed at. Net effect:
+        # the main `just build` ran cold every CI run, and only
+        # `cargo test --lib` (which honors the env var) benefited
+        # from caching.
+        #
+        # Fix: replicate Corrosion's path formula here and export it
+        # as CARGO_TARGET_DIR. Both writers — Corrosion's cargo and
+        # direct `cargo test --lib` — now converge on a single tree,
+        # so one cache captures everything.
+        run: |
+          MANIFEST="${GITHUB_WORKSPACE}/src/rust/Cargo.toml"
+          HASH=$(printf '%s' "${MANIFEST}" | sha1sum | cut -c1-5)
+          UNIFIED="${GITHUB_WORKSPACE}/var/build/native/cargo/rust_${HASH}"
+          echo "CARGO_TARGET_DIR=${UNIFIED}" >> "${GITHUB_ENV}"
+          echo "Unified cargo target dir: ${UNIFIED}"
 
       # ---------- Caches --------------------------------------------------
       # Each cache is restored before its consumer step. Saves happen
@@ -109,26 +132,41 @@ jobs:
       - name: Cache cargo target dir
         uses: actions/cache@v5
         with:
+          # `var/build/native/cargo` is Corrosion's parent target-dir
+          # location (CMAKE_BINARY_DIR=var/build/native, Corrosion puts
+          # cargo output under the `cargo/` subdir). The unified
+          # CARGO_TARGET_DIR from the compute step above points at
+          # `var/build/native/cargo/rust_<hash>` inside this tree, so
+          # both Corrosion and `cargo test --lib` populate one subtree
+          # that this cache captures whole.
+          #
           # The `incremental/` subtree regenerates cheaply from scratch
           # (dep-graph.bin + query-cache.bin total hundreds of MB but
           # rustc rebuilds them per-compile). Excluding saves ~25% on
           # cache transfer — meaningful since GH's cache backend from
           # the k150 runner is ~10 MB/s.
           path: |
-            var/cache/cargo-target
-            !var/cache/cargo-target/**/incremental/**
+            var/build/native/cargo
+            !var/build/native/cargo/**/incremental/**
           # Same per-commit + cascading-restore strategy as ccache.
-          # cargo's fingerprinting gracefully handles partial-hit
-          # restores: a stale target dir with older Cargo.lock state
-          # still lets cargo skip crates whose fingerprint matches and
-          # only rebuild the ones that actually changed. On an
-          # unchanged lockfile the hit is essentially total and the
-          # Rust portion of Build collapses to incremental-level work.
-          key: cargo-target-${{ github.ref_name }}-${{ github.sha }}
+          # Earlier attempts at Cargo.lock-scoped exact-match keys
+          # missed on every Renovate bump, so we use a per-commit save
+          # with a cascade (branch → main → anywhere) that lets cargo
+          # fingerprinting take a warm partial target dir and
+          # incrementally update. On an unchanged lockfile the hit is
+          # essentially total and the Rust portion of Build collapses
+          # to incremental-level work.
+          #
+          # The `v2-` prefix distinguishes entries saved under the
+          # unified path from legacy `cargo-target-*` entries saved
+          # from the old `var/cache/cargo-target` path — those would
+          # restore to the wrong path and waste ~2 min. Legacy keys
+          # age out via GH's 7-day unused-cache eviction.
+          key: cargo-target-v2-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            cargo-target-${{ github.ref_name }}-
-            cargo-target-main-
-            cargo-target-
+            cargo-target-v2-${{ github.ref_name }}-
+            cargo-target-v2-main-
+            cargo-target-v2-
 
       - name: Cache mise + prek
         uses: actions/cache@v5

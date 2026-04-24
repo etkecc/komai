@@ -28,6 +28,6 @@ Prefer **impersonal constructions** where possible. When direct address is unavo
 ## Typography
 
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
-- Use typographic quotes **«…»** (Catalan convention) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Catalan's typographic convention is `«…»` if you do use them.
 - Use the **interpunct `·`** (U+00B7) in `l·l` geminates (e.g., `il·lustració`) — this is standard Catalan, not a typo.
 - Buttons/labels: use infinitive ("Desa", "Cancel·la", "Envia") or noun forms.

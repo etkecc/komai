@@ -28,5 +28,5 @@ Finnish UI typically uses **passive / impersonal** constructions ("Tätä viesti
 ## Typography
 
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
-- Use typographic quotes **"..."** (Finnish convention, same glyphs both ends) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Finnish's typographic convention uses `"..."` (U+201D on both ends — same glyph opening and closing).
 - Buttons/labels: imperative ("Tallenna", "Peruuta", "Lähetä").

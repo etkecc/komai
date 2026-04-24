@@ -41,4 +41,4 @@ Use these consistently — do not switch between synonyms from one string to the
 - **Noun phrases** work well for titles: "Erlaubte Raumeinstellungen", "Primärer Alias".
 - Use the **horizontal ellipsis `…`** (U+2026), not three dots `...`. Example: `"Calling..."` → `"Wählen …"`.
 - Capitalisation: only the first word of a sentence / label is capitalised (German sentence case), unless the word is a noun (which is always capitalised in German).
-- **Quotes**: typographic „…" is acceptable but not required; ASCII `"…"` is fine too.
+- **Quotes**: prefer ASCII `"…"` in translations — the pipeline emits JSON, and mixing typographic `„` with ASCII `"` inside the same string breaks the JSON envelope. If you do use typographic „…", both the opening `„` and closing `"` (U+201C) must be typographic — never mix with ASCII `"`.

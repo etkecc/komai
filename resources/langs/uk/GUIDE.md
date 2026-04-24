@@ -27,6 +27,6 @@ Prefer **impersonal constructions** ("Не вдалося приєднатися
 
 ## Typography
 
-- Use typographic quotes **«…»** (Ukrainian convention) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Ukrainian's typographic convention is `«…»` if you do use them.
 - Use the **horizontal ellipsis `…`** (U+2026) — existing translations prefer it.
 - Buttons/labels: use infinitive ("Зберегти", "Скасувати", "Надіслати").

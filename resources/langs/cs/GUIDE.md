@@ -27,7 +27,7 @@ Prefer **impersonal constructions** where possible. When direct address is unavo
 
 ## Typography
 
-- Use typographic quotes **„…"** (Czech convention) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Czech's typographic convention is `„…"` if you do use them.
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
 - Buttons/labels: use imperative/infinitive ("Uložit", "Zrušit", "Odeslat").
 - Preserve diacritics precisely (á č ď é ě í ň ó ř š ť ú ů ý ž).

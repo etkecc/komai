@@ -30,5 +30,5 @@ Many existing strings are **impersonal** ("Не удалось...", "Выгна�
 ## Typography
 
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
-- Use typographic quotes **«…»** (French-style guillemets) where appropriate; ASCII `"..."` is acceptable too.
+- Prefer ASCII `"…"` in translations — the pipeline emits JSON, and mixing typographic `«` with ASCII `"` inside the same string breaks the JSON envelope. If you do use guillemets «…», both the opening `«` and closing `»` must be typographic — never mix with ASCII `"`.
 - Buttons/labels: use infinitive ("Сохранить", "Отмена", "Отправить").

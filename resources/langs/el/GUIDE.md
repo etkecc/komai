@@ -28,6 +28,6 @@ Greek UI conventionally uses **impersonal / passive constructions** — prefer t
 ## Typography
 
 - Use Greek question mark `;` (visually like semicolon — this is correct Greek).
-- Use typographic quotes **«…»** (Greek convention).
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Greek's typographic convention is `«…»` if you do use them.
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - Buttons/labels: use infinitive-style verbal noun or imperative ("Αποθήκευση", "Ακύρωση", "Αποστολή").

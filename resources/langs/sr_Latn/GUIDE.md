@@ -30,5 +30,5 @@ Prefer **impersonal constructions** where possible. When direct address is unavo
 ## Typography
 
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
-- Use typographic quotes **„…"** (Serbian convention) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Serbian's typographic convention is `„…"` if you do use them.
 - Buttons/labels: use infinitive ("Sačuvaj", "Otkaži", "Pošalji").

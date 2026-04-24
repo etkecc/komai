@@ -29,7 +29,7 @@ Existing strings often use **impersonal** forms ("Nie udało się...", "Zaprosze
 
 ## Typography
 
-- Use typographic quotes **„…"** (Polish convention) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Polish's typographic convention is `„…"` if you do use them.
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - Buttons/labels: use infinitive ("Zapisz", "Anuluj", "Wyślij").
 - Inclusive forms like "poprosił(a)" appear in the existing translation — use when the referent's gender is unknown.

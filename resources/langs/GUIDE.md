@@ -28,7 +28,7 @@ Komai is a desktop Matrix chat client (fork of nheko). It's a Qt/QML application
    - `&File` means "F" is the mnemonic key. Keep exactly one `&` immediately before a letter suitable for your language, ideally one that matches the English letter when the target language has it. If no sensible accelerator exists, you may drop the `&` — but prefer to keep one.
    - `&&` is an **escaped literal ampersand** (renders as a single `&`). Preserve the double `&&` verbatim. Example: `"Close && preserve data"` → translate the surrounding words but keep `&&` intact.
 
-9. **Quote style**: if the target language has established typographic quotes (German „…", French «…», Japanese 「…」, Russian «…»), you may use them where appropriate. If in doubt, keep ASCII `"…"` and `'…'` as in the source.
+9. **Quote style inside translations**: **prefer ASCII `"` and `'`** — you are emitting JSON, and mixing typographic opening quotes (`„`, `«`, `「`, `"`) with bare ASCII closing `"` inside a translation string breaks the JSON envelope and causes the pipeline to reject the whole batch. If a language convention strongly prefers typographic quotes, you may use them **only if every opening has a matching typographic closing quote** (never mix with ASCII `"` inside the same string). When in doubt, use ASCII — the pipeline can swap in typographic quotes later if desired.
 
 10. **Keep translations concise**: these are UI strings with limited space — buttons, menu items, tooltips. Prefer short, clear phrasing over verbose explanations. Match the source length where possible.
 

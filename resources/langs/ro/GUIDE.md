@@ -28,6 +28,6 @@ Prefer **impersonal constructions** ("Nu s-a putut alătura la cameră", "Utiliz
 ## Typography
 
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
-- Use typographic quotes **„…"** (Romanian convention) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Romanian's typographic convention is `„…"` if you do use them.
 - Use **ș** (s-comma) and **ț** (t-comma), **not** **ş** (s-cedilla) or **ţ** (t-cedilla) — the cedilla forms are a legacy encoding mistake.
 - Buttons/labels: use infinitive with "a" ("Salvează" imperative is common, or "Salvare" noun).

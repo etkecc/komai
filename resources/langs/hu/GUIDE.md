@@ -27,7 +27,7 @@ Prefer **impersonal constructions** ("Ez az üzenet nincs titkosítva!", "Nem si
 
 ## Typography
 
-- Use typographic quotes **„…"** (Hungarian convention) or ASCII `"..."`.
+- For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Hungarian's typographic convention is `„…"` if you do use them.
 - The existing translations use ASCII `...` for ellipsis — continue that, or use `…` (U+2026) if the source uses it.
 - Buttons/labels: imperative ("Mentés", "Mégsem", "Küldés").
 - Hungarian uses **vowel-harmony article forms** (`a` / `az`); match the following word's initial sound correctly (common mistake).

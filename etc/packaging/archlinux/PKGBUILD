@@ -5,7 +5,7 @@
 # (aur.archlinux.org:komai.git) is kept in sync from the upstream file above.
 # Patches are welcome at the upstream repository, not against the AUR copy.
 pkgname=komai
-pkgver=2026.04.22.0
+pkgver=2026.04.24.0
 pkgrel=1
 pkgdesc="A usability-focused Matrix desktop client (fork of nheko)"
 arch=('x86_64')

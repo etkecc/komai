@@ -431,6 +431,8 @@ pub(crate) fn ffi_loaded_state(snapshot: settings::state::LoadedState) -> ffi::S
         pinned_tabs: snapshot.pinned_tabs,
         composer_drafts_by_room: snapshot.composer_drafts_by_room,
         sponsoring_status: snapshot.sponsoring_status,
+        desktop_system_tray_first_close_prompted: snapshot
+            .desktop_system_tray_first_close_prompted,
         source_exists: snapshot.source_exists,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,
@@ -883,6 +885,7 @@ pub(in crate::settings) fn clone_loaded_state(loaded: &ffi::SettingsLoadedState)
             })
             .collect(),
         sponsoring_status: loaded.sponsoring_status.clone(),
+        desktop_system_tray_first_close_prompted: loaded.desktop_system_tray_first_close_prompted,
         source_exists: loaded.source_exists,
         source_version: loaded.source_version,
         migrated_version: loaded.migrated_version,
@@ -920,6 +923,7 @@ pub(in crate::settings) fn loaded_state_from_snapshot(
             })
             .collect(),
         sponsoring_status: snapshot.sponsoring_status.clone(),
+        desktop_system_tray_first_close_prompted: snapshot.desktop_system_tray_first_close_prompted,
         source_exists: true,
         source_version: settings::state::CURRENT_STATE_SCHEMA_VERSION,
         migrated_version: settings::state::CURRENT_STATE_SCHEMA_VERSION,

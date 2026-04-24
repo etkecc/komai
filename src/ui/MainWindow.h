@@ -151,6 +151,10 @@ signals:
     void switchToChatPage();
     void switchToWelcomePage();
     void switchToLoginPage(QString error);
+    //! Raised from closeEvent on the first close when the user has not yet
+    //! been told about the tray. The QML layer picks it up via the Komai
+    //! singleton and shows the CloseToTrayPromptDialog.
+    void openCloseToTrayPromptDialog();
     void showUserSettingsPageRequested();
     void showUserSettingsPageWithTabRequested(int initialTab);
     void

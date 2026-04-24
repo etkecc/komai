@@ -17,6 +17,9 @@ Item {
         function onOpenLogoutDialog() {
             timelineRoot.openCatalogDialog(componentCatalog.accountLogoutDialog);
         }
+        function onOpenCloseToTrayPromptDialog() {
+            timelineRoot.openCatalogDialog(componentCatalog.closeToTrayPromptDialog);
+        }
         function onShowRoomJoinPrompt(summary) {
             timelineRoot.openCatalogDialog(componentCatalog.roomConfirmJoinDialog, {
                     "summary": summary

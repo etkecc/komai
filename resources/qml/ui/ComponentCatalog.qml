@@ -21,6 +21,7 @@ QtObject {
     readonly property string roomJoinDialog: "qrc:/resources/qml/dialogs/room/JoinRoomDialog.qml"
     readonly property string roomLeaveDialog: "qrc:/resources/qml/dialogs/room/LeaveRoomDialog.qml"
     readonly property string accountLogoutDialog: "qrc:/resources/qml/dialogs/account/LogoutDialog.qml"
+    readonly property string closeToTrayPromptDialog: "qrc:/resources/qml/dialogs/CloseToTrayPromptDialog.qml"
     readonly property string roomPowerLevelEditorDialog: "qrc:/resources/qml/dialogs/room/PowerLevelEditor.qml"
     readonly property string roomPowerLevelSpacesApplyDialog: "qrc:/resources/qml/dialogs/room/PowerLevelSpacesApplyDialog.qml"
     readonly property string timelineReadReceiptsDialog: "qrc:/resources/qml/dialogs/timeline/ReadReceipts.qml"

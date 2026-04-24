@@ -32,6 +32,7 @@ fn state_snapshot_loads_defaults_and_migrates() {
             .collect::<Vec<_>>()
     );
     assert_eq!(loaded.sponsoring_status, "visible");
+    assert!(!loaded.desktop_system_tray_first_close_prompted);
     assert!(loaded.should_write_back);
 }
 
@@ -67,6 +68,7 @@ fn state_yaml_roundtrip() {
         pinned_tabs: vec!["!tab1:hs".to_owned()],
         composer_drafts_by_room: vec![entry("!room:hs", "draft")],
         sponsoring_status: "sponsoring".to_owned(),
+        desktop_system_tray_first_close_prompted: true,
     });
     let loaded = load_state_snapshot(&encoded);
 
@@ -78,4 +80,5 @@ fn state_yaml_roundtrip() {
     assert_eq!(loaded.pinned_tabs, vec!["!tab1:hs".to_owned()]);
     assert_eq!(loaded.composer_drafts_by_room, vec![entry("!room:hs", "draft")]);
     assert_eq!(loaded.sponsoring_status, "sponsoring");
+    assert!(loaded.desktop_system_tray_first_close_prompted);
 }

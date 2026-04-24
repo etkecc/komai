@@ -53,6 +53,9 @@ class UserSettings final : public QObject
                  setDesktopSystemTrayEnabled NOTIFY desktopSystemTrayEnabledChanged)
     Q_PROPERTY(bool desktopSystemTrayAutostart READ desktopSystemTrayAutostart WRITE
                  setDesktopSystemTrayAutostart NOTIFY desktopSystemTrayAutostartChanged)
+    Q_PROPERTY(
+      bool desktopSystemTrayFirstClosePrompted READ desktopSystemTrayFirstClosePrompted WRITE
+        setDesktopSystemTrayFirstClosePrompted NOTIFY desktopSystemTrayFirstClosePromptedChanged)
     Q_PROPERTY(bool navigationCommunitiesFilterFavourites READ navigationCommunitiesFilterFavourites
                  WRITE setNavigationCommunitiesFilterFavourites NOTIFY
                    navigationCommunitiesFilterFavouritesChanged)
@@ -532,6 +535,7 @@ public:
     void setTimelineFormattedCodeSyntaxHighlighting(bool state);
     void setDesktopSystemTrayEnabled(bool state);
     void setDesktopSystemTrayAutostart(bool state);
+    void setDesktopSystemTrayFirstClosePrompted(bool state);
     void setUiInputMode(bool mode);
     void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setUiScaleFactor(double factor);
@@ -716,6 +720,7 @@ signals:
     void timelineFormattedCodeSyntaxHighlightingChanged(bool state);
     void desktopSystemTrayEnabledChanged(bool state);
     void desktopSystemTrayAutostartChanged(bool state);
+    void desktopSystemTrayFirstClosePromptedChanged(bool state);
     void composerInputMarkdownToHtmlEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);

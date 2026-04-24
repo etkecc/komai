@@ -141,6 +141,11 @@ public:
     Q_INVOKABLE QString purgeMediaCache();
     Q_INVOKABLE void showUserSettingsPage() const;
     Q_INVOKABLE void logout() const;
+    //! Chosen from the "close to tray" prompt: persist the choice and quit.
+    Q_INVOKABLE void acceptCloseToTrayAsQuit();
+    //! Chosen from the "close to tray" prompt: persist the choice, enable
+    //! close-to-tray, and hide the main window.
+    Q_INVOKABLE void acceptCloseToTrayAsTray();
     Q_INVOKABLE void submitUnlockKeyBackup(QString keyOrPassphrase) const;
     Q_INVOKABLE void cancelUnlockKeyBackup() const;
     Q_INVOKABLE void createRoom(bool space,
@@ -173,6 +178,7 @@ signals:
 
     void openLogoutDialog();
     void openJoinRoomDialog();
+    void openCloseToTrayPromptDialog();
     void joinRoom(QString roomId, QString reason = "");
     void promptUnlockKeyBackup();
 

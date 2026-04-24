@@ -6,6 +6,13 @@ UserSettings::setDesktopSystemTrayEnabled(bool s)
     desktopSystemTrayEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::DesktopSystemTrayEnabled, s);
     emit desktopSystemTrayEnabledChanged(s);
+    // Any user-driven toggle of this setting means the user already knows
+    // about the tray behavior, so suppress the first-close prompt. Guarded on
+    // suppressSettingsSave_ so startup config-load doesn't flip the flag.
+    if (!suppressSettingsSave_ && !desktopSystemTrayFirstClosePrompted_) {
+        desktopSystemTrayFirstClosePrompted_ = true;
+        emit desktopSystemTrayFirstClosePromptedChanged(true);
+    }
     save();
 }
 

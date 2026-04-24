@@ -133,6 +133,11 @@ UserSettings::sponsoringStatus() const
 {
     return sponsoringStatus_;
 }
+bool
+UserSettings::desktopSystemTrayFirstClosePrompted() const
+{
+    return desktopSystemTrayFirstClosePrompted_;
+}
 int
 UserSettings::windowWidth() const
 {

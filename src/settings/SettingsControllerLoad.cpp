@@ -266,6 +266,8 @@ loadImpl(UserSettings &settings,
         logStateMigrationWarnings(stateSnapshot);
         settings.setSponsoringStatus(
           QString::fromStdString(static_cast<std::string>(stateSnapshot.sponsoring_status)));
+        settings.setDesktopSystemTrayFirstClosePrompted(
+          stateSnapshot.desktop_system_tray_first_close_prompted);
         settings.setWindowWidth(stateSnapshot.window_width);
         settings.setWindowHeight(stateSnapshot.window_height);
         settings.setNavigationRoomListWidthPx(stateSnapshot.navigation_room_list_width_px);

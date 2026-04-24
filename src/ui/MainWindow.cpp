@@ -738,10 +738,19 @@ MainWindow::closeEvent(QCloseEvent *event)
         }
     }
 
-    if (!qApp->isSavingSession() && isVisible() && pageSupportsTray() &&
-        userSettings_->desktopSystemTrayEnabled()) {
+    if (qApp->isSavingSession() || !isVisible() || !pageSupportsTray())
+        return;
+
+    if (userSettings_->desktopSystemTrayEnabled()) {
         event->ignore();
         hide();
+        return;
+    }
+
+    if (!userSettings_->desktopSystemTrayFirstClosePrompted() &&
+        QSystemTrayIcon::isSystemTrayAvailable()) {
+        event->ignore();
+        emit openCloseToTrayPromptDialog();
         return;
     }
 }

@@ -36,6 +36,8 @@ const OPEN_TABS_PATH: [&str; 2] = ["tabs", "open"];
 const PINNED_TABS_PATH: [&str; 2] = ["tabs", "pinned"];
 const COMPOSER_DRAFTS_PATH: [&str; 3] = ["composer", "drafts", "by_room"];
 const SPONSORING_STATUS_PATH: [&str; 2] = ["ui", "sponsoring_status"];
+const DESKTOP_SYSTEM_TRAY_FIRST_CLOSE_PROMPTED_PATH: [&str; 3] =
+    ["desktop", "system_tray", "first_close_prompted"];
 
 pub struct LoadedState {
     pub window_width: i32,
@@ -54,6 +56,7 @@ pub struct LoadedState {
     pub pinned_tabs: Vec<String>,
     pub composer_drafts_by_room: Vec<SettingsStringMapEntry>,
     pub sponsoring_status: String,
+    pub desktop_system_tray_first_close_prompted: bool,
     pub source_exists: bool,
     pub source_version: i32,
     pub migrated_version: i32,
@@ -61,6 +64,13 @@ pub struct LoadedState {
     pub had_unsupported_path: bool,
     pub should_write_back: bool,
     pub serialized_yaml: String,
+}
+
+fn read_bool(root: &Value, path: &[&str], default: bool) -> bool {
+    match yaml::value_at_path(root, path) {
+        Some(Value::Bool(value)) => *value,
+        _ => default,
+    }
 }
 
 fn read_int(root: &Value, path: &[&str], default: i32) -> i32 {
@@ -167,6 +177,11 @@ pub fn load_state_snapshot(state_text: &str) -> LoadedState {
                 _ => "visible".to_owned(),
             }
         },
+        desktop_system_tray_first_close_prompted: read_bool(
+            &root,
+            &DESKTOP_SYSTEM_TRAY_FIRST_CLOSE_PROMPTED_PATH,
+            false,
+        ),
         source_exists: !state_text.is_empty(),
         source_version,
         migrated_version,
@@ -274,6 +289,11 @@ pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
         &mut root,
         &SPONSORING_STATUS_PATH,
         Value::String(snapshot.sponsoring_status.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &DESKTOP_SYSTEM_TRAY_FIRST_CLOSE_PROMPTED_PATH,
+        Value::Bool(snapshot.desktop_system_tray_first_close_prompted),
     );
     yaml::serialize_yaml(&root)
 }

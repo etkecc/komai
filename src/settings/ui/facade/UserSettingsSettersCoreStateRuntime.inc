@@ -246,6 +246,13 @@ UserSettings::setSponsoringStatus(QString s)
     setSetting(sponsoringStatus_, s, &UserSettings::sponsoringStatusChanged);
 }
 void
+UserSettings::setDesktopSystemTrayFirstClosePrompted(bool s)
+{
+    setSetting(desktopSystemTrayFirstClosePrompted_,
+               s,
+               &UserSettings::desktopSystemTrayFirstClosePromptedChanged);
+}
+void
 UserSettings::setWindowWidth(int s)
 {
     setSetting(windowWidth_, s, &UserSettings::windowWidthChanged);

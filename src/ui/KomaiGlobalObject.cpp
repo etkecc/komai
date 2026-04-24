@@ -168,6 +168,12 @@ Komai::Komai()
     connect(
       ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Komai::promptUnlockKeyBackup);
     connect(this, &Komai::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
+    if (auto *mainWindow = MainWindow::instance()) {
+        connect(mainWindow,
+                &MainWindow::openCloseToTrayPromptDialog,
+                this,
+                &Komai::openCloseToTrayPromptDialog);
+    }
 }
 
 void
@@ -627,6 +633,27 @@ void
 Komai::logout() const
 {
     ChatPage::instance()->initiateLogout();
+}
+
+void
+Komai::acceptCloseToTrayAsQuit()
+{
+    if (auto settings = UserSettings::instance(); settings)
+        settings->setDesktopSystemTrayFirstClosePrompted(true);
+    QCoreApplication::quit();
+}
+
+void
+Komai::acceptCloseToTrayAsTray()
+{
+    auto settings = UserSettings::instance();
+    if (!settings)
+        return;
+
+    settings->setDesktopSystemTrayEnabled(true);
+    settings->setDesktopSystemTrayFirstClosePrompted(true);
+    if (auto *mainWindow = MainWindow::instance())
+        mainWindow->hide();
 }
 
 void

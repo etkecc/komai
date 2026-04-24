@@ -30,6 +30,7 @@
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
     QString sponsoringStatus() const;
+    bool desktopSystemTrayFirstClosePrompted() const;
     int windowWidth() const;
     int windowHeight() const;
     bool usesFileSecretsProvider() const;

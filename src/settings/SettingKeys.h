@@ -138,6 +138,7 @@ constexpr auto NavigationCommunitiesFilteringCurrent = "navigation.communities.f
 constexpr auto TimelinePinsHidden                    = "timeline.pins.hidden";
 constexpr auto TimelineWidgetsHidden                 = "timeline.widgets.hidden";
 constexpr auto ComposerDraftsByRoom                  = "composer.drafts.by_room";
+constexpr auto DesktopSystemTrayFirstClosePrompted   = "desktop.system_tray.first_close_prompted";
 
 // session.yml
 constexpr auto SessionSchemaVersion     = SchemaVersion;

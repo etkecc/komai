@@ -11,9 +11,14 @@ LoadingSplash {
 
     required property var rootItem
 
+    readonly property bool threadLoading: root.rootItem.threadViewActive && root.rootItem.threadTimelineLoading
+    readonly property bool roomLoading: !root.rootItem.threadViewActive && root.rootItem.loading
+
     anchors.fill: parent
     visible: !root.rootItem.hasTimeline
-    spinning: root.rootItem.loading
-    headline: root.rootItem.loading ? qsTr("Loading room…") : ""
+    spinning: root.threadLoading || root.roomLoading
+    headline: root.threadLoading
+        ? qsTr("Loading thread…")
+        : (root.roomLoading ? qsTr("Loading room…") : "")
     detail: ""
 }

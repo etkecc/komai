@@ -463,12 +463,12 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+64"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+84"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 من تطوير %2 (استضافة خوادم Matrix مُدارة).</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+27"/>
         <source>Sponsoring!</source>
         <translation type="unfinished"/>
     </message>
@@ -738,6 +738,39 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>CloseToTrayPromptDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/CloseToTrayPromptDialog.qml" line="+14"/>
+        <source>Quit completely or close to tray?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Komai can keep running in the system tray so you keep getting notifications and can open it quickly.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>We won't ask again. You can change this later in Settings.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Cancel</source>
+        <translation type="unfinished">إلغاء</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Close to tray</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Quit</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>CombinedImagePackModel</name>
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
@@ -784,7 +817,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+506"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
         <translation type="unfinished"/>
     </message>
@@ -1527,17 +1560,52 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Encrypted</name>
     <message>
-        <location filename="../../qml/delegates/Encrypted.qml" line="+46"/>
-        <source>This message couldn't be decrypted. The app requested the key automatically, but you can try requesting it again.</source>
-        <translation>تعذّر فك تشفير هذه الرسالة. طلب التطبيق المفتاح تلقائيًا، لكن يمكنك محاولة طلبه مرة أخرى.</translation>
+        <location filename="../../qml/delegates/Encrypted.qml" line="+23"/>
+        <source>You weren't in the room when this message was sent.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <source>This message couldn't be decrypted because the sender's identity is no longer verified.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This message was sent from a device that isn't signed by its owner.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This message was sent from a device we couldn't securely identify.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>History isn't available on this device. Turn on key backup to access older messages.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Verify this device to access messages sent before it was added to your account.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The sender's security settings prevented sharing encryption keys with this device.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The sender didn't share the encryption keys with this device.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>This message couldn't be decrypted.</source>
         <translation>تعذّر فك تشفير هذه الرسالة.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+39"/>
         <source>Request key</source>
         <translation>طلب المفتاح</translation>
     </message>
@@ -1558,7 +1626,47 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>EncryptionIndicator</name>
     <message>
-        <location filename="../../qml/components/EncryptionIndicator.qml" line="+39"/>
+        <location filename="../../qml/components/EncryptionIndicator.qml" line="+81"/>
+        <source>Encrypted by a verified device.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The authenticity of this encrypted message can't be guaranteed on this device.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Encrypted by an unknown or deleted device.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Encrypted by a device not verified by its owner.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Not encrypted.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Encrypted by an unverified user.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Encrypted by a previously-verified user who is no longer verified.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The sender of the event does not match the owner of the device that created the Megolm session.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>This message is not encrypted!</source>
         <translation>هذه الرسالة غير مشفّرة!</translation>
     </message>
@@ -1986,7 +2094,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>تعديل حزمة الصور</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+56"/>
         <source>Add images</source>
         <translation>إضافة صور</translation>
     </message>
@@ -2086,7 +2194,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>إعدادات حزمة الصور</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+71"/>
         <source>Create account pack</source>
         <translation>إنشاء حزمة حساب</translation>
     </message>
@@ -2308,7 +2416,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+475"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>اسم الملف الشخصي مطلوب.</translation>
@@ -2349,7 +2457,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>تعذّرت إعادة إنشاء مجلد التخزين المؤقت.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+106"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>تطبيق دردشة %1 رائع ستحبه</translation>
     </message>
@@ -2768,43 +2876,43 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/ui/MainWindow.cpp" line="+169"/>
-        <location line="+73"/>
+        <location filename="../../../src/ui/MainWindow.cpp" line="+171"/>
+        <location line="+77"/>
         <location line="+21"/>
-        <location line="+198"/>
+        <location line="+223"/>
         <location line="+63"/>
         <location line="+79"/>
         <source>Starting Komai</source>
         <translation>جارٍ بدء Komai</translation>
     </message>
     <message>
-        <location line="-433"/>
+        <location line="-462"/>
         <source>Checking your profile...</source>
         <translation>جارٍ التحقق من ملفك الشخصي...</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+76"/>
         <source>Opening the profile chooser...</source>
         <translation>جارٍ فتح منتقي الملفات الشخصية...</translation>
     </message>
     <message>
         <location line="+21"/>
-        <location line="+198"/>
+        <location line="+223"/>
         <location line="+63"/>
         <source>Restoring your session...</source>
         <translation>جارٍ استعادة جلستك...</translation>
     </message>
     <message>
-        <location line="-255"/>
-        <location line="+187"/>
+        <location line="-280"/>
+        <location line="+212"/>
         <location line="+112"/>
         <location line="+13"/>
         <source>Welcome to Komai</source>
         <translation>مرحبًا بك في Komai</translation>
     </message>
     <message>
-        <location line="-312"/>
-        <location line="+187"/>
+        <location line="-337"/>
+        <location line="+212"/>
         <location line="+113"/>
         <location line="+13"/>
         <source>Preparing sign-in...</source>
@@ -2843,24 +2951,44 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomDialogSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomDialogSupport.qml" line="+64"/>
-        <location line="+21"/>
+        <location filename="../../qml/timeline/components/MatrixRoomDialogSupport.qml" line="+67"/>
+        <location line="+70"/>
         <source>Optional reason</source>
         <translation>سبب اختياري</translation>
     </message>
     <message>
-        <location line="-20"/>
+        <location line="-69"/>
         <source>Delete this message?</source>
         <translation>هل تريد حذف هذه الرسالة؟</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location line="+23"/>
+        <location line="+72"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-50"/>
+        <source>Cancel unsent message?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>This message couldn't be sent. Cancelling removes it from the send queue.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Keep</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Cancel send</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Delete %1 of %2 selected messages?</source>
         <translation>هل تريد حذف %1 من %2 رسالة محددة؟</translation>
     </message>
@@ -2877,7 +3005,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         </translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+61"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>JSON الخام غير متوفر لهذا الحدث. ربما تم حذفه.</translation>
     </message>
@@ -2885,7 +3013,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomEmptyState</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+17"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
+        <source>Loading thread…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Loading room…</source>
         <translation>جارٍ تحميل الغرفة…</translation>
     </message>
@@ -3003,12 +3136,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+97"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
         <source>Message actions</source>
         <translation>إجراءات الرسالة</translation>
     </message>
     <message>
-        <location line="+196"/>
+        <location line="+194"/>
         <source>Clipboard</source>
         <translation>الحافظة</translation>
     </message>
@@ -3099,21 +3232,6 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+6"/>
-        <source>Mark as read</source>
-        <translation>تحديد كمقروءة</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>M</source>
-        <translation>M</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Done!</source>
-        <translation>تم!</translation>
-    </message>
-    <message>
-        <location line="+6"/>
         <source>Media</source>
         <translation>وسائط</translation>
     </message>
@@ -3164,16 +3282,6 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+10"/>
-        <source>View decrypted raw message</source>
-        <translation>عرض الرسالة الخام المفكّكة التشفير</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>E</source>
-        <translation>E</translation>
-    </message>
-    <message>
-        <location line="+10"/>
         <source>Moderate</source>
         <translation>إشراف</translation>
     </message>
@@ -3181,6 +3289,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+8"/>
         <source>Delete message</source>
         <translation>حذف الرسالة</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Cancel send</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -3252,7 +3365,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+118"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
         <source>Repl&amp;y</source>
         <translation>&amp;رد</translation>
     </message>
@@ -3272,7 +3385,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ت&amp;فاعل</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+35"/>
         <source>&amp;Forward</source>
         <translation>إعادة &amp;توجيه</translation>
     </message>
@@ -3332,17 +3445,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>عرض الرسالة الخام</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>View decrypted raw message</source>
-        <translation>عرض الرسالة الخام المفكّكة التشفير</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Report message</source>
         <translation>الإبلاغ عن الرسالة</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
+        <source>&amp;Cancel send</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>&amp;Delete message</source>
         <translation>&amp;حذف الرسالة</translation>
     </message>
@@ -3350,7 +3463,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+490"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>اكتب رسالة، أو اضغط على السهم لأعلى لتحديد الرسائل.</translation>
     </message>
@@ -3365,7 +3478,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>إيموجي</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+18"/>
         <source>Send</source>
         <translation>إرسال</translation>
     </message>
@@ -3399,7 +3512,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>NewTabPage</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPage.qml" line="+28"/>
+        <location filename="../../qml/timeline/components/NewTabPage.qml" line="+30"/>
         <source>The ten thousand chats can't happen in a void. Open a room?</source>
         <translation>لا يمكن لعشرة آلاف محادثة أن تحدث في الفراغ. هل تفتح غرفة؟</translation>
     </message>
@@ -3472,7 +3585,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>NewTabPageActions</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+22"/>
+        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
         <source>Join room</source>
         <translation>انضمام لغرفة</translation>
     </message>
@@ -3482,7 +3595,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Explore public rooms</source>
         <translation>استعراض الغرف العامة</translation>
     </message>
@@ -3492,7 +3605,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>New room/space</source>
         <translation type="unfinished"/>
     </message>
@@ -4436,24 +4549,39 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
 <context>
     <name>RawMessageDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/RawMessageDialog.qml" line="+33"/>
+        <location filename="../../qml/dialogs/timeline/RawMessageDialog.qml" line="+59"/>
         <source>Raw message inspection</source>
         <translation>فحص الرسالة الخام</translation>
     </message>
     <message>
-        <location line="+37"/>
-        <location line="+7"/>
+        <location line="+14"/>
+        <source>Cleartext</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Wire form (same)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Wire form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+72"/>
+        <location line="+10"/>
         <location line="+7"/>
         <source>Copied</source>
         <translation>تم النسخ</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-17"/>
         <source>Copy All</source>
         <translation>نسخ الكل</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Copy `body`</source>
         <translation>نسخ `body`</translation>
     </message>
@@ -5782,7 +5910,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+475"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+472"/>
         <source>Settings...</source>
         <translation type="unfinished"/>
     </message>
@@ -6313,7 +6441,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+228"/>
+        <location line="+250"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
         <translation type="unfinished"/>
@@ -7213,19 +7341,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>Snackbar</name>
     <message>
-        <location filename="../../qml/ui/Snackbar.qml" line="+161"/>
+        <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
         <location line="+77"/>
         <source>Notification</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="-65"/>
-        <location line="+190"/>
+        <location line="+246"/>
         <source>Dismiss this message</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-64"/>
+        <location line="-120"/>
         <source>+%1</source>
         <translation type="unfinished"/>
     </message>
@@ -7251,7 +7379,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>StatusIndicator</name>
     <message>
-        <location filename="../../qml/ui/StatusIndicator.qml" line="+18"/>
+        <location filename="../../qml/ui/StatusIndicator.qml" line="+23"/>
+        <source>Failed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Failed</source>
         <translation type="unfinished"/>
     </message>
@@ -7280,12 +7413,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+639"/>
+        <location line="+1088"/>
         <source>Settings</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-444"/>
+        <location line="-717"/>
         <source>Pick an Emoji</source>
         <translation type="unfinished"/>
     </message>
@@ -7300,12 +7433,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished">إغلاق</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+55"/>
         <source>Search</source>
         <translation type="unfinished">بحث</translation>
     </message>
     <message>
-        <location line="+346"/>
+        <location line="+580"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation type="unfinished"/>
     </message>
@@ -7543,7 +7676,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+163"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
         <translation type="unfinished"/>
     </message>
@@ -7610,17 +7743,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Allow them in</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>This room was replaced for the following reason: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Go to replacement room</source>
         <translation type="unfinished"/>
     </message>
@@ -7656,12 +7789,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+148"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+160"/>
+        <source>Retry sending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+33"/>
         <source>Edited</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+37"/>
         <source>Unpin</source>
         <translation type="unfinished">إلغاء التثبيت</translation>
     </message>
@@ -7691,7 +7829,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+155"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+156"/>
         <source>%1's status message</source>
         <translation type="unfinished"/>
     </message>
@@ -7758,7 +7896,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1137"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1146"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+293"/>
         <source>Failed to send message: %1</source>
         <translation type="unfinished"/>
@@ -7776,6 +7914,16 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+52"/>
         <source>Failed to delete message: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Failed to cancel unsent message: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Failed to retry unsent message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -7815,7 +7963,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+213"/>
+        <location line="+232"/>
         <source>Select file(s)</source>
         <translation type="unfinished"/>
     </message>
@@ -7835,7 +7983,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+223"/>
+        <location line="+246"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -7847,7 +7995,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+360"/>
+        <location line="+362"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation type="unfinished"/>
     </message>
@@ -7862,8 +8010,25 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Saved attachment '%1' but failed to open it</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
+        <source>Open</source>
+        <translation type="unfinished">فتح</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
+        <source>Show in folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Saved attachment '%1'</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -7930,6 +8095,21 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+34"/>
         <source>Failed to update ignored-user state: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="-26"/>
+        <source>Failed to resolve media for saving</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to save media to '%1'</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Saved to '%1'</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -9000,12 +9180,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+9"/>
         <source>Light</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>Dark</source>
         <translation type="unfinished"/>
     </message>
@@ -9158,7 +9338,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+8"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Emoji font family</source>
         <translation type="unfinished"/>
     </message>

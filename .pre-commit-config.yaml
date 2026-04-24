@@ -46,6 +46,12 @@ repos:
         language: system
         files: 'resources/langs/.*\.ts$'
         pass_filenames: false
+      - id: translations-drift
+        name: Verify translation .ts files are in sync with source
+        entry: python3 bin/prek/translations-drift.py
+        language: system
+        files: '^(src/.*\.(cpp|h)|resources/qml/.*\.qml|bin/translations/.*|bin/prek/translations-drift\.py)$'
+        pass_filenames: false
       - id: qmllint
         name: Lint QML files
         entry: ./bin/prek/qml/qmllint.sh

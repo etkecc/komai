@@ -1029,10 +1029,10 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membru</numerusform>
+            <numerusform>%n membri</numerusform>
+            <numerusform>%n de membri</numerusform>
         </translation>
     </message>
     <message>
@@ -1797,10 +1797,10 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Redirecționezi %n mesaj?</numerusform>
+            <numerusform>Redirecționezi %n mesaje?</numerusform>
+            <numerusform>Redirecționezi %n de mesaje?</numerusform>
         </translation>
     </message>
     <message>
@@ -1831,10 +1831,10 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Redirecționezi %n mesaj selectat către &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Redirecționezi %n mesaje selectate către &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Redirecționezi %n de mesaje selectate către &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2986,10 +2986,10 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Ștergi %n mesaj selectat?</numerusform>
+            <numerusform>Ștergi %n mesaje selectate?</numerusform>
+            <numerusform>Ștergi %n de mesaje selectate?</numerusform>
         </translation>
     </message>
     <message>
@@ -4147,19 +4147,19 @@ Verifică pentru a debloca mesajele criptate.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Permisiuni aplicate la %n spațiu copil.</numerusform>
+            <numerusform>Permisiuni aplicate la %n spații copil.</numerusform>
+            <numerusform>Permisiuni aplicate la %n de spații copil.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Eroare la aplicarea permisiunilor pentru %n spațiu copil: %1</numerusform>
+            <numerusform>Eroare la aplicarea permisiunilor pentru %n spații copil: %1</numerusform>
+            <numerusform>Eroare la aplicarea permisiunilor pentru %n de spații copil: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5645,10 +5645,10 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membru în %1</numerusform>
+            <numerusform>%n membri în %1</numerusform>
+            <numerusform>%n de membri în %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7596,10 +7596,10 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n răspuns în fir</numerusform>
+            <numerusform>%n răspunsuri în fir</numerusform>
+            <numerusform>%n de răspunsuri în fir</numerusform>
         </translation>
     </message>
     <message>
@@ -7623,10 +7623,10 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n răspuns în fir</numerusform>
+            <numerusform>%n răspunsuri în fir</numerusform>
+            <numerusform>%n de răspunsuri în fir</numerusform>
         </translation>
     </message>
     <message>
@@ -7801,10 +7801,10 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n răspuns în fir</numerusform>
+            <numerusform>%n răspunsuri în fir</numerusform>
+            <numerusform>%n de răspunsuri în fir</numerusform>
         </translation>
     </message>
     <message>
@@ -7836,10 +7836,10 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membru</numerusform>
+            <numerusform>%n membri</numerusform>
+            <numerusform>%n de membri</numerusform>
         </translation>
     </message>
     <message>
@@ -8104,10 +8104,10 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n mesaj selectat</numerusform>
+            <numerusform>%n mesaje selectate</numerusform>
+            <numerusform>%n de mesaje selectate</numerusform>
         </translation>
     </message>
     <message>
@@ -8251,10 +8251,13 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n cameră necesită atenție</numerusform>
+            <numerusform>
+%n camere necesită atenție</numerusform>
+            <numerusform>
+%n de camere necesită atenție</numerusform>
         </translation>
     </message>
 </context>

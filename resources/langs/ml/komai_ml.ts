@@ -6,48 +6,48 @@
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="+117"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>മാറ്റുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+43"/>
         <source>Remove</source>
-        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ അവതാർ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation>പ്രദർശന നാമം</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ ഐഡി</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -57,33 +57,33 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി!</translation>
     </message>
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ ഐഡി പകർത്തുക</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation type="unfinished"/>
+        <translation>ഹോംസർവർ</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Copy homeserver</source>
-        <translation type="unfinished"/>
+        <translation>ഹോംസർവർ പകർത്തുക</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>This device (session)</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണം (സെഷൻ)</translation>
     </message>
     <message>
         <location line="+78"/>
         <location line="+411"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണം</translation>
     </message>
     <message>
         <location line="-385"/>
@@ -91,124 +91,124 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക</translation>
     </message>
     <message>
         <location line="-554"/>
         <location line="+457"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഔട്ട്</translation>
     </message>
     <message>
         <location line="-438"/>
         <location line="+460"/>
         <source>Name</source>
-        <translation type="unfinished">പേര്</translation>
+        <translation>പേര്</translation>
     </message>
     <message>
         <location line="-410"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>ആക്സസ് ടോക്കൺ</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation type="unfinished"/>
+        <translation>കാണാൻ ക്ലിക്ക് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Access tokens grant full account access. Keep private!</source>
-        <translation type="unfinished"/>
+        <translation>ആക്സസ് ടോക്കണുകൾ അക്കൗണ്ടിലേക്ക് പൂർണ്ണ ആക്സസ് നൽകുന്നു. സ്വകാര്യമായി സൂക്ഷിക്കുക!</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Other devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണങ്ങൾ (സെഷനുകൾ)</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>പുതുക്കി</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>പുതുക്കുക</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Hide other devices</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണങ്ങൾ മറയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show all (%1) devices</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാ (%1) ഉപകരണങ്ങളും കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിച്ചത്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കാത്ത</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>തടഞ്ഞ</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന നീക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>തടസ്സം നീക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>തടയുക</translation>
     </message>
     <message>
         <location line="+93"/>
         <source>IP address</source>
-        <translation type="unfinished"/>
+        <translation>ഐപി വിലാസം</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Last seen: %1</source>
-        <translation type="unfinished"/>
+        <translation>അവസാനം കണ്ടത്: %1</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Last seen: Unknown</source>
-        <translation type="unfinished"/>
+        <translation>അവസാനം കണ്ടത്: അജ്ഞാതം</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണിച്ച ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട്</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>You are not logged in yet, so account details are unavailable.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ ഇതുവരെ ലോഗിൻ ചെയ്തിട്ടില്ല, അതിനാൽ അക്കൗണ്ട് വിശദാംശങ്ങൾ ലഭ്യമല്ല.</translation>
     </message>
 </context>
 <context>
@@ -232,7 +232,7 @@
     <message>
         <location line="+17"/>
         <source>Hide/Show Picture-in-Picture</source>
-        <translation type="unfinished"/>
+        <translation>പിക്ചർ-ഇൻ-പിക്ചർ മറയ്ക്കുക/കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -242,7 +242,7 @@
     <message>
         <location line="+0"/>
         <source>Unmute Mic</source>
-        <translation type="unfinished"/>
+        <translation>മൈക്ക് അൺമ്യൂട്ട് ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -250,12 +250,12 @@
     <message>
         <location filename="../../../src/models/AliasEditModel.cpp" line="+117"/>
         <source>Failed to load room aliases from the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk ബാക്കൻഡിൽ നിന്ന് മുറി അലിയാസുകൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+310"/>
         <source>Failed to save room aliases to the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk ബാക്കൻഡിലേക്ക് മുറി അലിയാസുകൾ സേവ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
 </context>
 <context>
@@ -263,52 +263,52 @@
     <message>
         <location filename="../../qml/dialogs/room/AliasEditor.qml" line="+19"/>
         <source>Aliases to %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ അലിയാസുകൾ</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Primary alias</source>
-        <translation type="unfinished"/>
+        <translation>പ്രാഥമിക അലിയാസ്</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Make primary alias</source>
-        <translation type="unfinished"/>
+        <translation>പ്രാഥമിക അലിയാസ് ആക്കുക</translation>
     </message>
     <message>
         <location line="-40"/>
         <source>Alternative addresses for this room. You can usually only add aliases on your own server. One alias can be marked as primary.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിക്കുള്ള ബദൽ വിലാസങ്ങൾ. സാധാരണ നിങ്ങളുടെ സ്വന്തം സർവറിൽ മാത്രം അലിയാസുകൾ ചേർക്കാൻ കഴിയും. ഒരു അലിയാസ് പ്രാഥമികമായി അടയാളപ്പെടുത്താം.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Show this alias in the room's details</source>
-        <translation type="unfinished"/>
+        <translation>ഈ അലിയാസ് മുറിയുടെ വിവരങ്ങളിൽ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Publish in room directory</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ഡയറക്ടറിയിൽ പ്രസിദ്ധീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove this alias</source>
-        <translation type="unfinished"/>
+        <translation>ഈ അലിയാസ് നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>#new-alias:example.com</source>
-        <translation type="unfinished"/>
+        <translation>#new-alias:example.com</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Add</source>
-        <translation type="unfinished">ചേർക്കുക</translation>
+        <translation>ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>സംരക്ഷിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -316,32 +316,32 @@
     <message>
         <location filename="../../qml/dialogs/room/AllowedRoomsSettingsDialog.qml" line="+18"/>
         <source>Allowed rooms settings</source>
-        <translation type="unfinished"/>
+        <translation>അനുവദനീയ മുറികളുടെ ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>List of rooms that allow access to this room. Anyone who is in any of those rooms can join this room.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിലേക്ക് പ്രവേശനം അനുവദിക്കുന്ന മുറികളുടെ പട്ടിക. ആ മുറികളിൽ ഏതിലെങ്കിലും ഉള്ള ആർക്കും ഈ മുറിയിൽ ചേരാം.</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Parent community</source>
-        <translation type="unfinished"/>
+        <translation>മാതൃ കമ്മ്യൂണിറ്റി</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Other room</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് മുറി</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Enter additional rooms not in the list yet...</source>
-        <translation type="unfinished"/>
+        <translation>ലിസ്റ്റിൽ ഇല്ലാത്ത അധിക മുറികൾ നൽകുക…</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>സംരക്ഷിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -349,115 +349,115 @@
     <message>
         <location filename="../../qml/components/ApplicationProfilesView.qml" line="+15"/>
         <source>Choose an application profile to launch, or create a new one.</source>
-        <translation type="unfinished"/>
+        <translation>സമാരംഭിക്കാൻ ഒരു ആപ്ലിക്കേഷൻ പ്രൊഫൈൽ തിരഞ്ഞെടുക്കുക, അല്ലെങ്കിൽ പുതിയൊന്ന് സൃഷ്ടിക്കുക.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Each application profile is a separate Komai instance with its own login, settings, and local data.</source>
-        <translation type="unfinished"/>
+        <translation>ഓരോ ആപ്ലിക്കേഷൻ പ്രൊഫൈലും സ്വന്തം ലോഗിൻ, ക്രമീകരണങ്ങൾ, ലോക്കൽ ഡേറ്റ എന്നിവ സഹിതം ഒരു പ്രത്യേക Komai ഇൻസ്റ്റൻസ് ആണ്.</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Create Application Profile</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്ലിക്കേഷൻ പ്രൊഫൈൽ സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Profile name</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ പേര്</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Examples: work, personal</source>
-        <translation type="unfinished"/>
+        <translation>ഉദാഹരണങ്ങൾ: ജോലി, വ്യക്തിഗതം</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Create desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>ഡെസ്ക്ടോപ്പ് ലോഞ്ചർ സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Default already uses the packaged Komai launcher.</source>
-        <translation type="unfinished"/>
+        <translation>ഡിഫോൾട്ട് ഇതിനകം പാക്കേജ് ചെയ്ത Komai ലോഞ്ചർ ഉപയോഗിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Recommended for non-default Linux profiles. This makes app badges and taskbar grouping reliable when you launch the profile from its own desktop launcher.</source>
-        <translation type="unfinished"/>
+        <translation>ഡിഫോൾട്ടല്ലാത്ത Linux പ്രൊഫൈലുകൾക്ക് ശുപാർശ ചെയ്യുന്നു. ഇത് ആ പ്രൊഫൈലിൻ്റെ സ്വന്തം ഡെസ്ക്ടോപ്പ് ലോഞ്ചറിൽ നിന്ന് സമാരംഭിക്കുമ്പോൾ ആപ്പ് ബാഡ്ജുകളും ടാസ്ക്ബാർ ഗ്രൂപ്പിംഗും വിശ്വസനീയമാക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+20"/>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="-36"/>
         <source>Create and Launch</source>
-        <translation type="unfinished"/>
+        <translation>സൃഷ്ടിച്ച് സമാരംഭിക്കുക</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Delete Application Profile '%1'?</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്ലിക്കേഷൻ പ്രൊഫൈൽ '%1' ഇല്ലാതാക്കണോ?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>This removes its config, cache, local database, and stored secrets.</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് അതിൻ്റെ കോൺഫിഗ്, കാഷെ, ലോക്കൽ ഡേറ്റാബേസ്, സംഭരിച്ച രഹസ്യങ്ങൾ എന്നിവ നീക്കം ചെയ്യുന്നു.</translation>
     </message>
     <message>
         <location line="+17"/>
         <location line="+262"/>
         <location line="+5"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ഇല്ലാതാക്കുക</translation>
     </message>
     <message>
         <location line="-216"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>പുതുക്കി</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>പുതുക്കുക</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയത്</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>No profiles found yet.</source>
-        <translation type="unfinished"/>
+        <translation>ഇതുവരെ പ്രൊഫൈലുകൾ ഒന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>Current</source>
-        <translation type="unfinished"/>
+        <translation>നിലവിലുള്ളത്</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>User: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ്: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>User: not signed in yet</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ്: ഇതുവരെ സൈൻ ഇൻ ചെയ്തിട്ടില്ല</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Homeserver: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഹോംസർവർ: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Homeserver: not available</source>
-        <translation type="unfinished"/>
+        <translation>ഹോംസർവർ: ലഭ്യമല്ല</translation>
     </message>
 </context>
 <context>
@@ -465,22 +465,22 @@
     <message>
         <location filename="../../qml/components/AttributionFooter.qml" line="+84"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
-        <translation type="unfinished"/>
+        <translation>%1 നിർമ്മിച്ചിരിക്കുന്നത് %2 ആണ് (മാനേജ്ഡ് Matrix സർവർ ഹോസ്റ്റിംഗ്).</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation type="unfinished"/>
+        <translation>സ്പോൺസർ ചെയ്യുന്നു!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>സ്പോൺസർ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Report an issue</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പ്രശ്നം റിപ്പോർട്ട് ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -488,17 +488,17 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation type="unfinished"/>
+        <translation>ലിങ്ക് ബ്രൗസർ കമാൻഡ്</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Use this command to launch links; use %u where the link URL should be inserted.</source>
-        <translation type="unfinished"/>
+        <translation>ലിങ്കുകൾ തുറക്കാൻ ഈ കമാൻഡ് ഉപയോഗിക്കുക; ലിങ്ക് URL ചേർക്കേണ്ട സ്ഥലത്ത് %u ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Example: brave --profile-directory="Profile 7" %u</source>
-        <translation type="unfinished"/>
+        <translation>ഉദാഹരണം: brave --profile-directory="Profile 7" %u</translation>
     </message>
 </context>
 <context>
@@ -567,12 +567,12 @@
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
         <source>X11</source>
-        <translation type="unfinished"/>
+        <translation>X11</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>PipeWire</source>
-        <translation type="unfinished"/>
+        <translation>PipeWire</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -585,48 +585,49 @@
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ബാക്കെൻഡ് ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Knock on room</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ knock ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾക്ക് %1-ൽ ചേരാൻ കഴിഞ്ഞില്ല. മറ്റുള്ളവർ നിങ്ങളെ ക്ഷണിക്കാൻ knock ചെയ്തു നോക്കാം. നിങ്ങൾ അങ്ങനെ ചെയ്യണോ?
+നിങ്ങളുടെ knock സ്വീകരിക്കാൻ മറ്റുള്ളവർക്ക് ഒരു കാരണം ഐച്ഛികമായി നൽകാം:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Do you really want to knock on %1? You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>%1-ൽ നോക്ക് ചെയ്യാൻ ശരിക്കും ആഗ്രഹിക്കുന്നുണ്ടോ? മറ്റുള്ളവർ നിങ്ങളുടെ നോക്ക് സ്വീകരിക്കാൻ ഒരു കാരണം ഓപ്ഷണലായി നൽകാം:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Failed to knock room: %1</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ knock ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+62"/>
         <source>Room creation failed: Bad Alias</source>
-        <translation type="unfinished"/>
+        <translation>മുറി സൃഷ്ടിക്കൽ പരാജയപ്പെട്ടു: മോശം Alias</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Failed to leave room: %1</source>
-        <translation type="unfinished"/>
+        <translation>മുറി വിടുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to invite %1 to %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 നെ %2-ലേക്ക് ക്ഷണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %3</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Failed to kick %1 from %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%2-ൽ നിന്ന് %1 നെ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %3</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -636,37 +637,37 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+24"/>
         <source>Failed to ban %1 in %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%2-ൽ %1 നെ നിരോധിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %3</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Banned user: %1</source>
-        <translation type="unfinished"/>
+        <translation>നിരോധിച്ച ഉപയോക്താവ്: %1</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Failed to unban %1 in %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%2-ൽ %1-ന്റെ ban നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %3</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Unbanned user: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ് ban-ൽ നിന്ന് നീക്കം ചെയ്തു: %1</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix സെഷൻ തയ്യാറാകുന്നതുവരെ ഉപയോക്താക്കളെ ക്ഷണിക്കാൻ കഴിയില്ല.</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Failed to invite %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 നെ ക്ഷണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+231"/>
         <source>Something went wrong</source>
-        <translation type="unfinished"/>
+        <translation>എന്തോ തെറ്റ് സംഭവിച്ചു</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -677,17 +678,23 @@ You may optionally provide a reason for others to accept your knock:</source>
 This may be a temporary issue (e.g. your system's secret storage failed to unlock). If so, you can close Komai, fix the problem, and relaunch — your data will still be there.
 
 If the problem persists, you can log out and sign in again, but this will delete your local message cache and encryption session.</source>
-        <translation type="unfinished"/>
+        <translation>Komai ഒരു പ്രശ്നം നേരിട്ടു:
+
+%1
+
+ഇത് ഒരു താൽക്കാലിക പ്രശ്നമാകാം (ഉദാ: നിങ്ങളുടെ സിസ്റ്റത്തിന്റെ രഹസ്യ സ്റ്റോറേജ് അൺലോക്ക് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു). അങ്ങനെയാണെങ്കിൽ, Komai അടച്ച്, പ്രശ്നം പരിഹരിച്ച്, വീണ്ടും തുറക്കാം — നിങ്ങളുടെ ഡാറ്റ അവിടെ തന്നെ ഉണ്ടാകും.
+
+പ്രശ്നം തുടർന്നാൽ, ലോഗ് ഔട്ട് ചെയ്ത് വീണ്ടും സൈൻ ഇൻ ചെയ്യാം, പക്ഷേ ഇത് നിങ്ങളുടെ ലോക്കൽ സന്ദേശ കാഷെയും എൻക്രിപ്ഷൻ സെഷനും ഇല്ലാതാക്കും.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close &amp;&amp; preserve data</source>
-        <translation type="unfinished"/>
+        <translation>അടയ്ക്കുക &amp;&amp; ഡേറ്റ സൂക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Log out &amp;&amp; start over</source>
-        <translation type="unfinished"/>
+        <translation>ലോഗ് ഔട്ട് ചെയ്ത് &amp;&amp; വീണ്ടും ആരംഭിക്കുക</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
@@ -702,32 +709,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/chat/ChatPageBootstrap.cpp" line="+32"/>
         <source>Matrix backend runtime failed to start for this session. Please log in again.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സെഷനായി Matrix ബാക്കെൻഡ് റൺടൈം ആരംഭിക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ലോഗ് ഇൻ ചെയ്യുക.</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>കീ ബാക്കപ്പ് പുനഃസ്ഥാപനത്തിന് ഒരു സജീവ matrix-sdk ബാക്കെൻഡ് റൺടൈം ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യാൻ ഒരു റിക്കവറി കീ അല്ലെങ്കിൽ പാസ്‌ഫ്രേസ് ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Failed to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unlock key backup: %1</source>
-        <translation type="unfinished"/>
+        <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption secrets unlocked.</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ അൺലോക്ക് ചെയ്തു.</translation>
     </message>
 </context>
 <context>
@@ -735,32 +742,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/CloseToTrayPromptDialog.qml" line="+14"/>
         <source>Quit completely or close to tray?</source>
-        <translation type="unfinished"/>
+        <translation>പൂർണ്ണമായി അവസാനിപ്പിക്കണോ അതോ ട്രേയിലേക്ക് അടയ്ക്കണോ?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Komai can keep running in the system tray so you keep getting notifications and can open it quickly.</source>
-        <translation type="unfinished"/>
+        <translation>Komai സിസ്റ്റം ട്രേയിൽ പ്രവർത്തിക്കുന്നത് തുടരാം, അങ്ങനെ നിങ്ങൾക്ക് അറിയിപ്പുകൾ ലഭിക്കുന്നതും അത് വേഗത്തിൽ തുറക്കുന്നതും തുടരും.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>We won't ask again. You can change this later in Settings.</source>
-        <translation type="unfinished"/>
+        <translation>ഞങ്ങൾ ഇനി ചോദിക്കില്ല. ഇത് പിന്നീട് ക്രമീകരണങ്ങളിൽ മാറ്റാം.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation type="unfinished"/>
+        <translation>ട്രേയിലേക്ക് അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation type="unfinished"/>
+        <translation>അവസാനിപ്പിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -768,7 +775,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് പാക്ക്</translation>
     </message>
 </context>
 <context>
@@ -776,17 +783,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/CommandValidationPresentation.qml" line="+26"/>
         <source>Hit Enter to insert it.</source>
-        <translation type="unfinished"/>
+        <translation>ഇൻസേർട്ട് ചെയ്യാൻ Enter അമർത്തുക.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Looks good! Hit Enter to send it.</source>
-        <translation type="unfinished"/>
+        <translation>നല്ലതായി കാണുന്നു! അയക്കാൻ Enter അമർത്തുക.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation type="unfinished"/>
+        <translation>ആദ്യം ഒരു കമാൻഡ് തിരഞ്ഞെടുക്കുക. തിരഞ്ഞെടുത്തിട്ടുണ്ടെങ്കിൽ Enter ഇൻസേർട്ട് ചെയ്യും; അല്ലെങ്കിൽ അയക്കും.</translation>
     </message>
 </context>
 <context>
@@ -794,17 +801,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>വായിക്കാത്ത സൂചകങ്ങൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>'എല്ലാ മുറികളിലും' ഉൾപ്പെടുത്തുക</translation>
     </message>
 </context>
 <context>
@@ -812,7 +819,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
 </context>
 <context>
@@ -820,12 +827,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
         <source>Expand</source>
-        <translation type="unfinished"/>
+        <translation>വികസിപ്പിക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished"/>
+        <translation>ചുരുക്കുക</translation>
     </message>
 </context>
 <context>
@@ -833,57 +840,57 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രിയപ്പെട്ടവ ആയി ടാഗ് ചെയ്ത മുറികൾ. Matrix m.favourite ടാഗ് ഉപയോഗിക്കുന്നു, അതിനാൽ നിങ്ങളുടെ തിരഞ്ഞെടുപ്പുകൾ ക്ലയന്റുകൾ വഴി സമന്വയിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Rooms tagged as low priority. They stay visually quiet in the room list unless you receive a loud ping or open this filter.</source>
-        <translation type="unfinished"/>
+        <translation>കുറഞ്ഞ മുൻഗണനയായി ടാഗ് ചെയ്ത മുറികൾ. ഒരു ഉച്ചത്തിലുള്ള ping ലഭിക്കുകയോ ഈ ഫിൽട്ടർ തുറക്കുകയോ ചെയ്യാതെ അവ മുറി ലിസ്റ്റിൽ ദൃശ്യമായി ശാന്തമായി നിൽക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Messages from your homeserver administrator. Uses the Matrix m.server_notice tag.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ഹോംസെർവർ അഡ്‌മിനിസ്‌ട്രേറ്ററിൽ നിന്നുള്ള സന്ദേശങ്ങൾ. Matrix m.server_notice ടാഗ് ഉപയോഗിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>All rooms</source>
-        <translation type="unfinished">എല്ലാ മുറികളും</translation>
+        <translation>എല്ലാ മുറികളും</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation type="unfinished">ആളുകൾ</translation>
+        <translation>ആളുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bots</source>
-        <translation type="unfinished"/>
+        <translation>ബോട്ടുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Groups</source>
-        <translation type="unfinished"/>
+        <translation>ഗ്രൂപ്പുകൾ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All your joined rooms. Rooms from filters you've excluded from 'All rooms' are omitted.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ ചേർന്ന എല്ലാ മുറികളും. 'എല്ലാ മുറികളിൽ' നിന്ന് ഒഴിവാക്കിയ ഫിൽട്ടറുകളിലെ മുറികൾ ഉൾപ്പെടുന്നില്ല.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct chats with real people. Detected from Matrix m.direct account data and a 2-3 member heuristic, excluding users identified as bots.</source>
-        <translation type="unfinished"/>
+        <translation>യഥാർത്ഥ ആളുകളുമായുള്ള നേരിട്ടുള്ള ചാറ്റുകൾ. Matrix m.direct അക്കൗണ്ട് ഡാറ്റയിൽ നിന്നും 2-3 അംഗ ഹ്യൂറിസ്റ്റിക്കിൽ നിന്നും കണ്ടെത്തിയത്, ബോട്ടുകളായി തിരിച്ചറിഞ്ഞ ഉപയോക്താക്കളെ ഒഴിവാക്കി.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct chats with bots or bridge accounts. Identified from username and display-name patterns.</source>
-        <translation type="unfinished"/>
+        <translation>ബോട്ടുകളുമായോ bridge അക്കൗണ്ടുകളുമായോ നേരിട്ടുള്ള ചാറ്റുകൾ. ഉപയോക്തൃനാമത്തിൽ നിന്നും ഡിസ്പ്ലേ-നാം പാറ്റേണുകളിൽ നിന്നും തിരിച്ചറിഞ്ഞത്.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Multi-participant rooms that aren't direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>നേരിട്ടുള്ള ചാറ്റുകളല്ലാത്ത ഒന്നിലധികം പങ്കാളികളുള്ള മുറികൾ.</translation>
     </message>
     <message>
         <location line="-94"/>
@@ -893,12 +900,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation type="unfinished"/>
+        <translation>കുറഞ്ഞ മുൻഗണന</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation type="unfinished"/>
+        <translation>സെർവർ അറിയിപ്പുകൾ</translation>
     </message>
 </context>
 <context>
@@ -906,43 +913,43 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/Completer.qml" line="+219"/>
         <source>Pick an emoji</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ഇമോജി തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a user to mention</source>
-        <translation type="unfinished"/>
+        <translation>പരാമർശിക്കാൻ ഒരു ഉപയോക്താവിനെ തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a command</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു കമാൻഡ് തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a room to link to</source>
-        <translation type="unfinished"/>
+        <translation>ലിങ്ക് ചെയ്യാൻ ഒരു മുറി തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation type="unfinished"/>
+        <translation>പൊരുത്തങ്ങൾ ഒന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+170"/>
         <source>Notify the whole room</source>
-        <translation type="unfinished"/>
+        <translation>മുഴുവൻ മുറിയെയും അറിയിക്കുക</translation>
     </message>
     <message>
         <location line="+147"/>
         <location line="+55"/>
         <source>(Space)</source>
-        <translation type="unfinished"/>
+        <translation>(സ്പേസ്)</translation>
     </message>
 </context>
 <context>
@@ -950,7 +957,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
         <source>Attach an image or file</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ചിത്രം അല്ലെങ്കിൽ ഫയൽ അറ്റാച്ച് ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -958,17 +965,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+18"/>
         <source>Hang up</source>
-        <translation type="unfinished"/>
+        <translation>കോൾ അവസാനിപ്പിക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Already on a call</source>
-        <translation type="unfinished"/>
+        <translation>ഇതിനകം കോളിലാണ്</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Place a call</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു കോൾ ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -976,17 +983,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
         <source>Pause recording [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>റെക്കോർഡിംഗ് താൽക്കാലികമായി നിർത്തുക [Ctrl+R]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Resume recording [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>റെക്കോർഡിംഗ് പുനരാരംഭിക്കുക [Ctrl+R]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Record a voice message [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു വോയ്സ് സന്ദേശം റെക്കോർഡ് ചെയ്യുക [Ctrl+R]</translation>
     </message>
 </context>
 <context>
@@ -994,17 +1001,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+111"/>
         <source>Finalize recording for preview</source>
-        <translation type="unfinished"/>
+        <translation>പ്രിവ്യൂവിനായി റെക്കോർഡിംഗ് പൂർത്തിയാക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Paused</source>
-        <translation type="unfinished"/>
+        <translation>താൽക്കാലികമായി നിർത്തി</translation>
     </message>
     <message>
         <location line="+74"/>
         <source>Discard recording</source>
-        <translation type="unfinished"/>
+        <translation>റെക്കോർഡിംഗ് ഉപേക്ഷിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -1012,12 +1019,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/ConfirmJoinRoomDialog.qml" line="+18"/>
         <source>Confirm community join</source>
-        <translation type="unfinished"/>
+        <translation>കമ്മ്യൂണിറ്റിയിൽ ചേരൽ സ്ഥിരീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Confirm room join</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ ചേരൽ സ്ഥിരീകരിക്കുക</translation>
     </message>
     <message numerus="yes">
         <location line="+54"/>
@@ -1030,27 +1037,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+23"/>
         <source>This room can't be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ നേരിട്ട് ചേരാൻ കഴിയില്ല. എന്നിരുന്നാലും, നിങ്ങൾക്ക് മുറിയിൽ നോക്ക് ചെയ്യാം, മുറി അംഗങ്ങൾക്ക് ഈ ചേരൽ അഭ്യർഥന സ്വീകരിക്കാനോ നിരസിക്കാനോ കഴിയും. നിങ്ങളെ ഉള്ളിൽ കടക്കാൻ അനുവദിക്കാൻ ഒരു കാരണം ചുവടെ ചേർക്കാം:</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Do you want to join this room? You can optionally add a reason below:</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ ഈ മുറിയിൽ ചേരാൻ ആഗ്രഹിക്കുന്നുണ്ടോ? ഐച്ഛികമായി ഒരു കാരണം ചുവടെ ചേർക്കാം:</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Knock</source>
-        <translation type="unfinished"/>
+        <translation>നോക്ക്</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>ചേരുക</translation>
     </message>
 </context>
 <context>
@@ -1058,63 +1065,63 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ നേരിട്ടുള്ള ചാറ്റ്</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation type="unfinished"/>
+        <translation>പേര് അല്ലെങ്കിൽ @user:example.com ഉപയോഗിച്ച് തിരയുക</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Start chat directly</source>
-        <translation type="unfinished"/>
+        <translation>നേരിട്ട് ചാറ്റ് ആരംഭിക്കുക</translation>
     </message>
     <message>
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation type="unfinished"/>
+        <translation>അജ്ഞാത ഡിസ്പ്ലേ നാമം</translation>
     </message>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു തിരയൽ ക്വറി ടൈപ്പ് ചെയ്യുക. ഫലങ്ങൾ ഇവിടെ ദൃശ്യമാകും.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation type="unfinished"/>
+        <translation>യോജിക്കുന്ന ഉപയോക്താക്കളെ കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Use the suggestion above to start a chat by Matrix ID.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ID ഉപയോഗിച്ച് ചാറ്റ് ആരംഭിക്കാൻ മുകളിലെ നിർദ്ദേശം ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Remove</source>
-        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Remove selected user</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത ഉപയോക്താവിനെ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>End-to-end encryption protects messages so only you and the recipient can read them.</source>
-        <translation type="unfinished"/>
+        <translation>എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ സന്ദേശങ്ങൾ സംരക്ഷിക്കുന്നു, അതിനാൽ നിങ്ങൾക്കും സ്വീകർത്താവിനും മാത്രമേ അവ വായിക്കാൻ കഴിയൂ.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>സൃഷ്ടിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -1122,72 +1129,72 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/CreateRoom.qml" line="+37"/>
         <source>Name</source>
-        <translation type="unfinished">പേര്</translation>
+        <translation>പേര്</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Topic</source>
-        <translation type="unfinished">വിഷയം</translation>
+        <translation>വിഷയം</translation>
     </message>
     <message>
         <location line="-27"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ സ്പേസ്</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ മുറി</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Alias</source>
-        <translation type="unfinished"/>
+        <translation>അലിയാസ്</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Anyone can join a public space. Private spaces require an invite.</source>
-        <translation type="unfinished"/>
+        <translation>ആർക്കും ഒരു പൊതു സ്പേസിൽ ചേരാം. സ്വകാര്യ സ്പേസുകൾക്ക് ക്ഷണം ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Anyone can join a public room. Private rooms require an invite.</source>
-        <translation type="unfinished"/>
+        <translation>ആർക്കും ഒരു പൊതു മുറിയിൽ ചേരാം. സ്വകാര്യ മുറികൾക്ക് ക്ഷണം ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Invitees get the same power level as the room creator.</source>
-        <translation type="unfinished"/>
+        <translation>ക്ഷണിതാക്കൾക്ക് മുറി സ്രഷ്ടാവിനേക്കാൾ ഒരേ ശക്തി നിലവാരം ലഭിക്കും.</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Only participants can read messages. Cannot be disabled once enabled.</source>
-        <translation type="unfinished"/>
+        <translation>പങ്കാളികൾക്ക് മാത്രമേ സന്ദേശങ്ങൾ വായിക്കാൻ കഴിയൂ. ഒരിക്കൽ പ്രവർത്തനക്ഷമമാക്കിയാൽ പ്രവർത്തനരഹിതമാക്കാൻ കഴിയില്ല.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Encryption has a high cost in public rooms with many participants.</source>
-        <translation type="unfinished"/>
+        <translation>പലരുള്ള പൊതു മുറികളിൽ എൻക്രിപ്ഷൻ ഉയർന്ന ചെലവ് ഉണ്ടാക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>വിശ്വസ്തം</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ</translation>
     </message>
 </context>
 <context>
@@ -1195,7 +1202,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/device-verification/DigitVerification.qml" line="+13"/>
         <source>Do both devices show the same sequence of numbers?</source>
-        <translation type="unfinished"/>
+        <translation>രണ്ട് ഉപകരണങ്ങളും ഒരേ ക്രമത്തിലുള്ള സംഖ്യകൾ കാണിക്കുന്നുണ്ടോ?</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -1213,327 +1220,327 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/device-verification/EmojiVerification.qml" line="+13"/>
         <source>Do both devices show the same sequence of emojis?</source>
-        <translation type="unfinished"/>
+        <translation>രണ്ട് ഉപകരണങ്ങളിലും ഒരേ ഇമോജി ക്രമം കാണിക്കുന്നുണ്ടോ?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Dog</source>
-        <translation type="unfinished"/>
+        <translation>നായ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cat</source>
-        <translation type="unfinished"/>
+        <translation>പൂച്ച</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lion</source>
-        <translation type="unfinished"/>
+        <translation>സിംഹം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Horse</source>
-        <translation type="unfinished"/>
+        <translation>കുതിര</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Unicorn</source>
-        <translation type="unfinished"/>
+        <translation>യൂണിക്കോൺ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pig</source>
-        <translation type="unfinished"/>
+        <translation>പന്നി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Elephant</source>
-        <translation type="unfinished"/>
+        <translation>ആന</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rabbit</source>
-        <translation type="unfinished"/>
+        <translation>മുയൽ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Panda</source>
-        <translation type="unfinished"/>
+        <translation>പാൻഡ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rooster</source>
-        <translation type="unfinished"/>
+        <translation>പൂവൻകോഴി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Penguin</source>
-        <translation type="unfinished"/>
+        <translation>പെൻഗ്വിൻ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Turtle</source>
-        <translation type="unfinished"/>
+        <translation>ആമ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Fish</source>
-        <translation type="unfinished"/>
+        <translation>മീൻ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Octopus</source>
-        <translation type="unfinished"/>
+        <translation>ഓക്ടോപസ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Butterfly</source>
-        <translation type="unfinished"/>
+        <translation>ചിത്രശലഭം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Flower</source>
-        <translation type="unfinished"/>
+        <translation>പൂ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Tree</source>
-        <translation type="unfinished"/>
+        <translation>മരം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cactus</source>
-        <translation type="unfinished"/>
+        <translation>കള്ളിച്ചെടി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Mushroom</source>
-        <translation type="unfinished"/>
+        <translation>കൂൺ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Globe</source>
-        <translation type="unfinished"/>
+        <translation>ഭൂഗോളം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Moon</source>
-        <translation type="unfinished"/>
+        <translation>ചന്ദ്രൻ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cloud</source>
-        <translation type="unfinished"/>
+        <translation>മേഘം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Fire</source>
-        <translation type="unfinished"/>
+        <translation>തീ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Banana</source>
-        <translation type="unfinished"/>
+        <translation>വാഴപ്പഴം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Apple</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്പിൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Strawberry</source>
-        <translation type="unfinished"/>
+        <translation>സ്ട്രോബെറി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Corn</source>
-        <translation type="unfinished"/>
+        <translation>ചോളം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pizza</source>
-        <translation type="unfinished"/>
+        <translation>പിസ്സ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cake</source>
-        <translation type="unfinished"/>
+        <translation>കേക്ക്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Heart</source>
-        <translation type="unfinished"/>
+        <translation>ഹൃദയം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Smiley</source>
-        <translation type="unfinished"/>
+        <translation>സ്മൈലി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Robot</source>
-        <translation type="unfinished"/>
+        <translation>റോബോട്ട്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hat</source>
-        <translation type="unfinished"/>
+        <translation>തൊപ്പി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Glasses</source>
-        <translation type="unfinished"/>
+        <translation>കണ്ണട</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Spanner</source>
-        <translation type="unfinished"/>
+        <translation>സ്പാനർ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Santa</source>
-        <translation type="unfinished"/>
+        <translation>സാന്ത</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Thumbs Up</source>
-        <translation type="unfinished"/>
+        <translation>തള്ളവിരൽ മുകളിലേക്ക്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Umbrella</source>
-        <translation type="unfinished"/>
+        <translation>കുട</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hourglass</source>
-        <translation type="unfinished"/>
+        <translation>മണൽഘടിക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clock</source>
-        <translation type="unfinished"/>
+        <translation>ഘടികാരം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Gift</source>
-        <translation type="unfinished"/>
+        <translation>സമ്മാനം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Light Bulb</source>
-        <translation type="unfinished"/>
+        <translation>ബൾബ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Book</source>
-        <translation type="unfinished"/>
+        <translation>പുസ്തകം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>പെൻസിൽ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Paperclip</source>
-        <translation type="unfinished"/>
+        <translation>പേപ്പർക്ലിപ്പ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Scissors</source>
-        <translation type="unfinished"/>
+        <translation>കത്രിക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lock</source>
-        <translation type="unfinished"/>
+        <translation>പൂട്ട്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Key</source>
-        <translation type="unfinished"/>
+        <translation>താക്കോൽ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hammer</source>
-        <translation type="unfinished"/>
+        <translation>ചുറ്റിക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Telephone</source>
-        <translation type="unfinished"/>
+        <translation>ടെലിഫോൺ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Flag</source>
-        <translation type="unfinished"/>
+        <translation>പതാക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Train</source>
-        <translation type="unfinished"/>
+        <translation>ട്രെയിൻ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Bicycle</source>
-        <translation type="unfinished"/>
+        <translation>സൈക്കിൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Aeroplane</source>
-        <translation type="unfinished"/>
+        <translation>വിമാനം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rocket</source>
-        <translation type="unfinished"/>
+        <translation>റോക്കറ്റ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Trophy</source>
-        <translation type="unfinished"/>
+        <translation>ട്രോഫി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ball</source>
-        <translation type="unfinished"/>
+        <translation>പന്ത്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Guitar</source>
-        <translation type="unfinished"/>
+        <translation>ഗിറ്റാർ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Trumpet</source>
-        <translation type="unfinished"/>
+        <translation>ട്രമ്പറ്റ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Bell</source>
-        <translation type="unfinished"/>
+        <translation>മണി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Anchor</source>
-        <translation type="unfinished"/>
+        <translation>നങ്കൂരം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Headphones</source>
-        <translation type="unfinished"/>
+        <translation>ഹെഡ്ഫോൺ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Folder</source>
-        <translation type="unfinished"/>
+        <translation>ഫോൾഡർ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1543,7 +1550,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation type="unfinished">അവ പൊരുത്തപ്പെടുന്നു!</translation>
+        <translation>അവ പൊരുത്തപ്പെടുന്നു!</translation>
     </message>
 </context>
 <context>
@@ -1551,47 +1558,47 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/Encrypted.qml" line="+23"/>
         <source>You weren't in the room when this message was sent.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം അയച്ചപ്പോൾ നിങ്ങൾ മുറിയിൽ ഉണ്ടായിരുന്നില്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message couldn't be decrypted because the sender's identity is no longer verified.</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കുന്നയാളുടെ ഐഡന്റിറ്റി ഇനി പരിശോധിക്കപ്പെട്ടിട്ടില്ലാത്തതിനാൽ ഈ സന്ദേശം ഡീക്രിപ്റ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message was sent from a device that isn't signed by its owner.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം അതിന്റെ ഉടമ ഒപ്പിടാത്ത ഒരു ഉപകരണത്തിൽ നിന്ന് അയച്ചതാണ്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message was sent from a device we couldn't securely identify.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം ഞങ്ങൾക്ക് സുരക്ഷിതമായി തിരിച്ചറിയാൻ കഴിയാത്ത ഒരു ഉപകരണത്തിൽ നിന്ന് അയച്ചതാണ്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>History isn't available on this device. Turn on key backup to access older messages.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണത്തിൽ ചരിത്രം ലഭ്യമല്ല. പഴയ സന്ദേശങ്ങൾ ആക്‌സസ് ചെയ്യാൻ കീ ബാക്കപ്പ് ഓണാക്കുക.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify this device to access messages sent before it was added to your account.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണം നിങ്ങളുടെ അക്കൗണ്ടിൽ ചേർക്കുന്നതിന് മുമ്പ് അയച്ച സന്ദേശങ്ങൾ ആക്‌സസ് ചെയ്യാൻ ഈ ഉപകരണം പരിശോധിക്കുക.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender's security settings prevented sharing encryption keys with this device.</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കുന്നയാളുടെ സുരക്ഷാ ക്രമീകരണങ്ങൾ ഈ ഉപകരണവുമായി എൻക്രിപ്ഷൻ കീകൾ പങ്കിടുന്നത് തടഞ്ഞു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender didn't share the encryption keys with this device.</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കുന്നയാൾ ഈ ഉപകരണവുമായി എൻക്രിപ്ഷൻ കീകൾ പങ്കിട്ടിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message couldn't be decrypted.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം ഡീക്രിപ്റ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -1604,12 +1611,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished"/>
+        <translation>%1 എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാക്കി</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Encryption keeps your messages safe by only allowing the people you sent the message to to read it. For extra security, if you want to make sure you are talking to the right people, you can verify them in real life.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ സന്ദേശം അയച്ച ആളുകളെ മാത്രം വായിക്കാൻ അനുവദിക്കുന്നതിലൂടെ എൻക്രിപ്ഷൻ നിങ്ങളുടെ സന്ദേശങ്ങൾ സുരക്ഷിതമായി സൂക്ഷിക്കുന്നു. അധിക സുരക്ഷയ്ക്ക്, നിങ്ങൾ ശരിയായ ആളുകളോട് സംസാരിക്കുന്നുവെന്ന് ഉറപ്പാക്കണമെങ്കിൽ, യഥാർഥ ജീവിതത്തിൽ അവരെ പരിശോധിക്കാം.</translation>
     </message>
 </context>
 <context>
@@ -1617,67 +1624,67 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/EncryptionIndicator.qml" line="+81"/>
         <source>Encrypted by a verified device.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പരിശോധിക്കപ്പെട്ട ഉപകരണം ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The authenticity of this encrypted message can't be guaranteed on this device.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണത്തിൽ ഈ എൻക്രിപ്റ്റ് ചെയ്ത സന്ദേശത്തിന്റെ ആധികാരികത ഉറപ്പ് നൽകാൻ കഴിയില്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unknown or deleted device.</source>
-        <translation type="unfinished"/>
+        <translation>അജ്ഞാതമോ നീക്കം ചെയ്‌തതോ ആയ ഒരു ഉപകരണം ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by a device not verified by its owner.</source>
-        <translation type="unfinished"/>
+        <translation>അതിന്റെ ഉടമ പരിശോധിക്കാത്ത ഒരു ഉപകരണം ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Not encrypted.</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്റ്റ് ചെയ്‌തിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified user.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കപ്പെടാത്ത ഒരു ഉപയോക്താവ് ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by a previously-verified user who is no longer verified.</source>
-        <translation type="unfinished"/>
+        <translation>ഇനി പരിശോധിക്കപ്പെടാത്ത, മുമ്പ് പരിശോധിക്കപ്പെട്ടിരുന്ന ഒരു ഉപയോക്താവ് ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender of the event does not match the owner of the device that created the Megolm session.</source>
-        <translation type="unfinished"/>
+        <translation>ഇവന്റ് അയക്കുന്നയാൾ Megolm സെഷൻ സൃഷ്ടിച്ച ഉപകരണത്തിന്റെ ഉടമയുമായി പൊരുത്തപ്പെടുന്നില്ല.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This message is not encrypted!</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം എൻക്രിപ്റ്റ് ചെയ്‌തിട്ടില്ല!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Encrypted by a verified device</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പരിശോധിക്കപ്പെട്ട ഉപകരണം ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified device, but you have trusted that user so far.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കപ്പെടാത്ത ഒരു ഉപകരണം ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്, എന്നാൽ നിങ്ങൾ ഇതുവരെ ആ ഉപയോക്താവിനെ വിശ്വസിച്ചിരുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can't verify who sent the message.</source>
-        <translation type="unfinished"/>
+        <translation>കീ വിശ്വസനീയമല്ലാത്ത ഒരു ഉറവിടത്തിൽ നിന്നുള്ളതാണ്, ഒരുപക്ഷേ മറ്റൊരു ഉപയോക്താവിൽ നിന്നോ ഓൺലൈൻ കീ ബാക്കപ്പിൽ നിന്നോ ഫോർവേഡ് ചെയ്‌തതാകാം. ഈ കാരണത്താൽ സന്ദേശം ആരയച്ചതെന്ന് പരിശോധിക്കാൻ ഞങ്ങൾക്ക് കഴിയില്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified device.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കപ്പെടാത്ത ഒരു ഉപകരണം ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തത്.</translation>
     </message>
 </context>
 <context>
@@ -1685,42 +1692,42 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/device-verification/Failed.qml" line="+26"/>
         <source>Key mismatch detected!</source>
-        <translation type="unfinished"/>
+        <translation>കീ പൊരുത്തക്കേട് കണ്ടെത്തി!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Device verification timed out.</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണ പരിശോധന സമയം കഴിഞ്ഞു.</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Verification Failed</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>The other client does not support this verification method.</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ക്ലയന്റ് ഈ പരിശോധന രീതി പിന്തുണയ്ക്കുന്നില്ല.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The other party canceled the verification.</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് കക്ഷി പരിശോധന റദ്ദാക്കി.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The verification was accepted by a different device.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന മറ്റൊരു ഉപകരണം സ്വീകരിച്ചു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verification messages received out of order!</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമം തെറ്റിയ പരിശോധന സന്ദേശങ്ങൾ ലഭിച്ചു!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Unknown verification error.</source>
-        <translation type="unfinished"/>
+        <translation>അജ്ഞാത പരിശോധന പിശക്.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1733,12 +1740,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>സേവ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Save file</source>
-        <translation type="unfinished"/>
+        <translation>ഫയൽ സേവ് ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -1746,22 +1753,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സെഷനിൽ ലഭ്യമായ ചേർന്ന മുറികൾക്ക് മാത്രമേ മുറി ടാഗുകൾ മാറ്റാൻ കഴിയൂ.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Room tags are temporarily unavailable because the Matrix session is not active.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix സെഷൻ സജീവമല്ലാത്തതിനാൽ മുറി ടാഗുകൾ താൽക്കാലികമായി ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to add room tag: %1</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ടാഗ് ചേർക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room tag: %1</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ടാഗ് നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
 </context>
 <context>
@@ -1769,22 +1776,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="-109"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation type="unfinished"/>
+        <translation>കൈമാറൽ ഈ ഉള്ളടക്കം (അയച്ചയാളെ വെളിപ്പെടുത്താതെ) മറ്റൊരു മുറിയിലേക്ക് അയക്കുന്നു.</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Forward message?</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം കൈമാറണോ?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages?</source>
-        <translation type="unfinished"/>
+        <translation>%2 സന്ദേശങ്ങളിൽ %1 കൈമാറണോ?</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -1797,27 +1804,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത %1 സന്ദേശങ്ങളിൽ 1 മാത്രമേ കൈമാറാൻ കഴിയൂ. പിന്തുണയ്ക്കാത്ത സന്ദേശങ്ങൾ ഒഴിവാക്കപ്പെടും.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Only %1 of %2 selected messages can be forwarded. Unsupported messages will be skipped.</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത %2 സന്ദേശങ്ങളിൽ %1 മാത്രമേ കൈമാറാൻ കഴിയൂ. പിന്തുണയ്ക്കാത്ത സന്ദേശങ്ങൾ ഒഴിവാക്കപ്പെടും.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation type="unfinished"/>
+        <translation>കൈമാറൽ ഈ സന്ദേശങ്ങൾ (അയച്ചയാളെ വെളിപ്പെടുത്താതെ) മറ്റൊരു മുറിയിലേക്ക് അയക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത %1 സന്ദേശങ്ങളിൽ 1 &lt;b&gt;%2&lt;/b&gt;-ലേക്ക് കൈമാറണോ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത %2 സന്ദേശങ്ങളിൽ %1 &lt;b&gt;%3&lt;/b&gt;-ലേക്ക് കൈമാറണോ?</translation>
     </message>
     <message numerus="yes">
         <location line="+3"/>
@@ -1830,22 +1837,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+163"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ പേര്, വിലാസം അല്ലെങ്കിൽ ഐഡി…</translation>
     </message>
     <message>
         <location line="-170"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;%1&lt;/b&gt;-ലേക്ക് കൈമാറണോ?</translation>
     </message>
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>കൈമാറുക</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -1854,7 +1861,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് പാക്ക്</translation>
     </message>
 </context>
 <context>
@@ -1862,27 +1869,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/moderation/HiddenEventsDialog.qml" line="+19"/>
         <source>Hidden events</source>
-        <translation type="unfinished"/>
+        <translation>മറഞ്ഞ ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hidden events in this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിലെ മറഞ്ഞ ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in this room:</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ &lt;b&gt;കാണിക്കേണ്ട&lt;/b&gt; അധിക ഇവന്റുകൾ തിരഞ്ഞെടുക്കുക:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in all rooms:</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാ മുറികളിലും &lt;b&gt;കാണിക്കേണ്ട&lt;/b&gt; അധിക ഇവന്റുകൾ തിരഞ്ഞെടുക്കുക:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>സംരക്ഷിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -1890,62 +1897,62 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/HiddenEventsSettingsContent.qml" line="+182"/>
         <source>Show member changes</source>
-        <translation type="unfinished"/>
+        <translation>അംഗ മാറ്റങ്ങൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins, leaves, bans, display name changes, and avatar changes.</source>
-        <translation type="unfinished"/>
+        <translation>ചേരൽ, വിടൽ, നിരോധനം, പ്രദർശന നാമ മാറ്റങ്ങൾ, അവതാർ മാറ്റങ്ങൾ.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show power level changes</source>
-        <translation type="unfinished"/>
+        <translation>പവർ ലെവൽ മാറ്റങ്ങൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Moderator changes and room permission updates.</source>
-        <translation type="unfinished"/>
+        <translation>മോഡറേറ്റർ മാറ്റങ്ങളും മുറി അനുമതി അപ്‌ഡേറ്റുകളും.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show stickers</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റിക്കറുകൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show sticker events in the timeline.</source>
-        <translation type="unfinished"/>
+        <translation>ടൈംലൈനിൽ സ്റ്റിക്കർ ഇവന്റുകൾ കാണിക്കുക.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show reactions as events</source>
-        <translation type="unfinished"/>
+        <translation>പ്രതിക്രിയകൾ ഇവന്റുകളായി കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Separate reaction events, not just reaction pills.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രത്യേക പ്രതിക്രിയ ഇവന്റുകൾ, കേവലം പ്രതിക്രിയ ടാഗുകൾ മാത്രമല്ല.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show call setup events</source>
-        <translation type="unfinished"/>
+        <translation>കോൾ സെറ്റപ്പ് ഇവന്റുകൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation type="unfinished"/>
+        <translation>താഴ്ന്ന തലത്തിലുള്ള m.call സെറ്റപ്പ് ട്രാഫിക്. കോൾ ഡീബഗ്ഗിംഗിന് കൂടുതൽ ഉപയോഗപ്രദം.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show server access changes</source>
-        <translation type="unfinished"/>
+        <translation>സർവർ ആക്‌സസ് മാറ്റങ്ങൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Allowed and blocked homeserver list changes.</source>
-        <translation type="unfinished"/>
+        <translation>അനുവദിക്കപ്പെട്ടതും തടഞ്ഞതുമായ ഹോംസർവർ ലിസ്റ്റ് മാറ്റങ്ങൾ.</translation>
     </message>
 </context>
 <context>
@@ -1953,32 +1960,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/common/HideFilterDialog.qml" line="+17"/>
         <source>Hide the "%1" filter?</source>
-        <translation type="unfinished"/>
+        <translation>"%1" ഫിൽട്ടർ മറയ്ക്കണോ?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>To show this filter again, go to Application Settings → Navigation → Communities Sidebar and enable the "Show" toggle for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഫിൽട്ടർ വീണ്ടും കാണിക്കാൻ, ആപ്ലിക്കേഷൻ ക്രമീകരണങ്ങൾ → നാവിഗേഷൻ → കമ്മ്യൂണിറ്റി സൈഡ്ബാർ-ലേക്ക് പോയി "%1"-ന്റെ "കാണിക്കുക" ടോഗിൾ പ്രവർത്തനക്ഷമമാക്കുക.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This filter is currently excluded from "All rooms", so its rooms won't appear there either. You can change this in Application Settings → Navigation.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഫിൽട്ടർ നിലവിൽ "എല്ലാ മുറികളിൽ" നിന്ന് ഒഴിവാക്കിയിരിക്കുന്നു, അതിനാൽ അതിന്റെ മുറികൾ അവിടെ പ്രത്യക്ഷപ്പെടില്ല. ആപ്ലിക്കേഷൻ ക്രമീകരണങ്ങൾ → നാവിഗേഷൻ-ൽ ഇത് മാറ്റാം.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You'll still be able to find rooms that belonged to it in "All rooms".</source>
-        <translation type="unfinished"/>
+        <translation>അതിൽ ഉൾപ്പെട്ടിരുന്ന മുറികൾ "എല്ലാ മുറികളിൽ" ഇപ്പോഴും കണ്ടെത്താനാകും.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>മറയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -1986,62 +1993,62 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണിക്കപ്പെട്ട ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ignore User</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ അവഗണിക്കുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Matrix user ID</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ഉപയോക്തൃ ഐഡി</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണിക്കുക</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Please enter a user ID.</source>
-        <translation type="unfinished"/>
+        <translation>ദയവായി ഒരു ഉപയോക്തൃ ഐഡി നൽകുക.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Invalid format. Expected: @user:server.com</source>
-        <translation type="unfinished"/>
+        <translation>അസാധുവായ ഫോർമാറ്റ്. പ്രതീക്ഷിക്കുന്നത്: @user:server.com</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This user is already ignored.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപയോക്താവ് ഇതിനകം അവഗണിക്കപ്പെട്ടിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring a user hides their messages (they can still see yours!).</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ഉപയോക്താവിനെ അവഗണിക്കുന്നത് അവരുടെ സന്ദേശങ്ങൾ മറയ്ക്കുന്നു (അവർക്ക് ഇപ്പോഴും നിങ്ങളുടേത് കാണാം!).</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയത്</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണന നീക്കുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>You are not ignoring anyone.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ ആരെയും അവഗണിക്കുന്നില്ല.</translation>
     </message>
 </context>
 <context>
@@ -2049,22 +2056,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/ImagePackDeleteDialog.qml" line="+17"/>
         <source>Delete sticker pack</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റിക്കർ പാക്ക് ഇല്ലാതാക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you wish to delete the sticker pack '%1'?</source>
-        <translation type="unfinished"/>
+        <translation>'%1' സ്റ്റിക്കർ പാക്ക് ഇല്ലാതാക്കണമെന്ന് നിങ്ങൾക്ക് ഉറപ്പാണോ?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ഇല്ലാതാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -2072,7 +2079,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/ImagePackEditorDialog.qml" line="+23"/>
         <source>Editing image pack</source>
-        <translation type="unfinished"/>
+        <translation>ഇമേജ് പാക്ക് എഡിറ്റ് ചെയ്യുന്നു</translation>
     </message>
     <message>
         <location line="+56"/>
@@ -2082,37 +2089,37 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+7"/>
         <source>Images (*.png *.webp *.gif *.jpg *.jpeg)</source>
-        <translation type="unfinished"/>
+        <translation>ചിത്രങ്ങൾ (*.png *.webp *.gif *.jpg *.jpeg)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select images for pack</source>
-        <translation type="unfinished"/>
+        <translation>പാക്കിനായി ചിത്രങ്ങൾ തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add to pack</source>
-        <translation type="unfinished"/>
+        <translation>പാക്കിലേക്ക് ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Change the overview image for this pack</source>
-        <translation type="unfinished"/>
+        <translation>ഈ പാക്കിന്റെ അവലോകന ചിത്രം മാറ്റുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Overview Image (*.png *.webp *.jpg *.jpeg)</source>
-        <translation type="unfinished"/>
+        <translation>അവലോകന ചിത്രം (*.png *.webp *.jpg *.jpeg)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select overview image for pack</source>
-        <translation type="unfinished"/>
+        <translation>പാക്കിനായി അവലോകന ചിത്രം തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>State key</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റേറ്റ് കീ</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2122,7 +2129,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>Attribution</source>
-        <translation type="unfinished"/>
+        <translation>ആട്രിബ്യൂഷൻ</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2139,17 +2146,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="-40"/>
         <source>Shortcode</source>
-        <translation type="unfinished"/>
+        <translation>ഷോർട്ട്കോഡ്</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Body</source>
-        <translation type="unfinished"/>
+        <translation>ബോഡി</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Remove from pack</source>
-        <translation type="unfinished"/>
+        <translation>പാക്കിൽ നിന്ന് നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2159,12 +2166,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+27"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>സേവ് ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -2172,7 +2179,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/ImagePackSettingsDialog.qml" line="+28"/>
         <source>Image pack settings</source>
-        <translation type="unfinished"/>
+        <translation>ഇമേജ് പാക്ക് ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+71"/>
@@ -2187,42 +2194,42 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+17"/>
         <source>Private pack</source>
-        <translation type="unfinished"/>
+        <translation>സ്വകാര്യ പാക്ക്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pack from this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ നിന്നുള്ള പാക്ക്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pack from parent community</source>
-        <translation type="unfinished"/>
+        <translation>മൂല കമ്മ്യൂണിറ്റിയിൽ നിന്നുള്ള പാക്ക്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Globally enabled pack</source>
-        <translation type="unfinished"/>
+        <translation>ആഗോളതലത്തിൽ പ്രവർത്തനക്ഷമമായ പാക്ക്</translation>
     </message>
     <message>
         <location line="+68"/>
         <source>Enable globally</source>
-        <translation type="unfinished"/>
+        <translation>ആഗോളതലത്തിൽ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Enables this pack to be used in all rooms</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാ മുറികളിലും ഈ പാക്ക് ഉപയോഗിക്കാൻ അനുവദിക്കുന്നു</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Edit</source>
-        <translation type="unfinished">തിരുത്തുക</translation>
+        <translation>എഡിറ്റ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove</source>
-        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -2230,7 +2237,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
         <source>External player</source>
-        <translation type="unfinished"/>
+        <translation>ബാഹ്യ പ്ലേയർ</translation>
     </message>
 </context>
 <context>
@@ -2238,12 +2245,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/common/InputDialog.qml" line="+19"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>ശരി</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -2256,58 +2263,58 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+1"/>
         <source>Invite users</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താക്കളെ ക്ഷണിക്കുക</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Selected users</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation type="unfinished"/>
+        <translation>അജ്ഞാത ഡിസ്‌പ്ലേ നാമം</translation>
     </message>
     <message>
         <location line="-246"/>
         <source>Remove</source>
-        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>No one is selected yet.</source>
-        <translation type="unfinished"/>
+        <translation>ഇതുവരെ ആരും തിരഞ്ഞെടുത്തിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Search</source>
-        <translation type="unfinished">തിരയുക</translation>
+        <translation>തിരയുക</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation type="unfinished"/>
+        <translation>പേര് അല്ലെങ്കിൽ @user:example.com ഉപയോഗിച്ച് തിരയുക</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>Invite directly</source>
-        <translation type="unfinished"/>
+        <translation>നേരിട്ട് ക്ഷണിക്കുക</translation>
     </message>
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു തിരയൽ ക്വറി ടൈപ്പ് ചെയ്യുക. ഫലങ്ങൾ ഇവിടെ പ്രദർശിക്കും.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation type="unfinished"/>
+        <translation>പൊരുത്തപ്പെടുന്ന ഉപയോക്താക്കളെ കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Use the suggestion above to invite by Matrix ID.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ID ഉപയോഗിച്ച് ക്ഷണിക്കാൻ മുകളിലെ നിർദ്ദേശം ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2320,32 +2327,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/InviteResponseDialog.qml" line="+23"/>
         <source>Join %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1 ൽ ചേരണോ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Accept room invitation?</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിലേക്കുള്ള ക്ഷണം സ്വീകരിക്കണോ?</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ക്ഷണിച്ചു</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation type="unfinished">നിരസിക്കുക</translation>
+        <translation>നിരസിക്കുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Decline and ignore user</source>
-        <translation type="unfinished"/>
+        <translation>നിരസിക്കുകയും ഉപയോക്താവിനെ അവഗണിക്കുകയും ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Accept</source>
-        <translation type="unfinished">സ്വീകരിക്കുക</translation>
+        <translation>സ്വീകരിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -2353,27 +2360,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/JoinLargeRoomDialog.qml" line="+21"/>
         <source>Really join %1?</source>
-        <translation type="unfinished"/>
+        <translation>ശരിക്കും %1 ൽ ചേരണോ?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This room has %1 members.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ %1 അംഗങ്ങൾ ഉണ്ട്.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Join anyway</source>
-        <translation type="unfinished"/>
+        <translation>എന്നാലും ചേരുക</translation>
     </message>
 </context>
 <context>
@@ -2381,17 +2388,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ ചേരുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>E.g. !roomID or #alias:example.com</source>
-        <translation type="unfinished"/>
+        <translation>ഉദാ. !roomID അല്ലെങ്കിൽ #alias:example.com</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>ചേരുക</translation>
     </message>
 </context>
 <context>
@@ -2400,52 +2407,52 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ പേര് ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="-56"/>
         <source>Not signed in</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഇൻ ചെയ്തിട്ടില്ല</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign in to start syncing this profile.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ പ്രൊഫൈൽ സിൻക് ചെയ്യാൻ തുടങ്ങാൻ സൈൻ ഇൻ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Not synced</source>
-        <translation type="unfinished"/>
+        <translation>സിൻക് ചെയ്തിട്ടില്ല</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matrix-sdk state store yet.</source>
-        <translation type="unfinished"/>
+        <translation>ഇതുവരെ matrix-sdk സ്റ്റേറ്റ് സ്റ്റോർ ഇല്ല.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ready</source>
-        <translation type="unfinished"/>
+        <translation>തയ്യാർ</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Could not remove some files.</source>
-        <translation type="unfinished"/>
+        <translation>ചില ഫയലുകൾ നീക്കം ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not recreate the cache folder.</source>
-        <translation type="unfinished"/>
+        <translation>ക്യാഷ് ഫോൾഡർ പുനർനിർമ്മിക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
         <source>A fine %1 chat app you can get to love</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ ഇഷ്ടപ്പെട്ടു പോകുന്ന ഒരു മികച്ച %1 ചാറ്റ് ആപ്പ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix</source>
-        <translation type="unfinished"/>
+        <translation>Matrix</translation>
     </message>
 </context>
 <context>
@@ -2453,12 +2460,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
         <source>Only local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>ഡ്രാഗ് ആൻഡ് ഡ്രോപ്പ് വഴി പ്രാദേശിക ഫയലുകൾ മാത്രമേ അറ്റാച്ച് ചെയ്യാൻ കഴിയൂ.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Failed to stage dropped attachments for this room.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിക്കായി ഡ്രോപ്പ് ചെയ്ത അറ്റാച്ച്‌മെന്റുകൾ സ്റ്റേജ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
 </context>
 <context>
@@ -2466,7 +2473,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
         <source>Search…</source>
-        <translation type="unfinished"/>
+        <translation>തിരയുക…</translation>
     </message>
 </context>
 <context>
@@ -2474,62 +2481,62 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/LeaveRoomDialog.qml" line="+25"/>
         <source>This is a public space, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് ഒരു പൊതു സ്പേസ് ആണ്, അതിനാൽ പിന്നീട് വീണ്ടും ചേരുന്നത് എളുപ്പമായിരിക്കും.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a public room, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് ഒരു പൊതു മുറിയാണ്, അതിനാൽ പിന്നീട് വീണ്ടും ചേരുന്നത് എളുപ്പമായിരിക്കും.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This is a private space, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് ഒരു സ്വകാര്യ സ്പേസ് ആണ്, അതിനാൽ വീണ്ടും ചേരാൻ ക്ഷണം ആവശ്യമായേക്കാം.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a private room, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് ഒരു സ്വകാര്യ മുറിയാണ്, അതിനാൽ വീണ്ടും ചേരാൻ ക്ഷണം ആവശ്യമായേക്കാം.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave the %1 space?</source>
-        <translation type="unfinished"/>
+        <translation>%1 സ്പേസ് വിടണോ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave the %1 room?</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറി വിടണോ?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Leave this space?</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സ്പേസ് വിടണോ?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Leave this room?</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി വിടണോ?</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>You will remain in any rooms you joined through it.</source>
-        <translation type="unfinished"/>
+        <translation>അതിലൂടെ ചേർന്ന എല്ലാ മുറികളിലും നിങ്ങൾ തുടരും.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Re-joining may require an invitation depending on its join rules.</source>
-        <translation type="unfinished"/>
+        <translation>ചേരൽ നിയമങ്ങൾ അനുസരിച്ച് വീണ്ടും ചേരാൻ ക്ഷണം ആവശ്യമായേക്കാം.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>വിട്ടുപോകുക</translation>
     </message>
 </context>
 <context>
@@ -2539,27 +2546,27 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+48"/>
         <location line="+122"/>
         <source>Automatically cleaned after %1 days. Safe to purge manually anytime.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ദിവസത്തിന് ശേഷം സ്വയം ശുദ്ധീകരിക്കും. ഏത് സമയത്തും സ്വമേധയാ ശുദ്ധീകരിക്കാൻ സുരക്ഷിതം.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Local cache</source>
-        <translation type="unfinished"/>
+        <translation>പ്രാദേശിക ക്യാഷ്</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK സ്റ്റേറ്റ് സ്റ്റോർ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>അജ്ഞാതം</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Backend</source>
-        <translation type="unfinished"/>
+        <translation>ബാക്കെൻഡ്</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2569,72 +2576,72 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation>ലഭ്യമല്ല</translation>
     </message>
     <message>
         <location line="-295"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>വലുപ്പം</translation>
     </message>
     <message>
         <location line="-282"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Directory</source>
-        <translation type="unfinished"/>
+        <translation>ഡയറക്ടറി</translation>
     </message>
     <message>
         <location line="-268"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി!</translation>
     </message>
     <message>
         <location line="-294"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക</translation>
     </message>
     <message>
         <location line="-277"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Browse</source>
-        <translation type="unfinished"/>
+        <translation>ബ്രൗസ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-282"/>
         <source>Managed automatically. To reset local state, sign out and sign back in.</source>
-        <translation type="unfinished"/>
+        <translation>സ്വയം നിയന്ത്രിക്കപ്പെടുന്നു. പ്രാദേശിക അവസ്ഥ പുനഃസജ്ജമാക്കാൻ, സൈൻ ഔട്ട് ചെയ്ത് വീണ്ടും സൈൻ ഇൻ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK ക്യാഷ്</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Managed by matrix-sdk. Inspect or clean it only while this application profile is fully closed.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk ഉപയോഗിച്ച് നിയന്ത്രിക്കപ്പെടുന്നു. ഈ ആപ്ലിക്കേഷൻ പ്രൊഫൈൽ പൂർണ്ണമായും അടച്ചിരിക്കുമ്പോൾ മാത്രം പരിശോധിക്കുകയോ ശുദ്ധീകരിക്കുകയോ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation type="unfinished"/>
+        <translation>മീഡിയ ക്യാഷ്</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Purged</source>
-        <translation type="unfinished"/>
+        <translation>ശുദ്ധീകരിച്ചു</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Purge</source>
-        <translation type="unfinished"/>
+        <translation>ശുദ്ധീകരിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -2644,32 +2651,32 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+93"/>
         <location line="+49"/>
         <source>Invalid Matrix ID (e.g. @user:example.com)</source>
-        <translation type="unfinished"/>
+        <translation>അസാധുവായ Matrix ID (ഉദാ. @user:example.com)</translation>
     </message>
     <message>
         <location line="-117"/>
         <source>Sign in with Apple</source>
-        <translation type="unfinished"/>
+        <translation>Apple ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Continue with Facebook</source>
-        <translation type="unfinished"/>
+        <translation>Facebook-ൽ തുടരുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Google</source>
-        <translation type="unfinished"/>
+        <translation>Google ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Twitter</source>
-        <translation type="unfinished"/>
+        <translation>Twitter ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Login using %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഉപയോഗിച്ച് ലോഗിൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -2679,27 +2686,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+0"/>
         <source>Continue in Browser</source>
-        <translation type="unfinished"/>
+        <translation>ബ്രൗസറിൽ തുടരുക</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>Empty password</source>
-        <translation type="unfinished"/>
+        <translation>പാസ്‌വേഡ് ശൂന്യമാണ്</translation>
     </message>
     <message>
         <location line="+148"/>
         <source>SSO login failed</source>
-        <translation type="unfinished"/>
+        <translation>SSO ലോഗിൻ പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Failed to open the browser sign-in page.</source>
-        <translation type="unfinished"/>
+        <translation>ബ്രൗസർ സൈൻ-ഇൻ പേജ് തുറക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to open the SSO login page.</source>
-        <translation type="unfinished"/>
+        <translation>SSO ലോഗിൻ പേജ് തുറക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
@@ -2711,18 +2718,18 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="-176"/>
         <location line="+281"/>
         <source>Server</source>
-        <translation type="unfinished"/>
+        <translation>സെർവർ</translation>
     </message>
     <message>
         <location line="-279"/>
         <location line="+730"/>
         <source>Sign in method</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഇൻ രീതി</translation>
     </message>
     <message>
         <location line="-649"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -2730,79 +2737,79 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+564"/>
         <location line="+208"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-774"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>e.g. @user:example.com or user</source>
-        <translation type="unfinished"/>
+        <translation>ഉദാ. @user:example.com അല്ലെങ്കിൽ user</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ടുകൾ ഒരു സെർവറിലാണ്. ഒരു പൂർണ്ണ ID സർവ്വർ സ്വയം-കണ്ടെത്തൽ ശ്രമിക്കും.</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation type="unfinished"/>
+        <translation>ഉദാ. example.com അല്ലെങ്കിൽ https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Both a server name and a full homeserver URL work.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സെർവർ പേരും ഒരു പൂർണ്ണ ഹോംസർവ്വർ URL-ഉം പ്രവർത്തിക്കും.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Checking server...</source>
-        <translation type="unfinished"/>
+        <translation>സെർവർ പരിശോധിക്കുന്നു...</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+153"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>തുടരുക</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation type="unfinished"/>
+        <translation>തിരിച്ചറിയാൻ കഴിയുന്ന ഒരു പേര് തിരഞ്ഞെടുക്കുക. മറ്റുള്ളവർക്കും ഇത് കാണാം.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റൊരു ക്രമരഹിത പേര് ഉണ്ടാക്കുക</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Suggestions:</source>
-        <translation type="unfinished"/>
+        <translation>നിർദ്ദേശങ്ങൾ:</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Continue in browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>ബ്രൗസറിൽ തുടരുക (SSO)</translation>
     </message>
     <message>
         <location line="+56"/>
         <location line="+201"/>
         <source>Your browser has been launched. Continue there.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ബ്രൗസർ ആരംഭിച്ചു. അവിടെ തുടരുക.</translation>
     </message>
     <message>
         <location line="-54"/>
         <source>Browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>ബ്രൗസർ (SSO)</translation>
     </message>
     <message>
         <location line="-749"/>
@@ -2816,7 +2823,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation type="unfinished"/>
+        <translation>പാസ്‌വേഡ് കാണിക്കുക/മറയ്ക്കുക</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -2827,7 +2834,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/auth/LoginPage.cpp" line="+41"/>
         <source>Login failed: server returned incomplete session data.</source>
-        <translation type="unfinished"/>
+        <translation>ലോഗിൻ പരാജയപ്പെട്ടു: സെർവർ അപൂർണ്ണമായ സെഷൻ ഡാറ്റ തിരികെ നൽകി.</translation>
     </message>
 </context>
 <context>
@@ -2836,22 +2843,22 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഔട്ട് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>A call is in progress. Sign out?</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു കോൾ നടക്കുന്നുണ്ട്. സൈൻ ഔട്ട് ചെയ്യണോ?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you want to sign out?</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ സൈൻ ഔട്ട് ചെയ്യാൻ ആഗ്രഹിക്കുന്നോ?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -2864,24 +2871,24 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+63"/>
         <location line="+79"/>
         <source>Starting Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai ആരംഭിക്കുന്നു</translation>
     </message>
     <message>
         <location line="-462"/>
         <source>Checking your profile...</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ പ്രൊഫൈൽ പരിശോധിക്കുന്നു...</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Opening the profile chooser...</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ ചൂസർ തുറക്കുന്നു...</translation>
     </message>
     <message>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
         <source>Restoring your session...</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സെഷൻ പുനഃസ്ഥാപിക്കുന്നു...</translation>
     </message>
     <message>
         <location line="-280"/>
@@ -2889,7 +2896,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+112"/>
         <location line="+13"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai-ലേക്ക് സ്വാഗതം</translation>
     </message>
     <message>
         <location line="-337"/>
@@ -2897,18 +2904,18 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+113"/>
         <location line="+13"/>
         <source>Preparing sign-in...</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഇൻ തയ്യാറാക്കുന്നു...</translation>
     </message>
     <message>
         <location line="-11"/>
         <location line="+13"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix സെഷൻ ആരംഭിക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും സൈൻ ഇൻ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Opening your rooms...</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ മുറികൾ തുറക്കുന്നു...</translation>
     </message>
 </context>
 <context>
@@ -2916,17 +2923,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഉം %2 ഉം ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 ഉം %3 മറ്റുള്ളവരും ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
 </context>
 <context>
@@ -2935,43 +2942,43 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/timeline/components/MatrixRoomDialogSupport.qml" line="+67"/>
         <location line="+70"/>
         <source>Optional reason</source>
-        <translation type="unfinished"/>
+        <translation>ഐച്ഛിക കാരണം</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Delete this message?</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം ഇല്ലാതാക്കണോ?</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+72"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ഇല്ലാതാക്കുക</translation>
     </message>
     <message>
         <location line="-50"/>
         <source>Cancel unsent message?</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കാത്ത സന്ദേശം റദ്ദാക്കണോ?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>This message couldn't be sent. Cancelling removes it from the send queue.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം അയക്കാൻ കഴിഞ്ഞില്ല. റദ്ദാക്കുന്നത് ഇത് അയക്കൽ ക്യൂവിൽ നിന്ന് നീക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Keep</source>
-        <translation type="unfinished"/>
+        <translation>സൂക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കൽ റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Delete %1 of %2 selected messages?</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത %2 സന്ദേശങ്ങളിൽ %1 ഇല്ലാതാക്കണോ?</translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
@@ -2984,7 +2991,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+61"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഇവന്റിനായി റോ JSON ലഭ്യമല്ല. അത് നീക്കം ചെയ്തിരിക്കാം.</translation>
     </message>
 </context>
 <context>
@@ -2992,12 +2999,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
         <source>Loading thread…</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡ് ലോഡ് ചെയ്യുന്നു…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Loading room…</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ലോഡ് ചെയ്യുന്നു…</translation>
     </message>
 </context>
 <context>
@@ -3006,12 +3013,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
         <location line="+6"/>
         <source>Deleted message</source>
-        <translation type="unfinished"/>
+        <translation>നീക്കം ചെയ്ത സന്ദേശം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Originally sent by %1</source>
-        <translation type="unfinished"/>
+        <translation>ആദ്യം %1 അയച്ചത്</translation>
     </message>
 </context>
 <context>
@@ -3019,7 +3026,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാച്ച്മെന്റ്</translation>
     </message>
 </context>
 <context>
@@ -3028,7 +3035,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു മുറിയും തിരഞ്ഞെടുത്തിട്ടില്ല</translation>
     </message>
 </context>
 <context>
@@ -3039,7 +3046,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+33"/>
         <location line="+0"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാച്ച്മെന്റ്</translation>
     </message>
 </context>
 <context>
@@ -3047,31 +3054,31 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>സ്രഷ്ടാവ്</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+11"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>അഡ്മിനിസ്ട്രേറ്റർ (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>മോഡറേറ്റർ (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ് (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished"/>
+        <translation>ഇഷ്ടാനുസൃതം (%1)</translation>
     </message>
 </context>
 <context>
@@ -3079,7 +3086,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>കാണിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -3087,27 +3094,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+623"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>കൈമാറുക</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>തുറക്കുക</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തുക</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>സംരക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -3115,23 +3122,23 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message>
         <location line="+194"/>
         <source>Clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലിപ്പ്ബോർഡ്</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>ടെക്സ്റ്റ് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+26"/>
         <source>C</source>
-        <translation type="unfinished"/>
+        <translation>C</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -3140,152 +3147,152 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+13"/>
         <location line="+13"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി!</translation>
     </message>
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർമാറ്റ് ചെയ്ത ടെക്സ്റ്റ് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>H</source>
-        <translation type="unfinished"/>
+        <translation>H</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Copy link location</source>
-        <translation type="unfinished"/>
+        <translation>ലിങ്ക് സ്ഥാനം പകർത്തുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>L</source>
-        <translation type="unfinished"/>
+        <translation>L</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy permalink</source>
-        <translation type="unfinished"/>
+        <translation>പെർമലിങ്ക് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation>K</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>നിയന്ത്രിക്കുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>അൺപിൻ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>P</source>
-        <translation type="unfinished"/>
+        <translation>P</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unpinned!</source>
-        <translation type="unfinished"/>
+        <translation>അൺപിൻ ചെയ്തു!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pinned!</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്തു!</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Media</source>
-        <translation type="unfinished"/>
+        <translation>മീഡിയ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>ആയി സംരക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation>S</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>ബാഹ്യ പ്രോഗ്രാമിൽ തുറക്കുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation>O</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inspect</source>
-        <translation type="unfinished"/>
+        <translation>നിരീക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>വായന രസീതുകൾ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation>I</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished"/>
+        <translation>റോ സന്ദേശം കാണുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation>U</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Moderate</source>
-        <translation type="unfinished"/>
+        <translation>മോഡറേറ്റ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Delete message</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കൽ റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം റിപ്പോർട്ട് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
 </context>
 <context>
@@ -3293,50 +3300,50 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
         <source>Reply in thread</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡിൽ മറുപടി</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New thread</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ ത്രെഡ്</translation>
     </message>
     <message>
         <location line="+141"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished">തിരുത്തുക</translation>
+        <translation>എഡിറ്റ്</translation>
     </message>
     <message>
         <location line="-147"/>
         <location line="+176"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation type="unfinished">മറുപടി നൽകുക</translation>
+        <translation>മറുപടി</translation>
     </message>
     <message>
         <location line="-170"/>
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർവേഡ്</translation>
     </message>
     <message>
         <location line="-178"/>
         <location line="+192"/>
         <location line="+1"/>
         <source>Go to message</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശത്തിലേക്ക് പോകുക</translation>
     </message>
     <message>
         <location line="-112"/>
         <source>React</source>
-        <translation type="unfinished"/>
+        <translation>പ്രതികരിക്കുക</translation>
     </message>
     <message>
         <location line="+127"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>ഓപ്ഷനുകൾ</translation>
     </message>
 </context>
 <context>
@@ -3344,97 +3351,97 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
         <source>Repl&amp;y</source>
-        <translation type="unfinished"/>
+        <translation>മറു&amp;പടി</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reply in &amp;Thread</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ത്രെഡിൽ മറുപടി</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>&amp;എഡിറ്റ്</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Re&amp;act</source>
-        <translation type="unfinished"/>
+        <translation>പ്ര&amp;തികരിക്കുക</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>&amp;Forward</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ഫോർവേഡ്</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;പകർത്തുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർമാറ്റ് ചെയ്ത ടെക്സ്റ്റ് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ലിങ്ക് ലൊക്കേഷൻ പകർത്തുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy link to eve&amp;nt</source>
-        <translation type="unfinished"/>
+        <translation>ഇ&amp;വന്റിലേക്കുള്ള ലിങ്ക് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Un&amp;pin</source>
-        <translation type="unfinished"/>
+        <translation>അൺ&amp;പിൻ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Pin</source>
-        <translation type="unfinished"/>
+        <translation>&amp;പിൻ</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Go to &amp;message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;സന്ദേശത്തിലേക്ക് പോകുക</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>&amp;Save as</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ആയി സംരക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ബാഹ്യ പ്രോഗ്രാമിൽ തുറക്കുക</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>&amp;Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>&amp;വായന രസീതുകൾ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished"/>
+        <translation>റോ സന്ദേശം കാണുക</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം റിപ്പോർട്ട് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&amp;Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>&amp;അയക്കൽ റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Delete message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;സന്ദേശം ഇല്ലാതാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -3442,7 +3449,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
         <source>Write a message, or press Up to select messages.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ Up അമർത്തുക.</translation>
     </message>
     <message>
         <location line="+458"/>
@@ -3462,12 +3469,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+53"/>
         <source>You don't have permission to send messages in this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ സന്ദേശങ്ങൾ അയക്കാൻ നിങ്ങൾക്ക് അനുമതി ഇല്ല</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Attach more files or send the upload</source>
-        <translation type="unfinished"/>
+        <translation>കൂടുതൽ ഫയലുകൾ അറ്റാച്ച് ചെയ്യുക അല്ലെങ്കിൽ അപ്‌ലോഡ് അയക്കുക</translation>
     </message>
 </context>
 <context>
@@ -3475,7 +3482,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശത്തിൽ അവരെ പരാമർശിക്കരുത്</translation>
     </message>
 </context>
 <context>
@@ -3483,7 +3490,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/banners/NetworkConnectivityBanner.qml" line="+52"/>
         <source>Network connectivity trouble. Trying to reconnect…</source>
-        <translation type="unfinished"/>
+        <translation>നെറ്റ്‌വർക്ക് കണക്ടിവിറ്റി പ്രശ്നം. വീണ്ടും കണക്ട് ചെയ്യാൻ ശ്രമിക്കുന്നു…</translation>
     </message>
 </context>
 <context>
@@ -3491,72 +3498,72 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/NewTabPage.qml" line="+30"/>
         <source>The ten thousand chats can't happen in a void. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>പതിനായിരം ചാറ്റുകൾ ശൂന്യതയിൽ നടക്കില്ല. ഒരു മുറി തുറക്കണോ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your friends are just a room away</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സുഹൃത്തുക്കൾ ഒരു മുറി അകലെ മാത്രം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Connect with friends. Or bots. We don't judge.</source>
-        <translation type="unfinished"/>
+        <translation>സുഹൃത്തുക്കളുമായി ബന്ധപ്പെടൂ. അല്ലെങ്കിൽ ബോട്ടുകളുമായി. ഞങ്ങൾ വിധിക്കില്ല.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Friends, bots, communities - all a click away</source>
-        <translation type="unfinished"/>
+        <translation>സുഹൃത്തുക്കൾ, ബോട്ടുകൾ, കമ്മ്യൂണിറ്റികൾ - ഒരു ക്ലിക്കിൽ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Be present for a bit. Then open a room.</source>
-        <translation type="unfinished"/>
+        <translation>അൽപം ഇവിടെ ഇരിക്കൂ. പിന്നെ ഒരു മുറി തുറക്കൂ.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The best conversations haven't happened yet</source>
-        <translation type="unfinished"/>
+        <translation>ഏറ്റവും നല്ല സംഭാഷണങ്ങൾ ഇനി ആകാനിരിക്കുന്നു</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>An empty screen, a full inbox of possibilities</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ശൂന്യ സ്ക്രീൻ, സാധ്യതകൾ നിറഞ്ഞ ഇൻബോക്സ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room. The rest follows.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു മുറി തുറക്കൂ. ബാക്കി തനിയെ ആകും.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room to start a conversation</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സംഭാഷണം ആരംഭിക്കാൻ ഒരു മുറി തുറക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Next conversation, a click away</source>
-        <translation type="unfinished"/>
+        <translation>അടുത്ത സംഭാഷണം, ഒരു ക്ലിക്കിൽ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ready to chat - pick a room</source>
-        <translation type="unfinished"/>
+        <translation>ചാറ്റ് ചെയ്യാൻ തയ്യാർ - ഒരു മുറി തിരഞ്ഞെടുക്കൂ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All quiet here. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>ഇവിടെ എല്ലാം ശാന്തമാണ്. ഒരു മുറി തുറക്കണോ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Chat rooms await - pick one or start your own</source>
-        <translation type="unfinished"/>
+        <translation>ചാറ്റ് മുറികൾ കാത്തിരിക്കുന്നു - ഒന്ന് തിരഞ്ഞെടുക്കുക അല്ലെങ്കിൽ നിങ്ങളുടേത് ആരംഭിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No room leads to no chat</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയില്ലെങ്കിൽ ചാറ്റില്ല</translation>
     </message>
 </context>
 <context>
@@ -3564,32 +3571,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ ചേരുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Join an existing room by address or alias</source>
-        <translation type="unfinished"/>
+        <translation>വിലാസം അല്ലെങ്കിൽ അലിയാസ് ഉപയോഗിച്ച് നിലവിലുള്ള ഒരു മുറിയിൽ ചേരുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Explore public rooms</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു മുറികൾ പര്യവേക്ഷണം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse the public room directory</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു മുറി ഡയറക്ടറി ബ്രൗസ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>New room/space</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ മുറി/സ്പേസ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create a new room or space [Ctrl+N]</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പുതിയ മുറി അല്ലെങ്കിൽ സ്പേസ് സൃഷ്ടിക്കുക [Ctrl+N]</translation>
     </message>
 </context>
 <context>
@@ -3597,17 +3604,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/NewTabPageSearch.qml" line="+59"/>
         <source>Search your rooms &amp; spaces...</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ മുറികളും സ്പേസുകളും തിരയുക…</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation type="unfinished"/>
+        <translation>ഒന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>(Space)</source>
-        <translation type="unfinished"/>
+        <translation>(സ്പേസ്)</translation>
     </message>
 </context>
 <context>
@@ -3615,128 +3622,129 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/pages/NewToMatrixPage.qml" line="+69"/>
         <source>Back</source>
-        <translation type="unfinished"/>
+        <translation>പിന്നോട്ട്</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-ൽ പുതുതായി?</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>What is Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Matrix എന്താണ്?</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&lt;a href="%1"&gt;Matrix&lt;/a&gt; is an open communication network - like email, but for real-time messaging (chat).
 </source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="%1"&gt;Matrix&lt;/a&gt; ഒരു തുറന്ന ആശയവിനിമയ ശൃംഖലയാണ് - ഇമെയിൽ പോലെ, പക്ഷേ തത്സമയ സന്ദേശ അയക്കലിന് (ചാറ്റ്).
+</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your profile and message data is hosted on something called a &lt;a href="%1"&gt;homeserver&lt;/a&gt; (your home on the network), but you can talk to anyone on any other server.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ പ്രൊഫൈലും സന്ദേശ ഡേറ്റയും &lt;a href="%1"&gt;homeserver&lt;/a&gt; (നെറ്റ്‌വർക്കിലെ നിങ്ങളുടെ ഭവനം) എന്ന് വിളിക്കപ്പെടുന്ന ഒന്നിൽ ഹോസ്റ്റ് ചെയ്യപ്പെടുന്നു, പക്ഷേ മറ്റേതൊരു സെർവറിലെ ആരോടും നിങ്ങൾക്ക് സംസാരിക്കാം.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Homeservers connect to each other via &lt;a href="%1"&gt;Matrix Federation&lt;/a&gt;. Unlike centralized apps, no single company controls everything - you pick what works for you.</source>
-        <translation type="unfinished"/>
+        <translation>ഹോം സെർവറുകൾ &lt;a href="%1"&gt;Matrix Federation&lt;/a&gt;-ലൂടെ പരസ്പരം ബന്ധപ്പെടുന്നു. കേന്ദ്രീകൃത ആപ്ലിക്കേഷനുകളിൽ നിന്ന് വ്യത്യസ്തമായി, ഒരു കമ്പനിക്കും എല്ലാം നിയന്ത്രിക്കാനാവില്ല - നിങ്ങൾക്ക് അനുയോജ്യമായത് നിങ്ങൾ തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose your path</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ പാത തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Existing servers</source>
-        <translation type="unfinished"/>
+        <translation>നിലവിലുള്ള സെർവറുകൾ</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Public server</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു സെർവർ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Free community servers, great for getting started. Some may be busy during peak hours.</source>
-        <translation type="unfinished"/>
+        <translation>സൗജന്യ കമ്മ്യൂണിറ്റി സെർവറുകൾ, തുടങ്ങാൻ ഉചിതമാണ്. ഉച്ചസ്ഥായി സമയങ്ങളിൽ ചിലത് തിരക്കിലായിരിക്കാം.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Another server</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റൊരു സെർവർ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Register on a specific homeserver you already know about.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾക്ക് ഇതിനകം അറിയാവുന്ന ഒരു നിർദ്ദിഷ്ട ഹോം സെർവറിൽ രജിസ്റ്റർ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Self-hosting</source>
-        <translation type="unfinished"/>
+        <translation>സ്വയം-ഹോസ്റ്റിംഗ്</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>matrix-docker-ansible-deploy</source>
-        <translation type="unfinished"/>
+        <translation>matrix-docker-ansible-deploy</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>An Ansible playbook for self-hosting Matrix, by the makers of Komai.</source>
-        <translation type="unfinished"/>
+        <translation>Komai-യുടെ നിർമ്മാതാക്കൾ ഒരുക്കിയ, Matrix സ്വയം ഹോസ്റ്റ് ചെയ്യാനുള്ള ഒരു Ansible playbook.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Explore other self-hosting options</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് സ്വയം-ഹോസ്റ്റിംഗ് ഓപ്ഷനുകൾ പര്യവേക്ഷണം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Browse Matrix server distributions and deployment tools.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix സെർവർ ഡിസ്ട്രിബ്യൂഷനുകളും വിന്യാസ ഉപകരണങ്ങളും ബ്രൗസ് ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Managed hosting</source>
-        <translation type="unfinished"/>
+        <translation>മാനേജ്ഡ് ഹോസ്റ്റിംഗ്</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>etke.cc</source>
-        <translation type="unfinished"/>
+        <translation>etke.cc</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your own server, professionally managed by the makers of Komai.</source>
-        <translation type="unfinished"/>
+        <translation>Komai-യുടെ നിർമ്മാതാക്കൾ പ്രൊഫഷണലായി മാനേജ് ചെയ്യുന്ന നിങ്ങളുടെ സ്വന്തം സെർവർ.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Explore other hosting providers</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഹോസ്റ്റിംഗ് ദാതാക്കളെ പര്യവേക്ഷണം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Browse the Matrix hosting provider ecosystem.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ഹോസ്റ്റിംഗ് ദാതാക്കളുടെ ആവാസവ്യവസ്ഥ ബ്രൗസ് ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Matrix doesn't support migrating accounts between servers yet, so choose thoughtfully.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ഇതുവരെ സെർവറുകൾ തമ്മിൽ അക്കൗണ്ടുകൾ മൈഗ്രേറ്റ് ചെയ്യുന്നത് പിന്തുണയ്ക്കുന്നില്ല, അതിനാൽ ശ്രദ്ധയോടെ തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Already have an account?</source>
-        <translation type="unfinished"/>
+        <translation>ഇതിനകം ഒരു അക്കൗണ്ട് ഉണ്ടോ?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഇൻ</translation>
     </message>
 </context>
 <context>
@@ -3744,46 +3752,50 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/device-verification/NewVerificationRequest.qml" line="+13"/>
         <source>Received Verification Request</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന അഭ്യർത്ഥന ലഭിച്ചു</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Send verification request?</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന അഭ്യർത്ഥന അയക്കണോ?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Some of your logged-in devices are not verified yet. Verify to unlock encrypted messages.
 
 To start, make sure one of your other devices is available.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ചില ലോഗിൻ ചെയ്ത ഉപകരണങ്ങൾ ഇനിയും പരിശോധിക്കപ്പെട്ടിട്ടില്ല. എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ അൺലോക്ക് ചെയ്യാൻ പരിശോധിക്കുക.
+
+ആരംഭിക്കാൻ, നിങ്ങളുടെ മറ്റ് ഉപകരണങ്ങളിൽ ഒന്ന് ലഭ്യമാണെന്ന് ഉറപ്പാക്കുക.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This device (ID: %1) is not verified yet.
 
 Verify to unlock encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണം (ID: %1) ഇനിയും പരിശോധിക്കപ്പെട്ടിട്ടില്ല.
+
+എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ അൺലോക്ക് ചെയ്യാൻ പരിശോധിക്കുക.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify the other party to ensure your encrypted communications are secure.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ എൻക്രിപ്റ്റഡ് ആശയവിനിമയം സുരക്ഷിതമാണെന്ന് ഉറപ്പാക്കാൻ മറ്റേ കക്ഷിയെ പരിശോധിക്കുക.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 has requested to verify their device %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 അവരുടെ ഉപകരണം %2 പരിശോധിക്കാൻ അഭ്യർത്ഥിച്ചിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 using the device %2 has requested to be verified.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഉപകരണം %2 ഉപയോഗിച്ച് പരിശോധിക്കപ്പെടാൻ അഭ്യർത്ഥിച്ചിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your device (%1) has requested to be verified.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ഉപകരണം (%1) പരിശോധിക്കപ്പെടാൻ അഭ്യർത്ഥിച്ചിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3793,7 +3805,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+0"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>ഇപ്പോൾ വേണ്ട</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3803,7 +3815,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+0"/>
         <source>Start verification</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന ആരംഭിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -3812,51 +3824,51 @@ Verify to unlock encrypted messages.</source>
         <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു എൻക്രിപ്റ്റഡ് സന്ദേശം അയച്ചു</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>%1 replied with a spoiler.</source>
         <comment>Format a reply in a notification. %1 is the sender.</comment>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു സ്പോയ്‌ലർ ഉപയോഗിച്ച് മറുപടി നൽകി.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 replied: %2</source>
         <comment>Format a reply in a notification. %1 is the sender, %2 the message</comment>
-        <translation type="unfinished"/>
+        <translation>%1 മറുപടി നൽകി: %2</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+9"/>
         <source>Message contains spoiler.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശത്തിൽ സ്പോയ്‌ലർ അടങ്ങിയിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-1"/>
         <source>%1 replied with an encrypted message</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു എൻക്രിപ്റ്റഡ് സന്ദേശം ഉപയോഗിച്ച് മറുപടി നൽകി</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>%1 replied to a message</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു സന്ദേശത്തിന് മറുപടി നൽകി</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/Manager.cpp" line="-43"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>%1 sent a message</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു സന്ദേശം അയച്ചു</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>തുറക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reply</source>
-        <translation type="unfinished">മറുപടി നൽകുക</translation>
+        <translation>മറുപടി</translation>
     </message>
 </context>
 <context>
@@ -3865,7 +3877,7 @@ Verify to unlock encrypted messages.</source>
         <location filename="../../qml/components/OverlayDialog.qml" line="+119"/>
         <location line="+4"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -3873,7 +3885,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/common/PhoneNumberInputDialog.qml" line="+63"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>തുടരുക</translation>
     </message>
 </context>
 <context>
@@ -3881,22 +3893,22 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+22"/>
         <source>Pinned messages (%1)</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്ത സന്ദേശങ്ങൾ (%1)</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്ത സന്ദേശങ്ങൾ</translation>
     </message>
     <message>
         <location line="+191"/>
         <source>No pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്ത സന്ദേശങ്ങൾ ഇല്ല</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Important messages can be pinned (if you have privileges to do so) and they will show up here.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രധാനപ്പെട്ട സന്ദേശങ്ങൾ പിൻ ചെയ്യാം (നിങ്ങൾക്ക് അതിനുള്ള അനുമതി ഉണ്ടെങ്കിൽ), അവ ഇവിടെ കാണിക്കും.</translation>
     </message>
 </context>
 <context>
@@ -3904,7 +3916,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/voip/PlaceCall.qml" line="+40"/>
         <source>Place a call to %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1-ലേക്ക് കോൾ ചെയ്യണോ?</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -3914,17 +3926,17 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+24"/>
         <source>Voice</source>
-        <translation type="unfinished"/>
+        <translation>ശബ്ദം</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Video</source>
-        <translation type="unfinished"/>
+        <translation>വീഡിയോ</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Screen</source>
-        <translation type="unfinished"/>
+        <translation>സ്ക്രീൻ</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -3937,7 +3949,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/delegates/Placeholder.qml" line="+12"/>
         <source>unimplemented event: </source>
-        <translation type="unfinished"/>
+        <translation>നടപ്പിലാക്കാത്ത ഇവന്റ്: </translation>
     </message>
 </context>
 <context>
@@ -3945,101 +3957,101 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/room/PowerLevelEditor.qml" line="+20"/>
         <source>Permissions in %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ലെ അനുമതികൾ</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Be careful when editing permissions. You can't lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
-        <translation type="unfinished"/>
+        <translation>അനുമതികൾ എഡിറ്റ് ചെയ്യുമ്പോൾ ശ്രദ്ധിക്കുക. നിങ്ങളുടെ അതേ അല്ലെങ്കിൽ ഉയർന്ന തലത്തിലുള്ളവരുടെ അനുമതികൾ കുറയ്ക്കാൻ കഴിയില്ല. മറ്റുള്ളവരെ പ്രൊമോട്ട് ചെയ്യുമ്പോൾ ശ്രദ്ധിക്കുക.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Roles</source>
-        <translation type="unfinished"/>
+        <translation>റോളുകൾ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Move permissions between roles to change them</source>
-        <translation type="unfinished"/>
+        <translation>അനുമതികൾ മാറ്റാൻ റോളുകൾക്കിടയിൽ നീക്കുക</translation>
     </message>
     <message>
         <location line="+28"/>
         <location line="+244"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>അഡ്മിനിസ്ട്രേറ്റർ (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>മോഡറേറ്റർ (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ് (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished"/>
+        <translation>കസ്റ്റം (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
         <source>Remove event type</source>
-        <translation type="unfinished"/>
+        <translation>ഇവന്റ് തരം നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add event type</source>
-        <translation type="unfinished"/>
+        <translation>ഇവന്റ് തരം ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Add new role</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ റോൾ ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Add</source>
-        <translation type="unfinished">ചേർക്കുക</translation>
+        <translation>ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Move users up or down to change their permissions</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താക്കളുടെ അനുമതികൾ മാറ്റാൻ അവരെ മുകളിലേക്കോ താഴേക്കോ നീക്കുക</translation>
     </message>
     <message>
         <location line="+135"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>സൃഷ്ടാവ്</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Remove user</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add user</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saving…</source>
-        <translation type="unfinished"/>
+        <translation>സേവ് ചെയ്യുന്നു…</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>സേവ് ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -4047,47 +4059,47 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/room/PowerLevelSpacesApplyDialog.qml" line="+19"/>
         <source>Apply permission changes</source>
-        <translation type="unfinished"/>
+        <translation>അനുമതി മാറ്റങ്ങൾ പ്രയോഗിക്കുക</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Which of the subcommunities and rooms should these permissions be applied to?</source>
-        <translation type="unfinished"/>
+        <translation>ഏതൊക്കെ ഉപകമ്മ്യൂണിറ്റികൾക്കും മുറികൾക്കും ഈ അനുമതികൾ ബാധകമാക്കണം?</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Apply permissions recursively</source>
-        <translation type="unfinished"/>
+        <translation>അനുമതികൾ ആവർത്തനാത്മകമായി പ്രയോഗിക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Overwrite exisiting modifications in rooms</source>
-        <translation type="unfinished"/>
+        <translation>മുറികളിലെ നിലവിലുള്ള മാറ്റങ്ങൾ മറികടക്കുക</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>No permissions to apply the new permissions here</source>
-        <translation type="unfinished"/>
+        <translation>ഇവിടെ പുതിയ അനുമതികൾ പ്രയോഗിക്കാൻ അനുമതിയില്ല</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>No changes needed</source>
-        <translation type="unfinished"/>
+        <translation>മാറ്റങ്ങൾ ആവശ്യമില്ല</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Existing modifications to the permissions in this room will be overwritten</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിലെ അനുമതികളിൽ നിലവിലുള്ള മാറ്റങ്ങൾ നഷ്ടപ്പെടും</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Permissions synchronized with community</source>
-        <translation type="unfinished"/>
+        <translation>കമ്മ്യൂണിറ്റിയുമായി അനുമതികൾ സമന്വയിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Apply</source>
-        <translation type="unfinished"/>
+        <translation>പ്രയോഗിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -4095,12 +4107,12 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelEditingModels.cpp" line="+74"/>
         <source>Failed to load room permissions from the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk ബാക്കെൻഡിൽ നിന്ന് മുറി അനുമതികൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Failed to save room permissions to the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk ബാക്കെൻഡിലേക്ക് മുറി അനുമതികൾ സേവ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
 </context>
 <context>
@@ -4108,22 +4120,22 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/components/PowerlevelIndicator.qml" line="+34"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>സൃഷ്ടാവ്</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>മോഡറേറ്റർ (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ് (%1)</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>അഡ്മിനിസ്ട്രേറ്റർ (%1)</translation>
     </message>
 </context>
 <context>
@@ -4150,182 +4162,182 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelsTypeListModel.cpp" line="+174"/>
         <source>Other events</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Other state events</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് സ്റ്റേറ്റ് ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Remove other users</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപയോക്താക്കളെ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban other users</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപയോക്താക്കളെ ബാൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invite other users</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപയോക്താക്കളെ ക്ഷണിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Redact events sent by others</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റുള്ളവർ അയച്ച ഇവന്റുകൾ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions</source>
-        <translation type="unfinished"/>
+        <translation>പ്രതിക്രിയകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Deprecated aliases events</source>
-        <translation type="unfinished"/>
+        <translation>നിരുത്സാഹപ്പെടുത്തിയ അപരനാമ ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ അവതാർ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room addresses</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ വിലാസങ്ങൾ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send encrypted messages</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ അയയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Enable encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change guest access</source>
-        <translation type="unfinished"/>
+        <translation>അതിഥി ആക്സസ് മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change history visibility</source>
-        <translation type="unfinished"/>
+        <translation>ചരിത്ര ദൃശ്യത മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change who can join</source>
-        <translation type="unfinished"/>
+        <translation>ആർക്ക് ചേരാം എന്ന് മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send messages</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾ അയയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room name</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ പേര് മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ അനുമതികൾ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the rooms topic</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ വിഷയം മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the widgets</source>
-        <translation type="unfinished"/>
+        <translation>വിജറ്റുകൾ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the widgets (experimental)</source>
-        <translation type="unfinished"/>
+        <translation>വിജറ്റുകൾ മാറ്റുക (പരീക്ഷണാത്മകം)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Redact own events</source>
-        <translation type="unfinished"/>
+        <translation>സ്വന്തം ഇവന്റുകൾ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the pinned events</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്ത ഇവന്റുകൾ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Upgrade the room</source>
-        <translation type="unfinished"/>
+        <translation>മുറി അപ്‌ഗ്രേഡ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send stickers</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റിക്കറുകൾ അയയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban users using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>നയ നിയമങ്ങൾ ഉപയോഗിച്ച് ഉപയോക്താക്കളെ നിരോധിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban rooms using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>നയ നിയമങ്ങൾ ഉപയോഗിച്ച് മുറികൾ ബാൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban servers using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>നയ നിയമങ്ങൾ ഉപയോഗിച്ച് സെർവറുകൾ നിരോധിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Edit child communities and rooms</source>
-        <translation type="unfinished"/>
+        <translation>ഉപ കമ്മ്യൂണിറ്റികളും മുറികളും എഡിറ്റ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change parent communities</source>
-        <translation type="unfinished"/>
+        <translation>മുഖ്യ കമ്മ്യൂണിറ്റികൾ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Start a call</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു കോൾ ആരംഭിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Negotiate a call</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു കോൾ നെഗോഷ്യേറ്റ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Answer a call</source>
-        <translation type="unfinished"/>
+        <translation>കോൾ ഉത്തരം നൽകുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Hang up a call</source>
-        <translation type="unfinished"/>
+        <translation>കോൾ അവസാനിപ്പിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reject a call</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു കോൾ നിരസിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room emotes</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ ഇമോട്ടുകൾ മാറ്റുക</translation>
     </message>
 </context>
 <context>
@@ -4333,7 +4345,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelsUserListModel.cpp" line="+125"/>
         <source>Other users</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപയോക്താക്കൾ</translation>
     </message>
 </context>
 <context>
@@ -4341,7 +4353,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
-        <translation type="unfinished"/>
+        <translation>നൽകിയ പ്രൊഫൈലിനൊപ്പം പ്രവർത്തിക്കുക. നിലവിലില്ലെങ്കിൽ ഒരു പുതിയ പ്രൊഫൈൽ സ്വയമേ സൃഷ്ടിക്കപ്പെടും. ഒന്നിലധികം പ്രൊഫൈലുകൾ പ്രത്യേക അക്കൗണ്ടുകളും സമാന്തര ഇൻസ്റ്റൻസുകളും അനുവദിക്കുന്നു. അനുവദനീയമായ ശൂന്യമല്ലാത്ത പ്രൊഫൈൽ ഐഡികൾ: ആദ്യ അക്ഷരം A-Z, a-z, അല്ലെങ്കിൽ '_'; ബാക്കി അക്ഷരങ്ങൾ A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -4351,7 +4363,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+1"/>
         <source>profile name</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ നാമം</translation>
     </message>
 </context>
 <context>
@@ -4359,22 +4371,22 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
         <source>Respond</source>
-        <translation type="unfinished"/>
+        <translation>മറുപടി നൽകുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Send</source>
-        <translation type="unfinished">അയക്കുക</translation>
+        <translation>അയയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Write a message...</source>
-        <translation type="unfinished">ഒരു സന്ദേശം എഴുതുക….</translation>
+        <translation>ഒരു സന്ദേശം എഴുതുക…</translation>
     </message>
     <message>
         <location filename="../../../src/app/MainApplication.cpp" line="-27"/>
         <source>Alias for '--log-level trace'.</source>
-        <translation type="unfinished"/>
+        <translation>'--log-level trace'-ന്റെ അപരനാമം.</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -4391,89 +4403,101 @@ Subcommands (run without a display server):
   %1 theme      Theme file management (offline)
 
 Run '%1 &lt;group&gt; --help' for subcommand details.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ സ്നേഹിക്കാൻ ഇടയുള്ള ഒരു മികച്ച Matrix ചാറ്റ് ആപ്പ്.
+
+ഉപ കമാൻഡുകൾ (ഡിസ്‌പ്ലേ സെർവർ ഇല്ലാതെ പ്രവർത്തിക്കുക):
+  %1 app        ഇൻസ്റ്റൻസ് മെറ്റഡേറ്റ (JSON)
+  %1 profiles   പ്രൊഫൈൽ ലോഞ്ചർ മാനേജ്മെന്റ് (ഓഫ്‌ലൈൻ)
+  %1 rooms      മുറി കണ്ടെത്തലും നാവിഗേഷനും (JSON)
+  %1 user       അക്കൗണ്ടും സാന്നിധ്യവും (JSON)
+  %1 settings   രൂപഭംഗി ക്രമീകരണങ്ങൾ (JSON)
+  %1 media      മീഡിയ ഉള്ളടക്ക റെസലൂഷൻ
+  %1 mcp        MCP stdio സെർവർ റാപ്പർ
+  %1 theme      തീം ഫയൽ മാനേജ്മെന്റ് (ഓഫ്‌ലൈൻ)
+
+ഉപ കമാൻഡ് വിശദാംശങ്ങൾക്ക് '%1 &lt;group&gt; --help' പ്രവർത്തിക്കുക.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Set the global log level, or a comma-separated list of &lt;target&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to 'warn' but disable logging for the 'ui' target, pass 'warn,ui=off'. levels:{trace,debug,info,warn,error,off} The RUST_LOG environment variable is used as a fallback when this flag is not set.</source>
-        <translation type="unfinished"/>
+        <translation>ഗ്ലോബൽ ലോഗ് ലെവൽ, അല്ലെങ്കിൽ &lt;target&gt;=&lt;level&gt; ജോഡികളുടെ കോമ-വേർതിരിക്കപ്പെട്ട ലിസ്റ്റ്, അല്ലെങ്കിൽ രണ്ടും സജ്ജമാക്കുക. ഉദാഹരണത്തിന്, ഡിഫോൾട്ട് ലോഗ് ലെവൽ 'warn' ആക്കാൻ എന്നാൽ 'ui' ടാർഗറ്റിനുള്ള ലോഗിംഗ് പ്രവർത്തനരഹിതമാക്കാൻ, 'warn,ui=off' പാസ് ചെയ്യുക. levels:{trace,debug,info,warn,error,off} ഈ ഫ്ലാഗ് സജ്ജമാക്കാത്തപ്പോൾ RUST_LOG എൻവയോൺമെന്റ് വേരിയബിൾ ഫോൾബാക്കായി ഉപയോഗിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>level</source>
-        <translation type="unfinished"/>
+        <translation>ലെവൽ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Set the log output type. The default is 'stderr'. types:{stderr,none}</source>
-        <translation type="unfinished"/>
+        <translation>ലോഗ് ഔട്ട്‌പുട്ട് തരം സജ്ജമാക്കുക. ഡിഫോൾട്ട് 'stderr' ആണ്. types:{stderr,none}</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>type</source>
-        <translation type="unfinished"/>
+        <translation>തരം</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
         <source>%1 Device verification fallback also failed: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഉപകരണ പരിശോധന ഫാൾബാക്കും പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to start user verification.</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ പരിശോധന ആരംഭിക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to start verification for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>"%1"-ന്റെ പരിശോധന ആരംഭിക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location filename="../../../src/profile/ProfileManager.cpp" line="+78"/>
         <source>Unable to determine current executable path for profile launch.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ ലോഞ്ചിനായി നിലവിലെ എക്‌സിക്യൂട്ടബിൾ പാത നിർണ്ണയിക്കാൻ കഴിയുന്നില്ല.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to launch a detached Komai process for the selected profile.</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത പ്രൊഫൈലിനായി ഡിറ്റാച്ഡ് Komai പ്രക്രിയ സമാരംഭിക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Profile name is required.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+32"/>
         <location line="+24"/>
         <source>Invalid profile name: %1</source>
-        <translation type="unfinished"/>
+        <translation>അസാധുവായ പ്രൊഫൈൽ നാമം: %1</translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ റൺടൈമിൽ വ്യക്തമായ പ്രൊഫൈൽ ലോഞ്ചറുകൾ പിന്തുണയ്ക്കുന്നില്ല.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unable to determine current executable path for launcher creation.</source>
-        <translation type="unfinished"/>
+        <translation>ലോഞ്ചർ സൃഷ്ടിക്കുന്നതിന് നിലവിലെ എക്‌സിക്യൂട്ടബിൾ പാത നിർണ്ണയിക്കാൻ കഴിയുന്നില്ല.</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Cannot delete the currently active profile from this instance.</source>
-        <translation type="unfinished"/>
+        <translation>നിലവിൽ സജീവമായ പ്രൊഫൈൽ ഈ ഇൻസ്റ്റൻസിൽ നിന്ന് ഇല്ലാതാക്കാൻ കഴിയില്ല.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Failed to remove one or more profile directories for '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>'%1'-ന്റെ ഒന്നോ അതിലധികമോ പ്രൊഫൈൽ ഡയറക്ടറികൾ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Profile files were deleted, but secure-store secret cleanup was incomplete for '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ ഫയലുകൾ ഇല്ലാതാക്കിയെങ്കിലും, '%1'-ന്റെ സുരക്ഷിത-സ്റ്റോർ രഹസ്യ ക്ലീനപ്പ് പൂർത്തിയായില്ല.</translation>
     </message>
 </context>
 <context>
@@ -4481,22 +4505,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/navigation/QuickSwitcher.qml" line="+67"/>
         <source>Find &amp; switch room or space</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയോ സ്‌പേസോ കണ്ടെത്തി മാറുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Searches among rooms and spaces you participate in, not across all of Matrix.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ പങ്കെടുക്കുന്ന മുറികളിലും സ്‌പേസുകളിലും മാത്രം തിരയുന്നു, Matrix-ൽ ഉടനീളമല്ല.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room or space name, #address or !id...</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ അല്ലെങ്കിൽ സ്‌പേസിന്റെ പേര്, #address അല്ലെങ്കിൽ !id…</translation>
     </message>
 </context>
 <context>
@@ -4504,49 +4528,49 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/RawMessageDialog.qml" line="+59"/>
         <source>Raw message inspection</source>
-        <translation type="unfinished"/>
+        <translation>റോ സന്ദേശ പരിശോധന</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Cleartext</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലിയർടെക്‌സ്റ്റ്</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Wire form (same)</source>
-        <translation type="unfinished"/>
+        <translation>വയർ ഫോം (ഒരേ)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Wire form</source>
-        <translation type="unfinished"/>
+        <translation>വയർ ഫോം</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+10"/>
         <location line="+7"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Copy All</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാം പകർത്തുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy `body`</source>
-        <translation type="unfinished"/>
+        <translation>`body` പകർത്തുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Copy `formatted_body`</source>
-        <translation type="unfinished"/>
+        <translation>`formatted_body` പകർത്തുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>ശരി</translation>
     </message>
 </context>
 <context>
@@ -4554,7 +4578,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>വായന രസീതുകൾ</translation>
     </message>
 </context>
 <context>
@@ -4562,7 +4586,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../../src/models/ReadReceiptsModel.cpp" line="+113"/>
         <source>Yesterday, %1</source>
-        <translation type="unfinished"/>
+        <translation>ഇന്നലെ, %1</translation>
     </message>
 </context>
 <context>
@@ -4570,7 +4594,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/delegates/Redacted.qml" line="+38"/>
         <source>Deleted message</source>
-        <translation type="unfinished"/>
+        <translation>നീക്കം ചെയ്ത സന്ദേശം</translation>
     </message>
 </context>
 <context>
@@ -4579,149 +4603,149 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
         <location line="+679"/>
         <source>Username</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃനാമം</translation>
     </message>
     <message>
         <location line="-677"/>
         <location line="+825"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>സ്ഥിരീകരിക്കുക</translation>
     </message>
     <message>
         <location line="-787"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Email verification</source>
-        <translation type="unfinished"/>
+        <translation>ഇമെയിൽ പരിശോധന</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Token</source>
-        <translation type="unfinished"/>
+        <translation>ടോക്കൺ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Terms</source>
-        <translation type="unfinished"/>
+        <translation>നിബന്ധനകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+385"/>
         <source>CAPTCHA</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA</translation>
     </message>
     <message>
         <location line="-384"/>
         <source>SSO</source>
-        <translation type="unfinished"/>
+        <translation>SSO</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Server</source>
-        <translation type="unfinished"/>
+        <translation>സെർവർ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട്</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്റ്റർ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Public servers</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു സെർവറുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom server</source>
-        <translation type="unfinished"/>
+        <translation>ഇഷ്‌ടാനുസൃത സെർവർ</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Community-operated servers with open registration</source>
-        <translation type="unfinished"/>
+        <translation>തുറന്ന രജിസ്‌ട്രേഷൻ ഉള്ള കമ്മ്യൂണിറ്റി-നടത്തുന്ന സെർവറുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter any Matrix homeserver address</source>
-        <translation type="unfinished"/>
+        <translation>ഏതെങ്കിലും Matrix ഹോംസെർവർ വിലാസം നൽകുക</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Based on %1, curated by the Komai team</source>
-        <translation type="unfinished"/>
+        <translation>%1 ൽ അടിസ്ഥാനമാക്കി, Komai ടീം ക്യൂറേറ്റ് ചെയ്തത്</translation>
     </message>
     <message>
         <location line="+110"/>
         <source>Web</source>
-        <translation type="unfinished"/>
+        <translation>വെബ്</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Registration is completed in your browser on the server's website.</source>
-        <translation type="unfinished"/>
+        <translation>സെർവറിന്റെ വെബ്‌സൈറ്റിൽ നിങ്ങളുടെ ബ്രൗസറിൽ രജിസ്ട്രേഷൻ പൂർത്തിയാകുന്നു.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Demo</source>
-        <translation type="unfinished"/>
+        <translation>ഡെമോ</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>A server for demonstration and testing purposes. Not suitable for real use.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രദർശനത്തിനും പരിശോധനയ്ക്കും ഉള്ള ഒരു സെർവർ. യഥാർത്ഥ ഉപയോഗത്തിന് അനുയോജ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്ട്രേഷൻ പ്രക്രിയയ്ക്ക് ബ്രൗസറിൽ ഒരു CAPTCHA വെല്ലുവിളി പൂർത്തിയാക്കേണ്ടതുണ്ട്.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Email</source>
-        <translation type="unfinished"/>
+        <translation>ഇമെയിൽ</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The registration flow requires confirming a valid email address.</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്ട്രേഷൻ പ്രക്രിയയ്ക്ക് സാധുവായ ഒരു ഇ-മെയിൽ വിലാസം സ്ഥിരീകരിക്കേണ്ടതുണ്ട്.</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation type="unfinished"/>
+        <translation>ഉദാ. example.com അല്ലെങ്കിൽ https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>This server handles registration on its website.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സെർവർ അതിന്റെ വെബ്‌സൈറ്റിൽ രജിസ്ട്രേഷൻ കൈകാര്യം ചെയ്യുന്നു.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Create your account there, then come back and sign in with Login.</source>
-        <translation type="unfinished"/>
+        <translation>അവിടെ നിങ്ങളുടെ അക്കൗണ്ട് സൃഷ്ടിക്കുക, തുടർന്ന് തിരിച്ചുവന്ന് Login ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open registration page</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്ട്രേഷൻ പേജ് തുറക്കുക</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4729,151 +4753,153 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+91"/>
         <location line="+103"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>തുടരുക</translation>
     </message>
     <message>
         <location line="-568"/>
         <source>Create your account on %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ൽ നിങ്ങളുടെ അക്കൗണ്ട് സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>This username is not available. Try a different one.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപയോക്തൃനാമം ലഭ്യമല്ല. മറ്റൊന്ന് ശ്രമിക്കുക.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Choose a username</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ഉപയോക്തൃനാമം തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation type="unfinished"/>
+        <translation>പാസ്‌വേഡ് കാണിക്കുക/മറയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose a password</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പാസ്‌വേഡ് തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Confirm password</source>
-        <translation type="unfinished"/>
+        <translation>പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Passwords do not match</source>
-        <translation type="unfinished"/>
+        <translation>പാസ്‌വേഡുകൾ പൊരുത്തപ്പെടുന്നില്ല</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation type="unfinished"/>
+        <translation>തിരിച്ചറിയാവുന്ന ഒരു പേര് തിരഞ്ഞെടുക്കുക. മറ്റുള്ളവർക്കും ഇത് കാണാൻ കഴിയും.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റൊരു ക്രമരഹിതമായ പേര് സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Suggestions:</source>
-        <translation type="unfinished"/>
+        <translation>നിർദ്ദേശങ്ങൾ:</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Email verification required</source>
-        <translation type="unfinished"/>
+        <translation>ഇമെയിൽ പരിശോധന ആവശ്യമാണ്</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>your@email.com</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ@email.com</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Send verification email</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന ഇ-മെയിൽ അയയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ഇമെയിൽ പരിശോധിച്ച് പരിശോധന ലിങ്കിൽ ക്ലിക്ക് ചെയ്യുക, തുടർന്ന് താഴെ Continue ക്ലിക്ക് ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Resend</source>
-        <translation type="unfinished"/>
+        <translation>വീണ്ടും അയയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Terms of Service</source>
-        <translation type="unfinished"/>
+        <translation>സേവന നിബന്ധനകൾ</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>I accept the terms</source>
-        <translation type="unfinished"/>
+        <translation>ഞാൻ നിബന്ധനകൾ അംഗീകരിക്കുന്നു</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Registration token required</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്ട്രേഷൻ ടോക്കൺ ആവശ്യമാണ്</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Enter your registration token</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ രജിസ്ട്രേഷൻ ടോക്കൺ നൽകുക</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>CAPTCHA verification required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA പരിശോധന ആവശ്യമാണ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Additional verification required</source>
-        <translation type="unfinished"/>
+        <translation>അധിക പരിശോധന ആവശ്യമാണ്</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ബ്രൗസറിൽ പരിശോധന പൂർത്തിയാക്കുക, തുടർന്ന് താഴെ Confirm ക്ലിക്ക് ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open verification</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന തുറക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>I've completed the verification</source>
-        <translation type="unfinished"/>
+        <translation>ഞാൻ പരിശോധന പൂർത്തിയാക്കി</translation>
     </message>
     <message>
         <location line="-1283"/>
         <location line="+772"/>
         <source>Password</source>
-        <translation type="unfinished">പാസ്‍വേഡ്</translation>
+        <translation>പാസ്‌വേഡ്</translation>
     </message>
     <message>
         <location line="-770"/>
         <location line="+893"/>
         <source>Device name</source>
-        <translation type="unfinished">ഉപകരണത്തിന്റെ പേര്</translation>
+        <translation>ഉപകരണത്തിന്റെ പേര്</translation>
     </message>
     <message>
         <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
         <source>Account created, but automatic sign-in failed: %1
 Please go back and sign in manually.</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് സൃഷ്ടിച്ചു, എന്നാൽ ഓട്ടോമാറ്റിക് സൈൻ ഇൻ പരാജയപ്പെട്ടു: %1
+ദയവായി തിരിച്ചുപോയി മാനുവലായി സൈൻ ഇൻ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Account created, but session data could not be saved.
 Please go back and sign in manually.</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് സൃഷ്ടിച്ചു, എന്നാൽ സെഷൻ ഡേറ്റ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല.
+ദയവായി തിരിച്ചുപോയി മാനുവലായി സൈൻ ഇൻ ചെയ്യുക.</translation>
     </message>
 </context>
 <context>
@@ -4881,22 +4907,22 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/delegates/Reply.qml" line="+85"/>
         <source>Image</source>
-        <translation type="unfinished"/>
+        <translation>ചിത്രം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sticker</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റിക്കർ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Video</source>
-        <translation type="unfinished"/>
+        <translation>വീഡിയോ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാച്ച്‌മെന്റ്</translation>
     </message>
 </context>
 <context>
@@ -4904,17 +4930,17 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;പകർത്തുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ലിങ്ക് ലൊക്കേഷൻ പകർത്തുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>&amp;Go to quoted message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ഉദ്ധൃത സന്ദേശത്തിലേക്ക് പോകുക</translation>
     </message>
 </context>
 <context>
@@ -4922,36 +4948,36 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
         <source>Replying in a thread</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ത്രെഡിൽ മറുപടി നൽകുന്നു</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+53"/>
         <location line="+47"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="-62"/>
         <location line="+3"/>
         <source>Replying to %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന് മറുപടി നൽകുന്നു</translation>
     </message>
     <message>
         <location line="-2"/>
         <location line="+3"/>
         <source>Replying to this message</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശത്തിന് മറുപടി നൽകുന്നു</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Editing a message</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സന്ദേശം എഡിറ്റ് ചെയ്യുന്നു</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation type="unfinished">മറുപടി നൽകുക</translation>
+        <translation>മറുപടി</translation>
     </message>
 </context>
 <context>
@@ -4959,57 +4985,57 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം റിപ്പോർട്ട് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This message you are reporting will be sent to your server administrator for review. Please note that not all server administrators review reported content. You should also ask a room moderator to remove the content if necessary.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ റിപ്പോർട്ട് ചെയ്യുന്ന ഈ സന്ദേശം അവലോകനത്തിനായി നിങ്ങളുടെ സർവർ അഡ്മിനിസ്ട്രേറ്ററിലേക്ക് അയക്കും. എല്ലാ സർവർ അഡ്മിനിസ്ട്രേറ്റർമാരും റിപ്പോർട്ട് ചെയ്ത ഉള്ളടക്കം അവലോകനം ചെയ്യില്ലെന്ന് ദയവായി ശ്രദ്ധിക്കുക. ആവശ്യമെങ്കിൽ ഉള്ളടക്കം നീക്കം ചെയ്യാൻ ഒരു മുറി മോഡറേറ്ററോട് ആവശ്യപ്പെടേണ്ടതുമാണ്.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Enter your reason for reporting:</source>
-        <translation type="unfinished"/>
+        <translation>റിപ്പോർട്ട് ചെയ്യാനുള്ള നിങ്ങളുടെ കാരണം നൽകുക:</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>How bad is the message?</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം എത്ര മോശമാണ്?</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Not bad</source>
-        <translation type="unfinished"/>
+        <translation>മോശമില്ല</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mild</source>
-        <translation type="unfinished"/>
+        <translation>നേരിയ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bad</source>
-        <translation type="unfinished"/>
+        <translation>മോശം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Serious</source>
-        <translation type="unfinished"/>
+        <translation>ഗുരുതരം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Extremely serious</source>
-        <translation type="unfinished"/>
+        <translation>അത്യന്തം ഗുരുതരം</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Report</source>
-        <translation type="unfinished"/>
+        <translation>റിപ്പോർട്ട്</translation>
     </message>
 </context>
 <context>
@@ -5017,27 +5043,27 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityApprovalDialog.qml" line="+26"/>
         <source>Approve identity reset</source>
-        <translation type="unfinished"/>
+        <translation>ഐഡന്റിറ്റി റീസെറ്റ് അനുമതി നൽകുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Your server requires approval in the browser before it will reset this device's encryption identity.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണത്തിന്റെ എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി റീസെറ്റ് ചെയ്യുന്നതിന് മുമ്പ് നിങ്ങളുടെ സർവർ ബ്രൗസറിൽ അനുമതി ആവശ്യപ്പെടുന്നു.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open approval page</source>
-        <translation type="unfinished"/>
+        <translation>അനുമതി പേജ് തുറക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>I've approved it</source>
-        <translation type="unfinished"/>
+        <translation>ഞാൻ അനുമതി നൽകി</translation>
     </message>
 </context>
 <context>
@@ -5045,7 +5071,7 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityDialog.qml" line="+16"/>
         <source>Reset encryption identity?</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി റീസെറ്റ് ചെയ്യണോ?</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5054,17 +5080,21 @@ Please go back and sign in manually.</source>
 You will get a new security key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation type="unfinished"/>
+        <translation>റീസെറ്റ് ചെയ്യുന്നത് ഈ അക്കൗണ്ടിനായി പുതിയ എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി സൃഷ്ടിക്കുകയും സജ്ജീകരണം വീണ്ടും ആരംഭിക്കുകയും ചെയ്യും.
+
+നിങ്ങൾക്ക് ഒരു പുതിയ സുരക്ഷാ കീ ലഭിക്കും. വീണ്ടും റീസെറ്റ് ചെയ്യേണ്ടിവരാതിരിക്കാൻ അത് സേവ് ചെയ്യുക.
+
+മുൻ സർവർ-സൈഡ് കീ ബാക്കപ്പുകൾ സ്വയം നീക്കം ചെയ്യില്ല.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>ഇപ്പോൾ വേണ്ട</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>റീസെറ്റ്</translation>
     </message>
 </context>
 <context>
@@ -5072,27 +5102,27 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityPasswordDialog.qml" line="+28"/>
         <source>Confirm identity reset</source>
-        <translation type="unfinished"/>
+        <translation>ഐഡന്റിറ്റി റീസെറ്റ് സ്ഥിരീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Your homeserver requires your account password before it will reset this device's encryption identity.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണത്തിന്റെ എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി റീസെറ്റ് ചെയ്യുന്നതിന് മുമ്പ് നിങ്ങളുടെ ഹോം സർവർ അക്കൗണ്ട് പാസ്‌വേഡ് ആവശ്യപ്പെടുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Account password</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് പാസ്‌വേഡ്</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>റീസെറ്റ്</translation>
     </message>
 </context>
 <context>
@@ -5100,177 +5130,177 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/RoomDirectory.qml" line="+65"/>
         <source>This room is extremely large. You should probably stay away from it unless you have a very powerful server. Joining may take a very long time.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി അതീവ വലുതാണ്. വളരെ ശക്തമായ ഒരു സർവർ ഇല്ലെങ്കിൽ ഇതിൽ നിന്ന് അകലം പാലിക്കുന്നതാണ് ഉചിതം. ചേരാൻ വളരെ ദീർഘ സമയം ആവശ്യമായേക്കാം.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room is large. Joining may take a long time and increase resource usage on your server.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി വലുതാണ്. ചേരാൻ ദീർഘ സമയം ആവശ്യമായേക്കാം, കൂടാതെ നിങ്ങളുടെ സർവറിൽ റിസോഴ്‌സ് ഉപഭോഗം വർദ്ധിക്കുകയും ചെയ്‌തേക്കാം.</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Explore Public Rooms</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു മുറികൾ പര്യവേഷണം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Server to explore</source>
-        <translation type="unfinished"/>
+        <translation>പര്യവേഷണം ചെയ്യേണ്ട സർവർ</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Mine (%1)</source>
-        <translation type="unfinished"/>
+        <translation>എന്റേത് (%1)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Another server</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റൊരു സർവർ</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Number of known public rooms in this server's directory</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സർവർ ഡയറക്ടറിയിലെ അറിയപ്പെടുന്ന പൊതു മുറികളുടെ എണ്ണം</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Custom server</source>
-        <translation type="unfinished"/>
+        <translation>ഇഷ്ടാനുസൃത സർവർ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>example.com</source>
-        <translation type="unfinished"/>
+        <translation>example.com</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Choose</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Filtering</source>
-        <translation type="unfinished"/>
+        <translation>ഫിൽട്ടർ ചെയ്യൽ</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Type</source>
-        <translation type="unfinished"/>
+        <translation>തരം</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Rooms</source>
-        <translation type="unfinished"/>
+        <translation>മുറികൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Spaces</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസുകൾ</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>വലിപ്പം</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Up to large (≤ %1 members)</source>
-        <translation type="unfinished"/>
+        <translation>വലിയ വരെ (≤ %1 അംഗങ്ങൾ)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Up to very large (≤ %1 members)</source>
-        <translation type="unfinished"/>
+        <translation>വളരെ വലിയ വരെ (≤ %1 അംഗങ്ങൾ)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Any</source>
-        <translation type="unfinished"/>
+        <translation>ഏതെങ്കിലും</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Keyword</source>
-        <translation type="unfinished"/>
+        <translation>കീവേഡ്</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>e.g. Matrix, food, coffee, tech</source>
-        <translation type="unfinished"/>
+        <translation>ഉദാ. Matrix, ഭക്ഷണം, കാപ്പി, ടെക്</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Quick presets:</source>
-        <translation type="unfinished"/>
+        <translation>ദ്രുത പ്രീസെറ്റുകൾ:</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Language</source>
-        <translation type="unfinished"/>
+        <translation>ഭാഷ</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Any language</source>
-        <translation type="unfinished"/>
+        <translation>ഏതെങ്കിലും ഭാഷ</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Rooms &amp; spaces</source>
-        <translation type="unfinished"/>
+        <translation>മുറികളും സ്പേസുകളും</translation>
     </message>
     <message>
         <location line="+109"/>
         <source>(unnamed room)</source>
-        <translation type="unfinished"/>
+        <translation>(പേരില്ലാത്ത മുറി)</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസ്</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy room address</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ വിലാസം പകർത്തുക</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>There are %1 members in this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ %1 അംഗങ്ങൾ ഉണ്ട്</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>ചേരുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>തുറക്കുക</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Nothing found.</source>
-        <translation type="unfinished"/>
+        <translation>ഒന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>The room size filter may be hiding results. Try a larger size or "Any".</source>
-        <translation type="unfinished"/>
+        <translation>മുറി വലിപ്പ ഫിൽട്ടർ ഫലങ്ങൾ മറച്ചേക്കാം. ഒരു വലിയ വലിപ്പം അല്ലെങ്കിൽ "ഏതെങ്കിലും" പരീക്ഷിക്കുക.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Enter a server address above to explore its public rooms.</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു മുറികൾ പരിശോധിക്കാൻ മേലേ ഒരു സർവർ വിലാസം നൽകുക.</translation>
     </message>
 </context>
 <context>
@@ -5278,7 +5308,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../../src/models/RoomDirectoryModel.cpp" line="+262"/>
         <source>Room directory requires an active Matrix session.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ഡയറക്ടറിക്ക് സജീവമായ Matrix സെഷൻ ആവശ്യമാണ്.</translation>
     </message>
 </context>
 <context>
@@ -5286,82 +5316,82 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിലെ സന്ദേശങ്ങൾ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റഡ് അല്ല.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This room contains only verified devices.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ പരിശോധിക്കപ്പെട്ട ഉപകരണങ്ങൾ മാത്രമേ ഉള്ളൂ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains verified devices and devices which have never changed their master key.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ പരിശോധിക്കപ്പെട്ട ഉപകരണങ്ങളും മാസ്റ്റർ കീ ഒരിക്കലും മാറ്റാത്ത ഉപകരണങ്ങളും ഉണ്ട്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains unverified devices!</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ പരിശോധിക്കാത്ത ഉപകരണങ്ങൾ ഉണ്ട്!</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Encryption is a room setting that can be enabled in Room Info.</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ ഒരു മുറി ക്രമീകരണമാണ്, ഇത് Room Info-ൽ പ്രവർത്തനക്ഷമമാക്കാം.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Messages are end-to-end encrypted and all devices are verified.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റഡ് ആണ്, എല്ലാ ഉപകരണങ്ങളും പരിശോധിക്കപ്പെട്ടതാണ്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted. Some devices are verified, others are trusted by first use.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റഡ് ആണ്. ചില ഉപകരണങ്ങൾ പരിശോധിക്കപ്പെട്ടതാണ്, മറ്റുള്ളവ ആദ്യ ഉപയോഗ വിശ്വാസ അടിസ്ഥാനത്തിലാണ്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted, but the key is from an untrusted source.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റഡ് ആണ്, എന്നാൽ കീ വിശ്വസനീയമല്ലാത്ത ഉറവിടത്തിൽ നിന്നാണ്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted, but some devices are unverified.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റഡ് ആണ്, എന്നാൽ ചില ഉപകരണങ്ങൾ പരിശോധിക്കാത്തവയാണ്.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Unencrypted</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്റ്റ് ചെയ്യാത്ത</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കപ്പെട്ടത്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>വിശ്വസനീയം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>മുന്നറിയിപ്പ്</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Encryption status</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ നില</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>See Room Settings</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ക്രമീകരണങ്ങൾ കാണുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>See Members</source>
-        <translation type="unfinished"/>
+        <translation>അംഗങ്ങളെ കാണുക</translation>
     </message>
 </context>
 <context>
@@ -5369,52 +5399,52 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു മുറിയും തിരഞ്ഞെടുത്തിട്ടില്ല</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Members (%1)</source>
-        <translation type="unfinished"/>
+        <translation>അംഗങ്ങൾ (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Private</source>
-        <translation type="unfinished"/>
+        <translation>സ്വകാര്യം</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Unencrypted</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്റ്റ് ചെയ്യാത്ത</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കപ്പെട്ടത്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>വിശ്വസനീയം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>മുന്നറിയിപ്പ്</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>Search</source>
-        <translation type="unfinished">തിരയുക</translation>
+        <translation>തിരയുക</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>വിട്ടുപോകുക</translation>
     </message>
 </context>
 <context>
@@ -5422,7 +5452,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation type="unfinished"/>
+        <translation>മുറി പട്ടികയിലേക്ക് തിരിച്ചുപോകുക</translation>
     </message>
 </context>
 <context>
@@ -5430,7 +5460,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderCommunitySection.qml" line="+43"/>
         <source>In %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ൽ</translation>
     </message>
 </context>
 <context>
@@ -5438,12 +5468,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderMembersButton.qml" line="+14"/>
         <source>Show the members of this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിലെ അംഗങ്ങളെ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Members (%1)</source>
-        <translation type="unfinished"/>
+        <translation>അംഗങ്ങൾ (%1)</translation>
     </message>
 </context>
 <context>
@@ -5451,12 +5481,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderPinButton.qml" line="+18"/>
         <source>Show pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്ത സന്ദേശങ്ങൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pins (%1)</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്തവ (%1)</translation>
     </message>
 </context>
 <context>
@@ -5464,7 +5494,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomAvatar.qml" line="+31"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ക്രമീകരണങ്ങൾ</translation>
     </message>
 </context>
 <context>
@@ -5472,22 +5502,22 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
         <source>This room is public. Anyone can join.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി പൊതുവാണ്. ആർക്കും ചേരാം.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>This room is private. Invitation required.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി സ്വകാര്യമാണ്. ക്ഷണം ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Private</source>
-        <translation type="unfinished"/>
+        <translation>സ്വകാര്യം</translation>
     </message>
 </context>
 <context>
@@ -5495,12 +5525,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchButton.qml" line="+16"/>
         <source>Search within this room's messages [Ctrl+F]</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിലെ സന്ദേശങ്ങളിൽ തിരയുക [Ctrl+F]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Search</source>
-        <translation type="unfinished">തിരയുക</translation>
+        <translation>തിരയുക</translation>
     </message>
 </context>
 <context>
@@ -5508,12 +5538,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchRow.qml" line="+48"/>
         <source>Type to search in this room's messages</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിലെ സന്ദേശങ്ങളിൽ തിരയാൻ ടൈപ്പ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Close search</source>
-        <translation type="unfinished"/>
+        <translation>തിരയൽ അടയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -5521,7 +5551,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSettingsButton.qml" line="+13"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ക്രമീകരണങ്ങൾ</translation>
     </message>
 </context>
 <context>
@@ -5529,12 +5559,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderThreadsButton.qml" line="+16"/>
         <source>Show threads</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡുകൾ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Threads</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡുകൾ</translation>
     </message>
 </context>
 <context>
@@ -5542,32 +5572,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoAboutTab.qml" line="+51"/>
         <source>Internal ID</source>
-        <translation type="unfinished"/>
+        <translation>ആന്തരിക ID</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Room Version</source>
-        <translation type="unfinished"/>
+        <translation>മുറി പതിപ്പ്</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി പിന്തുണയ്ക്കുന്ന സവിശേഷതകൾ നിർണ്ണയിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>കൂടുതൽ അറിയുക</translation>
     </message>
 </context>
 <context>
@@ -5575,32 +5605,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Notifications</source>
-        <translation type="unfinished"/>
+        <translation>അറിയിപ്പുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>കുറിച്ച്</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Members</source>
-        <translation type="unfinished"/>
+        <translation>അംഗങ്ങൾ</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Space Info</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസ് വിവരങ്ങൾ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Room Info</source>
-        <translation type="unfinished"/>
+        <translation>മുറി വിവരങ്ങൾ</translation>
     </message>
 </context>
 <context>
@@ -5617,52 +5647,52 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+6"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Manage my profile in this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ എന്റെ പ്രൊഫൈൽ നിയന്ത്രിക്കുക</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invite others</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റുള്ളവരെ ക്ഷണിക്കുക</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Search...</source>
-        <translation type="unfinished"/>
+        <translation>തിരയുക…</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Sort by: </source>
-        <translation type="unfinished"/>
+        <translation>ഇതനുസരിച്ച് അടുക്കുക: </translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Power level, then name</source>
-        <translation type="unfinished"/>
+        <translation>അധികാര നില, തുടർന്ന് നാമം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation type="unfinished"/>
+        <translation>അധികാര നില</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name, alphabetical</source>
-        <translation type="unfinished"/>
+        <translation>പ്രദർശന നാമം, അക്ഷരമാലാ ക്രമത്തിൽ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>User ID, alphabetical</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ ID, അക്ഷരമാലാ ക്രമത്തിൽ</translation>
     </message>
     <message>
         <location line="+148"/>
         <source>Invited</source>
-        <translation type="unfinished"/>
+        <translation>ക്ഷണിക്കപ്പെട്ടവർ</translation>
     </message>
 </context>
 <context>
@@ -5670,27 +5700,27 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoNotificationsTab.qml" line="+59"/>
         <source>Notifications</source>
-        <translation type="unfinished"/>
+        <translation>അറിയിപ്പുകൾ</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Muted</source>
-        <translation type="unfinished"/>
+        <translation>നിശ്ശബ്ദമാക്കി</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Mentions only</source>
-        <translation type="unfinished"/>
+        <translation>പരാമർശങ്ങൾ മാത്രം</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All messages</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാ സന്ദേശങ്ങളും</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിക്കായി അറിയിപ്പുകൾ എങ്ങനെ ലഭിക്കണമെന്ന് ക്രമീകരിക്കുക.</translation>
     </message>
 </context>
 <context>
@@ -5698,85 +5728,86 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+83"/>
         <source>General settings</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>മാറ്റുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+49"/>
         <source>Remove</source>
-        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove the room avatar?</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ അവതാർ നീക്കം ചെയ്യണമെന്ന് തീർച്ചയാണോ?</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+241"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="-193"/>
         <source>Name</source>
-        <translation type="unfinished">പേര്</translation>
+        <translation>പേര്</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>No name set</source>
-        <translation type="unfinished"/>
+        <translation>പേരൊന്നും സജ്ജമാക്കിയിട്ടില്ല</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Topic</source>
-        <translation type="unfinished">വിഷയം</translation>
+        <translation>വിഷയം</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>No topic set</source>
-        <translation type="unfinished"/>
+        <translation>വിഷയമൊന്നും സജ്ജമാക്കിയിട്ടില്ല</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Once enabled, encryption cannot be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരിക്കൽ പ്രവർത്തനക്ഷമമാക്കിയാൽ, എൻക്രിപ്ഷൻ പ്രവർത്തനരഹിതമാക്കാൻ കഴിയില്ല.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>End-to-End Encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻഡ്-റ്റു-എൻഡ് എൻക്രിപ്ഷൻ</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Encryption is currently experimental and things might break unexpectedly.
 Please take note that it can't be disabled afterwards.</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ നിലവിൽ പരീക്ഷണാത്മകമാണ്, കാര്യങ്ങൾ അപ്രതീക്ഷിതമായി തകരാറിലാകാം.
+ഇത് പിന്നീട് പ്രവർത്തനരഹിതമാക്കാൻ കഴിയില്ലെന്ന് ദയവായി ശ്രദ്ധിക്കുക.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Enable</source>
-        <translation type="unfinished"/>
+        <translation>പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -5784,52 +5815,52 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+16"/>
         <source>New room/space</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ മുറി/സ്പേസ്</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ നേരിട്ടുള്ള ചാറ്റ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A 1-on-1 conversation with another user where you both get the same power level</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റൊരു ഉപയോക്താവുമായുള്ള 1-ഓൺ-1 സംഭാഷണം, ഇരുവർക്കും ഒരേ അധികാര നില ലഭിക്കുന്നു</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ മുറി</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A public or private room for group conversations</source>
-        <translation type="unfinished"/>
+        <translation>ഗ്രൂപ്പ് സംഭാഷണങ്ങൾക്കായുള്ള പൊതു അല്ലെങ്കിൽ സ്വകാര്യ മുറി</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ സ്പേസ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create a new public or private collection of rooms</source>
-        <translation type="unfinished"/>
+        <translation>മുറികളുടെ ഒരു പുതിയ പൊതു അല്ലെങ്കിൽ സ്വകാര്യ ശേഖരം സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -5837,22 +5868,22 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ ചേരുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ മുറി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ നേരിട്ടുള്ള ചാറ്റ്</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ സ്പേസ്</translation>
     </message>
 </context>
 <context>
@@ -5860,7 +5891,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/RoomList.qml" line="+472"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
 </context>
 <context>
@@ -5868,7 +5899,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListBotChatFooter.qml" line="+12"/>
         <source>New bot chat</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ ബോട്ട് ചാറ്റ്</translation>
     </message>
 </context>
 <context>
@@ -5876,67 +5907,67 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
         <source>Enter the tag you want to use:</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോഗിക്കാൻ ആഗ്രഹിക്കുന്ന ടാഗ് നൽകുക:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>New tag</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ ടാഗ്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open in a new tab</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ ടാബിൽ തുറക്കുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open in new window</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ വിൻഡോയിൽ തുറക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Copy room link</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ ലിങ്ക് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tag room as:</source>
-        <translation type="unfinished"/>
+        <translation>മുറിക്ക് ടാഗ് ചെയ്യുക:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Favourite</source>
-        <translation type="unfinished"/>
+        <translation>പ്രിയപ്പെട്ടത്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Low priority</source>
-        <translation type="unfinished"/>
+        <translation>കുറഞ്ഞ മുൻഗണന</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server notice</source>
-        <translation type="unfinished"/>
+        <translation>സെർവർ അറിയിപ്പ്</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Create new tag...</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ ടാഗ് സൃഷ്ടിക്കുക…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave room</source>
-        <translation type="unfinished"/>
+        <translation>മുറി വിട്ടുപോകുക</translation>
     </message>
 </context>
 <context>
@@ -5944,7 +5975,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListExploreFooter.qml" line="+14"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയത്</translation>
     </message>
 </context>
 <context>
@@ -5952,7 +5983,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
         <source>Need more?</source>
-        <translation type="unfinished"/>
+        <translation>കൂടുതൽ വേണോ?</translation>
     </message>
 </context>
 <context>
@@ -5960,7 +5991,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListFreezeIndicator.qml" line="+47"/>
         <source>Live updates are paused while you interact with the room list.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ലിസ്റ്റിൽ ഇടപഴകുമ്പോൾ തത്സമയ അപ്ഡേറ്റുകൾ താൽക്കാലികമായി നിർത്തിയിരിക്കുന്നു.</translation>
     </message>
 </context>
 <context>
@@ -5969,7 +6000,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
         <location line="+85"/>
         <source>You:</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ:</translation>
     </message>
 </context>
 <context>
@@ -5977,42 +6008,42 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
         <source>Enter your status message:</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സ്റ്റാറ്റസ് സന്ദേശം നൽകുക:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Status Message</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Set</source>
-        <translation type="unfinished"/>
+        <translation>സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Profile Settings</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set Status Message</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റാറ്റസ് സന്ദേശം സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>App Settings</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്പ് ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open Profile Switcher</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ സ്വിച്ചർ തുറക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഔട്ട്</translation>
     </message>
 </context>
 <context>
@@ -6020,22 +6051,22 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListSpaceHeader.qml" line="+40"/>
         <source>Space settings</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസ് ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസ്</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Leave space</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസ് വിട്ടുപോകുക</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>വിടുക</translation>
     </message>
 </context>
 <context>
@@ -6044,7 +6075,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/shell/components/RoomListToTopButton.qml" line="+19"/>
         <location line="+1"/>
         <source>Scroll to top</source>
-        <translation type="unfinished"/>
+        <translation>മുകളിലേക്ക് സ്ക്രോൾ ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -6052,47 +6083,47 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListUserInfoMenu.qml" line="+29"/>
         <source>Enter your status message:</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സ്റ്റാറ്റസ് സന്ദേശം നൽകുക:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Status Message</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Set</source>
-        <translation type="unfinished"/>
+        <translation>സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Profile settings</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set status message</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റാറ്റസ് സന്ദേശം സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Automatic online status</source>
-        <translation type="unfinished"/>
+        <translation>സ്വയംക്രിയ ഓൺലൈൻ സ്റ്റാറ്റസ്</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Online</source>
-        <translation type="unfinished"/>
+        <translation>ഓൺലൈൻ</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation>ലഭ്യമല്ല</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Offline</source>
-        <translation type="unfinished"/>
+        <translation>ഓഫ്‌ലൈൻ</translation>
     </message>
 </context>
 <context>
@@ -6100,12 +6131,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomOptionsButton.qml" line="+13"/>
         <source>Leave this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി വിടുക</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>വിടുക</translation>
     </message>
 </context>
 <context>
@@ -6113,7 +6144,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>അൺപിൻ ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -6121,67 +6152,67 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+49"/>
         <source>All Files (*)</source>
-        <translation type="unfinished">എല്ലാ ഫയലുകളും (*)</translation>
+        <translation>എല്ലാ ഫയലുകളും (*)</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Select an avatar</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു അവതാർ തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത ഫയൽ ഒരു ചിത്രമല്ല</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഫയൽ വായിക്കുന്നതിൽ പിഴവ്: %1</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Failed to upload image.</source>
-        <translation type="unfinished"/>
+        <translation>ചിത്രം അപ്‌ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ നീക്കം ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
         <source>Failed to update history visibility.</source>
-        <translation type="unfinished"/>
+        <translation>ചരിത്ര ദൃശ്യത അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Failed to update room access rules.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ആക്‌സസ് നിയമങ്ങൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ബാക്കെൻഡ് റൺടൈം ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>Failed to enable encryption.</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Failed to update notifications.</source>
-        <translation type="unfinished"/>
+        <translation>അറിയിപ്പുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to update room name.</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ പേര് അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to update room topic.</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയുടെ വിഷയം അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
 </context>
 <context>
@@ -6189,178 +6220,178 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
         <source>Permissions</source>
-        <translation type="unfinished"/>
+        <translation>അനുമതികൾ</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Power levels &amp; permissions</source>
-        <translation type="unfinished"/>
+        <translation>പവർ ലെവലുകളും അനുമതികളും</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+36"/>
         <location line="+445"/>
         <source>Configure</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരിക്കുക</translation>
     </message>
     <message>
         <location line="-454"/>
         <source>Aliases</source>
-        <translation type="unfinished"/>
+        <translation>അപരനാമങ്ങൾ</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;Aliases&lt;/a&gt; are alternative addresses (like #room:example.com) that people can use to find this room.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;അപരനാമങ്ങൾ&lt;/a&gt; ആളുകൾക്ക് ഈ മുറി കണ്ടെത്താൻ ഉപയോഗിക്കാവുന്ന ബദൽ വിലാസങ്ങളാണ് (#room:example.com പോലെ).</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room access</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ആക്‌സസ്</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Public (anyone can join)</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു (ആർക്കും ചേരാം)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Private (invite only)</source>
-        <translation type="unfinished"/>
+        <translation>സ്വകാര്യ (ക്ഷണം മാത്രം)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Allow knocking</source>
-        <translation type="unfinished"/>
+        <translation>നോക്കിങ് അനുവദിക്കുക</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Non-members can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'&gt;request to join&lt;/a&gt;. Users with invite permission can accept.</source>
-        <translation type="unfinished"/>
+        <translation>അംഗമല്ലാത്തവർക്ക് &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'&gt;ചേരാൻ അഭ്യർഥിക്കാം&lt;/a&gt;. ക്ഷണ അനുമതിയുള്ള ഉപയോക്താക്കൾക്ക് സ്വീകരിക്കാം.</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Allow joining from Spaces</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസുകളിൽ നിന്ന് ചേരാൻ അനുവദിക്കുക</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Members of selected Spaces can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'&gt;join without an invitation&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത സ്പേസുകളിലെ അംഗങ്ങൾക്ക് &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'&gt;ക്ഷണം ഇല്ലാതെ ചേരാം&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Rooms to join via</source>
-        <translation type="unfinished"/>
+        <translation>ഇവ വഴി ചേരാനുള്ള മുറികൾ</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+361"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>മാറ്റുക</translation>
     </message>
     <message>
         <location line="-334"/>
         <source>Allow guests to join</source>
-        <translation type="unfinished"/>
+        <translation>അതിഥികളെ ചേരാൻ അനുവദിക്കുക</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lets &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;temporary accounts&lt;/a&gt; without full registration join the room.</source>
-        <translation type="unfinished"/>
+        <translation>പൂർണ്ണ രജിസ്ട്രേഷൻ ഇല്ലാതെ &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;താൽക്കാലിക അക്കൗണ്ടുകൾ&lt;/a&gt; മുറിയിൽ ചേരാൻ അനുവദിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Apply access rules</source>
-        <translation type="unfinished"/>
+        <translation>ആക്‌സസ് നിയമങ്ങൾ പ്രയോഗിക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ ദൃശ്യത</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Allow viewing history without joining</source>
-        <translation type="unfinished"/>
+        <translation>ചേരാതെ ചരിത്രം കാണാൻ അനുവദിക്കുക</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Useful for room previews and public websites.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി പ്രിവ്യൂകൾക്കും പൊതു വെബ്‌സൈറ്റുകൾക്കും ഉപകാരപ്രദം.</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Members can see messages since</source>
-        <translation type="unfinished"/>
+        <translation>അംഗങ്ങൾക്ക് ഇതുമുതൽ സന്ദേശങ്ങൾ കാണാനാകും</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The beginning</source>
-        <translation type="unfinished"/>
+        <translation>ആരംഭം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>They were invited</source>
-        <translation type="unfinished"/>
+        <translation>അവർ ക്ഷണിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>They joined</source>
-        <translation type="unfinished"/>
+        <translation>അവർ ചേർന്നു</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Changing this won't affect already sent messages, only new ones.</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് മാറ്റുന്നത് ഇതിനകം അയച്ച സന്ദേശങ്ങളെ ബാധിക്കില്ല, പുതിയവ മാത്രം.</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+11"/>
         <source>Apply visibility changes</source>
-        <translation type="unfinished"/>
+        <translation>ദൃശ്യത മാറ്റങ്ങൾ പ്രയോഗിക്കുക</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Locally hidden events</source>
-        <translation type="unfinished"/>
+        <translation>പ്രാദേശികമായി മറഞ്ഞിരിക്കുന്ന ഇവൻ്റുകൾ</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Collapse thread replies</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡ് മറുപടികൾ ചുരുക്കുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Global Default (currently: %1)</source>
-        <translation type="unfinished"/>
+        <translation>ആഗോള സ്ഥിരക്രമം (നിലവിൽ: %1)</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+1"/>
         <source>On</source>
-        <translation type="unfinished"/>
+        <translation>ഓൺ</translation>
     </message>
     <message>
         <location line="-1"/>
         <location line="+2"/>
         <source>Off</source>
-        <translation type="unfinished"/>
+        <translation>ഓഫ്</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറയ്ക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു.&lt;br&gt;⚠️ ഓരോ ത്രെഡിനും വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമായേക്കാം.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Extra</source>
-        <translation type="unfinished"/>
+        <translation>അധിക</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Sticker &amp; Emote Settings</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റിക്കർ &amp; ഇമോട്ട് ക്രമീകരണങ്ങൾ</translation>
     </message>
 </context>
 <context>
@@ -6368,17 +6399,17 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയത്</translation>
     </message>
     <message>
         <location line="+134"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
     <message>
         <location line="-135"/>
         <source>Open a new tab [Ctrl+T]</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പുതിയ ടാബ് തുറക്കുക [Ctrl+T]</translation>
     </message>
 </context>
 <context>
@@ -6386,69 +6417,69 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
         <source>New Tab</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ ടാബ്</translation>
     </message>
     <message>
         <location line="+250"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
-        <translation type="unfinished"/>
+        <translation>ടാബ് അൺപിൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-90"/>
         <location line="+90"/>
         <source>Pin Tab</source>
-        <translation type="unfinished"/>
+        <translation>ടാബ് പിൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-72"/>
         <source>Close Tab [Ctrl+W]</source>
-        <translation type="unfinished"/>
+        <translation>ടാബ് അടയ്ക്കുക [Ctrl+W]</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Close Tab</source>
-        <translation type="unfinished"/>
+        <translation>ടാബ് അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Other Tabs</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ടാബുകൾ അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Tabs to the Right</source>
-        <translation type="unfinished"/>
+        <translation>വലതുഭാഗത്തുള്ള ടാബുകൾ അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Unpinned Tabs</source>
-        <translation type="unfinished"/>
+        <translation>പിൻ ചെയ്യാത്ത ടാബുകൾ അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Close %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>(Unread &amp; Draft) </source>
-        <translation type="unfinished"/>
+        <translation>(വായിക്കാത്തത് &amp; കരട്) </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>(Unread) </source>
-        <translation type="unfinished"/>
+        <translation>(വായിക്കാത്തത്) </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>(Draft) </source>
-        <translation type="unfinished"/>
+        <translation>(കരട്) </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>(Pinned)</source>
-        <translation type="unfinished"/>
+        <translation>(പിൻ ചെയ്തത്)</translation>
     </message>
 </context>
 <context>
@@ -6457,32 +6488,32 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
         <location line="+2"/>
         <source>Invited by %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ക്ഷണിച്ചു</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Pending invite</source>
-        <translation type="unfinished"/>
+        <translation>തീർപ്പാകാത്ത ക്ഷണം</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Pending invite.</source>
-        <translation type="unfinished"/>
+        <translation>തീർപ്പാകാത്ത ക്ഷണം.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Previewing this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി പ്രിവ്യൂ ചെയ്യുന്നു</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation type="unfinished"/>
+        <translation>പ്രിവ്യൂ ലഭ്യമല്ല</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room is possibly inaccessible</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി ഒരുപക്ഷേ ആക്സസ് ചെയ്യാനാകില്ല</translation>
     </message>
 </context>
 <context>
@@ -6490,27 +6521,27 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/auth/SSOHandler.cpp" line="+125"/>
         <source>Single Sign-On authentication completed</source>
-        <translation type="unfinished"/>
+        <translation>Single Sign-On പ്രാമാണീകരണം പൂർത്തിയായി</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Close this page and switch back to Komai!</source>
-        <translation type="unfinished"/>
+        <translation>ഈ പേജ് അടച്ച് Komai-ലേക്ക് മടങ്ങുക!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Single Sign-On authentication failed</source>
-        <translation type="unfinished"/>
+        <translation>Single Sign-On പ്രാമാണീകരണം പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: %1</source>
-        <translation type="unfinished"/>
+        <translation>പിഴവ്: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You can close this page and try again in Komai.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ പേജ് അടച്ച് Komai-ൽ വീണ്ടും ശ്രമിക്കാം.</translation>
     </message>
 </context>
 <context>
@@ -6518,32 +6549,32 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
         <source>Save your security key and keep it private</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സുരക്ഷാ കീ സംരക്ഷിക്കുക, അത് സ്വകാര്യമായി സൂക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ ഇപ്പോൾ സെർവറിൽ സംഭരിച്ചിരിക്കുന്നു, താഴെയുള്ള കീ ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഔട്ട് ചെയ്യുകയോ, പുനഃസ്ഥാപിക്കുകയോ, മറ്റൊരു ഉപകരണം സജ്ജമാക്കുകയോ ചെയ്താൽ എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ ആക്സസ് ചെയ്യാൻ ഇത് ആവശ്യമായി വരും.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തുക</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>OK, I saved my security key</source>
-        <translation type="unfinished"/>
+        <translation>ശരി, ഞാൻ എന്റെ സുരക്ഷാ കീ സംരക്ഷിച്ചു</translation>
     </message>
 </context>
 <context>
@@ -6551,63 +6582,63 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
         <source>Share desktop with %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1-മായി ഡെസ്ക്ടോപ്പ് പങ്കിടണോ?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Method:</source>
-        <translation type="unfinished"/>
+        <translation>രീതി:</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Window:</source>
-        <translation type="unfinished"/>
+        <translation>വിൻഡോ:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Request screencast</source>
-        <translation type="unfinished"/>
+        <translation>സ്ക്രീൻകാസ്റ്റ് അഭ്യർഥിക്കുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Frame rate:</source>
-        <translation type="unfinished"/>
+        <translation>ഫ്രേം റേറ്റ്:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Include your camera picture-in-picture</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ക്യാമറ പിക്ചർ-ഇൻ-പിക്ചർ ഉൾപ്പെടുത്തുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Request remote camera</source>
-        <translation type="unfinished"/>
+        <translation>റിമോട്ട് ക്യാമറ അഭ്യർഥിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+9"/>
         <source>View your callee's camera like a regular video call</source>
-        <translation type="unfinished"/>
+        <translation>സാധാരണ വീഡിയോ കോൾ പോലെ വിളിക്കപ്പെടുന്നയാളുടെ ക്യാമറ കാണുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show mouse cursor</source>
-        <translation type="unfinished"/>
+        <translation>മൗസ് കഴ്‌സർ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Share</source>
-        <translation type="unfinished"/>
+        <translation>പങ്കിടുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Preview</source>
-        <translation type="unfinished"/>
+        <translation>പ്രിവ്യൂ</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -6615,247 +6646,247 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/SelectionModeHelpDialog.qml" line="+17"/>
         <source>This keyboard shortcut only works in Selection mode, after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ കീബോർഡ് ഷോർട്ട്കട്ട് സഹായം അടച്ചതിനു ശേഷം സെലക്ഷൻ മോഡിൽ മാത്രമേ പ്രവർത്തിക്കൂ.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഷോർട്ട്കട്ടുകൾ സഹായം അടച്ചതിനു ശേഷം സെലക്ഷൻ മോഡിൽ ബാധകമാകും. &lt;a href="%1"&gt;പൂർണ്ണ ഗൈഡ്&lt;/a&gt; കാണുക.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Movement</source>
-        <translation type="unfinished"/>
+        <translation>ചലനം</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Up</source>
-        <translation type="unfinished"/>
+        <translation>Up</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation>K</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move to older messages</source>
-        <translation type="unfinished"/>
+        <translation>പഴയ സന്ദേശങ്ങളിലേക്ക് നീങ്ങുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Down</source>
-        <translation type="unfinished"/>
+        <translation>Down</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>J</source>
-        <translation type="unfinished"/>
+        <translation>J</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move to newer messages</source>
-        <translation type="unfinished"/>
+        <translation>പുതിയ സന്ദേശങ്ങളിലേക്ക് നീങ്ങുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+U</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+U</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move about half a screen up</source>
-        <translation type="unfinished"/>
+        <translation>ഏകദേശം പകുതി സ്ക്രീൻ മുകളിലേക്ക് നീങ്ങുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+D</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+D</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move about half a screen down</source>
-        <translation type="unfinished"/>
+        <translation>ഏകദേശം പകുതി സ്ക്രീൻ താഴേക്ക് നീങ്ങുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>gg</source>
-        <translation type="unfinished"/>
+        <translation>gg</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Go to the oldest loaded message</source>
-        <translation type="unfinished"/>
+        <translation>ഏറ്റവും പഴയ ലോഡ് ചെയ്ത സന്ദേശത്തിലേക്ക് പോകുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Shift+G</source>
-        <translation type="unfinished"/>
+        <translation>Shift+G</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Go to the newest loaded message</source>
-        <translation type="unfinished"/>
+        <translation>ഏറ്റവും പുതിയ ലോഡ് ചെയ്ത സന്ദേശത്തിലേക്ക് പോകുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Selection</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുക്കൽ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Toggle selection for the focused message</source>
-        <translation type="unfinished"/>
+        <translation>ഫോക്കസ് ചെയ്ത സന്ദേശത്തിന്റെ തിരഞ്ഞെടുക്കൽ ടോഗിൾ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Enter</source>
-        <translation type="unfinished"/>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open inline actions for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത സന്ദേശത്തിനായി ഇൻലൈൻ പ്രവർത്തനങ്ങൾ തുറക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy original body for selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത സന്ദേശങ്ങളുടെ, അല്ലെങ്കിൽ തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ്ഡ് സന്ദേശത്തിന്റെ, ഒറിജിനൽ ബോഡി പകർത്തുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy plain text for selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത സന്ദേശങ്ങളുടെ, അല്ലെങ്കിൽ തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ്ഡ് സന്ദേശത്തിന്റെ, സാദാ ടെക്‌സ്റ്റ് പകർത്തുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Reply to the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത സന്ദേശത്തിന് മറുപടി നൽകുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>T</source>
-        <translation type="unfinished"/>
+        <translation>T</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open or continue the selected or focused thread</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത ത്രെഡ് തുറക്കുക അല്ലെങ്കിൽ തുടരുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>E</source>
-        <translation type="unfinished"/>
+        <translation>E</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Edit the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത സന്ദേശം എഡിറ്റ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>F</source>
-        <translation type="unfinished"/>
+        <translation>F</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ, അല്ലെങ്കിൽ തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത സന്ദേശം ഫോർവേഡ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ, അല്ലെങ്കിൽ തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത സന്ദേശം ഇല്ലാതാക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation>U</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>View raw JSON for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത സന്ദേശത്തിന്റെ അസംസ്കൃത JSON കാണുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation>O</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open full Message actions for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത അല്ലെങ്കിൽ ഫോക്കസ് ചെയ്ത സന്ദേശത്തിനായി മുഴുവൻ സന്ദേശ പ്രവർത്തനങ്ങളും തുറക്കുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>മോഡ്</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>?</source>
-        <translation type="unfinished"/>
+        <translation>?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open this help</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സഹായം തുറക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation>I</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Exit Selection mode and return to the composer</source>
-        <translation type="unfinished"/>
+        <translation>സെലക്ഷൻ മോഡ് ഉപേക്ഷിച്ച് കംപോസറിലേക്ക് മടങ്ങുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Escape</source>
-        <translation type="unfinished"/>
+        <translation>Escape</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Close actions, clear selection, or exit Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>പ്രവർത്തനങ്ങൾ അടയ്ക്കുക, തിരഞ്ഞെടുക്കൽ മായ്ക്കുക, അല്ലെങ്കിൽ തിരഞ്ഞെടുക്കൽ മോഡ് നിർഗമിക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Keyboard Shortcuts in Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>സെലക്ഷൻ മോഡിലെ കീബോർഡ് ഷോർട്ട്കട്ടുകൾ</translation>
     </message>
 </context>
 <context>
@@ -6864,24 +6895,24 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/components/banners/SelfVerificationBanner.qml" line="+24"/>
         <source>To prevent losing access to encrypted messages, set up encryption secrets backup.</source>
         <extracomment>Cross-signing setup has not run yet.</extracomment>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്റ്റ് ചെയ്ത സന്ദേശങ്ങളിലേക്കുള്ള ആക്സസ് നഷ്ടപ്പെടാതിരിക്കാൻ, എൻക്രിപ്ഷൻ രഹസ്യ ബാക്കപ്പ് സജ്ജമാക്കുക.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This account already has encryption keys, but this device is not verified. Verify it to unlock encrypted messages.</source>
         <extracomment>The user just signed in with this device and hasn't verified their master key.</extracomment>
-        <translation type="unfinished"/>
+        <translation>ഈ അക്കൗണ്ടിൽ ഇതിനകം എൻക്രിപ്ഷൻ കീകൾ ഉണ്ട്, എന്നാൽ ഈ ഉപകരണം പരിശോധിക്കപ്പെട്ടിട്ടില്ല. എൻക്രിപ്റ്റ് ചെയ്ത സന്ദേശങ്ങൾ അൺലോക്ക് ചെയ്യാൻ ഇത് പരിശോധിക്കുക.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This device is verified, but some of your other logged-in devices are not. Review and verify them.</source>
         <extracomment>There are unverified devices signed in to this account.</extracomment>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണം പരിശോധിക്കപ്പെട്ടിട്ടുണ്ട്, എന്നാൽ ലോഗിൻ ചെയ്ത നിങ്ങളുടെ ചില ഉപകരണങ്ങൾ പരിശോധിക്കപ്പെട്ടിട്ടില്ല. അവ അവലോകനം ചെയ്ത് പരിശോധിക്കുക.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -6889,53 +6920,54 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/components/encryption/SelfVerificationCoordinator.qml" line="+44"/>
         <source>Encryption setup complete</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ സജ്ജീകരണം പൂർത്തിയായി</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Encryption setup successfully</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ വിജയകരമായി സജ്ജീകരിച്ചു</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption secrets unlocked</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ അൺലോക്ക് ചെയ്തു</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This device can now use the recovered encryption secrets.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണത്തിന് ഇനി വീണ്ടെടുത്ത എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ ഉപയോഗിക്കാം.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption identity reset</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി പുനഃസ്ഥാപിച്ചു</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>A new encryption identity was created for this device. You may still want to set up backups again.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണത്തിനായി ഒരു പുതിയ എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി സൃഷ്ടിക്കപ്പെട്ടു. നിങ്ങൾ ഇനിയും ബാക്കപ്പ് വീണ്ടും സജ്ജമാക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടാകാം.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Encryption setup failed</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ സജ്ജീകരണം പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Failed to setup encryption: %1</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ സജ്ജീകരിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Setup Encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hello and welcome to Matrix!
 It seems like you are new. Before you can securely encrypt your messages, we need to setup a few small things. You can either press accept immediately or adjust a few basic options. We also try to explain a few of the basics. You can skip those parts, but they might prove to be helpful!</source>
-        <translation type="unfinished"/>
+        <translation>ഹലോ, Matrix-ലേക്ക് സ്വാഗതം!
+തോന്നുന്നത് നിങ്ങൾ പുതിയ ആളാണ്. സന്ദേശങ്ങൾ സുരക്ഷിതമായി എൻക്രിപ്റ്റ് ചെയ്യുന്നതിന് മുൻപ്, ചില ചെറിയ കാര്യങ്ങൾ സജ്ജീകരിക്കേണ്ടതുണ്ട്. ഉടൻ സ്വീകരിക്കുക ബട്ടൺ അമർത്തുകയോ, ചില അടിസ്ഥാന ഓപ്ഷനുകൾ ക്രമീകരിക്കുകയോ ചെയ്യാം. അടിസ്ഥാന കാര്യങ്ങൾ വിശദീകരിക്കാനും ശ്രമിക്കുന്നു. ആ ഭാഗങ്ങൾ ഒഴിവാക്കാം, പക്ഷേ അവ സഹായകരമായേക്കാം!</translation>
     </message>
 </context>
 <context>
@@ -6943,23 +6975,23 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../../src/encryption/SelfVerificationStatus.cpp" line="+25"/>
         <source>The Rust Matrix backend is not active, so encryption recovery is unavailable.</source>
-        <translation type="unfinished"/>
+        <translation>Rust Matrix ബാക്കെൻഡ് സജീവമല്ല, അതിനാൽ എൻക്രിപ്ഷൻ വീണ്ടെടുക്കൽ ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധനക്ക് ഇപ്പോൾ മറ്റൊരു സൈൻ-ഇൻ ചെയ്ത ഉപകരണവും ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+79"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന മാനേജർ ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>This account does not currently expose an unlockable key backup.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ അക്കൗണ്ട് ഇപ്പോൾ അൺലോക്ക് ചെയ്യാവുന്ന കീ ബാക്കപ്പ് ഒന്നും നൽകുന്നില്ല.</translation>
     </message>
 </context>
 <context>
@@ -6967,17 +6999,17 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAccessTokenField.qml" line="+24"/>
         <source>Click to reveal</source>
-        <translation type="unfinished"/>
+        <translation>വെളിപ്പെടുത്താൻ ക്ലിക്ക് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക</translation>
     </message>
 </context>
 <context>
@@ -6985,30 +7017,30 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAvatarPreview.qml" line="+28"/>
         <source>This preview shows how avatar settings affect rendering throughout the app.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ പ്രിവ്യൂ, അവതാർ ക്രമീകരണങ്ങൾ ആപ്പ് മുഴുവനിലും റെൻഡറിംഗിൽ എങ്ങനെ ബാധിക്കുന്നു എന്ന് കാണിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+31"/>
         <location line="+3"/>
         <source>Hey everyone! Just joined the chat.</source>
-        <translation type="unfinished"/>
+        <translation>ഹലോ എല്ലാവർക്കും! ഇപ്പോൾ ചാറ്റിൽ ചേർന്നു.</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+3"/>
         <source>Welcome, Alice! I'm still setting up my profile.</source>
-        <translation type="unfinished"/>
+        <translation>സ്വാഗതം, Alice! ഞാൻ ഇപ്പോഴും എന്റെ പ്രൊഫൈൽ സജ്ജമാക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+3"/>
         <source>Same here, still no avatar yet.</source>
-        <translation type="unfinished"/>
+        <translation>ഇവിടെയും അതുതന്നെ, ഇനിയും അവതാർ ഇല്ല.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ പ്രിവ്യൂ</translation>
     </message>
 </context>
 <context>
@@ -7016,28 +7048,28 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show filter in sidebar</source>
-        <translation type="unfinished"/>
+        <translation>സൈഡ്ബാറിൽ ഫിൽട്ടർ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>വായിക്കാത്ത സൂചകങ്ങൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Emphasize this filter when it has unread messages</source>
-        <translation type="unfinished"/>
+        <translation>വായിക്കാത്ത സന്ദേശങ്ങൾ ഉള്ളപ്പോൾ ഈ ഫിൽട്ടർ ഊന്നിക്കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>'എല്ലാ മുറികളിലും' ഉൾപ്പെടുത്തുക</translation>
     </message>
 </context>
 <context>
@@ -7045,7 +7077,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowIgnoredUsers.qml" line="+12"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>കൈകാര്യം ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -7053,7 +7085,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowLogout.qml" line="+12"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഔട്ട്</translation>
     </message>
 </context>
 <context>
@@ -7061,12 +7093,12 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowPresenceStatusMessage.qml" line="+52"/>
         <source>Set a status message</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സ്റ്റാറ്റസ് സന്ദേശം സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Clear status message</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റാറ്റസ് സന്ദേശം മായ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -7074,7 +7106,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowProfileButton.qml" line="+11"/>
         <source>Open Profile Settings</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ തുറക്കുക</translation>
     </message>
 </context>
 <context>
@@ -7082,38 +7114,38 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
         <source>No spaces found. Join a space to see it here.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സ്പേസും കണ്ടെത്തിയില്ല. ഇവിടെ കാണുന്നതിന് ഒരു സ്പേസിൽ ചേരുക.</translation>
     </message>
     <message>
         <location line="+90"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>സ്പേസ്</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show space in sidebar</source>
-        <translation type="unfinished"/>
+        <translation>സൈഡ്ബാറിൽ സ്പേസ് കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>വായിക്കാത്ത സൂചകങ്ങൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Emphasize this filter when it has unread messages</source>
-        <translation type="unfinished"/>
+        <translation>വായിക്കാത്ത സന്ദേശങ്ങൾ ഉള്ളപ്പോൾ ഈ ഫിൽട്ടർ ഊന്നിക്കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>'എല്ലാ മുറികളിലും' ഉൾപ്പെടുത്തുക</translation>
     </message>
 </context>
 <context>
@@ -7121,43 +7153,44 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreview.qml" line="+21"/>
         <source>Alice</source>
-        <translation type="unfinished"/>
+        <translation>Alice</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Bob</source>
-        <translation type="unfinished"/>
+        <translation>Bob</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>ദൃശ്യരൂപം &amp; അനുഭൂതി</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This semi-functional preview shows how settings from the &lt;b&gt;%1&lt;/b&gt; tab and those below affect the timeline.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ അർദ്ധ-പ്രവർത്തന പ്രിവ്യൂ, &lt;b&gt;%1&lt;/b&gt; ടാബിലെയും അതിന് താഴെയുള്ളതിലെയും ക്രമീകരണങ്ങൾ ടൈംലൈനിൽ എങ്ങനെ ബാധിക്കുന്നു എന്ന് കാണിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I just stumbled upon %1 - finally, a %2 chat app I love! ❤️</source>
-        <translation type="unfinished"/>
+        <translation>ഞാൻ ഇപ്പോൾ %1 കണ്ടെത്തി - അവസാനം, ഞാൻ ഇഷ്ടപ്പെടുന്ന ഒരു %2 ചാറ്റ് ആപ്പ്! ❤️</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I'm giving it a try too! Currently tweaking how messages look.
 It seems pleasing to the eye and insanely fast! 🚀</source>
-        <translation type="unfinished"/>
+        <translation>ഞാനും ഒന്ന് ശ്രമിക്കുന്നു! ഇപ്പോൾ സന്ദേശങ്ങൾ എങ്ങനെ കാണപ്പെടുന്നു എന്ന് ക്രമീകരിക്കുകയാണ്.
+കണ്ണിന് ഇമ്പമുള്ളതും അതിവേഗമുള്ളതുമായി തോന്നുന്നു! 🚀</translation>
     </message>
     <message>
         <location line="+116"/>
         <source>You</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>ടൈംലൈൻ പ്രിവ്യൂ</translation>
     </message>
 </context>
 <context>
@@ -7167,24 +7200,24 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+108"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished">തിരുത്തുക</translation>
+        <translation>എഡിറ്റ്</translation>
     </message>
     <message>
         <location line="-100"/>
         <location line="+117"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation type="unfinished">മറുപടി നൽകുക</translation>
+        <translation>മറുപടി</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>React</source>
-        <translation type="unfinished"/>
+        <translation>പ്രതികരിക്കുക</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>ഓപ്ഷനുകൾ</translation>
     </message>
 </context>
 <context>
@@ -7192,17 +7225,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഉം %2 ഉം ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 ഉം %3 മറ്റുള്ളവരും ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
 </context>
 <context>
@@ -7210,7 +7243,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ മുകളിൽ പ്രവർത്തനരഹിതമാക്കിയതിനാൽ, താഴെയുള്ള ഓപ്ഷനുകൾക്ക് ഒരു ഫലവുമില്ല.</translation>
     </message>
 </context>
 <context>
@@ -7218,7 +7251,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/ShortcutKeyBadge.qml" line="+14"/>
         <source>Press these keyboard keys to trigger this action.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ പ്രവർത്തനം സജ്ജമാക്കാൻ ഈ കീബോർഡ് കീകൾ അമർത്തുക.</translation>
     </message>
 </context>
 <context>
@@ -7226,27 +7259,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് പായ്ക്ക്</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>image</source>
-        <translation type="unfinished"/>
+        <translation>ഇമേജ്</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>File not found: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഫയൽ കണ്ടെത്തിയില്ല: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The selected file is not an image: %1</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത ഫയൽ ഒരു ഇമേജ് അല്ല: %1</translation>
     </message>
     <message>
         <location line="+134"/>
         <source>Only room image packs can be enabled globally.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ഇമേജ് പായ്ക്കുകൾ മാത്രമേ ഗ്ലോബലായി പ്രവർത്തനക്ഷമമാക്കാൻ കഴിയൂ.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7255,38 +7288,38 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ബാക്കെൻഡ് ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="-253"/>
         <source>Failed to update image-pack global enablement.</source>
-        <translation type="unfinished"/>
+        <translation>ഇമേജ് പായ്ക്കിന്റെ ഗ്ലോബൽ പ്രവർത്തനക്ഷമത അപ്‌ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+132"/>
         <source>Failed to save image pack.</source>
-        <translation type="unfinished"/>
+        <translation>ഇമേജ് പായ്ക്ക് സേവ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Failed to remove image pack.</source>
-        <translation type="unfinished"/>
+        <translation>ഇമേജ് പായ്ക്ക് നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+27"/>
         <location line="+62"/>
         <source>Only local image files are supported here.</source>
-        <translation type="unfinished"/>
+        <translation>ഇവിടെ പ്രാദേശിക ഇമേജ് ഫയലുകൾ മാത്രമേ പിന്തുണയ്ക്കൂ.</translation>
     </message>
     <message>
         <location line="-35"/>
         <source>Failed to upload '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>'%1' അപ്‌ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Failed to upload the pack overview image.</source>
-        <translation type="unfinished"/>
+        <translation>പായ്ക്ക് ഓവർവ്യൂ ഇമേജ് അപ്‌ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
 </context>
 <context>
@@ -7295,18 +7328,18 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
         <location line="+77"/>
         <source>Notification</source>
-        <translation type="unfinished"/>
+        <translation>അറിയിപ്പ്</translation>
     </message>
     <message>
         <location line="-65"/>
         <location line="+246"/>
         <source>Dismiss this message</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശം നിരസിക്കുക</translation>
     </message>
     <message>
         <location line="-120"/>
         <source>+%1</source>
-        <translation type="unfinished"/>
+        <translation>+%1</translation>
     </message>
 </context>
 <context>
@@ -7314,17 +7347,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/TimelineTab/StateEventsSection.qml" line="+28"/>
         <source>Additional events</source>
-        <translation type="unfinished"/>
+        <translation>അധിക ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>If you're feeling overwhelmed, consider disabling some of these noisy events here globally, or per-room (in Room Settings).</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് അമിതമായി തോന്നുന്നുണ്ടെങ്കിൽ, ഈ ശബ്ദകരമായ ഇവന്റുകളിൽ ചിലത് ഇവിടെ ഗ്ലോബലായോ, അല്ലെങ്കിൽ ഓരോ മുറിക്കും (മുറി ക്രമീകരണങ്ങളിൽ) പ്രത്യേകമായോ നിഷ്ക്രിയമാക്കുക.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Available after you sign in.</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഇൻ ചെയ്ത ശേഷം ലഭ്യമാകും.</translation>
     </message>
 </context>
 <context>
@@ -7332,32 +7365,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/ui/StatusIndicator.qml" line="+23"/>
         <source>Failed: %1</source>
-        <translation type="unfinished"/>
+        <translation>പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation>പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sending</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കുന്നു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sent</source>
-        <translation type="unfinished"/>
+        <translation>അയച്ചു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Received</source>
-        <translation type="unfinished"/>
+        <translation>ലഭിച്ചു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Read</source>
-        <translation type="unfinished"/>
+        <translation>വായിച്ചു</translation>
     </message>
 </context>
 <context>
@@ -7366,32 +7399,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
         <location line="+1088"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="-717"/>
         <source>Pick an Emoji</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ഇമോജി തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pick a Sticker</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സ്റ്റിക്കർ തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Search</source>
-        <translation type="unfinished">തിരയുക</translation>
+        <translation>തിരയുക</translation>
     </message>
     <message>
         <location line="+580"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
-        <translation type="unfinished"/>
+        <translation>ഏതൊക്കെ പായ്ക്കുകൾ പ്രവർത്തനക്ഷമമാക്കണമെന്ന് മാറ്റുക, പായ്ക്കുകൾ നീക്കം ചെയ്യുക, അല്ലെങ്കിൽ പുതിയവ സൃഷ്ടിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -7399,17 +7432,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/device-verification/Success.qml" line="+12"/>
         <source>Verification Complete</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന പൂർത്തിയായി</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verification complete. Both devices have been verified.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന പൂർത്തിയായി. രണ്ട് ഉപകരണങ്ങളും പരിശോധിച്ചു.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -7417,92 +7450,92 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SupportDialog.qml" line="+18"/>
         <source>Sponsor Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai സ്പോൺസർ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>&lt;a href="%1"&gt;Komai&lt;/a&gt; is fully &lt;a href="%2"&gt;Free Software&lt;/a&gt; (&lt;a href="%3"&gt;GPL-3.0-or-later&lt;/a&gt;) with no &lt;a href="%4"&gt;CLA&lt;/a&gt; and no gatekeeping.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="%1"&gt;Komai&lt;/a&gt; പൂർണ്ണമായും &lt;a href="%2"&gt;ഫ്രീ സോഫ്റ്റ്‌വെയർ&lt;/a&gt; (&lt;a href="%3"&gt;GPL-3.0-or-later&lt;/a&gt;) ആണ്, &lt;a href="%4"&gt;CLA&lt;/a&gt; ഇല്ലാതെ, ഒരു നിർബന്ധ അനുമതിയും ഇല്ലാതെ.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>You can support Komai by contributing code, design, testing, translations, helping others, or financially.</source>
-        <translation type="unfinished"/>
+        <translation>കോഡ്, ഡിസൈൻ, ടെസ്റ്റിംഗ്, വിവർത്തനം, മറ്റുള്ളവരെ സഹായിക്കൽ, അല്ലെങ്കിൽ സാമ്പത്തിക സഹകരണം വഴി നിങ്ങൾക്ക് Komai-നെ പിന്തുണയ്ക്കാം.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>If you'd like to help financially, you can use one of the options below.</source>
-        <translation type="unfinished"/>
+        <translation>സാമ്പത്തികമായി സഹായിക്കാൻ ആഗ്രഹിക്കുന്നുണ്ടെങ്കിൽ, ചുവടെ ഉള്ള ഒരു ഓപ്ഷൻ ഉപയോഗിക്കാം.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Monetary support</source>
-        <translation type="unfinished"/>
+        <translation>സാമ്പത്തിക പിന്തുണ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>GitHub Sponsors</source>
-        <translation type="unfinished"/>
+        <translation>GitHub Sponsors</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Support via GitHub Sponsors</source>
-        <translation type="unfinished"/>
+        <translation>GitHub Sponsors വഴി പിന്തുണ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Liberapay</source>
-        <translation type="unfinished"/>
+        <translation>Liberapay</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Support via Liberapay</source>
-        <translation type="unfinished"/>
+        <translation>Liberapay വഴി പിന്തുണ</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>I already sponsor!</source>
-        <translation type="unfinished"/>
+        <translation>ഞാൻ ഇതിനകം സ്പോൺസർ ചെയ്യുന്നുണ്ട്!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Click to unmark yourself as a sponsor</source>
-        <translation type="unfinished"/>
+        <translation>സ്പോൺസർ ആയി അടയാളപ്പെടുത്തിയത് നീക്കം ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mark yourself locally as a sponsor</source>
-        <translation type="unfinished"/>
+        <translation>സ്വയം പ്രാദേശികമായി ഒരു സ്പോൺസർ ആയി അടയാളപ്പെടുത്തുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Hide this button</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ബട്ടൺ മറയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Permanently hide the sponsor button from the interface</source>
-        <translation type="unfinished"/>
+        <translation>ഇന്റർഫേസിൽ നിന്ന് സ്പോൺസർ ബട്ടൺ സ്ഥിരമായി മറയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Hide sponsor button?</source>
-        <translation type="unfinished"/>
+        <translation>സ്പോൺസർ ബട്ടൺ മറയ്ക്കണോ?</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>This will permanently hide the sponsor button from this screen.</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് ഈ സ്ക്രീനിൽ നിന്ന് സ്പോൺസർ ബട്ടൺ സ്ഥിരമായി മറയ്ക്കും.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>മറയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -7510,12 +7543,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SyncedToMatrixBadge.qml" line="+30"/>
         <source>This setting is stored on your Matrix account and applies across all your devices which support it.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ക്രമീകരണം നിങ്ങളുടെ Matrix അക്കൗണ്ടിൽ സൂക്ഷിക്കുകയും അത് പിന്തുണയ്ക്കുന്ന നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിലും ബാധകമാകുകയും ചെയ്യുന്നു.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Synced to Matrix</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-ലേക്ക് സമന്വയിച്ചു</translation>
     </message>
 </context>
 <context>
@@ -7523,12 +7556,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/delegates/TextMessage.qml" line="+187"/>
         <source>Show more</source>
-        <translation type="unfinished"/>
+        <translation>കൂടുതൽ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Show less</source>
-        <translation type="unfinished"/>
+        <translation>കുറച്ച് കാണിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -7536,17 +7569,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/ThreadViewBar.qml" line="+152"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡ്</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Thread by %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ ത്രെഡ്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Thread by %1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ ത്രെഡ് (%2)</translation>
     </message>
     <message numerus="yes">
         <location line="+86"/>
@@ -7559,12 +7592,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+65"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Close this thread and show the main timeline [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ത്രെഡ് അടച്ച് പ്രധാന ടൈംലൈൻ കാണിക്കുക [Escape]</translation>
     </message>
 </context>
 <context>
@@ -7572,7 +7605,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ThreadsDialog.qml" line="+25"/>
         <source>Threads</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡുകൾ</translation>
     </message>
     <message numerus="yes">
         <location line="+57"/>
@@ -7585,27 +7618,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Participated</source>
-        <translation type="unfinished"/>
+        <translation>പങ്കെടുത്തവ</translation>
     </message>
     <message>
         <location line="+241"/>
         <source>No threads found</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡുകൾ കണ്ടെത്തിയില്ല</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>You haven't participated in any threads in this room yet.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ ഈ മുറിയിലെ ഒരു ത്രെഡിലും ഇനിയും പങ്കെടുത്തിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No one has started a thread in this room yet.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ ഇനിയും ആരും ഒരു ത്രെഡ് ആരംഭിച്ചിട്ടില്ല.</translation>
     </message>
 </context>
 <context>
@@ -7613,7 +7646,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ലിസ്റ്റിലേക്ക് മടങ്ങുക</translation>
     </message>
 </context>
 <context>
@@ -7621,7 +7654,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>
 </context>
 <context>
@@ -7629,17 +7662,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പ്രശ്നം റിപ്പോർട്ട് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation type="unfinished"/>
+        <translation>സ്പോൺസർ ചെയ്യുന്നു!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>സ്പോൺസർ</translation>
     </message>
 </context>
 <context>
@@ -7647,68 +7680,68 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/TimelineEvent.qml" line="+229"/>
         <source>%1 placed a voice call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു വോയ്സ് കോൾ ചെയ്തു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 placed a video call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു വീഡിയോ കോൾ ചെയ്തു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 placed a call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു കോൾ ചെയ്തു.</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>%1 answered the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 കോൾ സ്വീകരിച്ചു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 rejected the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 കോൾ നിരസിച്ചു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 selected answer.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഉത്തരം തിരഞ്ഞെടുത്തു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 ended the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 കോൾ അവസാനിപ്പിച്ചു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>%1 is negotiating the call...</source>
-        <translation type="unfinished"/>
+        <translation>%1 കോൾ ക്രമീകരിക്കുന്നു…</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>Allow them in</source>
-        <translation type="unfinished">ഇവരെ അനുവദിക്കുക</translation>
+        <translation>അവരെ അനുവദിക്കുക</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>This room was replaced for the following reason: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി ഇനിപ്പറയുന്ന കാരണത്താൽ മാറ്റിസ്ഥാപിക്കപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Go to replacement room</source>
-        <translation type="unfinished"/>
+        <translation>പകരം മുറിയിലേക്ക് പോകുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unsupported: %1</source>
-        <translation type="unfinished"/>
+        <translation>പിന്തുണയ്ക്കാത്തത്: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Unsupported message</source>
-        <translation type="unfinished"/>
+        <translation>പിന്തുണയ്ക്കാത്ത സന്ദേശം</translation>
     </message>
 </context>
 <context>
@@ -7716,17 +7749,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineMentionWarningBar.qml" line="+63"/>
         <source>You are about to notify the whole room</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ മുഴുവൻ മുറിയെയും അറിയിക്കാൻ പോകുന്നു</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>You are about to mention %1</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ %1-നെ പരാമർശിക്കാൻ പോകുന്നു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സന്ദേശത്തിൽ അവരെ പരാമർശിക്കരുത്</translation>
     </message>
 </context>
 <context>
@@ -7734,22 +7767,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/TimelineMetadata.qml" line="+160"/>
         <source>Retry sending</source>
-        <translation type="unfinished"/>
+        <translation>വീണ്ടും അയയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Edited</source>
-        <translation type="unfinished"/>
+        <translation>എഡിറ്റ് ചെയ്തു</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>അൺപിൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message numerus="yes">
         <location line="+64"/>
@@ -7762,7 +7795,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Reply in this thread</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ത്രെഡിൽ മറുപടി നൽകുക</translation>
     </message>
 </context>
 <context>
@@ -7770,7 +7803,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+156"/>
         <source>%1's status message</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>
 </context>
 <context>
@@ -7778,12 +7811,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation type="unfinished"/>
+        <translation>പ്രിവ്യൂ ലഭ്യമല്ല</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message numerus="yes">
         <location line="+19"/>
@@ -7796,27 +7829,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+3"/>
         <source>View members of %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ലെ അംഗങ്ങളെ കാണുക</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>This room is possibly inaccessible. If this room is private, you should remove it from this community.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി ഒരുപക്ഷേ ആക്സസ് ചെയ്യാൻ കഴിയില്ല. ഈ മുറി സ്വകാര്യമാണെങ്കിൽ, നിങ്ങൾ ഇത് ഈ കമ്മ്യൂണിറ്റിയിൽ നിന്ന് നീക്കം ചെയ്യണം.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Join the conversation</source>
-        <translation type="unfinished"/>
+        <translation>സംഭാഷണത്തിൽ ചേരുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>വിട്ടുപോകുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This room is available in the room list, but its timeline is not loaded yet.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി മുറി ലിസ്റ്റിൽ ലഭ്യമാണ്, എന്നാൽ അതിന്റെ ടൈംലൈൻ ഇനിയും ലോഡ് ചെയ്തിട്ടില്ല.</translation>
     </message>
 </context>
 <context>
@@ -7825,7 +7858,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/timeline/components/TimelineToEndButton.qml" line="+93"/>
         <location line="+1"/>
         <source>Scroll to bottom</source>
-        <translation type="unfinished"/>
+        <translation>താഴേക്ക് സ്ക്രോൾ ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -7834,218 +7867,220 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1146"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+293"/>
         <source>Failed to send message: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+123"/>
         <source>Failed to edit message: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം തിരുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Failed to react: %1</source>
-        <translation type="unfinished"/>
+        <translation>പ്രതികരിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Failed to delete message: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to cancel unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കാത്ത സന്ദേശം റദ്ദാക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to retry unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കാത്ത സന്ദേശം വീണ്ടും ശ്രമിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>ചില സന്ദേശങ്ങൾ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+120"/>
         <source>Failed to mark message as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം വായിച്ചതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Failed to report message: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം റിപ്പോർട്ട് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+91"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം ഫോർവേഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+136"/>
         <source>Failed to forward some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>ചില സന്ദേശങ്ങൾ ഫോർവേഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Failed to pin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം പിൻ ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Failed to unpin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം അൺപിൻ ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location line="+232"/>
         <source>Select file(s)</source>
-        <translation type="unfinished"/>
+        <translation>ഫയൽ(കൾ) തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished">എല്ലാ ഫയലുകളും (*)</translation>
+        <translation>എല്ലാ ഫയലുകളും (*)</translation>
     </message>
     <message>
         <location line="+135"/>
         <source>Finish editing the current message before attaching files.</source>
-        <translation type="unfinished"/>
+        <translation>ഫയലുകൾ അറ്റാച്ч് ചെയ്യുന്നതിന് മുമ്പ് നിലവിലെ സന്ദേശം തിരുത്തൽ പൂർത്തിയാക്കുക.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Only existing local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>നിലവിലുള്ള പ്രാദേശിക ഫയലുകൾ മാത്രം ഡ്രാഗ് ആൻഡ് ഡ്രോപ്പ് വഴി അറ്റാч്ч് ചെയ്യാൻ കഴിയും.</translation>
     </message>
     <message>
         <location line="+246"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സെഷൻ കാലഹരണപ്പെട്ടു. ദയവായി വീണ്ടും സൈൻ ഇൻ ചെയ്യുക.
+
+(%1)</translation>
     </message>
     <message>
         <location line="+77"/>
         <source>Save attachment</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാч്ч്മെന്റ് സേവ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+362"/>
         <source>Failed to send attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാച്ч്മെന്റ് '%1' അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാച്ч്മെന്റ് '%1' ലഭ്യമാക്കുന്നതിൽ പരാജയപ്പെട്ടു: സജീവ Matrix സെഷൻ ഇല്ല</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to fetch attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാച്ч്മെന്റ് '%1' ലഭ്യമാക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Saved attachment '%1' but failed to open it</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാч്ч്മെന്റ് '%1' സേവ് ചെയ്തു, എന്നാൽ തുറക്കുന്നതിൽ പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>തുറക്കുക</translation>
     </message>
     <message>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation type="unfinished"/>
+        <translation>ഫോൾഡറിൽ കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Saved attachment '%1'</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാч്ч്മെന്റ് '%1' സേവ് ചെയ്തു</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
         <source>Failed to ignore user %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ് %1 അവഗണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
         <source>This command needs an active room.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ കമാൻഡിന് ഒരു സജീവ മുറി ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The chat page is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>ചാറ്റ് പേജ് ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The Matrix session is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix സെഷൻ ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
-        <translation type="unfinished"/>
+        <translation>ദൃശ്യമായ ടൈംലൈനിൽ %1 ൽ നിന്ന് സന്ദേശങ്ങൾ കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Failed to update your room-specific display name for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-ൽ നിങ്ങളുടെ മുറി-നിർദ്ദിഷ്ട പ്രദർശന നാമം അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>The room timeline is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ടൈംലൈൻ ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+10"/>
         <source>That message index could not be resolved in this room.</source>
-        <translation type="unfinished"/>
+        <translation>ആ സന്ദേശ സൂചിക ഈ മുറിയിൽ പരിഹരിക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Could not resolve that /goto target. Use an event ID, numeric message index, or Matrix link.</source>
-        <translation type="unfinished"/>
+        <translation>ആ /goto ലക്ഷ്യം പരിഹരിക്കാൻ കഴിഞ്ഞില്ല. ഒരു ഇവന്റ് ID, സംഖ്യാ സന്ദേശ സൂചിക, അല്ലെങ്കിൽ Matrix ലിങ്ക് ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Failed to update direct-message state for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-ൽ നേരിട്ടുള്ള സന്ദേശ അവസ്ഥ അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Marked this room as a direct message.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി നേരിട്ടുള്ള സന്ദേശമായി അടയാളപ്പെടുത്തി.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Marked this room as a regular room.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറി സാധാരണ മുറിയായി അടയാളപ്പെടുത്തി.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Failed to update ignored-user state: %1</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണിക്കപ്പെട്ട ഉപയോക്താവ് അവസ്ഥ അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="-26"/>
         <source>Failed to resolve media for saving</source>
-        <translation type="unfinished"/>
+        <translation>സേവ് ചെയ്യുന്നതിനായി മീഡിയ പരിഹരിക്കുന്നതിൽ പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Failed to save media to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>മീഡിയ '%1' ൽ സേവ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saved to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>'%1' ൽ സേവ് ചെയ്തു</translation>
     </message>
 </context>
 <context>
@@ -8061,113 +8096,113 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>1 selected message</source>
-        <translation type="unfinished"/>
+        <translation>1 തിരഞ്ഞെടുത്ത സന്ദേശം</translation>
     </message>
     <message>
         <location line="-4"/>
         <location line="+5"/>
         <source>Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>സെലക്ഷൻ മോഡ്</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>കുറുക്കുവഴികൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show keyboard shortcuts [?]</source>
-        <translation type="unfinished"/>
+        <translation>കീബോർഡ് കുറുക്കുവഴികൾ കാണിക്കുക [?]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Reply</source>
-        <translation type="unfinished">മറുപടി നൽകുക</translation>
+        <translation>മറുപടി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reply to message [R]</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശത്തിന് മറുപടി നൽകുക [R]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open or continue a thread [T]</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ത്രെഡ് തുറക്കുക അല്ലെങ്കിൽ തുടരുക [T]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation type="unfinished">തിരുത്തുക</translation>
+        <translation>എഡിറ്റ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Edit message [E]</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം എഡിറ്റ് ചെയ്യുക [E]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർവേഡ്</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Forward selected messages [F]</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ ഫോർവേഡ് ചെയ്യുക [F]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward message [F]</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം ഫോർവേഡ് ചെയ്യുക [F]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Delete selected messages [D]</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ നീക്കം ചെയ്യുക [D]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete message [D]</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം നീക്കം ചെയ്യുക [D]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>ഓപ്‌ഷനുകൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>More message actions [O]</source>
-        <translation type="unfinished"/>
+        <translation>കൂടുതൽ സന്ദേശ പ്രവർത്തനങ്ങൾ [O]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>മായ്ക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clear selection [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുക്കൽ മായ്ക്കുക [Escape]</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Close</source>
-        <translation type="unfinished">അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Exit Selection mode and return to the composer [I or Escape]</source>
-        <translation type="unfinished"/>
+        <translation>സെലക്ഷൻ മോഡ് വിട്ട് കമ്പോസറിലേക്ക് മടങ്ങുക [I or Escape]</translation>
     </message>
 </context>
 <context>
@@ -8175,12 +8210,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
         <source>OFF</source>
-        <translation type="unfinished"/>
+        <translation>ഓഫ്</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>ON</source>
-        <translation type="unfinished"/>
+        <translation>ഓൺ</translation>
     </message>
 </context>
 <context>
@@ -8188,12 +8223,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation type="unfinished"/>
+        <translation>പുറത്തുകടക്കുക</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8210,32 +8245,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സുരക്ഷാ കീ അല്ലെങ്കിൽ അതിന്റെ പാസ്‌ഫ്രേസ് (ലഭ്യമെങ്കിൽ) നൽകി എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ അൺലോക്ക് ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Security keys look like this: </source>
-        <translation type="unfinished"/>
+        <translation>സുരക്ഷാ കീകൾ ഇങ്ങനെ കാണപ്പെടുന്നു: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Security key or passphrase</source>
-        <translation type="unfinished"/>
+        <translation>സുരക്ഷാ കീ അല്ലെങ്കിൽ പാസ്‌ഫ്രേസ്</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unlock</source>
-        <translation type="unfinished"/>
+        <translation>അൺലോക്ക്</translation>
     </message>
 </context>
 <context>
@@ -8243,33 +8278,33 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
         <source>Attachments</source>
-        <translation type="unfinished"/>
+        <translation>അറ്റാച്ച്‌മെന്റുകൾ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Detach all attachments</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാ അറ്റാച്ച്‌മെന്റുകളും നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Add an optional filename...</source>
-        <translation type="unfinished"/>
+        <translation>ഐച്ഛിക ഫയൽനാമം ചേർക്കുക…</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Add an optional caption...</source>
-        <translation type="unfinished"/>
+        <translation>ഐച്ഛിക അടിക്കുറിപ്പ് ചേർക്കുക…</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+2"/>
         <source>Detach</source>
-        <translation type="unfinished"/>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Note: each file is sent as a separate message.</source>
-        <translation type="unfinished"/>
+        <translation>ശ്രദ്ധിക്കുക: ഓരോ ഫയലും പ്രത്യേക സന്ദേശമായി അയക്കുന്നു.</translation>
     </message>
 </context>
 <context>
@@ -8277,7 +8312,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
         <source>Only your own profile can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സ്വന്തം പ്രൊഫൈൽ മാത്രമേ ഇവിടെ മാറ്റാൻ കഴിയൂ.</translation>
     </message>
     <message>
         <location line="-58"/>
@@ -8289,209 +8324,209 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ബാക്കെൻഡ് റൺടൈം ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="-357"/>
         <source>Failed to set power level for %1.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ന് അധികാര നില സജ്ജമാക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to set power level for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ന് അധികാര നില സജ്ജമാക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Failed to update display name.</source>
-        <translation type="unfinished"/>
+        <translation>ഡിസ്‌പ്ലേ നാമം അപ്‌ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to update room display name.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ഡിസ്‌പ്ലേ നാമം അപ്‌ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Device name cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണ നാമം ശൂന്യമാകരുത്.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to rename device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" പുനർനാമകരണം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to rename device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" പുനർനാമകരണം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന മാനേജർ ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to clear verification for device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" ന്റെ പരിശോധന മായ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to clear verification for device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" ന്റെ പരിശോധന മായ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Failed to block device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" ബ്ലോക്ക് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to block device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" ബ്ലോക്ക് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Failed to unblock device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" അൺബ്ലോക്ക് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unblock device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" അൺബ്ലോക്ക് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>All Files (*)</source>
-        <translation type="unfinished">എല്ലാ ഫയലുകളും (*)</translation>
+        <translation>എല്ലാ ഫയലുകളും (*)</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Select an avatar</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു അവതാർ തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത ഫയൽ ഒരു ചിത്രമല്ല</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഫയൽ വായിക്കുന്നതിൽ പിശക്: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+47"/>
         <source>Only your own avatar can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സ്വന്തം അവതാർ മാത്രമേ ഇവിടെ മാറ്റാൻ കഴിയൂ.</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Failed to upload avatar.</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ അപ്‌ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to upload room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി അവതാർ അപ്‌ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി അവതാർ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/user/UserProfile.qml" line="+45"/>
         <source>Kick %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>%1 നെ മുറിയിൽ നിന്ന് പുറത്താക്കണോ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ban %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>%1-നെ മുറിയിൽ നിന്ന് നിരോധിക്കണോ?</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Room member profile</source>
-        <translation type="unfinished"/>
+        <translation>മുറി അംഗ പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>User profile</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Room</source>
-        <translation type="unfinished"/>
+        <translation>മുറി</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Change avatar for this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിക്കായി അവതാർ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>മാറ്റുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Reset to global avatar</source>
-        <translation type="unfinished"/>
+        <translation>ആഗോള അവതാറിലേക്ക് പുനഃസജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+100"/>
         <source>Remove</source>
-        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>You have a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾക്ക് വ്യത്യസ്തമായ ആഗോള അവതാർ ഉണ്ട്.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപയോക്താവിന് വ്യത്യസ്തമായ ആഗോള അവതാർ ഉണ്ട്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You have a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾക്ക് മുറി-നിർദ്ദിഷ്ട അവതാർ ഉണ്ട്.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപയോക്താവിന് മുറി-നിർദ്ദിഷ്ട അവതാർ ഉണ്ട്.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reset avatar</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ പുനഃസജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to reset your avatar for this room to the global one?</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിക്കായുള്ള നിങ്ങളുടെ അവതാർ ഗ്ലോബൽ ഒന്നിലേക്ക് റീസെറ്റ് ചെയ്യണമെന്ന് ഉറപ്പാണോ?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8500,298 +8535,299 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+100"/>
         <location line="+382"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>പുനഃസജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ അവതാർ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation>ഡിസ്‌പ്ലേ നാമം</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Leave empty to use your global name: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഗ്ലോബൽ നാമം ഉപയോഗിക്കാൻ ശൂന്യമാക്കി ഇടുക: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave empty to clear the room-specific name.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി-നിർദ്ദിഷ്ട നാമം മായ്ക്കാൻ ശൂന്യമാക്കി ഇടുക.</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>പകർത്തി!</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Copy display name</source>
-        <translation type="unfinished"/>
+        <translation>ഡിസ്‌പ്ലേ നാമം പകർത്തുക</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ ID</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ ID പകർത്തുക</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>സ്ഥിതി</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation type="unfinished"/>
+        <translation>പവർ ലെവൽ</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിച്ചത്</translation>
     </message>
     <message>
         <location line="-514"/>
         <source>Implicitly trusted</source>
-        <translation type="unfinished"/>
+        <translation>പരോക്ഷമായി വിശ്വസ്തം</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കാത്തത്</translation>
     </message>
     <message>
         <location line="-497"/>
         <source>Accepted on first use, not explicitly verified.</source>
-        <translation type="unfinished"/>
+        <translation>ആദ്യ ഉപയോഗത്തിൽ സ്വീകരിച്ചു, വ്യക്തമായി പരിശോധിച്ചിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Identity keys changed or never seen. Consider verifying.</source>
-        <translation type="unfinished"/>
+        <translation>ഐഡന്റിറ്റി കീകൾ മാറ്റിയതോ ഒരിക്കലും കണ്ടിട്ടില്ലാത്തതോ ആണ്. പരിശോധന പരിഗണിക്കുക.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Global display name: %1</source>
-        <translation type="unfinished"/>
+        <translation>ഗ്ലോബൽ ഡിസ്‌പ്ലേ നാമം: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Start direct chat</source>
-        <translation type="unfinished"/>
+        <translation>നേരിട്ടുള്ള ചാറ്റ് ആരംഭിക്കുക</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Verify user</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ പരിശോധിക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Verify device</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം പരിശോധിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unignore user</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ അൺഇഗ്‌നോർ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore user</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ അവഗണിക്കുക</translation>
     </message>
     <message>
         <location line="+18"/>
         <location line="+90"/>
         <location line="+82"/>
         <source>Change power level</source>
-        <translation type="unfinished"/>
+        <translation>അധികാര നില മാറ്റുക</translation>
     </message>
     <message>
         <location line="-161"/>
         <source>Kick from room</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ നിന്ന് പുറത്താക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ban from room</source>
-        <translation type="unfinished"/>
+        <translation>മുറിയിൽ നിന്ന് നിരോധിക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove all messages</source>
-        <translation type="unfinished"/>
+        <translation>എല്ലാ സന്ദേശങ്ങളും നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Unignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1-നെ അൺഇഗ്‌നോർ ചെയ്യണോ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1 അവഗണിക്കണോ?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>You will see their messages again.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ അവരുടെ സന്ദേശങ്ങൾ വീണ്ടും കാണും.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>After ignoring, you will no longer see their messages in any room.
 You can unignore later via this user's profile or via Settings → Account → Ignored users.</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണിച്ചതിനു ശേഷം, ഏതെങ്കിലും മുറിയിൽ അവരുടെ സന്ദേശങ്ങൾ നിങ്ങൾക്ക് ഇനി കാണാൻ കഴിയില്ല.
+ഈ ഉപയോക്താവിന്റെ പ്രൊഫൈൽ വഴിയോ ക്രമീകരണങ്ങൾ → അക്കൗണ്ട് → അവഗണിച്ച ഉപയോക്താക്കൾ വഴിയോ പിന്നീട് അവഗണന നീക്കാം.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>അൺഇഗ്‌നോർ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണിക്കുക</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Set the power level for %1 in this room.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ %1-ന്റെ പവർ ലെവൽ സജ്ജമാക്കുക.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Presets:</source>
-        <translation type="unfinished"/>
+        <translation>പ്രീസെറ്റുകൾ:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>User (0)</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവ് (0)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Moderator (50)</source>
-        <translation type="unfinished"/>
+        <translation>മോഡറേറ്റർ (50)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Administrator (100)</source>
-        <translation type="unfinished"/>
+        <translation>അഡ്മിനിസ്ട്രേറ്റർ (100)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Rooms in common</source>
-        <translation type="unfinished"/>
+        <translation>പൊതുവായ മുറികൾ</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണങ്ങൾ (സെഷനുകൾ)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>പുതുക്കി</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>പുതുക്കുക</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>നിയന്ത്രിക്കുക</translation>
     </message>
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപകരണം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>തടഞ്ഞ</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധിക്കുക</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>അൺബ്ലോക്ക് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>തടയുക</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>No known devices.</source>
-        <translation type="unfinished"/>
+        <translation>അറിയപ്പെടുന്ന ഉപകരണങ്ങൾ ഇല്ല.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device information becomes available only after exchanging encrypted messages with this user.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ഉപയോക്താവുമായി എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ കൈമാറ്റം ചെയ്ത ശേഷം മാത്രമേ ഉപകരണ വിവരങ്ങൾ ലഭ്യമാകൂ.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Add optional reason for kicking %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-നെ നിഷ്കാസനം ചെയ്യുന്നതിനുള്ള ഐച്ഛിക കാരണം ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add optional reason for banning %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-നെ നിരോധിക്കുന്നതിനുള്ള ഐച്ഛിക കാരണം ചേർക്കുക</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Kick</source>
-        <translation type="unfinished"/>
+        <translation>പുറത്താക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ban</source>
-        <translation type="unfinished"/>
+        <translation>നിരോധനം</translation>
     </message>
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധന റദ്ദാക്കുക</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8800,75 +8836,75 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+41"/>
         <location line="+40"/>
         <source>Device id cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണ ID ശൂന്യമാകരുത്.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Device sign-out requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം സൈൻ ഔട്ട് ചെയ്യാൻ സജീവമായ matrix-sdk ബാക്കെൻഡ് റൺടൈം ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+19"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" സൈൻ ഔട്ട് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="-54"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" സൈൻ ഔട്ട് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="-45"/>
         <location line="+53"/>
         <source>Signed out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" സൈൻ ഔട്ട് ചെയ്തു.</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Sign Out Device</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം സൈൻ ഔട്ട് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter your account password to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" സൈൻ ഔട്ട് ചെയ്യാൻ നിങ്ങളുടെ അക്കൗണ്ട് പാസ്‌വേഡ് നൽകുക.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Password is required to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം "%1" സൈൻ ഔട്ട് ചെയ്യാൻ പാസ്‌വേഡ് ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Failed to open the browser for device sign-out.</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം സൈൻ ഔട്ടിനായി ബ്രൗസർ തുറക്കുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Finish signing out device "%1" in your browser. The device list will refresh when you return.</source>
-        <translation type="unfinished"/>
+        <translation>ബ്രൗസറിൽ ഉപകരണം "%1" സൈൻ ഔട്ട് ചെയ്യൽ പൂർത്തിയാക്കുക. നിങ്ങൾ തിരിച്ചുവരുമ്പോൾ ഉപകരണ പട്ടിക പുതുക്കും.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device sign-out for "%1" requires an unsupported authentication flow.</source>
-        <translation type="unfinished"/>
+        <translation>"%1" ഉപകരണം സൈൻ ഔട്ടിന് പിന്തുണ ഇല്ലാത്ത പ്രാമാണീകരണ ഫ്ലോ ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Failed to update ignored-user state for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>"%1" ന്റെ അവഗണിത-ഉപയോക്തൃ അവസ്ഥ അപ്‌ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to update ignored-user state for "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>"%1" ന്റെ അവഗണിത-ഉപയോക്തൃ അവസ്ഥ അപ്‌ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring users requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താക്കളെ അവഗണിക്കാൻ സജീവമായ matrix-sdk ബാക്കെൻഡ് റൺടൈം ആവശ്യമാണ്.</translation>
     </message>
 </context>
 <context>
@@ -8876,33 +8912,34 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>തെളിഞ്ഞ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>ഇരുണ്ട</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;പ്രസൻസ്&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
+ഓട്ടോമാറ്റിക് 'ഓൺലൈൻ' അല്ലെങ്കിൽ 'ലഭ്യമല്ല' ആണ് (5 മിനിറ്റ് നിഷ്‌ക്രിയതക്ക് ശേഷം).</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>ചെറിയ വീഡിയോ ക്ലിപ്പുകൾ (%1 MB-ൽ കുറവ് അല്ലെങ്കിൽ %2 സെക്കൻഡ്) ഇൻലൈനിൽ, മ്യൂട്ട് ചെയ്ത് ലൂപ്പ് ചെയ്ത് പ്ലേ ചെയ്യുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾക്ക് മുകളിൽ അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമം എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
-        <translation type="unfinished"/>
+        <translation>⚠ അവതാർ വലിപ്പം മറഞ്ഞിരിക്കുന്നതായി സജ്ജമാക്കിയതിനാൽ, അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ എല്ലായ്‌പ്പോഴും കാണിക്കും.</translation>
     </message>
 </context>
 <context>
@@ -8910,74 +8947,74 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>രൂപഭാവം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Timeline</source>
-        <translation type="unfinished"/>
+        <translation>ടൈംലൈൻ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Composer</source>
-        <translation type="unfinished"/>
+        <translation>കമ്പോസർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop</source>
-        <translation type="unfinished"/>
+        <translation>ഡെസ്ക്ടോപ്പ്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>നെറ്റ്‌വർക്ക്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Integrations</source>
-        <translation type="unfinished"/>
+        <translation>ഇന്റഗ്രേഷനുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Application Profiles</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്ലിക്കേഷൻ പ്രൊഫൈലുകൾ</translation>
     </message>
     <message>
         <location line="+184"/>
         <source>Available after login</source>
-        <translation type="unfinished"/>
+        <translation>ലോഗിൻ ചെയ്ത ശേഷം ലഭ്യമാകും</translation>
     </message>
     <message>
         <location line="-188"/>
         <source>Calls</source>
-        <translation type="unfinished"/>
+        <translation>കോളുകൾ</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Navigation</source>
-        <translation type="unfinished"/>
+        <translation>നാവിഗേഷൻ</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>കുറിച്ച്</translation>
     </message>
     <message>
         <location line="-17"/>
         <location line="+79"/>
         <location line="+13"/>
         <source>Back</source>
-        <translation type="unfinished"/>
+        <translation>തിരികെ</translation>
     </message>
 </context>
 <context>
@@ -8988,7 +9025,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ബാക്കെൻഡ് റൺടൈം ലഭ്യമല്ല.</translation>
     </message>
 </context>
 <context>
@@ -8996,38 +9033,39 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/components/encryption/VerifyMasterKeyDialog.qml" line="+20"/>
         <source>Activate Encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ സജീവമാക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This account already has encryption keys, but this device is not verified yet.
 Verification marks this device as trusted and gives you access to encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ അക്കൗണ്ടിന് ഇതിനകം എൻക്രിപ്ഷൻ കീകൾ ഉണ്ട്, എന്നാൽ ഈ ഉപകരണം ഇതുവരെ പരിശോധിച്ചിട്ടില്ല.
+പരിശോധന ഈ ഉപകരണത്തെ വിശ്വസ്തമായി അടയാളപ്പെടുത്തുകയും എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങളിലേക്ക് ആക്സസ് നൽകുകയും ചെയ്യുന്നു.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>ഇപ്പോൾ വേണ്ട</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset identity</source>
-        <translation type="unfinished"/>
+        <translation>ഐഡൻ്റിറ്റി പുനഃക്രമീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verify with another device</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റൊരു ഉപകരണം ഉപയോഗിച്ച് പരിശോധിക്കുക</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>പരിശോധനയ്ക്ക് നിലവിൽ മറ്റൊരു സൈൻ-ഇൻ ചെയ്ത ഉപകരണവും ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -9035,27 +9073,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/device-verification/Waiting.qml" line="+14"/>
         <source>Waiting for Other Device</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണത്തിനായി കാത്തിരിക്കുന്നു</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Waiting for the other device to accept the verification request.</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണം പരിശോധനാ അഭ്യർത്ഥന സ്വീകരിക്കാൻ കാത്തിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to continue the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണം പരിശോധനാ പ്രക്രിയ തുടരാൻ കാത്തിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to complete the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണം പരിശോധനാ പ്രക്രിയ പൂർത്തിയാക്കാൻ കാത്തിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished">റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -9063,22 +9101,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai-ലേക്ക് സ്വാഗതം</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
-        <translation type="unfinished"/>
+        <translation>സുരക്ഷിത രഹസ്യ സ്റ്റോറേജ് (OS കീചെയിൻ) ഈ പരിതസ്ഥിതിയിൽ ലഭ്യമല്ല, അതിനാൽ Komai ഇപ്പോൾ ഫയൽ-അടിസ്ഥാന രഹസ്യ സ്റ്റോറേജ് ഉപയോഗിക്കുന്നു. ഇത് കുറഞ്ഞ സുരക്ഷിതമാണ്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>കൂടുതൽ അറിയുക</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>An early touch of personality</source>
-        <translation type="unfinished"/>
+        <translation>വ്യക്തിത്വത്തിൻ്റെ ആദ്യ സ്പർശം</translation>
     </message>
 </context>
 <context>
@@ -9086,17 +9124,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-ൽ പുതിയതാണോ?</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്റ്റർ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -9104,77 +9142,77 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
         <source>Theme</source>
-        <translation type="unfinished"/>
+        <translation>തീം</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>ലൈറ്റ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>ഡാർക്ക്</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Enable animations</source>
-        <translation type="unfinished"/>
+        <translation>ആനിമേഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation type="unfinished"/>
+        <translation>Komai വിഷ്വൽ ഫീഡ്‌ബാക്ക് മെച്ചപ്പെടുത്താൻ നിരവധി സ്ഥലങ്ങളിൽ ആനിമേഷനുകൾ ഉപയോഗിക്കുന്നു. അവ അസ്വസ്ഥത ഉണ്ടാക്കുന്നുവെങ്കിൽ അവ പ്രവർത്തനരഹിതമാക്കുക.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Prefer emoji suggestions for</source>
-        <translation type="unfinished"/>
+        <translation>ഇതിനായി ഇമോജി നിർദ്ദേശങ്ങൾ ഇഷ്ടപ്പെടുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Any gender</source>
-        <translation type="unfinished"/>
+        <translation>ഏത് ലിംഗവും</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👨 Men</source>
-        <translation type="unfinished"/>
+        <translation>👨 പുരുഷന്മാർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👩 Women</source>
-        <translation type="unfinished"/>
+        <translation>👩 സ്ത്രീകൾ</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Any skin tone</source>
-        <translation type="unfinished"/>
+        <translation>ഏത് ത്വക്ക് ടോണും</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏻 ലൈറ്റ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏼 മീഡിയം-ലൈറ്റ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation type="unfinished"/>
+        <translation>👍🏽 മീഡിയം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏾 മീഡിയം-ഡാർക്ക്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏿 ഡാർക്ക്</translation>
     </message>
 </context>
 <context>
@@ -9182,7 +9220,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
-        <translation type="unfinished"/>
+        <translation>ഇന്നലെ</translation>
     </message>
 </context>
 <context>
@@ -9190,42 +9228,42 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation type="unfinished">ആളുകൾ</translation>
+        <translation>ആളുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nature</source>
-        <translation type="unfinished">പ്രകൃതി</translation>
+        <translation>പ്രകൃതി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Food</source>
-        <translation type="unfinished">ഭക്ഷണം</translation>
+        <translation>ഭക്ഷണം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Activity</source>
-        <translation type="unfinished">പ്രവർത്തനം</translation>
+        <translation>പ്രവർത്തനം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Travel</source>
-        <translation type="unfinished">യാത്ര</translation>
+        <translation>യാത്ര</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Objects</source>
-        <translation type="unfinished">സാധനങ്ങൾ</translation>
+        <translation>വസ്തുക്കൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Symbols</source>
-        <translation type="unfinished">ചിഹ്നങ്ങൾ</translation>
+        <translation>ചിഹ്നങ്ങൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Flags</source>
-        <translation type="unfinished">പതാകകൾ</translation>
+        <translation>പതാകകൾ</translation>
     </message>
 </context>
 <context>
@@ -9233,12 +9271,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
         <source>You: %1</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങൾ: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1: %2</source>
-        <translation type="unfinished">%1: %2</translation>
+        <translation>%1: %2</translation>
     </message>
 </context>
 <context>
@@ -9247,660 +9285,661 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation type="unfinished"/>
+        <translation>തീം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation type="unfinished"/>
+        <translation>കൂടുതൽ തീമുകൾ വേണോ? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക അല്ലെങ്കിൽ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;നിങ്ങളുടേത് സൃഷ്ടിക്കുക&lt;/a&gt; (പുനരാരംഭം ആവശ്യമാണ്).</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation type="unfinished"/>
+        <translation>ഫോണ്ടുകൾ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Font family</source>
-        <translation type="unfinished"/>
+        <translation>ഫോണ്ട് ഫാമിലി</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation type="unfinished"/>
+        <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം വലുപ്പം മാറ്റുന്നു. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനു ശേഷം മാത്രം അപ്ഡേറ്റ് ആകും.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Emoji font family</source>
-        <translation type="unfinished"/>
+        <translation>ഇമോജി ഫോണ്ട് ഫാമിലി</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Behavior</source>
-        <translation type="unfinished"/>
+        <translation>പെരുമാറ്റം</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Interaction mode</source>
-        <translation type="unfinished"/>
+        <translation>ഇടപഴകൽ മോഡ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation type="unfinished"/>
+        <translation>ഡെസ്ക്ടോപ്പ് മൗസ്-ആദ്യ സ്വഭാവം ഉപയോഗിക്കുന്നു. ടച്ച് മോഡ് സ്വൈപ്പ്, ടച്ച് ഇടപഴകലുകൾ ഇഷ്ടപ്പെടുന്നു.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation type="unfinished"/>
+        <translation>റൂം ലിസ്റ്റിനും ടൈംലൈനിനും ഇടയിൽ സ്വൈപ്പ് ചെയ്യൽ, സന്ദേശം മറുപടി നൽകാൻ സ്വൈപ്പ് ചെയ്യൽ തുടങ്ങിയ ആംഗ്യങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുക.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Controls when scrollbars are shown across the app.</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്പ് മുഴുവൻ സ്‌ക്രോൾബാറുകൾ എപ്പോൾ കാണിക്കണമെന്ന് നിയന്ത്രിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Layout</source>
-        <translation type="unfinished"/>
+        <translation>ലേഔട്ട്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation type="unfinished"/>
+        <translation>സ്‌പേസിംഗ്, ഐക്കൺ വലുപ്പം, ലിസ്റ്റ് വരി ഉയരം എന്നിവ ബാധിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatars</source>
-        <translation type="unfinished"/>
+        <translation>അവതാറുകൾ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ പ്രിവ്യൂ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation type="unfinished"/>
+        <translation>ഇഷ്‌ടാനുസൃത അവതാർ ഇല്ലാത്ത ഉപയോക്താക്കൾക്കും മുറികൾക്കും കാണിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Communities sidebar</source>
-        <translation type="unfinished"/>
+        <translation>കമ്മ്യൂണിറ്റി സൈഡ്‌ബാർ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation type="unfinished"/>
+        <translation>കമ്മ്യൂണിറ്റി, ടാഗ് ഫിൽട്ടറുകളിൽ വായിക്കാത്ത ഊന്നൽ (എണ്ണം ബാഡ്ജുകൾ, വരി ഹൈലൈറ്റ്, ഇടത്-അരികു മാർക്കർ) കാണിക്കുക.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation type="unfinished">എല്ലാ മുറികളും</translation>
+        <translation>എല്ലാ മുറികളും</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ എല്ലാ മുറികളും ഒരു കാഴ്ചയിൽ കാണിക്കുന്നു. താഴെ ഒഴിവാക്കിയതായി അടയാളപ്പെടുത്തിയ ഫിൽട്ടറുകളിൽ പെടുന്ന മുറികൾ ഈ പട്ടികയിൽ നിന്ന് മറഞ്ഞിരിക്കും.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix മുറി ടാഗിംഗ് API വഴി &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation type="unfinished"/>
+        <translation>ഹ്യൂറിസ്റ്റിക്സ് വഴി ബോട്ടുകൾ ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; ഉപയോക്താക്കളെ ഒഴിവാക്കി, യഥാർത്ഥ ആളുകളുമായുള്ള നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation type="unfinished"/>
+        <translation>സംഭാഷണ പങ്കാളി ബോട്ട് അല്ലെങ്കിൽ ബ്രിഡ്ജ് സർവ്വീസ് അക്കൗണ്ട് ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation type="unfinished"/>
+        <translation>നേരിട്ടുള്ള ചാറ്റുകൾ അല്ലാത്ത (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; ഉം മറ്റുള്ളതും) ഒന്നിലധികം പങ്കാളികളുള്ള മുറികൾ.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation type="unfinished"/>
+        <translation>അഡ്മിനിസ്ട്രേറ്റീവ് സന്ദേശങ്ങൾക്കായി ഹോംസർവർ &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ. Matrix സ്‌പെക്കിലെ &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; മൊഡ്യൂൾ കാണുക.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix മുറി ടാഗിംഗ് API വഴി &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room list</source>
-        <translation type="unfinished"/>
+        <translation>മുറി പട്ടിക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation type="unfinished"/>
+        <translation>മുറികൾക്ക് അടുത്ത് വായിക്കാത്ത ഊന്നൽ (എണ്ണം ബാഡ്ജുകൾ, ബോൾഡ് മുറി നാമം, അവതാർ ബൗൺസ്, വരി ഹൈലൈറ്റ്, ഇടത്-അരികു മാർക്കർ) കാണിക്കുക.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ലിസ്റ്റ് എൻ‌ട്രികളിൽ അവസാന സന്ദേശ പ്രിവ്യൂ ചേർക്കുന്നു. Spacious, Compact ലേഔട്ടുകളിൽ സ്വന്തം വരിയിലും Dense-ൽ മുറിയുടെ പേരിനു തൊട്ടടുത്തും കാണിക്കും.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു മുറിയിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ സജീവ ടാബ് പുനരുപയോഗിക്കണോ അല്ലെങ്കിൽ പുതിയ ഒന്ന് തുറക്കണോ എന്ന്. നിലവിലുള്ള ടാബ് ഉള്ള മുറികൾ എല്ലാ കേസുകളിലും സജീവമാകും.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tab bar</source>
-        <translation type="unfinished"/>
+        <translation>ടാബ് ബാർ</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation type="unfinished"/>
+        <translation>അടുത്തിടെ അടച്ച പ്രി-റെൻഡർ ചെയ്ത ടൈംലൈനുകൾ ഉടനടി മുറി മാറ്റം സാധ്യമാക്കുന്നു, പക്ഷേ CPU, RAM ഉപഭോഗം വർദ്ധിപ്പിക്കുന്നു. തുറന്ന ടാബുകൾ എല്ലായ്‌പ്പോഴും പ്രി-റെൻഡർ ചെയ്യപ്പെടും. തുറന്ന ടാബുകൾ മാത്രം നിലനിർത്താൻ 0 ആക്കുക.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
         <source>Presentation</source>
-        <translation type="unfinished"/>
+        <translation>അവതരണം</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>ടൈംലൈൻ പ്രിവ്യൂ</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾ ഒരു ഭാഗത്ത് നിൽക്കണമോ അല്ലെങ്കിൽ അയക്കുന്നയാൾ അനുസരിച്ച് എതിർ ഭാഗങ്ങളിൽ ക്രമീകരിക്കണമോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum message width (%)</source>
-        <translation type="unfinished"/>
+        <translation>പരമാവധി സന്ദേശ വീതി (%)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation type="unfinished"/>
+        <translation>ലഭ്യമായ ടൈംലൈൻ വീതിയുടെ ഏത് ശതമാനം ഒരൊറ്റ സന്ദേശത്തിന് ഉൾക്കൊള്ളാം.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation type="unfinished"/>
+        <translation>ടൈംലൈനിലും ബബ്ബിൾ പശ്ചാത്തലങ്ങളിലും അയക്കുന്നയാളുടെ നിറങ്ങൾ എങ്ങനെ നൽകണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ സന്ദേശങ്ങൾക്ക് മുകളിൽ എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബ്ബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബ്ബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"/>
+        <translation>ബബിൾ ലേഔട്ട് പ്രവർത്തനക്ഷമമാകുമ്പോൾ, നിങ്ങളുടെ സ്വന്തം സന്ദേശങ്ങൾക്ക് അടുത്ത് നിങ്ങളുടെ അവതാർ കാണിക്കുക. ഇത് ഇടത്/വലത് സമമിതി മെച്ചപ്പെടുത്തുകയും രചയിതൃത്വം തിരിച്ചറിയൽ എളുപ്പമാക്കുകയും ചെയ്യുന്നു.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർമാറ്റ് ചെയ്ത (HTML) ടൈംലൈൻ സന്ദേശങ്ങളിലെ കോഡ് ബ്ലോക്കുകൾക്ക് ഭാഷ-ബോധ്യമുള്ള സിന്റാക്‌സ് ഹൈലൈറ്റിംഗ് പ്രയോഗിക്കുക.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>ചില സന്ദേശങ്ങൾ, പ്രത്യേകിച്ച് 🎊, ☀️, അല്ലെങ്കിൽ 🌦️ പോലുള്ള ഇമോജികൾ ഉള്ളവ, ഒരു മനോഹരമായ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;ടൈംലൈൻ ഇഫക്റ്റ്&lt;/a&gt; കാണിക്കാം.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>ത്രെഡ് മൂല സന്ദേശങ്ങൾ മാത്രം കാണിക്കുകയും, ത്രെഡ് മറുപടികൾ പ്രധാന ടൈംലൈനിൽ നിന്ന് മറയ്ക്കുകയും ചെയ്യുന്നു. Room Info → Settings-ൽ ഓരോ മുറിക്കും ഇത് മാറ്റാം.&lt;br&gt;⚠️ ത്രെഡ്-ഓരോന്നും വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണയ്ക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിൽ മറുപടികൾ നഷ്ടമായേക്കാം.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
         <source>Feedback</source>
-        <translation type="unfinished"/>
+        <translation>ഫീഡ്‌ബാക്ക്</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സന്ദേശങ്ങൾ വായിച്ചോ എന്ന് കാണിക്കുക. നിങ്ങളുടെ ഹോംസർവർ റീഡ് രസീതുകൾ പിന്തുണയ്ക്കുന്നില്ലെങ്കിൽ, മുറികൾ വായിച്ചതായി അടയാളപ്പെടുത്തിയേക്കില്ല.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how message actions are opened.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ പ്രവർത്തനങ്ങൾ എങ്ങനെ തുറക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation type="unfinished"/>
+        <translation>ആക്ഷൻ ബാറിൽ പിൻ ചെയ്ത പ്രതികരണങ്ങളുടെ കോമ വേർതിരിച്ച ലിസ്റ്റ്. ശേഷിക്കുന്ന സ്ലോട്ടുകൾ ഓരോ മുറിയിലും നിങ്ങൾ ഏറ്റവും കൂടുതൽ ഉപയോഗിക്കുന്ന പ്രതികരണങ്ങൾ കൊണ്ട് നിറയും.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Images handling</source>
-        <translation type="unfinished"/>
+        <translation>ചിത്ര കൈകാര്യം</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്റ്റഡ് ചിത്രങ്ങൾ ഡിസ്കിൽ ഡീക്രിപ്റ്റ് ചെയ്ത് &lt;a href="komai://media-cache"&gt;കാഷെ&lt;/a&gt; ചെയ്യുന്നു (ആനുകാലികമായി സ്വയം ശുദ്ധീകരിക്കപ്പെടും).</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Video handling</source>
-        <translation type="unfinished"/>
+        <translation>വീഡിയോ കൈകാര്യം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>സാധ്യമാകുമ്പോൾ സ്ട്രീം ചെയ്യുന്നു; എൻക്രിപ്റ്റഡ് അല്ലെങ്കിൽ സീക്ക് ചെയ്യാനാകാത്ത വീഡിയോകൾ ഡിസ്‌കിൽ &lt;a href="komai://media-cache"&gt;ക്യാഷ്&lt;/a&gt; ചെയ്യുന്നു (ആനുകാലികമായി സ്വയം നീക്കം ചെയ്യപ്പെടുന്നു).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Audio handling</source>
-        <translation type="unfinished"/>
+        <translation>ഓഡിയോ കൈകാര്യം</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>സാധ്യമാകുമ്പോൾ സ്ട്രീം ചെയ്യുന്നു; എൻക്രിപ്റ്റഡ് അല്ലെങ്കിൽ സീക്ക് ചെയ്യാനാകാത്ത ഓഡിയോ ഡിസ്‌കിൽ &lt;a href="komai://media-cache"&gt;ക്യാഷ്&lt;/a&gt; ചെയ്യുന്നു (ആനുകാലികമായി സ്വയം നീക്കം ചെയ്യപ്പെടുന്നു).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Applied to inline audio players.</source>
-        <translation type="unfinished"/>
+        <translation>ഇൻലൈൻ ഓഡിയോ പ്ലേയറുകൾക്ക് ബാധകം.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
         <source>Input</source>
-        <translation type="unfinished"/>
+        <translation>ഇൻപുട്ട്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which Enter key combination sends messages.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശങ്ങൾ അയക്കാൻ ഏത് Enter കീ കോമ്പിനേഷൻ ഉപയോഗിക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; സിന്റാക്‌സ് Markdown plain-text fallback-നൊപ്പം &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; സന്ദേശം നിർമ്മിക്കാൻ യാന്ത്രികമായി പരിവർത്തനം ചെയ്യണമോ എന്ന് നിയന്ത്രിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ ഇൻപുട്ടിൽ ഹാഷ് (#) ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു ഇൻലൈൻ മുറി പിക്കർ കാണിക്കുക.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ ഇൻപുട്ടിൽ ആറ്റ് ചിഹ്നം (@) ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു ഇൻലൈൻ ഉപയോക്തൃ പിക്കർ കാണിക്കുക.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation type="unfinished">ഇമോജി</translation>
+        <translation>ഇമോജി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം അയക്കുമ്പോൾ :) :D :P പോലുള്ള ടെക്‌സ്‌റ്റ് ഇമോട്ടിക്കോണുകൾ അവയ്ക്ക് തുല്യമായ emoji ആക്കി മാറ്റുക. എല്ലായിടത്തും അല്ലെങ്കിൽ അവസാനം മാത്രം മാറ്റണമോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ ഇൻപുട്ടിൽ കോളൻ (:) ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു ഇൻലൈൻ ഇമോജി പിക്കർ കാണിക്കുക.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ Unicode-നിർവചിച്ച ലിംഗ വേരിയന്റുകൾ (പുരുഷൻ/സ്ത്രീ) മുൻഗണന നൽകുക. മറ്റ് ലിംഗം വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ ഒരു ത്വക്ക്-ടോൺ വേരിയന്റ് മുൻഗണന നൽകുക. മറ്റ് ത്വക്ക് ടോൺ വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Extras</source>
-        <translation type="unfinished"/>
+        <translation>അധികം</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enable notifications for this account</source>
-        <translation type="unfinished"/>
+        <translation>ഈ അക്കൗണ്ടിനായി അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation type="unfinished"/>
+        <translation>ഹോം സെർവറിൽ നിങ്ങളുടെ Matrix അക്കൗണ്ട്-ലെവൽ അറിയിപ്പ് സ്വിച്ച് നിയന്ത്രിക്കുന്നു. നിങ്ങളുടെ എല്ലാ ക്ലൈന്റുകളിലും/ഉപകരണങ്ങളിലും അറിയിപ്പുകൾ മ്യൂട്ട് ചെയ്യാൻ ഓഫ് ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>System notifications</source>
-        <translation type="unfinished"/>
+        <translation>സിസ്റ്റം അറിയിപ്പുകൾ</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലൈന്റ് നിലവിൽ ഫോക്കസ് ചെയ്തിട്ടില്ലാത്തപ്പോൾ ലഭിച്ച സന്ദേശങ്ങളെക്കുറിച്ച് അറിയിക്കുക. മുകളിൽ അക്കൗണ്ട് അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കിയിരിക്കുമ്പോൾ മാത്രം ഇത് ബാധകമാകും.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how much message text to include in notifications.</source>
-        <translation type="unfinished"/>
+        <translation>അറിയിപ്പുകളിൽ എത്രമാത്രം സന്ദേശ ടെക്‌സ്‌റ്റ് ഉൾപ്പെടുത്തണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു സന്ദേശം ലഭിക്കുമ്പോൾ ഒരു ശ്രദ്ധ അലേർട്ട് കാണിക്കുക (ഉദാഹരണത്തിന്, ടാസ്‌ക്ബാർ ഐക്കൺ ആക്ടിവിറ്റി).</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Attention indicators</source>
-        <translation type="unfinished"/>
+        <translation>ശ്രദ്ധ സൂചകങ്ങൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation type="unfinished"/>
+        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം Komai വിൻഡോ തലക്കെട്ടിൽ ചേർക്കുക.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം ആപ്പ്/ടാസ്‌ക്ബാർ ബാഡ്ജിൽ കാണിക്കുക. Linux-ൽ, ഡിഫോൾട്ടല്ലാത്ത പ്രൊഫൈലുകൾക്ക് വിശ്വസനീയമായ ആപ്പ് ബാഡ്ജുകൾക്ക് സ്വന്തം ഡെസ്‌ക്‌ടോപ്പ് ലോഞ്ചർ ആവശ്യമാണ്. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System tray</source>
-        <translation type="unfinished"/>
+        <translation>സിസ്റ്റം ട്രേ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Keep the application running in the background after closing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലൈന്റ് വിൻഡോ അടച്ചതിനു ശേഷവും ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കുക.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Start the application in the background without showing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>ക്ലയന്റ് വിൻഡോ കാണിക്കാതെ ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ ആരംഭിക്കുക.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Window blur</source>
-        <translation type="unfinished"/>
+        <translation>വിൻഡോ ബ്ലർ</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation type="unfinished"/>
+        <translation>ഫോക്കസ് നഷ്‌ടപ്പെട്ടതിന് ശേഷം ബ്ലർ ആരംഭിക്കുന്നതിന് എത്ര സമയം കഴിയണം എന്ന് സജ്ജമാക്കുക. ഉടനടി ബ്ലർ ചെയ്യാൻ 0 ആക്കുക. പരമാവധി 3600 സെക്കൻഡ് (1 മണിക്കൂർ).</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>പൊതു</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation type="unfinished"/>
+        <translation>പഴയ (pre-MatrixRTC) കോളുകൾ സ്വീകരിക്കാനും ആരംഭിക്കാനും അനുവദിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ഹോംസർവർ ഒന്ന് നൽകുന്നില്ലെങ്കിൽ turn.matrix.org ഒരു ഫാൾബാക്ക് റിലേ/STUN സർവറായി ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Devices</source>
-        <translation type="unfinished">ഉപകരണങ്ങൾ</translation>
+        <translation>ഉപകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Microphone</source>
-        <translation type="unfinished"/>
+        <translation>മൈക്രോഫോൺ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>ക്യാമറ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera resolution</source>
-        <translation type="unfinished"/>
+        <translation>ക്യാമറ റെസൊലൂഷൻ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera frame rate</source>
-        <translation type="unfinished"/>
+        <translation>ക്യാമറ ഫ്രെയിം നിരക്ക്</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ringtone</source>
-        <translation type="unfinished"/>
+        <translation>റിംഗ്‌ടോൺ</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Screen sharing</source>
-        <translation type="unfinished"/>
+        <translation>സ്‌ക്രീൻ പങ്കിടൽ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation type="unfinished"/>
+        <translation>സ്‌ക്രീൻ പങ്കിടലിനുള്ള ലക്ഷ്യ ഫ്രെയിം പ്രതി സെക്കൻഡ്. കുറഞ്ഞ മൂല്യങ്ങൾ CPU, ബാൻഡ്‌വിഡ്ത്ത് കുറവ് ഉപയോഗിക്കുന്നു.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
         <source>D-Bus</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D-Bus access</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus ആക്‌സസ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation type="unfinished"/>
+        <translation>Komai ലോക്കൽ കോളർമാർക്ക് എത്രമാത്രം &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ആക്സസ്&lt;/a&gt; നൽകണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Matrix Rooms Search</source>
-        <translation type="unfinished"/>
+        <translation>Matrix മുറി തിരയൽ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"/>
+        <translation>പ്രവർത്തനക്ഷമമാകുമ്പോൾ, &lt;a href="komai://rooms-directory"&gt;പൊതു മുറികൾ പര്യവേക്ഷണം ചെയ്യുക&lt;/a&gt; ഡയലോഗിലേക്ക് &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; പിന്തുണ ചേർക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;-ന്റെ ഏതെങ്കിലും ഇൻസ്‌റ്റൻസ് ഉപയോഗിക്കാം, എന്നാൽ &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; നടത്തുന്ന ഒരു വലിയ ജനപ്രിയ ഇൻസ്‌റ്റൻസ് ആണ്.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Browser</source>
-        <translation type="unfinished"/>
+        <translation>ബ്രൗസർ</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ഉപയോക്താവിന് എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ അയക്കാൻ അവർ പരിശോധിക്കപ്പെട്ടിരിക്കണം. ഇത് സുരക്ഷ മെച്ചപ്പെടുത്തുന്നു, പക്ഷേ E2EE കൂടുതൽ ബുദ്ധിമുട്ടുള്ളതാക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപയോക്താക്കളിൽ നിന്നുള്ള കീ അഭ്യർഥനകൾക്ക് അവർ പരിശോധിക്കപ്പെട്ടിട്ടുണ്ടെങ്കിൽ യാന്ത്രികമായി മറുപടി നൽകുന്നു, ആ ഉപകരണത്തിന് ആ കീകൾ ലഭ്യമാകേണ്ടതില്ലെങ്കിലും.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശ എൻക്രിപ്ഷൻ കീകൾ എൻക്രിപ്റ്റഡ് ഓൺലൈൻ കീ ബാക്കപ്പിൽ നിന്ന് ഡൗൺലോഡ് ചെയ്യുകയും അപ്‌ലോഡ് ചെയ്യുകയും ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Presence</source>
-        <translation type="unfinished"/>
+        <translation>പ്രസൻസ്</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Status policy</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റാറ്റസ് നയം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;Presence&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
+Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailable' ആണ് (5 മിനിറ്റ് നിഷ്‌ക്രിയത്വത്തിനുശേഷം).</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Status message</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Transport</source>
-        <translation type="unfinished"/>
+        <translation>ട്രാൻസ്‌പോർട്ട്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reject invalid or untrusted server certificates.</source>
-        <translation type="unfinished"/>
+        <translation>അസാധുവായ അല്ലെങ്കിൽ വിശ്വസനീയമല്ലാത്ത സർവർ സർട്ടിഫിക്കറ്റുകൾ നിരസിക്കുക.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation type="unfinished"/>
+        <translation>ലഭ്യമായിരിക്കുമ്പോൾ Matrix സർവർ കണക്ഷനുകൾക്ക് HTTP/3 ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>അക്കൗണ്ട്</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്തൃ ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation type="unfinished"/>
+        <translation>ഹോംസർവർ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Edit profile</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ തിരുത്തുക</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണം</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Device ID</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണ ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>ആക്സസ് ടോക്കൺ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ ആക്‌സസ് ടോക്കൺ നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് പൂർണ്ണ ആക്‌സസ് നൽകുന്നു. ആരുമായും പങ്കിടരുത്.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>അവഗണിച്ച ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Log out</source>
-        <translation type="unfinished"/>
+        <translation>ലോഗ് ഔട്ട്</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്ലിക്കേഷൻ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation type="unfinished">പേര്</translation>
+        <translation>പേര്</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Platform</source>
-        <translation type="unfinished"/>
+        <translation>പ്ലാറ്റ്ഫോം</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>നിർമ്മിച്ചത്</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>License</source>
-        <translation type="unfinished"/>
+        <translation>ലൈസൻസ്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Acknowledgements</source>
-        <translation type="unfinished"/>
+        <translation>അംഗീകാരങ്ങൾ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fork base</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർക്ക് ബേസ്</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Fluent)</source>
-        <translation type="unfinished"/>
+        <translation>ഐക്കൺ സെറ്റ് (Fluent)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Font Awesome)</source>
-        <translation type="unfinished"/>
+        <translation>ഐക്കൺ സെറ്റ് (Font Awesome)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Default avatars (Boring Avatars)</source>
-        <translation type="unfinished"/>
+        <translation>സ്ഥിരസ്ഥിതി അവതാറുകൾ (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

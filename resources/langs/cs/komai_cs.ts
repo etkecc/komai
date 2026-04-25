@@ -5597,8 +5597,13 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     </message>
     <message>
         <location line="+14"/>
-        <source>Determines which features the room supports. &lt;a href="https://spec.matrix.org/v1.17/rooms/"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Určuje, které funkce místnost podporuje. &lt;a href="https://spec.matrix.org/v1.17/rooms/"&gt;Zjistit více&lt;/a&gt;.</translation>
+        <source>Determines which features the room supports.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Learn more</source>
+        <translation type="unfinished">Zjistit více</translation>
     </message>
 </context>
 <context>

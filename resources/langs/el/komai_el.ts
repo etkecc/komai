@@ -5591,8 +5591,13 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
-        <source>Determines which features the room supports. &lt;a href="https://spec.matrix.org/v1.17/rooms/"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Καθορίζει ποιες δυνατότητες υποστηρίζει το δωμάτιο. &lt;a href="https://spec.matrix.org/v1.17/rooms/"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
+        <source>Determines which features the room supports.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Learn more</source>
+        <translation type="unfinished">Μάθετε περισσότερα</translation>
     </message>
 </context>
 <context>

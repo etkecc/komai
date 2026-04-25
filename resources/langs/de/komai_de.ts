@@ -5591,8 +5591,13 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
     </message>
     <message>
         <location line="+14"/>
-        <source>Determines which features the room supports. &lt;a href="https://spec.matrix.org/v1.17/rooms/"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Bestimmt, welche Funktionen der Raum unterstützt. &lt;a href="https://spec.matrix.org/v1.17/rooms/"&gt;Mehr erfahren&lt;/a&gt;.</translation>
+        <source>Determines which features the room supports.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Learn more</source>
+        <translation type="unfinished">Mehr erfahren</translation>
     </message>
 </context>
 <context>

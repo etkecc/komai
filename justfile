@@ -239,6 +239,10 @@ translations-update: _ensure_just_temp_directory
 translations-normalize *args:
 	python3 {{ justfile_directory() }}/bin/translations/translate.py normalize {{ args }}
 
+# Canonicalizes inconsistent translations: same source -> single most-frequent translation per language
+translations-canonicalize *args:
+	python3 {{ justfile_directory() }}/bin/translations/normalize-inconsistencies.py {{ args }}
+
 # Auto-translates unfinished strings for a language using Claude CLI
 translations-claude-translate-lang lang *args:
 	python3 {{ justfile_directory() }}/bin/translations/translate.py translate {{ lang }} {{ args }}

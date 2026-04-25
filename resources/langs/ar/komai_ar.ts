@@ -1029,13 +1029,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n عضو</numerusform>
+            <numerusform>%n عضو</numerusform>
+            <numerusform>%n عضوان</numerusform>
+            <numerusform>%n أعضاء</numerusform>
+            <numerusform>%n عضوًا</numerusform>
+            <numerusform>%n عضو</numerusform>
         </translation>
     </message>
     <message>
@@ -1800,13 +1800,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>هل تريد إعادة توجيه %n رسائل؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالة؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالتين؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسائل؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالة؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالة؟</numerusform>
         </translation>
     </message>
     <message>
@@ -1837,13 +1837,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>هل تريد إعادة توجيه %n رسائل محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالة محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالتين محددتين إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسائل محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالة محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
+            <numerusform>هل تريد إعادة توجيه %n رسالة محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
         </translation>
     </message>
     <message>
@@ -2995,13 +2995,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>هل تريد حذف %n رسائل محددة؟</numerusform>
+            <numerusform>هل تريد حذف %n رسالة محددة؟</numerusform>
+            <numerusform>هل تريد حذف %n رسالتين محددتين؟</numerusform>
+            <numerusform>هل تريد حذف %n رسائل محددة؟</numerusform>
+            <numerusform>هل تريد حذف %n رسالة محددة؟</numerusform>
+            <numerusform>هل تريد حذف %n رسالة محددة؟</numerusform>
         </translation>
     </message>
     <message>
@@ -4159,25 +4159,25 @@ Verify to unlock encrypted messages.</source>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>تم تطبيق الأذونات على %n فضاء فرعي.</numerusform>
+            <numerusform>تم تطبيق الأذونات على %n فضاء فرعي.</numerusform>
+            <numerusform>تم تطبيق الأذونات على %n فضاءين فرعيين.</numerusform>
+            <numerusform>تم تطبيق الأذونات على %n فضاءات فرعية.</numerusform>
+            <numerusform>تم تطبيق الأذونات على %n فضاءً فرعيًّا.</numerusform>
+            <numerusform>تم تطبيق الأذونات على %n فضاء فرعي.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>فشل تطبيق الأذونات على %n فضاء فرعي: %1</numerusform>
+            <numerusform>فشل تطبيق الأذونات على %n فضاء فرعي: %1</numerusform>
+            <numerusform>فشل تطبيق الأذونات على %n فضاءين فرعيين: %1</numerusform>
+            <numerusform>فشل تطبيق الأذونات على %n فضاءات فرعية: %1</numerusform>
+            <numerusform>فشل تطبيق الأذونات على %n فضاءً فرعيًّا: %1</numerusform>
+            <numerusform>فشل تطبيق الأذونات على %n فضاء فرعي: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5663,13 +5663,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n عضو في %1</numerusform>
+            <numerusform>%n عضو في %1</numerusform>
+            <numerusform>%n عضوان في %1</numerusform>
+            <numerusform>%n أعضاء في %1</numerusform>
+            <numerusform>%n عضوًا في %1</numerusform>
+            <numerusform>%n عضو في %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7617,13 +7617,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n رد على السلسلة</numerusform>
+            <numerusform>%n رد على السلسلة</numerusform>
+            <numerusform>%n ردَّان على السلسلة</numerusform>
+            <numerusform>%n ردود على السلسلة</numerusform>
+            <numerusform>%n ردًّا على السلسلة</numerusform>
+            <numerusform>%n رد على السلسلة</numerusform>
         </translation>
     </message>
     <message>
@@ -7647,13 +7647,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n رد على السلسلة</numerusform>
+            <numerusform>%n رد على السلسلة</numerusform>
+            <numerusform>%n ردَّان على السلسلة</numerusform>
+            <numerusform>%n ردود على السلسلة</numerusform>
+            <numerusform>%n ردًّا على السلسلة</numerusform>
+            <numerusform>%n رد على السلسلة</numerusform>
         </translation>
     </message>
     <message>
@@ -7828,13 +7828,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n رد على السلسلة</numerusform>
+            <numerusform>%n رد على السلسلة</numerusform>
+            <numerusform>%n ردَّان على السلسلة</numerusform>
+            <numerusform>%n ردود على السلسلة</numerusform>
+            <numerusform>%n ردًّا على السلسلة</numerusform>
+            <numerusform>%n رد على السلسلة</numerusform>
         </translation>
     </message>
     <message>
@@ -7866,13 +7866,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n عضو</numerusform>
+            <numerusform>%n عضو</numerusform>
+            <numerusform>%n عضوان</numerusform>
+            <numerusform>%n أعضاء</numerusform>
+            <numerusform>%n عضوًا</numerusform>
+            <numerusform>%n عضو</numerusform>
         </translation>
     </message>
     <message>
@@ -8137,13 +8137,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n رسائل محددة</numerusform>
+            <numerusform>%n رسالة محددة</numerusform>
+            <numerusform>%n رسالتان محددتان</numerusform>
+            <numerusform>%n رسائل محددة</numerusform>
+            <numerusform>%n رسالة محددة</numerusform>
+            <numerusform>%n رسالة محددة</numerusform>
         </translation>
     </message>
     <message>
@@ -8287,13 +8287,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n غرفة تحتاج إلى الانتباه</numerusform>
+            <numerusform>
+%n غرفة تحتاج إلى الانتباه</numerusform>
+            <numerusform>
+%n غرفتان تحتاجان إلى الانتباه</numerusform>
+            <numerusform>
+%n غرف تحتاج إلى الانتباه</numerusform>
+            <numerusform>
+%n غرفة تحتاج إلى الانتباه</numerusform>
+            <numerusform>
+%n غرفة تحتاج إلى الانتباه</numerusform>
         </translation>
     </message>
 </context>

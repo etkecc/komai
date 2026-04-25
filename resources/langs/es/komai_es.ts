@@ -591,7 +591,7 @@
         <location line="+47"/>
         <source>Knock on room</source>
         <translatorcomment>@CM0use: Empezare a usar "Toc" y no "Llamar" para no confundir ambos terminos</translatorcomment>
-        <translation>Toc en la habitación</translation>
+        <translation>Toc en la sala</translation>
     </message>
     <message>
         <location line="+3"/>

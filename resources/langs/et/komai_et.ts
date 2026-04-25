@@ -4242,7 +4242,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
     <message>
         <location line="+2"/>
         <source>Change the room name</source>
-        <translation>Jututoa nime nuutmine</translation>
+        <translation>Jututoa nime muutmine</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4277,7 +4277,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
     <message>
         <location line="+2"/>
         <source>Upgrade the room</source>
-        <translation>Jutuoa versiooni uuendus</translation>
+        <translation>Jututoa versiooni uuendus</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4337,7 +4337,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
     <message>
         <location line="+2"/>
         <source>Change the room emotes</source>
-        <translation>Jutuoa emotikonide muutmine</translation>
+        <translation>Jututoa emotikonide muutmine</translation>
     </message>
 </context>
 <context>

@@ -1029,8 +1029,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n tag</numerusform>
         </translation>
     </message>
     <message>
@@ -1795,8 +1795,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Továbbítasz %n üzenetet?</numerusform>
         </translation>
     </message>
     <message>
@@ -1827,8 +1827,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Továbbítasz %n kijelölt üzenetet &lt;b&gt;%1&lt;/b&gt; részére?</numerusform>
         </translation>
     </message>
     <message>
@@ -2980,8 +2980,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n kijelölt üzenet törlése?</numerusform>
         </translation>
     </message>
     <message>
@@ -4139,15 +4139,15 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Jogosultságok alkalmazva %n gyermek térre.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Nem sikerült a jogosultságokat alkalmazni %n gyermek térre: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5633,8 +5633,8 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n tag: %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7582,8 +7582,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n szálválasz</numerusform>
         </translation>
     </message>
     <message>
@@ -7607,8 +7607,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n szálválasz</numerusform>
         </translation>
     </message>
     <message>
@@ -7783,8 +7783,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n szálválasz</numerusform>
         </translation>
     </message>
     <message>
@@ -7816,8 +7816,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n tag</numerusform>
         </translation>
     </message>
     <message>
@@ -8082,8 +8082,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n kijelölt üzenet</numerusform>
         </translation>
     </message>
     <message>
@@ -8227,8 +8227,9 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n szoba figyelmet igényel</numerusform>
         </translation>
     </message>
 </context>

@@ -7944,7 +7944,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+232"/>
         <source>Select file(s)</source>
-        <translation type="unfinished"/>
+        <translation>Selectați fișier(e)</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7954,24 +7954,26 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+135"/>
         <source>Finish editing the current message before attaching files.</source>
-        <translation type="unfinished"/>
+        <translation>Finalizați editarea mesajului curent înainte de a atașa fișiere.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Only existing local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>Prin glisare și plasare pot fi atașate doar fișiere locale existente.</translation>
     </message>
     <message>
         <location line="+246"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Sesiunea a expirat. Vă rugăm să vă autentificați din nou.
+
+(%1)</translation>
     </message>
     <message>
         <location line="+77"/>
         <source>Save attachment</source>
-        <translation type="unfinished"/>
+        <translation>Salvează atașament</translation>
     </message>
     <message>
         <location line="+362"/>
@@ -7991,24 +7993,24 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>Saved attachment '%1' but failed to open it</source>
-        <translation type="unfinished"/>
+        <translation>Atașament salvat '%1', dar nu s-a putut deschide</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Deschide</translation>
     </message>
     <message>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation type="unfinished"/>
+        <translation>Afișează în dosar</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Saved attachment '%1'</source>
-        <translation type="unfinished"/>
+        <translation>Atașament salvat '%1'</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
@@ -8018,22 +8020,22 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
         <source>This command needs an active room.</source>
-        <translation type="unfinished"/>
+        <translation>Această comandă necesită o cameră activă.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The chat page is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Pagina de chat nu este încă pregătită.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The Matrix session is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Sesiunea Matrix nu este încă pregătită.</translation>
     </message>
     <message>
         <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
-        <translation type="unfinished"/>
+        <translation>Niciun mesaj de la %1 în cronologia vizibilă.</translation>
     </message>
     <message>
         <location line="+36"/>
@@ -8043,13 +8045,13 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+49"/>
         <source>The room timeline is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Cronologia camerei nu este încă pregătită.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+10"/>
         <source>That message index could not be resolved in this room.</source>
-        <translation type="unfinished"/>
+        <translation>Indexul mesajului nu a putut fi rezolvat în această cameră.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -8064,12 +8066,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+10"/>
         <source>Marked this room as a direct message.</source>
-        <translation type="unfinished"/>
+        <translation>Camera a fost marcată ca mesaj direct.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Marked this room as a regular room.</source>
-        <translation type="unfinished"/>
+        <translation>Camera a fost marcată ca cameră obișnuită.</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8089,7 +8091,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+20"/>
         <source>Saved to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>Salvat în '%1'</translation>
     </message>
 </context>
 <context>
@@ -8106,113 +8108,113 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>1 selected message</source>
-        <translation type="unfinished"/>
+        <translation>1 mesaj selectat</translation>
     </message>
     <message>
         <location line="-4"/>
         <location line="+5"/>
         <source>Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Mod de selecție</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>Comenzi rapide</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show keyboard shortcuts [?]</source>
-        <translation type="unfinished"/>
+        <translation>Afișează comenzile rapide de la tastatură [?]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Reply</source>
-        <translation type="unfinished">Răspuns</translation>
+        <translation>Răspunde</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reply to message [R]</source>
-        <translation type="unfinished"/>
+        <translation>Răspunde la mesaj [R]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>Fir</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open or continue a thread [T]</source>
-        <translation type="unfinished"/>
+        <translation>Deschide sau continuă un fir [T]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Editează</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Edit message [E]</source>
-        <translation type="unfinished"/>
+        <translation>Editează mesajul [E]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>Redirecționează</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Forward selected messages [F]</source>
-        <translation type="unfinished"/>
+        <translation>Redirecționează mesajele selectate [F]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward message [F]</source>
-        <translation type="unfinished"/>
+        <translation>Redirecționează mesajul [F]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Șterge</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Delete selected messages [D]</source>
-        <translation type="unfinished"/>
+        <translation>Șterge mesajele selectate [D]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete message [D]</source>
-        <translation type="unfinished"/>
+        <translation>Șterge mesajul [D]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Options</source>
-        <translation type="unfinished">Opțiuni</translation>
+        <translation>Opțiuni</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>More message actions [O]</source>
-        <translation type="unfinished"/>
+        <translation>Mai multe acțiuni pentru mesaj [O]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>Golește</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clear selection [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>Anulează selecția [Escape]</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Close</source>
-        <translation type="unfinished">Închide</translation>
+        <translation>Închide</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Exit Selection mode and return to the composer [I or Escape]</source>
-        <translation type="unfinished"/>
+        <translation>Ieșire din modul de selecție și revenire la compozitor [I sau Escape]</translation>
     </message>
 </context>
 <context>
@@ -8220,12 +8222,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
         <source>OFF</source>
-        <translation type="unfinished"/>
+        <translation>OPRIT</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>ON</source>
-        <translation type="unfinished"/>
+        <translation>PORNIT</translation>
     </message>
 </context>
 <context>
@@ -8256,32 +8258,32 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>Deblochează copia de rezervă a cheilor</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation type="unfinished"/>
+        <translation>Deblocați secretele de criptare furnizând cheia de securitate sau fraza de acces (dacă este disponibilă).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Security keys look like this: </source>
-        <translation type="unfinished"/>
+        <translation>Cheile de securitate arată astfel: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Security key or passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Cheie de securitate sau frază de acces</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unlock</source>
-        <translation type="unfinished"/>
+        <translation>Deblochează</translation>
     </message>
 </context>
 <context>
@@ -8289,33 +8291,33 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
         <source>Attachments</source>
-        <translation type="unfinished"/>
+        <translation>Atașamente</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Detach all attachments</source>
-        <translation type="unfinished"/>
+        <translation>Detașează toate atașamentele</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Add an optional filename...</source>
-        <translation type="unfinished"/>
+        <translation>Adaugă un nume de fișier opțional…</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Add an optional caption...</source>
-        <translation type="unfinished"/>
+        <translation>Adaugă o legendă opțională…</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+2"/>
         <source>Detach</source>
-        <translation type="unfinished"/>
+        <translation>Detașează</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Note: each file is sent as a separate message.</source>
-        <translation type="unfinished"/>
+        <translation>Notă: fiecare fișier este trimis ca un mesaj separat.</translation>
     </message>
 </context>
 <context>
@@ -8323,7 +8325,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
         <source>Only your own profile can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>Aici poate fi modificat doar propriul profil.</translation>
     </message>
     <message>
         <location line="-58"/>
@@ -8335,209 +8337,209 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Runtime-ul backend Matrix nu este disponibil.</translation>
     </message>
     <message>
         <location line="-357"/>
         <source>Failed to set power level for %1.</source>
-        <translation type="unfinished"/>
+        <translation>Setarea nivelului de putere pentru %1 a eșuat.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to set power level for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Setarea nivelului de putere pentru %1 a eșuat: %2</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Failed to update display name.</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut actualiza numele de afișare.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to update room display name.</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut actualiza numele de afișare al camerei.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Device name cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>Numele dispozitivului nu poate fi gol.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to rename device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Redenumirea dispozitivului "%1" a eșuat.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to rename device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Redenumirea dispozitivului "%1" a eșuat: %2</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Managerul de verificare nu este disponibil.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to clear verification for device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Ștergerea verificării pentru dispozitivul "%1" a eșuat.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to clear verification for device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Ștergerea verificării pentru dispozitivul "%1" a eșuat: %2</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Failed to block device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Blocarea dispozitivului "%1" a eșuat.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to block device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Blocarea dispozitivului "%1" a eșuat: %2</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Failed to unblock device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Deblocarea dispozitivului "%1" a eșuat.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unblock device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Deblocarea dispozitivului "%1" a eșuat: %2</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation type="unfinished">Selectează un avatar</translation>
+        <translation>Selectează un avatar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished">Toate fișierele (*)</translation>
+        <translation>Toate fișierele (*)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation type="unfinished">Fișierul selectat nu este imagine</translation>
+        <translation>Fișierul selectat nu este o imagine</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation type="unfinished">Eroare întâmpinată la citirea fișierului: %1</translation>
+        <translation>Eroare la citirea fișierului: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+47"/>
         <source>Only your own avatar can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>Aici poate fi modificat doar propriul avatar.</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Failed to upload avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut încărca avatarul.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to upload room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut încărca avatarul camerei.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Eliminarea avatarului a eșuat.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Eliminarea avatarului camerei a eșuat.</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/user/UserProfile.qml" line="+45"/>
         <source>Kick %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>Dai afară %1 din cameră?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ban %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>Interzici accesul lui %1 în cameră?</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Room member profile</source>
-        <translation type="unfinished"/>
+        <translation>Profilul membrului din cameră</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>User profile</source>
-        <translation type="unfinished"/>
+        <translation>Profil utilizator</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Room</source>
-        <translation type="unfinished"/>
+        <translation>Cameră</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation>Profil</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Change avatar for this room</source>
-        <translation type="unfinished"/>
+        <translation>Modifică avatarul pentru această cameră</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>Modifică</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Reset to global avatar</source>
-        <translation type="unfinished"/>
+        <translation>Resetează la avatarul global</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+100"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Elimină</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>You have a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Ai un avatar global diferit.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Acest utilizator are un avatar global diferit.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You have a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Ai un avatar specific camerei.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Acest utilizator are un avatar specific camerei.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reset avatar</source>
-        <translation type="unfinished"/>
+        <translation>Resetează avatarul</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to reset your avatar for this room to the global one?</source>
-        <translation type="unfinished"/>
+        <translation>Sigur vrei să resetezi avatarul tău pentru această cameră la cel global?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8546,298 +8548,299 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <location line="+100"/>
         <location line="+382"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>Resetează</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>Elimină avatarul</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>Sigur vrei să elimini avatarul tău?</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation>Nume afișat</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Leave empty to use your global name: %1</source>
-        <translation type="unfinished"/>
+        <translation>Lasă gol pentru a folosi numele tău global: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave empty to clear the room-specific name.</source>
-        <translation type="unfinished"/>
+        <translation>Lasă gol pentru a elimina numele specific camerei.</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>Copiat!</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Copy display name</source>
-        <translation type="unfinished"/>
+        <translation>Copiază numele afișat</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>ID utilizator</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>Copiază ID-ul utilizatorului</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>Stare</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation type="unfinished"/>
+        <translation>Nivel de putere</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>Verificare</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>Verificat</translation>
     </message>
     <message>
         <location line="-514"/>
         <source>Implicitly trusted</source>
-        <translation type="unfinished"/>
+        <translation>De încredere implicit</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>Neverificat</translation>
     </message>
     <message>
         <location line="-497"/>
         <source>Accepted on first use, not explicitly verified.</source>
-        <translation type="unfinished"/>
+        <translation>Acceptat la prima utilizare, neverificat explicit.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Identity keys changed or never seen. Consider verifying.</source>
-        <translation type="unfinished"/>
+        <translation>Cheile de identitate s-au schimbat sau nu au fost văzute niciodată. Se recomandă verificarea.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Global display name: %1</source>
-        <translation type="unfinished"/>
+        <translation>Nume de afișare global: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>Acțiuni</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Start direct chat</source>
-        <translation type="unfinished"/>
+        <translation>Începe un mesaj direct</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Verify user</source>
-        <translation type="unfinished"/>
+        <translation>Verifică utilizatorul</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Verify device</source>
-        <translation type="unfinished"/>
+        <translation>Verifică dispozitivul</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unignore user</source>
-        <translation type="unfinished"/>
+        <translation>Dezignorează utilizatorul</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore user</source>
-        <translation type="unfinished"/>
+        <translation>Ignoră utilizatorul</translation>
     </message>
     <message>
         <location line="+18"/>
         <location line="+90"/>
         <location line="+82"/>
         <source>Change power level</source>
-        <translation type="unfinished"/>
+        <translation>Modifică nivelul de putere</translation>
     </message>
     <message>
         <location line="-161"/>
         <source>Kick from room</source>
-        <translation type="unfinished"/>
+        <translation>Dă afară din cameră</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ban from room</source>
-        <translation type="unfinished"/>
+        <translation>Interzice accesul în cameră</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove all messages</source>
-        <translation type="unfinished"/>
+        <translation>Elimină toate mesajele</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Unignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>Dezignorează %1?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>Ignoră %1?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>You will see their messages again.</source>
-        <translation type="unfinished"/>
+        <translation>Vei vedea din nou mesajele lor.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>After ignoring, you will no longer see their messages in any room.
 You can unignore later via this user's profile or via Settings → Account → Ignored users.</source>
-        <translation type="unfinished"/>
+        <translation>După ignorare, nu vei mai vedea mesajele lor în nicio cameră.
+Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări → Cont → Utilizatori ignorați.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>Dezignorează</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>Ignoră</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Set the power level for %1 in this room.</source>
-        <translation type="unfinished"/>
+        <translation>Setează nivelul de putere pentru %1 în această cameră.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Presets:</source>
-        <translation type="unfinished"/>
+        <translation>Presetări:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>User (0)</source>
-        <translation type="unfinished"/>
+        <translation>Utilizator (0)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Moderator (50)</source>
-        <translation type="unfinished"/>
+        <translation>Moderator (50)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Administrator (100)</source>
-        <translation type="unfinished"/>
+        <translation>Administrator (100)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Rooms in common</source>
-        <translation type="unfinished"/>
+        <translation>Camere în comun</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>Dispozitive (sesiuni)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>Reîmprospătat</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>Reîmprospătează</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>Gestionează</translation>
     </message>
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>Acest dispozitiv</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>Blocat</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation>Verifică</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>Deblochează</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>Blochează</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>No known devices.</source>
-        <translation type="unfinished"/>
+        <translation>Niciun dispozitiv cunoscut.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device information becomes available only after exchanging encrypted messages with this user.</source>
-        <translation type="unfinished"/>
+        <translation>Informațiile despre dispozitiv devin disponibile doar după schimbul de mesaje criptate cu acest utilizator.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Add optional reason for kicking %1</source>
-        <translation type="unfinished"/>
+        <translation>Adaugă un motiv opțional pentru eliminarea lui %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add optional reason for banning %1</source>
-        <translation type="unfinished"/>
+        <translation>Adaugă un motiv opțional pentru interzicerea accesului lui %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Kick</source>
-        <translation type="unfinished"/>
+        <translation>Dă afară</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ban</source>
-        <translation type="unfinished"/>
+        <translation>Interzice</translation>
     </message>
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation>Anulează verificarea</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8846,75 +8849,75 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+41"/>
         <location line="+40"/>
         <source>Device id cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>ID-ul dispozitivului nu poate fi gol.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Device sign-out requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>Deconectarea dispozitivului necesită un runtime activ matrix-sdk.</translation>
     </message>
     <message>
         <location line="+19"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Deconectarea dispozitivului "%1" a eșuat.</translation>
     </message>
     <message>
         <location line="-54"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Deconectarea dispozitivului "%1" a eșuat: %2</translation>
     </message>
     <message>
         <location line="-45"/>
         <location line="+53"/>
         <source>Signed out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Dispozitivul "%1" a fost deconectat.</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Sign Out Device</source>
-        <translation type="unfinished"/>
+        <translation>Deconectează dispozitivul</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter your account password to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Introdu parola contului pentru a deconecta dispozitivul "%1".</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Password is required to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Parola este necesară pentru a deconecta dispozitivul "%1".</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Failed to open the browser for device sign-out.</source>
-        <translation type="unfinished"/>
+        <translation>Deschiderea browserului pentru deconectarea dispozitivului a eșuat.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Finish signing out device "%1" in your browser. The device list will refresh when you return.</source>
-        <translation type="unfinished"/>
+        <translation>Finalizează deconectarea dispozitivului "%1" în browser. Lista dispozitivelor se va actualiza la întoarcere.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device sign-out for "%1" requires an unsupported authentication flow.</source>
-        <translation type="unfinished"/>
+        <translation>Deconectarea dispozitivului "%1" necesită un flux de autentificare nesuportat.</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Failed to update ignored-user state for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut actualiza starea de ignorare pentru "%1".</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to update ignored-user state for "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut actualiza starea de ignorare pentru "%1": %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring users requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>Ignorarea utilizatorilor necesită un runtime matrix-sdk activ.</translation>
     </message>
 </context>
 <context>
@@ -8922,33 +8925,34 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>Luminos</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>Întunecat</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Controlează starea ta de &lt;a href="%1"&gt;Prezență&lt;/a&gt; în rețeaua Matrix.
+Automatic înseamnă fie 'online', fie 'indisponibil' (după 5 minute de inactivitate).</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Redă clipuri video mici (sub %1 MB sau %2 s) inline, fără sunet și în buclă. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>Controlează când numele expeditorilor sunt afișate deasupra mesajelor. În modul bule, propriul tău nume de utilizator este întotdeauna ascuns. În camerele mai mici, avatarele și culorile bulelor sunt adesea suficient context.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
-        <translation type="unfinished"/>
+        <translation>⚠ Dimensiunea avatarului este setată la Ascuns, deci numele de utilizator ale expeditorilor sunt întotdeauna afișate.</translation>
     </message>
 </context>
 <context>
@@ -8956,74 +8960,74 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
         <source>Settings</source>
-        <translation type="unfinished">Setări</translation>
+        <translation>Setări</translation>
     </message>
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>Aspect &amp; Stil</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Timeline</source>
-        <translation type="unfinished"/>
+        <translation>Cronologie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Composer</source>
-        <translation type="unfinished"/>
+        <translation>Compozitor</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop</source>
-        <translation type="unfinished"/>
+        <translation>Desktop</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>Rețea</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Cont</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Integrations</source>
-        <translation type="unfinished"/>
+        <translation>Integrări</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Application Profiles</source>
-        <translation type="unfinished"/>
+        <translation>Profiluri aplicație</translation>
     </message>
     <message>
         <location line="+184"/>
         <source>Available after login</source>
-        <translation type="unfinished"/>
+        <translation>Disponibil după autentificare</translation>
     </message>
     <message>
         <location line="-188"/>
         <source>Calls</source>
-        <translation type="unfinished"/>
+        <translation>Apeluri</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Navigation</source>
-        <translation type="unfinished"/>
+        <translation>Navigare</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>Despre</translation>
     </message>
     <message>
         <location line="-17"/>
         <location line="+79"/>
         <location line="+13"/>
         <source>Back</source>
-        <translation type="unfinished"/>
+        <translation>Înapoi</translation>
     </message>
 </context>
 <context>
@@ -9034,7 +9038,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Runtime-ul backend Matrix nu este disponibil.</translation>
     </message>
 </context>
 <context>
@@ -9042,38 +9046,39 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/components/encryption/VerifyMasterKeyDialog.qml" line="+20"/>
         <source>Activate Encryption</source>
-        <translation type="unfinished"/>
+        <translation>Activează criptarea</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This account already has encryption keys, but this device is not verified yet.
 Verification marks this device as trusted and gives you access to encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>Acest cont are deja chei de criptare, dar acest dispozitiv nu a fost verificat încă.
+Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces la mesajele criptate.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>Nu acum</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset identity</source>
-        <translation type="unfinished"/>
+        <translation>Resetează identitatea</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verify with another device</source>
-        <translation type="unfinished"/>
+        <translation>Verifică cu un alt dispozitiv</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>Niciun alt dispozitiv autentificat nu este disponibil în prezent pentru verificare.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>Deblochează backup-ul cheilor</translation>
     </message>
 </context>
 <context>
@@ -9081,27 +9086,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/device-verification/Waiting.qml" line="+14"/>
         <source>Waiting for Other Device</source>
-        <translation type="unfinished"/>
+        <translation>Se așteaptă alt dispozitiv</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Waiting for the other device to accept the verification request.</source>
-        <translation type="unfinished"/>
+        <translation>Se așteaptă ca celălalt dispozitiv să accepte cererea de verificare.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to continue the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>Se așteaptă ca celălalt dispozitiv să continue procesul de verificare.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to complete the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>Se așteaptă ca celălalt dispozitiv să finalizeze procesul de verificare.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anulare</translation>
+        <translation>Anulează</translation>
     </message>
 </context>
 <context>
@@ -9109,22 +9114,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>Bun venit în Komai</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
-        <translation type="unfinished"/>
+        <translation>Stocarea securizată a secretelor (brelocul de chei al SO) nu este disponibilă în acest mediu, astfel Komai folosește momentan stocarea secretelor bazată pe fișiere. Aceasta este mai puțin sigură.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>Află mai multe</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>An early touch of personality</source>
-        <translation type="unfinished"/>
+        <translation>O primă notă de personalitate</translation>
     </message>
 </context>
 <context>
@@ -9132,17 +9137,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Nou în Matrix?</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>Înregistrare</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>Autentificare</translation>
     </message>
 </context>
 <context>
@@ -9150,77 +9155,77 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
         <source>Theme</source>
-        <translation type="unfinished">Temă</translation>
+        <translation>Temă</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>Luminos</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>Întunecat</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Enable animations</source>
-        <translation type="unfinished"/>
+        <translation>Activează animațiile</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation type="unfinished"/>
+        <translation>Komai folosește animații în mai multe locuri pentru a îmbunătăți feedback-ul vizual. Dezactivează-le dacă te fac să te simți rău.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Prefer emoji suggestions for</source>
-        <translation type="unfinished"/>
+        <translation>Preferă sugestii emoji pentru</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Any gender</source>
-        <translation type="unfinished"/>
+        <translation>Orice gen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👨 Men</source>
-        <translation type="unfinished"/>
+        <translation>👨 Bărbați</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👩 Women</source>
-        <translation type="unfinished"/>
+        <translation>👩 Femei</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Any skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Orice ton de piele</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏻 Deschis</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏼 Mediu-deschis</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation type="unfinished"/>
+        <translation>👍🏽 Mediu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏾 Mediu-închis</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏿 Închis</translation>
     </message>
 </context>
 <context>
@@ -9236,42 +9241,42 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation type="unfinished"/>
+        <translation>Persoane</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nature</source>
-        <translation type="unfinished"/>
+        <translation>Natură</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Food</source>
-        <translation type="unfinished"/>
+        <translation>Mâncare</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Activity</source>
-        <translation type="unfinished">Activitate</translation>
+        <translation>Activitate</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Travel</source>
-        <translation type="unfinished"/>
+        <translation>Călătorii</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Objects</source>
-        <translation type="unfinished">Obiecte</translation>
+        <translation>Obiecte</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Symbols</source>
-        <translation type="unfinished">Simboluri</translation>
+        <translation>Simboluri</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Flags</source>
-        <translation type="unfinished">Steaguri</translation>
+        <translation>Steaguri</translation>
     </message>
 </context>
 <context>
@@ -9293,660 +9298,661 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation type="unfinished">Temă</translation>
+        <translation>Temă</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation type="unfinished"/>
+        <translation>Ai nevoie de mai multe teme? Importă din &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; sau &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;creează-ți propriile&lt;/a&gt; (necesită repornire).</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation type="unfinished"/>
+        <translation>Fonturi</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Font family</source>
-        <translation type="unfinished"/>
+        <translation>Familie de fonturi</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation type="unfinished"/>
+        <translation>Majoritatea elementelor UI se redimensionează în timp real. Unele etichete se pot actualiza doar după repornirea aplicației.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Emoji font family</source>
-        <translation type="unfinished">Familia de font pentru Emoji</translation>
+        <translation>Familie font emoji</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Behavior</source>
-        <translation type="unfinished"/>
+        <translation>Comportament</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Interaction mode</source>
-        <translation type="unfinished"/>
+        <translation>Mod de interacțiune</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation type="unfinished"/>
+        <translation>Desktop-ul utilizează comportament bazat pe mouse. Modul tactil favorizează interacțiunile prin glisare și atingere.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation type="unfinished"/>
+        <translation>Activează gesturi precum glisarea între Lista de camere și Cronologie și glisarea unui mesaj pentru a răspunde.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Controls when scrollbars are shown across the app.</source>
-        <translation type="unfinished"/>
+        <translation>Controlează când sunt afișate barele de derulare în aplicație.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Layout</source>
-        <translation type="unfinished"/>
+        <translation>Aspect</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation type="unfinished"/>
+        <translation>Afectează spațierea, dimensiunile pictogramelor și înălțimile rândurilor din liste.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatars</source>
-        <translation type="unfinished"/>
+        <translation>Avataruri</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>Previzualizare avatar</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Afișat pentru utilizatorii și camerele fără avatar personalizat.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Communities sidebar</source>
-        <translation type="unfinished"/>
+        <translation>Bara laterală comunități</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează indicatorii pentru necitite (insigne cu număr, evidențiere rând și marcator pe marginea stângă) pe filtrele de comunitate și etichete.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation type="unfinished">Toate camerele</translation>
+        <translation>Toate camerele</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează toate camerele tale într-o singură vizualizare. Camerele aparținând filtrelor marcate ca excluse mai jos vor fi ascunse din această listă.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Camere etichetate cu &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; prin API-ul de etichetare a camerelor Matrix.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation type="unfinished"/>
+        <translation>Conversații directe cu persoane reale, excluzând utilizatorii &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detectați&lt;/a&gt; ca boți prin euristici.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation type="unfinished"/>
+        <translation>Conversații directe în care partenerul de conversație este &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detectat&lt;/a&gt; ca bot sau cont de serviciu bridge.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation type="unfinished"/>
+        <translation>Camere cu mai mulți participanți care nu sunt conversații directe (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; și altele).</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation type="unfinished"/>
+        <translation>Camere etichetate cu &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; de homeserver pentru mesaje administrative. Vezi modulul &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; din specificația Matrix.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Camere etichetate cu &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; prin API-ul de etichetare a camerelor Matrix.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room list</source>
-        <translation type="unfinished"/>
+        <translation>Lista camerelor</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează indicatorii pentru necitite (insigne cu număr, numele camerei îngroșat, animație avatar, evidențiere rând și marcator pe marginea stângă) lângă camere.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation type="unfinished"/>
+        <translation>Adaugă o previzualizare a ultimului mesaj la intrările din lista de camere. Afișată pe linie proprie în aspectele Spațios și Compact, și inline lângă numele camerei în Dens.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation type="unfinished"/>
+        <translation>Dacă apăsarea pe o cameră refolosește tab-ul activ sau deschide unul nou. Camerele cu un tab existent îl activează în orice caz.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tab bar</source>
-        <translation type="unfinished"/>
+        <translation>Bara de file</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation type="unfinished"/>
+        <translation>Cronologiile pre-randate recent închise permit comutarea instantanee între camere, dar cresc utilizarea CPU și RAM. Filele deschise sunt întotdeauna pre-randate. Setează la 0 pentru a păstra doar filele deschise.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
         <source>Presentation</source>
-        <translation type="unfinished"/>
+        <translation>Prezentare</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>Previzualizare cronologie</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation type="unfinished"/>
+        <translation>Alege dacă mesajele rămân pe o singură parte sau sunt poziționate față în față în funcție de expeditor.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum message width (%)</source>
-        <translation type="unfinished"/>
+        <translation>Lățimea maximă a mesajului (%)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation type="unfinished"/>
+        <translation>Procentul din lățimea disponibilă a cronologiei pe care îl poate ocupa un singur mesaj.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation type="unfinished"/>
+        <translation>Alege cum sunt atribuite culorile expeditorului în cronologie și fundalurile bulelor.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>Controlează când sunt afișate numele de utilizator ale expeditorilor deasupra mesajelor. În modul bulă, propriul tău nume de utilizator este întotdeauna ascuns. În camere mai mici, avatarurile și culorile bulelor oferă adesea suficient context.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"/>
+        <translation>Când aspectul cu bule este activat, afișează avatarul tău lângă propriile mesaje. Aceasta îmbunătățește simetria stânga/dreapta și face mai ușoară identificarea autorului.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation type="unfinished"/>
+        <translation>Aplică evidențierea sintaxei conștientă de limbaj blocurilor de cod din mesajele cronologice formatate (HTML).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Unele mesaje, în special cele cu emoji-uri precum 🎊, ☀️ sau 🌦️, pot afișa un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;efect de cronologie&lt;/a&gt; mai elaborat.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>Ascunde răspunsurile din fire din cronologia principală, afișând doar mesajele rădăcină ale firelor. Poate fi suprascris per cameră în Informații cameră → Setări.&lt;br&gt;⚠️ Urmărirea mesajelor necitite per fir nu este acceptată, deci este posibil să se rateze răspunsuri în fire mai vechi.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
         <source>Feedback</source>
-        <translation type="unfinished"/>
+        <translation>Feedback</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează dacă mesajele tale au fost citite. Dacă homeserver-ul tău nu acceptă confirmări de citire, camerele pot să nu fie marcate ca citite.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>Acțiuni</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how message actions are opened.</source>
-        <translation type="unfinished"/>
+        <translation>Alege modul în care sunt deschise acțiunile mesajelor.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation type="unfinished"/>
+        <translation>Listă de reacții separate prin virgulă, fixate pe bara de acțiuni. Sloturile rămase sunt completate cu cele mai utilizate reacții per cameră.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Images handling</source>
-        <translation type="unfinished"/>
+        <translation>Gestionare imagini</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>Imaginile criptate sunt &lt;a href="komai://media-cache"&gt;stocate în cache&lt;/a&gt; decriptate pe disc (șterse automat periodic).</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Video handling</source>
-        <translation type="unfinished"/>
+        <translation>Gestionare video</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>Transmis în flux când este posibil; videoclipurile criptate sau nenavigabile sunt &lt;a href="komai://media-cache"&gt;stocate în cache&lt;/a&gt; pe disc (șterse automat periodic).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Audio handling</source>
-        <translation type="unfinished"/>
+        <translation>Gestionare audio</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>Transmis în flux când este posibil; sunetul criptat sau nenavigabil este &lt;a href="komai://media-cache"&gt;stocat în cache&lt;/a&gt; pe disc (șters automat periodic).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Applied to inline audio players.</source>
-        <translation type="unfinished"/>
+        <translation>Aplicat la playerele audio inline.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
         <source>Input</source>
-        <translation type="unfinished"/>
+        <translation>Intrare</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which Enter key combination sends messages.</source>
-        <translation type="unfinished"/>
+        <translation>Alege ce combinație de taste Enter trimite mesaje.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Controlează dacă sintaxa &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; este convertită automat pentru a genera un mesaj &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; cu fallback text simplu Markdown.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează un selector de cameră inline când tastezi diez (#) în câmpul de mesaj.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează un selector de utilizator inline când tastezi semnul (@) în câmpul de mesaj.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation type="unfinished"/>
+        <translation>Emoji</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"/>
+        <translation>Înlocuiește automat emoticonurile text precum :) :D :P cu echivalentele emoji la trimiterea unui mesaj. Alege dacă să înlocuiești peste tot sau doar la sfârșit.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează un selector de emoji inline când tastezi două puncte (:) în câmpul de mesaj.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Doar pentru selectorul inline de emoji: preferă variantele de gen definite de Unicode (bărbat/femeie) când sunt disponibile. Căutarea explicită a celuilalt gen funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Doar pentru selectorul de emoji inline: preferă o variantă de ton de piele când este disponibilă. Căutarea explicită a altui ton de piele funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Extras</source>
-        <translation type="unfinished"/>
+        <translation>Extra</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
-        <translation type="unfinished"/>
+        <translation>Notificări de cont</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enable notifications for this account</source>
-        <translation type="unfinished"/>
+        <translation>Activare notificări pentru acest cont</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation type="unfinished"/>
+        <translation>Controlează comutatorul de notificări la nivel de cont Matrix pe homeserver. Dezactivează pentru a opri notificările pe toate dispozitivele/clienții.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>System notifications</source>
-        <translation type="unfinished"/>
+        <translation>Notificări de sistem</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation type="unfinished"/>
+        <translation>Notifică despre mesajele primite când clientul nu este în prim-plan. Aceasta se aplică doar când notificările contului sunt activate mai sus.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how much message text to include in notifications.</source>
-        <translation type="unfinished"/>
+        <translation>Alege cât text al mesajului să fie inclus în notificări.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation type="unfinished"/>
+        <translation>Afișează o alertă la primirea unui mesaj (de exemplu, activitate pe pictograma din bara de activități).</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Attention indicators</source>
-        <translation type="unfinished"/>
+        <translation>Indicatori de atenție</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation type="unfinished"/>
+        <translation>Adaugă numărul de camere care necesită atenție la titlul ferestrei Komai.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Afișează numărul de camere care necesită atenție pe insigna aplicației/barei de activități. Pe Linux, profilurile non-implicite necesită propriul launcher de desktop pentru insigne fiabile. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System tray</source>
-        <translation type="unfinished"/>
+        <translation>Tavă de sistem</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Keep the application running in the background after closing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>Menține aplicația în funcțiune în fundal după închiderea ferestrei clientului.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Start the application in the background without showing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>Pornește aplicația în fundal fără a afișa fereastra clientului.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Window blur</source>
-        <translation type="unfinished"/>
+        <translation>Blur fereastră</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation type="unfinished"/>
+        <translation>Setează cât timp după pierderea focusului înainte de a începe estomparea. Setează 0 pentru estompare imediată. Maximul este 3600 de secunde (1 oră).</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>General</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation type="unfinished"/>
+        <translation>Permite acceptarea și inițierea apelurilor vechi (pre-MatrixRTC).</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation type="unfinished"/>
+        <translation>Folosește turn.matrix.org ca server relay/STUN de rezervă când homeserver-ul tău nu furnizează unul.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Devices</source>
-        <translation type="unfinished">Dispozitive</translation>
+        <translation>Dispozitive</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Microphone</source>
-        <translation type="unfinished"/>
+        <translation>Microfon</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Cameră</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera resolution</source>
-        <translation type="unfinished"/>
+        <translation>Rezoluție cameră</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera frame rate</source>
-        <translation type="unfinished"/>
+        <translation>Rată de cadre a camerei</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ringtone</source>
-        <translation type="unfinished"/>
+        <translation>Ton de apel</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Screen sharing</source>
-        <translation type="unfinished"/>
+        <translation>Partajare ecran</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation type="unfinished"/>
+        <translation>Cadre pe secundă țintă pentru partajarea ecranului. Valorile mai mici folosesc mai puțin CPU și lățime de bandă.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
         <source>D-Bus</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D-Bus access</source>
-        <translation type="unfinished"/>
+        <translation>Acces D-Bus</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation type="unfinished"/>
+        <translation>Alege cât &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;acces D-Bus&lt;/a&gt; expune Komai apelanților locali.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Matrix Rooms Search</source>
-        <translation type="unfinished"/>
+        <translation>Căutare camere Matrix</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"/>
+        <translation>Când este activat, adaugă suport pentru &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; în dialogul &lt;a href="komai://rooms-directory"&gt;Explorează camere publice&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Orice instanță a &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; este bună, dar &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; este o instanță mare și populară gestionată de &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Browser</source>
-        <translation type="unfinished"/>
+        <translation>Browser</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>Criptare</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation type="unfinished"/>
+        <translation>Necesită ca un utilizator să fie verificat pentru a-i trimite mesaje criptate. Îmbunătățește securitatea, dar face E2EE mai anevoios.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation type="unfinished"/>
+        <translation>Răspunde automat la solicitările de chei de la alți utilizatori dacă aceștia sunt verificați, chiar dacă acel dispozitiv nu ar trebui să aibă acces la acele chei în alt caz.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation type="unfinished"/>
+        <translation>Descarcă cheile de criptare ale mesajelor din backup-ul online criptat și le încarcă în acesta.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Presence</source>
-        <translation type="unfinished"/>
+        <translation>Prezență</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Status policy</source>
-        <translation type="unfinished"/>
+        <translation>Politică de stare</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Controlează starea de &lt;a href="%1"&gt;Prezență&lt;/a&gt; pe rețeaua Matrix.
+Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivitate).</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Status message</source>
-        <translation type="unfinished"/>
+        <translation>Mesaj de stare</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Transport</source>
-        <translation type="unfinished"/>
+        <translation>Transport</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reject invalid or untrusted server certificates.</source>
-        <translation type="unfinished"/>
+        <translation>Respinge certificatele de server invalide sau de neîncredere.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation type="unfinished"/>
+        <translation>Folosește HTTP/3 pentru conexiunile la serverul Matrix când este disponibil.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Cont</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>ID utilizator</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation type="unfinished">Homeserver</translation>
+        <translation>Homeserver</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Edit profile</source>
-        <translation type="unfinished"/>
+        <translation>Editare profil</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>Dispozitiv</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Device ID</source>
-        <translation type="unfinished">ID Dispozitiv</translation>
+        <translation>ID dispozitiv</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>Token de acces</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation type="unfinished"/>
+        <translation>Token-ul tău de acces oferă acces deplin la contul tău. Nu îl partaja cu nimeni.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>Utilizatori</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>Utilizatori ignorați</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Log out</source>
-        <translation type="unfinished"/>
+        <translation>Deconectare</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"/>
+        <translation>Aplicație</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation type="unfinished">Nume</translation>
+        <translation>Nume</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Platform</source>
-        <translation type="unfinished"/>
+        <translation>Platformă</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>Creat de</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>License</source>
-        <translation type="unfinished"/>
+        <translation>Licență</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Acknowledgements</source>
-        <translation type="unfinished"/>
+        <translation>Mulțumiri</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fork base</source>
-        <translation type="unfinished"/>
+        <translation>Bază fork</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Fluent)</source>
-        <translation type="unfinished"/>
+        <translation>Set de icoane (Fluent)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Font Awesome)</source>
-        <translation type="unfinished"/>
+        <translation>Set de icoane (Font Awesome)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Default avatars (Boring Avatars)</source>
-        <translation type="unfinished"/>
+        <translation>Avataruri implicite (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

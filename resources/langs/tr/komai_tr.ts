@@ -5882,7 +5882,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+472"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
         <source>Settings...</source>
         <translation>Ayarlar…</translation>
     </message>

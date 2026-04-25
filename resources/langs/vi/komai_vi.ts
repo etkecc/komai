@@ -5882,7 +5882,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+472"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
         <source>Settings...</source>
         <translation>Cài đặt…</translation>
     </message>

@@ -5889,7 +5889,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+472"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>

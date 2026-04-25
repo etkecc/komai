@@ -5896,7 +5896,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+472"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
         <source>Settings...</source>
         <translation>Настройки…</translation>
     </message>

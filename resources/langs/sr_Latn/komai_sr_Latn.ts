@@ -5896,7 +5896,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+472"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
         <source>Settings...</source>
         <translation>Podešavanja…</translation>
     </message>

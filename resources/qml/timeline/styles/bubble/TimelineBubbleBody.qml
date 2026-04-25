@@ -384,6 +384,17 @@ Item {
             value: root.wrapper.effectiveRoomContext
         }
 
+        // Plumb the bubble's content max width into delegates that want to widen beyond their
+        // intrinsic size when needed (e.g. ImageMessage uses this to give a long caption a readable
+        // pill width even when the image itself is very narrow). Using Binding here matches the
+        // pattern for roomAdapter/parent above and ensures the value survives reparenting.
+        Binding {
+            target: root.wrapper.main
+            property: "bubbleMaxWidth"
+            when: !!root.wrapper.main && typeof root.wrapper.main.bubbleMaxWidth === "number"
+            value: root.wrapper.maxWidth
+        }
+
         Binding {
             target: root.wrapper.main
             property: "palette.window"

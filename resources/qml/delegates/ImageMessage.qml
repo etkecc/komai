@@ -29,9 +29,30 @@ Item {
     readonly property double safeProportionalHeight: proportionalHeight > 0
                                                    ? proportionalHeight
                                                    : ((originalWidth > 0 && originalHeight > 0) ? (originalHeight / originalWidth) : 0.75)
-    // Bubble layout resolves width from delegates' implicitWidth. Provide explicit media sizing here
-    // so image messages don't collapse to near-zero width in bubble style.
-    implicitWidth: Math.max(1, Math.round(tempWidth * Math.min((containerHeight / divisor) / (tempWidth * safeProportionalHeight), 1)))
+    // Bubble's content max width. Set externally by the bubble style (see TimelineBubbleBody.qml,
+    // which reparents the delegate after construction; we can't read it from `parent` because the
+    // chooser is no longer the visual parent once the bubble takes over). Caps the caption pill so
+    // it never spills past the bubble.
+    property int bubbleMaxWidth: 0
+    // Width at which the image itself is rendered (image-native size, height-fit scaled).
+    readonly property int imageDisplayWidth: Math.max(1, Math.round(tempWidth * Math.min((containerHeight / divisor) / (tempWidth * safeProportionalHeight), 1)))
+    // Width the caption pill needs to render the text on a single line (paddings included).
+    // Driven by a hidden, no-wrap TextEdit so we can measure unwrapped natural width even when the
+    // visible TextEdit has wrapMode set. Math.ceil is critical: implicitWidth is a real (e.g.
+    // 505.25), and truncating to int loses the fractional part, leaving the TextEdit 0.25px too
+    // narrow and causing it to wrap by one character.
+    readonly property int captionDesiredPillWidth: showPersistentCaption
+        ? Math.ceil(captionWidthMeasurer.implicitWidth) + Komai.paddingMedium * 2
+        : 0
+    // The pill hugs the caption's natural width, but is bounded from below by the image width
+    // (no L-shape reversal where the pill is narrower than the image) and from above by
+    // bubbleMaxWidth (so a very long caption wraps inside the bubble instead of overflowing).
+    readonly property int captionPillWidth: showPersistentCaption && bubbleMaxWidth > 0
+        ? Math.max(imageDisplayWidth, Math.min(captionDesiredPillWidth, bubbleMaxWidth))
+        : imageDisplayWidth
+    // Layout box: widen only as much as the caption pill actually needs (capped at bubble width).
+    // Normal images with normal-length captions stay at image width — same as before.
+    implicitWidth: Math.max(imageDisplayWidth, captionPillWidth)
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
     height: implicitHeight
 
@@ -42,7 +63,9 @@ Item {
         : ((typeof room !== "undefined" && room) ? room : null)
     readonly property string hoverOverlayText: hasCaption ? body : (filename.length > 0 ? filename : body)
 
-    EventDelegateChooser.maxWidth: originalWidth
+    // Allow expansion past the image's native width when a long caption needs more room.
+    // Without this the chooser would clip the layout back to originalWidth.
+    EventDelegateChooser.maxWidth: Math.max(originalWidth, captionPillWidth)
 
     // A non-empty body that doesn't look like a filename is treated as a real caption
     readonly property bool hasCaption: body.length > 0 && !body.match(/\.\w{2,5}$/)
@@ -60,6 +83,21 @@ Item {
 
     implicitHeight: contentColumn.implicitHeight
 
+    // Off-layout measurer used purely to compute the unwrapped natural width of the caption text.
+    // The visible `persistentCaptionText` has wrapMode set, so its own implicitWidth is constrained
+    // by current width and can't tell us how wide the text *would* like to be.
+    // Using TextEdit (not Text) here so the measurement includes TextEdit's internal document
+    // margins — otherwise the visible TextEdit would still wrap by a few pixels.
+    TextEdit {
+        id: captionWidthMeasurer
+        visible: false
+        text: root.body
+        font: persistentCaptionText.font
+        textFormat: TextEdit.PlainText
+        wrapMode: TextEdit.NoWrap
+        readOnly: true
+    }
+
     Column {
         id: contentColumn
 
@@ -69,8 +107,9 @@ Item {
         Item {
             id: mediaFrame
 
-            width: parent.width
-            height: Math.max(1, Math.round(root.width * root.safeProportionalHeight))
+            // Image-native size; do not stretch when root is widened to fit a long caption.
+            width: root.imageDisplayWidth
+            height: Math.max(1, Math.round(root.imageDisplayWidth * root.safeProportionalHeight))
 
             HoverHandler {
                 id: mediaHover

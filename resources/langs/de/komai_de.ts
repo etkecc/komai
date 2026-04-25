@@ -4690,7 +4690,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="+19"/>
         <source>Based on %1, curated by the Komai team</source>
-        <translation type="unfinished"/>
+        <translation>Basierend auf %1, zusammengestellt vom Komai-Team</translation>
     </message>
     <message>
         <location line="+110"/>
@@ -6549,12 +6549,12 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation type="unfinished"/>
+        <translation>Deine Verschlüsselungsgeheimnisse sind jetzt auf dem Server gespeichert, verschlüsselt mit dem untenstehenden Schlüssel.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation type="unfinished"/>
+        <translation>Du benötigst es, um auf verschlüsselte Nachrichten zuzugreifen, wenn du dich abmeldest, neu installierst oder ein anderes Gerät einrichtest.</translation>
     </message>
     <message>
         <location line="+27"/>

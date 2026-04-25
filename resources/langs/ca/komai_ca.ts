@@ -1029,9 +1029,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membre</numerusform>
+            <numerusform>%n membres</numerusform>
         </translation>
     </message>
     <message>
@@ -1796,9 +1796,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Reenviar %n missatge?</numerusform>
+            <numerusform>Reenviar %n missatges?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Reenviar %n missatge seleccionat a &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Reenviar %n missatges seleccionats a &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Eliminar %n missatge seleccionat?</numerusform>
+            <numerusform>Eliminar %n missatges seleccionats?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>S'han aplicat els permisos a %n subespai.</numerusform>
+            <numerusform>S'han aplicat els permisos a %n subespais.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>No s'han pogut aplicar els permisos a %n subespai: %1</numerusform>
+            <numerusform>No s'han pogut aplicar els permisos a %n subespais: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5639,9 +5639,9 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membre a %1</numerusform>
+            <numerusform>%n membres a %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7589,9 +7589,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n resposta al fil</numerusform>
+            <numerusform>%n respostes al fil</numerusform>
         </translation>
     </message>
     <message>
@@ -7615,9 +7615,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n resposta al fil</numerusform>
+            <numerusform>%n respostes al fil</numerusform>
         </translation>
     </message>
     <message>
@@ -7792,9 +7792,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n resposta al fil</numerusform>
+            <numerusform>%n respostes al fil</numerusform>
         </translation>
     </message>
     <message>
@@ -7826,9 +7826,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membre</numerusform>
+            <numerusform>%n membres</numerusform>
         </translation>
     </message>
     <message>
@@ -8093,9 +8093,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n missatge seleccionat</numerusform>
+            <numerusform>%n missatges seleccionats</numerusform>
         </translation>
     </message>
     <message>
@@ -8239,9 +8239,11 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n sala necessita atenció</numerusform>
+            <numerusform>
+%n sales necessiten atenció</numerusform>
         </translation>
     </message>
 </context>

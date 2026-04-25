@@ -198,7 +198,7 @@
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation>已忽略的用户</translation>
+        <translation>已忽略用户</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -470,7 +470,7 @@
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation>赞助中！</translation>
+        <translation>已赞助！</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -819,7 +819,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation>设置……</translation>
+        <translation>设置...</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>联系人</translation>
+        <translation>人物</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1138,12 +1138,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-27"/>
         <source>New space</source>
-        <translation>新建空间</translation>
+        <translation>新空间</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New room</source>
-        <translation>新建聊天室</translation>
+        <translation>新聊天室</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -1206,7 +1206,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+30"/>
         <source>They do not match!</source>
-        <translation>它们不匹配！</translation>
+        <translation>它们不一致！</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1858,7 +1858,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>和账户关联的表情包</translation>
+        <translation>账户贴图包</translation>
     </message>
 </context>
 <context>
@@ -1990,7 +1990,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation>忽略的用户</translation>
+        <translation>已忽略用户</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2040,7 +2040,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>取消忽略</translation>
+        <translation>取消屏蔽</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2301,7 +2301,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>输入搜索内容，结果将显示在此处。</translation>
+        <translation>输入搜索关键词，结果将显示在此处。</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2739,7 +2739,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-774"/>
         <source>Account</source>
-        <translation>账号</translation>
+        <translation>账户</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3074,7 +3074,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-9"/>
         <location line="+11"/>
         <source>Custom (%1)</source>
-        <translation>自定义（%1）</translation>
+        <translation>自定义 (%1)</translation>
     </message>
 </context>
 <context>
@@ -3193,7 +3193,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>置顶</translation>
+        <translation>图钉</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3478,7 +3478,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>请勿在此消息中提及它们</translation>
+        <translation>不要在此消息中提及他们</translation>
     </message>
 </context>
 <context>
@@ -3979,19 +3979,19 @@ Verify to unlock encrypted messages.</source>
         <location line="+28"/>
         <location line="+244"/>
         <source>Administrator (%1)</source>
-        <translation>管理员 (%1)</translation>
+        <translation>管理员（%1）</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>Moderator (%1)</source>
-        <translation>协管员 (%1)</translation>
+        <translation>版主（%1）</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>User (%1)</source>
-        <translation>用户 (%1)</translation>
+        <translation>用户（%1）</translation>
     </message>
     <message>
         <location line="-242"/>
@@ -4724,7 +4724,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+49"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation>例如：example.com 或 https://matrix.example.com</translation>
+        <translation>例如 example.com 或 https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -4787,7 +4787,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>选择一个易于识别的名称，其他人也能看到。</translation>
+        <translation>选择一个易于识别的名称。其他人也可以看到它。</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -5737,7 +5737,7 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+7"/>
         <location line="+49"/>
         <source>Remove</source>
-        <translation>删除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="-24"/>
@@ -5838,7 +5838,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>室</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5853,7 +5853,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>空</translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -5871,7 +5871,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+5"/>
         <source>New direct chat</source>
-        <translation>新私信</translation>
+        <translation>新建私信</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6111,7 +6111,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>不在线</translation>
+        <translation>不可用</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6501,7 +6501,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>预览不可用</translation>
+        <translation>无可用预览</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6729,7 +6729,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>空间</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7156,7 +7156,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>外观与风格</translation>
+        <translation>外观与体验</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8532,7 +8532,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation>移除头像</translation>
+        <translation>删除头像</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -8759,7 +8759,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation>此设备</translation>
+        <translation>本设备</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8774,7 +8774,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation>解除封锁</translation>
+        <translation>取消屏蔽</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8921,7 +8921,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>控制消息上方发送者用户名的显示时机。在气泡模式下，你自己的用户名始终隐藏。在较小的聊天室中，头像和气泡颜色通常已提供足够的上下文。</translation>
+        <translation>控制发送者用户名在消息上方的显示时机。在气泡模式下，自己的用户名始终隐藏。在较小的聊天室中，头像和气泡颜色通常已提供足够的上下文。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9801,7 +9801,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>控制你在 Matrix 网络上的&lt;a href="%1"&gt;在线状态&lt;/a&gt;。
-自动模式为「在线」或「离开」（5 分钟无操作后）。</translation>
+自动模式为"在线"或"离开"（不活动超过5分钟后）。</translation>
     </message>
     <message>
         <location line="+9"/>

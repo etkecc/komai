@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>Fai clic per rivelare</translation>
+        <translation>Clicca per rivelare</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -148,7 +148,7 @@
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation>Verificato</translation>
+        <translation>Verificata</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -506,12 +506,12 @@
     <message>
         <location filename="../../qml/voip/CallInvite.qml" line="+78"/>
         <source>Video Call</source>
-        <translation>Chiamata video</translation>
+        <translation>Chiamata Video</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Voice Call</source>
-        <translation>Chiamata vocale</translation>
+        <translation>Chiamata audio</translation>
     </message>
     <message>
         <location line="+66"/>
@@ -1086,7 +1086,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Digita una ricerca. I risultati appariranno qui.</translation>
+        <translation>Digita una query di ricerca. I risultati appariranno qui.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1540,7 +1540,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Puntina</translation>
+        <translation>Fissa</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2398,7 +2398,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+11"/>
         <source>Join</source>
-        <translation>Accedi</translation>
+        <translation>Entra</translation>
     </message>
 </context>
 <context>
@@ -2783,7 +2783,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Scegli un nome riconoscibile. È visibile anche agli altri.</translation>
+        <translation>Scegli un nome riconoscibile. Anche gli altri possono vederlo.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -2843,7 +2843,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation>Esci</translation>
+        <translation>Disconnetti</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -3192,7 +3192,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>Rimuovi fissaggio</translation>
+        <translation>Rimuovi dai fissati</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3609,7 +3609,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation>Nessuna corrispondenza trovata.</translation>
+        <translation>Nessun risultato trovato.</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -4885,7 +4885,7 @@ Esegui '%1 &lt;group&gt; --help' per dettagli sui sottocomandi.</translation>
         <location line="-770"/>
         <location line="+893"/>
         <source>Device name</source>
-        <translation>Nome dispositivo</translation>
+        <translation>Nome del dispositivo</translation>
     </message>
     <message>
         <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
@@ -4935,7 +4935,7 @@ Tornare indietro e accedere manualmente.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Copia &amp;posizione del link</translation>
+        <translation>Copia &amp;indirizzo link</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4977,7 +4977,7 @@ Tornare indietro e accedere manualmente.</translation>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation>Risposta</translation>
+        <translation>Rispondi</translation>
     </message>
 </context>
 <context>
@@ -5190,7 +5190,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="+17"/>
         <source>All</source>
-        <translation>Tutto</translation>
+        <translation>Tutti</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5444,7 +5444,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="+36"/>
         <source>Leave</source>
-        <translation>Abbandona</translation>
+        <translation>Esci</translation>
     </message>
 </context>
 <context>
@@ -5597,7 +5597,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation>Ulteriori informazioni</translation>
+        <translation>Scopri di più</translation>
     </message>
 </context>
 <context>
@@ -5677,7 +5677,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation>Livello di privilegio</translation>
+        <translation>Livello di potere</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5738,7 +5738,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="+9"/>
         <source>Change</source>
-        <translation>Modifica</translation>
+        <translation>Cambia</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -5868,7 +5868,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
         <source>Join room</source>
-        <translation>Entra nella stanza</translation>
+        <translation>Accedi alla stanza</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6043,7 +6043,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
     <message>
         <location line="+11"/>
         <source>Sign out</source>
-        <translation>Esci</translation>
+        <translation>Disconnetti</translation>
     </message>
 </context>
 <context>
@@ -7163,7 +7163,7 @@ Sembra che tu sia nuovo. Prima di poter crittare i messaggi in modo sicuro, è n
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Aspetto e stile</translation>
+        <translation>Aspetto &amp; Stile</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7190,7 +7190,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>Anteprima timeline</translation>
+        <translation>Anteprima della timeline</translation>
     </message>
 </context>
 <context>
@@ -7259,7 +7259,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Pack account</translation>
+        <translation>Pacchetto account</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7646,7 +7646,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation>Torna alla lista stanze</translation>
+        <translation>Torna all'elenco stanze</translation>
     </message>
 </context>
 <context>
@@ -7672,7 +7672,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Sponsorizza</translation>
+        <translation>Sponsor</translation>
     </message>
 </context>
 <context>
@@ -7777,7 +7777,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Sblocca</translation>
+        <translation>Rimuovi dai fissati</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -8223,7 +8223,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation>Rivela</translation>
+        <translation>Mostra</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8245,7 +8245,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation>Sblocca il backup delle chiavi</translation>
+        <translation>Sblocca backup delle chiavi</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8324,7 +8324,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Il runtime backend Matrix non è disponibile.</translation>
+        <translation>Il runtime del backend Matrix non è disponibile.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8364,7 +8364,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation>Il gestore di verifica non è disponibile.</translation>
+        <translation>Il gestore della verifica non è disponibile.</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -8485,7 +8485,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation>Modifica</translation>
+        <translation>Cambia</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -8540,7 +8540,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation>Ripristina</translation>
+        <translation>Reimposta</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8607,7 +8607,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation>Verificato</translation>
+        <translation>Verificata</translation>
     </message>
     <message>
         <location line="-514"/>
@@ -8712,7 +8712,7 @@ Puoi smettere di ignorarlo in seguito tramite il profilo dell'utente o in Impost
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation>Riabilita</translation>
+        <translation>Non ignorare</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8827,7 +8827,7 @@ Puoi smettere di ignorarlo in seguito tramite il profilo dell'utente o in Impost
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Rimuovi verifica</translation>
+        <translation>Revoca verifica</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8934,7 +8934,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controlla quando i nomi utente del mittente vengono mostrati sopra i messaggi. In modalità a bolle, il proprio nome utente è sempre nascosto. Nelle stanze più piccole, gli avatar e i colori delle bolle sono spesso un contesto sufficiente.</translation>
+        <translation>Controlla quando i nomi utente dei mittenti vengono mostrati sopra i messaggi. In modalità bolla, il proprio nome utente è sempre nascosto. Nelle stanze più piccole, gli avatar e i colori delle bolle sono spesso contesto sufficiente.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9060,7 +9060,7 @@ La verifica contrassegna questo dispositivo come attendibile e ti dà accesso ai
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Nessun altro dispositivo connesso è attualmente disponibile per la verifica.</translation>
+        <translation>Nessun altro dispositivo con sessione aperta è attualmente disponibile per la verifica.</translation>
     </message>
     <message>
         <location line="+8"/>

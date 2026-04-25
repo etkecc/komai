@@ -9163,7 +9163,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation>معرفة المزيد</translation>
+        <translation>اعرف المزيد</translation>
     </message>
     <message>
         <location line="+22"/>

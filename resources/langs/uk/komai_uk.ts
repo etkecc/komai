@@ -62,7 +62,7 @@
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation>Скопіювати ID користувача</translation>
+        <translation>Копіювати ID користувача</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -91,7 +91,7 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation>Скопіювати до буфера обміну</translation>
+        <translation>Копіювати до буфера обміну</translation>
     </message>
     <message>
         <location line="-554"/>
@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Скасувати перевірку</translation>
+        <translation>Зняти підтвердження</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation>Спонсорую!</translation>
+        <translation>Підтримую!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Спонсор</translation>
+        <translation>Підтримати</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -539,7 +539,7 @@
     <message>
         <location line="+11"/>
         <source>Accept</source>
-        <translation>прийняти</translation>
+        <translation>Прийняти</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Включити до 'Усіх кімнат'</translation>
+        <translation>Включити до 'Усі кімнати'</translation>
     </message>
 </context>
 <context>
@@ -1066,7 +1066,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>Новий прямий чат</translation>
+        <translation>Нова пряма розмова</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1087,7 +1087,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Введіть пошуковий запит. Результати з'являться тут.</translation>
+        <translation>Введіть запит для пошуку. Результати з'являться тут.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1155,7 +1155,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Загальнодоступна</translation>
+        <translation>Публічна</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1541,7 +1541,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Шпилька</translation>
+        <translation>Закріпити</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2164,7 +2164,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+4"/>
         <source>Remove</source>
-        <translation>Вилучити</translation>
+        <translation>Видалити</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -2277,7 +2277,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation>Невідоме ім'я</translation>
+        <translation>Невідоме відображуване ім'я</translation>
     </message>
     <message>
         <location line="-246"/>
@@ -2297,7 +2297,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Шукати за іменем або @user:example.com</translation>
+        <translation>Пошук за іменем або @user:example.com</translation>
     </message>
     <message>
         <location line="+98"/>
@@ -2579,7 +2579,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>Недоступно</translation>
+        <translation>Недоступний</translation>
     </message>
     <message>
         <location line="-295"/>
@@ -2786,12 +2786,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Оберіть розпізнавану назву. Інші також можуть її бачити.</translation>
+        <translation>Виберіть впізнавану назву. Інші також зможуть її бачити.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Згенерувати іншу випадкову назву</translation>
+        <translation>Згенерувати інше випадкове ім'я</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -3058,7 +3058,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
         <source>Creator</source>
-        <translation>Творець</translation>
+        <translation>Засновник</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -3347,7 +3347,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+127"/>
         <source>Options</source>
-        <translation>Опції</translation>
+        <translation>Параметри</translation>
     </message>
 </context>
 <context>
@@ -3390,7 +3390,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Копіювати &amp;посилання розташування</translation>
+        <translation>Копіювати &amp;адресу посилання</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3486,7 +3486,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>Не згадувати їх у цьому повідомленні</translation>
+        <translation>Не згадувати у цьому повідомленні</translation>
     </message>
 </context>
 <context>
@@ -4005,7 +4005,7 @@ Verify to unlock encrypted messages.</source>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation>Спеціальний (%1)</translation>
+        <translation>Користувацький (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
@@ -4991,7 +4991,7 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation>Поскаржитись на повідомлення</translation>
+        <translation>Поскаржитися на повідомлення</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5367,17 +5367,17 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+6"/>
         <source>Unencrypted</source>
-        <translation>Незашифровано</translation>
+        <translation>Незашифрована</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>Перевірено</translation>
+        <translation>Перевірений</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation>Довірений</translation>
+        <translation>Довірена</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5430,7 +5430,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>Перевірена</translation>
+        <translation>Перевірений</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5588,7 +5588,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation>Скопіювати до буфера обміну</translation>
+        <translation>Копіювати до буфера обміну</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -5772,7 +5772,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="-193"/>
         <source>Name</source>
-        <translation>Назва</translation>
+        <translation>Ім'я</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5837,7 +5837,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation>Д</translation>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5852,7 +5852,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>К</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5867,7 +5867,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>П</translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -5898,7 +5898,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/RoomList.qml" line="+472"/>
         <source>Settings...</source>
-        <translation>Налаштування…</translation>
+        <translation>Налаштування...</translation>
     </message>
 </context>
 <context>
@@ -5982,7 +5982,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListExploreFooter.qml" line="+14"/>
         <source>New</source>
-        <translation>Нове</translation>
+        <translation>Новий</translation>
     </message>
 </context>
 <context>
@@ -6159,7 +6159,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+49"/>
         <source>Select an avatar</source>
-        <translation>Вибрати аватар</translation>
+        <translation>Виберіть аватар</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -6406,7 +6406,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation>Нова</translation>
+        <translation>Новий</translation>
     </message>
     <message>
         <location line="+134"/>
@@ -6743,7 +6743,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Простір</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6987,7 +6987,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Наразі немає інших активних пристроїв для перевірки.</translation>
+        <translation>Наразі немає інших авторизованих пристроїв для перевірки.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7170,7 +7170,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Вигляд &amp; відчуття</translation>
+        <translation>Вигляд &amp; Відчуття</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7207,7 +7207,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+108"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation>Редагувати</translation>
+        <translation>Змінити</translation>
     </message>
     <message>
         <location line="-100"/>
@@ -7219,7 +7219,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="-48"/>
         <source>React</source>
-        <translation>Реакція</translation>
+        <translation>Реагувати</translation>
     </message>
     <message>
         <location line="+65"/>
@@ -7237,12 +7237,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation>%1 і %2 друкують…</translation>
+        <translation>%1 та %2 друкують…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 та ще %3 інших друкують…</translation>
+        <translation>%1, %2 та ще %3 друкують…</translation>
     </message>
 </context>
 <context>
@@ -7295,7 +7295,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Серверна частина Matrix ще не готова.</translation>
+        <translation>Бекенд Matrix ще не готовий.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -7655,7 +7655,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation>Повернутися до списку кімнат</translation>
+        <translation>Назад до списку кімнат</translation>
     </message>
 </context>
 <context>
@@ -8149,7 +8149,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation>Редагувати</translation>
+        <translation>Змінити</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -8563,12 +8563,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Справді видалити аватар?</translation>
+        <translation>Ви впевнені, що хочете видалити свій аватар?</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation>Відображуване ім'я</translation>
+        <translation>Ім'я для відображення</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -8594,7 +8594,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation>Ідентифікатор користувача</translation>
+        <translation>ID користувача</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -8609,7 +8609,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>Рівень прав</translation>
+        <translation>Рівень повноважень</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -9020,7 +9020,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation>Про програму</translation>
+        <translation>Про</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -9368,7 +9368,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>Попередній перегляд аватара</translation>
+        <translation>Перегляд аватара</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9463,7 +9463,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Попередній перегляд стрічки</translation>
+        <translation>Перегляд стрічки повідомлень</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9826,8 +9826,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Контролює ваш статус &lt;a href="%1"&gt;Присутності&lt;/a&gt; у мережі Matrix.
-Автоматичний — це або 'online', або 'unavailable' (після 5 хвилин бездіяльності).</translation>
+        <translation>Керує вашим статусом &lt;a href="%1"&gt;Присутності&lt;/a&gt; в мережі Matrix.
+Автоматичний режим: або 'онлайн', або 'недоступний' (після 5 хвилин бездіяльності).</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9852,7 +9852,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation>Акаунт</translation>
+        <translation>Обліковий запис</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9912,7 +9912,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation>Назва</translation>
+        <translation>Ім'я</translation>
     </message>
     <message>
         <location line="+4"/>

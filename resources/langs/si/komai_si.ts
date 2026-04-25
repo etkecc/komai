@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>ඔබ සැබවින්ම ඔබගේ අවතාරය ඉවත් කිරීමට කැමතිද?</translation>
+        <translation>ඔබ ඔබේ අවතාරය ඉවත් කිරීමට කැමතිද?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -47,7 +47,7 @@
     <message>
         <location line="+65"/>
         <source>User ID</source>
-        <translation>පරිශීලක හැඳුනුම්පත</translation>
+        <translation>පරිශීලක ID</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -62,12 +62,12 @@
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation>පරිශීලක හැඳුනුම්පත පිටපත් කරන්න</translation>
+        <translation>පරිශීලක ID පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>හෝම්සර්වර්</translation>
+        <translation>නිවාස සේවාදායකය</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -103,7 +103,7 @@
         <location line="-438"/>
         <location line="+460"/>
         <source>Name</source>
-        <translation>නාමය</translation>
+        <translation>නම</translation>
     </message>
     <message>
         <location line="-410"/>
@@ -128,12 +128,12 @@
     <message>
         <location line="+14"/>
         <source>Refreshed</source>
-        <translation>යළි ලබා ගන්නා ලදී</translation>
+        <translation>නැවුම් කරන ලදි</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation>යළි ලබා ගන්න</translation>
+        <translation>නැවුම් කරන්න</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -198,7 +198,7 @@
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation>නොසලකා හළ පරිශීලකයන්</translation>
+        <translation>නොසලකා හරිනු ලැබූ පරිශීලකයන්</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -417,12 +417,12 @@
     <message>
         <location line="-216"/>
         <source>Refreshed</source>
-        <translation>යළි පූරණය කළා</translation>
+        <translation>නැවුම් කරන ලදි</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation>යළි පූරණය කරන්න</translation>
+        <translation>නැවුම් කරන්න</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -480,7 +480,7 @@
     <message>
         <location line="+6"/>
         <source>Report an issue</source>
-        <translation>ගැටළුවක් වාර්තා කරන්න</translation>
+        <translation>ගැටලුවක් වාර්තා කරන්න</translation>
     </message>
 </context>
 <context>
@@ -627,7 +627,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Matrix backend තවම සූදානම් නොවේ.</translation>
+        <translation>Matrix backend තවම සූදානම් නැත.</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -938,7 +938,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>ගැළපීම් හමු නොවීය.</translation>
+        <translation>ගැළපීම් හමු නොවිණ.</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1070,7 +1070,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation>නාමය හෝ @user:example.com අනුව සොයන්න</translation>
+        <translation>නමින් හෝ @user:example.com මගින් සොයන්න</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -1081,7 +1081,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>නොදන්නා සංදර්ශන නාමය</translation>
+        <translation>නොදන්නා දර්ශන නාමය</translation>
     </message>
     <message>
         <location line="-84"/>
@@ -1091,7 +1091,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>ගැළපෙන පරිශීලකයන් හමු නොවීය.</translation>
+        <translation>ගැලපෙන පරිශීලකයන් හමු නොවීය.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1189,7 +1189,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation>විශ්වාසදායක</translation>
+        <translation>විශ්වාසදායී</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -1847,7 +1847,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation>යොමු කරන්න</translation>
+        <translation>ඉදිරියට යවන්න</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -1861,7 +1861,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>ගිණුම් පැකේජය</translation>
+        <translation>ගිණුම් Pack</translation>
     </message>
 </context>
 <context>
@@ -2043,7 +2043,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>සලකා ගන්න</translation>
+        <translation>නොසලකා හැරීම ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2289,7 +2289,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+11"/>
         <source>Search</source>
-        <translation>සෙවීම</translation>
+        <translation>සොයන්න</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -2304,7 +2304,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>සෙවුම් විමසුමක් ටයිප් කරන්න. ප්‍රතිඵල මෙහි දිස් වේ.</translation>
+        <translation>සෙවුම් ප්‍රශ්නයක් ටයිප් කරන්න. ප්‍රතිඵල මෙහි දිස් වේ.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2407,7 +2407,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation>පැතිකඩ නාමය අවශ්‍ය වේ.</translation>
+        <translation>ප්‍රොෆයිල් නාමය අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="-56"/>
@@ -2597,14 +2597,14 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copied!</source>
-        <translation>පිටපත් කෙරිණ!</translation>
+        <translation>පිටපත් කළා!</translation>
     </message>
     <message>
         <location line="-294"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copy to clipboard</source>
-        <translation>පසුරු පුවරුවට පිටපත් කරන්න</translation>
+        <translation>ක්ලිප්බෝඩ් වෙත පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="-277"/>
@@ -2700,7 +2700,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+57"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation>උදා: example.com හෝ https://matrix.example.com</translation>
+        <translation>උදා. example.com හෝ https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -2721,12 +2721,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>හඳුනාගත හැකි නමක් තෝරන්න. අනෙකුන්ටද එය දැකිය හැක.</translation>
+        <translation>හඳුනාගත හැකි නමක් තෝරන්න. අනෙක් අය ද එය දැකිය හැකිය.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>තවත් අහඹු නාමයක් ජනනය කරන්න</translation>
+        <translation>තවත් අහඹු නමක් ජනනය කරන්න</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -2843,7 +2843,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation>පිටවෙන්න</translation>
+        <translation>ඉවත් වන්න</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -3152,7 +3152,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation>හැඩසළකුණු කළ පාඨය පිටපත් කරන්න</translation>
+        <translation>හැඩකළ පෙළ පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3187,17 +3187,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+10"/>
         <source>Manage</source>
-        <translation>කළමනාකරණය කරන්න</translation>
+        <translation>කළමනාකරණය</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>සිරකිරීම ඉවත් කරන්න</translation>
+        <translation>PIN ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>සිරකරන්න</translation>
+        <translation>පිනය</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3247,7 +3247,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation>කියවූ රිසිට්පත්</translation>
+        <translation>කියවීමේ රිසිත්</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3338,7 +3338,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-112"/>
         <source>React</source>
-        <translation>ප්‍රතිචාර දක්වන්න</translation>
+        <translation>ප්‍රතික්‍රියා</translation>
     </message>
     <message>
         <location line="+127"/>
@@ -3627,7 +3627,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation>Matrix සඳහා අලුත්ද?</translation>
+        <translation>Matrix ට නවකයෙකුද?</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -3674,7 +3674,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+54"/>
         <source>Another server</source>
-        <translation>වෙනත් සේවාදායකයක්</translation>
+        <translation>තවත් සේවාදායකයක්</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3921,7 +3921,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation>මයික්‍රොෆෝනයක් හමු නොවීය.</translation>
+        <translation>මයික්‍රෆෝනයක් හමු නොවිණි.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4001,7 +4001,7 @@ Verify to unlock encrypted messages.</source>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation>අභිරුචි (%1)</translation>
+        <translation>අභිමත (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
@@ -4021,7 +4021,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+32"/>
         <source>Add</source>
-        <translation>එක් කරන්න</translation>
+        <translation>එකතු කරන්න</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -4550,7 +4550,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+10"/>
         <location line="+7"/>
         <source>Copied</source>
-        <translation>පිටපත් කෙරිණ</translation>
+        <translation>පිටපත් කළා</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -4594,7 +4594,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/delegates/Redacted.qml" line="+38"/>
         <source>Deleted message</source>
-        <translation>මකා දැමූ පණිවිඩය</translation>
+        <translation>මකන ලද පණිවිඩය</translation>
     </message>
 </context>
 <context>
@@ -4753,7 +4753,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+91"/>
         <location line="+103"/>
         <source>Continue</source>
-        <translation>දිගටම</translation>
+        <translation>ඉදිරියට යන්න</translation>
     </message>
     <message>
         <location line="-568"/>
@@ -4917,7 +4917,7 @@ Please go back and sign in manually.</source>
     <message>
         <location line="+2"/>
         <source>Video</source>
-        <translation>වීඩියෝව</translation>
+        <translation>වීඩියෝ</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4935,7 +4935,7 @@ Please go back and sign in manually.</source>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>සබැඳිය &amp;ස්ථානය පිටපත් කරන්න</translation>
+        <translation>&amp;සබැඳිය ස්ථානය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4977,7 +4977,7 @@ Please go back and sign in manually.</source>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation>ප්‍රතිචාරය</translation>
+        <translation>පිළිතුරු දෙන්න</translation>
     </message>
 </context>
 <context>
@@ -5165,7 +5165,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+35"/>
         <source>Custom server</source>
-        <translation>අභිරුචි සේවාදායකය</translation>
+        <translation>අභිමත සේවාදායකය</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5399,7 +5399,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation>කාමරයක් තෝරාගෙන නොමැත</translation>
+        <translation>කාමරයක් තෝරා නොමැත</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5577,7 +5577,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+27"/>
         <source>Copied!</source>
-        <translation>පිටපත් විය!</translation>
+        <translation>පිටපත් කළා!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -5677,7 +5677,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation>බලය මට්ටම</translation>
+        <translation>බලතල මට්ටම</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5962,7 +5962,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation>කාමර සැකසීම්</translation>
+        <translation>කාමර සැකසුම්</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6144,7 +6144,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>ගලවා ගන්න</translation>
+        <translation>PIN ඉවත් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -6192,7 +6192,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix backend runtime ලබාගත නොහැක.</translation>
+        <translation>Matrix backend runtime ලබා ගත නොහැක.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6404,7 +6404,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+134"/>
         <source>Settings...</source>
-        <translation>සැකසුම්…</translation>
+        <translation>සැකසීම්…</translation>
     </message>
     <message>
         <location line="-135"/>
@@ -6488,7 +6488,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
         <location line="+2"/>
         <source>Invited by %1</source>
-        <translation>%1 විසින් ආරාධනා කළ</translation>
+        <translation>%1 විසින් ආරාධනා කරන ලදි</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6736,7 +6736,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>අවකාශය</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6986,7 +6986,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <location line="+6"/>
         <location line="+79"/>
         <source>The verification manager is not available.</source>
-        <translation>තහවුරු කිරීමේ කළමනාකරු නොමැත.</translation>
+        <translation>තහවුරු කිරීම් කළමනාකරු ලබා ගත නොහැක.</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -7040,7 +7040,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>අවතාර් පෙරදසුන</translation>
+        <translation>Avatar පෙරදර්ශනය</translation>
     </message>
 </context>
 <context>
@@ -7077,7 +7077,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowIgnoredUsers.qml" line="+12"/>
         <source>Manage</source>
-        <translation>කළමනාකරන්න</translation>
+        <translation>කළමනාකරණය</translation>
     </message>
 </context>
 <context>
@@ -7207,7 +7207,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+117"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation>පිළිතුරු</translation>
+        <translation>පිළිතුරු දෙන්න</translation>
     </message>
     <message>
         <location line="-48"/>
@@ -7235,7 +7235,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 සහ තවත් %3 දෙනෙකු ටයිප් කරමින් සිටිති…</translation>
+        <translation>%1, %2 සහ තවත් %3 දෙනෙක් ටයිප් කරමින් සිටිති…</translation>
     </message>
 </context>
 <context>
@@ -7259,7 +7259,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>ගිණුම් ඇසුරුම</translation>
+        <translation>ගිණුම් Pack</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7667,7 +7667,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>අනුග්‍රාහකත්වය!</translation>
+        <translation>අනුග්‍රාහකත්වය ලබා දෙමින්!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8137,7 +8137,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation>සංස්කරණය</translation>
+        <translation>සංස්කරණය කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -8147,7 +8147,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation>යොමු කරන්න</translation>
+        <translation>ඉදිරියට යවන්න</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -8228,7 +8228,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation>නික්මෙන්න</translation>
+        <translation>ඉවත් වන්න</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8448,7 +8448,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation>පරිශීලක හැඳුනුම</translation>
+        <translation>පරිශීලක ID</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -8654,7 +8654,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation>අවහිරය ඉවත් කරන්න</translation>
+        <translation>අවහිර ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8694,7 +8694,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>තහවුරු කිරීම ඉවත් කරන්න</translation>
+        <translation>තහවුරු ඉවත් කරන්න</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
@@ -8801,7 +8801,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>ගොනුව කියවීමේදී දෝෂයක්: %1</translation>
+        <translation>ගොනුව කියවීමේ දෝෂයකි: %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8822,7 +8822,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation>අවතාරය ඉවත් කිරීම අසාර්ථකයි.</translation>
+        <translation>අවතාරය ඉවත් කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8912,7 +8912,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation>ලා</translation>
+        <translation>ආලෝකිත</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8947,12 +8947,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
         <source>Settings</source>
-        <translation>සැකසුම්</translation>
+        <translation>සැකසීම්</translation>
     </message>
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation>පෙනුම සහ ස්වභාවය</translation>
+        <translation>පෙනුම &amp; දැනීම</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9025,7 +9025,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix backend runtime ලබා ගත නොහැකිය.</translation>
+        <translation>Matrix backend runtime ලබා ගත නොහැක.</translation>
     </message>
 </context>
 <context>
@@ -9060,7 +9060,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>තහවුරු කිරීම සඳහා වෙනත් පිවිසුණු උපකරණයක් දැනට ලබා ගත නොහැකිය.</translation>
+        <translation>තහවුරු කිරීම සඳහා දැනට වෙනත් ලොග් වූ උපකරණයක් නොමැත.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9228,7 +9228,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation>මිනිසුන්</translation>
+        <translation>පුද්ගලයන්</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9450,7 +9450,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Timeline පෙරදසුන</translation>
+        <translation>Timeline පෙරදර්ශනය</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9475,7 +9475,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නාම දිස්වන්නේ කවදාද යන්න පාලනය කරන්න. Bubble ප්‍රකාරයේදී, ඔබේ පරිශීලක නාමය සෑමවිටම සැඟවේ. කුඩා කාමරවල, avatars සහ bubble වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
+        <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නම් පෙන්වන විට පාලනය කරන්න. බුබුලු ප්‍රකාරයේදී, ඔබේ පරිශීලක නම සෑමවිටම සඟවා ඇත. කුඩා කාමරවලදී, අවතාර සහ බුබුලු වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9814,7 +9814,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ජාලයේ ඔබේ &lt;a href="%1"&gt;Presence&lt;/a&gt; තත්ත්වය පාලනය කරයි.
-ස්වයංක්‍රීය යනු 'online' හෝ 'unavailable' (විනාඩි 5ක නිෂ්ක්‍රියභාවයෙන් පසු).</translation>
+ස්වයංක්‍රීය ක්‍රමය 'සබැඳි' හෝ 'නොලැබේ' (මිනිත්තු 5ක නිෂ්ක්‍රීයතාවෙන් පසු) වේ.</translation>
     </message>
     <message>
         <location line="+9"/>

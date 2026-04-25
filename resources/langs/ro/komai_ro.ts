@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>Click pentru a afișa</translation>
+        <translation>Clic pentru a dezvălui</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation>Sponsorizezi!</translation>
+        <translation>Sponsor!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Sponsorizează</translation>
+        <translation>Sponsor</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -559,7 +559,7 @@
     <message>
         <location line="+14"/>
         <source>Decline</source>
-        <translation>Respinge</translation>
+        <translation>Refuză</translation>
     </message>
 </context>
 <context>
@@ -801,7 +801,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
         <source>Show</source>
-        <translation>Arată</translation>
+        <translation>Afișează</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1066,7 +1066,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>Mesaj direct nou</translation>
+        <translation>Chat direct nou</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1082,12 +1082,12 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>Nume de afișare necunoscut</translation>
+        <translation>Nume afișat necunoscut</translation>
     </message>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Tastează o interogare de căutare. Rezultatele vor apărea aici.</translation>
+        <translation>Introdu o interogare de căutare. Rezultatele vor apărea aici.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1155,7 +1155,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Public</translation>
+        <translation>Publică</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1850,7 +1850,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation>Redirecționează</translation>
+        <translation>Redirecționare</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -2011,7 +2011,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+23"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2069,7 +2069,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2169,7 +2169,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+27"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2253,7 +2253,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+31"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
 </context>
 <context>
@@ -2292,7 +2292,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+11"/>
         <source>Search</source>
-        <translation>Caută</translation>
+        <translation>Căutare</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -2378,7 +2378,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2391,7 +2391,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation>Alătură-te la cameră</translation>
+        <translation>Alătură-te camerei</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2534,7 +2534,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+9"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2740,7 +2740,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="+564"/>
         <location line="+208"/>
         <source>Sign in</source>
-        <translation>Conectează-te</translation>
+        <translation>Autentificare</translation>
     </message>
     <message>
         <location line="-774"/>
@@ -2791,7 +2791,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Generează un alt nume aleatoriu</translation>
+        <translation>Generați un alt nume aleatoriu</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -2826,7 +2826,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Arată/Ascunde parola</translation>
+        <translation>Afișare/Ascundere parolă</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -2861,7 +2861,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
 </context>
 <context>
@@ -2956,7 +2956,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="+2"/>
         <location line="+72"/>
         <source>Delete</source>
-        <translation>Ștergere</translation>
+        <translation>Șterge</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -3090,7 +3090,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
         <source>Show</source>
-        <translation>Afișare</translation>
+        <translation>Afișează</translation>
     </message>
 </context>
 <context>
@@ -3103,7 +3103,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+27"/>
         <source>Open</source>
-        <translation>Deschidere</translation>
+        <translation>Deschide</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -3113,12 +3113,12 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+29"/>
         <source>Save</source>
-        <translation>Salvare</translation>
+        <translation>Salvează</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Close</source>
-        <translation>Închidere</translation>
+        <translation>Închide</translation>
     </message>
 </context>
 <context>
@@ -3156,7 +3156,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation>Copiere text formatat</translation>
+        <translation>Copiare text formatat</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3191,17 +3191,17 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+10"/>
         <source>Manage</source>
-        <translation>Gestionare</translation>
+        <translation>Gestionează</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>Dezafixare</translation>
+        <translation>Desprinde</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Fixare</translation>
+        <translation>Ac cu gămălie</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3291,7 +3291,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation>Raportare mesaj</translation>
+        <translation>Raportează mesajul</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3316,7 +3316,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation>Editare</translation>
+        <translation>Editează</translation>
     </message>
     <message>
         <location line="-147"/>
@@ -3380,7 +3380,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+24"/>
         <source>&amp;Copy</source>
-        <translation>&amp;Copiere</translation>
+        <translation>&amp;Copiază</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3430,7 +3430,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation>Vizualizează mesajul brut</translation>
+        <translation>Vizualizare mesaj brut</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -3925,7 +3925,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation>Niciun microfon găsit.</translation>
+        <translation>Nu s-a găsit microfon.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4055,7 +4055,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
     <message>
         <location line="+0"/>
         <source>Save</source>
-        <translation>Salvare</translation>
+        <translation>Salvează</translation>
     </message>
 </context>
 <context>
@@ -4666,7 +4666,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     <message>
         <location line="+88"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4759,7 +4759,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
         <location line="+91"/>
         <location line="+103"/>
         <source>Continue</source>
-        <translation>Continuare</translation>
+        <translation>Continuă</translation>
     </message>
     <message>
         <location line="-568"/>
@@ -4799,7 +4799,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Alegeți un nume recognoscibil. Și alții îl pot vedea.</translation>
+        <translation>Alege un nume recognoscibil. Alții îl pot vedea de asemenea.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4941,7 +4941,7 @@ Reveniți și autentificați-vă manual.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Copiază &amp;locația linkului</translation>
+        <translation>Copiare &amp;locație link</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4983,7 +4983,7 @@ Reveniți și autentificați-vă manual.</translation>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation>Răspuns</translation>
+        <translation>Răspunde</translation>
     </message>
 </context>
 <context>
@@ -5425,12 +5425,12 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     <message>
         <location line="+33"/>
         <source>Unencrypted</source>
-        <translation>Necriptată</translation>
+        <translation>Necriptat</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>Verificată</translation>
+        <translation>Verificat</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5458,7 +5458,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation>Înapoi la lista de camere</translation>
+        <translation>Înapoi la lista camerelor</translation>
     </message>
 </context>
 <context>
@@ -5745,7 +5745,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     <message>
         <location line="+9"/>
         <source>Change</source>
-        <translation>Schimbă</translation>
+        <translation>Modifică</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6184,7 +6184,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation>Nu s-a putut elimina avatarul.</translation>
+        <translation>Eliminarea avatarului a eșuat.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
@@ -6576,7 +6576,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location line="+0"/>
         <source>Copy</source>
-        <translation>Copiază</translation>
+        <translation>Copiere</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -6987,7 +6987,7 @@ Se pare că ești nou. Înainte de a putea cripta în siguranță mesajele, treb
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Niciun alt dispozitiv conectat nu este disponibil în prezent pentru verificare.</translation>
+        <translation>Niciun alt dispozitiv autentificat nu este disponibil în prezent pentru verificare.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7141,7 +7141,7 @@ Se pare că ești nou. Înainte de a putea cripta în siguranță mesajele, treb
     <message>
         <location line="+7"/>
         <source>Unread indicators</source>
-        <translation>Indicatori de necitite</translation>
+        <translation>Indicatori de necitit</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -7170,7 +7170,7 @@ Se pare că ești nou. Înainte de a putea cripta în siguranță mesajele, treb
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Aspect și senzație</translation>
+        <translation>Aspect &amp; Stil</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7266,7 +7266,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Pachet cont</translation>
+        <translation>Pachet de cont</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7295,7 +7295,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Backend-ul Matrix nu este încă pregătit.</translation>
+        <translation>Backend-ul Matrix nu este pregătit încă.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -7537,7 +7537,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation>Anulează</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -7663,7 +7663,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
-        <translation>Mesajul de stare de la %1</translation>
+        <translation>Mesajul de stare al lui %1</translation>
     </message>
 </context>
 <context>
@@ -7786,7 +7786,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Dezfixează</translation>
+        <translation>Desprinde</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -8159,7 +8159,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation>Redirecționează</translation>
+        <translation>Redirecționare</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -8235,7 +8235,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation>Arată</translation>
+        <translation>Afișează</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8258,7 +8258,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation>Deblochează copia de rezervă a cheilor</translation>
+        <translation>Deblochează backup-ul cheilor</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8563,7 +8563,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Sigur vrei să elimini avatarul tău?</translation>
+        <translation>Ești sigur că vrei să elimini avatarul?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -8725,7 +8725,7 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation>Dezignorează</translation>
+        <translation>Dezignorare</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8770,12 +8770,12 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation>Reîmprospătat</translation>
+        <translation>Actualizat</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation>Reîmprospătează</translation>
+        <translation>Actualizează</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8936,8 +8936,8 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Controlează starea ta de &lt;a href="%1"&gt;Prezență&lt;/a&gt; în rețeaua Matrix.
-Automatic înseamnă fie 'online', fie 'indisponibil' (după 5 minute de inactivitate).</translation>
+        <translation>Controlează starea de &lt;a href="%1"&gt;Prezență&lt;/a&gt; pe rețeaua Matrix.
+Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivitate).</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9114,7 +9114,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation>Bun venit în Komai</translation>
+        <translation>Bun venit la Komai</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -9137,7 +9137,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation>Nou în Matrix?</translation>
+        <translation>Ești nou pe Matrix?</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9488,7 +9488,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controlează când sunt afișate numele de utilizator ale expeditorilor deasupra mesajelor. În modul bulă, propriul tău nume de utilizator este întotdeauna ascuns. În camere mai mici, avatarurile și culorile bulelor oferă adesea suficient context.</translation>
+        <translation>Controlează când numele expeditorilor sunt afișate deasupra mesajelor. În modul bule, propriul tău nume de utilizator este întotdeauna ascuns. În camerele mai mici, avatarele și culorile bulelor sunt adesea suficient context.</translation>
     </message>
     <message>
         <location line="+18"/>

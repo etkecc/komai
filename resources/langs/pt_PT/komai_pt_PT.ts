@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Tens a certeza de que queres remover o teu avatar?</translation>
+        <translation>Tem a certeza de que pretende remover o seu avatar?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Remover verificação</translation>
+        <translation>Anular verificação</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -775,7 +775,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation>Pacote de conta</translation>
+        <translation>Pacote da Conta</translation>
     </message>
 </context>
 <context>
@@ -938,7 +938,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>Nenhuma correspondência encontrada.</translation>
+        <translation>Nenhum resultado encontrado.</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1065,7 +1065,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>Nova conversa direta</translation>
+        <translation>Nova mensagem direta</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -2274,7 +2274,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation>Nome de visualização desconhecido</translation>
+        <translation>Nome de apresentação desconhecido</translation>
     </message>
     <message>
         <location line="-246"/>
@@ -2823,7 +2823,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Mostrar/esconder senha</translation>
+        <translation>Mostrar/Ocultar palavra-passe</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -3197,7 +3197,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Fixar</translation>
+        <translation>Alfinete</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3227,7 +3227,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>S</translation>
+        <translation>E</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3287,7 +3287,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation>Reportar mensagem</translation>
+        <translation>Denunciar mensagem</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3386,7 +3386,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Copiar localização da &amp;ligação</translation>
+        <translation>Copiar &amp;localização da ligação</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3482,7 +3482,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>Não os mencionar nesta mensagem</translation>
+        <translation>Não mencionar nesta mensagem</translation>
     </message>
 </context>
 <context>
@@ -4578,7 +4578,7 @@ Executar '%1 &lt;group&gt; --help' para detalhes do subcomando.</translation>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation>Recibos de leitura</translation>
+        <translation>Confirmações de leitura</translation>
     </message>
 </context>
 <context>
@@ -5615,7 +5615,7 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     <message>
         <location line="+1"/>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -5845,7 +5845,7 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>S</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -6152,7 +6152,7 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+49"/>
         <source>Select an avatar</source>
-        <translation>Selecionar um ícone</translation>
+        <translation>Selecionar um avatar</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -6980,7 +6980,7 @@ Parece que é novo por aqui. Antes de poder encriptar as suas mensagens de forma
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Nenhum outro dispositivo com sessão iniciada está disponível para verificação.</translation>
+        <translation>Nenhum outro dispositivo com sessão iniciada está atualmente disponível para verificação.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7163,7 +7163,7 @@ Parece que é novo por aqui. Antes de poder encriptar as suas mensagens de forma
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Aparência &amp; Sensação</translation>
+        <translation>Aparência</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7259,7 +7259,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Pacote de Conta</translation>
+        <translation>Pacote da Conta</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7419,7 +7419,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Search</source>
-        <translation>Procurar</translation>
+        <translation>Pesquisar</translation>
     </message>
     <message>
         <location line="+580"/>
@@ -7667,7 +7667,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>Patrocínio!</translation>
+        <translation>A patrocinar!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7811,7 +7811,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation>Sem pré-visualização disponível</translation>
+        <translation>Pré-visualização não disponível</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -7938,7 +7938,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>Todos os Ficheiros (*)</translation>
+        <translation>Todos os ficheiros (*)</translation>
     </message>
     <message>
         <location line="+135"/>
@@ -8324,7 +8324,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>O runtime de backend Matrix não está disponível.</translation>
+        <translation>O ambiente de execução do backend Matrix não está disponível.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8555,7 +8555,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation>Nome de exibição</translation>
+        <translation>Nome de apresentação</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -8596,7 +8596,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>Nível de poder</translation>
+        <translation>Nível de permissão</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -9025,7 +9025,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>O motor de execução do backend Matrix não está disponível.</translation>
+        <translation>O ambiente de execução do backend Matrix não está disponível.</translation>
     </message>
 </context>
 <context>
@@ -9475,7 +9475,7 @@ A verificação marca este dispositivo como confiável e dá acesso a mensagens 
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controla quando os nomes de utilizador dos remetentes são apresentados acima das mensagens. No modo balão, o seu próprio nome de utilizador está sempre oculto. Em salas mais pequenas, os avatares e as cores dos balões são frequentemente contexto suficiente.</translation>
+        <translation>Controla quando os nomes de utilizador do remetente são mostrados acima das mensagens. No modo de balão, o seu próprio nome de utilizador está sempre oculto. Em salas mais pequenas, os avatares e as cores dos balões são muitas vezes contexto suficiente.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9849,7 +9849,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Servidor doméstico</translation>
+        <translation>Servidor de origem</translation>
     </message>
     <message>
         <location line="+4"/>

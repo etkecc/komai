@@ -148,7 +148,7 @@
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation>Verificado</translation>
+        <translation>Verificada</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Remover verificação</translation>
+        <translation>Desverificar</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -559,7 +559,7 @@
     <message>
         <location line="+14"/>
         <source>Decline</source>
-        <translation>Rejeitar</translation>
+        <translation>Recusar</translation>
     </message>
 </context>
 <context>
@@ -938,7 +938,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>Nenhuma correspondência encontrada.</translation>
+        <translation>Nenhum resultado encontrado.</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1154,7 +1154,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Público</translation>
+        <translation>Pública</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2294,7 +2294,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Pesquisar por nome ou @user:example.com</translation>
+        <translation>Buscar por nome ou @user:example.com</translation>
     </message>
     <message>
         <location line="+98"/>
@@ -2304,7 +2304,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Digite uma pesquisa. Os resultados aparecerão aqui.</translation>
+        <translation>Digite uma consulta de busca. Os resultados aparecerão aqui.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2604,7 +2604,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <location line="+137"/>
         <location line="+157"/>
         <source>Copy to clipboard</source>
-        <translation>Copiar para área de transferência</translation>
+        <translation>Copiar para a área de transferência</translation>
     </message>
     <message>
         <location line="-277"/>
@@ -3197,7 +3197,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Fixar</translation>
+        <translation>Alfinete</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3386,7 +3386,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Copiar &amp;localização do link</translation>
+        <translation>Copiar &amp;local do link</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -4793,7 +4793,7 @@ Execute '%1 &lt;grupo&gt; --help' para detalhes dos subcomandos.</translation>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Escolha um nome reconhecível. Outros também poderão vê-lo.</translation>
+        <translation>Escolha um nome reconhecível. Outros também podem vê-lo.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -6399,7 +6399,7 @@ Observe que ela não pode ser desativada depois.</translation>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation>Nova</translation>
+        <translation>Novo</translation>
     </message>
     <message>
         <location line="+134"/>
@@ -6508,7 +6508,7 @@ Observe que ela não pode ser desativada depois.</translation>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>Sem pré-visualização disponível</translation>
+        <translation>Nenhuma prévia disponível</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6736,7 +6736,7 @@ Observe que ela não pode ser desativada depois.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Espaço</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7259,7 +7259,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Pacote da conta</translation>
+        <translation>Pacote da Conta</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7288,7 +7288,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>O backend do Matrix ainda não está pronto.</translation>
+        <translation>O backend Matrix ainda não está pronto.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -8417,7 +8417,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Tem certeza que deseja remover seu avatar?</translation>
+        <translation>Tem certeza de que deseja remover seu avatar?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -8453,7 +8453,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation>Copiar ID do usuário</translation>
+        <translation>Copiar ID de usuário</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -8474,7 +8474,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation>Verificado</translation>
+        <translation>Verificada</translation>
     </message>
     <message>
         <location line="-514"/>
@@ -8711,7 +8711,7 @@ Você pode deixar de ignorar mais tarde pelo perfil do usuário ou via Configura
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>O runtime de backend Matrix não está disponível.</translation>
+        <translation>O runtime do backend Matrix não está disponível.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8791,7 +8791,7 @@ Você pode deixar de ignorar mais tarde pelo perfil do usuário ou via Configura
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>Todos os Arquivos (*)</translation>
+        <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8801,7 +8801,7 @@ Você pode deixar de ignorar mais tarde pelo perfil do usuário ou via Configura
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Erro ao ler o arquivo: %1</translation>
+        <translation>Erro ao ler arquivo: %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9475,7 +9475,7 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controle quando os nomes de usuário dos remetentes são exibidos acima das mensagens. No modo balão, seu próprio nome de usuário está sempre oculto. Em salas menores, avatares e cores de balão geralmente fornecem contexto suficiente.</translation>
+        <translation>Controla quando os nomes de usuário do remetente são exibidos acima das mensagens. No modo bolha, seu próprio nome de usuário fica sempre oculto. Em salas menores, avatars e as cores das bolhas geralmente são contexto suficiente.</translation>
     </message>
     <message>
         <location line="+18"/>

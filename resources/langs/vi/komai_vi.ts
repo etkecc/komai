@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Bạn có chắc muốn xóa ảnh đại diện không?</translation>
+        <translation>Bạn có chắc muốn xóa ảnh đại diện của mình không?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -91,7 +91,7 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation>Sao chép vào clipboard</translation>
+        <translation>Sao chép vào bảng nhớ tạm</translation>
     </message>
     <message>
         <location line="-554"/>
@@ -819,7 +819,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation>Cài đặt...</translation>
+        <translation>Cài đặt…</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>Mọi người</translation>
+        <translation>Con người</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1188,7 +1188,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation>Đã tin cậy</translation>
+        <translation>Đáng tin cậy</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -1858,7 +1858,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>Gói Tài Khoản</translation>
+        <translation>Gói tài khoản</translation>
     </message>
 </context>
 <context>
@@ -1990,7 +1990,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation>Người dùng bị chặn</translation>
+        <translation>Người dùng bị bỏ qua</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2010,7 +2010,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+12"/>
         <source>Ignore</source>
-        <translation>Chặn</translation>
+        <translation>Bỏ qua</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2601,7 +2601,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <location line="+137"/>
         <location line="+157"/>
         <source>Copy to clipboard</source>
-        <translation>Sao chép vào bộ nhớ tạm</translation>
+        <translation>Sao chép vào bảng nhớ tạm</translation>
     </message>
     <message>
         <location line="-277"/>
@@ -2718,7 +2718,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Chọn tên dễ nhận biết. Người khác cũng có thể thấy.</translation>
+        <translation>Chọn một tên dễ nhận biết. Người khác cũng có thể thấy tên này.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3478,7 +3478,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>Đừng đề cập đến họ trong tin nhắn này</translation>
+        <translation>Không đề cập đến họ trong tin nhắn này</translation>
     </message>
 </context>
 <context>
@@ -3801,7 +3801,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
     <message>
         <location line="+0"/>
         <source>Not now</source>
-        <translation>Không phải bây giờ</translation>
+        <translation>Không phải lúc này</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3917,7 +3917,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation>Không tìm thấy micrô.</translation>
+        <translation>Không tìm thấy micro.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4929,7 +4929,7 @@ Vui lòng quay lại và đăng nhập thủ công.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Sao chép địa chỉ &amp;liên kết</translation>
+        <translation>Sao chép &amp;địa chỉ liên kết</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5576,7 +5576,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation>Sao chép vào khay nhớ tạm</translation>
+        <translation>Sao chép vào bảng nhớ tạm</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -6059,7 +6059,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+27"/>
         <source>Leave</source>
-        <translation>Rời</translation>
+        <translation>Rời khỏi</translation>
     </message>
 </context>
 <context>
@@ -6129,7 +6129,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+3"/>
         <source>Leave</source>
-        <translation>Rời</translation>
+        <translation>Rời khỏi</translation>
     </message>
 </context>
 <context>
@@ -6155,7 +6155,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation>Tệp đã chọn không phải là ảnh</translation>
+        <translation>Tệp đã chọn không phải là hình ảnh</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -6185,7 +6185,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Thời gian chạy backend Matrix không khả dụng.</translation>
+        <translation>Môi trường chạy backend Matrix không khả dụng.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6501,7 +6501,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>Không có xem trước</translation>
+        <translation>Không có bản xem trước</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6729,7 +6729,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Không gian</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6973,7 +6973,7 @@ Có vẻ như bạn mới tham gia. Trước khi có thể mã hóa tin nhắn m
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Hiện không có thiết bị đã đăng nhập nào khác để xác minh.</translation>
+        <translation>Hiện không có thiết bị nào khác đang đăng nhập để xác minh.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7927,7 +7927,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>Tất cả các tệp (*)</translation>
+        <translation>Tất cả tệp (*)</translation>
     </message>
     <message>
         <location line="+135"/>
@@ -8450,7 +8450,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>Cấp độ quyền hạn</translation>
+        <translation>Cấp quyền</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -8566,7 +8566,7 @@ Bạn có thể bỏ bỏ qua sau qua hồ sơ người dùng này hoặc qua C�
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation>Hủy bỏ qua</translation>
+        <translation>Bỏ chặn</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8698,7 +8698,7 @@ Bạn có thể bỏ bỏ qua sau qua hồ sơ người dùng này hoặc qua C�
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Runtime backend Matrix không khả dụng.</translation>
+        <translation>Môi trường chạy backend Matrix không khả dụng.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8921,7 +8921,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Kiểm soát thời điểm hiển thị tên người gửi phía trên tin nhắn. Trong chế độ bong bóng, tên người dùng của bạn luôn bị ẩn. Trong các phòng nhỏ hơn, ảnh đại diện và màu bong bóng thường đủ để nhận biết.</translation>
+        <translation>Kiểm soát thời điểm hiển thị tên người gửi phía trên tin nhắn. Trong chế độ bong bóng, tên của bạn luôn được ẩn. Trong các phòng nhỏ, ảnh đại diện và màu bong bóng thường đã đủ nhận diện.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9272,7 +9272,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation>Giao diện</translation>
+        <translation>Chủ đề</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9836,7 +9836,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Máy chủ nhà</translation>
+        <translation>Homeserver</translation>
     </message>
     <message>
         <location line="+4"/>

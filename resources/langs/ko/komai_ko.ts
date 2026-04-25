@@ -475,7 +475,7 @@
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>후원하기</translation>
+        <translation>후원</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -860,7 +860,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>사람들</translation>
+        <translation>사람</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1539,7 +1539,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>핀</translation>
+        <translation>고정</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2035,7 +2035,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+11"/>
         <source>New</source>
-        <translation>추가</translation>
+        <translation>새로 만들기</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -2306,7 +2306,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>일치하는 사용자를 찾을 수 없습니다.</translation>
+        <translation>일치하는 사용자가 없습니다.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2334,7 +2334,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation>%1에게서 초대받음</translation>
+        <translation>%1에게서 초대됨</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2785,7 +2785,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>다른 임의 이름 생성</translation>
+        <translation>다른 무작위 이름 생성</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -3050,7 +3050,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
         <source>Creator</source>
-        <translation>생성자</translation>
+        <translation>개설자</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -3062,7 +3062,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-9"/>
         <location line="+11"/>
         <source>Moderator (%1)</source>
-        <translation>중재자 (%1)</translation>
+        <translation>운영자 (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -3927,7 +3927,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+13"/>
         <source>Video</source>
-        <translation>영상</translation>
+        <translation>동영상</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -3997,7 +3997,7 @@ Verify to unlock encrypted messages.</source>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation>사용자 지정 (%1)</translation>
+        <translation>사용자 정의 (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
@@ -4608,7 +4608,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="-787"/>
         <source>Verification</source>
-        <translation>인증</translation>
+        <translation>검증</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4639,7 +4639,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+1"/>
         <source>Verify</source>
-        <translation>인증</translation>
+        <translation>검증</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4669,7 +4669,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+1"/>
         <source>Custom server</source>
-        <translation>사용자 지정 서버</translation>
+        <translation>사용자 정의 서버</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -4797,7 +4797,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+46"/>
         <source>Suggestions:</source>
-        <translation>추천:</translation>
+        <translation>제안:</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -4929,7 +4929,7 @@ Please go back and sign in manually.</source>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>&amp;링크 주소 복사</translation>
+        <translation>&amp;링크 위치 복사</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5742,7 +5742,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation>아바타 삭제</translation>
+        <translation>아바타 제거</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6111,7 +6111,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>자리 비움</translation>
+        <translation>사용 불가</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6170,7 +6170,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation>아바타를 삭제하지 못했습니다.</translation>
+        <translation>아바타 삭제에 실패했습니다.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
@@ -6729,7 +6729,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>스페이스</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7218,12 +7218,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
         <source>%1 is typing…</source>
-        <translation>%1님이 입력 중…</translation>
+        <translation>%1 님이 입력 중…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation>%1, %2님이 입력 중…</translation>
+        <translation>%1 및 %2 님이 입력 중…</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7801,7 +7801,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation>미리보기를 사용할 수 없습니다</translation>
+        <translation>미리보기 없음</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8605,7 +8605,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation>미검증</translation>
+        <translation>검증되지 않음</translation>
     </message>
     <message>
         <location line="-497"/>
@@ -8625,7 +8625,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+9"/>
         <source>Actions</source>
-        <translation>동작</translation>
+        <translation>작업</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8744,12 +8744,12 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation>새로 고침됨</translation>
+        <translation>새로고침됨</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation>새로 고침</translation>
+        <translation>새로고침</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8814,7 +8814,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>검증 해제</translation>
+        <translation>검증 취소</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8921,7 +8921,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>메시지 위에 보낸 사람 이름이 표시되는 시점을 제어합니다. 버블 모드에서는 자신의 이름이 항상 숨겨집니다. 소규모 방에서는 아바타와 버블 색상만으로도 충분한 맥락이 됩니다.</translation>
+        <translation>메시지 위에 발신자 사용자 이름을 표시할 때를 제어합니다. 말풍선 모드에서는 내 사용자 이름이 항상 숨겨집니다. 소규모 방에서는 아바타와 말풍선 색상만으로도 충분한 경우가 많습니다.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9098,7 +9098,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation>자세히 알아보기</translation>
+        <translation>더 알아보기</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -9800,8 +9800,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Matrix 네트워크에서의 &lt;a href="%1"&gt;프레전스&lt;/a&gt; 상태를 제어합니다.
-자동은 '온라인' 또는 '자리 비움'(5분 비활성 후)입니다.</translation>
+        <translation>Matrix 네트워크에서 내 &lt;a href="%1"&gt;현재 상태&lt;/a&gt;를 제어합니다.
+자동은 '온라인' 또는 '자리 비움'(5분간 비활성 후)입니다.</translation>
     </message>
     <message>
         <location line="+9"/>

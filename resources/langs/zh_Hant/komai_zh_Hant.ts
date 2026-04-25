@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>確定要移除頭像嗎？</translation>
+        <translation>您確定要移除您的頭像嗎？</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>點擊顯示</translation>
+        <translation>點擊以顯示</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -544,7 +544,7 @@
     <message>
         <location line="+4"/>
         <source>No microphone found.</source>
-        <translation>找不到麥克風</translation>
+        <translation>找不到麥克風。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -627,7 +627,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Matrix 後端尚未準備就緒。</translation>
+        <translation>Matrix 後端尚未就緒。</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>納入「所有聊天室」</translation>
+        <translation>包含在「全部聊天室」中</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>聯絡人</translation>
+        <translation>人物</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -938,7 +938,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>找不到符合的項目。</translation>
+        <translation>找不到符合的結果。</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1080,7 +1080,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>未知顯示名稱</translation>
+        <translation>未知的顯示名稱</translation>
     </message>
     <message>
         <location line="-84"/>
@@ -1211,7 +1211,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation>相符！</translation>
+        <translation>它們相符！</translation>
     </message>
 </context>
 <context>
@@ -1544,7 +1544,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+50"/>
         <source>They do not match!</source>
-        <translation>它們不相符！</translation>
+        <translation>不相符！</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1844,7 +1844,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation>轉寄</translation>
+        <translation>轉傳</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -2573,7 +2573,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>無法使用</translation>
+        <translation>暫時離開</translation>
     </message>
     <message>
         <location line="-295"/>
@@ -3193,7 +3193,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>釘選</translation>
+        <translation>圖釘</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3243,7 +3243,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation>已讀回條</translation>
+        <translation>已讀回執</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3334,7 +3334,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-112"/>
         <source>React</source>
-        <translation>回應</translation>
+        <translation>反應</translation>
     </message>
     <message>
         <location line="+127"/>
@@ -3372,7 +3372,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+24"/>
         <source>&amp;Copy</source>
-        <translation>複製(&amp;C)</translation>
+        <translation>&amp;複製</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3382,7 +3382,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>複製連結位址(&amp;L)</translation>
+        <translation>複製&amp;連結位置</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3422,7 +3422,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation>檢視原始訊息</translation>
+        <translation>查看原始訊息</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -3455,7 +3455,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+26"/>
         <source>Emoji</source>
-        <translation>表情符號</translation>
+        <translation>Emoji</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3801,7 +3801,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+0"/>
         <source>Not now</source>
-        <translation>暫不處理</translation>
+        <translation>暫不</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3927,7 +3927,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+13"/>
         <source>Video</source>
-        <translation>視訊</translation>
+        <translation>影片</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -4787,7 +4787,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>選擇一個易於辨識的名稱，其他人也能看到。</translation>
+        <translation>選擇一個易於識別的名稱。其他人也可以看到。</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -5199,7 +5199,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+38"/>
         <source>Size</source>
-        <translation>規模</translation>
+        <translation>大小</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5393,7 +5393,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation>未選擇聊天室</translation>
+        <translation>未選取聊天室</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5808,7 +5808,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+16"/>
         <source>New room/space</source>
-        <translation>新聊天室／空間</translation>
+        <translation>新聊天室/空間</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -5968,7 +5968,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListExploreFooter.qml" line="+14"/>
         <source>New</source>
-        <translation>新建</translation>
+        <translation>新增</translation>
     </message>
 </context>
 <context>
@@ -6170,7 +6170,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation>移除頭像失敗。</translation>
+        <translation>無法移除頭像。</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
@@ -6729,7 +6729,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>空間</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6973,7 +6973,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>目前沒有其他已登入的裝置可用於驗證。</translation>
+        <translation>目前沒有其他已登入的裝置可供驗證。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7156,7 +7156,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>外觀與感覺</translation>
+        <translation>外觀 &amp; 風格</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7228,7 +7228,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1、%2 和另外 %3 人正在輸入……</translation>
+        <translation>%1、%2 和其他 %3 人正在輸入……</translation>
     </message>
 </context>
 <context>
@@ -7750,7 +7750,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation>在此訊息中不提及他們</translation>
+        <translation>不要在此訊息中提及他們</translation>
     </message>
 </context>
 <context>
@@ -8351,7 +8351,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation>驗證管理器無法使用。</translation>
+        <translation>驗證管理員無法使用。</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -8391,7 +8391,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>所有檔案（*）</translation>
+        <translation>所有檔案 (*)</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8472,7 +8472,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation>更改</translation>
+        <translation>變更</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -9012,7 +9012,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix 後端執行環境無法使用。</translation>
+        <translation>Matrix 後端執行環境不可用。</translation>
     </message>
 </context>
 <context>
@@ -9032,7 +9032,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>稍後再說</translation>
+        <translation>暫不</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9272,7 +9272,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation>佈景主題</translation>
+        <translation>主題</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9462,7 +9462,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>控制發送者使用者名稱顯示於訊息上方的時機。在氣泡模式下，您自己的使用者名稱始終隱藏。在較小的聊天室中，頭像和氣泡顏色通常已提供足夠的情境。</translation>
+        <translation>控制寄件者使用者名稱顯示在訊息上方的時機。在泡泡模式中，自己的使用者名稱永遠隱藏。在較小的聊天室中，頭像和泡泡顏色通常已足夠辨識。</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9800,8 +9800,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>控制您在 Matrix 網路上的 &lt;a href="%1"&gt;線上狀態&lt;/a&gt;。
-自動模式會在「線上」或「不可用」（閒置 5 分鐘後）之間切換。</translation>
+        <translation>控制你在 Matrix 網路上的&lt;a href="%1"&gt;在線狀態&lt;/a&gt;。
+自動模式為「線上」或「暫時離開」（閒置 5 分鐘後）。</translation>
     </message>
     <message>
         <location line="+9"/>

@@ -158,7 +158,7 @@
     <message>
         <location line="+4"/>
         <source>Blocked</source>
-        <translation>Zablokowany</translation>
+        <translation>Zablokowano</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -511,7 +511,7 @@
     <message>
         <location line="+0"/>
         <source>Voice Call</source>
-        <translation>Rozmowa głosowa</translation>
+        <translation>Połączenie Głosowe</translation>
     </message>
     <message>
         <location line="+66"/>
@@ -524,7 +524,7 @@
     <message>
         <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
         <source>Video Call</source>
-        <translation>Rozmowa wideo</translation>
+        <translation>Rozmowa Wideo</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -811,7 +811,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Uwzględnij w 'Wszystkie pokoje'</translation>
+        <translation>Uwzględnij w 'Wszystkich pokojach'</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>Osoby</translation>
+        <translation>Ludzie</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1071,7 +1071,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Szukaj według nazwy lub @user:example.com</translation>
+        <translation>Szukaj po nazwie lub @user:example.com</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -1082,7 +1082,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>Nieznana wyświetlana nazwa</translation>
+        <translation>Nieznana nazwa wyświetlana</translation>
     </message>
     <message>
         <location line="-84"/>
@@ -3201,7 +3201,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Przypnij</translation>
+        <translation>Pinezka</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3330,7 +3330,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation>Prześlij dalej</translation>
+        <translation>Przekaż dalej</translation>
     </message>
     <message>
         <location line="-178"/>
@@ -3390,7 +3390,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Kopiuj &amp;lokalizację łącza</translation>
+        <translation>Kopiuj &amp;adres łącza</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3486,7 +3486,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>Nie wspominaj o nich w tej wiadomości</translation>
+        <translation>Nie oznaczaj ich w tej wiadomości</translation>
     </message>
 </context>
 <context>
@@ -3613,7 +3613,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation>Nie znaleziono wyników.</translation>
+        <translation>Nie znaleziono dopasowań.</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -3626,7 +3626,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location filename="../../qml/pages/NewToMatrixPage.qml" line="+69"/>
         <source>Back</source>
-        <translation>Wstecz</translation>
+        <translation>Wróć</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -4006,7 +4006,7 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation>Własny (%1)</translation>
+        <translation>Niestandardowy (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
@@ -4585,7 +4585,7 @@ Uruchom '%1 &lt;group&gt; --help', aby uzyskać szczegóły podkomendy.</transla
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation>Potwierdzenia przeczytania</translation>
+        <translation>Potwierdzenia odczytu</translation>
     </message>
 </context>
 <context>
@@ -4800,12 +4800,12 @@ Uruchom '%1 &lt;group&gt; --help', aby uzyskać szczegóły podkomendy.</transla
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Wybierz rozpoznawalną nazwę. Inni też ją zobaczą.</translation>
+        <translation>Wybierz rozpoznawalną nazwę. Inni też ją widzą.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Wygeneruj kolejną losową nazwę</translation>
+        <translation>Wygeneruj inną losową nazwę</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -4984,7 +4984,7 @@ Wróć i zaloguj się ręcznie.</translation>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation>Odpowiedź</translation>
+        <translation>Odpowiedz</translation>
     </message>
 </context>
 <context>
@@ -5101,7 +5101,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+10"/>
         <source>Reset</source>
-        <translation>Zresetuj</translation>
+        <translation>Resetuj</translation>
     </message>
 </context>
 <context>
@@ -5373,7 +5373,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>Zweryfikowany</translation>
+        <translation>Zweryfikowane</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5431,7 +5431,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>Zweryfikowany</translation>
+        <translation>Zweryfikowane</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5622,7 +5622,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+1"/>
         <source>About</source>
-        <translation>O pokoju</translation>
+        <translation>O aplikacji</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -6126,7 +6126,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>Niedostępny</translation>
+        <translation>Niedostępne</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6200,7 +6200,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Środowisko uruchomieniowe backendu Matrix jest niedostępne.</translation>
+        <translation>Środowisko uruchomieniowe Matrix jest niedostępne.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6407,7 +6407,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation>Nowa</translation>
+        <translation>Nowy</translation>
     </message>
     <message>
         <location line="+134"/>
@@ -6516,7 +6516,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>Podgląd pokoju niedostępny</translation>
+        <translation>Brak podglądu</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6744,7 +6744,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Przestrzeń</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6988,7 +6988,7 @@ Wygląda na to, że jesteś nowym użytkownikiem. Zanim będziesz mógł(a) bezp
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Żadne inne zalogowane urządzenie nie jest obecnie dostępne do weryfikacji.</translation>
+        <translation>Żadne inne zalogowane urządzenie nie jest aktualnie dostępne do weryfikacji.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7007,7 +7007,7 @@ Wygląda na to, że jesteś nowym użytkownikiem. Zanim będziesz mógł(a) bezp
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAccessTokenField.qml" line="+24"/>
         <source>Click to reveal</source>
-        <translation>Kliknij, aby wyświetlić</translation>
+        <translation>Kliknij, aby odkryć</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -7677,7 +7677,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>Sponsoruję!</translation>
+        <translation>Sponsoruje!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8338,7 +8338,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Środowisko uruchomieniowe Matrix nie jest dostępne.</translation>
+        <translation>Środowisko uruchomieniowe Matrix jest niedostępne.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8428,7 +8428,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Błąd odczytu pliku: %1</translation>
+        <translation>Błąd czytania pliku: %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8796,7 +8796,7 @@ Możesz ją odignorować później przez profil użytkownika lub przez Ustawieni
     <message>
         <location line="+29"/>
         <source>Verify</source>
-        <translation>Zweryfikuj</translation>
+        <translation>Weryfikuj</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -8841,7 +8841,7 @@ Możesz ją odignorować później przez profil użytkownika lub przez Ustawieni
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Udweryfikuj</translation>
+        <translation>Cofnij weryfikację</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -9489,7 +9489,7 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Określa, kiedy nazwy nadawców są wyświetlane nad wiadomościami. W trybie dymków własna nazwa jest zawsze ukryta. W mniejszych pokojach awatary i kolory dymków często wystarczają jako kontekst.</translation>
+        <translation>Określ, kiedy nazwy użytkowników nadawców są wyświetlane nad wiadomościami. W trybie dymków własna nazwa użytkownika jest zawsze ukryta. W mniejszych pokojach awatary i kolory dymków często wystarczają jako kontekst.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9827,8 +9827,8 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Określa twój status &lt;a href="%1"&gt;Obecności&lt;/a&gt; w sieci Matrix.
-Automatyczny to 'online' lub 'niedostępny' (po 5 minutach bezczynności).</translation>
+        <translation>Kontroluje twój status &lt;a href="%1"&gt;Obecności&lt;/a&gt; w sieci Matrix.
+Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywności).</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9858,12 +9858,12 @@ Automatyczny to 'online' lub 'niedostępny' (po 5 minutach bezczynności).</tran
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Identyfikator użytkownika</translation>
+        <translation>ID użytkownika</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Serwer domowy</translation>
+        <translation>Homeserver</translation>
     </message>
     <message>
         <location line="+4"/>

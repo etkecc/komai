@@ -67,7 +67,7 @@
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>Ev sunucusu</translation>
+        <translation>Ana sunucu</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -108,7 +108,7 @@
     <message>
         <location line="-410"/>
         <source>Access token</source>
-        <translation>Erişim jetonu</translation>
+        <translation>Erişim belirteci</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Doğrulamayı kaldır</translation>
+        <translation>Doğrulamayı Kaldır</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -198,7 +198,7 @@
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation>Yok sayılan kullanıcılar</translation>
+        <translation>Yoksayılan kullanıcılar</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -949,7 +949,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+147"/>
         <location line="+55"/>
         <source>(Space)</source>
-        <translation>(Uzay)</translation>
+        <translation>(Alan)</translation>
     </message>
 </context>
 <context>
@@ -1069,7 +1069,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Ada veya @user:example.com ile ara</translation>
+        <translation>Ada veya @kullanıcı:example.com ile ara</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -1085,7 +1085,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Bir arama sorgusu yazın. Sonuçlar burada görünecek.</translation>
+        <translation>Bir arama sorgusu girin. Sonuçlar burada görünecek.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1128,7 +1128,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/CreateRoom.qml" line="+37"/>
         <source>Name</source>
-        <translation>İsim</translation>
+        <translation>Ad</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1138,7 +1138,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-27"/>
         <source>New space</source>
-        <translation>Yeni alan</translation>
+        <translation>Yeni uzay</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1153,7 +1153,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Herkese Açık</translation>
+        <translation>Genel</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1188,7 +1188,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation>Güvenildi</translation>
+        <translation>Güvenilir</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -1539,7 +1539,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>İğne</translation>
+        <translation>Sabitle</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2040,7 +2040,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>Yoksaymayı Kaldır</translation>
+        <translation>Yok Saymayı Kaldır</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2672,7 +2672,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+564"/>
         <location line="+208"/>
         <source>Sign in</source>
-        <translation>Oturum aç</translation>
+        <translation>Giriş yap</translation>
     </message>
     <message>
         <location line="-774"/>
@@ -2930,7 +2930,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 ve %3 kişi daha yazıyor…</translation>
+        <translation>%1, %2 ve %3 diğer kişi yazıyor…</translation>
     </message>
 </context>
 <context>
@@ -3148,7 +3148,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation>Biçimli metni kopyala</translation>
+        <translation>Biçimlendirilmiş metni kopyala</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3243,7 +3243,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation>Okundu bilgisi</translation>
+        <translation>Okundu bildirimleri</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3334,7 +3334,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-112"/>
         <source>React</source>
-        <translation>Tepki ver</translation>
+        <translation>Tepki</translation>
     </message>
     <message>
         <location line="+127"/>
@@ -3382,7 +3382,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Bağlantı &amp;konumunu kopyala</translation>
+        <translation>&amp;Bağlantı konumunu kopyala</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3478,7 +3478,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>Bu mesajda onları anma</translation>
+        <translation>Bu mesajda etiketleme</translation>
     </message>
 </context>
 <context>
@@ -3811,7 +3811,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+0"/>
         <source>Accept</source>
-        <translation>Kabul Et</translation>
+        <translation>Kabul et</translation>
     </message>
 </context>
 <context>
@@ -3881,7 +3881,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/common/PhoneNumberInputDialog.qml" line="+63"/>
         <source>Continue</source>
-        <translation>Devam Et</translation>
+        <translation>Devam</translation>
     </message>
 </context>
 <context>
@@ -4588,7 +4588,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     <message>
         <location filename="../../qml/delegates/Redacted.qml" line="+38"/>
         <source>Deleted message</source>
-        <translation>Silinmiş mesaj</translation>
+        <translation>Silinen mesaj</translation>
     </message>
 </context>
 <context>
@@ -4659,7 +4659,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     <message>
         <location line="+24"/>
         <source>Register</source>
-        <translation>Kayıt ol</translation>
+        <translation>Kaydol</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -5506,7 +5506,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     <message>
         <location line="+35"/>
         <source>Public</source>
-        <translation>Herkese açık</translation>
+        <translation>Genel</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -5670,7 +5670,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation>Yetki seviyesi</translation>
+        <translation>Güç düzeyi</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5808,7 +5808,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+16"/>
         <source>New room/space</source>
-        <translation>Yeni oda/uzay</translation>
+        <translation>Yeni oda/alan</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -5838,7 +5838,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>O</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5853,7 +5853,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>U</translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -6036,7 +6036,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+11"/>
         <source>Sign out</source>
-        <translation>Çıkış Yap</translation>
+        <translation>Oturumu kapat</translation>
     </message>
 </context>
 <context>
@@ -6111,7 +6111,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>Uygun Değil</translation>
+        <translation>Kullanılamıyor</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6137,7 +6137,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>Sabitlemeyi Kaldır</translation>
+        <translation>Sabitlemeyi kaldır</translation>
     </message>
 </context>
 <context>
@@ -6155,12 +6155,12 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation>Seçilen dosya bir resim değil</translation>
+        <translation>Seçilen dosya bir görüntü değil</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Dosya okunurken hata: %1</translation>
+        <translation>Dosya okunurken hata oluştu: %1</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6729,7 +6729,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Uzay</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6973,7 +6973,7 @@ Yeni olduğunuz anlaşılıyor. Mesajlarınızı güvenli şekilde şifreleyebil
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Şu anda doğrulama için kullanılabilir başka oturum açık cihaz yok.</translation>
+        <translation>Doğrulama için şu anda başka oturum açmış cihaz mevcut değil.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6992,7 +6992,7 @@ Yeni olduğunuz anlaşılıyor. Mesajlarınızı güvenli şekilde şifreleyebil
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAccessTokenField.qml" line="+24"/>
         <source>Click to reveal</source>
-        <translation>Görüntülemek için tıklayın</translation>
+        <translation>Görmek için tıklayın</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -7033,7 +7033,7 @@ Yeni olduğunuz anlaşılıyor. Mesajlarınızı güvenli şekilde şifreleyebil
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Avatar önizlemesi</translation>
+        <translation>Avatar önizleme</translation>
     </message>
 </context>
 <context>
@@ -7112,7 +7112,7 @@ Yeni olduğunuz anlaşılıyor. Mesajlarınızı güvenli şekilde şifreleyebil
     <message>
         <location line="+90"/>
         <source>Space</source>
-        <translation>Alan</translation>
+        <translation>Uzay</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -7637,7 +7637,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation>Oda listesine geri dön</translation>
+        <translation>Oda listesine dön</translation>
     </message>
 </context>
 <context>
@@ -7658,7 +7658,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>Sponsorsunuz!</translation>
+        <translation>Sponsorluk yapılıyor!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7773,7 +7773,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+17"/>
         <source>Message actions</source>
-        <translation>Mesaj işlemleri</translation>
+        <translation>Mesaj eylemleri</translation>
     </message>
     <message numerus="yes">
         <location line="+64"/>
@@ -8232,7 +8232,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation>Anahtar yedeklemesinin kilidini aç</translation>
+        <translation>Anahtar Yedeğinin Kilidini Aç</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8435,7 +8435,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation>Kullanıcı Kimliği</translation>
+        <translation>Kullanıcı kimliği</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -8698,7 +8698,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix arka uç çalışma zamanı kullanılamıyor.</translation>
+        <translation>Matrix arka uç çalışma zamanı mevcut değil.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8773,7 +8773,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation>Bir avatar seçin</translation>
+        <translation>Avatar seç</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8911,7 +8911,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ağındaki &lt;a href="%1"&gt;Varlık&lt;/a&gt; durumunuzu kontrol eder.
-Otomatik, 'çevrimiçi' veya 'müsait değil' olabilir (5 dakika hareketsizlik sonrası).</translation>
+Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) olabilir.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9215,7 +9215,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation>İnsanlar</translation>
+        <translation>Kişiler</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9462,7 +9462,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Gönderen kullanıcı adlarının mesajların üzerinde ne zaman gösterileceğini kontrol edin. Balon modunda kendi kullanıcı adınız her zaman gizlenir. Küçük odalarda avatarlar ve balon renkleri genellikle yeterli bağlam sağlar.</translation>
+        <translation>Gönderen kullanıcı adlarının mesajların üzerinde ne zaman görüntüleneceğini kontrol edin. Balon modunda kendi kullanıcı adınız her zaman gizlidir. Daha küçük odalarda avatarlar ve balon renkleri genellikle yeterli bağlam sağlar.</translation>
     </message>
     <message>
         <location line="+18"/>

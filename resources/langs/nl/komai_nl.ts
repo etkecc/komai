@@ -91,13 +91,13 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation>Naar klembord kopiëren</translation>
+        <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
         <location line="-554"/>
         <location line="+457"/>
         <source>Sign out</source>
-        <translation>Uitloggen</translation>
+        <translation>Afmelden</translation>
     </message>
     <message>
         <location line="-438"/>
@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Verificatie opheffen</translation>
+        <translation>On-verifiëren</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -412,17 +412,17 @@
         <location line="+262"/>
         <location line="+5"/>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation>Intrekken</translation>
     </message>
     <message>
         <location line="-216"/>
         <source>Refreshed</source>
-        <translation>Ververst</translation>
+        <translation>Vernieuwd</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation>Verversen</translation>
+        <translation>Vernieuwen</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -539,7 +539,7 @@
     <message>
         <location line="+11"/>
         <source>Accept</source>
-        <translation>Aanvaarden</translation>
+        <translation>Accepteren</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1065,7 +1065,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>Nieuw direct bericht</translation>
+        <translation>Nieuwe directe chat</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1154,7 +1154,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Publiek</translation>
+        <translation>Openbaar</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1861,7 +1861,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>Gebruikersgebonden afbeeldingspakket</translation>
+        <translation>Accountpakket</translation>
     </message>
 </context>
 <context>
@@ -2071,7 +2071,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+9"/>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation>Intrekken</translation>
     </message>
 </context>
 <context>
@@ -2161,7 +2161,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+4"/>
         <source>Remove</source>
-        <translation>Verwijder</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -2229,7 +2229,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+11"/>
         <source>Remove</source>
-        <translation>Verwijder</translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -2342,7 +2342,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation>Weigeren</translation>
+        <translation>Afwijzen</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2388,7 +2388,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation>Ga kamer binnen</translation>
+        <translation>Kamer binnengaan</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3197,7 +3197,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Vastzetten</translation>
+        <translation>Speld</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3227,7 +3227,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>S</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3386,7 +3386,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Kopieer &amp;linklocatie</translation>
+        <translation>Kopieer &amp;linkadres</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3744,7 +3744,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+9"/>
         <source>Sign in</source>
-        <translation>Inloggen</translation>
+        <translation>Aanmelden</translation>
     </message>
 </context>
 <context>
@@ -3989,7 +3989,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
         <location line="-242"/>
         <location line="+244"/>
         <source>Moderator (%1)</source>
-        <translation>Toezichthouder (%1)</translation>
+        <translation>Moderator (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
@@ -4594,7 +4594,7 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
     <message>
         <location filename="../../qml/delegates/Redacted.qml" line="+38"/>
         <source>Deleted message</source>
-        <translation>Verwijderd bericht</translation>
+        <translation>Ingetrokken bericht</translation>
     </message>
 </context>
 <context>
@@ -4773,7 +4773,7 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation>Wachtwoord tonen/verbergen</translation>
+        <translation>Toon/Verberg wachtwoord</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -4798,7 +4798,7 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Genereer een andere willekeurige naam</translation>
+        <translation>Een andere willekeurige naam genereren</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -4977,7 +4977,7 @@ Ga terug en meld je handmatig aan.</translation>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation>Antwoord</translation>
+        <translation>Beantwoorden</translation>
     </message>
 </context>
 <context>
@@ -4985,7 +4985,7 @@ Ga terug en meld je handmatig aan.</translation>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation>Rapporteer bericht</translation>
+        <translation>Bericht melden</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5089,7 +5089,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>Nu niet</translation>
+        <translation>Niet nu</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5285,7 +5285,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <message>
         <location line="+0"/>
         <source>Open</source>
-        <translation>Open</translation>
+        <translation>Openen</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -5564,7 +5564,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <message>
         <location line="+2"/>
         <source>Threads</source>
-        <translation>Threads</translation>
+        <translation>Draadjes</translation>
     </message>
 </context>
 <context>
@@ -5845,7 +5845,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>K</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -6167,7 +6167,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Fout bij lezen van bestand: %1</translation>
+        <translation>Fout bij lezen bestand: %1</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6736,7 +6736,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Spatie</translation>
+        <translation>Ruimte</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6980,13 +6980,13 @@ Het lijkt erop dat je nieuw bent. Voordat je berichten veilig kunt versleutelen,
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Er is momenteel geen ander ingelogd apparaat beschikbaar voor verificatie.</translation>
+        <translation>Er is momenteel geen ander aangemeld apparaat beschikbaar voor verificatie.</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+79"/>
         <source>The verification manager is not available.</source>
-        <translation>De verificatiemanager is niet beschikbaar.</translation>
+        <translation>De verificatiebeheerder is niet beschikbaar.</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -7048,7 +7048,7 @@ Het lijkt erop dat je nieuw bent. Voordat je berichten veilig kunt versleutelen,
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
         <source>Show</source>
-        <translation>Weergeven</translation>
+        <translation>Tonen</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -7124,7 +7124,7 @@ Het lijkt erop dat je nieuw bent. Voordat je berichten veilig kunt versleutelen,
     <message>
         <location line="+24"/>
         <source>Show</source>
-        <translation>Weergeven</translation>
+        <translation>Tonen</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -7163,7 +7163,7 @@ Het lijkt erop dat je nieuw bent. Voordat je berichten veilig kunt versleutelen,
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Uiterlijk &amp; gevoel</translation>
+        <translation>Uiterlijk</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7759,7 +7759,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation>Noem ze niet in dit bericht</translation>
+        <translation>Geen melding versturen in dit bericht</translation>
     </message>
 </context>
 <context>
@@ -7811,7 +7811,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation>Geen voorvertoning beschikbaar</translation>
+        <translation>Geen voorbeeld beschikbaar</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8127,7 +8127,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>Thread</source>
-        <translation>Thread</translation>
+        <translation>Draadje</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -8540,7 +8540,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation>Herstellen</translation>
+        <translation>Resetten</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8550,7 +8550,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Weet je zeker dat je je avatar wilt verwijderen?</translation>
+        <translation>Weet je zeker dat je je avatar wil verwijderen?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -8596,7 +8596,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>Machtsniveau</translation>
+        <translation>Machtigingsniveau</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -8934,7 +8934,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Bepaal wanneer gebruikersnamen van verzenders boven berichten worden weergegeven. In bellenmodus is je eigen gebruikersnaam altijd verborgen. In kleinere kamers zijn avatars en belkleuren vaak voldoende context.</translation>
+        <translation>Bepaal wanneer gebruikersnamen van afzenders boven berichten worden weergegeven. In bellenweergave is je eigen gebruikersnaam altijd verborgen. In kleinere kamers zijn avatars en belkleuren vaak voldoende context.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9025,7 +9025,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix-backend-runtime is niet beschikbaar.</translation>
+        <translation>Matrix backend runtime is niet beschikbaar.</translation>
     </message>
 </context>
 <context>
@@ -9450,7 +9450,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Tijdlijnvoorbeeld</translation>
+        <translation>Tijdlijnpreview</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9813,7 +9813,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Bepaalt je &lt;a href="%1"&gt;Aanwezigheid&lt;/a&gt;-status op het Matrix-netwerk.
+        <translation>Beheert je &lt;a href="%1"&gt;Aanwezigheid&lt;/a&gt;-status op het Matrix-netwerk.
 Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</translation>
     </message>
     <message>

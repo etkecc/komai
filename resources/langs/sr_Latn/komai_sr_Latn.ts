@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Sigurno ukloniti avatar?</translation>
+        <translation>Da li sigurno želiš da ukloniš avatar?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -42,7 +42,7 @@
     <message>
         <location line="+48"/>
         <source>Display name</source>
-        <translation>Prikazno ime</translation>
+        <translation>Ime za prikaz</translation>
     </message>
     <message>
         <location line="+65"/>
@@ -91,7 +91,7 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation>Kopiraj u međuspremnik</translation>
+        <translation>Kopiraj u ostavu</translation>
     </message>
     <message>
         <location line="-554"/>
@@ -103,7 +103,7 @@
         <location line="-438"/>
         <location line="+460"/>
         <source>Name</source>
-        <translation>Ime</translation>
+        <translation>Naziv</translation>
     </message>
     <message>
         <location line="-410"/>
@@ -427,7 +427,7 @@
     <message>
         <location line="+22"/>
         <source>New</source>
-        <translation>Novi</translation>
+        <translation>Novo</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -860,7 +860,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>Osobe</translation>
+        <translation>Ljudi</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2312,7 +2312,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>Nisu pronađeni odgovarajući korisnici.</translation>
+        <translation>Nema pronađenih korisnika.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2340,7 +2340,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation>Pozvan/a od strane %1</translation>
+        <translation>Poziv od %1</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2579,7 +2579,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>Nedostupno</translation>
+        <translation>Nedostupan</translation>
     </message>
     <message>
         <location line="-295"/>
@@ -2729,7 +2729,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Generiši još jedno nasumično ime</translation>
+        <translation>Generiši drugo slučajno ime</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -3039,7 +3039,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation>Nijedna soba nije odabrana</translation>
+        <translation>Nijedna soba nije izabrana</translation>
     </message>
 </context>
 <context>
@@ -3201,7 +3201,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Zakači</translation>
+        <translation>Pribadača</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4584,7 +4584,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation>Potvrde čitanja</translation>
+        <translation>Potvrde o čitanju</translation>
     </message>
 </context>
 <context>
@@ -4799,7 +4799,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Odaberi prepoznatljivo ime. Drugi korisnici ga mogu videti.</translation>
+        <translation>Izaberi prepoznatljivo ime. Drugi ga mogu videti.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4941,7 +4941,7 @@ Vrati se i prijavi se ručno.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Kopiraj &amp;lokaciju veze</translation>
+        <translation>Kopiraj &amp;lokaciju linka</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5924,7 +5924,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location line="+2"/>
         <source>Create</source>
-        <translation>Napravi</translation>
+        <translation>Kreiraj</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6174,7 +6174,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Greška pri čitanju fajla: %1</translation>
+        <translation>Greška pri čitanju datoteke: %1</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6199,7 +6199,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix pozadinsko okruženje nije dostupno.</translation>
+        <translation>Matrix backend runtime nije dostupan.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6406,7 +6406,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation>Nova</translation>
+        <translation>Novo</translation>
     </message>
     <message>
         <location line="+134"/>
@@ -6743,7 +6743,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Prostor</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7170,7 +7170,7 @@ Izgleda da si nov/a. Pre nego što možeš bezbedno da šifruješ poruke, treba 
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Izgled i osećaj</translation>
+        <translation>Izgled &amp; osećaj</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7197,7 +7197,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>Pregled vremenske linije</translation>
+        <translation>Pregled tajmlajna</translation>
     </message>
 </context>
 <context>
@@ -7295,7 +7295,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Matrix pozadina još nije spremna.</translation>
+        <translation>Matrix backend još nije spreman.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -7676,12 +7676,12 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>Sponzorišeš!</translation>
+        <translation>Sponzoriše!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Sponzoriši</translation>
+        <translation>Sponzor</translation>
     </message>
 </context>
 <context>
@@ -7786,7 +7786,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Otkvači</translation>
+        <translation>Otkači</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -8258,7 +8258,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation>Otključaj rezervu ključeva</translation>
+        <translation>Otključaj rezervnu kopiju ključeva</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8592,7 +8592,7 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation>Prestani ignorisati</translation>
+        <translation>Poništi ignorisanje</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8799,7 +8799,7 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation>Odaberi avatar</translation>
+        <translation>Izaberi avatar</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8809,7 +8809,7 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation>Odabrana datoteka nije slika</translation>
+        <translation>Izabrana datoteka nije slika</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9020,7 +9020,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation>O aplikaciji</translation>
+        <translation>O</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -9038,7 +9038,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix pozadinski izvršni sistem nije dostupan.</translation>
+        <translation>Matrix backend runtime nije dostupan.</translation>
     </message>
 </context>
 <context>
@@ -9137,7 +9137,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation>Novi u Matrixu?</translation>
+        <translation>Novi u Matrix-u?</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9488,7 +9488,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Kontrolišite kada se korisnička imena pošiljalaca prikazuju iznad poruka. U režimu balona, vaše korisničko ime je uvek skriveno. U manjim sobama, avatari i boje balona su često dovoljan kontekst.</translation>
+        <translation>Kontroliše kada se korisnička imena pošiljaoca prikazuju iznad poruka. U režimu mehurića, tvoje korisničko ime je uvek skriveno. U manjim sobama, avatari i boje mehurića su često dovoljan kontekst.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9826,8 +9826,8 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Kontroliše vaš status &lt;a href="%1"&gt;Prisutnosti&lt;/a&gt; na Matrix mreži.
-Automatski je ili 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translation>
+        <translation>Kontroliše tvoj status &lt;a href="%1"&gt;prisustva&lt;/a&gt; na Matrix mreži.
+Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9862,7 +9862,7 @@ Automatski je ili 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</tran
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Matični server</translation>
+        <translation>Homeserver</translation>
     </message>
     <message>
         <location line="+4"/>

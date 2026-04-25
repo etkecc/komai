@@ -37,7 +37,7 @@
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -47,7 +47,7 @@
     <message>
         <location line="+65"/>
         <source>User ID</source>
-        <translation>ID del usator</translation>
+        <translation>ID de usator</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -62,7 +62,7 @@
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation>Copiar ID del usator</translation>
+        <translation>Copiar ID de usator</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -97,7 +97,7 @@
         <location line="-554"/>
         <location line="+457"/>
         <source>Sign out</source>
-        <translation>Desconnecter</translation>
+        <translation>Desconectar</translation>
     </message>
     <message>
         <location line="-438"/>
@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>Clicar por reveler</translation>
+        <translation>Clicar por revelar</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -168,7 +168,7 @@
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation>Disblocar</translation>
+        <translation>Desbloquar</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -470,7 +470,7 @@
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation>Sponsorisant!</translation>
+        <translation>Sponsorante!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -506,12 +506,12 @@
     <message>
         <location filename="../../qml/voip/CallInvite.qml" line="+78"/>
         <source>Video Call</source>
-        <translation>Appelle video</translation>
+        <translation>Appel Video</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Voice Call</source>
-        <translation>Appelle vocal</translation>
+        <translation>Appel Vocal</translation>
     </message>
     <message>
         <location line="+66"/>
@@ -757,7 +757,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Anuller</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -775,7 +775,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation>Pack de Compte</translation>
+        <translation>Pachet del Conto</translation>
     </message>
 </context>
 <context>
@@ -811,7 +811,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Includer in 'Toti les chambres'</translation>
+        <translation>Includer in 'Omni chambres'</translation>
     </message>
 </context>
 <context>
@@ -855,7 +855,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+46"/>
         <source>All rooms</source>
-        <translation>Tut chambres</translation>
+        <translation>Omni chambres</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -938,7 +938,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>Nulle resultates trovate.</translation>
+        <translation>Nul resultates trovate.</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1057,7 +1057,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+0"/>
         <source>Join</source>
-        <translation>Juntar</translation>
+        <translation>Juntar se</translation>
     </message>
 </context>
 <context>
@@ -1065,7 +1065,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>Nov chate direct</translation>
+        <translation>Nov chat direct</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1081,7 +1081,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>Nomine de presentation incognit</translation>
+        <translation>Nomine de exhibition incognit</translation>
     </message>
     <message>
         <location line="-84"/>
@@ -1091,7 +1091,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>Nulle usatores correspondente trovate.</translation>
+        <translation>Null usatores correspondente es trovate.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1540,17 +1540,17 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Puntion</translation>
+        <translation>Fixer</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>They do not match!</source>
-        <translation>Ili ne concordan!</translation>
+        <translation>Ili ne concorda!</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation>Ili concordan!</translation>
+        <translation>Ili concorda!</translation>
     </message>
 </context>
 <context>
@@ -1847,12 +1847,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation>Transmisser</translation>
+        <translation>Transmandar</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>Cancel</source>
-        <translation>Anuler</translation>
+        <translation>Cancellar</translation>
     </message>
 </context>
 <context>
@@ -2071,7 +2071,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+9"/>
         <source>Delete</source>
-        <translation>Deletar</translation>
+        <translation>Deleter</translation>
     </message>
 </context>
 <context>
@@ -2250,7 +2250,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+31"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
 </context>
 <context>
@@ -2289,12 +2289,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+11"/>
         <source>Search</source>
-        <translation>Serchar</translation>
+        <translation>Cerchar</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Serchar per nomine o @user:example.com</translation>
+        <translation>Cercar per nomine o @user:example.com</translation>
     </message>
     <message>
         <location line="+98"/>
@@ -2304,7 +2304,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Scripte un question de sercha. Resultates va aparer hic.</translation>
+        <translation>Scriper un querie de cercare. Resultates va apparer ci.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2337,12 +2337,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation>Invitat per %1</translation>
+        <translation>Invitat par %1</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation>Refusar</translation>
+        <translation>Declinar</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2375,7 +2375,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2407,7 +2407,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation>Li nomine de profil es requesit.</translation>
+        <translation>Li nomine de profil es obligatori.</translation>
     </message>
     <message>
         <location line="-56"/>
@@ -2536,7 +2536,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+9"/>
         <source>Leave</source>
-        <translation>Sortir</translation>
+        <translation>Departer</translation>
     </message>
 </context>
 <context>
@@ -2721,12 +2721,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Elegir un nome reconoscibil. Altris posse vider it anque.</translation>
+        <translation>Chosar un nom recognoscibil. Altres pote vider it anc.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Generar un altri nome aleatoric</translation>
+        <translation>Generar un altri nom aleatoric</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -2761,13 +2761,13 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Monstrar/Celar parola de passe</translation>
+        <translation>Monstrar/Celar Parola de passe</translation>
     </message>
     <message>
         <location line="-859"/>
         <location line="+409"/>
         <source>Device name</source>
-        <translation>Nome del aparate</translation>
+        <translation>Nom del aparate</translation>
     </message>
     <message>
         <location filename="../../../src/auth/LoginPageDiscovery.cpp" line="+96"/>
@@ -2843,7 +2843,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation>Sortir</translation>
+        <translation>Desconectar</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -2858,7 +2858,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Anuler</translation>
+        <translation>Cancellar</translation>
     </message>
 </context>
 <context>
@@ -2933,7 +2933,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 e %3 altris scrivent…</translation>
+        <translation>%1, %2 e %3 altres scrive…</translation>
     </message>
 </context>
 <context>
@@ -3152,7 +3152,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation>Copiar textu formatat</translation>
+        <translation>Copiar texto formatat</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3247,7 +3247,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation>Recepissas de lecture</translation>
+        <translation>Confirmation de lecture</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3277,7 +3277,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+0"/>
         <source>Cancel send</source>
-        <translation>Cancellar envio</translation>
+        <translation>Anuler envio</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3343,7 +3343,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+127"/>
         <source>Options</source>
-        <translation>Options</translation>
+        <translation>Optiones</translation>
     </message>
 </context>
 <context>
@@ -3431,7 +3431,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+19"/>
         <source>Report message</source>
-        <translation>Reportar mesage</translation>
+        <translation>Raportar mesage</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -3464,7 +3464,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+18"/>
         <source>Send</source>
-        <translation>Transmitter</translation>
+        <translation>Inviar</translation>
     </message>
     <message>
         <location line="+53"/>
@@ -3805,7 +3805,7 @@ Verificar por debloquar mesages criptat.</translation>
     <message>
         <location line="+0"/>
         <source>Not now</source>
-        <translation>Ne ora</translation>
+        <translation>Ne nu</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3863,7 +3863,7 @@ Verificar por debloquar mesages criptat.</translation>
     <message>
         <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
         <source>Open</source>
-        <translation>Aperir</translation>
+        <translation>Aperter</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3921,7 +3921,7 @@ Verificar por debloquar mesages criptat.</translation>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation>Null microfon trovat.</translation>
+        <translation>Null microfone trovit.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3941,7 +3941,7 @@ Verificar por debloquar mesages criptat.</translation>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Anuller</translation>
+        <translation>Cancellar</translation>
     </message>
 </context>
 <context>
@@ -4650,7 +4650,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     <message>
         <location line="+6"/>
         <source>Server</source>
-        <translation>Servore</translation>
+        <translation>Servidor</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -4660,7 +4660,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     <message>
         <location line="+88"/>
         <source>Cancel</source>
-        <translation>Anuller</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4922,7 +4922,7 @@ Per favor revenir e connecter se manualmente.</translation>
     <message>
         <location line="+2"/>
         <source>Attachment</source>
-        <translation>Annexe</translation>
+        <translation>Attachament</translation>
     </message>
 </context>
 <context>
@@ -4985,7 +4985,7 @@ Per favor revenir e connecter se manualmente.</translation>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation>Rapportar mesage</translation>
+        <translation>Raportar mesage</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5053,7 +5053,7 @@ Per favor revenir e connecter se manualmente.</translation>
     <message>
         <location line="+19"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -5117,7 +5117,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5155,7 +5155,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+11"/>
         <source>Another server</source>
-        <translation>Un altri servitor</translation>
+        <translation>Un altri servidor</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -5165,7 +5165,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+35"/>
         <source>Custom server</source>
-        <translation>Servitor personalisat</translation>
+        <translation>Servidor personalisat</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5205,7 +5205,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+38"/>
         <source>Size</source>
-        <translation>Grandore</translation>
+        <translation>Dimension</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5399,7 +5399,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation>Null chambre selectat</translation>
+        <translation>Necun chambre selectat</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5452,7 +5452,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation>Retornar al liste de chambres</translation>
+        <translation>Retornar al lista de chambres</translation>
     </message>
 </context>
 <context>
@@ -5677,7 +5677,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation>Nivel de poter</translation>
+        <translation>Nivel de potentie</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5744,12 +5744,12 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <location line="+7"/>
         <location line="+49"/>
         <source>Remove</source>
-        <translation>Suprimer</translation>
+        <translation>Remover</translation>
     </message>
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation>Suprimer avatar</translation>
+        <translation>Remover avatar</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -5760,12 +5760,12 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <location line="+8"/>
         <location line="+241"/>
         <source>Cancel</source>
-        <translation>Anuler</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="-193"/>
         <source>Name</source>
-        <translation>Nómine</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5962,7 +5962,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation>Parametres de chambre</translation>
+        <translation>Ajustations de chambre</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6144,7 +6144,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>Desafixar</translation>
+        <translation>Defixer</translation>
     </message>
 </context>
 <context>
@@ -6162,12 +6162,12 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation>Li file selectat ne es un imagine</translation>
+        <translation>Li dosier selectat ne es un imagine</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Error durant li lecture de file: %1</translation>
+        <translation>Error durant lectura de file: %1</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6192,7 +6192,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Li executorie del backend de Matrix ne es disponibil.</translation>
+        <translation>Le runtime backend Matrix ne es disponibil.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6508,7 +6508,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>Null prevision disponibil</translation>
+        <translation>Necun prevision disponibil</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6638,7 +6638,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation>Anuller</translation>
+        <translation>Cancellar</translation>
     </message>
 </context>
 <context>
@@ -6736,7 +6736,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Spacie</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6912,7 +6912,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+48"/>
         <source>Close</source>
-        <translation>Cluser</translation>
+        <translation>Clauder</translation>
     </message>
 </context>
 <context>
@@ -7040,7 +7040,7 @@ It sembla que vu es nov. Ante que vu posse criptar securmen vus mesages, nos dev
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Previsualisament de avatar</translation>
+        <translation>Prevision de avatar</translation>
     </message>
 </context>
 <context>
@@ -7077,7 +7077,7 @@ It sembla que vu es nov. Ante que vu posse criptar securmen vus mesages, nos dev
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowIgnoredUsers.qml" line="+12"/>
         <source>Manage</source>
-        <translation>Administrar</translation>
+        <translation>Gestionar</translation>
     </message>
 </context>
 <context>
@@ -7085,7 +7085,7 @@ It sembla que vu es nov. Ante que vu posse criptar securmen vus mesages, nos dev
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowLogout.qml" line="+12"/>
         <source>Sign out</source>
-        <translation>Disconnectar se</translation>
+        <translation>Desconectar</translation>
     </message>
 </context>
 <context>
@@ -7163,7 +7163,7 @@ It sembla que vu es nov. Ante que vu posse criptar securmen vus mesages, nos dev
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Aspect &amp; Sensation</translation>
+        <translation>Aparentie &amp; Sensation</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7190,7 +7190,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>Previsualisament de timeline</translation>
+        <translation>Prevision de timeline</translation>
     </message>
 </context>
 <context>
@@ -7212,7 +7212,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="-48"/>
         <source>React</source>
-        <translation>Reagir</translation>
+        <translation>Reactionar</translation>
     </message>
     <message>
         <location line="+65"/>
@@ -7230,7 +7230,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation>%1 e %2 scrive…</translation>
+        <translation>%1 e %2 scrivent…</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7259,7 +7259,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Pack de Conto</translation>
+        <translation>Pachet del Conto</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7288,7 +7288,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Li backend Matrix ne es ancore parat.</translation>
+        <translation>Li backend Matrix ne es ancor pret.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -7399,7 +7399,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
         <location line="+1088"/>
         <source>Settings</source>
-        <translation>Configuracion</translation>
+        <translation>Parametres</translation>
     </message>
     <message>
         <location line="-717"/>
@@ -7419,7 +7419,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Search</source>
-        <translation>Serchar</translation>
+        <translation>Cerchar</translation>
     </message>
     <message>
         <location line="+580"/>
@@ -7530,7 +7530,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -7605,7 +7605,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location filename="../../qml/dialogs/timeline/ThreadsDialog.qml" line="+25"/>
         <source>Threads</source>
-        <translation>Filaments</translation>
+        <translation>Filamentos</translation>
     </message>
     <message numerus="yes">
         <location line="+57"/>
@@ -7759,7 +7759,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation>Ne mentionar los in esti mesage</translation>
+        <translation>Ne mencionar les in iste mesage</translation>
     </message>
 </context>
 <context>
@@ -7777,7 +7777,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Depinar</translation>
+        <translation>Defixer</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -7816,7 +7816,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+4"/>
         <source>Settings</source>
-        <translation>Configurationes</translation>
+        <translation>Parametres</translation>
     </message>
     <message numerus="yes">
         <location line="+19"/>
@@ -8147,7 +8147,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation>Transmitter</translation>
+        <translation>Transmandar</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -8228,7 +8228,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation>Sortir</translation>
+        <translation>Quitar</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8265,7 +8265,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8402,12 +8402,12 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location line="+100"/>
         <location line="+382"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation>Reiniciar</translation>
+        <translation>Restablir</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8417,7 +8417,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Esque vu es cert que vu vole retirer vun avatar?</translation>
+        <translation>Esque vu es cert que vu vole remover vun avatar?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -8485,7 +8485,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation>Non-verificat</translation>
+        <translation>Non verificat</translation>
     </message>
     <message>
         <location line="-497"/>
@@ -8579,7 +8579,7 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes �
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation>Designorar</translation>
+        <translation>Des-ignorar</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8639,7 +8639,7 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes �
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation>Ti aparate</translation>
+        <translation>Iste aparate</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8694,7 +8694,7 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes �
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Deverificar</translation>
+        <translation>Desverificar</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
@@ -8786,12 +8786,12 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes �
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation>Selectionar un avatar</translation>
+        <translation>Selecter un avatar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>Omni files (*)</translation>
+        <translation>Omni Files (*)</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8822,7 +8822,7 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes �
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation>Fallat de remover avatar.</translation>
+        <translation>Faliet remover li avatar.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8923,8 +8923,8 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes �
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Controla vun statu de &lt;a href="%1"&gt;Presentia&lt;/a&gt; sur li ret Matrix.
-Automatic es o 'online' o 'indisponibil' (pos 5 minutas de inactivitá).</translation>
+        <translation>Controla li statù de &lt;a href="%1"&gt;Presence&lt;/a&gt; de vu sur li rete Matrix.
+Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8934,7 +8934,7 @@ Automatic es o 'online' o 'indisponibil' (pos 5 minutas de inactivitá).</transl
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controlar quando li nomines de usator del expeditor es montrat super mesages. In mod de bullas, vun propri nome de usator es sempre celat. In chambres plu petit, avatares e colores de bullas es sovente context suficent.</translation>
+        <translation>Controla quand li nomes de usator del expeditor es monstrat super mesages. In modo de bulles, vù propri nóm de usator es sempre celat. In chambres plu petit, avatares e colores de bulles es sovent sufficent context.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -8977,7 +8977,7 @@ Automatic es o 'online' o 'indisponibil' (pos 5 minutas de inactivitá).</transl
     <message>
         <location line="+1"/>
         <source>Account</source>
-        <translation>Compte</translation>
+        <translation>Conto</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9025,7 +9025,7 @@ Automatic es o 'online' o 'indisponibil' (pos 5 minutas de inactivitá).</transl
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Li runtime del backend de Matrix ne es disponibil.</translation>
+        <translation>Le runtime backend Matrix ne es disponibil.</translation>
     </message>
 </context>
 <context>
@@ -9045,7 +9045,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>Ne nú</translation>
+        <translation>Ne nu</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9060,12 +9060,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Null altri aparate connexat es actualmente disponibil por verification.</translation>
+        <translation>Null altre aparate ingresit es actualmente disponibil por verification.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation>Disblocar backup de clave</translation>
+        <translation>Desblocar salvaguarda de claves</translation>
     </message>
 </context>
 <context>
@@ -9124,7 +9124,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation>Nov in Matrix?</translation>
+        <translation>Nov a Matrix?</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9134,7 +9134,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation>Connexar se</translation>
+        <translation>Entrar</translation>
     </message>
 </context>
 <context>
@@ -9285,7 +9285,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation>Thema</translation>
+        <translation>Tema</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9839,7 +9839,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation>Compte</translation>
+        <translation>Conto</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9869,7 +9869,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation>Token de accesse</translation>
+        <translation>Token de acces</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9899,7 +9899,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation>Nomine</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location line="+4"/>

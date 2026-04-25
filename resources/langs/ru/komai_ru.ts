@@ -91,7 +91,7 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation>Скопировать в буфер</translation>
+        <translation>Скопировать в буфер обмена</translation>
     </message>
     <message>
         <location line="-554"/>
@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Отменить верификацию</translation>
+        <translation>Отменить Верификацию</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -427,7 +427,7 @@
     <message>
         <location line="+22"/>
         <source>New</source>
-        <translation>Новый</translation>
+        <translation>Новая</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -475,7 +475,7 @@
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Спонсировать</translation>
+        <translation>Поддержать</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -585,7 +585,7 @@
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Бэкенд Matrix ещё не готов.</translation>
+        <translation>Matrix-бэкенд ещё не готов.</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -767,7 +767,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation>Завершить</translation>
+        <translation>Выйти</translation>
     </message>
 </context>
 <context>
@@ -1092,7 +1092,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>Пользователи не найдены.</translation>
+        <translation>Подходящие пользователи не найдены.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1130,7 +1130,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/CreateRoom.qml" line="+37"/>
         <source>Name</source>
-        <translation>Название</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1541,7 +1541,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Кнопка</translation>
+        <translation>Закрепить</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2041,12 +2041,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+11"/>
         <source>New</source>
-        <translation>Новый</translation>
+        <translation>Новая</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>Разигнорировать</translation>
+        <translation>Перестать игнорировать</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2579,7 +2579,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>Недоступно</translation>
+        <translation>Недоступен</translation>
     </message>
     <message>
         <location line="-295"/>
@@ -2786,7 +2786,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Выбери узнаваемое имя. Его видят другие.</translation>
+        <translation>Выбери узнаваемое имя — его увидят и другие.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -2826,7 +2826,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Показать/скрыть пароль</translation>
+        <translation>Показать/Скрыть пароль</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -4809,7 +4809,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+46"/>
         <source>Suggestions:</source>
-        <translation>Предложения:</translation>
+        <translation>Варианты:</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -4891,7 +4891,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="-770"/>
         <location line="+893"/>
         <source>Device name</source>
-        <translation>Название устройства</translation>
+        <translation>Имя устройства</translation>
     </message>
     <message>
         <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
@@ -5286,7 +5286,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+10"/>
         <source>Join</source>
-        <translation>Вступить</translation>
+        <translation>Присоединиться</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -5588,7 +5588,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation>Копировать в буфер обмена</translation>
+        <translation>Скопировать в буфер обмена</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -5772,7 +5772,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="-193"/>
         <source>Name</source>
-        <translation>Название</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5837,7 +5837,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation>Л</translation>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5852,7 +5852,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>К</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5867,7 +5867,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>П</translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -6743,7 +6743,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Пробел</translation>
+        <translation>Пространство</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6987,7 +6987,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Нет других подключённых устройств, доступных для верификации.</translation>
+        <translation>Нет других вошедших устройств, доступных для верификации.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7152,7 +7152,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <location line="+7"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation>Включить в 'Все комнаты'</translation>
+        <translation>Включить в «Все комнаты»</translation>
     </message>
 </context>
 <context>
@@ -7224,7 +7224,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+65"/>
         <source>Options</source>
-        <translation>Параметры</translation>
+        <translation>Опции</translation>
     </message>
 </context>
 <context>
@@ -7266,7 +7266,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Пак аккаунта</translation>
+        <translation>Пакет аккаунта</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7821,7 +7821,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation>Предпросмотр недоступен</translation>
+        <translation>Предварительный просмотр недоступен</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8563,7 +8563,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Удалить аватар?</translation>
+        <translation>Уверен, что хочешь удалить аватар?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -8790,7 +8790,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation>Заблокировано</translation>
+        <translation>Заблокирован</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8936,8 +8936,8 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Управляет статусом &lt;a href="%1"&gt;присутствия&lt;/a&gt; в сети Matrix.
-Автоматически переключается между 'в сети' и 'недоступен' (после 5 минут бездействия).</translation>
+        <translation>Управляет статусом &lt;a href="%1"&gt;Присутствия&lt;/a&gt; в сети Matrix.
+Автоматический режим: 'онлайн' или 'недоступен' (после 5 минут бездействия).</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9020,7 +9020,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation>О приложении</translation>
+        <translation>О комнате</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -9488,7 +9488,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Управляет отображением имён отправителей над сообщениями. В режиме пузырьков своё имя пользователя всегда скрыто. В небольших комнатах аватарки и цвета пузырьков зачастую дают достаточно контекста.</translation>
+        <translation>Управляет отображением имён отправителей над сообщениями. В режиме пузырей твоё имя всегда скрыто. В небольших комнатах аватары и цвета пузырей часто дают достаточно контекста.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9857,7 +9857,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Идентификатор пользователя</translation>
+        <translation>ID пользователя</translation>
     </message>
     <message>
         <location line="+4"/>

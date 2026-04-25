@@ -16,7 +16,7 @@
     <message>
         <location line="+13"/>
         <source>Change</source>
-        <translation>Vaihda</translation>
+        <translation>Muuta</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>Paljasta napsauttamalla</translation>
+        <translation>Napsauta paljastaaksesi</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -1540,7 +1540,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Nuppineula</translation>
+        <translation>Kiinnitä</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2304,7 +2304,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Kirjoita hakusana. Tulokset näkyvät tässä.</translation>
+        <translation>Kirjoita hakusana. Tulokset ilmestyvät tähän.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2337,7 +2337,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation>Kutsunut: %1</translation>
+        <translation>%1 kutsui</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2783,7 +2783,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Valitse tunnistettava nimi. Muutkin voivat nähdä sen.</translation>
+        <translation>Valitse tunnistettava nimi. Muut voivat nähdä sen myös.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -2823,7 +2823,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Näytä/piilota salasana</translation>
+        <translation>Näytä/Piilota salasana</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -3326,7 +3326,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation>Välitä edelleen</translation>
+        <translation>Välitä</translation>
     </message>
     <message>
         <location line="-178"/>
@@ -3609,7 +3609,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation>Tuloksia ei löydy.</translation>
+        <translation>Ei tuloksia.</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -3627,7 +3627,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation>Uusi Matrixissa?</translation>
+        <translation>Uusi Matrix-käyttäjä?</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -4578,7 +4578,7 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation>Lukukuittaukset</translation>
+        <translation>Lukukuitit</translation>
     </message>
 </context>
 <context>
@@ -4798,7 +4798,7 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Luo uusi satunnainen nimi</translation>
+        <translation>Luo toinen satunnainen nimi</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -4935,7 +4935,7 @@ Palaa takaisin ja kirjaudu sisään manuaalisesti.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Kopioi &amp;linkin sijainti</translation>
+        <translation>Kopioi &amp;linkin osoite</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4977,7 +4977,7 @@ Palaa takaisin ja kirjaudu sisään manuaalisesti.</translation>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation>Vastaus</translation>
+        <translation>Vastaa</translation>
     </message>
 </context>
 <context>
@@ -4985,7 +4985,7 @@ Palaa takaisin ja kirjaudu sisään manuaalisesti.</translation>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation>Ilmoita viestistä</translation>
+        <translation>Ilmianna viesti</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5399,7 +5399,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation>Huonetta ei valittu</translation>
+        <translation>Huonetta ei ole valittu</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5530,7 +5530,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     <message>
         <location line="+2"/>
         <source>Search</source>
-        <translation>Haku</translation>
+        <translation>Hae</translation>
     </message>
 </context>
 <context>
@@ -5830,7 +5830,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation>Y</translation>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5845,7 +5845,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>H</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5860,7 +5860,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>T</translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -6008,7 +6008,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
         <source>Enter your status message:</source>
-        <translation>Syötä tilaviestisi:</translation>
+        <translation>Kirjoita tilaviestisi:</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6192,7 +6192,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix-taustajärjestelmän suoritusympäristö ei ole käytettävissä.</translation>
+        <translation>Matrix-tausta ei ole käytettävissä.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6736,7 +6736,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Välilyönti</translation>
+        <translation>Tila</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6986,7 +6986,7 @@ Vaikuttaa siltä, että olet uusi käyttäjä. Ennen kuin voit salata viestisi t
         <location line="+6"/>
         <location line="+79"/>
         <source>The verification manager is not available.</source>
-        <translation>Vahvistuspalvelu ei ole käytettävissä.</translation>
+        <translation>Vahvistushallinta ei ole käytettävissä.</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -7163,7 +7163,7 @@ Vaikuttaa siltä, että olet uusi käyttäjä. Ennen kuin voit salata viestisi t
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Ulkonäkö &amp; tuntuma</translation>
+        <translation>Ulkoasu</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7217,7 +7217,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+65"/>
         <source>Options</source>
-        <translation>Vaihtoehdot</translation>
+        <translation>Valinnat</translation>
     </message>
 </context>
 <context>
@@ -7938,7 +7938,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>Kaikki tiedostot (*)</translation>
+        <translation>Kaikki Tiedostot (*)</translation>
     </message>
     <message>
         <location line="+135"/>
@@ -8324,7 +8324,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix-taustajärjestelmä ei ole käytettävissä.</translation>
+        <translation>Matrix-tausta ei ole käytettävissä.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8435,7 +8435,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation>Profiilikuvan poistaminen epäonnistui.</translation>
+        <translation>Avatarin poistaminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8475,7 +8475,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation>Profiilikuva</translation>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8540,7 +8540,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation>Palauta</translation>
+        <translation>Nollaa</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8550,7 +8550,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Haluatko varmasti poistaa profiilikuvasi?</translation>
+        <translation>Haluatko varmasti poistaa avatarisi?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -8934,7 +8934,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Määritä, milloin lähettäjien käyttäjänimet näytetään viestien yläpuolella. Kupla-tilassa oma käyttäjänimesi on aina piilotettu. Pienemmissä huoneissa avatarit ja kuplavärkit riittävät usein kontekstiksi.</translation>
+        <translation>Hallitse, milloin lähettäjien käyttäjänimet näytetään viestien yläpuolella. Kuplatilassa oma käyttäjänimesi on aina piilotettu. Pienemmissä huoneissa avatarit ja kuplavärit tarjoavat usein riittävästi asiayhteyden.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9060,12 +9060,12 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Yhtäkään muuta kirjautunutta laitetta ei ole tällä hetkellä saatavilla vahvistukseen.</translation>
+        <translation>Muita kirjautuneita laitteita ei ole tällä hetkellä saatavilla vahvistusta varten.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation>Avaa avainvarmuuskopio</translation>
+        <translation>Avaa avainten varmuuskopio</translation>
     </message>
 </context>
 <context>
@@ -9101,7 +9101,7 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation>Tervetuloa Komaiin</translation>
+        <translation>Tervetuloa Komaihin</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -9813,8 +9813,8 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Hallitsee &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilasi Matrix-verkossa.
-Automaattinen on joko 'paikalla' tai 'poissaoleva' (5 minuutin toimettomuuden jälkeen).</translation>
+        <translation>Hallinnoi &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilaasi Matrix-verkossa.
+Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettomuuden jälkeen).</translation>
     </message>
     <message>
         <location line="+9"/>

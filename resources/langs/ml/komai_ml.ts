@@ -42,12 +42,12 @@
     <message>
         <location line="+48"/>
         <source>Display name</source>
-        <translation>പ്രദർശന നാമം</translation>
+        <translation>ഡിസ്‌പ്ലേ നാമം</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>User ID</source>
-        <translation>ഉപയോക്തൃ ഐഡി</translation>
+        <translation>ഉപയോക്തൃ ID</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -62,7 +62,7 @@
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation>ഉപയോക്തൃ ഐഡി പകർത്തുക</translation>
+        <translation>ഉപയോക്തൃ ID പകർത്തുക</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -148,7 +148,7 @@
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation>പരിശോധിച്ചത്</translation>
+        <translation>പരിശോധിക്കപ്പെട്ടത്</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -168,7 +168,7 @@
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation>തടസ്സം നീക്കുക</translation>
+        <translation>അൺബ്ലോക്ക് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -516,7 +516,7 @@
     <message>
         <location line="+66"/>
         <source>No microphone found.</source>
-        <translation>മൈക്രോഫോൺ കണ്ടെത്തിയില്ല.</translation>
+        <translation>മൈക്രോഫോണൊന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
 </context>
 <context>
@@ -938,7 +938,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>പൊരുത്തങ്ങൾ ഒന്നും കണ്ടെത്തിയില്ല.</translation>
+        <translation>ഒന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1091,7 +1091,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>യോജിക്കുന്ന ഉപയോക്താക്കളെ കണ്ടെത്തിയില്ല.</translation>
+        <translation>പൊരുത്തപ്പെടുന്ന ഉപയോക്താക്കളെ കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1189,7 +1189,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation>വിശ്വസ്തം</translation>
+        <translation>വിശ്വസനീയം</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -1732,7 +1732,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+13"/>
         <source>Close</source>
-        <translation>അടയ്‌ക്കുക</translation>
+        <translation>അടയ്ക്കുക</translation>
     </message>
 </context>
 <context>
@@ -1740,7 +1740,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
         <source>Save</source>
-        <translation>സേവ് ചെയ്യുക</translation>
+        <translation>സംരക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1993,7 +1993,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation>അവഗണിക്കപ്പെട്ട ഉപയോക്താക്കൾ</translation>
+        <translation>അവഗണിച്ച ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2171,7 +2171,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+9"/>
         <source>Save</source>
-        <translation>സേവ് ചെയ്യുക</translation>
+        <translation>സംരക്ഷിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -2224,7 +2224,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+11"/>
         <source>Edit</source>
-        <translation>എഡിറ്റ് ചെയ്യുക</translation>
+        <translation>എഡിറ്റ്</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2274,7 +2274,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation>അജ്ഞാത ഡിസ്‌പ്ലേ നാമം</translation>
+        <translation>അജ്ഞാത ഡിസ്പ്ലേ നാമം</translation>
     </message>
     <message>
         <location line="-246"/>
@@ -2304,7 +2304,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>ഒരു തിരയൽ ക്വറി ടൈപ്പ് ചെയ്യുക. ഫലങ്ങൾ ഇവിടെ പ്രദർശിക്കും.</translation>
+        <translation>ഒരു തിരയൽ ക്വറി ടൈപ്പ് ചെയ്യുക. ഫലങ്ങൾ ഇവിടെ ദൃശ്യമാകും.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2407,7 +2407,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation>പ്രൊഫൈൽ പേര് ആവശ്യമാണ്.</translation>
+        <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="-56"/>
@@ -2583,7 +2583,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+137"/>
         <location line="+157"/>
         <source>Size</source>
-        <translation>വലുപ്പം</translation>
+        <translation>വലിപ്പം</translation>
     </message>
     <message>
         <location line="-282"/>
@@ -2783,7 +2783,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>തിരിച്ചറിയാൻ കഴിയുന്ന ഒരു പേര് തിരഞ്ഞെടുക്കുക. മറ്റുള്ളവർക്കും ഇത് കാണാം.</translation>
+        <translation>തിരിച്ചറിയാവുന്ന ഒരു പേര് തിരഞ്ഞെടുക്കുക. മറ്റുള്ളവർക്കും ഇത് കാണാൻ കഴിയും.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -2817,7 +2817,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+113"/>
         <location line="+88"/>
         <source>Password</source>
-        <translation>പാസ്‍വേഡ്</translation>
+        <translation>പാസ്‌വേഡ്</translation>
     </message>
     <message>
         <location line="-189"/>
@@ -2843,7 +2843,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation>സൈൻ ഔട്ട് ചെയ്യുക</translation>
+        <translation>സൈൻ ഔട്ട്</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -3054,7 +3054,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
         <source>Creator</source>
-        <translation>സ്രഷ്ടാവ്</translation>
+        <translation>സൃഷ്ടാവ്</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -3192,12 +3192,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>അൺപിൻ</translation>
+        <translation>അൺപിൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>പിൻ ചെയ്യുക</translation>
+        <translation>പിൻ</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3326,7 +3326,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation>ഫോർവേഡ്</translation>
+        <translation>കൈമാറുക</translation>
     </message>
     <message>
         <location line="-178"/>
@@ -3622,12 +3622,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/pages/NewToMatrixPage.qml" line="+69"/>
         <source>Back</source>
-        <translation>പിന്നോട്ട്</translation>
+        <translation>തിരികെ</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation>Matrix-ൽ പുതുതായി?</translation>
+        <translation>Matrix-ൽ പുതിയതാണോ?</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -3744,7 +3744,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+9"/>
         <source>Sign in</source>
-        <translation>സൈൻ ഇൻ</translation>
+        <translation>സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
 </context>
 <context>
@@ -3941,7 +3941,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>റദ്ദാക്കു</translation>
+        <translation>റദ്ദാക്കുക</translation>
     </message>
 </context>
 <context>
@@ -4001,7 +4001,7 @@ Verify to unlock encrypted messages.</source>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation>കസ്റ്റം (%1)</translation>
+        <translation>ഇഷ്ടാനുസൃതം (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
@@ -4051,7 +4051,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+0"/>
         <source>Save</source>
-        <translation>സേവ് ചെയ്യുക</translation>
+        <translation>സംരക്ഷിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -4376,7 +4376,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+1"/>
         <source>Send</source>
-        <translation>അയയ്ക്കുക</translation>
+        <translation>അയക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4675,7 +4675,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+1"/>
         <source>Custom server</source>
-        <translation>ഇഷ്‌ടാനുസൃത സെർവർ</translation>
+        <translation>ഇഷ്ടാനുസൃത സർവർ</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -4798,7 +4798,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>മറ്റൊരു ക്രമരഹിതമായ പേര് സൃഷ്ടിക്കുക</translation>
+        <translation>മറ്റൊരു ക്രമരഹിത പേര് ഉണ്ടാക്കുക</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -4922,7 +4922,7 @@ Please go back and sign in manually.</source>
     <message>
         <location line="+2"/>
         <source>Attachment</source>
-        <translation>അറ്റാച്ച്‌മെന്റ്</translation>
+        <translation>അറ്റാച്ച്മെന്റ്</translation>
     </message>
 </context>
 <context>
@@ -5155,7 +5155,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Another server</source>
-        <translation>മറ്റൊരു സർവർ</translation>
+        <translation>മറ്റൊരു സെർവർ</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -6066,7 +6066,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+27"/>
         <source>Leave</source>
-        <translation>വിടുക</translation>
+        <translation>വിട്ടുപോകുക</translation>
     </message>
 </context>
 <context>
@@ -6136,7 +6136,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>Leave</source>
-        <translation>വിടുക</translation>
+        <translation>വിട്ടുപോകുക</translation>
     </message>
 </context>
 <context>
@@ -6736,7 +6736,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>സ്പേസ്</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6999,7 +6999,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAccessTokenField.qml" line="+24"/>
         <source>Click to reveal</source>
-        <translation>വെളിപ്പെടുത്താൻ ക്ലിക്ക് ചെയ്യുക</translation>
+        <translation>കാണാൻ ക്ലിക്ക് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -7077,7 +7077,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowIgnoredUsers.qml" line="+12"/>
         <source>Manage</source>
-        <translation>കൈകാര്യം ചെയ്യുക</translation>
+        <translation>നിയന്ത്രിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -7259,7 +7259,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>അക്കൗണ്ട് പായ്ക്ക്</translation>
+        <translation>അക്കൗണ്ട് പാക്ക്</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7646,7 +7646,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation>മുറി ലിസ്റ്റിലേക്ക് മടങ്ങുക</translation>
+        <translation>മുറി പട്ടികയിലേക്ക് തിരിച്ചുപോകുക</translation>
     </message>
 </context>
 <context>
@@ -8147,7 +8147,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation>ഫോർവേഡ്</translation>
+        <translation>കൈമാറുക</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -8162,7 +8162,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation>നീക്കം ചെയ്യുക</translation>
+        <translation>ഇല്ലാതാക്കുക</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -8177,7 +8177,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Options</source>
-        <translation>ഓപ്‌ഷനുകൾ</translation>
+        <translation>ഓപ്ഷനുകൾ</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -8228,7 +8228,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation>പുറത്തുകടക്കുക</translation>
+        <translation>അവസാനിപ്പിക്കുക</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8414,7 +8414,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>ഫയൽ വായിക്കുന്നതിൽ പിശക്: %1</translation>
+        <translation>ഫയൽ വായിക്കുന്നതിൽ പിഴവ്: %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8435,7 +8435,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation>അവതാർ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</translation>
+        <translation>അവതാർ നീക്കം ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8540,7 +8540,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation>പുനഃസജ്ജീകരിക്കുക</translation>
+        <translation>റീസെറ്റ്</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8596,7 +8596,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>പവർ ലെവൽ</translation>
+        <translation>അധികാര നില</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -8607,7 +8607,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation>പരിശോധിച്ചത്</translation>
+        <translation>പരിശോധിക്കപ്പെട്ടത്</translation>
     </message>
     <message>
         <location line="-514"/>
@@ -8618,7 +8618,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation>പരിശോധിക്കാത്തത്</translation>
+        <translation>പരിശോധിക്കാത്ത</translation>
     </message>
     <message>
         <location line="-497"/>
@@ -8712,7 +8712,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation>അൺഇഗ്‌നോർ ചെയ്യുക</translation>
+        <translation>അവഗണന നീക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8827,7 +8827,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>പരിശോധന റദ്ദാക്കുക</translation>
+        <translation>പരിശോധന നീക്കുക</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8923,8 +8923,8 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;പ്രസൻസ്&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
-ഓട്ടോമാറ്റിക് 'ഓൺലൈൻ' അല്ലെങ്കിൽ 'ലഭ്യമല്ല' ആണ് (5 മിനിറ്റ് നിഷ്‌ക്രിയതക്ക് ശേഷം).</translation>
+        <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;Presence&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
+Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailable' ആണ് (5 മിനിറ്റ് നിഷ്‌ക്രിയത്വത്തിനുശേഷം).</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8934,7 +8934,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>സന്ദേശങ്ങൾക്ക് മുകളിൽ അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമം എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
+        <translation>അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ സന്ദേശങ്ങൾക്ക് മുകളിൽ എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബ്ബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബ്ബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -8952,7 +8952,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation>രൂപഭാവം</translation>
+        <translation>ദൃശ്യരൂപം &amp; അനുഭൂതി</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9060,7 +9060,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>പരിശോധനയ്ക്ക് നിലവിൽ മറ്റൊരു സൈൻ-ഇൻ ചെയ്ത ഉപകരണവും ലഭ്യമല്ല.</translation>
+        <translation>പരിശോധനക്ക് ഇപ്പോൾ മറ്റൊരു സൈൻ-ഇൻ ചെയ്ത ഉപകരണവും ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9147,12 +9147,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+9"/>
         <source>Light</source>
-        <translation>ലൈറ്റ്</translation>
+        <translation>തെളിഞ്ഞ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation>ഡാർക്ക്</translation>
+        <translation>ഇരുണ്ട</translation>
     </message>
     <message>
         <location line="+32"/>

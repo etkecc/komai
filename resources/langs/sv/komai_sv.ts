@@ -128,7 +128,7 @@
     <message>
         <location line="+14"/>
         <source>Refreshed</source>
-        <translation>Uppdaterat</translation>
+        <translation>Uppdaterad</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -544,7 +544,7 @@
     <message>
         <location line="+4"/>
         <source>No microphone found.</source>
-        <translation>Ingen mikrofon hittad.</translation>
+        <translation>Ingen mikrofon kunde hittas.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -559,7 +559,7 @@
     <message>
         <location line="+14"/>
         <source>Decline</source>
-        <translation>Neka</translation>
+        <translation>Avböj</translation>
     </message>
 </context>
 <context>
@@ -585,7 +585,7 @@
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Matrix-bakgrunden är inte klar ännu.</translation>
+        <translation>Matrix-backend är inte redo ännu.</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -949,7 +949,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <location line="+147"/>
         <location line="+55"/>
         <source>(Space)</source>
-        <translation>(Utrymme)</translation>
+        <translation>(Område)</translation>
     </message>
 </context>
 <context>
@@ -1207,12 +1207,12 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+30"/>
         <source>They do not match!</source>
-        <translation>Siffrorna överensstämmer inte!</translation>
+        <translation>De överensstämmer inte!</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation>Siffrorna överensstämmer!</translation>
+        <translation>De överensstämmer!</translation>
     </message>
 </context>
 <context>
@@ -1540,7 +1540,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Nål</translation>
+        <translation>Fäst</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2294,7 +2294,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Sök med namn eller @user:example.com</translation>
+        <translation>Sök efter namn eller @user:example.com</translation>
     </message>
     <message>
         <location line="+98"/>
@@ -2352,7 +2352,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+25"/>
         <source>Accept</source>
-        <translation>Acceptera</translation>
+        <translation>Godkänn</translation>
     </message>
 </context>
 <context>
@@ -3192,7 +3192,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>Avnåla</translation>
+        <translation>Avfäst</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3287,7 +3287,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation>Anmäl meddelande</translation>
+        <translation>Rapportera meddelande</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3674,7 +3674,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+54"/>
         <source>Another server</source>
-        <translation>En annan server</translation>
+        <translation>Annan server</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4645,7 +4645,7 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
     <message>
         <location line="+1"/>
         <source>Verify</source>
-        <translation>Verifiera</translation>
+        <translation>Bekräfta</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4793,7 +4793,7 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Välj ett igenkännbart namn. Andra kan se det också.</translation>
+        <translation>Välj ett igenkännbart namn. Andra kan också se det.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -5962,7 +5962,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation>Ruminställningar</translation>
+        <translation>Rumsinställningar</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5975,7 +5975,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListExploreFooter.qml" line="+14"/>
         <source>New</source>
-        <translation>Nytt</translation>
+        <translation>Ny</translation>
     </message>
 </context>
 <context>
@@ -6118,7 +6118,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>Otillgänglig</translation>
+        <translation>Ej tillgänglig</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6192,7 +6192,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix-bakgrundstjänsten är inte tillgänglig.</translation>
+        <translation>Matrix-backend är inte tillgänglig.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6736,7 +6736,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Område</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8162,7 +8162,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation>Radera</translation>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -8404,7 +8404,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>Alla Filer (*)</translation>
+        <translation>Alla filer (*)</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -8414,7 +8414,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Kunde inte läsa filen: %1</translation>
+        <translation>Fel vid läsning av fil: %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8435,7 +8435,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation>Kunde inte ta bort avatar.</translation>
+        <translation>Det gick inte att ta bort avataren.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8571,7 +8571,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation>Kopierad!</translation>
+        <translation>Kopierat!</translation>
     </message>
     <message>
         <location line="-69"/>
@@ -8934,7 +8934,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Styr när avsändarens användarnamn visas ovanför meddelanden. I bubbelläge är ditt eget användarnamn alltid dolt. I mindre rum räcker ofta avatarer och bubbelfarger som sammanhang.</translation>
+        <translation>Styr när avsändarens användarnamn visas ovanför meddelanden. I bubbelläge är ditt eget användarnamn alltid dolt. I mindre rum räcker avatarer och bubbelkolor ofta som kontext.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9025,7 +9025,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix-backendkörning är inte tillgänglig.</translation>
+        <translation>Matrix-backend är inte tillgänglig.</translation>
     </message>
 </context>
 <context>
@@ -9355,7 +9355,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>Förhandsvisning av avatar</translation>
+        <translation>Förhandsgranskning av avatar</translation>
     </message>
     <message>
         <location line="+11"/>

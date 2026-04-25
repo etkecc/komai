@@ -128,12 +128,12 @@
     <message>
         <location line="+14"/>
         <source>Refreshed</source>
-        <translation>بازخوانی شد</translation>
+        <translation>بارگذاری شد</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation>بازخوانی</translation>
+        <translation>بارگذاری مجدد</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -168,7 +168,7 @@
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation>رفع مسدودیت</translation>
+        <translation>رفع انسداد</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -475,7 +475,7 @@
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>حامی مالی</translation>
+        <translation>حامی</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -539,7 +539,7 @@
     <message>
         <location line="+11"/>
         <source>Accept</source>
-        <translation>پذیرفتن</translation>
+        <translation>پذیرش</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>گنجاندن در 'همه اتاق‌ها'</translation>
+        <translation>شامل در «همه اتاق‌ها»</translation>
     </message>
 </context>
 <context>
@@ -819,7 +819,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation>تنظیمات…</translation>
+        <translation>تنظیمات...</translation>
     </message>
 </context>
 <context>
@@ -1064,7 +1064,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>چت مستقیم جدید</translation>
+        <translation>گفتگوی مستقیم جدید</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1085,12 +1085,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>یک عبارت جستجو وارد کنید. نتایج اینجا نمایش داده می‌شوند.</translation>
+        <translation>یک عبارت جستجو تایپ کنید. نتایج در اینجا نمایش داده می‌شوند.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>کاربر منطبقی یافت نشد.</translation>
+        <translation>هیچ کاربر منطبقی یافت نشد.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1844,7 +1844,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation>فوروارد</translation>
+        <translation>بازارسال</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -1990,7 +1990,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation>کاربران نادیده گرفته‌شده</translation>
+        <translation>کاربران نادیده‌گرفته‌شده</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2040,7 +2040,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>لغو نادیده گرفتن</translation>
+        <translation>رفع نادیده‌گیری</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2739,7 +2739,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-774"/>
         <source>Account</source>
-        <translation>حساب</translation>
+        <translation>حساب کاربری</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2780,7 +2780,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>نامی قابل‌تشخیص انتخاب کنید. دیگران هم می‌توانند آن را ببینند.</translation>
+        <translation>نامی قابل تشخیص انتخاب کنید. دیگران هم می‌توانند آن را ببینند.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -2840,7 +2840,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation>خروج</translation>
+        <translation>خروج از حساب</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -3031,7 +3031,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation>هیچ اتاقی انتخاب نشده</translation>
+        <translation>اتاقی انتخاب نشده</translation>
     </message>
 </context>
 <context>
@@ -3193,7 +3193,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>پین کردن</translation>
+        <translation>سنجاق</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3322,7 +3322,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation>فوروارد</translation>
+        <translation>بازارسال</translation>
     </message>
     <message>
         <location line="-178"/>
@@ -3605,7 +3605,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation>هیچ موردی یافت نشد.</translation>
+        <translation>موردی یافت نشد.</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -4572,7 +4572,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation>رسیدهای خواندن</translation>
+        <translation>تأییدیه‌های خواندن</translation>
     </message>
 </context>
 <context>
@@ -4654,7 +4654,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+88"/>
         <source>Cancel</source>
-        <translation>انصراف</translation>
+        <translation>لغو</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4767,7 +4767,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation>نمایش/پنهان‌کردن رمز عبور</translation>
+        <translation>نمایش/پنهان کردن رمز عبور</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -4792,7 +4792,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>تولید نام تصادفی دیگری</translation>
+        <translation>تولید نام تصادفی دیگر</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -5083,7 +5083,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>فعلاً نه</translation>
+        <translation>نه الان</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5726,7 +5726,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+35"/>
         <source>Avatar</source>
-        <translation>تصویر</translation>
+        <translation>آواتار</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5742,7 +5742,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation>حذف تصویر</translation>
+        <translation>حذف آواتار</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -5823,7 +5823,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation>م</translation>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5838,7 +5838,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>ا</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5853,7 +5853,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>ف</translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -6170,7 +6170,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation>حذف تصویر نمایه ناموفق بود.</translation>
+        <translation>حذف آواتار ناموفق بود.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
@@ -6185,7 +6185,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>محیط اجرایی پشتیبان Matrix در دسترس نیست.</translation>
+        <translation>زمان اجرای پشتیبان Matrix در دسترس نیست.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6729,7 +6729,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>فضا</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7002,7 +7002,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation>کپی در حافظه موقت</translation>
+        <translation>کپی در کلیپ‌بورد</translation>
     </message>
 </context>
 <context>
@@ -7156,7 +7156,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>ظاهر و احساس</translation>
+        <translation>ظاهر &amp; احساس</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7281,7 +7281,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>پشتیبان Matrix هنوز آماده نیست.</translation>
+        <translation>سرویس پشتی Matrix هنوز آماده نیست.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -7768,7 +7768,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>رفع پین</translation>
+        <translation>برداشتن پین</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -7801,7 +7801,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation>پیش‌نمایشی در دسترس نیست</translation>
+        <translation>پیش‌نمایش در دسترس نیست</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8386,7 +8386,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation>انتخاب تصویر نمایه</translation>
+        <translation>انتخاب آواتار</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8401,7 +8401,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>خطا هنگام خواندن فایل: %1</translation>
+        <translation>خطا در خواندن فایل: %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8532,7 +8532,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation>حذف تصویر نمایه</translation>
+        <translation>حذف آواتار</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -8573,7 +8573,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation>کپی کردن شناسه کاربر</translation>
+        <translation>کپی شناسه کاربر</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -8744,12 +8744,12 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation>تازه‌سازی شد</translation>
+        <translation>بارگذاری شد</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation>تازه‌سازی</translation>
+        <translation>بارگذاری مجدد</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8764,7 +8764,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation>مسدود شده</translation>
+        <translation>مسدود</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8910,8 +8910,8 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>وضعیت &lt;a href="%1"&gt;حضور&lt;/a&gt; شما را در شبکه Matrix کنترل می‌کند.
-حالت خودکار یا 'آنلاین' است یا 'غیردسترس' (پس از 5 دقیقه عدم فعالیت).</translation>
+        <translation>وضعیت &lt;a href="%1"&gt;حضور&lt;/a&gt; شما در شبکه Matrix را کنترل می‌کند.
+خودکار یا 'آنلاین' یا 'غیرقابل دسترس' (پس از 5 دقیقه عدم فعالیت) است.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8921,7 +8921,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>کنترل کنید که چه زمانی نام‌های کاربری فرستنده بالای پیام‌ها نمایش داده شوند. در حالت حباب، نام کاربری خود شما همیشه پنهان است. در اتاق‌های کوچک‌تر، تصاویر نمایه و رنگ حباب‌ها اغلب زمینه کافی هستند.</translation>
+        <translation>کنترل کنید که نام کاربری فرستنده چه زمانی بالای پیام‌ها نمایش داده شود. در حالت حباب، نام کاربری خودتان همیشه پنهان است. در اتاق‌های کوچک‌تر، آواتارها و رنگ‌های حباب معمولاً زمینه کافی هستند.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9012,7 +9012,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>محیط اجرایی بک‌اند Matrix در دسترس نیست.</translation>
+        <translation>زمان اجرای پشتیبان Matrix در دسترس نیست.</translation>
     </message>
 </context>
 <context>
@@ -9047,7 +9047,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>در حال حاضر هیچ دستگاه دیگری که وارد شده باشد برای تأیید در دسترس نیست.</translation>
+        <translation>در حال حاضر هیچ دستگاه دیگری وارد شده برای تأیید در دسترس نیست.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9111,7 +9111,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation>تازه‌وارد Matrix هستید؟</translation>
+        <translation>تازه وارد Matrix شده‌اید؟</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9215,7 +9215,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation>مردم</translation>
+        <translation>افراد</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9574,7 +9574,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation>شکلک</translation>
+        <translation>ایموجی</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9826,12 +9826,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation>حساب</translation>
+        <translation>حساب کاربری</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>شناسه کاربری</translation>
+        <translation>شناسه کاربر</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -811,7 +811,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Sertakan di 'Semua ruangan'</translation>
+        <translation>Sertakan dalam 'Semua ruangan'</translation>
     </message>
 </context>
 <context>
@@ -938,7 +938,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>Tidak ada kecocokan yang ditemukan.</translation>
+        <translation>Tidak ada hasil yang cocok.</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1085,7 +1085,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Ketik kueri pencarian. Hasil akan muncul di sini.</translation>
+        <translation>Ketik kata kunci pencarian. Hasil akan muncul di sini.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1188,7 +1188,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation>Dipercayai</translation>
+        <translation>Dipercaya</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -2040,7 +2040,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>Hapus abaian</translation>
+        <translation>Batalkan abaikan</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2385,7 +2385,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation>Gabung ruangan</translation>
+        <translation>Bergabung dengan ruangan</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2930,7 +2930,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 dan %3 orang lain sedang mengetik…</translation>
+        <translation>%1, %2 dan %3 lainnya sedang mengetik…</translation>
     </message>
 </context>
 <context>
@@ -3031,7 +3031,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation>Tidak ada ruangan yang dipilih</translation>
+        <translation>Tidak ada ruangan dipilih</translation>
     </message>
 </context>
 <context>
@@ -3143,12 +3143,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+13"/>
         <location line="+13"/>
         <source>Copied!</source>
-        <translation>Tersalin!</translation>
+        <translation>Disalin!</translation>
     </message>
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation>Salin teks terformat</translation>
+        <translation>Salin teks berformat</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3193,7 +3193,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Sematkan</translation>
+        <translation>Pin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3243,7 +3243,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation>Tanda terima baca</translation>
+        <translation>Laporan dibaca</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3273,7 +3273,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+0"/>
         <source>Cancel send</source>
-        <translation>Batalkan pengiriman</translation>
+        <translation>Batal kirim</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3308,7 +3308,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation>Edit</translation>
+        <translation>Sunting</translation>
     </message>
     <message>
         <location line="-147"/>
@@ -3937,7 +3937,7 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Batalkan</translation>
+        <translation>Batal</translation>
     </message>
 </context>
 <context>
@@ -4639,7 +4639,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
     <message>
         <location line="+1"/>
         <source>Verify</source>
-        <translation>Verifikasi</translation>
+        <translation>Lakukan verifikasi</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4724,7 +4724,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
     <message>
         <location line="+49"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation>mis. example.com atau https://matrix.example.com</translation>
+        <translation>cth. example.com atau https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -4873,7 +4873,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <location line="-1283"/>
         <location line="+772"/>
         <source>Password</source>
-        <translation>Kata sandi</translation>
+        <translation>Kata Sandi</translation>
     </message>
     <message>
         <location line="-770"/>
@@ -4929,7 +4929,7 @@ Silakan kembali dan masuk secara manual.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Salin lokasi &amp;tautan</translation>
+        <translation>Salin &amp;lokasi tautan</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -6397,7 +6397,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+134"/>
         <source>Settings...</source>
-        <translation>Pengaturan...</translation>
+        <translation>Pengaturan…</translation>
     </message>
     <message>
         <location line="-135"/>
@@ -6501,7 +6501,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>Tidak ada tampilan yang tersedia</translation>
+        <translation>Tidak ada pratinjau</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6631,7 +6631,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation>Batalkan</translation>
+        <translation>Batal</translation>
     </message>
 </context>
 <context>
@@ -6729,7 +6729,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Ruang</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7002,7 +7002,7 @@ Seperti nya Anda baru di sini. Sebelum dapat mengenkripsi pesan dengan aman, per
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation>Salin ke clipboard</translation>
+        <translation>Salin ke papan klip</translation>
     </message>
 </context>
 <context>
@@ -7750,7 +7750,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation>Jangan sebut mereka dalam pesan ini</translation>
+        <translation>Jangan menyebutkan mereka dalam pesan ini</translation>
     </message>
 </context>
 <context>
@@ -7768,7 +7768,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Lepas pin</translation>
+        <translation>Lepas sematan</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -8216,7 +8216,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation>Tutup</translation>
+        <translation>Keluar</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8568,7 +8568,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation>ID Pengguna</translation>
+        <translation>ID pengguna</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -8583,7 +8583,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>Tingkat kuasa</translation>
+        <translation>Tingkat kekuasaan</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -8814,7 +8814,7 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Hapus verifikasi</translation>
+        <translation>Batalkan verifikasi</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8910,7 +8910,7 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Mengontrol status &lt;a href="%1"&gt;Kehadiran&lt;/a&gt; Anda di jaringan Matrix.
+        <translation>Mengatur status &lt;a href="%1"&gt;Kehadiran&lt;/a&gt; Anda di jaringan Matrix.
 Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</translation>
     </message>
     <message>
@@ -8921,7 +8921,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Mengontrol kapan nama pengguna pengirim ditampilkan di atas pesan. Dalam mode gelembung, nama pengguna Anda sendiri selalu disembunyikan. Di ruangan yang lebih kecil, avatar dan warna gelembung sering kali sudah cukup sebagai konteks.</translation>
+        <translation>Atur kapan nama pengguna pengirim ditampilkan di atas pesan. Dalam mode gelembung, nama pengguna Anda sendiri selalu tersembunyi. Dalam ruangan yang lebih kecil, avatar dan warna gelembung sering kali sudah cukup sebagai konteks.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9080,7 +9080,7 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Batalkan</translation>
+        <translation>Batal</translation>
     </message>
 </context>
 <context>

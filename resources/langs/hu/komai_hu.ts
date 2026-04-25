@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Biztosan el szeretné távolítani az avatárját?</translation>
+        <translation>Biztosan el szeretné távolítani a profilképét?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -42,7 +42,7 @@
     <message>
         <location line="+48"/>
         <source>Display name</source>
-        <translation>Megjelenítési név</translation>
+        <translation>Megjelenített név</translation>
     </message>
     <message>
         <location line="+65"/>
@@ -158,7 +158,7 @@
     <message>
         <location line="+4"/>
         <source>Blocked</source>
-        <translation>Letiltva</translation>
+        <translation>Blokkolt</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -168,12 +168,12 @@
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation>Letiltás feloldása</translation>
+        <translation>Feloldás</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation>Letiltás</translation>
+        <translation>Blokkolás</translation>
     </message>
     <message>
         <location line="+93"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation>Szponzorálva!</translation>
+        <translation>Szponzorálok!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Szponzorálás</translation>
+        <translation>Szponzor</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -757,7 +757,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation>Mégse</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -775,7 +775,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation>Fiókkészlet</translation>
+        <translation>Fiók-csomag</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>Személyek</translation>
+        <translation>Emberek</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1858,7 +1858,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>Fiókcsomag</translation>
+        <translation>Fiók-csomag</translation>
     </message>
 </context>
 <context>
@@ -2040,7 +2040,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>Visszavonás</translation>
+        <translation>Mellőzés törlése</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2271,7 +2271,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation>Ismeretlen megjelenítési név</translation>
+        <translation>Ismeretlen megjelenített név</translation>
     </message>
     <message>
         <location line="-246"/>
@@ -2291,7 +2291,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Keresés névvel vagy @user:example.com alapján</translation>
+        <translation>Keresés név vagy @user:example.com alapján</translation>
     </message>
     <message>
         <location line="+98"/>
@@ -2301,12 +2301,12 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Írjon be egy keresési kifejezést. Az eredmények itt fognak megjelenni.</translation>
+        <translation>Írja be a keresési kifejezést. Az eredmények itt jelennek meg.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>Nem találhatók egyező felhasználók.</translation>
+        <translation>Nem található egyező felhasználó.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2334,7 +2334,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation>Meghívta: %1</translation>
+        <translation>%1 hívta meg</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2385,7 +2385,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation>Csatlakozás a szobához</translation>
+        <translation>Csatlakozás szobához</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2893,7 +2893,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location line="+112"/>
         <location line="+13"/>
         <source>Welcome to Komai</source>
-        <translation>Üdvözöljük a Komaiban</translation>
+        <translation>Üdvözöl a Komai</translation>
     </message>
     <message>
         <location line="-337"/>
@@ -2925,7 +2925,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation>%1 és %2 gépel…</translation>
+        <translation>%1 és %2 gépelnek…</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3193,7 +3193,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Rögzítés</translation>
+        <translation>Rajzszög</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3283,7 +3283,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation>Üzenet jelentése</translation>
+        <translation>Üzenet bejelentése</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3339,7 +3339,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+127"/>
         <source>Options</source>
-        <translation>Lehetőségek</translation>
+        <translation>Opciók</translation>
     </message>
 </context>
 <context>
@@ -3455,7 +3455,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+26"/>
         <source>Emoji</source>
-        <translation>Hangulatjelek</translation>
+        <translation>Emoji</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3478,7 +3478,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>Ne hivatkozzon rájuk ebben az üzenetben</translation>
+        <translation>Ne említse meg ebben az üzenetben</translation>
     </message>
 </context>
 <context>
@@ -3937,7 +3937,7 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Mégse</translation>
+        <translation>Mégsem</translation>
     </message>
 </context>
 <context>
@@ -4459,7 +4459,7 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
     <message>
         <location line="+94"/>
         <source>Profile name is required.</source>
-        <translation>A profilnév megadása kötelező.</translation>
+        <translation>A profil neve kötelező.</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -4792,7 +4792,7 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Újabb véletlenszerű név generálása</translation>
+        <translation>Másik véletlenszerű név generálása</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -4916,7 +4916,7 @@ Kérjük, lépjen vissza, és jelentkezzen be manuálisan.</translation>
     <message>
         <location line="+2"/>
         <source>Attachment</source>
-        <translation>Csatolmány</translation>
+        <translation>Melléklet</translation>
     </message>
 </context>
 <context>
@@ -5393,7 +5393,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation>Nincs kiválasztva szoba</translation>
+        <translation>Nincs kiválasztott szoba</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5823,7 +5823,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation>K</translation>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5838,7 +5838,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>Sz</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5853,7 +5853,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>T</translation>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -6185,7 +6185,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>A Matrix háttérrendszer futókörnyezete nem érhető el.</translation>
+        <translation>A Matrix háttérrendszer futtatókörnyezete nem érhető el.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6631,7 +6631,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation>Mégse</translation>
+        <translation>Mégsem</translation>
     </message>
 </context>
 <context>
@@ -6729,7 +6729,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Szóköz</translation>
+        <translation>Tér</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6973,7 +6973,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Jelenleg nincs más bejelentkezett eszköz, amely elérhető lenne hitelesítéshez.</translation>
+        <translation>Jelenleg nincs más bejelentkezett eszköz, amely elérhető a hitelesítéshez.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7183,7 +7183,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>Idővonal-előnézet</translation>
+        <translation>Idővonal előnézet</translation>
     </message>
 </context>
 <context>
@@ -7228,7 +7228,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 és még %3 személy gépel…</translation>
+        <translation>%1, %2 és még %3 más gépel…</translation>
     </message>
 </context>
 <context>
@@ -7653,7 +7653,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
-        <translation>Probléma bejelentése</translation>
+        <translation>Hiba bejelentése</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8211,7 +8211,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation>Mutat</translation>
+        <translation>Megjelenítés</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8351,7 +8351,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation>A hitelesítéskezelő nem érhető el.</translation>
+        <translation>A hitelesítési kezelő nem érhető el.</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -8462,7 +8462,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation>Avatar</translation>
+        <translation>Avatár</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8588,7 +8588,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+51"/>
         <source>Verification</source>
-        <translation>Hitelesítés</translation>
+        <translation>Ellenőrzés</translation>
     </message>
     <message>
         <location line="+72"/>
@@ -8769,7 +8769,7 @@ Az ignorálást később visszavonhatja ezen felhasználó profilján vagy a Be�
     <message>
         <location line="+29"/>
         <source>Verify</source>
-        <translation>Hitelesítés</translation>
+        <translation>Ellenőriz</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -8939,7 +8939,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation>Megjelenés</translation>
+        <translation>Kinézet &amp; Stílus</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9080,7 +9080,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Mégse</translation>
+        <translation>Mégsem</translation>
     </message>
 </context>
 <context>
@@ -9098,7 +9098,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation>Tudj meg többet</translation>
+        <translation>Bővebben</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -9111,7 +9111,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation>Új vagy a Matrixban?</translation>
+        <translation>Új a Matrixban?</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9342,7 +9342,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>Avatár előnézet</translation>
+        <translation>Avatar előnézet</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9800,8 +9800,8 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Szabályozza a &lt;a href="%1"&gt;Jelenlét&lt;/a&gt; állapotát a Matrix hálózaton.
-Automatikus esetén 'online' vagy 'nem elérhető' (5 perc tétlenség után).</translation>
+        <translation>Beállítja a &lt;a href="%1"&gt;Jelenlét&lt;/a&gt; állapotát a Matrix hálózaton.
+Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9836,7 +9836,7 @@ Automatikus esetén 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Kiszolgáló</translation>
+        <translation>Homeserver</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer votre avatar ?</translation>
+        <translation>Voulez-vous vraiment supprimer votre avatar ?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -47,7 +47,7 @@
     <message>
         <location line="+65"/>
         <source>User ID</source>
-        <translation>Identifiant utilisateur</translation>
+        <translation>ID d'utilisateur</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -470,7 +470,7 @@
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation>Vous sponsorisez !</translation>
+        <translation>Sponsoring !</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -529,7 +529,7 @@
     <message>
         <location line="+0"/>
         <source>Voice Call</source>
-        <translation>Appel vocal</translation>
+        <translation>Appel audio</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -539,7 +539,7 @@
     <message>
         <location line="+11"/>
         <source>Accept</source>
-        <translation>Décrocher</translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -559,7 +559,7 @@
     <message>
         <location line="+14"/>
         <source>Decline</source>
-        <translation>Rejeter</translation>
+        <translation>Refuser</translation>
     </message>
 </context>
 <context>
@@ -627,7 +627,7 @@ Si le problème persiste, vous pouvez vous déconnecter et vous reconnecter, mai
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Le moteur Matrix n'est pas encore prêt.</translation>
+        <translation>Le backend Matrix n'est pas encore prêt.</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -811,7 +811,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Inclure dans « Tous les salons »</translation>
+        <translation>Inclure dans 'Tous les salons'</translation>
     </message>
 </context>
 <context>
@@ -1101,7 +1101,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+81"/>
         <source>Remove</source>
-        <translation>Retirer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1189,7 +1189,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation>Vérifié</translation>
+        <translation>Fiable</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -1861,7 +1861,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>Paquet de compte</translation>
+        <translation>Pack du compte</translation>
     </message>
 </context>
 <context>
@@ -1993,7 +1993,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation>Utilisateurs(rices) ignoré(e)s</translation>
+        <translation>Utilisateurs ignorés</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2161,7 +2161,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+4"/>
         <source>Remove</source>
-        <translation>Retirer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -2229,7 +2229,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+11"/>
         <source>Remove</source>
-        <translation>Retirer</translation>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
@@ -2823,7 +2823,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Montrer/masquer le mot de passe</translation>
+        <translation>Afficher/Masquer le mot de passe</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -3122,7 +3122,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
         <source>Message actions</source>
-        <translation>Actions sur le message</translation>
+        <translation>Actions du message</translation>
     </message>
     <message>
         <location line="+194"/>
@@ -3197,7 +3197,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Épingler</translation>
+        <translation>Épingle</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3227,7 +3227,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>S</translation>
+        <translation>E</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3459,7 +3459,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+26"/>
         <source>Emoji</source>
-        <translation>Émoji</translation>
+        <translation>Emoji</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3674,7 +3674,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+54"/>
         <source>Another server</source>
-        <translation>Un autre serveur</translation>
+        <translation>Autre serveur</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3921,7 +3921,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation>Pas de microphone trouvé.</translation>
+        <translation>Aucun microphone trouvé.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4465,7 +4465,7 @@ Exécutez '%1 &lt;group&gt; --help' pour les détails des sous-commandes.</trans
     <message>
         <location line="+94"/>
         <source>Profile name is required.</source>
-        <translation>Le nom du profil est requis.</translation>
+        <translation>Le nom du profil est obligatoire.</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -4594,7 +4594,7 @@ Exécutez '%1 &lt;group&gt; --help' pour les détails des sous-commandes.</trans
     <message>
         <location filename="../../qml/delegates/Redacted.qml" line="+38"/>
         <source>Deleted message</source>
-        <translation>Message supprimé</translation>
+        <translation>Message effacé</translation>
     </message>
 </context>
 <context>
@@ -4730,7 +4730,7 @@ Exécutez '%1 &lt;group&gt; --help' pour les détails des sous-commandes.</trans
     <message>
         <location line="+49"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation>p. ex. : example.com ou https://matrix.example.com</translation>
+        <translation>ex. example.com ou https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -5845,7 +5845,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>S</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5868,7 +5868,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
         <source>Join room</source>
-        <translation>Rejoindre un salon</translation>
+        <translation>Rejoindre le salon</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6192,7 +6192,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Le moteur d'exécution Matrix n'est pas disponible.</translation>
+        <translation>Le moteur Matrix n'est pas disponible.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6508,7 +6508,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>Aucune prévisualisation disponible</translation>
+        <translation>Aucun aperçu disponible</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -7672,7 +7672,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Sponsoriser</translation>
+        <translation>Sponsor</translation>
     </message>
 </context>
 <context>
@@ -7759,7 +7759,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation>Ne pas les mentionner dans ce message</translation>
+        <translation>Ne les mentionnez pas dans ce message</translation>
     </message>
 </context>
 <context>
@@ -7938,7 +7938,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation>Tous les fichiers (*)</translation>
+        <translation>Tous les types de fichiers (*)</translation>
     </message>
     <message>
         <location line="+135"/>
@@ -8223,7 +8223,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation>Montrer</translation>
+        <translation>Afficher</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8324,7 +8324,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Le runtime backend Matrix n'est pas disponible.</translation>
+        <translation>Le moteur Matrix n'est pas disponible.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8399,7 +8399,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation>Sélectionnez un avatar</translation>
+        <translation>Sélectionner un avatar</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8414,7 +8414,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>Erreur lors de la lecture du fichier  : %1</translation>
+        <translation>Erreur lors de la lecture du fichier : %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8571,7 +8571,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation>Copié !</translation>
+        <translation>Copié !</translation>
     </message>
     <message>
         <location line="-69"/>
@@ -8827,7 +8827,7 @@ Vous pouvez cesser de l'ignorer ultérieurement via le profil de cet utilisateur
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Dé-vérifier</translation>
+        <translation>Annuler la vérification</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -9450,7 +9450,7 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Aperçu du fil</translation>
+        <translation>Aperçu de la chronologie</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9475,7 +9475,7 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Contrôlez quand les noms d'utilisateur des expéditeurs s'affichent au-dessus des messages. En mode bulle, votre propre nom d'utilisateur est toujours masqué. Dans les salons plus petits, les avatars et les couleurs des bulles fournissent souvent suffisamment de contexte.</translation>
+        <translation>Contrôle quand les noms d'utilisateur des expéditeurs sont affichés au-dessus des messages. En mode bulle, votre propre nom d'utilisateur est toujours masqué. Dans les petits salons, les avatars et les couleurs des bulles offrent souvent suffisamment de contexte.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9814,7 +9814,7 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Contrôle votre statut de &lt;a href="%1"&gt;Présence&lt;/a&gt; sur le réseau Matrix.
-Automatique est soit 'en ligne' soit 'indisponible' (après 5 minutes d'inactivité).</translation>
+Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inactivité).</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9844,7 +9844,7 @@ Automatique est soit 'en ligne' soit 'indisponible' (après 5 minutes d'inactivi
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Identifiant d'utilisateur</translation>
+        <translation>ID d'utilisateur</translation>
     </message>
     <message>
         <location line="+4"/>

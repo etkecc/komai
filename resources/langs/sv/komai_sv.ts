@@ -4577,18 +4577,18 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+678"/>
+        <location line="+679"/>
         <source>Username</source>
         <translation>Användarnamn</translation>
     </message>
     <message>
-        <location line="-676"/>
-        <location line="+824"/>
+        <location line="-677"/>
+        <location line="+825"/>
         <source>Confirm</source>
         <translation type="unfinished">Bekräfta</translation>
     </message>
     <message>
-        <location line="-786"/>
+        <location line="-787"/>
         <source>Verification</source>
         <translation type="unfinished"/>
     </message>
@@ -4609,12 +4609,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+384"/>
+        <location line="+385"/>
         <source>CAPTCHA</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-383"/>
+        <location line="-384"/>
         <source>SSO</source>
         <translation type="unfinished"/>
     </message>
@@ -4665,11 +4665,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+19"/>
-        <source>Based on &lt;a href="https://servers.joinmatrix.org/"&gt;servers.joinmatrix.org&lt;/a&gt;, curated by the Komai team</source>
+        <source>Based on %1, curated by the Komai team</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+110"/>
         <source>Web</source>
         <translation type="unfinished"/>
     </message>
@@ -4852,14 +4852,14 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-1282"/>
-        <location line="+771"/>
+        <location line="-1283"/>
+        <location line="+772"/>
         <source>Password</source>
         <translation>Lösenord</translation>
     </message>
     <message>
-        <location line="-769"/>
-        <location line="+892"/>
+        <location line="-770"/>
+        <location line="+893"/>
         <source>Device name</source>
         <translation type="unfinished">Enhetsnamn</translation>
     </message>
@@ -6517,9 +6517,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+8"/>
-        <source>Your encryption secrets are now stored on the server, encrypted using the key below.
-
-You’ll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
+        <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
         <translation type="unfinished"/>
     </message>
     <message>

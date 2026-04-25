@@ -24,7 +24,9 @@ Components.OverlayDialog {
     Label {
         Layout.fillWidth: true
         color: palette.text
-        text: qsTr("Your encryption secrets are now stored on the server, encrypted using the key below.\n\nYou’ll need it to access encrypted messages if you sign out, reinstall, or set up another device.")
+        text: qsTr("Your encryption secrets are now stored on the server, encrypted using the key below.")
+            + "\n\n"
+            + qsTr("You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.")
         textFormat: Text.PlainText
         wrapMode: Text.Wrap
     }

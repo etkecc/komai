@@ -289,7 +289,8 @@ Rectangle {
                 font.pointSize: Settings.uiFontSizePt * 0.85
                 color: palette.buttonText
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                      qsTr("Based on <a href=\"https://servers.joinmatrix.org/\">servers.joinmatrix.org</a>, curated by the Komai team")
+                      qsTr("Based on %1, curated by the Komai team")
+                          .arg('<a href="https://servers.joinmatrix.org/">servers.joinmatrix.org</a>')
                 onLinkActivated: function(link) { Qt.openUrlExternally(link); }
 
                 MouseArea {

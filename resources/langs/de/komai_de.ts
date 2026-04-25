@@ -4601,18 +4601,18 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+678"/>
+        <location line="+679"/>
         <source>Username</source>
         <translation>Benutzername</translation>
     </message>
     <message>
-        <location line="-676"/>
-        <location line="+824"/>
+        <location line="-677"/>
+        <location line="+825"/>
         <source>Confirm</source>
         <translation>Bestätigen</translation>
     </message>
     <message>
-        <location line="-786"/>
+        <location line="-787"/>
         <source>Verification</source>
         <translation>Verifizierung</translation>
     </message>
@@ -4633,12 +4633,12 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     </message>
     <message>
         <location line="+1"/>
-        <location line="+384"/>
+        <location line="+385"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-383"/>
+        <location line="-384"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4689,11 +4689,11 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     </message>
     <message>
         <location line="+19"/>
-        <source>Based on &lt;a href="https://servers.joinmatrix.org/"&gt;servers.joinmatrix.org&lt;/a&gt;, curated by the Komai team</source>
+        <source>Based on %1, curated by the Komai team</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+110"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
@@ -4876,14 +4876,14 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Ich habe die Verifizierung abgeschlossen</translation>
     </message>
     <message>
-        <location line="-1282"/>
-        <location line="+771"/>
+        <location line="-1283"/>
+        <location line="+772"/>
         <source>Password</source>
         <translation>Passwort</translation>
     </message>
     <message>
-        <location line="-769"/>
-        <location line="+892"/>
+        <location line="-770"/>
+        <location line="+893"/>
         <source>Device name</source>
         <translation>Gerätename</translation>
     </message>
@@ -6548,9 +6548,12 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Your encryption secrets are now stored on the server, encrypted using the key below.
-
-You’ll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
+        <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
         <translation type="unfinished"/>
     </message>
     <message>

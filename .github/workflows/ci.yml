@@ -27,6 +27,18 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+      # Mount the host-provisioned cache disk into the container.
+      # On k150 this resolves to a dedicated 50 GB ext4 volume
+      # (provisioned via Ansible) where cargo state persists across
+      # jobs, eliminating the actions/cache round-trip for the cargo
+      # target dir. On runners without this path, Docker transparently
+      # creates an empty dir at the bind-mount source — the "Compute
+      # unified cargo target dir" step below detects the absent
+      # provisioning by checking for the `cargo-target` subdir
+      # (created by Ansible, not Docker) and falls back to the
+      # in-workspace cache + actions/cache. Workflow remains portable.
+      volumes:
+        - /var/lib/komai-ci:/var/lib/komai-ci
 
     env:
       # Keep rustup + cargo state inside the workspace (instead of the
@@ -85,13 +97,44 @@ jobs:
         #
         # Fix: replicate Corrosion's path formula here and export it
         # as CARGO_TARGET_DIR. Both writers — Corrosion's cargo and
-        # direct `cargo test --lib` — now converge on a single tree,
-        # so one cache captures everything.
+        # direct `cargo test --lib` — now converge on a single tree.
+        #
+        # Host-mount optimization: when /var/lib/komai-ci/cargo-target
+        # exists on the runner (k150 provisions it via Ansible, see
+        # the `volumes:` entry on the container block above), symlink
+        # var/build/native/cargo to it. Corrosion's computed path —
+        # var/build/native/cargo/rust_<hash> — then resolves through
+        # the symlink onto the dedicated cache disk, persisting cargo
+        # state across jobs without any actions/cache round-trip
+        # (~3 min restore + ~11 min lock-change save eliminated).
+        #
+        # Detection uses the `cargo-target` subdir specifically (not
+        # /var/lib/komai-ci itself): on a runner without provisioning,
+        # Docker auto-creates the bind-mount source as an empty dir,
+        # so /var/lib/komai-ci will exist but the Ansible-created
+        # subdir won't. Setting HOST_CACHE distinguishes the two
+        # cases for the cache step's `if:` gating below.
+        #
+        # Scope deliberately narrow: only the `cargo/` subdir is
+        # symlinked, NOT the whole CMake build dir. C++/CMake state
+        # stays ephemeral-per-job and is kept warm via ccache —
+        # avoids accumulating stale CMakeCache or generated moc/uic
+        # outputs across runs.
         run: |
           MANIFEST="${GITHUB_WORKSPACE}/src/rust/Cargo.toml"
           HASH=$(printf '%s' "${MANIFEST}" | sha1sum | cut -c1-5)
           UNIFIED="${GITHUB_WORKSPACE}/var/build/native/cargo/rust_${HASH}"
           echo "CARGO_TARGET_DIR=${UNIFIED}" >> "${GITHUB_ENV}"
+
+          if [ -d /var/lib/komai-ci/cargo-target ]; then
+            mkdir -p "${GITHUB_WORKSPACE}/var/build/native"
+            ln -sfn /var/lib/komai-ci/cargo-target "${GITHUB_WORKSPACE}/var/build/native/cargo"
+            echo "HOST_CACHE=true" >> "${GITHUB_ENV}"
+            echo "Host-mount active: cargo state persists at /var/lib/komai-ci/cargo-target"
+          else
+            echo "HOST_CACHE=false" >> "${GITHUB_ENV}"
+            echo "No host-mount detected; falling back to in-workspace path + actions/cache"
+          fi
           echo "Unified cargo target dir: ${UNIFIED}"
 
       # ---------- Caches --------------------------------------------------
@@ -130,6 +173,14 @@ jobs:
             ccache-
 
       - name: Cache cargo target dir
+        # Gated by HOST_CACHE (set in the compute step above): on
+        # runners with the host-mounted cache disk, cargo state
+        # persists directly there and this step is a no-op (both
+        # restore and the corresponding Post Cache save are
+        # skipped, eliminating ~3 min restore + ~11 min lock-change
+        # save). On any runner without the host-mount the step
+        # runs as before — workflow stays portable.
+        if: env.HOST_CACHE != 'true'
         uses: actions/cache@v5
         with:
           # `var/build/native/cargo` is Corrosion's parent target-dir

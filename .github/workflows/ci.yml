@@ -151,12 +151,31 @@ jobs:
         # On runners without the host-mount, CCACHE_DIR keeps its
         # job-level default (workspace path) and the actions/cache
         # step below runs as before — workflow stays portable.
+        #
+        # Graceful mkdir fallback: /var/lib/komai-ci itself may be
+        # root-owned with restrictive perms (the Ansible role only
+        # chmod 0777's the cargo-target subdir). The container runs
+        # as a non-root user, so an unguarded mkdir of a sibling
+        # subdir would fail and red the build. We try the mkdir and
+        # fall back to leaving CCACHE_DIR at its job-level default
+        # if it fails — the Cache ccache step below uses a separate
+        # CCACHE_HOST_OK flag (not HOST_CACHE) so it stays active
+        # on actions/cache in that case. Once the Ansible role
+        # chmods /var/lib/komai-ci itself (or pre-creates ccache
+        # the same way it pre-creates cargo-target), this branch
+        # transparently activates the host-mounted ccache.
         if: env.HOST_CACHE == 'true'
         run: |
           CCACHE_HOST_DIR=/var/lib/komai-ci/ccache
-          mkdir -p "${CCACHE_HOST_DIR}"
-          echo "CCACHE_DIR=${CCACHE_HOST_DIR}" >> "${GITHUB_ENV}"
-          echo "Host-mounted ccache active at ${CCACHE_HOST_DIR}"
+          if mkdir -p "${CCACHE_HOST_DIR}" 2>/dev/null; then
+            echo "CCACHE_DIR=${CCACHE_HOST_DIR}" >> "${GITHUB_ENV}"
+            echo "CCACHE_HOST_OK=true" >> "${GITHUB_ENV}"
+            echo "Host-mounted ccache active at ${CCACHE_HOST_DIR}"
+          else
+            echo "Cannot mkdir ${CCACHE_HOST_DIR} (host /var/lib/komai-ci"
+            echo "may need broader chmod — see Ansible role). Falling back"
+            echo "to actions/cache for ccache; cargo-target stays host-mounted."
+          fi
 
       # ---------- Caches --------------------------------------------------
       # Each cache is restored before its consumer step. Saves happen
@@ -182,10 +201,13 @@ jobs:
             cargo-home-
 
       - name: Cache ccache
-        # Gated by HOST_CACHE: skipped on runners with the host-
-        # mounted cache disk (ccache state persists there directly).
-        # Runs as before on any runner without the host-mount.
-        if: env.HOST_CACHE != 'true'
+        # Gated by CCACHE_HOST_OK (set by the Wire step above):
+        # skipped only when the host-mounted ccache subdir is both
+        # present AND writable. Runs in every other case —
+        # including: (a) runner without the host-mount at all,
+        # (b) host-mount present but the ccache subdir mkdir
+        # failed (perm gap pending an Ansible-side fix).
+        if: env.CCACHE_HOST_OK != 'true'
         uses: actions/cache@v5
         with:
           path: var/cache/ccache

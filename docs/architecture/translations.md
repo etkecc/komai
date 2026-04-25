@@ -94,20 +94,66 @@ This handles multi-line sources, nested elements, and entity encoding automatica
 
 Plural messages (`<message numerus="yes">`) are translated through a parallel pipeline that runs alongside the regular pass — they share the LLM CLI, prompt-loading, and XML normalization but use a different output shape (`forms: [str, ...]` instead of a single `translation`).
 
-### Form count is language-dependent
+### Key insight: Qt encoded CLDR; we just count slots
 
-Qt's `lupdate` populates each numerus message with as many empty `<numerusform/>` slots as the language needs — 1 for Japanese / Chinese / Turkish / Vietnamese / Persian / Hungarian / Indonesian / Korean, 2 for most European languages, 3 for Czech / Polish / Romanian / Russian / Serbian / Ukrainian, and 6 for Arabic. The slot order matches CLDR's canonical order (`zero`, `one`, `two`, `few`, `many`, `other`), filtered to the categories Qt actually emits for each language. We never look up CLDR rules ourselves — we just count slots and label them.
+The whole pipeline rests on one observation: **we don't need to know CLDR plural rules ourselves**. Qt's `lupdate` already knows them — when it generates a `.ts` file for a language, it pre-populates each numerus message with exactly the right number of empty `<numerusform/>` children, in the language's CLDR canonical slot order (`zero`, `one`, `two`, `few`, `many`, `other`, filtered to the categories Qt actually emits for that language). Our job is just to **fill the slots Qt already laid out**, in order.
 
-`LANG_FORMS` in `translate.py` records the CLDR labels per language; `get_form_categories()` validates the static map against the live `.ts` slot count on every call so any future Qt plural-rule change surfaces immediately.
+Counts as of Qt 6:
+
+| Forms | Languages |
+|------:|-----------|
+| 1 | fa, hu, id, ja, ko, tr, vi, zh_CN, zh_Hant |
+| 2 | ca, de, el, en, eo, es, et, fi, fr, ie, it, ml, nl, pt_BR, pt_PT, si, sv |
+| 3 | cs, pl, ro, ru, sr_Latn, uk |
+| 6 | ar |
+
+Verify any single language's slot count by counting `<numerusform` inside the first `<message numerus="yes">` block of its `.ts` file — that's what `extract_unfinished_numerus()` does at runtime.
+
+### LANG_FORMS: per-language slot labels
+
+`LANG_FORMS` in `translate.py` maps each language code to the ordered list of CLDR category labels for its slots. The model needs the labels because "form 2" alone is ambiguous — depending on the language it could mean `other`, `few`, or `one` (in Arabic). Examples:
+
+```python
+LANG_FORMS = {
+    "ja": ["other"],                                              # 1-form
+    "de": ["one", "other"],                                       # 2-form
+    "ru": ["one", "few", "many"],                                 # 3-form, Slavic
+    "cs": ["one", "few", "other"],                                # 3-form, "other"-tail
+    "ar": ["zero", "one", "two", "few", "many", "other"],         # 6-form
+    ...
+}
+```
+
+Two non-obvious wrinkles encoded in this map:
+
+- **3-form Slavic-style vs `other`-tail.** Languages like Russian, Polish, and Ukrainian use `["one", "few", "many"]` because their third slot covers the bulk of integers (CLDR's `many`); CLDR's `other` only applies to fractions there and Qt skips emitting a slot for it. Czech, Romanian, and Serbian (Latin) get `["one", "few", "other"]` instead — same form count, different last-slot meaning. Don't auto-derive 3-form labels from the count alone.
+
+- **Qt-collapsed languages (fa, hu, tr, possibly id).** CLDR formally lists 2 plural categories for these, but Qt emits a single slot — a long-standing convention treating them as effectively single-form for UI strings. `LANG_FORMS` reflects what Qt actually does, not what CLDR says: each gets `["other"]` (the CLDR fallback category).
+
+`get_form_categories(lang, form_count)` validates the static map against the live slot count on every call. A mismatch raises immediately — that's how we'd find out if a Qt update changed plural rules for a language, or if a new language was added without a `LANG_FORMS` entry.
 
 ### Pipeline shape
 
-- `extract_unfinished_numerus()` finds `<message numerus="yes">` blocks with `type="unfinished"` and reports each entry's `form_count`.
-- `build_numerus_prompt()` writes a per-language prompt that lists the slots and their CLDR categories, asks for a `forms` array, and reuses the shared placeholder/HTML/shortcut preservation rules.
-- `translate_batch_numerus()` runs each form through `validate_translation()` independently, so `%n` missing from one form rejects only that entry.
-- `inject_numerus_translations()` writes back into the existing slots in order; a form-count mismatch is logged and skipped (the entry stays `unfinished` for the next run).
+| Function | Role |
+|----------|------|
+| `extract_unfinished_numerus(ts_path)` | Find `<message numerus="yes">` blocks with `type="unfinished"`; report each entry's `form_count`. |
+| `build_numerus_prompt(batch, lang, instructions, form_categories)` | Per-language prompt naming each slot's CLDR category; asks the model for a `forms` array. |
+| `translate_batch_numerus(batch, lang, instructions, model)` | Calls the LLM, parses the response, runs `validate_translation()` on each form independently. |
+| `inject_numerus_translations(ts_path, translations)` | Writes back into existing slots in order; clears `type="unfinished"`. |
 
-The driver (`cmd_translate`) runs both passes by default; `--regular-only` and `--numerus-only` switch between them. Per-language `GUIDE.md` files include a "Plural forms" section that documents the rules for each slot, so the model has language-specific guidance beyond what the generic prompt provides.
+The driver (`cmd_translate`) runs both passes by default; `--regular-only` and `--numerus-only` switch between them.
+
+Per-language `GUIDE.md` files include a `## Plural forms` section that names each slot's CLDR rule (e.g., for Russian: "form 1 (one) for n%10==1 && n%100!=11; form 2 (few) for n%10 in 2..4 && n%100 not in 12..14; form 3 (many) for everything else"). This gives the model language-specific guidance beyond what the generic prompt provides; the common `GUIDE.md` rule #15 explains the `forms` output shape.
+
+### Failure modes and re-run semantics
+
+The numerus path is incremental and idempotent in the same way as the regular pass:
+
+- **Form-count mismatch** (model returns the wrong number of forms) — the inject step logs and skips that entry; the message stays `type="unfinished"` and gets re-processed on the next run.
+- **Per-form validator rejection** (`%n` missing from one form, dropped HTML, mangled shortcut) — `translate_batch_numerus()` rejects the whole entry rather than committing a partially-broken set; same re-run-recovers semantics.
+- **Batch failure** (LLM returns garbage JSON, CLI timeout) — the existing per-batch error handling in `_run_translation_pass` applies; the batch is logged as failed and unfinished entries roll over to the next invocation.
+
+There's no rollback for already-injected forms. If the model produces grammatically wrong but technically valid output (preserves `%n`, right form count), it lands in the file and needs human review. The shakedown phase (`de` → `ru` → `ar` covering 2/3/6-form complexity) exists specifically to catch prompt-template defects before a 32-language bulk run.
 
 
 ## Rust-originated strings

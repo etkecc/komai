@@ -295,8 +295,11 @@ async fn run_thread_timeline_loop(
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
 
-    // /relations items for the merge.  Starts empty — the initial data comes
-    // from the SDK timeline's subscribe + paginate.
+    // /relations items for the merge.  Seeded by an initial fetch below so
+    // we don't sit on a stale SDK snapshot while waiting for sync to nudge
+    // us — `TimelineFocus::Thread` doesn't receive sync events in
+    // matrix-sdk 0.16, so without this the view can show only the cached
+    // root and miss events posted in another session.
     let mut relations_items: Vec<MatrixTimelineItem> = Vec::new();
 
     // Publish the initial snapshot from the SDK timeline.
@@ -307,6 +310,33 @@ async fn run_thread_timeline_loop(
         &thread_timeline_snapshot,
         &room_timeline_media_lookup,
     );
+
+    // Initial /relations fetch — bypasses the 1500ms Refresh debounce so the
+    // first paint reflects server state, not just whatever the SDK Thread
+    // event cache happened to have.
+    match fetch_relations_events(&room, &parsed_thread_root_id).await {
+        Ok(items) => {
+            relations_items = items;
+            tracing::info!(
+                handle_id, room_id, thread_root_id,
+                relations_count = relations_items.len(),
+                "Initial thread /relations fetch"
+            );
+            publish_merged_snapshot(
+                handle_id, &room_id, &thread_root_id,
+                &current_values, own_user_id, &empty_receipts,
+                &relations_items,
+                &thread_timeline_snapshot,
+                &room_timeline_media_lookup,
+            );
+        }
+        Err(error) => {
+            tracing::warn!(
+                handle_id, room_id, thread_root_id, %error,
+                "Initial thread /relations fetch failed"
+            );
+        }
+    }
 
     // Fetch reply details for events with unavailable reply content.
     let mut reply_detail_fetch_requested: HashSet<OwnedEventId> = HashSet::new();

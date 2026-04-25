@@ -986,6 +986,18 @@ Item {
                                             Item { Layout.fillWidth: true }
 
                                             Components.KomaiButton {
+                                                visible: deviceDelegate.verificationStatus === VerificationStatus.UNVERIFIED
+                                                text: qsTr("Verify")
+                                                icon.source: "qrc:/icons/icons/ui/shield-regular-checkmark.svg"
+                                                Layout.topMargin: Komai.paddingMedium + 2
+                                                Layout.bottomMargin: Komai.paddingMedium + 2
+                                                onClicked: {
+                                                    if (accountView.profile)
+                                                        accountView.profile.verify(deviceDelegate.deviceId);
+                                                }
+                                            }
+
+                                            Components.KomaiButton {
                                                 visible: deviceDelegate.verificationStatus === VerificationStatus.VERIFIED
                                                 text: qsTr("Unverify")
                                                 icon.source: "qrc:/icons/icons/ui/shield-regular-exclamation-mark.svg"

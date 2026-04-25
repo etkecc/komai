@@ -55,12 +55,12 @@
         <location line="+123"/>
         <location line="+131"/>
         <location line="+294"/>
-        <location line="+145"/>
+        <location line="+157"/>
         <source>Copied!</source>
         <translation>已复制！</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-774"/>
         <source>Copy user ID</source>
         <translation>复制用户 ID</translation>
     </message>
@@ -89,24 +89,24 @@
         <location line="-385"/>
         <location line="+131"/>
         <location line="+294"/>
-        <location line="+145"/>
+        <location line="+157"/>
         <source>Copy to clipboard</source>
         <translation>复制到剪贴板</translation>
     </message>
     <message>
-        <location line="-554"/>
-        <location line="+457"/>
+        <location line="-566"/>
+        <location line="+469"/>
         <source>Sign out</source>
         <translation>退出登录</translation>
     </message>
     <message>
-        <location line="-438"/>
-        <location line="+460"/>
+        <location line="-450"/>
+        <location line="+472"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location line="-410"/>
+        <location line="-422"/>
         <source>Access token</source>
         <translation>访问令牌</translation>
     </message>
@@ -162,6 +162,11 @@
     </message>
     <message>
         <location line="+55"/>
+        <source>Verify</source>
+        <translation>验证</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Unverify</source>
         <translation>取消验证</translation>
     </message>

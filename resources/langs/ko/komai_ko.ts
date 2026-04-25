@@ -55,12 +55,12 @@
         <location line="+123"/>
         <location line="+131"/>
         <location line="+294"/>
-        <location line="+145"/>
+        <location line="+157"/>
         <source>Copied!</source>
         <translation>복사됨!</translation>
     </message>
     <message>
-        <location line="-762"/>
+        <location line="-774"/>
         <source>Copy user ID</source>
         <translation>사용자 ID 복사</translation>
     </message>
@@ -89,24 +89,24 @@
         <location line="-385"/>
         <location line="+131"/>
         <location line="+294"/>
-        <location line="+145"/>
+        <location line="+157"/>
         <source>Copy to clipboard</source>
         <translation>클립보드에 복사</translation>
     </message>
     <message>
-        <location line="-554"/>
-        <location line="+457"/>
+        <location line="-566"/>
+        <location line="+469"/>
         <source>Sign out</source>
         <translation>로그아웃</translation>
     </message>
     <message>
-        <location line="-438"/>
-        <location line="+460"/>
+        <location line="-450"/>
+        <location line="+472"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location line="-410"/>
+        <location line="-422"/>
         <source>Access token</source>
         <translation>액세스 토큰</translation>
     </message>
@@ -162,6 +162,11 @@
     </message>
     <message>
         <location line="+55"/>
+        <source>Verify</source>
+        <translation>검증</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Unverify</source>
         <translation>검증 취소</translation>
     </message>

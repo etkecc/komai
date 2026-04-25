@@ -1795,8 +1795,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n mesajı ilet?</numerusform>
         </translation>
     </message>
     <message>
@@ -1827,8 +1827,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n seçili mesajı &lt;b&gt;%1&lt;/b&gt;'e ilet?</numerusform>
         </translation>
     </message>
     <message>
@@ -2980,8 +2980,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n seçili mesaj silinsin mi?</numerusform>
         </translation>
     </message>
     <message>
@@ -4139,15 +4139,15 @@ Verify to unlock encrypted messages.</source>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n alt alana izinler uygulandı.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n alt alana izinler uygulanamadı: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5633,8 +5633,8 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%1'de %n üye</numerusform>
         </translation>
     </message>
     <message>
@@ -7582,8 +7582,8 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n konu yanıtı</numerusform>
         </translation>
     </message>
     <message>
@@ -7607,8 +7607,8 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n konu yanıtı</numerusform>
         </translation>
     </message>
     <message>
@@ -7783,8 +7783,8 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n konu yanıtı</numerusform>
         </translation>
     </message>
     <message>
@@ -7816,7 +7816,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n üye</numerusform>
         </translation>
     </message>
@@ -8082,8 +8082,8 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n seçili mesaj</numerusform>
         </translation>
     </message>
     <message>
@@ -8227,8 +8227,9 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n oda ilgi gerektiriyor</numerusform>
         </translation>
     </message>
 </context>

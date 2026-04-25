@@ -46,18 +46,12 @@ repos:
         language: system
         files: 'resources/langs/.*\.ts$'
         pass_filenames: false
-      # NOTE: the `translations-drift` hook is temporarily disabled while
-      # the bulk AI translation work is in progress. The script
-      # (bin/prek/translations-drift.py) is intentionally kept on disk;
-      # restore the hook entry below once translations are complete and
-      # a final `just translations-update` has flushed accumulated drift.
-      #
-      # - id: translations-drift
-      #   name: Verify translation .ts files are in sync with source
-      #   entry: python3 bin/prek/translations-drift.py
-      #   language: system
-      #   files: '^(src/.*\.(cpp|h)|resources/qml/.*\.qml|bin/translations/.*|bin/prek/translations-drift\.py)$'
-      #   pass_filenames: false
+      - id: translations-drift
+        name: Verify translation .ts files are in sync with source
+        entry: python3 bin/prek/translations-drift.py
+        language: system
+        files: '^(src/.*\.(cpp|h)|resources/qml/.*\.qml|bin/translations/.*|bin/prek/translations-drift\.py)$'
+        pass_filenames: false
       - id: qmllint
         name: Lint QML files
         entry: ./bin/prek/qml/qmllint.sh

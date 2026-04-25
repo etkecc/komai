@@ -6651,7 +6651,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Ic raccourcis aplica in modo de Selection pos clauder li Helpe. Vide li &lt;a href="%1"&gt;guida complet&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9228,17 +9228,17 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation type="unfinished"/>
+        <translation>Persones</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nature</source>
-        <translation type="unfinished"/>
+        <translation>Natura</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Food</source>
-        <translation type="unfinished"/>
+        <translation>Aliment</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9248,17 +9248,17 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+2"/>
         <source>Travel</source>
-        <translation type="unfinished"/>
+        <translation>Viage</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Objects</source>
-        <translation type="unfinished"/>
+        <translation>Objectes</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Symbols</source>
-        <translation type="unfinished"/>
+        <translation>Symboles</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9271,12 +9271,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
         <source>You: %1</source>
-        <translation type="unfinished"/>
+        <translation>Vu: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1: %2</translation>
     </message>
 </context>
 <context>
@@ -9315,7 +9315,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+17"/>
         <source>Behavior</source>
-        <translation type="unfinished"/>
+        <translation>Comportament</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -9335,7 +9335,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+6"/>
         <source>Controls when scrollbars are shown across the app.</source>
-        <translation type="unfinished"/>
+        <translation>Controla quand li barres de rolament es monstrat in li application.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9345,17 +9345,17 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation type="unfinished"/>
+        <translation>Affecta li spaciation, li dimensions de icones, e li altesses de rangeas del lista.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatars</source>
-        <translation type="unfinished"/>
+        <translation>Avatares</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>Prevision de avatar</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9365,7 +9365,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+10"/>
         <source>Communities sidebar</source>
-        <translation type="unfinished"/>
+        <translation>Barre lateral de communitates</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9375,7 +9375,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation type="unfinished"/>
+        <translation>Omni chambres</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9425,7 +9425,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+9"/>
         <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation type="unfinished"/>
+        <translation>Adda un prevision del últim mesage al entrades del lista de chambres. Monstrat in su propri rangea in li dispositions Spaciosi e Compact, e inline près del nóm de chambre in Dense.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -9455,7 +9455,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+16"/>
         <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation type="unfinished"/>
+        <translation>Selige si mesages resta in un sol latere o es positionat oposit l'un a l'altri per expeditor.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -9470,12 +9470,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+12"/>
         <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation type="unfinished"/>
+        <translation>Selige com li colores del expeditor es assignat in li timeline e li fondes de bulles.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>Controla quand li nomes de usator del expeditor es monstrat super mesages. In modo de bulles, vù propri nóm de usator es sempre celat. In chambres plu petit, avatares e colores de bulles es sovent sufficent context.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9485,7 +9485,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+14"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation type="unfinished"/>
+        <translation>Applica li colorisation de syntaxe sensibil al lingue al blocs de code in mesages del timeline formatat (HTML).</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9512,17 +9512,17 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>Actiones</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how message actions are opened.</source>
-        <translation type="unfinished"/>
+        <translation>Selige com li actiones de mesage es apertet.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation type="unfinished"/>
+        <translation>Lista de reactiones separates per virgule, pinnat al barre de actiones. Li slots restant es completat per li reactiones max usate per chambre.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9547,7 +9547,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+8"/>
         <source>Audio handling</source>
-        <translation type="unfinished"/>
+        <translation>Gestion de audio</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9557,7 +9557,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Applied to inline audio players.</source>
-        <translation type="unfinished"/>
+        <translation>Applicat al lectores audio inline.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
@@ -9567,12 +9567,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Choose which Enter key combination sends messages.</source>
-        <translation type="unfinished"/>
+        <translation>Selige quel combination del tasta Enter expedi mesages.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Controla si li syntaxe &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; es auto-convertit por producter un mesage &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; con replic de texto plan Markdown.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9592,7 +9592,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"/>
+        <translation>Remplacia automaticmen li emoticones textual quam :) :D :P per lor equivalentes emoji in expedir un mesage. Selige si remplaciar in omni loc o sol al fin.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9617,7 +9617,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
-        <translation type="unfinished"/>
+        <translation>Notificationes del compte</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9627,7 +9627,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+1"/>
         <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation type="unfinished"/>
+        <translation>Controla li commutator de notificationes al nivel de compte Matrix sur li homeserver. Desactivar por silentiar notificationes traversant omni vù clients/aparates.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9642,7 +9642,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Choose how much message text to include in notifications.</source>
-        <translation type="unfinished"/>
+        <translation>Selige quantmen de texto de mesage includer in notificationes.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9652,12 +9652,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+4"/>
         <source>Attention indicators</source>
-        <translation type="unfinished"/>
+        <translation>Indicatores de attention</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation type="unfinished"/>
+        <translation>Appenda li numere de chambres necessitant attention al titulo del fenestre de Komai.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9697,7 +9697,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation type="unfinished"/>
+        <translation>Permitte li acceptation e initiation de appeles legacy (pre-MatrixRTC).</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -9717,17 +9717,17 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+10"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Camere</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera resolution</source>
-        <translation type="unfinished"/>
+        <translation>Resolution del camere</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera frame rate</source>
-        <translation type="unfinished"/>
+        <translation>Frequentie de cadres del camere</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9747,17 +9747,17 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
         <source>D-Bus</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D-Bus access</source>
-        <translation type="unfinished"/>
+        <translation>Accesse D-Bus</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation type="unfinished"/>
+        <translation>Selige quantmen de &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;accesse D-Bus&lt;/a&gt; Komai exposa al apelantes local.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9772,12 +9772,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Omni instance de &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; es sufficent, ma &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; es un grand instance popular administrat per &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Browser</source>
-        <translation type="unfinished"/>
+        <translation>Navigatur</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -9792,7 +9792,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+5"/>
         <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation type="unfinished"/>
+        <translation>Responde automaticmen al demandes de claves de altri usatores si ili es verificat, anc si tal aparate ne devet haver accesse a ics claves altrimen.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9813,7 +9813,8 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Controla li statù de &lt;a href="%1"&gt;Presence&lt;/a&gt; de vu sur li rete Matrix.
+Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9838,7 +9839,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Compte</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9868,7 +9869,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>Token de accesse</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9893,7 +9894,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"/>
+        <translation>Application</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9908,7 +9909,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>Creat per</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -9918,7 +9919,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Acknowledgements</source>
-        <translation type="unfinished"/>
+        <translation>Recognoscencias</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9938,7 +9939,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Default avatars (Boring Avatars)</source>
-        <translation type="unfinished"/>
+        <translation>Avatars predefinit (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

@@ -456,7 +456,9 @@ ColumnLayout {
                 ListView {
                     id: matrixTimelineList
 
-                    property int delegateMaxWidth: width - (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
+                    // Scrollbar width is already reserved by anchors.rightMargin
+                    // below; delegates fill the full ListView width.
+                    property int delegateMaxWidth: width
                     property bool keepPinnedToBottom: true
                     // True after the user explicitly scrolls away from the
                     // bottom.  Prevents layout-driven contentY adjustments

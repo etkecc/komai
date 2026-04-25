@@ -1796,9 +1796,9 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Plusendi %n mesaĝon?</numerusform>
+            <numerusform>Plusendi %n mesaĝojn?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Plusendi %n elektitan mesaĝon al &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Plusendi %n elektitajn mesaĝojn al &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Forigi %n elektitan mesaĝon?</numerusform>
+            <numerusform>Forigi %n elektitajn mesaĝojn?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Aplikitaj rajtoj al %n infana spaco.</numerusform>
+            <numerusform>Aplikitaj rajtoj al %n infanaj spacoj.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Malsukcesis apliki rajtojn al %n infana spaco: %1</numerusform>
+            <numerusform>Malsukcesis apliki rajtojn al %n infanaj spacoj: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5641,9 +5641,9 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ano en %1</numerusform>
+            <numerusform>%n anoj en %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7592,9 +7592,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n fadena respondo</numerusform>
+            <numerusform>%n fadenaj respondoj</numerusform>
         </translation>
     </message>
     <message>
@@ -7618,9 +7618,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n fadena respondo</numerusform>
+            <numerusform>%n fadenaj respondoj</numerusform>
         </translation>
     </message>
     <message>
@@ -7795,9 +7795,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n fadena respondo</numerusform>
+            <numerusform>%n fadenaj respondoj</numerusform>
         </translation>
     </message>
     <message>
@@ -7829,7 +7829,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n ano</numerusform>
             <numerusform>%n anoj</numerusform>
         </translation>
@@ -8096,9 +8096,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n elektita mesaĝo</numerusform>
+            <numerusform>%n elektitaj mesaĝoj</numerusform>
         </translation>
     </message>
     <message>
@@ -8242,9 +8242,11 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n ĉambro bezonas atenton</numerusform>
+            <numerusform>
+%n ĉambroj bezonas atenton</numerusform>
         </translation>
     </message>
 </context>

@@ -92,13 +92,22 @@ This handles multi-line sources, nested elements, and entity encoding automatica
 
 ## Plural forms (numerus)
 
-Plural messages are currently **skipped** by the translation pipeline. They require special handling because:
+Plural messages (`<message numerus="yes">`) are translated through a parallel pipeline that runs alongside the regular pass — they share the LLM CLI, prompt-loading, and XML normalization but use a different output shape (`forms: [str, ...]` instead of a single `translation`).
 
-- Different languages have different numbers of plural forms (1 for Japanese/Chinese/Turkish, 2 for most European languages, 3 for Czech/Polish/Russian, 6 for Arabic).
-- Each form needs a separate translation in a `<numerusform>` element.
-- The AI prompt would need to explain the specific plural rules for each language.
+### Form count is language-dependent
 
-The script reports the count of skipped plural forms so users are aware. This is a known limitation to be addressed in a future iteration.
+Qt's `lupdate` populates each numerus message with as many empty `<numerusform/>` slots as the language needs — 1 for Japanese / Chinese / Turkish / Vietnamese / Persian / Hungarian / Indonesian / Korean, 2 for most European languages, 3 for Czech / Polish / Romanian / Russian / Serbian / Ukrainian, and 6 for Arabic. The slot order matches CLDR's canonical order (`zero`, `one`, `two`, `few`, `many`, `other`), filtered to the categories Qt actually emits for each language. We never look up CLDR rules ourselves — we just count slots and label them.
+
+`LANG_FORMS` in `translate.py` records the CLDR labels per language; `get_form_categories()` validates the static map against the live `.ts` slot count on every call so any future Qt plural-rule change surfaces immediately.
+
+### Pipeline shape
+
+- `extract_unfinished_numerus()` finds `<message numerus="yes">` blocks with `type="unfinished"` and reports each entry's `form_count`.
+- `build_numerus_prompt()` writes a per-language prompt that lists the slots and their CLDR categories, asks for a `forms` array, and reuses the shared placeholder/HTML/shortcut preservation rules.
+- `translate_batch_numerus()` runs each form through `validate_translation()` independently, so `%n` missing from one form rejects only that entry.
+- `inject_numerus_translations()` writes back into the existing slots in order; a form-count mismatch is logged and skipped (the entry stays `unfinished` for the next run).
+
+The driver (`cmd_translate`) runs both passes by default; `--regular-only` and `--numerus-only` switch between them. Per-language `GUIDE.md` files include a "Plural forms" section that documents the rules for each slot, so the model has language-specific guidance beyond what the generic prompt provides.
 
 
 ## Rust-originated strings

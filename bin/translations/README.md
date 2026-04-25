@@ -26,7 +26,7 @@ Qt `.ts` files are XML and easily drift in formatting. We also support increment
 
 - Translation is incremental: each successful batch is written back immediately.
 - Re-running translation processes only remaining unfinished strings.
-- Plural (`numerus`) entries are intentionally skipped for now.
+- Plural (`numerus`) entries are translated by a separate pass that runs alongside the regular one; `--regular-only` and `--numerus-only` scope a single run.
 
 ## Dependencies
 

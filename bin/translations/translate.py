@@ -191,8 +191,9 @@ def extract_unfinished(ts_path: str) -> tuple[list[dict], int]:
     Each entry dict always has 'source' and 'context'; the optional
     'location', 'comment', and 'extracomment' fields are included when
     present in the .ts file to give the translator more context.
-    Numerus (plural) messages are skipped because they require special
-    handling with multiple plural forms that varies by language.
+    Numerus (plural) messages are skipped here — they have a different
+    output shape (a list of grammatical-number forms instead of a
+    single string) and are processed by `extract_unfinished_numerus()`.
     """
     tree = ET.parse(ts_path)
     root = tree.getroot()

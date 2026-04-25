@@ -1797,10 +1797,10 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Переслать %n сообщение?</numerusform>
+            <numerusform>Переслать %n сообщения?</numerusform>
+            <numerusform>Переслать %n сообщений?</numerusform>
         </translation>
     </message>
     <message>
@@ -1831,10 +1831,10 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Переслать %n выбранное сообщение в &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Переслать %n выбранных сообщения в &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Переслать %n выбранных сообщений в &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2986,10 +2986,10 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Удалить %n выбранное сообщение?</numerusform>
+            <numerusform>Удалить %n выбранных сообщения?</numerusform>
+            <numerusform>Удалить %n выбранных сообщений?</numerusform>
         </translation>
     </message>
     <message>
@@ -4147,19 +4147,19 @@ Verify to unlock encrypted messages.</source>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Права применены к %n дочернему пространству.</numerusform>
+            <numerusform>Права применены к %n дочерним пространствам.</numerusform>
+            <numerusform>Права применены к %n дочерним пространствам.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Не удалось применить права к %n дочернему пространству: %1</numerusform>
+            <numerusform>Не удалось применить права к %n дочерним пространствам: %1</numerusform>
+            <numerusform>Не удалось применить права к %n дочерним пространствам: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5645,10 +5645,10 @@ Previous server-side key backups are not removed automatically.</source>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n участник в %1</numerusform>
+            <numerusform>%n участника в %1</numerusform>
+            <numerusform>%n участников в %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7596,10 +7596,10 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ответ в треде</numerusform>
+            <numerusform>%n ответа в треде</numerusform>
+            <numerusform>%n ответов в треде</numerusform>
         </translation>
     </message>
     <message>
@@ -7623,10 +7623,10 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ответ в треде</numerusform>
+            <numerusform>%n ответа в треде</numerusform>
+            <numerusform>%n ответов в треде</numerusform>
         </translation>
     </message>
     <message>
@@ -7801,10 +7801,10 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ответ в треде</numerusform>
+            <numerusform>%n ответа в треде</numerusform>
+            <numerusform>%n ответов в треде</numerusform>
         </translation>
     </message>
     <message>
@@ -7836,7 +7836,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n участник</numerusform>
             <numerusform>%n участника</numerusform>
             <numerusform>%n участников</numerusform>
@@ -8104,10 +8104,10 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n выбранное сообщение</numerusform>
+            <numerusform>%n выбранных сообщения</numerusform>
+            <numerusform>%n выбранных сообщений</numerusform>
         </translation>
     </message>
     <message>
@@ -8251,10 +8251,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n комната требует внимания</numerusform>
+            <numerusform>
+%n комнаты требуют внимания</numerusform>
+            <numerusform>
+%n комнат требуют внимания</numerusform>
         </translation>
     </message>
 </context>

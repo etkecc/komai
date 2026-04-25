@@ -41,7 +41,7 @@ QtObject {
 
         rootItem.initialBufferCheckQueued = true;
         Qt.callLater(function() {
-            if (support.destroyed)
+            if (!support || support.destroyed)
                 return;
             rootItem.initialBufferCheckQueued = false;
             support.maybeRequestInitialTimelineBuffer();
@@ -54,7 +54,7 @@ QtObject {
 
         rootItem.deferredBufferCheckQueued = true;
         Qt.callLater(function() {
-            if (support.destroyed)
+            if (!support || support.destroyed)
                 return;
             rootItem.deferredBufferCheckQueued = false;
             support.maybeRequestDeferredInitialTimelineBuffer();
@@ -261,7 +261,8 @@ QtObject {
         timelineList.maybeScrollToBottom(true);
 
         Qt.callLater(function () {
-            if (support.destroyed
+            if (!support
+                    || support.destroyed
                     || !timelineList
                     || rootItem.activeRoomId !== roomId
                     || rootItem.loading

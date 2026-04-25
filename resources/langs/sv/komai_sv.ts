@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Verify</source>
-        <translation>Verifiera</translation>
+        <translation>Bekräfta</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -3463,8 +3463,8 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

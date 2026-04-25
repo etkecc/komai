@@ -3467,8 +3467,8 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

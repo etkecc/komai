@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Verify</source>
-        <translation>توثيق</translation>
+        <translation>تحقّق</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -3479,8 +3479,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>إيموجي</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>إيموجي [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

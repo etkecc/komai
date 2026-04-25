@@ -3466,8 +3466,8 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

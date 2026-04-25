@@ -3463,8 +3463,8 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Bildosignoj</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emojio [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

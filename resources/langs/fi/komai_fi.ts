@@ -3463,8 +3463,8 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

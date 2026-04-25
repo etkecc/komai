@@ -989,7 +989,7 @@ Rectangle {
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
             KeyNavigation.backtab: stickerButton.visible ? stickerButton : messageInput
             KeyNavigation.tab: sendButton
-            toolTipText: qsTr("Emoji")
+            toolTipText: qsTr("Emoji [Ctrl+.]")
             image: ":/icons/icons/ui/smile.svg"
             visible: inputBar.composerEnabled && !inputBar.hasVoiceRecording
 

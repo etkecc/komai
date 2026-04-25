@@ -3463,8 +3463,8 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

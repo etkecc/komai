@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Verify</source>
-        <translation>Zweryfikuj</translation>
+        <translation>Weryfikuj</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -3467,8 +3467,8 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

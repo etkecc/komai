@@ -3457,8 +3457,8 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>

@@ -3467,8 +3467,8 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Эмодзи</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Эмодзи [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

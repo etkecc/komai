@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Verify</source>
-        <translation>Verificar</translation>
+        <translation>Verifica</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -3463,8 +3463,8 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

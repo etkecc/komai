@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Verify</source>
-        <translation>Verifikasi</translation>
+        <translation>Lakukan verifikasi</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -3459,8 +3459,8 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+26"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
+        <source>Emoji [Ctrl+.]</source>
+        <translation>Emoji [Ctrl+.]</translation>
     </message>
     <message>
         <location line="+18"/>

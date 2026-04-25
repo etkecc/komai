@@ -1796,9 +1796,9 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n bericht doorsturen?</numerusform>
+            <numerusform>%n berichten doorsturen?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n geselecteerd bericht doorsturen naar &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>%n geselecteerde berichten doorsturen naar &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n geselecteerd bericht verwijderen?</numerusform>
+            <numerusform>%n geselecteerde berichten verwijderen?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Machtigingen toegepast op %n onderliggende ruimte.</numerusform>
+            <numerusform>Machtigingen toegepast op %n onderliggende ruimten.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Machtigingen toepassen op %n onderliggende ruimte mislukt: %1</numerusform>
+            <numerusform>Machtigingen toepassen op %n onderliggende ruimten mislukt: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5639,9 +5639,9 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n lid in %1</numerusform>
+            <numerusform>%n leden in %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7589,9 +7589,9 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n thread-reactie</numerusform>
+            <numerusform>%n thread-reacties</numerusform>
         </translation>
     </message>
     <message>
@@ -7615,9 +7615,9 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n thread-reactie</numerusform>
+            <numerusform>%n thread-reacties</numerusform>
         </translation>
     </message>
     <message>
@@ -7792,9 +7792,9 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n thread-reactie</numerusform>
+            <numerusform>%n thread-reacties</numerusform>
         </translation>
     </message>
     <message>
@@ -7826,9 +7826,9 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform>%n deelnemer</numerusform>
-            <numerusform>%n deelnemers</numerusform>
+        <translation>
+            <numerusform>%n lid</numerusform>
+            <numerusform>%n leden</numerusform>
         </translation>
     </message>
     <message>
@@ -8093,9 +8093,9 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n geselecteerd bericht</numerusform>
+            <numerusform>%n geselecteerde berichten</numerusform>
         </translation>
     </message>
     <message>
@@ -8239,9 +8239,11 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n kamer heeft aandacht nodig</numerusform>
+            <numerusform>
+%n kamers hebben aandacht nodig</numerusform>
         </translation>
     </message>
 </context>

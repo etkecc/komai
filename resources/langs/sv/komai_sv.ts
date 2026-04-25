@@ -6,48 +6,48 @@
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="+117"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation>Profil</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>Ändra</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+43"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort avatar</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>Är du säker på att du vill ta bort din avatar?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation>Visningsnamn</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>Användar-ID</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -57,33 +57,33 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>Kopierat!</translation>
     </message>
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera användar-ID</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation type="unfinished">Hemserver</translation>
+        <translation>Hemserver</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Copy homeserver</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera hemserver</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>This device (session)</source>
-        <translation type="unfinished"/>
+        <translation>Den här enheten (session)</translation>
     </message>
     <message>
         <location line="+78"/>
         <location line="+411"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>Den här enheten</translation>
     </message>
     <message>
         <location line="-385"/>
@@ -91,124 +91,124 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera till urklipp</translation>
     </message>
     <message>
         <location line="-554"/>
         <location line="+457"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>Logga ut</translation>
     </message>
     <message>
         <location line="-438"/>
         <location line="+460"/>
         <source>Name</source>
-        <translation type="unfinished">Namn</translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <location line="-410"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>Åtkomsttoken</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation type="unfinished"/>
+        <translation>Klicka för att visa</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Access tokens grant full account access. Keep private!</source>
-        <translation type="unfinished"/>
+        <translation>Åtkomsttokens ger full kontoåtkomst. Håll privat!</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Other devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>Andra enheter (sessioner)</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>Uppdaterat</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Hide other devices</source>
-        <translation type="unfinished"/>
+        <translation>Dölj andra enheter</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show all (%1) devices</source>
-        <translation type="unfinished"/>
+        <translation>Visa alla (%1) enheter</translation>
     </message>
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>Verifierad</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>Overifierad</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>Blockerad</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation>Avverifiera</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>Avblockera</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>Blockera</translation>
     </message>
     <message>
         <location line="+93"/>
         <source>IP address</source>
-        <translation type="unfinished"/>
+        <translation>IP-adress</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Last seen: %1</source>
-        <translation type="unfinished"/>
+        <translation>Senast sedd: %1</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Last seen: Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Senast sedd: Okänt</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>Användare</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>Ignorerade användare</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Konto</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>You are not logged in yet, so account details are unavailable.</source>
-        <translation type="unfinished"/>
+        <translation>Du är inte inloggad ännu, så kontoinformation är inte tillgänglig.</translation>
     </message>
 </context>
 <context>
@@ -227,12 +227,12 @@
     <message>
         <location line="+73"/>
         <source>You are screen sharing</source>
-        <translation type="unfinished"/>
+        <translation>Du delar skärm</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Hide/Show Picture-in-Picture</source>
-        <translation type="unfinished"/>
+        <translation>Dölj/Visa bild-i-bild</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -250,12 +250,12 @@
     <message>
         <location filename="../../../src/models/AliasEditModel.cpp" line="+117"/>
         <source>Failed to load room aliases from the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>Kunde inte läsa in rumsalias från matrix-sdk-bakänden.</translation>
     </message>
     <message>
         <location line="+310"/>
         <source>Failed to save room aliases to the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>Kunde inte spara rumsalias till matrix-sdk-bakänden.</translation>
     </message>
 </context>
 <context>
@@ -263,52 +263,52 @@
     <message>
         <location filename="../../qml/dialogs/room/AliasEditor.qml" line="+19"/>
         <source>Aliases to %1</source>
-        <translation type="unfinished"/>
+        <translation>Alias till %1</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Primary alias</source>
-        <translation type="unfinished"/>
+        <translation>Primärt alias</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Make primary alias</source>
-        <translation type="unfinished"/>
+        <translation>Gör till primärt alias</translation>
     </message>
     <message>
         <location line="-40"/>
         <source>Alternative addresses for this room. You can usually only add aliases on your own server. One alias can be marked as primary.</source>
-        <translation type="unfinished"/>
+        <translation>Alternativa adresser för det här rummet. Du kan vanligtvis bara lägga till alias på din egen server. Ett alias kan markeras som primärt.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Show this alias in the room's details</source>
-        <translation type="unfinished"/>
+        <translation>Visa det här aliaset i rummets information</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Publish in room directory</source>
-        <translation type="unfinished"/>
+        <translation>Publicera i rumskatalog</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove this alias</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort det här aliaset</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>#new-alias:example.com</source>
-        <translation type="unfinished"/>
+        <translation>#new-alias:example.com</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Add</source>
-        <translation type="unfinished"/>
+        <translation>Lägg till</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Spara</translation>
     </message>
 </context>
 <context>
@@ -316,32 +316,32 @@
     <message>
         <location filename="../../qml/dialogs/room/AllowedRoomsSettingsDialog.qml" line="+18"/>
         <source>Allowed rooms settings</source>
-        <translation type="unfinished"/>
+        <translation>Inställningar för tillåtna rum</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>List of rooms that allow access to this room. Anyone who is in any of those rooms can join this room.</source>
-        <translation type="unfinished"/>
+        <translation>Lista över rum som tillåter åtkomst till det här rummet. Alla som är med i något av dessa rum kan gå med i det här rummet.</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Parent community</source>
-        <translation type="unfinished"/>
+        <translation>Föräldragemenskap</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Other room</source>
-        <translation type="unfinished"/>
+        <translation>Annat rum</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Enter additional rooms not in the list yet...</source>
-        <translation type="unfinished"/>
+        <translation>Ange ytterligare rum som inte finns i listan ännu...</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Spara</translation>
     </message>
 </context>
 <context>
@@ -349,115 +349,115 @@
     <message>
         <location filename="../../qml/components/ApplicationProfilesView.qml" line="+15"/>
         <source>Choose an application profile to launch, or create a new one.</source>
-        <translation type="unfinished"/>
+        <translation>Välj en applikationsprofil att starta, eller skapa en ny.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Each application profile is a separate Komai instance with its own login, settings, and local data.</source>
-        <translation type="unfinished"/>
+        <translation>Varje applikationsprofil är en separat Komai-instans med sin egen inloggning, inställningar och lokala data.</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Create Application Profile</source>
-        <translation type="unfinished"/>
+        <translation>Skapa applikationsprofil</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Profile name</source>
-        <translation type="unfinished"/>
+        <translation>Profilnamn</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Examples: work, personal</source>
-        <translation type="unfinished"/>
+        <translation>Exempel: arbete, privat</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Create desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>Skapa skrivbordsstartare</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Default already uses the packaged Komai launcher.</source>
-        <translation type="unfinished"/>
+        <translation>Standard använder redan den paketerade Komai-startaren.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Recommended for non-default Linux profiles. This makes app badges and taskbar grouping reliable when you launch the profile from its own desktop launcher.</source>
-        <translation type="unfinished"/>
+        <translation>Rekommenderas för icke-standardprofiler på Linux. Det gör appbrickor och grupperingen i aktivitetsfältet tillförlitlig när du startar profilen från sin egen skrivbordsstartare.</translation>
     </message>
     <message>
         <location line="+20"/>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="-36"/>
         <source>Create and Launch</source>
-        <translation type="unfinished"/>
+        <translation>Skapa och starta</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Delete Application Profile '%1'?</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort applikationsprofilen '%1'?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>This removes its config, cache, local database, and stored secrets.</source>
-        <translation type="unfinished"/>
+        <translation>Det här tar bort dess konfiguration, cache, lokala databas och lagrade hemligheter.</translation>
     </message>
     <message>
         <location line="+17"/>
         <location line="+262"/>
         <location line="+5"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location line="-216"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>Uppdaterad</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>Ny</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>No profiles found yet.</source>
-        <translation type="unfinished"/>
+        <translation>Inga profiler hittades ännu.</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>Current</source>
-        <translation type="unfinished"/>
+        <translation>Aktuell</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>User: %1</source>
-        <translation type="unfinished"/>
+        <translation>Användare: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>User: not signed in yet</source>
-        <translation type="unfinished"/>
+        <translation>Användare: inte inloggad ännu</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Homeserver: %1</source>
-        <translation type="unfinished"/>
+        <translation>Hemserver: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Homeserver: not available</source>
-        <translation type="unfinished"/>
+        <translation>Hemserver: inte tillgänglig</translation>
     </message>
 </context>
 <context>
@@ -465,22 +465,22 @@
     <message>
         <location filename="../../qml/components/AttributionFooter.qml" line="+84"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
-        <translation type="unfinished"/>
+        <translation>%1 skapas av %2 (hanterad Matrix-serverhosting).</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation type="unfinished"/>
+        <translation>Sponsrar!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>Sponsra</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Report an issue</source>
-        <translation type="unfinished"/>
+        <translation>Rapportera ett problem</translation>
     </message>
 </context>
 <context>
@@ -488,17 +488,17 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation type="unfinished"/>
+        <translation>Webbläsarkommando för länkar</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Use this command to launch links; use %u where the link URL should be inserted.</source>
-        <translation type="unfinished"/>
+        <translation>Använd det här kommandot för att öppna länkar; använd %u där länkens URL ska infogas.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Example: brave --profile-directory="Profile 7" %u</source>
-        <translation type="unfinished"/>
+        <translation>Exempel: brave --profile-directory="Profile 7" %u</translation>
     </message>
 </context>
 <context>
@@ -567,17 +567,17 @@
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
         <source>X11</source>
-        <translation type="unfinished"/>
+        <translation>X11</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>PipeWire</source>
-        <translation type="unfinished"/>
+        <translation>PipeWire</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Entire screen</source>
-        <translation type="unfinished"/>
+        <translation>Hela skärmen</translation>
     </message>
 </context>
 <context>
@@ -585,33 +585,34 @@
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-bakgrunden är inte klar ännu.</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Knock on room</source>
-        <translation type="unfinished"/>
+        <translation>Knacka på rum</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>Du misslyckades med att gå med i %1. Du kan försöka knacka så att andra kan bjuda in dig. Vill du göra det?
+Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Do you really want to knock on %1? You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>Vill du verkligen knacka på %1? Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Failed to knock room: %1</source>
-        <translation type="unfinished"/>
+        <translation>Misslyckades med att knacka på rummet: %1</translation>
     </message>
     <message>
         <location line="+62"/>
         <source>Room creation failed: Bad Alias</source>
-        <translation type="unfinished"/>
+        <translation>Rumskapandet misslyckades: Ogiltigt alias</translation>
     </message>
     <message>
         <location line="+89"/>
@@ -621,7 +622,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+27"/>
         <source>Failed to kick %1 from %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>Misslyckades med att sparka %1 från %2: %3</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -651,17 +652,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
-        <translation type="unfinished"/>
+        <translation>Det går inte att bjuda in användare förrän Matrix-sessionen är redo.</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Failed to invite %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Misslyckades med att bjuda in %1: %2</translation>
     </message>
     <message>
         <location line="+231"/>
         <source>Something went wrong</source>
-        <translation type="unfinished"/>
+        <translation>Något gick fel</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -672,17 +673,23 @@ You may optionally provide a reason for others to accept your knock:</source>
 This may be a temporary issue (e.g. your system's secret storage failed to unlock). If so, you can close Komai, fix the problem, and relaunch — your data will still be there.
 
 If the problem persists, you can log out and sign in again, but this will delete your local message cache and encryption session.</source>
-        <translation type="unfinished"/>
+        <translation>Komai stötte på ett problem:
+
+%1
+
+Detta kan vara ett tillfälligt problem (t.ex. att ditt systems hemliga lagring inte kunde låsas upp). Om så är fallet kan du stänga Komai, åtgärda problemet och starta om — dina data finns kvar.
+
+Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din lokala meddelandecache och krypteringssession.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close &amp;&amp; preserve data</source>
-        <translation type="unfinished"/>
+        <translation>Stäng &amp;&amp; bevara data</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Log out &amp;&amp; start over</source>
-        <translation type="unfinished"/>
+        <translation>Logga ut &amp;&amp; börja om</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
@@ -702,32 +709,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/chat/ChatPageBootstrap.cpp" line="+32"/>
         <source>Matrix backend runtime failed to start for this session. Please log in again.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-bakgrunden misslyckades med att starta för den här sessionen. Logga in igen.</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>Återställning av nyckelkopia kräver en aktiv matrix-sdk-bakgrundskörning.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>En återställningsnyckel eller lösenfras krävs för att låsa upp säkerhetskopian av nycklar.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Failed to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>Misslyckades med att låsa upp säkerhetskopian av nycklar.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unlock key backup: %1</source>
-        <translation type="unfinished"/>
+        <translation>Misslyckades med att låsa upp nyckelkopia: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption secrets unlocked.</source>
-        <translation type="unfinished"/>
+        <translation>Krypteringshemligheter upplåsta.</translation>
     </message>
 </context>
 <context>
@@ -735,32 +742,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/CloseToTrayPromptDialog.qml" line="+14"/>
         <source>Quit completely or close to tray?</source>
-        <translation type="unfinished"/>
+        <translation>Avsluta helt eller minimera till systemfältet?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Komai can keep running in the system tray so you keep getting notifications and can open it quickly.</source>
-        <translation type="unfinished"/>
+        <translation>Komai kan fortsätta köra i systemfältet så att du fortsätter få aviseringar och kan öppna det snabbt.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>We won't ask again. You can change this later in Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Vi frågar inte igen. Du kan ändra detta senare i Inställningar.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation type="unfinished"/>
+        <translation>Minimera till systemfältet</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation type="unfinished">Avsluta</translation>
+        <translation>Avsluta</translation>
     </message>
 </context>
 <context>
@@ -768,7 +775,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>Kontopaket</translation>
     </message>
 </context>
 <context>
@@ -776,17 +783,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/CommandValidationPresentation.qml" line="+26"/>
         <source>Hit Enter to insert it.</source>
-        <translation type="unfinished"/>
+        <translation>Tryck Enter för att infoga det.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Looks good! Hit Enter to send it.</source>
-        <translation type="unfinished"/>
+        <translation>Ser bra ut! Tryck Enter för att skicka det.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation type="unfinished"/>
+        <translation>Välj ett kommando först. Enter infogar om det är markerat, annars skickas det.</translation>
     </message>
 </context>
 <context>
@@ -794,17 +801,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
         <source>Show</source>
-        <translation type="unfinished">Visa</translation>
+        <translation>Visa</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>Visa olästa indikatorer</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>Inkludera i 'Alla rum'</translation>
     </message>
 </context>
 <context>
@@ -812,7 +819,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>Inställningar...</translation>
     </message>
 </context>
 <context>
@@ -820,12 +827,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
         <source>Expand</source>
-        <translation type="unfinished"/>
+        <translation>Expandera</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished"/>
+        <translation>Fäll ihop</translation>
     </message>
 </context>
 <context>
@@ -833,72 +840,72 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
-        <translation type="unfinished"/>
+        <translation>Rum märkta som favoriter. Använder Matrix m.favourite-taggen, så dina val synkroniseras mellan klienter.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Rooms tagged as low priority. They stay visually quiet in the room list unless you receive a loud ping or open this filter.</source>
-        <translation type="unfinished"/>
+        <translation>Rum märkta som låg prioritet. De förblir visuellt tysta i rumslistan om du inte tar emot ett högt ping eller öppnar det här filtret.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Messages from your homeserver administrator. Uses the Matrix m.server_notice tag.</source>
-        <translation type="unfinished"/>
+        <translation>Meddelanden från din hemserveradministratör. Använder Matrix m.server_notice-taggen.</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>All rooms</source>
-        <translation type="unfinished">Alla rum</translation>
+        <translation>Alla rum</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation type="unfinished">Personer</translation>
+        <translation>Personer</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bots</source>
-        <translation type="unfinished"/>
+        <translation>Bottar</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Groups</source>
-        <translation type="unfinished"/>
+        <translation>Grupper</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All your joined rooms. Rooms from filters you've excluded from 'All rooms' are omitted.</source>
-        <translation type="unfinished"/>
+        <translation>Alla rum du gått med i. Rum från filter som du exkluderat från 'Alla rum' är utelämnade.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct chats with real people. Detected from Matrix m.direct account data and a 2-3 member heuristic, excluding users identified as bots.</source>
-        <translation type="unfinished"/>
+        <translation>Direktchattar med riktiga personer. Identifierade från Matrix m.direct-kontodata och en 2-3 deltagares heuristik, exklusive användare identifierade som bottar.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct chats with bots or bridge accounts. Identified from username and display-name patterns.</source>
-        <translation type="unfinished"/>
+        <translation>Direktchattar med bottar eller bryggkonton. Identifierade från användarnamn och visningsnamn.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Multi-participant rooms that aren't direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Rum med flera deltagare som inte är direktchattar.</translation>
     </message>
     <message>
         <location line="-94"/>
         <source>Favourites</source>
-        <translation type="unfinished"/>
+        <translation>Favoriter</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation type="unfinished">Låg prioritet</translation>
+        <translation>Låg prioritet</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation type="unfinished">Servernotiser</translation>
+        <translation>Servermeddelanden</translation>
     </message>
 </context>
 <context>
@@ -906,43 +913,43 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/Completer.qml" line="+219"/>
         <source>Pick an emoji</source>
-        <translation type="unfinished"/>
+        <translation>Välj en emoji</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a user to mention</source>
-        <translation type="unfinished"/>
+        <translation>Välj en användare att omnämna</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a command</source>
-        <translation type="unfinished"/>
+        <translation>Välj ett kommando</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a room to link to</source>
-        <translation type="unfinished"/>
+        <translation>Välj ett rum att länka till</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Close</source>
-        <translation type="unfinished">Stäng</translation>
+        <translation>Stäng</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation type="unfinished"/>
+        <translation>Inga träffar hittades.</translation>
     </message>
     <message>
         <location line="+170"/>
         <source>Notify the whole room</source>
-        <translation type="unfinished"/>
+        <translation>Meddela hela rummet</translation>
     </message>
     <message>
         <location line="+147"/>
         <location line="+55"/>
         <source>(Space)</source>
-        <translation type="unfinished"/>
+        <translation>(Utrymme)</translation>
     </message>
 </context>
 <context>
@@ -950,7 +957,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
         <source>Attach an image or file</source>
-        <translation type="unfinished"/>
+        <translation>Bifoga en bild eller fil</translation>
     </message>
 </context>
 <context>
@@ -958,17 +965,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+18"/>
         <source>Hang up</source>
-        <translation type="unfinished">Lägg på</translation>
+        <translation>Lägg på</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Already on a call</source>
-        <translation type="unfinished"/>
+        <translation>Redan i ett samtal</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Place a call</source>
-        <translation type="unfinished">Ring upp</translation>
+        <translation>Ring upp</translation>
     </message>
 </context>
 <context>
@@ -976,17 +983,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
         <source>Pause recording [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>Pausa inspelning [Ctrl+R]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Resume recording [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>Återuppta inspelning [Ctrl+R]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Record a voice message [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>Spela in ett röstmeddelande [Ctrl+R]</translation>
     </message>
 </context>
 <context>
@@ -994,17 +1001,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+111"/>
         <source>Finalize recording for preview</source>
-        <translation type="unfinished"/>
+        <translation>Slutför inspelning för förhandsgranskning</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Paused</source>
-        <translation type="unfinished"/>
+        <translation>Pausad</translation>
     </message>
     <message>
         <location line="+74"/>
         <source>Discard recording</source>
-        <translation type="unfinished"/>
+        <translation>Kassera inspelning</translation>
     </message>
 </context>
 <context>
@@ -1012,12 +1019,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/ConfirmJoinRoomDialog.qml" line="+18"/>
         <source>Confirm community join</source>
-        <translation type="unfinished"/>
+        <translation>Bekräfta anslutning till gemenskap</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Confirm room join</source>
-        <translation type="unfinished"/>
+        <translation>Bekräfta anslutning till rum</translation>
     </message>
     <message numerus="yes">
         <location line="+54"/>
@@ -1030,27 +1037,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+23"/>
         <source>This room can't be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
-        <translation type="unfinished"/>
+        <translation>Det här rummet går inte att gå med i direkt. Du kan dock knacka på rummet och rumsmedlemmar kan acceptera eller avvisa din begäran. Du kan dessutom ange en anledning för dem att släppa in dig nedan:</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Do you want to join this room? You can optionally add a reason below:</source>
-        <translation type="unfinished"/>
+        <translation>Vill du gå med i det här rummet? Du kan valfritt lägga till en anledning nedan:</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Knock</source>
-        <translation type="unfinished"/>
+        <translation>Knacka</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>Gå med</translation>
     </message>
 </context>
 <context>
@@ -1058,63 +1065,63 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>Ny direktchatt</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation type="unfinished"/>
+        <translation>Sök efter namn eller @user:example.com</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Start chat directly</source>
-        <translation type="unfinished"/>
+        <translation>Starta chatt direkt</translation>
     </message>
     <message>
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation type="unfinished"/>
+        <translation>Okänt visningsnamn</translation>
     </message>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation type="unfinished"/>
+        <translation>Skriv en sökfråga. Resultat visas här.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation type="unfinished"/>
+        <translation>Inga matchande användare hittades.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Use the suggestion above to start a chat by Matrix ID.</source>
-        <translation type="unfinished"/>
+        <translation>Använd förslaget ovan för att starta en chatt med Matrix-ID.</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Remove selected user</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort vald användare</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>Kryptering</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>End-to-end encryption protects messages so only you and the recipient can read them.</source>
-        <translation type="unfinished"/>
+        <translation>End-to-end-kryptering skyddar meddelanden så att bara du och mottagaren kan läsa dem.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>Skapa</translation>
     </message>
 </context>
 <context>
@@ -1122,72 +1129,72 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/CreateRoom.qml" line="+37"/>
         <source>Name</source>
-        <translation type="unfinished">Namn</translation>
+        <translation>Namn</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Topic</source>
-        <translation type="unfinished">Ämne</translation>
+        <translation>Ämne</translation>
     </message>
     <message>
         <location line="-27"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>Nytt område</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>Nytt rum</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Alias</source>
-        <translation type="unfinished">Alias</translation>
+        <translation>Alias</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>Offentlig</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Anyone can join a public space. Private spaces require an invite.</source>
-        <translation type="unfinished"/>
+        <translation>Vem som helst kan gå med i ett offentligt område. Privata områden kräver en inbjudan.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Anyone can join a public room. Private rooms require an invite.</source>
-        <translation type="unfinished"/>
+        <translation>Vem som helst kan gå med i ett offentligt rum. Privata rum kräver en inbjudan.</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Invitees get the same power level as the room creator.</source>
-        <translation type="unfinished"/>
+        <translation>Inbjudna får samma behörighetsnivå som rumskaparen.</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Only participants can read messages. Cannot be disabled once enabled.</source>
-        <translation type="unfinished"/>
+        <translation>Bara deltagare kan läsa meddelanden. Kan inte inaktiveras när det väl aktiverats.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Encryption has a high cost in public rooms with many participants.</source>
-        <translation type="unfinished"/>
+        <translation>Kryptering medför en hög kostnad i offentliga rum med många deltagare.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>Skapa</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>Betrodd</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>Kryptering</translation>
     </message>
 </context>
 <context>
@@ -1195,7 +1202,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/device-verification/DigitVerification.qml" line="+13"/>
         <source>Do both devices show the same sequence of numbers?</source>
-        <translation type="unfinished"/>
+        <translation>Visar båda enheterna samma siffersekvens?</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -1213,327 +1220,327 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/device-verification/EmojiVerification.qml" line="+13"/>
         <source>Do both devices show the same sequence of emojis?</source>
-        <translation type="unfinished"/>
+        <translation>Visar båda enheterna samma sekvens av emojier?</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Dog</source>
-        <translation type="unfinished"/>
+        <translation>Hund</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cat</source>
-        <translation type="unfinished"/>
+        <translation>Katt</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lion</source>
-        <translation type="unfinished"/>
+        <translation>Lejon</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Horse</source>
-        <translation type="unfinished"/>
+        <translation>Häst</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Unicorn</source>
-        <translation type="unfinished"/>
+        <translation>Enhörning</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pig</source>
-        <translation type="unfinished"/>
+        <translation>Gris</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Elephant</source>
-        <translation type="unfinished"/>
+        <translation>Elefant</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rabbit</source>
-        <translation type="unfinished"/>
+        <translation>Kanin</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Panda</source>
-        <translation type="unfinished"/>
+        <translation>Panda</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rooster</source>
-        <translation type="unfinished"/>
+        <translation>Tupp</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Penguin</source>
-        <translation type="unfinished"/>
+        <translation>Pingvin</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Turtle</source>
-        <translation type="unfinished"/>
+        <translation>Sköldpadda</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Fish</source>
-        <translation type="unfinished"/>
+        <translation>Fisk</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Octopus</source>
-        <translation type="unfinished"/>
+        <translation>Bläckfisk</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Butterfly</source>
-        <translation type="unfinished"/>
+        <translation>Fjäril</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Flower</source>
-        <translation type="unfinished"/>
+        <translation>Blomma</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Tree</source>
-        <translation type="unfinished"/>
+        <translation>Träd</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cactus</source>
-        <translation type="unfinished"/>
+        <translation>Kaktus</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Mushroom</source>
-        <translation type="unfinished"/>
+        <translation>Svamp</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Globe</source>
-        <translation type="unfinished"/>
+        <translation>Glob</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Moon</source>
-        <translation type="unfinished"/>
+        <translation>Måne</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cloud</source>
-        <translation type="unfinished"/>
+        <translation>Moln</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Fire</source>
-        <translation type="unfinished"/>
+        <translation>Eld</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Banana</source>
-        <translation type="unfinished"/>
+        <translation>Banan</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Apple</source>
-        <translation type="unfinished"/>
+        <translation>Äpple</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Strawberry</source>
-        <translation type="unfinished"/>
+        <translation>Jordgubbe</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Corn</source>
-        <translation type="unfinished"/>
+        <translation>Majs</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pizza</source>
-        <translation type="unfinished"/>
+        <translation>Pizza</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cake</source>
-        <translation type="unfinished"/>
+        <translation>Tårta</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Heart</source>
-        <translation type="unfinished"/>
+        <translation>Hjärta</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Smiley</source>
-        <translation type="unfinished"/>
+        <translation>Smiley</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Robot</source>
-        <translation type="unfinished"/>
+        <translation>Robot</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hat</source>
-        <translation type="unfinished"/>
+        <translation>Hatt</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Glasses</source>
-        <translation type="unfinished"/>
+        <translation>Glasögon</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Spanner</source>
-        <translation type="unfinished"/>
+        <translation>Skiftnyckel</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Santa</source>
-        <translation type="unfinished"/>
+        <translation>Tomte</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Thumbs Up</source>
-        <translation type="unfinished"/>
+        <translation>Tummen upp</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Umbrella</source>
-        <translation type="unfinished"/>
+        <translation>Paraply</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hourglass</source>
-        <translation type="unfinished"/>
+        <translation>Timglas</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clock</source>
-        <translation type="unfinished"/>
+        <translation>Klocka</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Gift</source>
-        <translation type="unfinished"/>
+        <translation>Present</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Light Bulb</source>
-        <translation type="unfinished"/>
+        <translation>Glödlampa</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Book</source>
-        <translation type="unfinished"/>
+        <translation>Bok</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Penna</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Paperclip</source>
-        <translation type="unfinished"/>
+        <translation>Gem</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Scissors</source>
-        <translation type="unfinished"/>
+        <translation>Sax</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lock</source>
-        <translation type="unfinished"/>
+        <translation>Lås</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Key</source>
-        <translation type="unfinished"/>
+        <translation>Nyckel</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hammer</source>
-        <translation type="unfinished"/>
+        <translation>Hammare</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Telephone</source>
-        <translation type="unfinished"/>
+        <translation>Telefon</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Flag</source>
-        <translation type="unfinished"/>
+        <translation>Flagga</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Train</source>
-        <translation type="unfinished"/>
+        <translation>Tåg</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Bicycle</source>
-        <translation type="unfinished"/>
+        <translation>Cykel</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Aeroplane</source>
-        <translation type="unfinished"/>
+        <translation>Flygplan</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rocket</source>
-        <translation type="unfinished"/>
+        <translation>Raket</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Trophy</source>
-        <translation type="unfinished"/>
+        <translation>Pokal</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ball</source>
-        <translation type="unfinished"/>
+        <translation>Boll</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Guitar</source>
-        <translation type="unfinished"/>
+        <translation>Gitarr</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Trumpet</source>
-        <translation type="unfinished"/>
+        <translation>Trumpet</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Bell</source>
-        <translation type="unfinished"/>
+        <translation>Klocka</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Anchor</source>
-        <translation type="unfinished"/>
+        <translation>Ankare</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Headphones</source>
-        <translation type="unfinished"/>
+        <translation>Hörlurar</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Folder</source>
-        <translation type="unfinished"/>
+        <translation>Mapp</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation type="unfinished"/>
+        <translation>Nål</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1551,52 +1558,52 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/Encrypted.qml" line="+23"/>
         <source>You weren't in the room when this message was sent.</source>
-        <translation type="unfinished"/>
+        <translation>Du var inte i rummet när det här meddelandet skickades.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message couldn't be decrypted because the sender's identity is no longer verified.</source>
-        <translation type="unfinished"/>
+        <translation>Det här meddelandet kunde inte dekrypteras eftersom avsändarens identitet inte längre är verifierad.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message was sent from a device that isn't signed by its owner.</source>
-        <translation type="unfinished"/>
+        <translation>Det här meddelandet skickades från en enhet som inte är signerad av sin ägare.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message was sent from a device we couldn't securely identify.</source>
-        <translation type="unfinished"/>
+        <translation>Det här meddelandet skickades från en enhet vi inte kunde identifiera på ett säkert sätt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>History isn't available on this device. Turn on key backup to access older messages.</source>
-        <translation type="unfinished"/>
+        <translation>Historik är inte tillgänglig på den här enheten. Aktivera nyckelbackup för att komma åt äldre meddelanden.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify this device to access messages sent before it was added to your account.</source>
-        <translation type="unfinished"/>
+        <translation>Verifiera den här enheten för att komma åt meddelanden som skickades innan den lades till ditt konto.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender's security settings prevented sharing encryption keys with this device.</source>
-        <translation type="unfinished"/>
+        <translation>Avsändarens säkerhetsinställningar förhindrade delning av krypteringsnycklar med den här enheten.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender didn't share the encryption keys with this device.</source>
-        <translation type="unfinished"/>
+        <translation>Avsändaren delade inte krypteringsnycklarna med den här enheten.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message couldn't be decrypted.</source>
-        <translation type="unfinished"/>
+        <translation>Det här meddelandet kunde inte dekrypteras.</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Request key</source>
-        <translation type="unfinished"/>
+        <translation>Begär nyckel</translation>
     </message>
 </context>
 <context>
@@ -1604,12 +1611,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished"/>
+        <translation>%1 aktiverade end-to-end-kryptering</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Encryption keeps your messages safe by only allowing the people you sent the message to to read it. For extra security, if you want to make sure you are talking to the right people, you can verify them in real life.</source>
-        <translation type="unfinished"/>
+        <translation>Kryptering skyddar dina meddelanden genom att bara låta mottagarna läsa dem. För extra säkerhet, om du vill försäkra dig om att du pratar med rätt personer, kan du verifiera dem i verkligheten.</translation>
     </message>
 </context>
 <context>
@@ -1617,42 +1624,42 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/EncryptionIndicator.qml" line="+81"/>
         <source>Encrypted by a verified device.</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en verifierad enhet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The authenticity of this encrypted message can't be guaranteed on this device.</source>
-        <translation type="unfinished"/>
+        <translation>Äktheten av det här krypterade meddelandet kan inte garanteras på den här enheten.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unknown or deleted device.</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en okänd eller raderad enhet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by a device not verified by its owner.</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en enhet som inte är verifierad av sin ägare.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Not encrypted.</source>
-        <translation type="unfinished"/>
+        <translation>Inte krypterat.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified user.</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en overifierad användare.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by a previously-verified user who is no longer verified.</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en tidigare verifierad användare som inte längre är verifierad.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender of the event does not match the owner of the device that created the Megolm session.</source>
-        <translation type="unfinished"/>
+        <translation>Avsändaren av händelsen matchar inte ägaren av enheten som skapade Megolm-sessionen.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1662,22 +1669,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+3"/>
         <source>Encrypted by a verified device</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en verifierad enhet</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified device, but you have trusted that user so far.</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en overifierad enhet, men du har hittills litat på den användaren.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can't verify who sent the message.</source>
-        <translation type="unfinished"/>
+        <translation>Nyckeln är från en opålitlig källa, möjligen vidarebefordrad från en annan användare eller online-nyckelbackupen. Därför kan vi inte verifiera vem som skickade meddelandet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified device.</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat av en overifierad enhet.</translation>
     </message>
 </context>
 <context>
@@ -1695,32 +1702,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="-15"/>
         <source>Verification Failed</source>
-        <translation type="unfinished"/>
+        <translation>Verifiering misslyckades</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>The other client does not support this verification method.</source>
-        <translation type="unfinished"/>
+        <translation>Den andra klienten stöder inte den här verifieringsmetoden.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The other party canceled the verification.</source>
-        <translation type="unfinished"/>
+        <translation>Den andra parten avbröt verifieringen.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The verification was accepted by a different device.</source>
-        <translation type="unfinished"/>
+        <translation>Verifieringen accepterades av en annan enhet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verification messages received out of order!</source>
-        <translation type="unfinished"/>
+        <translation>Verifieringsmeddelanden mottogs i fel ordning!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Unknown verification error.</source>
-        <translation type="unfinished"/>
+        <translation>Okänt verifieringsfel.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1733,12 +1740,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Spara</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Save file</source>
-        <translation type="unfinished">Spara fil</translation>
+        <translation>Spara fil</translation>
     </message>
 </context>
 <context>
@@ -1746,22 +1753,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
-        <translation type="unfinished"/>
+        <translation>Rumstaggarna kan bara ändras för rum du gått med i som är tillgängliga i den här sessionen.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Room tags are temporarily unavailable because the Matrix session is not active.</source>
-        <translation type="unfinished"/>
+        <translation>Rumstaggarna är tillfälligt otillgängliga eftersom Matrix-sessionen inte är aktiv.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to add room tag: %1</source>
-        <translation type="unfinished"/>
+        <translation>Misslyckades med att lägga till rumstagg: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room tag: %1</source>
-        <translation type="unfinished"/>
+        <translation>Misslyckades med att ta bort rumstagg: %1</translation>
     </message>
 </context>
 <context>
@@ -1769,22 +1776,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
         <source>Close</source>
-        <translation type="unfinished">Stäng</translation>
+        <translation>Stäng</translation>
     </message>
     <message>
         <location line="-109"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordran skickar detta innehåll (utan att avslöja avsändaren) till ett annat rum.</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Forward message?</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra meddelande?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages?</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra %1 av %2 meddelanden?</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -1797,27 +1804,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
-        <translation type="unfinished"/>
+        <translation>Endast 1 av %1 valda meddelanden kan vidarebefordras. Meddelanden som inte stöds hoppas över.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Only %1 of %2 selected messages can be forwarded. Unsupported messages will be skipped.</source>
-        <translation type="unfinished"/>
+        <translation>Endast %1 av %2 valda meddelanden kan vidarebefordras. Meddelanden som inte stöds hoppas över.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordran skickar dessa meddelanden (utan att avslöja avsändaren) till ett annat rum.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra 1 av %1 valda meddelanden till &lt;b&gt;%2&lt;/b&gt;?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra %1 av %2 valda meddelanden till &lt;b&gt;%3&lt;/b&gt;?</translation>
     </message>
     <message numerus="yes">
         <location line="+3"/>
@@ -1830,22 +1837,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+163"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"/>
+        <translation>Rumsnamn, adress eller id...</translation>
     </message>
     <message>
         <location line="-170"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra till &lt;b&gt;%1&lt;/b&gt;?</translation>
     </message>
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
@@ -1854,7 +1861,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>Kontopaket</translation>
     </message>
 </context>
 <context>
@@ -1862,27 +1869,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/moderation/HiddenEventsDialog.qml" line="+19"/>
         <source>Hidden events</source>
-        <translation type="unfinished"/>
+        <translation>Dolda händelser</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hidden events in this room</source>
-        <translation type="unfinished"/>
+        <translation>Dolda händelser i detta rum</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in this room:</source>
-        <translation type="unfinished"/>
+        <translation>Välj vilka extra händelser som &lt;b&gt;visas&lt;/b&gt; i detta rum:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in all rooms:</source>
-        <translation type="unfinished"/>
+        <translation>Välj vilka extra händelser som &lt;b&gt;visas&lt;/b&gt; i alla rum:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Spara</translation>
     </message>
 </context>
 <context>
@@ -1890,62 +1897,62 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/HiddenEventsSettingsContent.qml" line="+182"/>
         <source>Show member changes</source>
-        <translation type="unfinished"/>
+        <translation>Visa medlemsändringar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins, leaves, bans, display name changes, and avatar changes.</source>
-        <translation type="unfinished"/>
+        <translation>Anslutningar, avgångar, utestängningar, namnändringar och avatarbyten.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show power level changes</source>
-        <translation type="unfinished"/>
+        <translation>Visa behörighetsnivåändringar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Moderator changes and room permission updates.</source>
-        <translation type="unfinished"/>
+        <translation>Moderatorändringar och uppdateringar av rumsbehörigheter.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show stickers</source>
-        <translation type="unfinished"/>
+        <translation>Visa klistermärken</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show sticker events in the timeline.</source>
-        <translation type="unfinished"/>
+        <translation>Visa klistermärkeshändelser i tidslinjen.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show reactions as events</source>
-        <translation type="unfinished"/>
+        <translation>Visa reaktioner som händelser</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Separate reaction events, not just reaction pills.</source>
-        <translation type="unfinished"/>
+        <translation>Separata reaktionshändelser, inte bara reaktionspillar.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show call setup events</source>
-        <translation type="unfinished"/>
+        <translation>Visa samtalsinställningshändelser</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation type="unfinished"/>
+        <translation>Lågnivå m.call-uppkopplingstrafik. Mest användbart för felsökning av samtal.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show server access changes</source>
-        <translation type="unfinished"/>
+        <translation>Visa serveråtkomständringar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Allowed and blocked homeserver list changes.</source>
-        <translation type="unfinished"/>
+        <translation>Ändringar i listan över tillåtna och blockerade hemservrar.</translation>
     </message>
 </context>
 <context>
@@ -1953,32 +1960,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/common/HideFilterDialog.qml" line="+17"/>
         <source>Hide the "%1" filter?</source>
-        <translation type="unfinished"/>
+        <translation>Dölj filtret "%1"?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>To show this filter again, go to Application Settings → Navigation → Communities Sidebar and enable the "Show" toggle for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>För att visa filtret igen, gå till Programinställningar → Navigering → Gemenskapssidofält och aktivera "Visa"-växeln för "%1".</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This filter is currently excluded from "All rooms", so its rooms won't appear there either. You can change this in Application Settings → Navigation.</source>
-        <translation type="unfinished"/>
+        <translation>Det här filtret är för närvarande uteslutet från "Alla rum", så dess rum visas inte heller där. Du kan ändra detta i Programinställningar → Navigering.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You'll still be able to find rooms that belonged to it in "All rooms".</source>
-        <translation type="unfinished"/>
+        <translation>Du kan fortfarande hitta rum som tillhörde det i "Alla rum".</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>Dölj</translation>
     </message>
 </context>
 <context>
@@ -1986,62 +1993,62 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>Ignorerade användare</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ignore User</source>
-        <translation type="unfinished"/>
+        <translation>Ignorera användare</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Matrix user ID</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-användar-ID</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>Ignorera</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Please enter a user ID.</source>
-        <translation type="unfinished"/>
+        <translation>Ange ett användar-ID.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Invalid format. Expected: @user:server.com</source>
-        <translation type="unfinished"/>
+        <translation>Ogiltigt format. Förväntat: @user:server.com</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This user is already ignored.</source>
-        <translation type="unfinished"/>
+        <translation>Den här användaren ignoreras redan.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring a user hides their messages (they can still see yours!).</source>
-        <translation type="unfinished"/>
+        <translation>Att ignorera en användare döljer deras meddelanden (de kan fortfarande se dina!).</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>Ny</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>Sluta ignorera</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>You are not ignoring anyone.</source>
-        <translation type="unfinished"/>
+        <translation>Du ignorerar ingen.</translation>
     </message>
 </context>
 <context>
@@ -2049,22 +2056,22 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/ImagePackDeleteDialog.qml" line="+17"/>
         <source>Delete sticker pack</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort klistermärkespaket</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you wish to delete the sticker pack '%1'?</source>
-        <translation type="unfinished"/>
+        <translation>Är du säker på att du vill ta bort klistermärkespaketet '%1'?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
 </context>
 <context>
@@ -2072,99 +2079,99 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/ImagePackEditorDialog.qml" line="+23"/>
         <source>Editing image pack</source>
-        <translation type="unfinished"/>
+        <translation>Redigerar bildpaket</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Add images</source>
-        <translation type="unfinished"/>
+        <translation>Lägg till bilder</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Images (*.png *.webp *.gif *.jpg *.jpeg)</source>
-        <translation type="unfinished"/>
+        <translation>Bilder (*.png *.webp *.gif *.jpg *.jpeg)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select images for pack</source>
-        <translation type="unfinished"/>
+        <translation>Välj bilder till paket</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add to pack</source>
-        <translation type="unfinished"/>
+        <translation>Lägg till i paket</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Change the overview image for this pack</source>
-        <translation type="unfinished"/>
+        <translation>Ändra översiktsbild för detta paket</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Overview Image (*.png *.webp *.jpg *.jpeg)</source>
-        <translation type="unfinished"/>
+        <translation>Översiktsbild (*.png *.webp *.jpg *.jpeg)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select overview image for pack</source>
-        <translation type="unfinished"/>
+        <translation>Välj översiktsbild till paket</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>State key</source>
-        <translation type="unfinished"/>
+        <translation>Tillståndsnyckel</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Packname</source>
-        <translation type="unfinished"/>
+        <translation>Paketnamn</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Attribution</source>
-        <translation type="unfinished"/>
+        <translation>Erkännande</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+86"/>
         <source>Use as Emoji</source>
-        <translation type="unfinished"/>
+        <translation>Använd som emoji</translation>
     </message>
     <message>
         <location line="-74"/>
         <location line="+86"/>
         <source>Use as Sticker</source>
-        <translation type="unfinished"/>
+        <translation>Använd som klistermärke</translation>
     </message>
     <message>
         <location line="-40"/>
         <source>Shortcode</source>
-        <translation type="unfinished"/>
+        <translation>Kortkod</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Body</source>
-        <translation type="unfinished"/>
+        <translation>Text</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Remove from pack</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort från paket</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Spara</translation>
     </message>
 </context>
 <context>
@@ -2172,57 +2179,57 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/ImagePackSettingsDialog.qml" line="+28"/>
         <source>Image pack settings</source>
-        <translation type="unfinished"/>
+        <translation>Inställningar för bildpaket</translation>
     </message>
     <message>
         <location line="+71"/>
         <source>Create account pack</source>
-        <translation type="unfinished"/>
+        <translation>Skapa kontostpaket</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>New room pack</source>
-        <translation type="unfinished"/>
+        <translation>Nytt rumspaket</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Private pack</source>
-        <translation type="unfinished"/>
+        <translation>Privat paket</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pack from this room</source>
-        <translation type="unfinished"/>
+        <translation>Paket från detta rum</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pack from parent community</source>
-        <translation type="unfinished"/>
+        <translation>Paket från överordnad gemenskap</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Globally enabled pack</source>
-        <translation type="unfinished"/>
+        <translation>Globalt aktiverat paket</translation>
     </message>
     <message>
         <location line="+68"/>
         <source>Enable globally</source>
-        <translation type="unfinished"/>
+        <translation>Aktivera globalt</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Enables this pack to be used in all rooms</source>
-        <translation type="unfinished"/>
+        <translation>Gör att detta paket kan användas i alla rum</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Redigera</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
 </context>
 <context>
@@ -2230,7 +2237,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
         <source>External player</source>
-        <translation type="unfinished"/>
+        <translation>Extern spelare</translation>
     </message>
 </context>
 <context>
@@ -2238,12 +2245,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/common/InputDialog.qml" line="+19"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
@@ -2251,68 +2258,68 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
         <source>Invite users to %1</source>
-        <translation type="unfinished"/>
+        <translation>Bjud in användare till %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite users</source>
-        <translation type="unfinished"/>
+        <translation>Bjud in användare</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Selected users</source>
-        <translation type="unfinished"/>
+        <translation>Valda användare</translation>
     </message>
     <message>
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation type="unfinished"/>
+        <translation>Okänt visningsnamn</translation>
     </message>
     <message>
         <location line="-246"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>No one is selected yet.</source>
-        <translation type="unfinished"/>
+        <translation>Ingen är vald ännu.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Search</source>
-        <translation type="unfinished">Sök</translation>
+        <translation>Sök</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation type="unfinished"/>
+        <translation>Sök med namn eller @user:example.com</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>Invite directly</source>
-        <translation type="unfinished"/>
+        <translation>Bjud in direkt</translation>
     </message>
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation type="unfinished"/>
+        <translation>Skriv en sökfråga. Resultat visas här.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation type="unfinished"/>
+        <translation>Inga matchande användare hittades.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Use the suggestion above to invite by Matrix ID.</source>
-        <translation type="unfinished"/>
+        <translation>Använd förslaget ovan för att bjuda in via Matrix-ID.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Invite</source>
-        <translation type="unfinished"/>
+        <translation>Bjud in</translation>
     </message>
 </context>
 <context>
@@ -2320,32 +2327,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/InviteResponseDialog.qml" line="+23"/>
         <source>Join %1?</source>
-        <translation type="unfinished"/>
+        <translation>Gå med i %1?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Accept room invitation?</source>
-        <translation type="unfinished"/>
+        <translation>Acceptera rumsinbjudan?</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation type="unfinished"/>
+        <translation>Inbjuden av %1</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation type="unfinished">Neka</translation>
+        <translation>Avböj</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Decline and ignore user</source>
-        <translation type="unfinished"/>
+        <translation>Avböj och ignorera användare</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Accept</source>
-        <translation type="unfinished">Godkänn</translation>
+        <translation>Acceptera</translation>
     </message>
 </context>
 <context>
@@ -2353,27 +2360,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/JoinLargeRoomDialog.qml" line="+21"/>
         <source>Really join %1?</source>
-        <translation type="unfinished"/>
+        <translation>Vill du verkligen gå med i %1?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>this room</source>
-        <translation type="unfinished"/>
+        <translation>det här rummet</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This room has %1 members.</source>
-        <translation type="unfinished"/>
+        <translation>Det här rummet har %1 medlemmar.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Join anyway</source>
-        <translation type="unfinished"/>
+        <translation>Gå med ändå</translation>
     </message>
 </context>
 <context>
@@ -2381,17 +2388,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>Gå med i rum</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>E.g. !roomID or #alias:example.com</source>
-        <translation type="unfinished"/>
+        <translation>T.ex. !rumID eller #alias:example.com</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>Gå med</translation>
     </message>
 </context>
 <context>
@@ -2400,52 +2407,52 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation type="unfinished"/>
+        <translation>Profilnamn krävs.</translation>
     </message>
     <message>
         <location line="-56"/>
         <source>Not signed in</source>
-        <translation type="unfinished"/>
+        <translation>Inte inloggad</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign in to start syncing this profile.</source>
-        <translation type="unfinished"/>
+        <translation>Logga in för att börja synkronisera den här profilen.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Not synced</source>
-        <translation type="unfinished"/>
+        <translation>Inte synkroniserad</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matrix-sdk state store yet.</source>
-        <translation type="unfinished"/>
+        <translation>Inget matrix-sdk-tillståndsarkiv ännu.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ready</source>
-        <translation type="unfinished"/>
+        <translation>Redo</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Could not remove some files.</source>
-        <translation type="unfinished"/>
+        <translation>Kunde inte ta bort vissa filer.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not recreate the cache folder.</source>
-        <translation type="unfinished"/>
+        <translation>Kunde inte återskapa cachemappen.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
         <source>A fine %1 chat app you can get to love</source>
-        <translation type="unfinished"/>
+        <translation>En fin %1-chattapp som du kan lära dig älska</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix</source>
-        <translation type="unfinished"/>
+        <translation>Matrix</translation>
     </message>
 </context>
 <context>
@@ -2453,12 +2460,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
         <source>Only local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>Endast lokala filer kan bifogas med dra och släpp.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Failed to stage dropped attachments for this room.</source>
-        <translation type="unfinished"/>
+        <translation>Kunde inte förbereda bifogade filer som släpptes för det här rummet.</translation>
     </message>
 </context>
 <context>
@@ -2466,7 +2473,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
         <source>Search…</source>
-        <translation type="unfinished"/>
+        <translation>Sök…</translation>
     </message>
 </context>
 <context>
@@ -2474,62 +2481,62 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/room/LeaveRoomDialog.qml" line="+25"/>
         <source>This is a public space, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>Det här är ett offentligt område, så att gå med igen senare borde vara enkelt.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a public room, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>Det här är ett offentligt rum, så att gå med igen senare borde vara enkelt.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This is a private space, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>Det här är ett privat område, så du kan behöva en inbjudan för att gå med igen.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a private room, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>Det här är ett privat rum, så du kan behöva en inbjudan för att gå med igen.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave the %1 space?</source>
-        <translation type="unfinished"/>
+        <translation>Lämna området %1?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave the %1 room?</source>
-        <translation type="unfinished"/>
+        <translation>Lämna rummet %1?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Leave this space?</source>
-        <translation type="unfinished"/>
+        <translation>Lämna det här området?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Leave this room?</source>
-        <translation type="unfinished"/>
+        <translation>Lämna det här rummet?</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>You will remain in any rooms you joined through it.</source>
-        <translation type="unfinished"/>
+        <translation>Du kommer att vara kvar i alla rum du gick med i via det.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Re-joining may require an invitation depending on its join rules.</source>
-        <translation type="unfinished"/>
+        <translation>Att gå med igen kan kräva en inbjudan beroende på rummets anslutningsregler.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>Lämna</translation>
     </message>
 </context>
 <context>
@@ -2539,27 +2546,27 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+48"/>
         <location line="+122"/>
         <source>Automatically cleaned after %1 days. Safe to purge manually anytime.</source>
-        <translation type="unfinished"/>
+        <translation>Rensas automatiskt efter %1 dagar. Kan rensas manuellt när som helst.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Local cache</source>
-        <translation type="unfinished"/>
+        <translation>Lokal cache</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK-tillståndsarkiv</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Okänd</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Backend</source>
-        <translation type="unfinished"/>
+        <translation>Backend</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2569,72 +2576,72 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation>Ej tillgänglig</translation>
     </message>
     <message>
         <location line="-295"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Storlek</translation>
     </message>
     <message>
         <location line="-282"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Directory</source>
-        <translation type="unfinished"/>
+        <translation>Mapp</translation>
     </message>
     <message>
         <location line="-268"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>Kopierat!</translation>
     </message>
     <message>
         <location line="-294"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera till urklipp</translation>
     </message>
     <message>
         <location line="-277"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Browse</source>
-        <translation type="unfinished"/>
+        <translation>Bläddra</translation>
     </message>
     <message>
         <location line="-282"/>
         <source>Managed automatically. To reset local state, sign out and sign back in.</source>
-        <translation type="unfinished"/>
+        <translation>Hanteras automatiskt. Logga ut och in igen för att återställa lokalt tillstånd.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK-cache</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Managed by matrix-sdk. Inspect or clean it only while this application profile is fully closed.</source>
-        <translation type="unfinished"/>
+        <translation>Hanteras av matrix-sdk. Granska eller rensa endast när den här applikationsprofilen är helt stängd.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation type="unfinished"/>
+        <translation>Mediacache</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Purged</source>
-        <translation type="unfinished"/>
+        <translation>Rensat</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Purge</source>
-        <translation type="unfinished"/>
+        <translation>Rensa</translation>
     </message>
 </context>
 <context>
@@ -2644,32 +2651,32 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+93"/>
         <location line="+49"/>
         <source>Invalid Matrix ID (e.g. @user:example.com)</source>
-        <translation type="unfinished"/>
+        <translation>Ogiltigt Matrix-ID (t.ex. @user:example.com)</translation>
     </message>
     <message>
         <location line="-117"/>
         <source>Sign in with Apple</source>
-        <translation type="unfinished"/>
+        <translation>Logga in med Apple</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Continue with Facebook</source>
-        <translation type="unfinished"/>
+        <translation>Fortsätt med Facebook</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Google</source>
-        <translation type="unfinished"/>
+        <translation>Logga in med Google</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Twitter</source>
-        <translation type="unfinished"/>
+        <translation>Logga in med Twitter</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Login using %1</source>
-        <translation type="unfinished"/>
+        <translation>Logga in med %1</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -2679,7 +2686,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+0"/>
         <source>Continue in Browser</source>
-        <translation type="unfinished"/>
+        <translation>Fortsätt i webbläsaren</translation>
     </message>
     <message>
         <location line="+72"/>
@@ -2694,12 +2701,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+54"/>
         <source>Failed to open the browser sign-in page.</source>
-        <translation type="unfinished"/>
+        <translation>Det gick inte att öppna inloggningssidan i webbläsaren.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to open the SSO login page.</source>
-        <translation type="unfinished"/>
+        <translation>Det gick inte att öppna SSO-inloggningssidan.</translation>
     </message>
     <message>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
@@ -2711,18 +2718,18 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="-176"/>
         <location line="+281"/>
         <source>Server</source>
-        <translation type="unfinished"/>
+        <translation>Server</translation>
     </message>
     <message>
         <location line="-279"/>
         <location line="+730"/>
         <source>Sign in method</source>
-        <translation type="unfinished"/>
+        <translation>Inloggningsmetod</translation>
     </message>
     <message>
         <location line="-649"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -2730,79 +2737,79 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+564"/>
         <location line="+208"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>Logga in</translation>
     </message>
     <message>
         <location line="-774"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Konto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>Enhet</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>e.g. @user:example.com or user</source>
-        <translation type="unfinished"/>
+        <translation>t.ex. @user:example.com eller användare</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
-        <translation type="unfinished"/>
+        <translation>Konton finns på en server. Ett fullständigt ID försöker automatisk serverdetektering.</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation type="unfinished"/>
+        <translation>t.ex. example.com eller https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Both a server name and a full homeserver URL work.</source>
-        <translation type="unfinished"/>
+        <translation>Både ett servernamn och en fullständig homeserver-URL fungerar.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Checking server...</source>
-        <translation type="unfinished"/>
+        <translation>Kontrollerar server...</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+153"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>Fortsätt</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation type="unfinished"/>
+        <translation>Välj ett igenkännbart namn. Andra kan också se det.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation type="unfinished"/>
+        <translation>Generera ett annat slumpmässigt namn</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Suggestions:</source>
-        <translation type="unfinished"/>
+        <translation>Förslag:</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Continue in browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>Fortsätt i webbläsaren (SSO)</translation>
     </message>
     <message>
         <location line="+56"/>
         <location line="+201"/>
         <source>Your browser has been launched. Continue there.</source>
-        <translation type="unfinished"/>
+        <translation>Din webbläsare har öppnats. Fortsätt där.</translation>
     </message>
     <message>
         <location line="-54"/>
         <source>Browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>Webbläsare (SSO)</translation>
     </message>
     <message>
         <location line="-749"/>
@@ -2816,7 +2823,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation type="unfinished"/>
+        <translation>Visa/dölj lösenord</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -2827,7 +2834,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/auth/LoginPage.cpp" line="+41"/>
         <source>Login failed: server returned incomplete session data.</source>
-        <translation type="unfinished"/>
+        <translation>Inloggningen misslyckades: servern returnerade ofullständig sessionsdata.</translation>
     </message>
 </context>
 <context>
@@ -2836,22 +2843,22 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>Logga ut</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>A call is in progress. Sign out?</source>
-        <translation type="unfinished"/>
+        <translation>Ett samtal pågår. Logga ut?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you want to sign out?</source>
-        <translation type="unfinished"/>
+        <translation>Är du säker på att du vill logga ut?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
@@ -2864,24 +2871,24 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+63"/>
         <location line="+79"/>
         <source>Starting Komai</source>
-        <translation type="unfinished"/>
+        <translation>Startar Komai</translation>
     </message>
     <message>
         <location line="-462"/>
         <source>Checking your profile...</source>
-        <translation type="unfinished"/>
+        <translation>Kontrollerar din profil...</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Opening the profile chooser...</source>
-        <translation type="unfinished"/>
+        <translation>Öppnar profilväljaren...</translation>
     </message>
     <message>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
         <source>Restoring your session...</source>
-        <translation type="unfinished"/>
+        <translation>Återställer din session...</translation>
     </message>
     <message>
         <location line="-280"/>
@@ -2889,7 +2896,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+112"/>
         <location line="+13"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>Välkommen till Komai</translation>
     </message>
     <message>
         <location line="-337"/>
@@ -2897,18 +2904,18 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+113"/>
         <location line="+13"/>
         <source>Preparing sign-in...</source>
-        <translation type="unfinished"/>
+        <translation>Förbereder inloggning...</translation>
     </message>
     <message>
         <location line="-11"/>
         <location line="+13"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
-        <translation type="unfinished"/>
+        <translation>Det gick inte att initiera Matrix-sessionen. Logga in igen.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Opening your rooms...</source>
-        <translation type="unfinished"/>
+        <translation>Öppnar dina rum...</translation>
     </message>
 </context>
 <context>
@@ -2916,17 +2923,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 skriver…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 och %2 skriver…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 och %3 andra skriver…</translation>
     </message>
 </context>
 <context>
@@ -2935,43 +2942,43 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/timeline/components/MatrixRoomDialogSupport.qml" line="+67"/>
         <location line="+70"/>
         <source>Optional reason</source>
-        <translation type="unfinished"/>
+        <translation>Valfri anledning</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Delete this message?</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort det här meddelandet?</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+72"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort</translation>
     </message>
     <message>
         <location line="-50"/>
         <source>Cancel unsent message?</source>
-        <translation type="unfinished"/>
+        <translation>Avbryt oskickat meddelande?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>This message couldn't be sent. Cancelling removes it from the send queue.</source>
-        <translation type="unfinished"/>
+        <translation>Det här meddelandet kunde inte skickas. Att avbryta tar bort det från sändkön.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Keep</source>
-        <translation type="unfinished"/>
+        <translation>Behåll</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>Avbryt sändning</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Delete %1 of %2 selected messages?</source>
-        <translation type="unfinished"/>
+        <translation>Ta bort %1 av %2 markerade meddelanden?</translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
@@ -2984,7 +2991,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+61"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
-        <translation type="unfinished"/>
+        <translation>Rå JSON är inte tillgänglig för den här händelsen. Den kan ha raderats.</translation>
     </message>
 </context>
 <context>
@@ -2992,12 +2999,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
         <source>Loading thread…</source>
-        <translation type="unfinished"/>
+        <translation>Laddar tråd…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Loading room…</source>
-        <translation type="unfinished"/>
+        <translation>Laddar rum…</translation>
     </message>
 </context>
 <context>
@@ -3006,12 +3013,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
         <location line="+6"/>
         <source>Deleted message</source>
-        <translation type="unfinished"/>
+        <translation>Raderat meddelande</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Originally sent by %1</source>
-        <translation type="unfinished"/>
+        <translation>Ursprungligen skickat av %1</translation>
     </message>
 </context>
 <context>
@@ -3019,7 +3026,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>Bilaga</translation>
     </message>
 </context>
 <context>
@@ -3028,7 +3035,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation type="unfinished">Inget rum markerat</translation>
+        <translation>Inget rum valt</translation>
     </message>
 </context>
 <context>
@@ -3039,7 +3046,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+33"/>
         <location line="+0"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>Bilaga</translation>
     </message>
 </context>
 <context>
@@ -3047,31 +3054,31 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>Skapare</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+11"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Administratör (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Moderator (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Användare (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Anpassad (%1)</translation>
     </message>
 </context>
 <context>
@@ -3079,7 +3086,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
         <source>Show</source>
-        <translation type="unfinished">Visa</translation>
+        <translation>Visa</translation>
     </message>
 </context>
 <context>
@@ -3087,27 +3094,27 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+623"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Öppna</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Spara</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Close</source>
-        <translation type="unfinished">Stäng</translation>
+        <translation>Stäng</translation>
     </message>
 </context>
 <context>
@@ -3115,23 +3122,23 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation>Meddelandeåtgärder</translation>
     </message>
     <message>
         <location line="+194"/>
         <source>Clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Urklipp</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera text</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+26"/>
         <source>C</source>
-        <translation type="unfinished"/>
+        <translation>C</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -3140,152 +3147,152 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+13"/>
         <location line="+13"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>Kopierat!</translation>
     </message>
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera formaterad text</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>H</source>
-        <translation type="unfinished"/>
+        <translation>H</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Copy link location</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera länkadress</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>L</source>
-        <translation type="unfinished"/>
+        <translation>L</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy permalink</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera permalänk</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation>K</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>Hantera</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>Avnåla</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation type="unfinished"/>
+        <translation>Fäst</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>P</source>
-        <translation type="unfinished"/>
+        <translation>P</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unpinned!</source>
-        <translation type="unfinished"/>
+        <translation>Avnålad!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pinned!</source>
-        <translation type="unfinished"/>
+        <translation>Fäst!</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Media</source>
-        <translation type="unfinished"/>
+        <translation>Media</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>Spara som</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation>S</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>Öppna i externt program</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation>O</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inspect</source>
-        <translation type="unfinished"/>
+        <translation>Granska</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation type="unfinished">Läskvitton</translation>
+        <translation>Läskvitton</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation>I</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished">Visa meddelandekälla</translation>
+        <translation>Visa råmeddelande</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation>U</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Moderate</source>
-        <translation type="unfinished"/>
+        <translation>Moderera</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Delete message</source>
-        <translation type="unfinished"/>
+        <translation>Radera meddelande</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>Avbryt sändning</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>Anmäl meddelande</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
 </context>
 <context>
@@ -3293,50 +3300,50 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
         <source>Reply in thread</source>
-        <translation type="unfinished"/>
+        <translation>Svara i tråd</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New thread</source>
-        <translation type="unfinished"/>
+        <translation>Ny tråd</translation>
     </message>
     <message>
         <location line="+141"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Redigera</translation>
     </message>
     <message>
         <location line="-147"/>
         <location line="+176"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation type="unfinished">Svara</translation>
+        <translation>Svara</translation>
     </message>
     <message>
         <location line="-170"/>
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>Vidarebefordra</translation>
     </message>
     <message>
         <location line="-178"/>
         <location line="+192"/>
         <location line="+1"/>
         <source>Go to message</source>
-        <translation type="unfinished"/>
+        <translation>Gå till meddelande</translation>
     </message>
     <message>
         <location line="-112"/>
         <source>React</source>
-        <translation type="unfinished">Reagera</translation>
+        <translation>Reagera</translation>
     </message>
     <message>
         <location line="+127"/>
         <source>Options</source>
-        <translation type="unfinished">Alternativ</translation>
+        <translation>Alternativ</translation>
     </message>
 </context>
 <context>
@@ -3344,97 +3351,97 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
         <source>Repl&amp;y</source>
-        <translation type="unfinished"/>
+        <translation>Svar&amp;a</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reply in &amp;Thread</source>
-        <translation type="unfinished"/>
+        <translation>Svara i &amp;tråd</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Redigera</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Re&amp;act</source>
-        <translation type="unfinished"/>
+        <translation>Re&amp;agera</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>&amp;Forward</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Vidarebefordra</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Kopiera</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera formaterad text</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera &amp;länkadress</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy link to eve&amp;nt</source>
-        <translation type="unfinished"/>
+        <translation>Kopiera länk till hä&amp;ndelse</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Un&amp;pin</source>
-        <translation type="unfinished"/>
+        <translation>Av&amp;nåla</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Pin</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Nåla</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Go to &amp;message</source>
-        <translation type="unfinished"/>
+        <translation>Gå till &amp;meddelande</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>&amp;Save as</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Spara som</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Öppna i externt program</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>&amp;Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Läskvitton</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished">Visa meddelandekälla</translation>
+        <translation>Visa råmeddelande</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>Rapportera meddelande</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&amp;Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Avbryt sändning</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Delete message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Radera meddelande</translation>
     </message>
 </context>
 <context>
@@ -3442,12 +3449,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
         <source>Write a message, or press Up to select messages.</source>
-        <translation type="unfinished"/>
+        <translation>Skriv ett meddelande eller tryck Upp för att markera meddelanden.</translation>
     </message>
     <message>
         <location line="+458"/>
         <source>Stickers</source>
-        <translation type="unfinished"/>
+        <translation>Klistermärken</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -3462,12 +3469,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+53"/>
         <source>You don't have permission to send messages in this room</source>
-        <translation type="unfinished"/>
+        <translation>Du har inte behörighet att skicka meddelanden i det här rummet</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Attach more files or send the upload</source>
-        <translation type="unfinished"/>
+        <translation>Bifoga fler filer eller skicka uppladdningen</translation>
     </message>
 </context>
 <context>
@@ -3475,7 +3482,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation>Nämn dem inte i det här meddelandet</translation>
     </message>
 </context>
 <context>
@@ -3483,7 +3490,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/components/banners/NetworkConnectivityBanner.qml" line="+52"/>
         <source>Network connectivity trouble. Trying to reconnect…</source>
-        <translation type="unfinished"/>
+        <translation>Nätverksproblem. Försöker återansluta…</translation>
     </message>
 </context>
 <context>
@@ -3491,72 +3498,72 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/timeline/components/NewTabPage.qml" line="+30"/>
         <source>The ten thousand chats can't happen in a void. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>Tiotusen chattar kan inte hända i ett vakuum. Öppna ett rum?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your friends are just a room away</source>
-        <translation type="unfinished"/>
+        <translation>Dina vänner är bara ett rum bort</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Connect with friends. Or bots. We don't judge.</source>
-        <translation type="unfinished"/>
+        <translation>Anslut med vänner. Eller bottar. Vi dömer inte.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Friends, bots, communities - all a click away</source>
-        <translation type="unfinished"/>
+        <translation>Vänner, bottar, gemenskaper – ett klick bort</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Be present for a bit. Then open a room.</source>
-        <translation type="unfinished"/>
+        <translation>Var närvarande ett tag. Öppna sedan ett rum.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The best conversations haven't happened yet</source>
-        <translation type="unfinished"/>
+        <translation>De bästa konversationerna har inte hänt ännu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>An empty screen, a full inbox of possibilities</source>
-        <translation type="unfinished"/>
+        <translation>En tom skärm, en full inkorg av möjligheter</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room. The rest follows.</source>
-        <translation type="unfinished"/>
+        <translation>Öppna ett rum. Resten följer.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room to start a conversation</source>
-        <translation type="unfinished"/>
+        <translation>Öppna ett rum för att starta en konversation</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Next conversation, a click away</source>
-        <translation type="unfinished"/>
+        <translation>Nästa konversation, ett klick bort</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ready to chat - pick a room</source>
-        <translation type="unfinished"/>
+        <translation>Redo att chatta – välj ett rum</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All quiet here. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>Allt lugnt här. Öppna ett rum?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Chat rooms await - pick one or start your own</source>
-        <translation type="unfinished"/>
+        <translation>Chattrum väntar – välj ett eller starta ditt eget</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No room leads to no chat</source>
-        <translation type="unfinished"/>
+        <translation>Inget rum leder till inget chatt</translation>
     </message>
 </context>
 <context>

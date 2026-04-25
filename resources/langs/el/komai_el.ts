@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Θέλετε σίγουρα να αφαιρέσετε το avatar σας;</translation>
+        <translation>Είστε σίγουροι ότι θέλετε να αφαιρέσετε το avatar σας;</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -62,7 +62,7 @@
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation>Αντιγραφή αναγνωριστικού χρήστη</translation>
+        <translation>Αντιγραφή ID χρήστη</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -163,12 +163,12 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Κατάργηση επαλήθευσης</translation>
+        <translation>Άρση επαλήθευσης</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation>Κατάργηση αποκλεισμού</translation>
+        <translation>Άρση αποκλεισμού</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -775,7 +775,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation>Πακέτο λογαριασμού</translation>
+        <translation>Πακέτο Λογαριασμού</translation>
     </message>
 </context>
 <context>
@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Συμπερίληψη στο 'Όλα τα δωμάτια'</translation>
+        <translation>Συμπερίληψη στα 'Όλα τα δωμάτια'</translation>
     </message>
 </context>
 <context>
@@ -819,7 +819,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation>Ρυθμίσεις...</translation>
+        <translation>Ρυθμίσεις…</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>Άτομα</translation>
+        <translation>Άνθρωποι</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1070,7 +1070,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Αναζήτηση με όνομα ή @user:example.com</translation>
+        <translation>Αναζήτηση με βάση το όνομα ή @user:example.com</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -1540,7 +1540,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Πινέζα</translation>
+        <translation>Καρφίτσωμα</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2043,7 +2043,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>Κατάργηση αγνόησης</translation>
+        <translation>Άρση αγνόησης</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2896,7 +2896,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+112"/>
         <location line="+13"/>
         <source>Welcome to Komai</source>
-        <translation>Καλώς ορίσατε στο Komai</translation>
+        <translation>Καλώς ήρθατε στο Komai</translation>
     </message>
     <message>
         <location line="-337"/>
@@ -2933,7 +2933,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 και άλλοι %3 πληκτρολογούν…</translation>
+        <translation>%1, %2 και %3 άλλοι πληκτρολογούν…</translation>
     </message>
 </context>
 <context>
@@ -3257,7 +3257,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation>Προβολή ανεπεξέργαστου μηνύματος</translation>
+        <translation>Προβολή ακατέργαστου μηνύματος</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3482,7 +3482,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>Να μην τους αναφέρετε σε αυτό το μήνυμα</translation>
+        <translation>Μη τους αναφέρετε σε αυτό το μήνυμα</translation>
     </message>
 </context>
 <context>
@@ -4773,7 +4773,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation>Εμφάνιση/Απόκρυψη κωδικού πρόσβασης</translation>
+        <translation>Εμφάνιση/Απόκρυψη κωδικού</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -5399,7 +5399,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation>Δεν επιλέχθηκε δωμάτιο</translation>
+        <translation>Δεν έχει επιλεγεί δωμάτιο</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -6118,7 +6118,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>Μη διαθέσιμος</translation>
+        <translation>Μη διαθέσιμο</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6399,7 +6399,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation>Νέα</translation>
+        <translation>Νέο</translation>
     </message>
     <message>
         <location line="+134"/>
@@ -6736,7 +6736,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Χώρος</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6980,13 +6980,13 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Καμία άλλη συνδεδεμένη συσκευή δεν είναι διαθέσιμη αυτή τη στιγμή για επαλήθευση.</translation>
+        <translation>Δεν υπάρχει άλλη συνδεδεμένη συσκευή διαθέσιμη για επαλήθευση.</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+79"/>
         <source>The verification manager is not available.</source>
-        <translation>Ο διαχειριστής επαλήθευσης δεν είναι διαθέσιμος.</translation>
+        <translation>Η διαχείριση επαλήθευσης δεν είναι διαθέσιμη.</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -7662,12 +7662,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
-        <translation>Αναφορά προβλήματος</translation>
+        <translation>Αναφορά ζητήματος</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>Χορηγείτε!</translation>
+        <translation>Χορηγεί!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7777,7 +7777,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Αποκαρφίτσωμα</translation>
+        <translation>Ξεκαρφίτσωμα</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -8324,7 +8324,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Ο χρόνος εκτέλεσης backend Matrix δεν είναι διαθέσιμος.</translation>
+        <translation>Το περιβάλλον εκτέλεσης Matrix δεν είναι διαθέσιμο.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8596,7 +8596,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>Επίπεδο εξουσίας</translation>
+        <translation>Επίπεδο δικαιωμάτων</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -8777,7 +8777,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation>Μπλοκαρισμένο</translation>
+        <translation>Αποκλεισμένο</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8792,7 +8792,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation>Μπλοκάρισμα</translation>
+        <translation>Αποκλεισμός</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -8912,7 +8912,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation>Φωτεινό</translation>
+        <translation>Ανοιχτό</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8924,7 +8924,7 @@ You can unignore later via this user's profile or via Settings → Account → I
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ελέγχει την κατάσταση &lt;a href="%1"&gt;Παρουσίας&lt;/a&gt; σας στο δίκτυο Matrix.
-Το Αυτόματο είναι είτε 'σε σύνδεση' είτε 'μη διαθέσιμος' (μετά από 5 λεπτά αδράνειας).</translation>
+Το Αυτόματο είναι είτε 'online' είτε 'unavailable' (μετά από 5 λεπτά αδράνειας).</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8934,7 +8934,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Ορίζει πότε εμφανίζονται τα ονόματα χρηστών των αποστολέων πάνω από τα μηνύματα. Στη λειτουργία φυσαλίδας, το δικό σας όνομα χρήστη κρύβεται πάντα. Σε μικρότερα δωμάτια, τα avatars και τα χρώματα φυσαλίδας αρκούν συχνά ως πλαίσιο.</translation>
+        <translation>Έλεγχος πότε εμφανίζονται τα ονόματα χρηστών αποστολέων πάνω από τα μηνύματα. Στη λειτουργία φυσαλίδας, το δικό σας όνομα χρήστη είναι πάντα κρυφό. Σε μικρότερα δωμάτια, τα avatar και τα χρώματα φυσαλίδων συχνά παρέχουν αρκετό πλαίσιο.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9124,7 +9124,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation>Νέος/α στο Matrix;</translation>
+        <translation>Νέοι στο Matrix;</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9152,7 +9152,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation>Σκούρο</translation>
+        <translation>Σκοτεινό</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -9450,7 +9450,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Προεπισκόπηση χρονολογίου</translation>
+        <translation>Προεπισκόπηση ροής μηνυμάτων</translation>
     </message>
     <message>
         <location line="+16"/>

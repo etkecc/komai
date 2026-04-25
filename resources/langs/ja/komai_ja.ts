@@ -198,7 +198,7 @@
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation>無視しているユーザー</translation>
+        <translation>無視したユーザー</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -534,17 +534,17 @@
     <message>
         <location line="+16"/>
         <source>Devices</source>
-        <translation>デバイス一覧</translation>
+        <translation>デバイス</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Accept</source>
-        <translation>承諾</translation>
+        <translation>承認</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>No microphone found.</source>
-        <translation>マイクが見つかりませんでした。</translation>
+        <translation>マイクが見つかりません。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>「すべての部屋」に含める</translation>
+        <translation>「全ての部屋」に含める</translation>
     </message>
 </context>
 <context>
@@ -1090,7 +1090,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>一致するユーザーが見つかりませんでした。</translation>
+        <translation>一致するユーザーが見つかりません。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1549,7 +1549,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation>一致しました！</translation>
+        <translation>一致しています！</translation>
     </message>
 </context>
 <context>
@@ -2301,7 +2301,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>検索クエリを入力してください。結果がここに表示されます。</translation>
+        <translation>検索クエリを入力してください。ここに結果が表示されます。</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2334,12 +2334,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation>%1から招待されました</translation>
+        <translation>%1 から招待されました</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation>辞退</translation>
+        <translation>拒否</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2404,7 +2404,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation>プロフィール名が必要です。</translation>
+        <translation>プロファイル名は必須です。</translation>
     </message>
     <message>
         <location line="-56"/>
@@ -2920,17 +2920,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
         <source>%1 is typing…</source>
-        <translation>%1が入力中…</translation>
+        <translation>%1 が入力中…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation>%1と%2が入力中…</translation>
+        <translation>%1 と %2 が入力中…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1、%2、他%3人が入力中…</translation>
+        <translation>%1、%2、ほか %3 人が入力中…</translation>
     </message>
 </context>
 <context>
@@ -3068,7 +3068,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-9"/>
         <location line="+11"/>
         <source>User (%1)</source>
-        <translation>ユーザー（%1）</translation>
+        <translation>ユーザー (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -3188,12 +3188,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>ピン留め解除</translation>
+        <translation>ピン留めを解除</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>ピン留め</translation>
+        <translation>ピン</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3372,7 +3372,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+24"/>
         <source>&amp;Copy</source>
-        <translation>コピー</translation>
+        <translation>&amp;コピー</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3382,7 +3382,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>リンクのURLをコピー</translation>
+        <translation>&amp;リンクの場所をコピー</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3605,7 +3605,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation>一致する結果がありません。</translation>
+        <translation>一致するものが見つかりませんでした。</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -4121,7 +4121,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+4"/>
         <source>Moderator (%1)</source>
-        <translation>モデレーター (%1)</translation>
+        <translation>モデレーター（%1）</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4131,7 +4131,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="-4"/>
         <source>Administrator (%1)</source>
-        <translation>管理者 (%1)</translation>
+        <translation>管理者（%1）</translation>
     </message>
 </context>
 <context>
@@ -4608,7 +4608,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="-787"/>
         <source>Verification</source>
-        <translation>認証</translation>
+        <translation>検証</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4639,7 +4639,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+1"/>
         <source>Verify</source>
-        <translation>認証する</translation>
+        <translation>検証</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4787,7 +4787,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>覚えやすい名前を選んでください。他のユーザーにも表示されます。</translation>
+        <translation>わかりやすい名前を選んでください。他のユーザーにも表示されます。</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4911,7 +4911,7 @@ Please go back and sign in manually.</source>
     <message>
         <location line="+2"/>
         <source>Video</source>
-        <translation>動画</translation>
+        <translation>ビデオ</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5506,7 +5506,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+35"/>
         <source>Public</source>
-        <translation>パブリック</translation>
+        <translation>公開</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -5670,7 +5670,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation>権限レベル</translation>
+        <translation>パワーレベル</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6076,7 +6076,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListUserInfoMenu.qml" line="+29"/>
         <source>Enter your status message:</source>
-        <translation>ステータスメッセージを入力してください:</translation>
+        <translation>ステータスメッセージを入力:</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6111,7 +6111,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>退席中</translation>
+        <translation>利用不可</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6160,7 +6160,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation>ファイルの読み込みエラー: %1</translation>
+        <translation>ファイルの読み取り中にエラーが発生しました: %1</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6170,7 +6170,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation>アバターを削除できませんでした。</translation>
+        <translation>アバターの削除に失敗しました。</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
@@ -6501,7 +6501,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>プレビューはありません</translation>
+        <translation>プレビューなし</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6973,7 +6973,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>現在、検証に利用できる他のサインイン済みデバイスがありません。</translation>
+        <translation>現在、検証に使用できる他のサインイン済みデバイスがありません。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7156,7 +7156,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>外観と操作感</translation>
+        <translation>外観</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7645,7 +7645,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
-        <translation>%1のステータスメッセージ</translation>
+        <translation>%1 のステータスメッセージ</translation>
     </message>
 </context>
 <context>
@@ -7653,7 +7653,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
-        <translation>問題を報告する</translation>
+        <translation>問題を報告</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -7773,7 +7773,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+17"/>
         <source>Message actions</source>
-        <translation>メッセージ操作</translation>
+        <translation>メッセージアクション</translation>
     </message>
     <message numerus="yes">
         <location line="+64"/>
@@ -8311,7 +8311,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrixバックエンドランタイムは利用できません。</translation>
+        <translation>Matrix バックエンドランタイムが利用できません。</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8744,7 +8744,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation>更新済み</translation>
+        <translation>更新しました</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8814,7 +8814,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>検証解除</translation>
+        <translation>検証を解除</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8910,8 +8910,8 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Matrixネットワーク上の&lt;a href="%1"&gt;プレゼンス&lt;/a&gt;状態を制御します。
-自動は「オンライン」または「不在」（5分間操作がない場合）のいずれかです。</translation>
+        <translation>Matrixネットワーク上の&lt;a href="%1"&gt;プレゼンス&lt;/a&gt;ステータスを制御します。
+「自動」は「オンライン」または「不在」（5分間操作がない場合）のいずれかです。</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9012,7 +9012,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrixバックエンドのランタイムが利用できません。</translation>
+        <translation>Matrix バックエンドランタイムが利用できません。</translation>
     </message>
 </context>
 <context>
@@ -9052,7 +9052,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation>キーバックアップを解除</translation>
+        <translation>キーバックアップのロック解除</translation>
     </message>
 </context>
 <context>
@@ -9462,7 +9462,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>送信者のユーザー名をメッセージの上に表示するタイミングを制御します。バブルモードでは、自分のユーザー名は常に非表示になります。小さな部屋では、アバターとバブルの色でコンテキストとして十分なことが多いです。</translation>
+        <translation>メッセージの上に送信者のユーザー名を表示するタイミングを制御します。バブルモードでは自分のユーザー名は常に非表示です。小さい部屋ではアバターとバブルの色だけで十分なことが多いです。</translation>
     </message>
     <message>
         <location line="+18"/>

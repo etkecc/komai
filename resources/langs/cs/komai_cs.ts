@@ -67,7 +67,7 @@
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>Homeserver</translation>
+        <translation>Domovský server</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -148,7 +148,7 @@
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation>Ověřeno</translation>
+        <translation>Ověřené</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -938,7 +938,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation>Žádné shody nenalezeny.</translation>
+        <translation>Nenalezeny žádné shody.</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -1066,7 +1066,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>Nový přímý chat</translation>
+        <translation>Nová přímá zpráva</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1092,7 +1092,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>Žádní odpovídající uživatelé nenalezeni.</translation>
+        <translation>Nebyli nalezeni žádní odpovídající uživatelé.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1190,7 +1190,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation>Důvěryhodná</translation>
+        <translation>Důvěryhodné</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -1541,7 +1541,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Špendlík</translation>
+        <translation>Připnout</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2340,7 +2340,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation>Pozvání od %1</translation>
+        <translation>Pozváno od %1</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2729,7 +2729,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Vygenerovat další náhodný název</translation>
+        <translation>Vygenerovat další náhodné jméno</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -2764,7 +2764,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Zobrazit/skrýt heslo</translation>
+        <translation>Zobrazit/Skrýt heslo</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -2931,7 +2931,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation>%1 a %2 píší…</translation>
+        <translation>%1 a %2 píšou…</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2976,7 +2976,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+9"/>
         <source>Cancel send</source>
-        <translation>Zrušit odesílání</translation>
+        <translation>Zrušit odeslání</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -3261,7 +3261,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation>Zobrazit zdrojovou zprávu</translation>
+        <translation>Zobrazit nezpracovanou zprávu</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3390,7 +3390,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Kopírovat umístění &amp;odkazu</translation>
+        <translation>Kopírovat &amp;adresu odkazu</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3631,7 +3631,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation>Nový v Matrixu?</translation>
+        <translation>Nový uživatel Matrixu?</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -3925,7 +3925,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation>Žádný mikrofon nenalezen.</translation>
+        <translation>Nebyl nalezen žádný mikrofon.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4799,7 +4799,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Zvolte rozpoznatelné jméno. Ostatní ho také uvidí.</translation>
+        <translation>Zvol rozpoznatelný název. Ostatní ho také uvidí.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -5621,7 +5621,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="+1"/>
         <source>About</source>
-        <translation>Přehled</translation>
+        <translation>O aplikaci</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -5756,7 +5756,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation>Odebrat avatar</translation>
+        <translation>Odstranit avatar</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6125,7 +6125,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation>Nedostupný</translation>
+        <translation>Nedostupné</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6743,7 +6743,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Prostor</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7170,7 +7170,7 @@ Zdá se, že jsi tu nový. Než budeš moci bezpečně šifrovat zprávy, je pot
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Vzhled a chování</translation>
+        <translation>Vzhled &amp; chování</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7242,7 +7242,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 a dalších %3 píšou…</translation>
+        <translation>%1, %2 a %3 dalších píší…</translation>
     </message>
 </context>
 <context>
@@ -7266,7 +7266,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Sada účtu</translation>
+        <translation>Balíček účtu</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7676,7 +7676,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>Sponzoruješ!</translation>
+        <translation>Sponzorujete!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8376,7 +8376,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <location line="+7"/>
         <location line="+100"/>
         <source>Remove</source>
-        <translation>Odstranit</translation>
+        <translation>Odebrat</translation>
     </message>
     <message>
         <location line="-69"/>
@@ -8487,7 +8487,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation>Ověřený</translation>
+        <translation>Ověřené</translation>
     </message>
     <message>
         <location line="-514"/>
@@ -8498,7 +8498,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation>Neověřený</translation>
+        <translation>Neověřeno</translation>
     </message>
     <message>
         <location line="-497"/>
@@ -8657,7 +8657,7 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation>Blokováno</translation>
+        <translation>Blokovaný</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8724,7 +8724,7 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Běhové prostředí Matrix není k dispozici.</translation>
+        <translation>Běhové prostředí Matrix backendu není dostupné.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8835,7 +8835,7 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation>Odstranění avataru se nezdařilo.</translation>
+        <translation>Nepodařilo se odebrat avatar.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9038,7 +9038,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Runtime backendu Matrix není dostupný.</translation>
+        <translation>Běhové prostředí Matrix backendu není dostupné.</translation>
     </message>
 </context>
 <context>
@@ -9298,7 +9298,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation>Téma</translation>
+        <translation>Motiv</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9488,7 +9488,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Určuje, kdy se zobrazují uživatelská jména odesílatelů nad zprávami. V režimu bublin je vaše uživatelské jméno vždy skryto. V menších místnostech jsou avatary a barvy bublin často dostatečným kontextem.</translation>
+        <translation>Určuje, kdy se nad zprávami zobrazují jména odesílatelů. V bublinovém režimu je vlastní jméno vždy skryto. V menších místnostech avatary a barvy bublin často poskytují dostatečný kontext.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9826,7 +9826,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Určuje váš stav &lt;a href="%1"&gt;Přítomnosti&lt;/a&gt; v síti Matrix.
+        <translation>Ovládá tvůj stav &lt;a href="%1"&gt;Přítomnosti&lt;/a&gt; v síti Matrix.
 Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</translation>
     </message>
     <message>

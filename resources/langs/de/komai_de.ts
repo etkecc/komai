@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Möchtest du deinen Avatar wirklich entfernen?</translation>
+        <translation>Bist du sicher, dass du deinen Avatar entfernen möchtest?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -775,7 +775,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation>Kontopaket</translation>
+        <translation>Account Packung</translation>
     </message>
 </context>
 <context>
@@ -819,7 +819,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation>Einstellungen…</translation>
+        <translation>Einstellungen …</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>Personen</translation>
+        <translation>Leute</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1540,7 +1540,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Stecknadel</translation>
+        <translation>Anheften</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1985,7 +1985,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+9"/>
         <source>Hide</source>
-        <translation>Verbergen</translation>
+        <translation>Ausblenden</translation>
     </message>
 </context>
 <context>
@@ -2043,7 +2043,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation>Nicht mehr ignorieren</translation>
+        <translation>Ignorieren aufheben</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2304,7 +2304,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Suchanfrage eingeben. Ergebnisse werden hier angezeigt.</translation>
+        <translation>Suchanfrage eingeben. Ergebnisse erscheinen hier.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2352,7 +2352,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+25"/>
         <source>Accept</source>
-        <translation>Annehmen</translation>
+        <translation>Akzeptieren</translation>
     </message>
 </context>
 <context>
@@ -2783,7 +2783,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Wähle einen erkennbaren Namen. Andere können ihn ebenfalls sehen.</translation>
+        <translation>Wähle einen erkennbaren Namen. Andere können ihn auch sehen.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3386,7 +3386,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation>Link-&amp;Adresse kopieren</translation>
+        <translation>&amp;Linkadresse kopieren</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3972,7 +3972,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
     <message>
         <location line="+4"/>
         <source>Users</source>
-        <translation>Benutzer</translation>
+        <translation>Nutzer</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -3995,7 +3995,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
         <location line="-242"/>
         <location line="+244"/>
         <source>User (%1)</source>
-        <translation>Benutzer (%1)</translation>
+        <translation>Nutzer (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
@@ -4675,7 +4675,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="+1"/>
         <source>Custom server</source>
-        <translation>Eigener Server</translation>
+        <translation>Benutzerdefinierter Server</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -4773,7 +4773,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation>Passwort ein-/ausblenden</translation>
+        <translation>Passwort anzeigen oder verstecken</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -4798,7 +4798,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Weiteren zufälligen Namen generieren</translation>
+        <translation>Anderen zufälligen Namen generieren</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -6152,7 +6152,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+49"/>
         <source>Select an avatar</source>
-        <translation>Wähle einen Avatar</translation>
+        <translation>Avatar wählen</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -6736,7 +6736,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Leertaste</translation>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7009,7 +7009,7 @@ Es scheint, du bist neu hier. Bevor du deine Nachrichten sicher verschlüsseln k
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation>In die Zwischenablage kopieren</translation>
+        <translation>In Zwischenablage kopieren</translation>
     </message>
 </context>
 <context>
@@ -7040,7 +7040,7 @@ Es scheint, du bist neu hier. Bevor du deine Nachrichten sicher verschlüsseln k
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Avatarvorschau</translation>
+        <translation>Avatar-Vorschau</translation>
     </message>
 </context>
 <context>
@@ -7139,7 +7139,7 @@ Es scheint, du bist neu hier. Bevor du deine Nachrichten sicher verschlüsseln k
     <message>
         <location line="+2"/>
         <source>Emphasize this filter when it has unread messages</source>
-        <translation>Diesen Filter hervorheben, wenn ungelesene Nachrichten vorhanden sind</translation>
+        <translation>Diesen Filter hervorheben, wenn er ungelesene Nachrichten enthält</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -7163,7 +7163,7 @@ Es scheint, du bist neu hier. Bevor du deine Nachrichten sicher verschlüsseln k
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Look &amp; Feel</translation>
+        <translation>Erscheinungsbild</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7259,7 +7259,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Konto-Pack</translation>
+        <translation>Account Packung</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7419,7 +7419,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Search</source>
-        <translation>Suche</translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <location line="+580"/>
@@ -7759,7 +7759,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation>Nicht in dieser Nachricht erwähnen</translation>
+        <translation>Nicht erwähnen</translation>
     </message>
 </context>
 <context>
@@ -8223,12 +8223,12 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation>Zeigen</translation>
+        <translation>Anzeigen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation>Schließen</translation>
+        <translation>Beenden</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8827,7 +8827,7 @@ Du kannst das Ignorieren später über das Profil dieses Nutzers oder über Eins
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Verifizierung zurückziehen</translation>
+        <translation>Verifizierung aufheben</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -9060,7 +9060,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Kein anderes angemeldetes Gerät ist derzeit zur Verifizierung verfügbar.</translation>
+        <translation>Derzeit ist kein anderes angemeldetes Gerät zur Verifizierung verfügbar.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9450,7 +9450,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Zeitleisten-Vorschau</translation>
+        <translation>Timeline-Vorschau</translation>
     </message>
     <message>
         <location line="+16"/>

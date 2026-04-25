@@ -42,7 +42,7 @@
     <message>
         <location line="+48"/>
         <source>Display name</source>
-        <translation>Nom visible</translation>
+        <translation>Nom de visualització</translation>
     </message>
     <message>
         <location line="+65"/>
@@ -67,7 +67,7 @@
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>Servidor principal</translation>
+        <translation>Servidor inicial</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>Fes clic per revelar</translation>
+        <translation>Fes clic per mostrar</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -475,7 +475,7 @@
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Patrocinador</translation>
+        <translation>Patrocina</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -627,7 +627,7 @@ Si el problema persisteix, pots tancar la sessió i tornar a iniciar-la, però a
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>El backend de Matrix encara no està llest.</translation>
+        <translation>El backend de Matrix encara no està a punt.</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -767,7 +767,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation>Surt</translation>
+        <translation>Sortir</translation>
     </message>
 </context>
 <context>
@@ -1139,12 +1139,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="-27"/>
         <source>New space</source>
-        <translation>Espai nou</translation>
+        <translation>Nou espai</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New room</source>
-        <translation>Sala nova</translation>
+        <translation>Nova sala</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -1154,7 +1154,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Públic</translation>
+        <translation>Pública</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1540,7 +1540,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Xinxeta</translation>
+        <translation>Fixa</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1985,7 +1985,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+9"/>
         <source>Hide</source>
-        <translation>Oculta</translation>
+        <translation>Amaga</translation>
     </message>
 </context>
 <context>
@@ -2071,7 +2071,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+9"/>
         <source>Delete</source>
-        <translation>Suprimeix</translation>
+        <translation>Elimina</translation>
     </message>
 </context>
 <context>
@@ -2933,7 +2933,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 i %3 persones més estan escrivint…</translation>
+        <translation>%1, %2 i %3 altres estan escrivint…</translation>
     </message>
 </context>
 <context>
@@ -2953,7 +2953,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="+2"/>
         <location line="+72"/>
         <source>Delete</source>
-        <translation>Suprimeix</translation>
+        <translation>Elimina</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -3192,7 +3192,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>Desfixa</translation>
+        <translation>Desancora</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3431,7 +3431,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+19"/>
         <source>Report message</source>
-        <translation>Informa del missatge</translation>
+        <translation>Denuncia el missatge</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -3591,7 +3591,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+11"/>
         <source>New room/space</source>
-        <translation>Sala/espai nou</translation>
+        <translation>Nova sala/espai</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3609,7 +3609,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation>No s'han trobat coincidències.</translation>
+        <translation>No s'ha trobat cap coincidència.</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -4430,7 +4430,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="+1"/>
         <source>Send</source>
-        <translation>Enviar</translation>
+        <translation>Envia</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4465,7 +4465,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="+94"/>
         <source>Profile name is required.</source>
-        <translation>El nom del perfil és obligatori.</translation>
+        <translation>El nom de perfil és obligatori.</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -4665,7 +4665,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="+24"/>
         <source>Register</source>
-        <translation>Registrar</translation>
+        <translation>Registra't</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -4793,7 +4793,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Tria un nom reconeixible. Els altres també el podran veure.</translation>
+        <translation>Tria un nom reconeixible. Els altres també el poden veure.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -5444,7 +5444,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location line="+36"/>
         <source>Leave</source>
-        <translation>Sortir</translation>
+        <translation>Surt</translation>
     </message>
 </context>
 <context>
@@ -5452,7 +5452,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation>Tornar a la llista de sales</translation>
+        <translation>Torna a la llista de sales</translation>
     </message>
 </context>
 <context>
@@ -5615,7 +5615,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location line="+1"/>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>Quant a</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -5868,7 +5868,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
         <source>Join room</source>
-        <translation>Unir-se a una sala</translation>
+        <translation>Uneix-te a la sala</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6399,12 +6399,12 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation>Nova</translation>
+        <translation>Nou</translation>
     </message>
     <message>
         <location line="+134"/>
         <source>Settings...</source>
-        <translation>Configuració...</translation>
+        <translation>Configuració…</translation>
     </message>
     <message>
         <location line="-135"/>
@@ -6508,7 +6508,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>No hi ha previsualització disponible</translation>
+        <translation>No hi ha cap previsualització disponible</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6736,7 +6736,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Espai</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7618,7 +7618,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>All</source>
-        <translation>Tots</translation>
+        <translation>Tot</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8223,7 +8223,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation>Mostrar</translation>
+        <translation>Mostra</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8245,7 +8245,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation>Desbloquejar la còpia de seguretat de claus</translation>
+        <translation>Desbloqueja la còpia de seguretat de claus</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8417,7 +8417,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Segur que vols eliminar el teu avatar?</translation>
+        <translation>Estàs segur/a que vols eliminar el teu avatar?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -8453,7 +8453,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation>Copiar l'ID d'usuari</translation>
+        <translation>Copia l'ID d'usuari</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -8463,7 +8463,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation>Nivell de poder</translation>
+        <translation>Nivell de permisos</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -8711,7 +8711,7 @@ Podràs deixar d'ignorar-lo/la més endavant des del perfil d'aquest usuari o a 
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>L'entorn d'execució del backend de Matrix no està disponible.</translation>
+        <translation>El temps d'execució del backend de Matrix no està disponible.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -9134,7 +9134,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation>Inicia sessió</translation>
+        <translation>Inicia la sessió</translation>
     </message>
 </context>
 <context>
@@ -9475,7 +9475,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controla quan es mostren els noms d'usuari dels remitents sobre els missatges. En el mode de bombolles, el nom d'usuari propi sempre s'oculta. En sales petites, els avatars i els colors de les bombolles sovint proporcionen context suficient.</translation>
+        <translation>Controla quan es mostren els noms d'usuari del remitent per sobre dels missatges. En el mode de bombolla, el teu nom d'usuari sempre s'amaga. En sales més petites, els avatars i els colors de les bombolles sovint aporten prou context.</translation>
     </message>
     <message>
         <location line="+18"/>

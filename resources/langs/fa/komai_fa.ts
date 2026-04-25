@@ -6644,7 +6644,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>این میانبرها پس از بستن راهنما در حالت انتخاب اعمال می‌شوند. &lt;a href="%1"&gt;راهنمای کامل&lt;/a&gt; را ببینید.</translation>
     </message>
     <message>
         <location line="+3"/>

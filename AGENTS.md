@@ -108,6 +108,19 @@ Access via `Komai.theme.*`:
 - [docs/architecture/README.md](docs/architecture/README.md) -- Technical docs index (start here, then open only task-relevant pages)
 - [docs/user-guide/differences-from-nheko.md](docs/user-guide/differences-from-nheko.md) -- What makes Komai different
 
+## Translatable Strings Checklist
+
+When you add, change, or remove a `qsTr(...)` / `tr(...)` string in C++, QML, or a Rust-originated translation module, the workflow is:
+
+1. `just translations-update` -- regenerates `.ts` files via `lupdate` and re-normalizes them. New strings appear as `type="unfinished"` in every non-English language.
+2. `just translations-claude-translate-all` -- AI-fills those `unfinished` entries across all 32 non-English languages.
+3. Stage and commit the source change **and** the `resources/langs/` updates **together**. The pre-commit drift hook (`bin/prek/translations-drift.py`) will refuse a commit that touches translatable source without matching `.ts` updates.
+
+The English file (`resources/langs/en/komai_en.ts`) is the reference -- it always has many `unfinished` entries by design and is excluded from the AI-fill recipe.
+
+See [docs/maintainers/translations.md](docs/maintainers/translations.md) for the full pipeline (per-language guides, validation rules, single-language re-runs).
+
+
 ## Icon Change Checklist
 
 When adding/changing icons:

@@ -145,8 +145,11 @@ def main() -> int:
             print(f"  {lang}", file=sys.stderr)
         print("", file=sys.stderr)
         print("Fix with:", file=sys.stderr)
-        print("  just translations-update", file=sys.stderr)
-        print("then re-stage resources/langs/.", file=sys.stderr)
+        print("  just translations-update                # regenerate .ts files", file=sys.stderr)
+        print("  just translations-claude-translate-all  # AI-fill new `unfinished` entries", file=sys.stderr)
+        print("then re-stage resources/langs/. Land translations in the same commit", file=sys.stderr)
+        print("(or PR) as the source change that introduced the new string.", file=sys.stderr)
+        print("See docs/maintainers/translations.md for details.", file=sys.stderr)
 
         # Show the first drift diff (truncated) so the failure is actionable
         # without needing to re-run manually.

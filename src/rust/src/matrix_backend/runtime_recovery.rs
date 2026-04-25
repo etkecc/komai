@@ -164,12 +164,25 @@ pub async fn setup_recovery(
                 .await
                 .map_err(|e| format!("failed to enable encrypted recovery: {e}"))?;
 
-            // Immediately recover with the new key so the local device imports
-            // all secrets and is marked as verified (cross-signed).
-            recovery
-                .recover(&key)
-                .await
-                .map_err(|e| format!("failed to recover secrets after enabling recovery: {e}"))?;
+            // Try to immediately recover with the new key so the local device
+            // imports all secrets and is marked as verified (cross-signed).
+            //
+            // Tolerate failure: recovery.enable() has already created a usable
+            // recovery key, so the user's account is in a recoverable state.
+            // The auto-import can fail when the account holds pre-existing,
+            // malformed secret-storage entries (e.g. an account_data event for
+            // `m.cross_signing.master` that's `{}` instead of
+            // `{"encrypted":{}}`, left over from a half-cleaned reset). In
+            // that case the user will still need to verify via another route,
+            // but we shouldn't blow away the freshly created recovery key.
+            if let Err(e) = recovery.recover(&key).await {
+                tracing::warn!(
+                    target: "crypto",
+                    "Recovery enabled successfully, but auto-importing existing \
+                     encryption secrets failed: {e}. The recovery key is still \
+                     valid; the user may need to verify this device manually.",
+                );
+            }
 
             key
         } else {

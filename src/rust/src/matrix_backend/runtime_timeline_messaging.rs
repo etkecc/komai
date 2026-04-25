@@ -756,10 +756,69 @@ pub async fn mark_room_event_as_read(
     room.send_multiple_receipts(
         Receipts::new()
             .fully_read_marker(Some(parsed_event_id.clone()))
-            .public_read_receipt(Some(parsed_event_id)),
+            .public_read_receipt(Some(parsed_event_id.clone())),
     )
     .await
-    .map_err(|e| format!("failed to mark matrix-sdk room event as read: {e}"))
+    .map_err(|e| format!("failed to mark matrix-sdk room event as read: {e}"))?;
+
+    // Optimistically anchor `read_receipts.latest_active` to the just-acked
+    // event and zero the counts.  matrix-sdk's `Room::send_multiple_receipts`
+    // returns once the HTTP request is acknowledged but never touches local
+    // state — it relies on sliding sync to echo the receipt back through
+    // the receipts extension, at which point `compute_unread_counts`
+    // recomputes the active receipt and the unread counts.
+    //
+    // In the wild we've seen rooms get stuck: HTTP returns 200, so the
+    // server has the receipt, but the local `latest_active` never moves
+    // past some old event and the badge keeps reappearing every time
+    // `compute_unread_counts` runs.  We don't fully understand the
+    // trigger — receipts work fine for most rooms, so this isn't a
+    // blanket "Synapse never echoes own receipts" problem.  It might be
+    // a one-shot dropped echo, or specific to rooms where the latest
+    // events are state events (e.g. `m.room.server_acl` churn from a
+    // moderation bot), or something else entirely.  Posting a fresh
+    // message clears it via the implicit-receipt path in matrix-sdk's
+    // `select_best_receipt` (events we sent count as receipts on
+    // themselves), but explicit `m.read` does not have that fallback.
+    //
+    // Whatever the trigger, the HTTP just returned 200 so the server
+    // has the receipt; mirror that into RoomInfo (with
+    // `RoomInfoNotableUpdateReasons::READ_RECEIPT` so observers
+    // update) and persist via `state_store().save_changes` (otherwise
+    // the stale state reloads on next startup).  Future syncs still
+    // recompute correctly: any new event past `parsed_event_id` is
+    // counted from this anchor by `find_and_process_events`.  For rooms
+    // that weren't stuck this is a no-op once sync arrives with the
+    // real echo.
+    {
+        use matrix_sdk_base::{
+            RoomInfoNotableUpdateReasons, StateChanges, read_receipts::LatestReadReceipt,
+        };
+
+        let mut info = room.clone_info();
+        let mut receipts = info.read_receipts().clone();
+        receipts.latest_active = Some(LatestReadReceipt { event_id: parsed_event_id });
+        receipts.num_unread = 0;
+        receipts.num_notifications = 0;
+        receipts.num_mentions = 0;
+        info.set_read_receipts(receipts);
+
+        let mut state_changes = StateChanges::default();
+        state_changes.add_room(info.clone());
+        if let Err(error) = room.client().state_store().save_changes(&state_changes).await {
+            tracing::warn!(
+                room_id = room_id.trim(),
+                %error,
+                "Failed to persist optimistic read-receipt update; \
+                 in-memory state is still applied, but the badge may \
+                 reappear after restart"
+            );
+        }
+
+        room.set_room_info(info, RoomInfoNotableUpdateReasons::READ_RECEIPT);
+    }
+
+    Ok(())
 }
 
 pub async fn report_room_event(

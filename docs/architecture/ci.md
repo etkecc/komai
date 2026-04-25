@@ -370,5 +370,41 @@ Both use Docker (`just appimage-build-docker`,
 `just snap-build-docker`), so threading host-mounted caches
 through to the docker invocation is more invasive than the Flatpak
 case — the `just` recipes themselves need to know about the
-mount path. Worth tackling alongside a real release for live
-measurement.
+mount path.
+
+### Picking up the AppImage + Snap caching work
+
+The pattern to follow:
+
+1. **Investigate what each recipe actually downloads/builds**:
+   - `bin/release/appimage-build-docker.sh` (or wherever the AppImage
+     recipe lives) — look for `linuxdeployqt` downloads, Qt plugin
+     staging, and any `cargo` / `ccache` invocations inside the
+     container.
+   - The Snap recipe (snapcraft) — look for the parts cache (typically
+     under `~/.cache/snapcraft` or `parts/` in the project) and any
+     vendored crate / system-package fetches.
+2. **Decide what's worth caching**: focus on big downloads (Qt
+     bundles, compiled deps) and on caches that snapcraft/AppImage
+     already maintain internally — those just need to be mounted to a
+     host path instead of an ephemeral container volume.
+3. **Modify the `just` recipe** to bind-mount a host path into the
+     container. The recipe should accept a "cache root" environment
+     variable (default to a workspace path) and pass `-v $CACHE_ROOT/
+     appimage:/some/in-container/path` to `docker run`. The CI
+     workflow side then sets that variable to `/var/lib/komai-ci/
+     appimage-cache` (or similar) when the host-mount is detected.
+4. **Wire the workflow** with the same flag-and-fallback pattern as
+     Phase C: `WIRE_HOST_X` step that mkdirs and sets `X_HOST_OK`,
+     plus an `if:`-gated `actions/cache` fallback (if/when one is
+     even worth adding for these jobs).
+5. **Measure cold-vs-warm** by running the same release twice — once
+     with the host-cache wiped (or a fresh subdir) for the cold
+     baseline, once with the warm cache. The publish workflow only
+     fires on `v*` tags, so do this in proximity to a planned release
+     where you can observe both runs back-to-back.
+
+The high-level sketch above intentionally leaves the recipe-side
+work concrete-but-unspecified — the right mount points and env
+variable names depend on what the docker recipes look like at the
+time you do this.

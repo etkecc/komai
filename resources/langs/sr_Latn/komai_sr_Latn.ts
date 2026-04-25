@@ -1029,10 +1029,10 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n član</numerusform>
+            <numerusform>%n člana</numerusform>
+            <numerusform>%n članova</numerusform>
         </translation>
     </message>
     <message>
@@ -1797,10 +1797,10 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Proslediti %n poruku?</numerusform>
+            <numerusform>Proslediti %n poruke?</numerusform>
+            <numerusform>Proslediti %n poruka?</numerusform>
         </translation>
     </message>
     <message>
@@ -1831,10 +1831,10 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Proslediti %n izabranu poruku u &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Proslediti %n izabrane poruke u &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Proslediti %n izabranih poruka u &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2986,10 +2986,10 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Obrisati %n izabranu poruku?</numerusform>
+            <numerusform>Obrisati %n izabrane poruke?</numerusform>
+            <numerusform>Obrisati %n izabranih poruka?</numerusform>
         </translation>
     </message>
     <message>
@@ -4147,19 +4147,19 @@ Verifikuj da otključaš šifrovane poruke.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Primenjene dozvole na %n podprostor.</numerusform>
+            <numerusform>Primenjene dozvole na %n podprostora.</numerusform>
+            <numerusform>Primenjene dozvole na %n podprostora.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Primena dozvola na %n podprostor nije uspela: %1</numerusform>
+            <numerusform>Primena dozvola na %n podprostora nije uspela: %1</numerusform>
+            <numerusform>Primena dozvola na %n podprostora nije uspela: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5645,10 +5645,10 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n član u %1</numerusform>
+            <numerusform>%n člana u %1</numerusform>
+            <numerusform>%n članova u %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7596,10 +7596,10 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n odgovor u niti</numerusform>
+            <numerusform>%n odgovora u niti</numerusform>
+            <numerusform>%n odgovora u niti</numerusform>
         </translation>
     </message>
     <message>
@@ -7623,10 +7623,10 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n odgovor u niti</numerusform>
+            <numerusform>%n odgovora u niti</numerusform>
+            <numerusform>%n odgovora u niti</numerusform>
         </translation>
     </message>
     <message>
@@ -7801,10 +7801,10 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n odgovor u niti</numerusform>
+            <numerusform>%n odgovora u niti</numerusform>
+            <numerusform>%n odgovora u niti</numerusform>
         </translation>
     </message>
     <message>
@@ -7836,10 +7836,10 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n član</numerusform>
+            <numerusform>%n člana</numerusform>
+            <numerusform>%n članova</numerusform>
         </translation>
     </message>
     <message>
@@ -8104,10 +8104,10 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n izabrana poruka</numerusform>
+            <numerusform>%n izabrane poruke</numerusform>
+            <numerusform>%n izabranih poruka</numerusform>
         </translation>
     </message>
     <message>
@@ -8251,10 +8251,13 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n soba zahteva pažnju</numerusform>
+            <numerusform>
+%n sobe zahtevaju pažnju</numerusform>
+            <numerusform>
+%n soba zahteva pažnju</numerusform>
         </translation>
     </message>
 </context>

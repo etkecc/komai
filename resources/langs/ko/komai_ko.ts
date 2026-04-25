@@ -1029,8 +1029,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n 멤버</numerusform>
         </translation>
     </message>
     <message>
@@ -1795,8 +1795,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n개 메시지를 전달하시겠습니까?</numerusform>
         </translation>
     </message>
     <message>
@@ -1827,8 +1827,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>선택한 %n개 메시지를 &lt;b&gt;%1&lt;/b&gt;에 전달하시겠습니까?</numerusform>
         </translation>
     </message>
     <message>
@@ -2980,8 +2980,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>선택한 %n개 메시지를 삭제하시겠습니까?</numerusform>
         </translation>
     </message>
     <message>
@@ -4139,15 +4139,15 @@ Verify to unlock encrypted messages.</source>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n개 하위 스페이스에 권한이 적용되었습니다.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n개 하위 스페이스에 권한을 적용하지 못했습니다: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5633,8 +5633,8 @@ Previous server-side key backups are not removed automatically.</source>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%1의 멤버 %n명</numerusform>
         </translation>
     </message>
     <message>
@@ -7582,8 +7582,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n개 스레드 답글</numerusform>
         </translation>
     </message>
     <message>
@@ -7607,8 +7607,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n개 스레드 답글</numerusform>
         </translation>
     </message>
     <message>
@@ -7783,8 +7783,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n개 스레드 답글</numerusform>
         </translation>
     </message>
     <message>
@@ -7816,8 +7816,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n 멤버</numerusform>
         </translation>
     </message>
     <message>
@@ -8082,8 +8082,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>선택한 메시지 %n개</numerusform>
         </translation>
     </message>
     <message>
@@ -8227,8 +8227,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n개 방에 주의가 필요합니다</numerusform>
         </translation>
     </message>
 </context>

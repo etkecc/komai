@@ -1029,10 +1029,10 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n člen</numerusform>
+            <numerusform>%n členové</numerusform>
+            <numerusform>%n členů</numerusform>
         </translation>
     </message>
     <message>
@@ -1797,10 +1797,10 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Přeposlat %n zprávu?</numerusform>
+            <numerusform>Přeposlat %n zprávy?</numerusform>
+            <numerusform>Přeposlat %n zpráv?</numerusform>
         </translation>
     </message>
     <message>
@@ -1831,10 +1831,10 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Přeposlat %n vybranou zprávu do &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Přeposlat %n vybrané zprávy do &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Přeposlat %n vybraných zpráv do &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2986,10 +2986,10 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Smazat %n vybranou zprávu?</numerusform>
+            <numerusform>Smazat %n vybrané zprávy?</numerusform>
+            <numerusform>Smazat %n vybraných zpráv?</numerusform>
         </translation>
     </message>
     <message>
@@ -4147,19 +4147,19 @@ Ověřením se odemknou šifrované zprávy.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Oprávnění bylo použito na %n podřízený prostor.</numerusform>
+            <numerusform>Oprávnění bylo použito na %n podřízené prostory.</numerusform>
+            <numerusform>Oprávnění bylo použito na %n podřízených prostorů.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Nepodařilo se použít oprávnění na %n podřízený prostor: %1</numerusform>
+            <numerusform>Nepodařilo se použít oprávnění na %n podřízené prostory: %1</numerusform>
+            <numerusform>Nepodařilo se použít oprávnění na %n podřízených prostorů: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5645,10 +5645,10 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n člen v %1</numerusform>
+            <numerusform>%n členové v %1</numerusform>
+            <numerusform>%n členů v %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7596,10 +7596,10 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n odpověď ve vlákně</numerusform>
+            <numerusform>%n odpovědi ve vlákně</numerusform>
+            <numerusform>%n odpovědí ve vlákně</numerusform>
         </translation>
     </message>
     <message>
@@ -7623,10 +7623,10 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n odpověď ve vlákně</numerusform>
+            <numerusform>%n odpovědi ve vlákně</numerusform>
+            <numerusform>%n odpovědí ve vlákně</numerusform>
         </translation>
     </message>
     <message>
@@ -7801,10 +7801,10 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n odpověď ve vlákně</numerusform>
+            <numerusform>%n odpovědi ve vlákně</numerusform>
+            <numerusform>%n odpovědí ve vlákně</numerusform>
         </translation>
     </message>
     <message>
@@ -7836,10 +7836,10 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n člen</numerusform>
+            <numerusform>%n členové</numerusform>
+            <numerusform>%n členů</numerusform>
         </translation>
     </message>
     <message>
@@ -8104,10 +8104,10 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n vybraná zpráva</numerusform>
+            <numerusform>%n vybrané zprávy</numerusform>
+            <numerusform>%n vybraných zpráv</numerusform>
         </translation>
     </message>
     <message>
@@ -8251,10 +8251,13 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n místnost vyžaduje pozornost</numerusform>
+            <numerusform>
+%n místnosti vyžadují pozornost</numerusform>
+            <numerusform>
+%n místností vyžaduje pozornost</numerusform>
         </translation>
     </message>
 </context>

@@ -106,9 +106,13 @@ ColumnLayout {
             onSingleTapped: {
                 if (SelfVerificationStatus.status === SelfVerificationStatus.UnverifiedDevices)
                     SelfVerificationStatus.verifyUnverifiedDevices();
-                else if (SelfVerificationStatus.status === SelfVerificationStatus.NoMasterKey)
-                    SelfVerificationStatus.setupEncryptionBackup();
                 else
+                    // Always go through the prompt path (which re-fetches the
+                    // recovery state and opens the appropriate dialog) instead
+                    // of running setup_recovery directly. On a fresh login, the
+                    // status can transiently read `NoMasterKey` while the local
+                    // crypto store catches up, and we don't want a banner click
+                    // in that window to silently rewrite the user's recovery.
                     SelfVerificationStatus.promptCurrentVerificationAction();
             }
         }

@@ -6651,12 +6651,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Αυτές οι συντομεύσεις ισχύουν στη λειτουργία Επιλογής μετά το κλείσιμο της Βοήθειας.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Δείτε τον πλήρη οδηγό</translation>
     </message>
     <message>
         <location line="+4"/>

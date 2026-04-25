@@ -6658,12 +6658,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Эти сочетания клавиш работают в режиме выбора после закрытия справки.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Посмотреть полное руководство</translation>
     </message>
     <message>
         <location line="+4"/>

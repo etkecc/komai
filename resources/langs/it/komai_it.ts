@@ -6651,12 +6651,12 @@ Si noti che non può essere disabilitata in seguito.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Queste scorciatoie si applicano in modalità Selezione dopo aver chiuso la Guida.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Vedi la guida completa</translation>
     </message>
     <message>
         <location line="+4"/>

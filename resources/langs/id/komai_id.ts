@@ -6644,12 +6644,12 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Pintasan ini berlaku dalam mode Seleksi setelah menutup Bantuan.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Lihat panduan lengkap</translation>
     </message>
     <message>
         <location line="+4"/>

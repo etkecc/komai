@@ -6658,12 +6658,12 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Ove prečice važe u režimu selekcije nakon zatvaranja pomoći.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Pogledaj ceo vodič</translation>
     </message>
     <message>
         <location line="+4"/>

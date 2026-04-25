@@ -6644,12 +6644,12 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Ezek a billentyűparancsok a Kijelölési módban érvényesek a Súgó bezárása után.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>A teljes útmutató megtekintése</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -6651,12 +6651,12 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Deze sneltoetsen zijn actief in Selectiemodus na het sluiten van Help.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Bekijk de volledige handleiding</translation>
     </message>
     <message>
         <location line="+4"/>

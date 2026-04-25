@@ -6644,12 +6644,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>关闭帮助后，这些快捷键在选择模式下有效。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>查看完整指南</translation>
     </message>
     <message>
         <location line="+4"/>

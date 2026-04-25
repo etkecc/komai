@@ -6644,12 +6644,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>این میانبرها پس از بستن راهنما در حالت انتخاب اعمال می‌شوند.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>مشاهده راهنمای کامل</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -6651,12 +6651,12 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Need kiirklahvid kehtivad valikurežiimis pärast Abi sulgemist.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Vaata täielikku juhendit</translation>
     </message>
     <message>
         <location line="+4"/>

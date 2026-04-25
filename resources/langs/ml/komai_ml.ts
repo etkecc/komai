@@ -6651,12 +6651,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>സഹായം അടച്ച ശേഷം ഈ കുറുക്കുവഴികൾ സിലക്ഷൻ മോഡിൽ ബാധകമാണ്.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>മുഴുവൻ ഗൈഡ് കാണുക</translation>
     </message>
     <message>
         <location line="+4"/>

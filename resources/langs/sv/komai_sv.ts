@@ -6651,12 +6651,12 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Dessa genvägar gäller i markeringsläge efter att hjälpen stängts.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Se hela guiden</translation>
     </message>
     <message>
         <location line="+4"/>

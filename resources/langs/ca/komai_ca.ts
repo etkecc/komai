@@ -6651,12 +6651,12 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Aquestes dreceres s'apliquen en el mode de selecció després de tancar l'Ajuda.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Veure la guia completa</translation>
     </message>
     <message>
         <location line="+4"/>

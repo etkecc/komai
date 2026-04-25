@@ -6651,12 +6651,12 @@ Observe que ela não pode ser desativada depois.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Estes atalhos se aplicam no modo de Seleção após fechar a Ajuda.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Ver o guia completo</translation>
     </message>
     <message>
         <location line="+4"/>

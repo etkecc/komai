@@ -6644,12 +6644,12 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Bu kısayollar, Yardım kapatıldıktan sonra Seçim modunda geçerlidir.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Tam kılavuzu görüntüle</translation>
     </message>
     <message>
         <location line="+4"/>

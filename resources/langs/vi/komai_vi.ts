@@ -6644,12 +6644,12 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Các phím tắt này áp dụng trong chế độ Chọn sau khi đóng Trợ giúp.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Xem hướng dẫn đầy đủ</translation>
     </message>
     <message>
         <location line="+4"/>

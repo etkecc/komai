@@ -6658,12 +6658,12 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>Tyto zkratky platí v režimu výběru po zavření nápovědy.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>See the full guide</source>
-        <translation type="unfinished"/>
+        <translation>Zobrazit celý průvodce</translation>
     </message>
     <message>
         <location line="+4"/>

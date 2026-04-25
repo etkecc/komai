@@ -32,7 +32,7 @@
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Kas soovid oma avatari eemaldada?</translation>
+        <translation>Kas oled kindel, et soovid oma avatari eemaldada?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>Klõpsa nähtavaks muutmiseks</translation>
+        <translation>Klõpsa kuvamiseks</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -470,12 +470,12 @@
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation>Toetab!</translation>
+        <translation>Sponsoreerin!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation>Toeta</translation>
+        <translation>Sponsoreeri</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -539,7 +539,7 @@
     <message>
         <location line="+11"/>
         <source>Accept</source>
-        <translation>Võta vastu</translation>
+        <translation>Nõustu</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -627,7 +627,7 @@ Kui probleem püsib, saab välja logida ja uuesti sisse logida, kuid see kustuta
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>Matrix-taustaprogramm pole veel valmis.</translation>
+        <translation>Matrix taustaprogramm pole veel valmis.</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -767,7 +767,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation>Välju</translation>
+        <translation>Lõpeta töö</translation>
     </message>
 </context>
 <context>
@@ -811,7 +811,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Kaasa jaotisesse 'Kõik jututoad'</translation>
+        <translation>Lisa 'Kõik jututoad' hulka</translation>
     </message>
 </context>
 <context>
@@ -1081,7 +1081,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>Tundmatu kuvatav nimi</translation>
+        <translation>Tundmatu kuvanimi</translation>
     </message>
     <message>
         <location line="-84"/>
@@ -1091,7 +1091,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>Vastavaid kasutajaid ei leitud.</translation>
+        <translation>Sobivaid kasutajaid ei leitud.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1154,7 +1154,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Avalik jututuba</translation>
+        <translation>Avalik</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1540,7 +1540,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Nööpnõel</translation>
+        <translation>Kinnita</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1550,7 +1550,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation>Mõlemal pool on ühesugused emojid!</translation>
+        <translation>Mõlemad on samad!</translation>
     </message>
 </context>
 <context>
@@ -1993,7 +1993,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation>Eiratud kasutajad</translation>
+        <translation>Ignoreeritud kasutajad</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2013,7 +2013,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+12"/>
         <source>Ignore</source>
-        <translation>Ignoreeri</translation>
+        <translation>Eira</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2304,7 +2304,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Sisesta otsingutermin. Tulemused ilmuvad siia.</translation>
+        <translation>Sisesta otsingupäring. Tulemused kuvatakse siin.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2407,7 +2407,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation>Profiili nimi on nõutav.</translation>
+        <translation>Profiili nimi on kohustuslik.</translation>
     </message>
     <message>
         <location line="-56"/>
@@ -2576,7 +2576,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>Pole saadaval</translation>
+        <translation>Kättesaamatu</translation>
     </message>
     <message>
         <location line="-295"/>
@@ -3035,7 +3035,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation>Ühtegi jututuba pole valitud</translation>
+        <translation>Jututuba on valimata</translation>
     </message>
 </context>
 <context>
@@ -3086,7 +3086,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
         <source>Show</source>
-        <translation>Näita</translation>
+        <translation>Kuva</translation>
     </message>
 </context>
 <context>
@@ -3227,7 +3227,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>S</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3609,7 +3609,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation>Vasteid ei leitud.</translation>
+        <translation>Tulemusi ei leitud.</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -3627,7 +3627,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation>Uus Matrixis?</translation>
+        <translation>Matrix on sulle uus?</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -3931,7 +3931,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
     <message>
         <location line="+13"/>
         <source>Video</source>
-        <translation>Videokõne</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -3941,7 +3941,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Katkesta</translation>
+        <translation>Tühista</translation>
     </message>
 </context>
 <context>
@@ -3983,7 +3983,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
         <location line="+28"/>
         <location line="+244"/>
         <source>Administrator (%1)</source>
-        <translation>Peakasutaja (%1)</translation>
+        <translation>Administraator (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
@@ -4001,7 +4001,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation>Kohandatud õigused (%1)</translation>
+        <translation>Kohandatud (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
@@ -4578,7 +4578,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation>Lugemisteatised</translation>
+        <translation>Loetud kviitungid</translation>
     </message>
 </context>
 <context>
@@ -4730,7 +4730,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location line="+49"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation>nt. example.com või https://matrix.example.com</translation>
+        <translation>nt example.com või https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -4773,7 +4773,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation>Näita/peida parool</translation>
+        <translation>Näita või peida salasõna</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -4793,12 +4793,12 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Vali äratuntav nimi. Teised saavad seda samuti näha.</translation>
+        <translation>Vali äratuntav nimi. Teised näevad seda samuti.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation>Loo uus juhuslik nimi</translation>
+        <translation>Genereeri teine juhuslik nimi</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -5155,7 +5155,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <message>
         <location line="+11"/>
         <source>Another server</source>
-        <translation>Teine server</translation>
+        <translation>Muu server</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -5564,7 +5564,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <message>
         <location line="+2"/>
         <source>Threads</source>
-        <translation>Lõimid</translation>
+        <translation>Lõimed</translation>
     </message>
 </context>
 <context>
@@ -5597,7 +5597,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation>Loe lähemalt</translation>
+        <translation>Lisateave</translation>
     </message>
 </context>
 <context>
@@ -5820,7 +5820,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+100"/>
         <source>New direct chat</source>
-        <translation>Uus otsevestlus</translation>
+        <translation>Uus otsesõnum</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5845,7 +5845,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>J</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5962,7 +5962,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation>Jututoa seaded</translation>
+        <translation>Jututoa seadistused</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6136,7 +6136,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+3"/>
         <source>Leave</source>
-        <translation>Lahkuda</translation>
+        <translation>Lahku</translation>
     </message>
 </context>
 <context>
@@ -6144,7 +6144,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>Eemalda kinnitusest</translation>
+        <translation>Eemalda kinnitus</translation>
     </message>
 </context>
 <context>
@@ -6192,7 +6192,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix'i taustateenuse käituskeskkond pole saadaval.</translation>
+        <translation>Matrix tausta käituskeskkond pole saadaval.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6638,7 +6638,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation>Katkesta</translation>
+        <translation>Tühista</translation>
     </message>
 </context>
 <context>
@@ -6736,7 +6736,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Ruum</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6980,7 +6980,7 @@ Tundub, et olete uus kasutaja. Enne kui saate sõnumeid turvaliselt krüptida, o
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation>Ühtegi teist sisselogitud seadet ei ole praegu verifitseerimiseks saadaval.</translation>
+        <translation>Verifitseerimiseks pole praegu ühtegi teist sisselogitud seadet saadaval.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7235,7 +7235,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 ja veel %3 kirjutavad…</translation>
+        <translation>%1, %2 ja %3 teist kirjutavad…</translation>
     </message>
 </context>
 <context>
@@ -7259,7 +7259,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation>Konto pakett</translation>
+        <translation>Kontopakk</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7646,7 +7646,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation>Tagasi jututubade nimekirja</translation>
+        <translation>Tagasi jututubade loendisse</translation>
     </message>
 </context>
 <context>
@@ -7662,7 +7662,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
-        <translation>Teavita probleemist</translation>
+        <translation>Teata probleemist</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -7811,7 +7811,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation>Eelvaade puudub</translation>
+        <translation>Eelvaade pole saadaval</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8223,7 +8223,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation>Näita</translation>
+        <translation>Kuva</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8245,7 +8245,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation>Võtmevarukoopia avamine</translation>
+        <translation>Ava võtmevarukoopia</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8364,7 +8364,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation>Verifitseerimishaldur pole saadaval.</translation>
+        <translation>Verifitseerimishaldur ei ole saadaval.</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -8827,7 +8827,7 @@ Saad eiramise hiljem tühistada selle kasutaja profiili kaudu või Seaded → Ko
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Võta verifitseerimine tagasi</translation>
+        <translation>Tühista verifitseerimine</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8923,8 +8923,8 @@ Saad eiramise hiljem tühistada selle kasutaja profiili kaudu või Seaded → Ko
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Määrab &lt;a href="%1"&gt;kohaloleku&lt;/a&gt; oleku Matrix-võrgus.
-Automaatne on kas 'online' või 'puudub' (pärast 5 minutit tegevusetust).</translation>
+        <translation>Juhib teie &lt;a href="%1"&gt;Kohalolu&lt;/a&gt; olekut Matrix-võrgus.
+Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust).</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -8934,7 +8934,7 @@ Automaatne on kas 'online' või 'puudub' (pärast 5 minutit tegevusetust).</tran
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Määrab, millal kuvatakse saatja kasutajanimed sõnumite kohal. Mullirežiimis on oma kasutajanimi alati peidetud. Väiksemates jututubades piisab tihti avataridest ja mulli värvidest.</translation>
+        <translation>Juhib, millal kuvatakse saatja kasutajanimedid sõnumite kohal. Mullirežiimis on teie enda kasutajanimi alati peidetud. Väiksemates jututubades on avatarid ja mullide värvid sageli piisav kontekst.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -8952,7 +8952,7 @@ Automaatne on kas 'online' või 'puudub' (pärast 5 minutit tegevusetust).</tran
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation>Välimus &amp; tunne</translation>
+        <translation>Välimus</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9025,7 +9025,7 @@ Automaatne on kas 'online' või 'puudub' (pärast 5 minutit tegevusetust).</tran
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Matrix-i taustateenuse käitusaeg pole saadaval.</translation>
+        <translation>Matrix tausta käituskeskkond pole saadaval.</translation>
     </message>
 </context>
 <context>
@@ -9093,7 +9093,7 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation>Katkesta</translation>
+        <translation>Tühista</translation>
     </message>
 </context>
 <context>
@@ -9869,7 +9869,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation>Pääsuluba</translation>
+        <translation>Juurdepääsuluba</translation>
     </message>
     <message>
         <location line="+1"/>

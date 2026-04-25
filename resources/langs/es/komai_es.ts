@@ -1066,7 +1066,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation>Nuevo mensaje directo</translation>
+        <translation>Nuevo chat directo</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1155,7 +1155,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation>Público</translation>
+        <translation>Pública</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1541,7 +1541,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Chincheta</translation>
+        <translation>Anclar</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1862,7 +1862,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>Pack de cuenta</translation>
+        <translation>Paquete de cuenta</translation>
     </message>
 </context>
 <context>
@@ -2277,7 +2277,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation>Nombre para mostrar desconocido</translation>
+        <translation>Nombre de visualización desconocido</translation>
     </message>
     <message>
         <location line="-246"/>
@@ -2307,12 +2307,12 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Escribe una consulta de búsqueda. Los resultados aparecerán aquí.</translation>
+        <translation>Escribe una búsqueda. Los resultados aparecerán aquí.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>No se han encontrado usuarios coincidentes.</translation>
+        <translation>No se encontraron usuarios coincidentes.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2936,7 +2936,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 y otras %3 personas están escribiendo…</translation>
+        <translation>%1, %2 y %3 personas más están escribiendo…</translation>
     </message>
 </context>
 <context>
@@ -3230,7 +3230,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation>S</translation>
+        <translation>E</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3384,7 +3384,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+9"/>
         <source>Copy formatted text</source>
-        <translation>Copiar texto formateado</translation>
+        <translation>Copiar texto con formato</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3485,7 +3485,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation>No mencionarlos en este mensaje</translation>
+        <translation>No mencionar en este mensaje</translation>
     </message>
 </context>
 <context>
@@ -4468,7 +4468,7 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
     <message>
         <location line="+94"/>
         <source>Profile name is required.</source>
-        <translation>El nombre del perfil es obligatorio.</translation>
+        <translation>El nombre de perfil es obligatorio.</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -4581,7 +4581,7 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation>Leer recibos</translation>
+        <translation>Confirmaciones de lectura</translation>
     </message>
 </context>
 <context>
@@ -4888,7 +4888,7 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
         <location line="-770"/>
         <location line="+893"/>
         <source>Device name</source>
-        <translation>Nombre del dispositivo</translation>
+        <translation>Nombre de dispositivo</translation>
     </message>
     <message>
         <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
@@ -4938,7 +4938,7 @@ Vuelve atrás e inicia sesión manualmente.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Copiar dirección de &amp;enlace</translation>
+        <translation>Copiar &amp;ubicación del enlace</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4988,7 +4988,7 @@ Vuelve atrás e inicia sesión manualmente.</translation>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation>Reportar el mensaje</translation>
+        <translation>Reportar mensaje</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5497,7 +5497,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomAvatar.qml" line="+31"/>
         <source>Room settings</source>
-        <translation>Ajustes de la sala</translation>
+        <translation>Configuración de la sala</translation>
     </message>
 </context>
 <context>
@@ -5608,7 +5608,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     <message>
         <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
         <source>Settings</source>
-        <translation>Configuración</translation>
+        <translation>Ajustes</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5680,7 +5680,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation>Nivel de privilegios</translation>
+        <translation>Nivel de privilegio</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5848,7 +5848,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>S</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -6195,7 +6195,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>El entorno de ejecución de Matrix no está disponible.</translation>
+        <translation>El backend de Matrix no está disponible.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6402,7 +6402,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation>Nueva</translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <location line="+134"/>
@@ -6739,7 +6739,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Espacio</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7166,7 +7166,7 @@ Parece que eres nuevo/a. Antes de poder cifrar tus mensajes de forma segura, nec
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation>Aspecto y apariencia</translation>
+        <translation>Apariencia</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7621,7 +7621,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>All</source>
-        <translation>Todos</translation>
+        <translation>Todas</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7814,7 +7814,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation>Sin vista previa disponible</translation>
+        <translation>No hay vista previa disponible</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8830,7 +8830,7 @@ Podrás dejar de ignorarle más tarde desde el perfil de este usuario o en Ajust
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation>Sin verificar</translation>
+        <translation>Desverificar</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8937,7 +8937,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controla cuándo se muestran los nombres de usuario del remitente sobre los mensajes. En el modo burbuja, tu propio nombre de usuario está siempre oculto. En salas pequeñas, los avatares y los colores de burbuja suelen ser contexto suficiente.</translation>
+        <translation>Controla cuándo se muestran los nombres de usuario de los remitentes encima de los mensajes. En el modo burbuja, tu propio nombre de usuario siempre está oculto. En salas pequeñas, los avatares y los colores de las burbujas suelen ser suficiente contexto.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9028,7 +9028,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>El entorno de ejecución del backend de Matrix no está disponible.</translation>
+        <translation>El backend de Matrix no está disponible.</translation>
     </message>
 </context>
 <context>
@@ -9852,7 +9852,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Servidor principal</translation>
+        <translation>Servidor base</translation>
     </message>
     <message>
         <location line="+4"/>

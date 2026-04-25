@@ -62,7 +62,7 @@
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation>Kopii uzantan ID</translation>
+        <translation>Kopii uzant-identigilon</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -113,7 +113,7 @@
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation>Klaku por malkaŝi</translation>
+        <translation>Alklaki por riveli</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -163,7 +163,7 @@
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation>Malkontroligi</translation>
+        <translation>Malkontroli</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -811,7 +811,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>Inkludi en 'Ĉiuj ĉambroj'</translation>
+        <translation>Inkluzivi en 'Ĉiuj ĉambroj'</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation>Personoj</translation>
+        <translation>Homoj</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1081,12 +1081,12 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>Nekonata vidnomo</translation>
+        <translation>Nekonata montrata nomo</translation>
     </message>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation>Tajpu serĉpeton. Rezultoj aperos ĉi tie.</translation>
+        <translation>Tajpu serĉdemandon. Rezultoj aperos ĉi tie.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1540,7 +1540,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation>Pinglo</translation>
+        <translation>Pingli</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1861,7 +1861,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation>Pako de konto</translation>
+        <translation>Konto-pako</translation>
     </message>
 </context>
 <context>
@@ -1993,7 +1993,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation>Malatentitaj uzantoj</translation>
+        <translation>Ignorataj uzantoj</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2407,7 +2407,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation>Profila nomo estas postulata.</translation>
+        <translation>Profil-nomo estas postulata.</translation>
     </message>
     <message>
         <location line="-56"/>
@@ -2823,7 +2823,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation>Montri/Kaŝi pasvorton</translation>
+        <translation>Montri/Kaŝi Pasvorton</translation>
     </message>
     <message>
         <location line="-859"/>
@@ -2923,17 +2923,17 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
         <source>%1 is typing…</source>
-        <translation>%1 tajpas…</translation>
+        <translation>%1 skribas…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation>%1 kaj %2 tajpas…</translation>
+        <translation>%1 kaj %2 skribas…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation>%1, %2 kaj %3 aliaj tajpas…</translation>
+        <translation>%1, %2 kaj %3 aliaj skribas…</translation>
     </message>
 </context>
 <context>
@@ -3247,7 +3247,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation>Legitaj kvitancoj</translation>
+        <translation>Kvitancoj</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3381,7 +3381,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+9"/>
         <source>Copy formatted text</source>
-        <translation>Kopii formatitan tekston</translation>
+        <translation>Kopii formatan tekston</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3989,7 +3989,7 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
         <location line="-242"/>
         <location line="+244"/>
         <source>Moderator (%1)</source>
-        <translation>Reguligisto (%1)</translation>
+        <translation>Moderanto (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
@@ -4125,7 +4125,7 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
     <message>
         <location line="+4"/>
         <source>Moderator (%1)</source>
-        <translation>Moderisto (%1)</translation>
+        <translation>Moderanto (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4570,7 +4570,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     <message>
         <location line="+10"/>
         <source>OK</source>
-        <translation>Bone</translation>
+        <translation>Akcepti</translation>
     </message>
 </context>
 <context>
@@ -4793,7 +4793,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation>Elektu rekoneblан nomon. Aliaj ankaŭ povas vidi ĝin.</translation>
+        <translation>Elektu rekoneblan nomon. Aliaj ankaŭ povas vidi ĝin.</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -4885,7 +4885,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
         <location line="-770"/>
         <location line="+893"/>
         <source>Device name</source>
-        <translation>Nomo de aparato</translation>
+        <translation>Aparata nomo</translation>
     </message>
     <message>
         <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
@@ -4917,12 +4917,12 @@ Bonvolu reiri kaj ensaluti permane.</translation>
     <message>
         <location line="+2"/>
         <source>Video</source>
-        <translation>Video</translation>
+        <translation>Vide</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Attachment</source>
-        <translation>Alfiksaĵo</translation>
+        <translation>Aldonaĵo</translation>
     </message>
 </context>
 <context>
@@ -4935,7 +4935,7 @@ Bonvolu reiri kaj ensaluti permane.</translation>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation>Kopii &amp;ligolokon</translation>
+        <translation>Kopii &amp;ligilon</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4977,7 +4977,7 @@ Bonvolu reiri kaj ensaluti permane.</translation>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation>Respondo</translation>
+        <translation>Respondi</translation>
     </message>
 </context>
 <context>
@@ -5207,7 +5207,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+38"/>
         <source>Size</source>
-        <translation>Grando</translation>
+        <translation>Grandeco</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5454,7 +5454,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation>Reen al ĉambrolisto</translation>
+        <translation>Reen al listo de ĉambroj</translation>
     </message>
 </context>
 <context>
@@ -5599,7 +5599,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation>Eksciu pli</translation>
+        <translation>Ekscii pli</translation>
     </message>
 </context>
 <context>
@@ -5679,7 +5679,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation>Povnivelo</translation>
+        <translation>Potenconivelo</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5847,7 +5847,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation>Ĉ</translation>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5964,7 +5964,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation>Agordoj de ĉambro</translation>
+        <translation>Ĉambraj agordoj</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6146,7 +6146,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>Malfiksi</translation>
+        <translation>Malpingli</translation>
     </message>
 </context>
 <context>
@@ -6194,7 +6194,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>Malantaŭa rultempo de Matrix ne estas disponebla.</translation>
+        <translation>La Matrix dorsa rulaĵo ne estas disponebla.</translation>
     </message>
     <message>
         <location line="+150"/>
@@ -6510,7 +6510,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation>Neniu antaŭrigardo disponeblas</translation>
+        <translation>Neniu antaŭrigardo disponebla</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6738,7 +6738,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation>Space</translation>
+        <translation>Spaco</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7042,7 +7042,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Antaŭvido de avataro</translation>
+        <translation>Antaŭrigardo de avataro</translation>
     </message>
 </context>
 <context>
@@ -7290,7 +7290,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation>La Matrix-malantaŭo ankoraŭ ne estas preta.</translation>
+        <translation>La Matrix-dorso ankoraŭ ne estas preta.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -7422,7 +7422,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+55"/>
         <source>Search</source>
-        <translation>Serĉu</translation>
+        <translation>Serĉi</translation>
     </message>
     <message>
         <location line="+580"/>
@@ -7670,7 +7670,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation>Sponsoras!</translation>
+        <translation>Sponsoranta!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7762,7 +7762,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation>Ne menciu ilin en ĉi tiu mesaĝo</translation>
+        <translation>Ne mencii ĝin en ĉi tiu mesaĝo</translation>
     </message>
 </context>
 <context>
@@ -7785,7 +7785,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+17"/>
         <source>Message actions</source>
-        <translation>Mesaĝaj agoj</translation>
+        <translation>Agoj de mesaĝo</translation>
     </message>
     <message numerus="yes">
         <location line="+64"/>
@@ -8231,7 +8231,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation>Ĉesigi</translation>
+        <translation>Eliri</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8327,7 +8327,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation>La Matrix dorsa rultempo ne estas disponebla.</translation>
+        <translation>La Matrix dorsa rulaĵo ne estas disponebla.</translation>
     </message>
     <message>
         <location line="-357"/>
@@ -8367,7 +8367,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation>La kontrolestro ne estas disponebla.</translation>
+        <translation>La kontrola administranto ne estas disponebla.</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -8402,7 +8402,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation>Elektu profilbildon</translation>
+        <translation>Elektu bildon de ĉambro</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8553,12 +8553,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation>Ĉu vi certe volas forigi vian avataron?</translation>
+        <translation>Ĉu vi certas, ke vi volas forigi vian avataron?</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation>Montronomo</translation>
+        <translation>Montrata nomo</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -9068,7 +9068,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation>Malŝlosi ŝlosilsekurkopion</translation>
+        <translation>Malŝlosi ŝlosilan sekurkopion</translation>
     </message>
 </context>
 <context>
@@ -9453,7 +9453,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Tempolinia antaŭvido</translation>
+        <translation>Antaŭrigardo de tempolinio</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9478,7 +9478,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Kontrolu kiam sendantaj uzantonomoj estas montrataj super mesaĝoj. En balona reĝimo, via propra uzantonomo ĉiam estas kaŝita. En malgrandaj ĉambroj, avataraĵoj kaj balonaj koloroj estas ofte sufiĉa kunteksto.</translation>
+        <translation>Kontroli kiam sendantaj uzantnomoj estas montrataj super mesaĝoj. En bulbana reĝimo, via propra uzantnomo estas ĉiam kaŝita. En pli malgrandaj ĉambroj, avataroj kaj bulbaj koloroj estas ofte sufiĉa kunteksto.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9590,7 +9590,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation>Emoji</translation>
+        <translation>Bildosignoj</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9816,8 +9816,8 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Kontrolas vian &lt;a href="%1"&gt;Ĉeeston&lt;/a&gt; statuson en la Matrix reto.
-Aŭtomata estas aŭ 'enreta' aŭ 'nedisponebla' (post 5 minutoj da neaktiveco).</translation>
+        <translation>Kontrolas vian &lt;a href="%1"&gt;Ĉeecon&lt;/a&gt; staton en la Matrix reto.
+Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9847,12 +9847,12 @@ Aŭtomata estas aŭ 'enreta' aŭ 'nedisponebla' (post 5 minutoj da neaktiveco).<
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Uzanto-identigilo</translation>
+        <translation>Uzanta ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Hejmservilo</translation>
+        <translation>Hejma servilo</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -9887,7 +9887,7 @@ Aŭtomata estas aŭ 'enreta' aŭ 'nedisponebla' (post 5 minutoj da neaktiveco).<
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation>Ignoritaj uzantoj</translation>
+        <translation>Ignorataj uzantoj</translation>
     </message>
     <message>
         <location line="+12"/>

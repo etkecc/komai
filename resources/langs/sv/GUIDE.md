@@ -31,3 +31,12 @@ The existing translations are mostly impersonal ("Kunde inte gå med i rum"); fo
 
 - The existing translations use ASCII `...` for ellipsis; `…` (U+2026) is also acceptable.
 - Buttons/labels: imperative ("Spara", "Avbryt", "Skicka").
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n medlem", "%n medlemmar"]`.

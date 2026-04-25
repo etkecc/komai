@@ -30,3 +30,13 @@ Prefer **impersonal constructions** ("Не вдалося приєднатися
 - For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Ukrainian's typographic convention is `«…»` if you do use them.
 - Use the **horizontal ellipsis `…`** (U+2026) — existing translations prefer it.
 - Buttons/labels: use infinitive ("Зберегти", "Скасувати", "Надіслати").
+
+## Plural forms
+
+This language uses **3 plural forms**, in CLDR canonical order:
+
+1. **one** — n%10 = 1 and n%100 ≠ 11 (e.g., 1, 21, 31, 41, …)
+2. **few** — n%10 ∈ {2, 3, 4} and n%100 ∉ {12, 13, 14} (e.g., 2-4, 22-24, 32-34, …)
+3. **many** — everything else, including 0 (e.g., 0, 5-20, 25-30, …)
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n учасник", "%n учасники", "%n учасників"]`.

@@ -33,3 +33,9 @@ Chinese has no T-V distinction. Use the second person **你** when direct addres
 - Use full-width quotes **「」** for quoted text (Taiwan/HK convention).
 - Ellipsis: **`……`** (two U+2026, Chinese convention) or a single `…`.
 - No space between Chinese text and placeholders.
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n 名成員"]`.

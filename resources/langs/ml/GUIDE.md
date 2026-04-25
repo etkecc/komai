@@ -29,3 +29,12 @@ Use respectful/neutral register. The existing translations favour impersonal con
 
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - Technical loanwords in common use (e.g., ത്രെഡ്, എൻക്രിപ്ഷൻ) are acceptable transliterations; prefer native terms when they are widely understood.
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n അംഗം", "%n അംഗങ്ങൾ"]`.

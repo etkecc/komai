@@ -32,3 +32,9 @@ Chinese has no T-V distinction. Use the second person **你** when direct addres
 - The colon before values/parameters is often written as `：` (full-width), matching the existing translations (`"踢出用户：%1"`).
 - Ellipsis: **`……`** (two U+2026 characters, Chinese convention) or a single `…` — follow what the existing translation uses in similar contexts.
 - No space between Chinese text and placeholders: `踢出用户：%1` (no space around `：`).
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n 名成员"]`.

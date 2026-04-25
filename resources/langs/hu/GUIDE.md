@@ -31,3 +31,9 @@ Prefer **impersonal constructions** ("Ez az üzenet nincs titkosítva!", "Nem si
 - The existing translations use ASCII `...` for ellipsis — continue that, or use `…` (U+2026) if the source uses it.
 - Buttons/labels: imperative ("Mentés", "Mégsem", "Küldés").
 - Hungarian uses **vowel-harmony article forms** (`a` / `az`); match the following word's initial sound correctly (common mistake).
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n tag"]`.

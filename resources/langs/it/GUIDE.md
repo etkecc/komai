@@ -30,3 +30,12 @@ Prefer **impersonal / passive constructions** ("Impossibile accedere a...", "Esp
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
 - Buttons/labels: use infinitive ("Salva", "Annulla", "Invia").
 - Capitalisation: sentence case (first word of a sentence/label only).
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n membro", "%n membri"]`.

@@ -31,3 +31,12 @@ Greek UI conventionally uses **impersonal / passive constructions** — prefer t
 - For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Greek's typographic convention is `«…»` if you do use them.
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - Buttons/labels: use infinitive-style verbal noun or imperative ("Αποθήκευση", "Ακύρωση", "Αποστολή").
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n μέλος", "%n μέλη"]`.

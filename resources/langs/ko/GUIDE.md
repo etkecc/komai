@@ -37,3 +37,9 @@ Do not use plain (반말) or extremely formal (하십시오체) forms.
 - Korean uses regular ASCII punctuation `. , ? !` (not full-width forms).
 - Put a space between Korean text and Latin-script tokens / placeholders where natural (e.g., `사용자 %1`).
 - Quoted text: use `"…"` (ASCII) or Korean-style `「…」`.
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n 멤버"]`.

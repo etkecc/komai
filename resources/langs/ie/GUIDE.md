@@ -31,3 +31,12 @@ Interlingue has no T-V distinction; use **"vu"** as the universal second-person 
 
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
 - Buttons/labels: use infinitive (Interlingue infinitive ends in `-ar`/`-er`/`-ir`).
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n membre", "%n membres"]`.

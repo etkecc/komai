@@ -31,3 +31,9 @@ Vietnamese UI conventionally uses **"bạn"** for the user — neutral, polite, 
 - Vietnamese uses ASCII punctuation `. , ? !`.
 - Preserve diacritics precisely — Vietnamese tone marks are semantically critical (dấu sắc, huyền, hỏi, ngã, nặng).
 - Buttons/labels: use verb forms ("Lưu", "Hủy", "Gửi").
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n thành viên"]`.

@@ -29,3 +29,12 @@ Esperanto uses **"vi"** for both singular and plural, formal and informal — th
 
 - Use the **horizontal ellipsis `…`** (U+2026) — the existing translations already prefer this.
 - Buttons/labels: use infinitive ("Konservi", "Nuligi", "Sendi").
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n ano", "%n anoj"]`.

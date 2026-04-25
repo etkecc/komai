@@ -33,3 +33,13 @@ Existing strings often use **impersonal** forms ("Nie udało się...", "Zaprosze
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - Buttons/labels: use infinitive ("Zapisz", "Anuluj", "Wyślij").
 - Inclusive forms like "poprosił(a)" appear in the existing translation — use when the referent's gender is unknown.
+
+## Plural forms
+
+Polish uses **3 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1 only
+2. **few** — n%10 ∈ {2, 3, 4} and n%100 ∉ {12, 13, 14} (e.g., 2-4, 22-24, …)
+3. **many** — everything else, including 0 (e.g., 0, 5-21, 25-31, …)
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n członek", "%n członkowie", "%n członków"]`.

@@ -38,3 +38,9 @@ Use the **polite (desu/masu) form** for full sentences — the UI convention in 
 - The existing translations use a regular ASCII colon `:` before values (`"ルームに参加できませんでした: %1"`). Keep that convention for consistency unless the source uses a full-width `：`.
 - Use `…` (U+2026) for ellipsis, not `...`.
 - Avoid unnecessary spaces between Japanese characters and placeholders.
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n メンバー"]`.

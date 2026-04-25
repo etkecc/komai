@@ -30,3 +30,9 @@ Turkish UI commonly uses **impersonal / passive constructions** ("Odaya katılı
 - Use the **horizontal ellipsis `…`** (U+2026) where possible — existing translations prefer it.
 - Turkish uses apostrophes in genitive constructions with proper nouns: `%1'ye`, `Ahmet'e`. This is **correct and expected**; preserve it.
 - Buttons/labels: Turkish UI typically uses infinitive-like forms ("Kaydet", "İptal", "Gönder").
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n üye"]`.

@@ -36,3 +36,9 @@ Persian UI conventionally uses **impersonal / passive constructions** or **forma
 - Use Persian punctuation: **،** (comma), **؛** (semicolon), **؟** (question mark).
 - Use **ZWNJ** (U+200C, zero-width non-joiner) where required for compound words (e.g., `رمزگذاری‌شده`).
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n عضو"]`.

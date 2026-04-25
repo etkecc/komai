@@ -36,3 +36,16 @@ Arabic UIs conventionally use **impersonal or passive constructions** — follow
 - Arabic question mark: `؟` (not `?`).
 - The existing translations are mixed between `…` and `...` for ellipsis — prefer `…` (U+2026) going forward.
 - Keep placeholders `%1`/`%2` in the grammatically correct position for Arabic, reordering from source as needed.
+
+## Plural forms
+
+Arabic uses **6 plural forms**, in CLDR canonical order:
+
+1. **zero** — count = 0
+2. **one** — count = 1
+3. **two** — count = 2
+4. **few** — n%100 ∈ {3..10} (e.g., 3-10, 103-110, …)
+5. **many** — n%100 ∈ {11..99} (e.g., 11-26, 111-199, …)
+6. **other** — everything else (e.g., 100, 101, 200, 201, …)
+
+Each form must preserve `%n`. The "zero", "one", and "two" forms typically use grammatical-number-specific phrasing without `%n` being numeric (Arabic naturally renders "no/one/two members" with words rather than digits) — but the literal `%n` token must still appear in the form so Qt can substitute the count at runtime.

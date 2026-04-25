@@ -31,3 +31,13 @@ Prefer **impersonal constructions** where possible. When direct address is unavo
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
 - Buttons/labels: use imperative/infinitive ("Uložit", "Zrušit", "Odeslat").
 - Preserve diacritics precisely (á č ď é ě í ň ó ř š ť ú ů ý ž).
+
+## Plural forms
+
+Czech uses **3 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **few** — count ∈ {2, 3, 4}
+3. **other** — everything else for integer counts, including 0 (e.g., 0, 5, 6, …)
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n člen", "%n členové", "%n členů"]`.

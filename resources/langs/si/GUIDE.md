@@ -30,3 +30,12 @@ Use respectful/neutral register. Prefer impersonal constructions. When direct ad
 - Use the **horizontal ellipsis `…`** (U+2026), not `...`.
 - Sinhala uses ASCII punctuation `. , ? !`.
 - Technical loanwords are acceptable when Sinhala equivalents would be unclear in UI context.
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count is **0 or 1**
+2. **other** — every other integer count
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n සාමාජිකයෙක්", "%n සාමාජිකයන්"]`.

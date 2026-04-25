@@ -31,3 +31,12 @@ Prefer **impersonal constructions** ("Falha ao convidar...", "Utilizador expulso
 
 - Existing translations mostly use ASCII `...` for ellipsis. Continue that, or use `…` (U+2026) consistently — pick one and stick to it within a batch.
 - Buttons/labels: use infinitive ("Guardar", "Cancelar", "Enviar").
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n membro", "%n membros"]`.

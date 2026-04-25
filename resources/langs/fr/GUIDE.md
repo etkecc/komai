@@ -51,3 +51,12 @@ Examples from the existing file:
 - Use the **horizontal ellipsis `…`** (U+2026), not three dots `...`. Example: `"Calling..."` → `"Appel en cours…"`.
 - **Quotes**: prefer ASCII `"…"` in translations — the pipeline emits JSON, and mixing typographic `«` with ASCII `"` inside the same string breaks the JSON envelope. If you do use guillemets « … », both the opening `«` and closing `»` must be typographic — never mix with ASCII `"`.
 - Inclusive language (e.g. "utilisateurs(rices)") is used sparingly in the existing translation — follow the source text's neutrality and don't add inclusive suffixes unless the source clearly addresses a specific audience.
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count is **0 or 1**
+2. **other** — every other integer count
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n membre", "%n membres"]`.

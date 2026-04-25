@@ -30,3 +30,12 @@ Address the user with **je / jij / jou / jouw** — not formal "u". This matches
 - Use the **horizontal ellipsis `…`** (U+2026) where the source uses `...`.
 - Buttons/labels: use infinitive ("Opslaan", "Annuleren", "Verzenden").
 - Capitalisation: sentence case (first word only), matching the source.
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n deelnemer", "%n deelnemers"]`.

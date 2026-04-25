@@ -30,3 +30,12 @@ Prefer **impersonal constructions** — "See sõnum on krüptimata!", "Jututoaga
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - Prefer ASCII `"..."` in translations — the pipeline emits JSON, and mixing typographic `„` with ASCII `"` inside the same string breaks the JSON envelope. If you do use typographic „…", both the opening `„` and closing `"` (U+201C) must be typographic — never mix with ASCII `"`.
 - Buttons/labels: use noun or `-ma` infinitive ("Salvesta", "Tühista", "Saada").
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n liige", "%n liiget"]`.

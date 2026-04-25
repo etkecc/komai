@@ -40,6 +40,8 @@ Komai is a desktop Matrix chat client (fork of nheko). It's a Qt/QML application
 
 14. **Never omit entries from your response**: return exactly one object per input string, in the same order. If a string is ambiguous or you're unsure, translate it literally using the most common UI meaning for its `context`. Do not skip items — missing entries force the pipeline to re-process, costing time and consistency. When truly uncertain, a literal translation is better than nothing.
 
+15. **Plural forms (numerus messages)**: some sources use `%n` as a count placeholder and require multiple grammatical-number forms — these are sent in a **separate translation pass** with a different output shape. Each item returns a `forms` array (one string per form) instead of a single `translation` string. Form count and category labels (`zero` / `one` / `two` / `few` / `many` / `other`) are language-specific — see the per-language GUIDE for the rules that apply. **Every rule above (placeholders, HTML, escapes, mnemonics, shortcuts, etc.) applies to every form individually** — each form must preserve `%n` and any other placeholders / tags / literals from the source.
+
 ## Output format
 
 You will receive a JSON array of objects with `source` and `context` fields (optionally also `location`, `comment`, `extracomment`). Return a JSON array of objects with `source` and `translation` fields. The `source` field must match exactly (it's used as the lookup key). Return **only** the JSON array, no other text.

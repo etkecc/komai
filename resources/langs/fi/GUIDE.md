@@ -30,3 +30,12 @@ Finnish UI typically uses **passive / impersonal** constructions ("Tätä viesti
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - For quotes, follow the common GUIDE's rule (prefer ASCII in JSON); Finnish's typographic convention uses `"..."` (U+201D on both ends — same glyph opening and closing).
 - Buttons/labels: imperative ("Tallenna", "Peruuta", "Lähetä").
+
+## Plural forms
+
+This language uses **2 plural forms**, in CLDR canonical order:
+
+1. **one** — count = 1
+2. **other** — every other integer count, including 0
+
+Each form must preserve `%n`. Example: `%n member(s)` → `["%n jäsen", "%n jäsentä"]`.

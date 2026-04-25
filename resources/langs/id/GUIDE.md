@@ -30,3 +30,9 @@ Use **"Anda"** (polite, UI-conventional) for direct address, or drop pronouns en
 - Use the **horizontal ellipsis `…`** (U+2026) where possible.
 - Buttons/labels: use the verb stem without prefix ("Simpan", "Batal", "Kirim") — Indonesian UI convention.
 - Capitalisation: sentence case — first word only.
+
+## Plural forms
+
+This language uses **a single plural form** for all counts. When a `numerus` source like `%n member(s)` is presented in the plural-form pass, return one translation that works grammatically regardless of count.
+
+The form must preserve `%n`. Example: `%n member(s)` → `["%n anggota"]`.

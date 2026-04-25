@@ -5592,12 +5592,12 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>Bestimmt, welche Funktionen der Raum unterstützt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished">Mehr erfahren</translation>
+        <translation>Mehr erfahren</translation>
     </message>
 </context>
 <context>

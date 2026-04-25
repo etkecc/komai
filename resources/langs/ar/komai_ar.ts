@@ -5616,12 +5616,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>يحدد الميزات التي تدعمها الغرفة.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished">معرفة المزيد</translation>
+        <translation>اعرف المزيد</translation>
     </message>
 </context>
 <context>

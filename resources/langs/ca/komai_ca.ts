@@ -5592,12 +5592,12 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>Determina quines funcionalitats admet la sala.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished">Més informació</translation>
+        <translation>Més informació</translation>
     </message>
 </context>
 <context>

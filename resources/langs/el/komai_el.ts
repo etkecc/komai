@@ -5592,12 +5592,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>Καθορίζει ποιες λειτουργίες υποστηρίζει το δωμάτιο.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished">Μάθετε περισσότερα</translation>
+        <translation>Μάθετε περισσότερα</translation>
     </message>
 </context>
 <context>

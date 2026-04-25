@@ -4411,7 +4411,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     <message>
         <location line="+21"/>
         <source>Set the global log level, or a comma-separated list of &lt;target&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to 'warn' but disable logging for the 'ui' target, pass 'warn,ui=off'. levels:{trace,debug,info,warn,error,off} The RUST_LOG environment variable is used as a fallback when this flag is not set.</source>
-        <translation type="unfinished"/>
+        <translation>Nastavte globální úroveň logování nebo seznam párů &lt;target&gt;=&lt;level&gt; oddělených čárkami, případně obojí. Například pro nastavení výchozí úrovně logování na 'warn' a zároveň zakázání logování pro cíl 'ui' zadejte 'warn,ui=off'. Úrovně: {trace,debug,info,warn,error,off} Proměnná prostředí RUST_LOG se použije jako záložní hodnota, pokud tento příznak není nastaven.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5598,12 +5598,12 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>Určuje, které funkce místnost podporuje.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished">Zjistit více</translation>
+        <translation>Zjistit více</translation>
     </message>
 </context>
 <context>
@@ -6658,7 +6658,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Tyto zkratky platí v režimu výběru po zavření nápovědy. Viz &lt;a href="%1"&gt;úplný průvodce&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+3"/>

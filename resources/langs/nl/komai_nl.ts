@@ -3830,7 +3830,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
         <location line="+8"/>
         <source>%1 replied with a spoiler.</source>
         <comment>Format a reply in a notification. %1 is the sender.</comment>
-        <translation type="unfinished"/>
+        <translation>%1 antwoordde met een spoiler.</translation>
     </message>
     <message>
         <location line="+10"/>

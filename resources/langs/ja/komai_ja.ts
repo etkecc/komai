@@ -5586,12 +5586,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>ルームがサポートする機能を決定します。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished">詳細を見る</translation>
+        <translation>詳細を見る</translation>
     </message>
 </context>
 <context>

@@ -242,7 +242,12 @@ def inject_translations(ts_path: str, translations: dict[tuple[str, str], str]):
 
 
 _PLACEHOLDER_RE = re.compile(r"%(?:L?\d|n)")
-_HTML_TAG_RE = re.compile(r"</?[a-zA-Z][^>]*/?>")
+# Match angle-bracketed tokens whose first letter is any Unicode letter,
+# not just ASCII a-zA-Z. CLI-style placeholders like `<target>=<level>`
+# legitimately get localized to `<cíl>=<úroveň>` in some languages, and
+# an ASCII-only regex would count tag-preservation incorrectly there.
+# `\w` in Python 3 is Unicode-aware by default for str patterns.
+_HTML_TAG_RE = re.compile(r"</?\w[^>]*/?>")
 _SHORTCUT_RE = re.compile(
     r"(?:Ctrl|Alt|Shift|Meta|Cmd|Super)\+"
     r"(?:F\d+|[A-Za-z0-9]+|Enter|Return|Space|Tab|Esc|Escape|"

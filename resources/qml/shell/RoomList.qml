@@ -17,8 +17,25 @@ Page {
     required property var tabController
     property int density: Komai.density
     property int avatarSize: Komai.iconSize
-    property bool collapsed: false
     property var communitiesTarget: null
+
+    // Row layout metrics mirrored from RoomListItemDelegate (and the matching
+    // space-header / footer rows) so we can compute the widths at which the
+    // sidebar renders without clipping the avatar.  All inner rows share the
+    // same outer paddingMedium+paddingSmall margin on each side and an
+    // avatarSize-wide leading icon, so that's the only floor we need.
+    readonly property int iconOnlyMinWidth: 2 * (Komai.paddingMedium + Komai.paddingSmall)
+        + avatarSize
+    // The room list has no depth indent or other "full layout" metric beyond
+    // the icon-only minimum, so the dead zone above iconOnlyMinWidth is just
+    // a small slack region in which the splitter still snaps to icon-only on
+    // release rather than wedging a barely-useful sliver of text content.
+    readonly property int fullMinWidth: iconOnlyMinWidth + Komai.paddingMedium
+
+    // True when the sidebar is too narrow to render the full layout; in this
+    // mode rows, the space header, the to-top button, and footers all
+    // collapse to icon-only so the avatar is never clipped.
+    readonly property bool iconOnly: width < fullMinWidth
     property bool interactionSuppressed: false
     readonly property Item roomListLastActionButton: null
     property bool pendingGoToTopRequest: false
@@ -148,7 +165,7 @@ Page {
 
         RoomListSpaceHeader {
             Layout.fillWidth: true
-            collapsed: roomListPage.collapsed
+            collapsed: roomListPage.iconOnly
             avatarSize: roomListPage.avatarSize
         }
 
@@ -158,7 +175,7 @@ Page {
             readonly property bool hasVerticalOverflow: contentHeight > height
             readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
             readonly property bool scrollbarVisible: {
-                if (roomListPage.collapsed)
+                if (roomListPage.iconOnly)
                     return false;
                 switch (scrollbarPolicy) {
                 case Settings.ScrollbarPolicy.Always:
@@ -367,7 +384,7 @@ Page {
             delegate: RoomListItemDelegate {
                 density: roomListPage.density
                 avatarSize: roomListPage.avatarSize
-                collapsed: roomListPage.collapsed
+                collapsed: roomListPage.iconOnly
                 roomContextMenu: roomListContextMenu
                 scrollbarReservedWidth: roomlist.reservedScrollbarWidth
                 tabController: roomListPage.tabController
@@ -418,7 +435,7 @@ Page {
                 id: roomListToTopButton
                 roomList: roomlist
                 scrollbarItem: scrollbar
-                collapsed: roomListPage.collapsed
+                collapsed: roomListPage.iconOnly
                 onHoveredChanged: roomListPage.updateInteractionSuppression()
             }
             RoomListFreezeIndicator {
@@ -436,13 +453,13 @@ Page {
                 RoomListExploreFooter {
                     id: exploreFooter
                     width: parent.width
-                    collapsed: roomListPage.collapsed
+                    collapsed: roomListPage.iconOnly
                     tabController: roomListPage.tabController
                 }
                 RoomListBotChatFooter {
                     id: botChatFooter
                     width: parent.width
-                    collapsed: roomListPage.collapsed
+                    collapsed: roomListPage.iconOnly
                 }
             }
 

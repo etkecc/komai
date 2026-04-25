@@ -130,14 +130,17 @@ Rectangle {
                 id: roomListC
 
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
-                collapsedWidth: Math.max(Komai.navigationRowHeight, 1)
-                preferredWidth: Math.max(Settings.navigationRoomListWidthPx, collapsedWidth)
+                collapsedWidth: Math.max(Komai.navigationRowHeight,
+                                         roomlist.iconOnlyMinWidth, 1)
+                snapUpperWidth: roomlist.fullMinWidth
+                preferredWidth: Settings.navigationRoomListWidthPx > collapsedWidth
+                                ? Settings.navigationRoomListWidthPx
+                                : collapsedWidth
 
                 RoomList {
                     id: roomlist
 
                     adaptiveView: adaptiveView
-                    collapsed: parent.collapsed
                     communitiesTarget: communitiesList
                     height: adaptiveView.height
                     timelineRoot: chatPage.timelineRoot

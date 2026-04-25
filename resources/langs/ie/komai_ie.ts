@@ -1029,9 +1029,9 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membre</numerusform>
+            <numerusform>%n membres</numerusform>
         </translation>
     </message>
     <message>
@@ -1796,9 +1796,9 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Transmisser %n mesage?</numerusform>
+            <numerusform>Transmisser %n mesages?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Transmisser %n mesage selectat a &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Transmisser %n mesages selectat a &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Deleter %n mesage selectat?</numerusform>
+            <numerusform>Deleter %n mesages selectat?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Verificar por debloquar mesages criptat.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Aplicat permissiones a %n spacie filia.</numerusform>
+            <numerusform>Aplicat permissiones a %n spacies filias.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Fallit aplicar permissiones a %n spacie filia: %1</numerusform>
+            <numerusform>Fallit aplicar permissiones a %n spacies filias: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5639,9 +5639,9 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membre in %1</numerusform>
+            <numerusform>%n membres in %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7589,9 +7589,9 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n responsa al filament</numerusform>
+            <numerusform>%n responsas al filament</numerusform>
         </translation>
     </message>
     <message>
@@ -7615,9 +7615,9 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n responsa al filament</numerusform>
+            <numerusform>%n responsas al filament</numerusform>
         </translation>
     </message>
     <message>
@@ -7792,9 +7792,9 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n responsa al filament</numerusform>
+            <numerusform>%n responsas al filament</numerusform>
         </translation>
     </message>
     <message>
@@ -7826,9 +7826,9 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membre</numerusform>
+            <numerusform>%n membres</numerusform>
         </translation>
     </message>
     <message>
@@ -8093,9 +8093,9 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n mesage selectat</numerusform>
+            <numerusform>%n mesages selectat</numerusform>
         </translation>
     </message>
     <message>
@@ -8239,9 +8239,11 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n chambre necessita attention</numerusform>
+            <numerusform>
+%n chambres necessita attention</numerusform>
         </translation>
     </message>
 </context>

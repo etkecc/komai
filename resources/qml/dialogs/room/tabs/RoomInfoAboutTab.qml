@@ -134,8 +134,10 @@ Item {
                     }
 
                     Label {
-                        text: qsTr("Determines which features the room supports. %1.")
-                            .arg('<a href="https://spec.matrix.org/v1.17/rooms/">' + qsTr("Learn more") + '</a>')
+                        text: qsTr("Determines which features the room supports.")
+                            + ' <a href="https://spec.matrix.org/v1.17/rooms/">'
+                            + qsTr("Learn more")
+                            + "</a>."
                         color: versionRowHover.hovered ? palette.brightText : palette.buttonText
                         font.pointSize: Settings.uiFontSizePt
                         wrapMode: Text.Wrap

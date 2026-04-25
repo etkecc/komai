@@ -1796,9 +1796,9 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Transférer %n message ?</numerusform>
+            <numerusform>Transférer %n messages ?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Transférer %n message sélectionné à &lt;b&gt;%1&lt;/b&gt; ?</numerusform>
+            <numerusform>Transférer %n messages sélectionnés à &lt;b&gt;%1&lt;/b&gt; ?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Supprimer %n message sélectionné ?</numerusform>
+            <numerusform>Supprimer %n messages sélectionnés ?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Permissions appliquées à %n espace enfant.</numerusform>
+            <numerusform>Permissions appliquées à %n espaces enfants.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Échec de l'application des permissions à %n espace enfant : %1</numerusform>
+            <numerusform>Échec de l'application des permissions à %n espaces enfants : %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5639,9 +5639,9 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n membre dans %1</numerusform>
+            <numerusform>%n membres dans %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7589,9 +7589,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n réponse dans le fil</numerusform>
+            <numerusform>%n réponses dans le fil</numerusform>
         </translation>
     </message>
     <message>
@@ -7615,9 +7615,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n réponse dans le fil</numerusform>
+            <numerusform>%n réponses dans le fil</numerusform>
         </translation>
     </message>
     <message>
@@ -7792,9 +7792,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n réponse dans le fil</numerusform>
+            <numerusform>%n réponses dans le fil</numerusform>
         </translation>
     </message>
     <message>
@@ -7826,7 +7826,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n membre</numerusform>
             <numerusform>%n membres</numerusform>
         </translation>
@@ -8093,9 +8093,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n message sélectionné</numerusform>
+            <numerusform>%n messages sélectionnés</numerusform>
         </translation>
     </message>
     <message>
@@ -8239,9 +8239,11 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n salon nécessite votre attention</numerusform>
+            <numerusform>
+%n salons nécessitent votre attention</numerusform>
         </translation>
     </message>
 </context>

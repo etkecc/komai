@@ -56,6 +56,28 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
 
+      - name: Wire host-mounted flatpak-builder state
+        # Mirrors the ci.yml host-mount pattern (see
+        # docs/architecture/ci.md). When /var/lib/komai-ci is
+        # writable on the runner host, flatpak-builder's state dir
+        # lives on the dedicated cache disk — no actions/cache
+        # round-trip (the state can be ~multi-GB per release).
+        # `build-flatpak` runs directly on the host (no `container:`
+        # block), so we wire the symlink directly to a host path
+        # without needing a `volumes:` bind-mount on the job.
+        # Falls back to actions/cache below if the host-mount is
+        # absent (workflow stays portable).
+        run: |
+          if mkdir -p /var/lib/komai-ci/flatpak-state 2>/dev/null; then
+            mkdir -p var/build/flatpak
+            ln -sfn /var/lib/komai-ci/flatpak-state var/build/flatpak/.flatpak-builder
+            echo "FLATPAK_HOST_OK=true" >> "${GITHUB_ENV}"
+            echo "Host-mounted flatpak-builder state active"
+          else
+            echo "FLATPAK_HOST_OK=false" >> "${GITHUB_ENV}"
+            echo "No host-mount; falling back to actions/cache"
+          fi
+
       # Persist flatpak-builder's state-dir across releases. The dir
       # accumulates OSTree module caches, downloaded source tarballs,
       # and an internal ccache — which together turn a 41 min cold
@@ -64,7 +86,12 @@ jobs:
       # cleanly; restore-keys fallback lets a manifest change still
       # benefit from previously-downloaded tarballs and unchanged
       # module builds.
+      #
+      # Gated by FLATPAK_HOST_OK from the wire step above: skipped
+      # on runners with the host-mounted cache disk (state persists
+      # there directly). Runs as before on any other runner.
       - name: Cache flatpak-builder state
+        if: env.FLATPAK_HOST_OK != 'true'
         uses: actions/cache@v5
         with:
           path: var/build/flatpak/.flatpak-builder

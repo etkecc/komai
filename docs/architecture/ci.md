@@ -357,8 +357,18 @@ post step generated):
 
 ## Outstanding work
 
-Caching the `publish.yml` jobs (Flatpak / AppImage / Snap) is the
-next frontier. Each currently builds from cold on every release.
-Flatpak has a partial actions/cache for its builder state dir;
-host-mount migration would cut release wall-time substantially. See
-the maintainers' release notes for current status.
+The Flatpak job in `publish.yml` uses the same host-mount-with-
+fallback pattern as `ci.yml`: the wire step checks for a writable
+`/var/lib/komai-ci`, symlinks the flatpak-builder state dir into
+it when present, and gates the `actions/cache` step on a
+`FLATPAK_HOST_OK` flag. Since the job runs directly on the host
+(no `container:` block), the symlink works without any volume
+bind-mount.
+
+The AppImage and Snap jobs still build from cold on every release.
+Both use Docker (`just appimage-build-docker`,
+`just snap-build-docker`), so threading host-mounted caches
+through to the docker invocation is more invasive than the Flatpak
+case — the `just` recipes themselves need to know about the
+mount path. Worth tackling alongside a real release for live
+measurement.

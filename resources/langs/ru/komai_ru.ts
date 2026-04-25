@@ -9298,32 +9298,32 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation type="unfinished">Тема</translation>
+        <translation>Тема</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation type="unfinished"/>
+        <translation>Нужно больше тем? Импортируйте из &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; или &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;создайте свою&lt;/a&gt; (требуется перезапуск).</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation type="unfinished"/>
+        <translation>Шрифты</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Font family</source>
-        <translation type="unfinished"/>
+        <translation>Семейство шрифтов</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation type="unfinished"/>
+        <translation>Большинство элементов интерфейса изменяются в реальном времени. Некоторые метки могут обновиться только после перезапуска приложения.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Emoji font family</source>
-        <translation type="unfinished">Семейство шрифтов для эмодзи</translation>
+        <translation>Семейство шрифтов эмодзи</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -9333,27 +9333,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+13"/>
         <source>Interaction mode</source>
-        <translation type="unfinished"/>
+        <translation>Режим взаимодействия</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation type="unfinished"/>
+        <translation>Режим рабочего стола ориентирован на мышь. Сенсорный режим предпочитает жесты смахивания и касания.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation type="unfinished"/>
+        <translation>Включить жесты: смахивание между списком комнат и таймлайном, а также смахивание сообщения для ответа.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Controls when scrollbars are shown across the app.</source>
-        <translation type="unfinished"/>
+        <translation>Управляет отображением полос прокрутки в приложении.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Layout</source>
-        <translation type="unfinished"/>
+        <translation>Расположение</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9373,17 +9373,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+11"/>
         <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Отображается для пользователей и комнат без собственного аватара.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Communities sidebar</source>
-        <translation type="unfinished"/>
+        <translation>Боковая панель сообществ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation type="unfinished"/>
+        <translation>Показывать индикаторы непрочитанного (счётчики, подсветку строки и левый маркер) на фильтрах сообществ и тегов.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9393,47 +9393,47 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation type="unfinished"/>
+        <translation>Отображает все твои комнаты в одном списке. Комнаты, принадлежащие фильтрам, отмеченным как исключённые ниже, будут скрыты из этого списка.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Комнаты, отмеченные как &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; через API тегов комнат Matrix.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation type="unfinished"/>
+        <translation>Личные чаты с реальными людьми, за исключением пользователей, &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;определённых&lt;/a&gt; как боты эвристически.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation type="unfinished"/>
+        <translation>Личные чаты, в которых собеседник &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;определён&lt;/a&gt; как бот или сервисный аккаунт моста.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation type="unfinished"/>
+        <translation>Комнаты с несколькими участниками, которые не являются личными чатами (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; и другие).</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation type="unfinished"/>
+        <translation>Комнаты, помеченные &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; домашним сервером для административных сообщений. Подробнее в модуле &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; спецификации Matrix.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Комнаты, отмеченные как &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; через API тегов комнат Matrix.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room list</source>
-        <translation type="unfinished"/>
+        <translation>Список комнат</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation type="unfinished"/>
+        <translation>Показывать индикаторы непрочитанного (счётчики, жирное название комнаты, анимацию аватара, подсветку строки и левый маркер) рядом с комнатами.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9443,57 +9443,57 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+24"/>
         <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation type="unfinished"/>
+        <translation>Определяет, будет ли клик по комнате переиспользовать активную вкладку или открывать новую. Комнаты с уже открытой вкладкой всегда её активируют.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tab bar</source>
-        <translation type="unfinished"/>
+        <translation>Панель вкладок</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation type="unfinished"/>
+        <translation>Предварительно отрисованные ленты недавно закрытых комнат обеспечивают мгновенное переключение, но увеличивают потребление CPU и ОЗУ. Открытые вкладки всегда предварительно отрисованы. Установите 0, чтобы хранить только открытые вкладки.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
         <source>Presentation</source>
-        <translation type="unfinished"/>
+        <translation>Представление</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>Предпросмотр ленты</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation type="unfinished"/>
+        <translation>Выберите, остаются ли сообщения на одной стороне или располагаются напротив друг друга в зависимости от отправителя.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum message width (%)</source>
-        <translation type="unfinished"/>
+        <translation>Максимальная ширина сообщения (%)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation type="unfinished"/>
+        <translation>Процент доступной ширины ленты, который может занять одно сообщение.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation type="unfinished"/>
+        <translation>Выберите, как назначаются цвета отправителей в таймлайне и фонах пузырьков.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>Управляет отображением имён отправителей над сообщениями. В режиме пузырьков своё имя пользователя всегда скрыто. В небольших комнатах аватарки и цвета пузырьков зачастую дают достаточно контекста.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"/>
+        <translation>При включённом пузырьковом макете рядом с собственными сообщениями отображается аватар. Это улучшает симметрию и упрощает определение авторства.</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -9503,23 +9503,23 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Некоторые сообщения, особенно с эмодзи вроде 🎊, ☀️ или 🌦️, могут отображать красивый &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;эффект в ленте&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>Скрывает ответы треда из основного таймлайна, показывая только корневые сообщения. Можно переопределить для каждой комнаты в Информации о комнате → Настройки.&lt;br&gt;⚠️ Отслеживание непрочитанных по отдельным тредам не поддерживается — ответы в старых тредах можно пропустить.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
         <source>Feedback</source>
-        <translation type="unfinished"/>
+        <translation>Обратная связь</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation type="unfinished"/>
+        <translation>Показывать, прочитаны ли твои сообщения. Если домашний сервер не поддерживает подтверждения прочтения, комнаты могут не помечаться как прочитанные.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9535,27 +9535,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation type="unfinished"/>
+        <translation>Список реакций, закреплённых на панели действий, через запятую. Оставшиеся слоты заполняются наиболее используемыми реакциями для каждой комнаты.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Images handling</source>
-        <translation type="unfinished"/>
+        <translation>Обработка изображений</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>Зашифрованные изображения &lt;a href="komai://media-cache"&gt;кешируются&lt;/a&gt; в расшифрованном виде на диске (автоматически очищаются периодически).</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Video handling</source>
-        <translation type="unfinished"/>
+        <translation>Обработка видео</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>По возможности воспроизводится потоком; зашифрованное или непрокручиваемое видео &lt;a href="komai://media-cache"&gt;кэшируется&lt;/a&gt; на диске (периодически очищается автоматически).</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9565,7 +9565,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>По возможности воспроизводится потоком; зашифрованное или непрокручиваемое аудио &lt;a href="komai://media-cache"&gt;кэшируется&lt;/a&gt; на диске (периодически очищается автоматически).</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9575,32 +9575,32 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
         <source>Input</source>
-        <translation type="unfinished"/>
+        <translation>Ввод</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which Enter key combination sends messages.</source>
-        <translation type="unfinished"/>
+        <translation>Выберите, какая комбинация клавиши Enter отправляет сообщения.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Управляет автоматическим преобразованием синтаксиса &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; в сообщение &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; с запасным вариантом в виде обычного текста Markdown.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Показывать встроенный выбор комнаты при вводе символа решётки (#) в поле сообщения.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Показывать встроенный выбор пользователя при вводе символа @ в поле сообщения.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation type="unfinished">Эмодзи</translation>
+        <translation>Эмодзи</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9610,22 +9610,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Показывать встроенный выбор эмодзи при вводе двоеточия (:) в поле сообщения.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Только встроенный выбор эмодзи: предпочитать гендерные варианты, определённые в Unicode (мужской/женский), если доступны. Явный поиск другого пола по-прежнему работает. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Подробнее&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Только встроенный выбор эмодзи: предпочитать один оттенок кожи, если доступен. Явный поиск другого оттенка кожи по-прежнему работает. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Подробнее&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Extras</source>
-        <translation type="unfinished"/>
+        <translation>Дополнительно</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -9635,32 +9635,32 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Enable notifications for this account</source>
-        <translation type="unfinished"/>
+        <translation>Включить уведомления для этого аккаунта</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation type="unfinished"/>
+        <translation>Управляет переключателем уведомлений на уровне аккаунта Matrix на домашнем сервере. Отключи, чтобы заглушить уведомления на всех клиентах/устройствах.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>System notifications</source>
-        <translation type="unfinished"/>
+        <translation>Системные уведомления</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation type="unfinished"/>
+        <translation>Уведомлять о полученных сообщениях, когда клиент не в фокусе. Работает только при включённых уведомлениях аккаунта выше.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how much message text to include in notifications.</source>
-        <translation type="unfinished"/>
+        <translation>Выберите, сколько текста сообщения включать в уведомления.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation type="unfinished"/>
+        <translation>Показывать оповещение при получении сообщения (например, активность значка на панели задач).</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -9675,37 +9675,37 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Показывать количество комнат, требующих внимания, на значке приложения/панели задач. В Linux нестандартным профилям нужен отдельный ярлык для надёжного отображения значков. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Подробнее&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System tray</source>
-        <translation type="unfinished"/>
+        <translation>Системный трей</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Keep the application running in the background after closing the client window.</source>
-        <translation type="unfinished">Поддерживать приложение запущенным в фоне после закрытия окна.</translation>
+        <translation>Продолжать работу приложения в фоне после закрытия окна клиента.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Start the application in the background without showing the client window.</source>
-        <translation type="unfinished">Запускать приложение в фоне, без открытия окна.</translation>
+        <translation>Запускать приложение в фоновом режиме без отображения окна клиента.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Window blur</source>
-        <translation type="unfinished"/>
+        <translation>Размытие окна</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation type="unfinished"/>
+        <translation>Задайте задержку после потери фокуса перед началом размытия. Установите 0 для немедленного размытия. Максимум — 3600 секунд (1 час).</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>Общее</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9715,17 +9715,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+4"/>
         <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation type="unfinished">В случае, если домашний сервер не предоставляет адрес TURN/STUN сервера, будет использоваться turn.matrix.org.</translation>
+        <translation>Использовать turn.matrix.org как резервный сервер relay/STUN, если домашний сервер не предоставляет его.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Devices</source>
-        <translation type="unfinished">Устройства</translation>
+        <translation>Устройства</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Microphone</source>
-        <translation type="unfinished">Микрофон</translation>
+        <translation>Микрофон</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9745,42 +9745,42 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Ringtone</source>
-        <translation type="unfinished">Мелодия вызова</translation>
+        <translation>Мелодия звонка</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Screen sharing</source>
-        <translation type="unfinished"/>
+        <translation>Демонстрация экрана</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation type="unfinished"/>
+        <translation>Целевое количество кадров в секунду для демонстрации экрана. Меньшее значение снижает нагрузку на CPU и трафик.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
         <source>D-Bus</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D-Bus access</source>
-        <translation type="unfinished"/>
+        <translation>Доступ D-Bus</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation type="unfinished"/>
+        <translation>Выберите, какой уровень &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;доступа D-Bus&lt;/a&gt; Komai предоставляет локальным клиентам.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Matrix Rooms Search</source>
-        <translation type="unfinished"/>
+        <translation>Поиск комнат Matrix</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"/>
+        <translation>При включении добавляет поддержку &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; в диалог &lt;a href="komai://rooms-directory"&gt;Обзор публичных комнат&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9795,12 +9795,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
-        <translation type="unfinished">Шифрование</translation>
+        <translation>Шифрование</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation type="unfinished">Отправлять зашифрованные сообщения только тем собеседникам, которых Вы верифицировали. Это повышает безопасность, но требует больше ручных операций для использования оконечного шифрования.</translation>
+        <translation>Требует верификации пользователя для отправки ему зашифрованных сообщений. Это повышает безопасность, но делает E2EE более трудоёмким.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9810,43 +9810,44 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation type="unfinished">Включить загрузку и отправку ключей шифрования в онлайн-хранилище резервных копий.</translation>
+        <translation>Скачивание ключей шифрования сообщений из зашифрованного онлайн-резервного хранилища ключей и загрузка в него.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Presence</source>
-        <translation type="unfinished"/>
+        <translation>Присутствие</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Status policy</source>
-        <translation type="unfinished"/>
+        <translation>Политика статуса</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Управляет статусом &lt;a href="%1"&gt;Присутствия&lt;/a&gt; в сети Matrix.
+Автоматический режим: 'онлайн' или 'недоступен' (после 5 минут бездействия).</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Status message</source>
-        <translation type="unfinished"/>
+        <translation>Статусное сообщение</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Transport</source>
-        <translation type="unfinished"/>
+        <translation>Транспорт</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reject invalid or untrusted server certificates.</source>
-        <translation type="unfinished"/>
+        <translation>Отклонять недействительные или ненадёжные сертификаты сервера.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation type="unfinished"/>
+        <translation>Использовать HTTP/3 для подключения к серверу Matrix, если доступно.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
@@ -9856,27 +9857,27 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>Идентификатор пользователя</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation type="unfinished">Домашний сервер</translation>
+        <translation>Домашний сервер</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Edit profile</source>
-        <translation type="unfinished"/>
+        <translation>Редактировать профиль</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>Устройство</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Device ID</source>
-        <translation type="unfinished">ID устройства</translation>
+        <translation>ID устройства</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -9886,22 +9887,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation type="unfinished"/>
+        <translation>Твой токен доступа предоставляет полный доступ к учётной записи. Не передавай его никому.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>Пользователи</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>Игнорируемые пользователи</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Log out</source>
-        <translation type="unfinished"/>
+        <translation>Выйти</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
@@ -9911,22 +9912,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation type="unfinished">Название</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Platform</source>
-        <translation type="unfinished"/>
+        <translation>Платформа</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>Создано</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>License</source>
-        <translation type="unfinished"/>
+        <translation>Лицензия</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9936,22 +9937,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Fork base</source>
-        <translation type="unfinished"/>
+        <translation>База форка</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Fluent)</source>
-        <translation type="unfinished"/>
+        <translation>Набор иконок (Fluent)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Font Awesome)</source>
-        <translation type="unfinished"/>
+        <translation>Набор иконок (Font Awesome)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Default avatars (Boring Avatars)</source>
-        <translation type="unfinished"/>
+        <translation>Аватары по умолчанию (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

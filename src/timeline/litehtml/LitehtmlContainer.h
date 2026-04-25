@@ -63,6 +63,9 @@ public:
                                    litehtml::font_metrics *fm) override;
     void delete_font(litehtml::uint_ptr hFont) override;
     int text_width(const char *text, litehtml::uint_ptr hFont) override;
+    void split_text(const char *text,
+                    const std::function<void(const char *)> &on_word,
+                    const std::function<void(const char *)> &on_space) override;
     void draw_text(litehtml::uint_ptr hdc,
                    const char *text,
                    litehtml::uint_ptr hFont,

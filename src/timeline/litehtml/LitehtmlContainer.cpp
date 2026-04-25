@@ -123,6 +123,65 @@ LitehtmlContainer::text_width(const char *text, litehtml::uint_ptr hFont)
 }
 
 void
+LitehtmlContainer::split_text(const char *text,
+                              const std::function<void(const char *)> &on_word,
+                              const std::function<void(const char *)> &on_space)
+{
+    // Litehtml's default split_text only breaks on whitespace and CJK chars,
+    // so a long URL with no spaces becomes a single unbreakable text element
+    // and overflows narrow containers.  Split URL-shaped runs at separator
+    // chars and force a break inside very long unbreakable runs so line_box
+    // has wrap opportunities.  Each emitted segment becomes its own el_text;
+    // line_box only inserts an actual line break between them when the next
+    // segment would overflow, so short text is unaffected visually.
+    constexpr int kForceBreakAfter = 30;
+    auto isUrlBreakChar            = [](QChar c) {
+        const ushort u = c.unicode();
+        return u == u'/' || u == u'?' || u == u'&' || u == u'=' || u == u'#' || u == u':';
+    };
+
+    const QString str = QString::fromUtf8(text);
+    QString word;
+    auto flushWord = [&]() {
+        if (!word.isEmpty()) {
+            on_word(word.toUtf8().constData());
+            word.clear();
+        }
+    };
+
+    for (int i = 0; i < str.size(); ++i) {
+        const QChar c  = str[i];
+        const ushort u = c.unicode();
+
+        if (u == u' ' || u == u'\t' || u == u'\n' || u == u'\r' || u == u'\f') {
+            flushWord();
+            const QString sp(c);
+            on_space(sp.toUtf8().constData());
+        } else if (u >= 0x4E00 && u <= 0x9FCC) {
+            // CJK character: each is its own break opportunity.
+            flushWord();
+            const QString cjk(c);
+            on_word(cjk.toUtf8().constData());
+        } else {
+            word.append(c);
+            if (isUrlBreakChar(c)) {
+                // Split after the *last* char in a run of URL separators, so
+                // "https://" stays as one segment and we break before the next
+                // path component instead of between the two slashes.
+                const QChar next = (i + 1 < str.size()) ? str[i + 1] : QChar();
+                if (next.isNull() || !isUrlBreakChar(next))
+                    flushWord();
+            } else if (word.size() >= kForceBreakAfter) {
+                // Long unbreakable run with no separator chars: force a chunk
+                // boundary so e.g. base64 strings or hashes can wrap.
+                flushWord();
+            }
+        }
+    }
+    flushWord();
+}
+
+void
 LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
                              const char *text,
                              litehtml::uint_ptr hFont,

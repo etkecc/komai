@@ -1796,9 +1796,9 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Välitetäänkö %n viesti?</numerusform>
+            <numerusform>Välitetäänkö %n viestiä?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Välitetäänkö %n valittu viesti kohteeseen &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Välitetäänkö %n valittua viestiä kohteeseen &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Poistetaanko %n valittu viesti?</numerusform>
+            <numerusform>Poistetaanko %n valittua viestiä?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Vahvista avataksesi salatut viestit.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Käyttöoikeudet asetettu %n alitilalle.</numerusform>
+            <numerusform>Käyttöoikeudet asetettu %n alitilalle.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Käyttöoikeuksien asettaminen %n alitilalle epäonnistui: %1</numerusform>
+            <numerusform>Käyttöoikeuksien asettaminen %n alitilalle epäonnistui: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5639,9 +5639,9 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n jäsen huoneessa %1</numerusform>
+            <numerusform>%n jäsentä huoneessa %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7589,9 +7589,9 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ketjuvastaus</numerusform>
+            <numerusform>%n ketjuvastausta</numerusform>
         </translation>
     </message>
     <message>
@@ -7615,9 +7615,9 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ketjuvastaus</numerusform>
+            <numerusform>%n ketjuvastausta</numerusform>
         </translation>
     </message>
     <message>
@@ -7792,9 +7792,9 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ketjuvastaus</numerusform>
+            <numerusform>%n ketjuvastausta</numerusform>
         </translation>
     </message>
     <message>
@@ -7826,7 +7826,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n jäsen</numerusform>
             <numerusform>%n jäsentä</numerusform>
         </translation>
@@ -8093,9 +8093,9 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n valittu viesti</numerusform>
+            <numerusform>%n valittua viestiä</numerusform>
         </translation>
     </message>
     <message>
@@ -8239,9 +8239,11 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n huone kaipaa huomiota</numerusform>
+            <numerusform>
+%n huonetta kaipaa huomiota</numerusform>
         </translation>
     </message>
 </context>

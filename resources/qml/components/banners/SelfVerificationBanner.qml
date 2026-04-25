@@ -104,9 +104,15 @@ ColumnLayout {
             enabled: !closeBannerButton.hovered
 
             onSingleTapped: {
-                if (SelfVerificationStatus.status === SelfVerificationStatus.UnverifiedDevices)
-                    SelfVerificationStatus.verifyUnverifiedDevices();
-                else
+                if (SelfVerificationStatus.status === SelfVerificationStatus.UnverifiedDevices) {
+                    // Send the user to the Account settings page where each
+                    // unverified session has its own per-device "Verify"
+                    // button. The previous behaviour silently picked one of
+                    // the unverified devices and opened a generic
+                    // verification prompt, which gave no clue about which
+                    // session was being targeted when the user had several.
+                    MainWindow.showUserSettingsPage(UserSettingsModel.TabAccount);
+                } else {
                     // Always go through the prompt path (which re-fetches the
                     // recovery state and opens the appropriate dialog) instead
                     // of running setup_recovery directly. On a fresh login, the
@@ -114,6 +120,7 @@ ColumnLayout {
                     // crypto store catches up, and we don't want a banner click
                     // in that window to silently rewrite the user's recovery.
                     SelfVerificationStatus.promptCurrentVerificationAction();
+                }
             }
         }
     }

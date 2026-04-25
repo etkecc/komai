@@ -62,9 +62,11 @@ The translation pipeline lives in [`bin/translations/translate.py`](../../bin/tr
 
 ### 📝 Translation instructions
 
-The file [`resources/langs/GUIDE.md`](../../resources/langs/GUIDE.md) is the prompt given to the LLM. It contains rules about preserving placeholders (`%1`, `%2`, `%L1`), HTML tags, XML entities, keyboard shortcuts, Qt mnemonic accelerators (`&File` / `&&`), Matrix vocabulary consistency, quote style, and untranslatable terms (Matrix, Komai, etc.).
+The file [`resources/langs/GUIDE.md`](../../resources/langs/GUIDE.md) is the prompt given to the LLM. It contains rules about preserving placeholders (`%1`, `%2`, `%L1`), HTML tags, XML entities, keyboard shortcuts, Qt mnemonic accelerators (`&File` / `&&`), Matrix vocabulary consistency, quote style (ASCII-preferred for safe JSON framing), and untranslatable terms (Matrix, Komai, etc.).
 
-Optional per-language guides can be placed at `resources/langs/{LANGUAGE}/GUIDE.md` (e.g., `resources/langs/de/GUIDE.md` for German-specific instructions like formal/informal address). If present, they are appended to the general guide.
+Per-language guides live at `resources/langs/{LANGUAGE}/GUIDE.md` (e.g., `resources/langs/de/GUIDE.md` for German). They are appended to the general guide when translating that language. Every language Komai ships has one.
+
+When you add a new language, write a per-language guide before running the AI translator — even a short one improves output quality dramatically. For languages with existing translations, the most useful guides are **mined from the corpus**: sample 100-300 already-translated entries, identify register, vocabulary, and typography conventions in actual use, and document them. For languages without prior translations, write a minimal register/tone primer and let the model infer the rest from the common GUIDE.
 
 ### 🔤 Translating a single language
 
@@ -114,10 +116,27 @@ just translations-update
 # 2. Translate all languages
 just translations-claude-translate-all
 
-# 3. Review the diff, commit
+# 3. Pick one canonical translation per source string (optional but recommended)
+just translations-canonicalize
+
+# 4. Review the diff, commit
 git diff resources/langs/
 git add resources/langs/ && git commit -m "Update translations"
 ```
+
+### 🧹 Canonicalizing inconsistencies
+
+```sh
+just translations-canonicalize             # all languages
+just translations-canonicalize --lang de   # single language
+just translations-canonicalize --dry-run   # preview without writing
+```
+
+The same source string can appear in many `<context>` blocks (different .qml files, different message classes). The AI pipeline translates each occurrence independently and may pick slightly different variants ("delete" vs "remove", "settings" vs "preferences"). [`bin/translations/normalize-inconsistencies.py`](../../bin/translations/normalize-inconsistencies.py) picks one canonical translation per `(language, source)` pair and propagates it across all occurrences, breaking ties by per-language `GUIDE.md` preference and then by frequency. It only chooses among existing translations — it never alters semantics.
+
+### 🛡️ Drift hook
+
+A pre-commit hook (`bin/prek/translations-drift.py`) re-runs `lupdate` against the source tree and compares the result against the committed `.ts` files. Any source change that adds, removes, or moves a translatable string fails the hook, with the suggested fix being `just translations-update`. This prevents `.ts` drift from accumulating silently between translation runs and keeps every PR's translation impact visible. The hook needs Qt's `lupdate` on the system — same assumption as the rest of the build.
 
 ### ⚠️ Caveats
 
@@ -126,7 +145,9 @@ git add resources/langs/ && git commit -m "Update translations"
 - Short or ambiguous strings (single words like "Call", "State") may occasionally be skipped by the model. Re-running picks them up since only unfinished strings are processed. The common `GUIDE.md` explicitly tells the model not to skip, but honours this imperfectly — which is why the script also logs specific skipped sources so you can iterate on the prompt.
 - The validator is intentionally lenient: only placeholder, HTML-tag, `&&`, and keyboard-shortcut preservation are enforced. Cosmetic differences (quote style, whitespace) are not. Tune `validate_translation()` in `bin/translations/translate.py` if false positives or false negatives surface.
 - The script requires the configured LLM CLI to be installed and authenticated (currently `claude`).
-- Very large batches may hit context limits. The default batch size of 75 works well in practice.
+- Very large batches may hit context limits or per-batch CLI timeouts. The default batch size of 75 works well for Latin-script languages; languages with verbose scripts (e.g. Sinhala, Devanagari) can occasionally exceed the per-call timeout — drop to `--batch-size 30` for those if you see timeouts.
+- Running 5 language translations in parallel is a practical ceiling on a typical Anthropic user-tier quota; transient rate-limit kicks beyond that recover on re-run, but burning quota on retries is wasteful. Fewer concurrent runs = more reliable.
+- Translatable strings must not contain inline HTML markup with `%1` substitution (`qsTr("Read the <a href=\"%1\">guide</a>.").arg(url)`). The model frequently mangles the escaped attributes and the validator can't always catch it. Split the string into a non-HTML body and a non-HTML link CTA, then concatenate with QML-side `<a href="...">` markup — see the `RoomInfoAboutTab` and `SelectionModeHelpDialog` patterns for examples.
 - AI translations should be reviewed, especially for languages with complex grammar or honorific systems. Per-language `GUIDE.md` files can help steer the model toward the right register.
 
 For technical details on why the system works the way it does (XML normalization, ElementTree vs regex, plural form limitations), see [architecture/translations.md](../architecture/translations.md).

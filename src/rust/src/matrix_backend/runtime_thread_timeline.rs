@@ -563,6 +563,20 @@ fn publish_merged_snapshot(
         sdk_items.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
     }
 
+    // `transaction_id` on /relations items is populated from the round-tripped
+    // `unsigned.transaction_id` purely as a matching key for the local-echo
+    // reconciliation above. The QML treats `transactionId.length > 0` as the
+    // sole "is local echo" signal (matrix-sdk-ui clears it on remote echo),
+    // so leaving it set on a server-confirmed event makes every reply we sent
+    // look like a stuck local echo and hides every action that needs an event
+    // id (Edit/Reply/React/Forward/...). Clear it for any item that isn't in
+    // a transient send state — matching has already happened by this point.
+    for item in &mut sdk_items {
+        if item.delivery_state.is_empty() && !item.transaction_id.is_empty() {
+            item.transaction_id.clear();
+        }
+    }
+
     let snapshot_count = sdk_items.len();
     {
         let mut guard = thread_timeline_snapshot

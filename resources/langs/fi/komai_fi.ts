@@ -7867,73 +7867,73 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1146"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+293"/>
         <source>Failed to send message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin lähettäminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+123"/>
         <source>Failed to edit message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin muokkaaminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Failed to react: %1</source>
-        <translation type="unfinished"/>
+        <translation>Reaktion lisääminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Failed to delete message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin poistaminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to cancel unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Lähettämättömän viestin peruuttaminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to retry unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Lähettämättömän viestin uudelleenyritys epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>Joidenkin viestien poistaminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+120"/>
         <source>Failed to mark message as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin merkitseminen luetuksi epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Failed to report message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin ilmoittaminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+91"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin välittäminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+136"/>
         <source>Failed to forward some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>Joidenkin viestien välittäminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Failed to pin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin kiinnittäminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Failed to unpin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viestin irrottaminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+232"/>
         <source>Select file(s)</source>
-        <translation type="unfinished">Valitse tiedosto(t)</translation>
+        <translation>Valitse tiedosto(t)</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7943,142 +7943,144 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+135"/>
         <source>Finish editing the current message before attaching files.</source>
-        <translation type="unfinished"/>
+        <translation>Lopeta nykyisen viestin muokkaaminen ennen tiedostojen liittämistä.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Only existing local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>Vain olemassa olevia paikallisia tiedostoja voi liittää vetämällä ja pudottamalla.</translation>
     </message>
     <message>
         <location line="+246"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.
+
+(%1)</translation>
     </message>
     <message>
         <location line="+77"/>
         <source>Save attachment</source>
-        <translation type="unfinished"/>
+        <translation>Tallenna liite</translation>
     </message>
     <message>
         <location line="+362"/>
         <source>Failed to send attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>Liitteen '%1' lähettäminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
-        <translation type="unfinished"/>
+        <translation>Liitteen '%1' hakeminen epäonnistui: ei aktiivista Matrix-istuntoa</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to fetch attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>Liitteen '%1' hakeminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Saved attachment '%1' but failed to open it</source>
-        <translation type="unfinished"/>
+        <translation>Liite '%1' tallennettu, mutta sen avaaminen epäonnistui</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Avaa</translation>
     </message>
     <message>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation type="unfinished"/>
+        <translation>Näytä kansiossa</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Saved attachment '%1'</source>
-        <translation type="unfinished"/>
+        <translation>Liite '%1' tallennettu</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
         <source>Failed to ignore user %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Käyttäjän %1 ohittaminen epäonnistui: %2</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
         <source>This command needs an active room.</source>
-        <translation type="unfinished"/>
+        <translation>Tämä komento vaatii aktiivisen huoneen.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The chat page is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Keskustelusivu ei ole vielä valmis.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The Matrix session is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-istunto ei ole vielä valmis.</translation>
     </message>
     <message>
         <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
-        <translation type="unfinished"/>
+        <translation>Käyttäjältä %1 ei löytynyt viestejä näkyvässä aikajanassa.</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Failed to update your room-specific display name for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Huonekohtaisen näyttönimen päivittäminen huoneessa %1 epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>The room timeline is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Huoneen aikajana ei ole vielä valmis.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+10"/>
         <source>That message index could not be resolved in this room.</source>
-        <translation type="unfinished"/>
+        <translation>Kyseistä viesti-indeksiä ei voitu ratkaista tässä huoneessa.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Could not resolve that /goto target. Use an event ID, numeric message index, or Matrix link.</source>
-        <translation type="unfinished"/>
+        <translation>/goto-kohdetta ei voitu ratkaista. Käytä tapahtuma-ID:tä, numeerista viesti-indeksiä tai Matrix-linkkiä.</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Failed to update direct-message state for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Yksityisviestitilan päivittäminen kohteelle %1 epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Marked this room as a direct message.</source>
-        <translation type="unfinished"/>
+        <translation>Tämä huone merkittiin yksityisviestiksi.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Marked this room as a regular room.</source>
-        <translation type="unfinished"/>
+        <translation>Tämä huone merkittiin tavalliseksi huoneeksi.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Failed to update ignored-user state: %1</source>
-        <translation type="unfinished"/>
+        <translation>Ohitettujen käyttäjien tilan päivittäminen epäonnistui: %1</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="-26"/>
         <source>Failed to resolve media for saving</source>
-        <translation type="unfinished"/>
+        <translation>Mediaa ei voitu hakea tallentamista varten</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Failed to save media to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>Median tallentaminen kohteeseen '%1' epäonnistui</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saved to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>Tallennettu kohteeseen '%1'</translation>
     </message>
 </context>
 <context>
@@ -8094,113 +8096,113 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>1 selected message</source>
-        <translation type="unfinished"/>
+        <translation>1 valittu viesti</translation>
     </message>
     <message>
         <location line="-4"/>
         <location line="+5"/>
         <source>Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Valinta-tila</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>Pikanäppäimet</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show keyboard shortcuts [?]</source>
-        <translation type="unfinished"/>
+        <translation>Näytä pikanäppäimet [?]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Reply</source>
-        <translation type="unfinished">Vastaa</translation>
+        <translation>Vastaa</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reply to message [R]</source>
-        <translation type="unfinished"/>
+        <translation>Vastaa viestiin [R]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>Ketju</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open or continue a thread [T]</source>
-        <translation type="unfinished"/>
+        <translation>Avaa tai jatka ketjua [T]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation type="unfinished">Muokkaa</translation>
+        <translation>Muokkaa</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Edit message [E]</source>
-        <translation type="unfinished"/>
+        <translation>Muokkaa viestiä [E]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>Välitä</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Forward selected messages [F]</source>
-        <translation type="unfinished"/>
+        <translation>Välitä valitut viestit [F]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward message [F]</source>
-        <translation type="unfinished"/>
+        <translation>Välitä viesti [F]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Poista</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Delete selected messages [D]</source>
-        <translation type="unfinished"/>
+        <translation>Poista valitut viestit [D]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete message [D]</source>
-        <translation type="unfinished"/>
+        <translation>Poista viesti [D]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Options</source>
-        <translation type="unfinished">Asetukset</translation>
+        <translation>Valinnat</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>More message actions [O]</source>
-        <translation type="unfinished"/>
+        <translation>Lisää viestitoimintoja [O]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>Tyhjennä</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clear selection [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>Tyhjennä valinta [Escape]</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Close</source>
-        <translation type="unfinished">Sulje</translation>
+        <translation>Sulje</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Exit Selection mode and return to the composer [I or Escape]</source>
-        <translation type="unfinished"/>
+        <translation>Poistu Valinta-tilasta ja palaa kirjoitusalueelle [I tai Escape]</translation>
     </message>
 </context>
 <context>
@@ -8208,12 +8210,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
         <source>OFF</source>
-        <translation type="unfinished"/>
+        <translation>POIS</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>ON</source>
-        <translation type="unfinished"/>
+        <translation>PÄÄLLÄ</translation>
     </message>
 </context>
 <context>
@@ -8243,32 +8245,32 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>Avaa avainten varmuuskopio</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation type="unfinished"/>
+        <translation>Avaa salauksen salaisuudet antamalla turva-avaimesi tai sen tunnuslause (jos käytettävissä).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Security keys look like this: </source>
-        <translation type="unfinished"/>
+        <translation>Turva-avaimet näyttävät tältä: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Security key or passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Turva-avain tai tunnuslause</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished">Peruuta</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unlock</source>
-        <translation type="unfinished"/>
+        <translation>Avaa</translation>
     </message>
 </context>
 <context>
@@ -8276,33 +8278,33 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
         <source>Attachments</source>
-        <translation type="unfinished"/>
+        <translation>Liitteet</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Detach all attachments</source>
-        <translation type="unfinished"/>
+        <translation>Irrota kaikki liitteet</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Add an optional filename...</source>
-        <translation type="unfinished"/>
+        <translation>Lisää valinnainen tiedostonimi…</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Add an optional caption...</source>
-        <translation type="unfinished"/>
+        <translation>Lisää valinnainen kuvateksti…</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+2"/>
         <source>Detach</source>
-        <translation type="unfinished"/>
+        <translation>Irrota</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Note: each file is sent as a separate message.</source>
-        <translation type="unfinished"/>
+        <translation>Huomio: jokainen tiedosto lähetetään erillisenä viestinä.</translation>
     </message>
 </context>
 <context>
@@ -8310,7 +8312,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
         <source>Only your own profile can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>Täällä voidaan muuttaa vain omaa profiiliasi.</translation>
     </message>
     <message>
         <location line="-58"/>
@@ -8322,77 +8324,77 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-taustajärjestelmä ei ole käytettävissä.</translation>
     </message>
     <message>
         <location line="-357"/>
         <source>Failed to set power level for %1.</source>
-        <translation type="unfinished"/>
+        <translation>Oikeustason asettaminen käyttäjälle %1 epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to set power level for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Oikeustason asettaminen käyttäjälle %1 epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Failed to update display name.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttönimen päivittäminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to update room display name.</source>
-        <translation type="unfinished"/>
+        <translation>Huoneen näyttönimen päivittäminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Device name cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen nimi ei voi olla tyhjä.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to rename device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" uudelleennimeäminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to rename device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" uudelleennimeäminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Vahvistushallinta ei ole käytettävissä.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to clear verification for device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" vahvistuksen tyhjentäminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to clear verification for device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" vahvistuksen tyhjentäminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Failed to block device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" estäminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to block device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" estäminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Failed to unblock device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" eston poistaminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unblock device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" eston poistaminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -8418,113 +8420,113 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+10"/>
         <location line="+47"/>
         <source>Only your own avatar can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>Täällä voidaan muuttaa vain omaa profiilikuvaasi.</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Failed to upload avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Profiilikuvan lataaminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to upload room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Huoneen profiilikuvan lataaminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Profiilikuvan poistaminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Huoneen profiilikuvan poistaminen epäonnistui.</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/user/UserProfile.qml" line="+45"/>
         <source>Kick %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>Poistetaanko %1 huoneesta?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ban %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>Asetetaanko %1:lle porttikielto huoneesta?</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Room member profile</source>
-        <translation type="unfinished"/>
+        <translation>Huoneen jäsenen profiili</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>User profile</source>
-        <translation type="unfinished"/>
+        <translation>Käyttäjäprofiili</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Room</source>
-        <translation type="unfinished"/>
+        <translation>Huone</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Profile</source>
-        <translation type="unfinished">Profiili</translation>
+        <translation>Profiili</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>Profiilikuva</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Change avatar for this room</source>
-        <translation type="unfinished"/>
+        <translation>Vaihda profiilikuva tässä huoneessa</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation type="unfinished">Muuta</translation>
+        <translation>Muuta</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Reset to global avatar</source>
-        <translation type="unfinished"/>
+        <translation>Palauta yleinen avatar</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+100"/>
         <source>Remove</source>
-        <translation type="unfinished">Poista</translation>
+        <translation>Poista</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>You have a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Sinulla on eri yleinen avatar.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Tällä käyttäjällä on eri yleinen avatar.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You have a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Sinulla on huonekohtainen avatar.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Tällä käyttäjällä on huonekohtainen avatar.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reset avatar</source>
-        <translation type="unfinished"/>
+        <translation>Palauta avatar</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to reset your avatar for this room to the global one?</source>
-        <translation type="unfinished"/>
+        <translation>Haluatko varmasti palauttaa tämän huoneen profiilikuvasi yleiseksi?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8533,248 +8535,249 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+100"/>
         <location line="+382"/>
         <source>Cancel</source>
-        <translation type="unfinished">Peruuta</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>Palauta</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>Poista avatar</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>Haluatko varmasti poistaa profiilikuvasi?</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation type="unfinished">Näyttönimi</translation>
+        <translation>Näyttönimi</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Leave empty to use your global name: %1</source>
-        <translation type="unfinished"/>
+        <translation>Jätä tyhjäksi käyttääksesi yleistä nimeäsi: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave empty to clear the room-specific name.</source>
-        <translation type="unfinished"/>
+        <translation>Jätä tyhjäksi tyhjentääksesi huonekohtaisen nimen.</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>Kopioitu!</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Copy display name</source>
-        <translation type="unfinished"/>
+        <translation>Kopioi näyttönimi</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation type="unfinished">Käyttäjätunnus</translation>
+        <translation>Käyttäjätunnus</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>Kopioi käyttäjätunnus</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>Tila</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation type="unfinished">Oikeustaso</translation>
+        <translation>Oikeustaso</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>Vahvistus</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>Vahvistettu</translation>
     </message>
     <message>
         <location line="-514"/>
         <source>Implicitly trusted</source>
-        <translation type="unfinished"/>
+        <translation>Epäsuorasti luotettu</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>Vahvistamaton</translation>
     </message>
     <message>
         <location line="-497"/>
         <source>Accepted on first use, not explicitly verified.</source>
-        <translation type="unfinished"/>
+        <translation>Hyväksytty ensimmäisellä käyttökerralla, ei erikseen vahvistettu.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Identity keys changed or never seen. Consider verifying.</source>
-        <translation type="unfinished"/>
+        <translation>Henkilöllisyysavaimet muuttuneet tai niitä ei ole koskaan nähty. Harkitse vahvistamista.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Global display name: %1</source>
-        <translation type="unfinished"/>
+        <translation>Yleinen näyttönimi: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>Toiminnot</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Start direct chat</source>
-        <translation type="unfinished"/>
+        <translation>Aloita yksityiskeskustelu</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Verify user</source>
-        <translation type="unfinished"/>
+        <translation>Vahvista käyttäjä</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Verify device</source>
-        <translation type="unfinished"/>
+        <translation>Vahvista laite</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unignore user</source>
-        <translation type="unfinished"/>
+        <translation>Poista käyttäjä ohituslistalta</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore user</source>
-        <translation type="unfinished"/>
+        <translation>Ohita käyttäjä</translation>
     </message>
     <message>
         <location line="+18"/>
         <location line="+90"/>
         <location line="+82"/>
         <source>Change power level</source>
-        <translation type="unfinished"/>
+        <translation>Muuta oikeustasoa</translation>
     </message>
     <message>
         <location line="-161"/>
         <source>Kick from room</source>
-        <translation type="unfinished"/>
+        <translation>Poista huoneesta</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ban from room</source>
-        <translation type="unfinished"/>
+        <translation>Porttikielto huoneesta</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove all messages</source>
-        <translation type="unfinished"/>
+        <translation>Poista kaikki viestit</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Unignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>Poistetaanko %1 ohituslistalta?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>Ohitetaanko %1?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>You will see their messages again.</source>
-        <translation type="unfinished"/>
+        <translation>Näet heidän viestinsä taas.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>After ignoring, you will no longer see their messages in any room.
 You can unignore later via this user's profile or via Settings → Account → Ignored users.</source>
-        <translation type="unfinished"/>
+        <translation>Ohittamisen jälkeen et enää näe heidän viestejään missään huoneessa.
+Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset → Tili → Ohitetut käyttäjät.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>Poista ohitus</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>Ohita</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Set the power level for %1 in this room.</source>
-        <translation type="unfinished"/>
+        <translation>Aseta käyttäjän %1 oikeustaso tässä huoneessa.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Presets:</source>
-        <translation type="unfinished"/>
+        <translation>Esiasetukset:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>User (0)</source>
-        <translation type="unfinished"/>
+        <translation>Käyttäjä (0)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Moderator (50)</source>
-        <translation type="unfinished"/>
+        <translation>Moderaattori (50)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Administrator (100)</source>
-        <translation type="unfinished"/>
+        <translation>Ylläpitäjä (100)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Rooms in common</source>
-        <translation type="unfinished"/>
+        <translation>Yhteiset huoneet</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>Laitteet (istunnot)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>Päivitetty</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>Päivitä</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>Hallitse</translation>
     </message>
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>Tämä laite</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>Estetty</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8784,42 +8787,42 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>Poista esto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>Estä</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>No known devices.</source>
-        <translation type="unfinished"/>
+        <translation>Ei tunnettuja laitteita.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device information becomes available only after exchanging encrypted messages with this user.</source>
-        <translation type="unfinished"/>
+        <translation>Laitetiedot tulevat saataville vasta, kun olet vaihtanut salattuja viestejä tämän käyttäjän kanssa.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Add optional reason for kicking %1</source>
-        <translation type="unfinished"/>
+        <translation>Lisää valinnainen syy käyttäjän %1 poistamiselle</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add optional reason for banning %1</source>
-        <translation type="unfinished"/>
+        <translation>Lisää valinnainen syy käyttäjän %1 porttikiellolle</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Kick</source>
-        <translation type="unfinished"/>
+        <translation>Poista</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ban</source>
-        <translation type="unfinished"/>
+        <translation>Porttikielto</translation>
     </message>
     <message>
         <location line="-96"/>
@@ -8833,75 +8836,75 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+41"/>
         <location line="+40"/>
         <source>Device id cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen tunnus ei voi olla tyhjä.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Device sign-out requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen uloskirjautuminen vaatii aktiivisen matrix-sdk-taustajärjestelmän.</translation>
     </message>
     <message>
         <location line="+19"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Laitteelta "%1" uloskirjautuminen epäonnistui.</translation>
     </message>
     <message>
         <location line="-54"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Laitteelta "%1" uloskirjautuminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="-45"/>
         <location line="+53"/>
         <source>Signed out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Laite "%1" kirjattiin ulos.</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Sign Out Device</source>
-        <translation type="unfinished"/>
+        <translation>Kirjaa laite ulos</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter your account password to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Anna tilisi salasana kirjautuaksesi ulos laitteelta "%1".</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Password is required to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Salasana vaaditaan laitteen "%1" uloskirjautumiseen.</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Failed to open the browser for device sign-out.</source>
-        <translation type="unfinished"/>
+        <translation>Selaimen avaaminen laitteen uloskirjautumista varten epäonnistui.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Finish signing out device "%1" in your browser. The device list will refresh when you return.</source>
-        <translation type="unfinished"/>
+        <translation>Viimeistele laitteen "%1" uloskirjautuminen selaimessasi. Laitelista päivittyy, kun palaat.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device sign-out for "%1" requires an unsupported authentication flow.</source>
-        <translation type="unfinished"/>
+        <translation>Laitteen "%1" uloskirjautuminen vaatii tukematonta tunnistautumisvirtaa.</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Failed to update ignored-user state for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>Käyttäjän "%1" ohitustilan päivittäminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to update ignored-user state for "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>Käyttäjän "%1" ohitustilan päivittäminen epäonnistui: %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring users requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>Käyttäjien ohittaminen vaatii aktiivisen matrix-sdk-taustajärjestelmän.</translation>
     </message>
 </context>
 <context>
@@ -8909,33 +8912,34 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>Vaalea</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>Tumma</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Hallinnoi &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilaasi Matrix-verkossa.
+Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettomuuden jälkeen).</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Toistaa pienet videoleikkeet (alle %1 MB tai %2 s) tekstin seassa, äänet mykistettynä ja silmukkana. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>Määritä, milloin lähettäjien käyttäjänimet näytetään viestien yläpuolella. Kupla-tilassa oma käyttäjänimesi on aina piilotettu. Pienemmissä huoneissa avatarit ja kuplavärkit riittävät usein kontekstiksi.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
-        <translation type="unfinished"/>
+        <translation>⚠ Avatarin koko on asetettu Piilotetuksi, joten lähettäjien käyttäjänimet näytetään aina.</translation>
     </message>
 </context>
 <context>
@@ -8943,67 +8947,67 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
         <source>Settings</source>
-        <translation type="unfinished">Asetukset</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>Ulkoasu</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Timeline</source>
-        <translation type="unfinished"/>
+        <translation>Aikajana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Composer</source>
-        <translation type="unfinished"/>
+        <translation>Kirjoitin</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop</source>
-        <translation type="unfinished"/>
+        <translation>Työpöytä</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>Verkko</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Tili</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Integrations</source>
-        <translation type="unfinished"/>
+        <translation>Integraatiot</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Application Profiles</source>
-        <translation type="unfinished"/>
+        <translation>Sovellusprofiilit</translation>
     </message>
     <message>
         <location line="+184"/>
         <source>Available after login</source>
-        <translation type="unfinished"/>
+        <translation>Käytettävissä kirjautumisen jälkeen</translation>
     </message>
     <message>
         <location line="-188"/>
         <source>Calls</source>
-        <translation type="unfinished"/>
+        <translation>Puhelut</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Navigation</source>
-        <translation type="unfinished"/>
+        <translation>Navigointi</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>Tietoja</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -9021,7 +9025,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-tausta ei ole käytettävissä.</translation>
     </message>
 </context>
 <context>
@@ -9029,38 +9033,39 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/components/encryption/VerifyMasterKeyDialog.qml" line="+20"/>
         <source>Activate Encryption</source>
-        <translation type="unfinished">Aktivoi salaus</translation>
+        <translation>Ota salaus käyttöön</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This account already has encryption keys, but this device is not verified yet.
 Verification marks this device as trusted and gives you access to encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>Tällä tilillä on jo salausavaimia, mutta tätä laitetta ei ole vielä vahvistettu.
+Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin viesteihin.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>Ei nyt</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset identity</source>
-        <translation type="unfinished"/>
+        <translation>Nollaa identiteetti</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verify with another device</source>
-        <translation type="unfinished"/>
+        <translation>Vahvista toisella laitteella</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>Yhtäkään muuta kirjautunutta laitetta ei ole tällä hetkellä saatavilla vahvistukseen.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>Avaa avainvarmuuskopio</translation>
     </message>
 </context>
 <context>
@@ -9068,22 +9073,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/device-verification/Waiting.qml" line="+14"/>
         <source>Waiting for Other Device</source>
-        <translation type="unfinished"/>
+        <translation>Odotetaan toista laitetta</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Waiting for the other device to accept the verification request.</source>
-        <translation type="unfinished"/>
+        <translation>Odotetaan, että toinen laite hyväksyy vahvistuspyynnön.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to continue the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>Odotetaan, että toinen laite jatkaa vahvistusprosessia.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to complete the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>Odotetaan, että toinen laite suorittaa vahvistusprosessin loppuun.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9096,22 +9101,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>Tervetuloa Komaiin</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
-        <translation type="unfinished"/>
+        <translation>Turvallinen salasanavarasto (käyttöjärjestelmän avainnippu) ei ole käytettävissä tässä ympäristössä, joten Komai käyttää toistaiseksi tiedostopohjaista salaista tallennustilaa. Tämä on vähemmän turvallista.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>Lue lisää</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>An early touch of personality</source>
-        <translation type="unfinished"/>
+        <translation>Persoonallisuutta heti alkuun</translation>
     </message>
 </context>
 <context>
@@ -9119,17 +9124,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Uusi Matrix-käyttäjä?</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>Rekisteröidy</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>Kirjaudu sisään</translation>
     </message>
 </context>
 <context>
@@ -9137,77 +9142,77 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
         <source>Theme</source>
-        <translation type="unfinished">Teema</translation>
+        <translation>Teema</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>Vaalea</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>Tumma</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Enable animations</source>
-        <translation type="unfinished"/>
+        <translation>Ota animaatiot käyttöön</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation type="unfinished"/>
+        <translation>Komai käyttää animaatioita useissa paikoissa visuaalisen palautteen parantamiseksi. Poista ne käytöstä, jos ne aiheuttavat pahoinvointia.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Prefer emoji suggestions for</source>
-        <translation type="unfinished"/>
+        <translation>Suosi emojiehdotuksia</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Any gender</source>
-        <translation type="unfinished"/>
+        <translation>Mikä tahansa sukupuoli</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👨 Men</source>
-        <translation type="unfinished"/>
+        <translation>👨 Miehet</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👩 Women</source>
-        <translation type="unfinished"/>
+        <translation>👩 Naiset</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Any skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Mikä tahansa ihonsävy</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏻 Vaalea</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏼 Keskivaalea</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation type="unfinished"/>
+        <translation>👍🏽 Keski</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏾 Keskitumma</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏿 Tumma</translation>
     </message>
 </context>
 <context>
@@ -9280,660 +9285,661 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation type="unfinished">Teema</translation>
+        <translation>Teema</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation type="unfinished"/>
+        <translation>Tarvitsetko lisää teemoja? Tuo &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallerysta&lt;/a&gt; tai &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;luo oma&lt;/a&gt; (vaatii uudelleenkäynnistyksen).</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation type="unfinished"/>
+        <translation>Fontit</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Font family</source>
-        <translation type="unfinished"/>
+        <translation>Fonttiperhe</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation type="unfinished"/>
+        <translation>Useimmat käyttöliittymäelementit muuttavat kokoa reaaliajassa. Jotkin tekstit saattavat päivittyä vasta sovelluksen uudelleenkäynnistyksen jälkeen.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Emoji font family</source>
-        <translation type="unfinished">Emojien fonttiperhe</translation>
+        <translation>Emoji-fonttiperhe</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Behavior</source>
-        <translation type="unfinished"/>
+        <translation>Toiminta</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Interaction mode</source>
-        <translation type="unfinished"/>
+        <translation>Vuorovaikutustila</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation type="unfinished"/>
+        <translation>Työpöytätila käyttää hiiriohjausta ensisijaisesti. Kosketusnäyttötila suosii pyyhkäisy- ja kosketustoimintoja.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation type="unfinished"/>
+        <translation>Ota käyttöön eleet, kuten pyyhkäisy Huoneluettelon ja Aikajanan välillä sekä viestin pyyhkäisy vastaamiseksi.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Controls when scrollbars are shown across the app.</source>
-        <translation type="unfinished"/>
+        <translation>Hallitsee, milloin vierityspalkit näytetään sovelluksessa.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Layout</source>
-        <translation type="unfinished"/>
+        <translation>Asettelu</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation type="unfinished"/>
+        <translation>Vaikuttaa välistykseen, kuvakekokoon ja luettelorivin korkeuteen.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatars</source>
-        <translation type="unfinished"/>
+        <translation>Avatarit</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>Avatarin esikatselu</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation type="unfinished"/>
+        <translation>Näytetään käyttäjille ja huoneille, joilla ei ole mukautettua avataria.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Communities sidebar</source>
-        <translation type="unfinished">Yhteisösivupalkki</translation>
+        <translation>Yhteisöjen sivupalkki</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää lukemattomien korostuksen (lukumäärämerkit, rivin korostus ja vasemman reunan merkki) yhteisö- ja tunnistesuodattimissa.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation type="unfinished">Kaikki huoneet</translation>
+        <translation>Kaikki huoneet</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää kaikki huoneesi yhdessä näkymässä. Alla poissuljetuiksi merkittyihin suodattimiin kuuluvat huoneet piilotetaan tästä listasta.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Huoneet, jotka on merkitty &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt;-tunnisteella Matrix-huoneiden merkintä-API:n kautta.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation type="unfinished"/>
+        <translation>Suorat keskustelut oikeiden ihmisten kanssa, pois lukien käyttäjät, jotka on &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;tunnistettu&lt;/a&gt; boteiksi heuristiikalla.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation type="unfinished"/>
+        <translation>Suorat keskustelut, joissa keskustelukumppani on &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;tunnistettu&lt;/a&gt; bottiksi tai siltatililtä.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation type="unfinished"/>
+        <translation>Useamman osallistujan huoneet, jotka eivät ole yksityisviestejä (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; ja muut).</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation type="unfinished"/>
+        <translation>Kotipalvelimen hallinnollisiin viesteihin merkitsemät huoneet (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt;). Katso Matrix-spesifikaation &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Palvelinilmoitukset&lt;/a&gt;-moduuli.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Huoneet, jotka on merkitty &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt;-tunnisteella Matrix-huoneiden merkintä-API:n kautta.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room list</source>
-        <translation type="unfinished"/>
+        <translation>Huonelista</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää lukemattomien korostuksen (lukumäärämerkit, lihavoitu huoneen nimi, avatarin pomppiminen, rivin korostus ja vasemman reunan merkki) huoneiden vieressä.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation type="unfinished"/>
+        <translation>Lisää viimeisimmän viestin esikatselun huoneluettelon merkintöihin. Näytetään omalla rivillään Tilava- ja Tiivis-asetteluissa ja huoneen nimen vieressä Tiheässä asettelussa.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation type="unfinished"/>
+        <translation>Käytetäänkö huonetta napsauttaessa aktiivista välilehteä vai avataan uusi. Huoneilla, joilla on jo välilehti, se aktivoituu aina.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tab bar</source>
-        <translation type="unfinished"/>
+        <translation>Välilehtipalkki</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation type="unfinished"/>
+        <translation>Äskettäin suljetut esirenderöidyt aikajanat mahdollistavat välittömän huoneenvaihdon, mutta lisäävät suorittimen ja muistin käyttöä. Avoimet välilehdet ovat aina esirenderöityjä. Aseta arvoksi 0 pitääksesi vain avoimet välilehdet.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
         <source>Presentation</source>
-        <translation type="unfinished"/>
+        <translation>Esitys</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>Aikajanan esikatselu</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation type="unfinished"/>
+        <translation>Valitse, pysyvätkö viestit yhdellä puolella vai sijoitetaanko ne lähettäjän mukaan vastakkain.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum message width (%)</source>
-        <translation type="unfinished"/>
+        <translation>Viestin enimmäisleveys (%)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation type="unfinished"/>
+        <translation>Osuus käytettävissä olevasta aikajanan leveydestä, jonka yksittäinen viesti voi täyttää.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation type="unfinished"/>
+        <translation>Valitse, miten lähettäjävärit määräytyvät aikajanalla ja viestikuplien taustoilla.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>Hallitse, milloin lähettäjien käyttäjänimet näytetään viestien yläpuolella. Kuplatilassa oma käyttäjänimesi on aina piilotettu. Pienemmissä huoneissa avatarit ja kuplavärit tarjoavat usein riittävästi asiayhteyden.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"/>
+        <translation>Kun kupla-asettelu on käytössä, näytä avatarisi omien viestiesi vieressä. Tämä parantaa vasen/oikea-symmetriaa ja helpottaa kirjoittajan tunnistamista.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation type="unfinished"/>
+        <translation>Sovella kielikohtaista syntaksikorostusta koodilohkoihin muotoilluissa (HTML) aikajanaviestissä.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Jotkin viestit, erityisesti sellaiset, joissa on emojeja kuten 🎊, ☀️ tai 🌦️, voivat näyttää hienomman &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;aikajanaefektin&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>Piilottaa ketjuvastaukset pääaikajanalta ja näyttää vain ketjun juuriviestit. Voidaan ohittaa huonekohtaisesti kohdassa Huoneen tiedot → Asetukset.&lt;br&gt;⚠️ Ketjukohtainen lukemattomien seuranta ei ole tuettu, joten voit jäädä paitsi vastauksista vanhemmissa ketjuissa.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
         <source>Feedback</source>
-        <translation type="unfinished"/>
+        <translation>Palaute</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää, ovatko viestisi luettu. Jos kotipalvelimesi ei tue lukukuittauksia, huoneita ei välttämättä merkitä luetuiksi.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>Toiminnot</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how message actions are opened.</source>
-        <translation type="unfinished"/>
+        <translation>Valitse, miten viestintoiminnot avataan.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation type="unfinished"/>
+        <translation>Pilkuilla erotettu luettelo toimintopalkkiin kiinnitetyistä reaktioista. Jäljelle jäävät paikat täytetään eniten käyttämilläsi reaktioilla huoneittain.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Images handling</source>
-        <translation type="unfinished"/>
+        <translation>Kuvien käsittely</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>Salatut kuvat &lt;a href="komai://media-cache"&gt;tallennetaan välimuistiin&lt;/a&gt; salaamattomina levylle (tyhjennetään automaattisesti ajoittain).</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Video handling</source>
-        <translation type="unfinished"/>
+        <translation>Videon käsittely</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>Striimataan kun mahdollista; salatut tai ei-kelattavat videot &lt;a href="komai://media-cache"&gt;tallennetaan välimuistiin&lt;/a&gt; levylle (poistetaan automaattisesti ajoittain).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Audio handling</source>
-        <translation type="unfinished"/>
+        <translation>Äänenkäsittely</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>Striimataan kun mahdollista; salattu tai ei-kelattava ääni &lt;a href="komai://media-cache"&gt;tallennetaan välimuistiin&lt;/a&gt; levylle (poistetaan automaattisesti ajoittain).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Applied to inline audio players.</source>
-        <translation type="unfinished"/>
+        <translation>Sovelletaan upotetuihin äänentoistoihin.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
         <source>Input</source>
-        <translation type="unfinished"/>
+        <translation>Syöte</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which Enter key combination sends messages.</source>
-        <translation type="unfinished"/>
+        <translation>Valitse, millä Enter-näppäinyhdistelmällä viestit lähetetään.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Hallitsee, muunnetaanko &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt;-syntaksi automaattisesti &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; -viestiksi Markdown-pelkkätekstivaravaihtoehdolla.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää tekstinsisäisen huonevalitsimen, kun kirjoitat risuaidan (#) viesti-kenttään.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää tekstinsisäisen käyttäjävalitsimen, kun kirjoitat @-merkin viesti-kenttään.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation type="unfinished">Emoji</translation>
+        <translation>Emoji</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"/>
+        <translation>Korvaa automaattisesti tekstihymiöt kuten :) :D :P vastaavilla emojilla viestiä lähetettäessä. Valitse, korvaako kaikkialla vai vain lopussa.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää tekstinsisäisen emojivalitsimen, kun kirjoitat kaksoispisteen (:) viesti-kenttään.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Vain tekstinsisäinen emojivalitsin: suosi Unicode-määriteltyjä sukupuolivariantteja (mies/nainen) jos saatavilla. Toiselle sukupuolelle hakeminen toimii silti. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Vain tekstinsisäinen emojivalitsin: suosi yhtä ihonsäyvarianttia jos saatavilla. Toiselle ihonsävylle hakeminen toimii silti. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Extras</source>
-        <translation type="unfinished"/>
+        <translation>Lisäominaisuudet</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
-        <translation type="unfinished"/>
+        <translation>Tilin ilmoitukset</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enable notifications for this account</source>
-        <translation type="unfinished"/>
+        <translation>Ota ilmoitukset käyttöön tälle tilille</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation type="unfinished"/>
+        <translation>Hallitsee Matrix-tilisi ilmoituskytkintä kotipalvelimella. Poista käytöstä vaimentaaksesi ilmoitukset kaikissa asiakkaissasi/laitteissasi.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>System notifications</source>
-        <translation type="unfinished"/>
+        <translation>Järjestelmäilmoitukset</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation type="unfinished"/>
+        <translation>Ilmoittaa vastaanotetuista viesteistä, kun asiakasohjelma ei ole aktiivinen. Voimassa vain, kun tilin ilmoitukset on otettu käyttöön yllä.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how much message text to include in notifications.</source>
-        <translation type="unfinished"/>
+        <translation>Valitse, kuinka paljon viestitekstiä sisällytetään ilmoituksiin.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää huomioilmoituksen viestin vastaanottamisen yhteydessä (esimerkiksi tehtäväpalkin kuvakkeen aktivoituminen).</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Attention indicators</source>
-        <translation type="unfinished"/>
+        <translation>Huomio-ilmaisimet</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation type="unfinished"/>
+        <translation>Lisää huomioita tarvitsevien huoneiden lukumäärä Komai-ikkunan otsikkoon.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Näyttää huomiota tarvitsevien huoneiden määrän sovelluksen/tehtäväpalkin merkissä. Linuxissa ei-oletusprofiilit tarvitsevat oman työpöytäkäynnistimen luotettavia sovelluspisteitä varten. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System tray</source>
-        <translation type="unfinished"/>
+        <translation>Ilmaisinalue</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Keep the application running in the background after closing the client window.</source>
-        <translation type="unfinished">Anna sovelluksen pyöriä taustalla asiakasohjelman ikkunan sulkemisen jälkeen.</translation>
+        <translation>Pitää sovelluksen käynnissä taustalla asiakasikkunan sulkemisen jälkeen.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Start the application in the background without showing the client window.</source>
-        <translation type="unfinished">Aloita sovellus taustalla näyttämättä asiakasohjelman ikkunaa.</translation>
+        <translation>Käynnistää sovelluksen taustalla ilman asiakasikkunan näyttämistä.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Window blur</source>
-        <translation type="unfinished"/>
+        <translation>Ikkunan sumennus</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation type="unfinished"/>
+        <translation>Aseta, kuinka kauan fokuksen menettämisen jälkeen sumentaminen alkaa. Aseta 0 sumentaaksesi välittömästi. Enimmäisarvo on 3600 sekuntia (1 tunti).</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>Yleiset</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation type="unfinished"/>
+        <translation>Sallii vanhojen (ennen MatrixRTC:tä) puhelujen vastaanottamisen ja aloittamisen.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation type="unfinished">Käyttää apuna palvelinta turn.matrix.org silloin kun kotipalvelimesi ei sellaista tarjoa.</translation>
+        <translation>Käytä turn.matrix.org-palvelua vararelee-/STUN-palvelimena, kun kotipalvelimesi ei tarjoa sellaista.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Devices</source>
-        <translation type="unfinished">Laitteet</translation>
+        <translation>Laitteet</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Microphone</source>
-        <translation type="unfinished">Mikrofoni</translation>
+        <translation>Mikrofoni</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Camera</source>
-        <translation type="unfinished">Kamera</translation>
+        <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera resolution</source>
-        <translation type="unfinished">Kameran resoluutio</translation>
+        <translation>Kameran resoluutio</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera frame rate</source>
-        <translation type="unfinished">Kameran ruutunopeus</translation>
+        <translation>Kameran kuvataajuus</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ringtone</source>
-        <translation type="unfinished">Soittoääni</translation>
+        <translation>Soittoääni</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Screen sharing</source>
-        <translation type="unfinished"/>
+        <translation>Näytönjako</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation type="unfinished"/>
+        <translation>Näytönjakamisen tavoite-FPS. Pienemmät arvot kuluttavat vähemmän prosessoria ja kaistanleveyttä.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
         <source>D-Bus</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D-Bus access</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus-käyttöoikeus</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation type="unfinished"/>
+        <translation>Valitse, kuinka paljon &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus-käyttöoikeuksia&lt;/a&gt; Komai tarjoaa paikallisille kutsuille.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Matrix Rooms Search</source>
-        <translation type="unfinished"/>
+        <translation>Matrix-huonehaku</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"/>
+        <translation>Kun käytössä, lisää &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; -tuen &lt;a href="komai://rooms-directory"&gt;Selaa julkisia huoneita&lt;/a&gt; -valintaikkunaan.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Mikä tahansa &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; -instanssi käy, mutta &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; on suuri suosittu instanssi, jota ylläpitää &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Browser</source>
-        <translation type="unfinished"/>
+        <translation>Selain</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
-        <translation type="unfinished">Salaus</translation>
+        <translation>Salaus</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation type="unfinished">Vaatii käyttäjän olevan vahvistettu, jotta hänelle voi lähettää salattuja viestejä. Tämä parantaa turvallisuutta, mutta tekee päästä-päähän -salauksen hankalammaksi.</translation>
+        <translation>Edellyttää käyttäjän vahvistamista ennen salattujen viestien lähettämistä. Tämä parantaa turvallisuutta, mutta tekee E2EE:stä hankalampaa.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation type="unfinished">Vastaa automaattisesti muiden vahvistettujen käyttäjien avainpyyntöihin, vaikka kyseisellä laitteella ei muuten pitäisi olla pääsyä avaimiin.</translation>
+        <translation>Vastaa automaattisesti avainpyyntöihin muilta vahvistetuilta käyttäjiltä, vaikka kyseisellä laitteella ei muuten olisi pääsyä näihin avaimiin.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation type="unfinished">Lataa viestien salausavaimet salatusta verkkoavainvarmuuskopiosta ja lähetä avaimet sinne.</translation>
+        <translation>Lataa viestien salausavaimia salatusta verkkoavainvarmuuskopiosta ja lähetä niitä sinne.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Presence</source>
-        <translation type="unfinished"/>
+        <translation>Läsnäolo</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Status policy</source>
-        <translation type="unfinished"/>
+        <translation>Tilapolitiikka</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Hallitsee &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilasi Matrix-verkossa.
+Automaattinen on joko 'paikalla' tai 'poissaoleva' (5 minuutin toimettomuuden jälkeen).</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Status message</source>
-        <translation type="unfinished"/>
+        <translation>Tilaviesti</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Transport</source>
-        <translation type="unfinished"/>
+        <translation>Siirto</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reject invalid or untrusted server certificates.</source>
-        <translation type="unfinished"/>
+        <translation>Hylkää virheelliset tai epäluotettavat palvelinvarmenteet.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation type="unfinished"/>
+        <translation>Käytä HTTP/3-yhteyttä Matrix-palvelimiin kun saatavilla.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Tili</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation type="unfinished">Käyttäjätunnus</translation>
+        <translation>Käyttäjätunnus</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation type="unfinished">Kotipalvelin</translation>
+        <translation>Kotipalvelin</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Edit profile</source>
-        <translation type="unfinished"/>
+        <translation>Muokkaa profiilia</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>Laite</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Device ID</source>
-        <translation type="unfinished">Laitteen tunnus</translation>
+        <translation>Laitetunnus</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>Pääsytunnus</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation type="unfinished"/>
+        <translation>Pääsytunnuksesi antaa täyden pääsyn tilillesi. Älä jaa sitä kenellekään.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Users</source>
-        <translation type="unfinished">Käyttäjät</translation>
+        <translation>Käyttäjät</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>Ohitetut käyttäjät</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Log out</source>
-        <translation type="unfinished">Kirjaudu ulos</translation>
+        <translation>Kirjaudu ulos</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"/>
+        <translation>Sovellus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation type="unfinished">Nimi</translation>
+        <translation>Nimi</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Platform</source>
-        <translation type="unfinished">Alusta</translation>
+        <translation>Alusta</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>Luonut</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>License</source>
-        <translation type="unfinished"/>
+        <translation>Lisenssi</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Acknowledgements</source>
-        <translation type="unfinished"/>
+        <translation>Kiitokset</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fork base</source>
-        <translation type="unfinished"/>
+        <translation>Haaran perusta</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Fluent)</source>
-        <translation type="unfinished"/>
+        <translation>Kuvakekokoelma (Fluent)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Font Awesome)</source>
-        <translation type="unfinished"/>
+        <translation>Kuvakekokoelma (Font Awesome)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Default avatars (Boring Avatars)</source>
-        <translation type="unfinished"/>
+        <translation>Oletusavatarit (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

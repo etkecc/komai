@@ -1796,9 +1796,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Edasta %n sõnum?</numerusform>
+            <numerusform>Edasta %n sõnumit?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Edasta %n valitud sõnum jututuppa &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Edasta %n valitud sõnumit jututuppa &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Kustuta %n valitud sõnum?</numerusform>
+            <numerusform>Kustuta %n valitud sõnumit?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Õigused rakendati %n alamruumile.</numerusform>
+            <numerusform>Õigused rakendati %n alamruumile.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Õiguste rakendamine %n alamruumile ebaõnnestus: %1</numerusform>
+            <numerusform>Õiguste rakendamine %n alamruumile ebaõnnestus: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5639,9 +5639,9 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n liige jututoas %1</numerusform>
+            <numerusform>%n liiget jututoas %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7589,9 +7589,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n lõimivastus</numerusform>
+            <numerusform>%n lõimivastust</numerusform>
         </translation>
     </message>
     <message>
@@ -7615,9 +7615,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n lõimivastus</numerusform>
+            <numerusform>%n lõimivastust</numerusform>
         </translation>
     </message>
     <message>
@@ -7792,9 +7792,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n lõimivastus</numerusform>
+            <numerusform>%n lõimivastust</numerusform>
         </translation>
     </message>
     <message>
@@ -7826,7 +7826,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n liige</numerusform>
             <numerusform>%n liiget</numerusform>
         </translation>
@@ -8093,9 +8093,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n valitud sõnum</numerusform>
+            <numerusform>%n valitud sõnumit</numerusform>
         </translation>
     </message>
     <message>
@@ -8239,9 +8239,11 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n jututuba vajab tähelepanu</numerusform>
+            <numerusform>
+%n jututuba vajavad tähelepanu</numerusform>
         </translation>
     </message>
 </context>

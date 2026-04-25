@@ -148,7 +148,7 @@
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation>検証済み</translation>
+        <translation>検証済</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -250,12 +250,12 @@
     <message>
         <location filename="../../../src/models/AliasEditModel.cpp" line="+117"/>
         <source>Failed to load room aliases from the matrix-sdk backend.</source>
-        <translation>matrix-sdkバックエンドから部屋のエイリアスを読み込めませんでした。</translation>
+        <translation>matrix-sdkバックエンドからルームのエイリアスを読み込めませんでした。</translation>
     </message>
     <message>
         <location line="+310"/>
         <source>Failed to save room aliases to the matrix-sdk backend.</source>
-        <translation>matrix-sdkバックエンドに部屋のエイリアスを保存できませんでした。</translation>
+        <translation>matrix-sdkバックエンドにルームのエイリアスを保存できませんでした。</translation>
     </message>
 </context>
 <context>
@@ -278,17 +278,17 @@
     <message>
         <location line="-40"/>
         <source>Alternative addresses for this room. You can usually only add aliases on your own server. One alias can be marked as primary.</source>
-        <translation>この部屋の代替アドレスです。通常、自分のサーバーにのみエイリアスを追加できます。1つのエイリアスをプライマリとして設定できます。</translation>
+        <translation>このルームの代替アドレスです。通常、自分のサーバーにのみエイリアスを追加できます。1つのエイリアスをプライマリとして設定できます。</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Show this alias in the room's details</source>
-        <translation>このエイリアスを部屋の詳細に表示</translation>
+        <translation>このエイリアスをルームの詳細に表示</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Publish in room directory</source>
-        <translation>部屋のディレクトリに公開</translation>
+        <translation>ルームのディレクトリに公開</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -316,12 +316,12 @@
     <message>
         <location filename="../../qml/dialogs/room/AllowedRoomsSettingsDialog.qml" line="+18"/>
         <source>Allowed rooms settings</source>
-        <translation>許可された部屋の設定</translation>
+        <translation>許可されたルームの設定</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>List of rooms that allow access to this room. Anyone who is in any of those rooms can join this room.</source>
-        <translation>この部屋へのアクセスを許可する部屋のリストです。これらの部屋のいずれかに参加しているユーザーは、この部屋に参加できます。</translation>
+        <translation>このルームへのアクセスを許可するルームのリストです。これらのルームのいずれかに参加しているユーザーは、このルームに参加できます。</translation>
     </message>
     <message>
         <location line="+36"/>
@@ -331,12 +331,12 @@
     <message>
         <location line="+0"/>
         <source>Other room</source>
-        <translation>その他の部屋</translation>
+        <translation>その他のルーム</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Enter additional rooms not in the list yet...</source>
-        <translation>まだリストにない部屋を追加入力...</translation>
+        <translation>まだリストにないルームを追加入力...</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -632,7 +632,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+47"/>
         <source>Knock on room</source>
-        <translation>部屋にノックする</translation>
+        <translation>ルームにノックする</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -649,12 +649,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+26"/>
         <source>Failed to knock room: %1</source>
-        <translation>部屋へのノックに失敗しました: %1</translation>
+        <translation>ルームへのノックに失敗しました: %1</translation>
     </message>
     <message>
         <location line="+62"/>
         <source>Room creation failed: Bad Alias</source>
-        <translation>部屋の作成に失敗しました: 不正なエイリアス</translation>
+        <translation>ルームの作成に失敗しました: 不正なエイリアス</translation>
     </message>
     <message>
         <location line="+89"/>
@@ -694,17 +694,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-191"/>
         <source>Failed to join room: %1</source>
-        <translation>部屋に参加できませんでした: %1</translation>
+        <translation>ルームに参加できませんでした: %1</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Room creation failed: %1</source>
-        <translation>部屋を作成できませんでした: %1</translation>
+        <translation>ルームを作成できませんでした: %1</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Failed to leave room: %1</source>
-        <translation>部屋から出られませんでした: %1</translation>
+        <translation>ルームから出られませんでした: %1</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageBootstrap.cpp" line="+32"/>
@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation>「全ての部屋」に含める</translation>
+        <translation>「全てのルーム」に含める</translation>
     </message>
 </context>
 <context>
@@ -840,12 +840,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
-        <translation>お気に入りとしてタグ付けされた部屋です。Matrix の m.favourite タグを使用するため、選択がクライアント間で同期されます。</translation>
+        <translation>お気に入りとしてタグ付けされたルームです。Matrix の m.favourite タグを使用するため、選択がクライアント間で同期されます。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Rooms tagged as low priority. They stay visually quiet in the room list unless you receive a loud ping or open this filter.</source>
-        <translation>低優先度としてタグ付けされた部屋です。大きな通知を受け取るかこのフィルターを開かない限り、部屋リストでは目立たないように表示されます。</translation>
+        <translation>低優先度としてタグ付けされたルームです。大きな通知を受け取るかこのフィルターを開かない限り、ルームリストでは目立たないように表示されます。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -855,7 +855,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+46"/>
         <source>All rooms</source>
-        <translation>すべての部屋</translation>
+        <translation>すべてのルーム</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -875,7 +875,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+11"/>
         <source>All your joined rooms. Rooms from filters you've excluded from 'All rooms' are omitted.</source>
-        <translation>参加しているすべての部屋です。「すべての部屋」から除外したフィルターの部屋は表示されません。</translation>
+        <translation>参加しているすべてのルームです。「すべてのルーム」から除外したフィルターのルームは表示されません。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -890,7 +890,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+3"/>
         <source>Multi-participant rooms that aren't direct chats.</source>
-        <translation>ダイレクトチャットではない複数人の部屋です。</translation>
+        <translation>ダイレクトチャットではない複数人のルームです。</translation>
     </message>
     <message>
         <location line="-94"/>
@@ -928,7 +928,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a room to link to</source>
-        <translation>リンクする部屋を選択</translation>
+        <translation>リンクするルームを選択</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -943,7 +943,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+170"/>
         <source>Notify the whole room</source>
-        <translation>部屋全体に通知する</translation>
+        <translation>ルーム全体に通知する</translation>
     </message>
     <message>
         <location line="+147"/>
@@ -1024,7 +1024,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Confirm room join</source>
-        <translation>部屋への参加を確認</translation>
+        <translation>ルームへの参加を確認</translation>
     </message>
     <message numerus="yes">
         <location line="+54"/>
@@ -1036,12 +1036,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+23"/>
         <source>This room can't be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
-        <translation>この部屋には直接参加できません。ただし、部屋にノックすることができ、部屋のメンバーが参加リクエストを承認または拒否できます。入室を許可してもらうための理由を以下に追加することもできます:</translation>
+        <translation>このルームには直接参加できません。ただし、ルームにノックすることができ、ルームのメンバーが参加リクエストを承認または拒否できます。入室を許可してもらうための理由を以下に追加することもできます:</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Do you want to join this room? You can optionally add a reason below:</source>
-        <translation>この部屋に参加しますか？以下に理由を任意で追加できます:</translation>
+        <translation>このルームに参加しますか？以下に理由を任意で追加できます:</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -1143,7 +1143,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>New room</source>
-        <translation>新しい部屋</translation>
+        <translation>新しいルーム</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -1163,12 +1163,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Anyone can join a public room. Private rooms require an invite.</source>
-        <translation>誰でも公開部屋に参加できます。非公開部屋は招待が必要です。</translation>
+        <translation>誰でも公開ルームに参加できます。非公開ルームは招待が必要です。</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Invitees get the same power level as the room creator.</source>
-        <translation>招待されたユーザーは部屋の作成者と同じ権限レベルを取得します。</translation>
+        <translation>招待済ユーザーはルームの作成者と同じ権限レベルを取得します。</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -1178,7 +1178,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+15"/>
         <source>Encryption has a high cost in public rooms with many participants.</source>
-        <translation>暗号化は参加者の多い公開部屋では高いコストがかかります。</translation>
+        <translation>暗号化は参加者の多い公開ルームでは高いコストがかかります。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1557,7 +1557,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/Encrypted.qml" line="+23"/>
         <source>You weren't in the room when this message was sent.</source>
-        <translation>このメッセージが送信されたとき、あなたは部屋にいませんでした。</translation>
+        <translation>このメッセージが送信されたとき、あなたはルームにいませんでした。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1623,7 +1623,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/EncryptionIndicator.qml" line="+81"/>
         <source>Encrypted by a verified device.</source>
-        <translation>検証済みデバイスで暗号化されました。</translation>
+        <translation>検証済デバイスで暗号化されました。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1653,7 +1653,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Encrypted by a previously-verified user who is no longer verified.</source>
-        <translation>以前は検証済みでしたが、現在は検証されていないユーザーによって暗号化されました。</translation>
+        <translation>以前は検証済でしたが、現在は検証されていないユーザーによって暗号化されました。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1668,7 +1668,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+3"/>
         <source>Encrypted by a verified device</source>
-        <translation>検証済みデバイスで暗号化</translation>
+        <translation>検証済デバイスで暗号化</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1752,22 +1752,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
-        <translation>部屋タグは、このセッションで利用可能な参加済みの部屋にのみ変更できます。</translation>
+        <translation>ルームタグは、このセッションで利用可能な参加済みのルームにのみ変更できます。</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Room tags are temporarily unavailable because the Matrix session is not active.</source>
-        <translation>Matrixセッションがアクティブでないため、部屋タグは一時的に利用できません。</translation>
+        <translation>Matrixセッションがアクティブでないため、ルームタグは一時的に利用できません。</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to add room tag: %1</source>
-        <translation>部屋タグの追加に失敗しました: %1</translation>
+        <translation>ルームタグの追加に失敗しました: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room tag: %1</source>
-        <translation>部屋タグの削除に失敗しました: %1</translation>
+        <translation>ルームタグの削除に失敗しました: %1</translation>
     </message>
 </context>
 <context>
@@ -1780,7 +1780,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-109"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation>転送すると、このコンテンツが（送信者を明かさずに）別の部屋に送信されます。</translation>
+        <translation>転送すると、このコンテンツが（送信者を明かさずに）別のルームに送信されます。</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -1812,7 +1812,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation>転送すると、これらのメッセージが（送信者を明かさずに）別の部屋に送信されます。</translation>
+        <translation>転送すると、これらのメッセージが（送信者を明かさずに）別のルームに送信されます。</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1834,7 +1834,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+163"/>
         <source>Room name, address or id...</source>
-        <translation>部屋の名前、アドレス、またはID…</translation>
+        <translation>ルームの名前、アドレス、またはID…</translation>
     </message>
     <message>
         <location line="-170"/>
@@ -1871,17 +1871,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Hidden events in this room</source>
-        <translation>この部屋の非表示のイベント</translation>
+        <translation>このルームの非表示のイベント</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in this room:</source>
-        <translation>この部屋で&lt;b&gt;表示&lt;/b&gt;する追加イベントを選択:</translation>
+        <translation>このルームで&lt;b&gt;表示&lt;/b&gt;する追加イベントを選択:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in all rooms:</source>
-        <translation>すべての部屋で&lt;b&gt;表示&lt;/b&gt;する追加イベントを選択:</translation>
+        <translation>すべてのルームで&lt;b&gt;表示&lt;/b&gt;する追加イベントを選択:</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1909,7 +1909,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Moderator changes and room permission updates.</source>
-        <translation>モデレーターの変更と部屋の権限の更新。</translation>
+        <translation>モデレーターの変更とルームの権限の更新。</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1967,12 +1967,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>This filter is currently excluded from "All rooms", so its rooms won't appear there either. You can change this in Application Settings → Navigation.</source>
-        <translation>このフィルターは現在「すべての部屋」から除外されているため、その部屋もそこには表示されません。アプリケーション設定 → ナビゲーションで変更できます。</translation>
+        <translation>このフィルターは現在「すべてのルーム」から除外されているため、そのルームもそこには表示されません。アプリケーション設定 → ナビゲーションで変更できます。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You'll still be able to find rooms that belonged to it in "All rooms".</source>
-        <translation>それに属していた部屋は「すべての部屋」で引き続き見つけることができます。</translation>
+        <translation>それに属していたルームは「すべてのルーム」で引き続き見つけることができます。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2186,7 +2186,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+13"/>
         <source>New room pack</source>
-        <translation>新しい部屋パック</translation>
+        <translation>新しいルームパック</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2196,7 +2196,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pack from this room</source>
-        <translation>この部屋のパック</translation>
+        <translation>このルームのパック</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2216,7 +2216,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+16"/>
         <source>Enables this pack to be used in all rooms</source>
-        <translation>このパックをすべての部屋で使用できるようにします</translation>
+        <translation>このパックをすべてのルームで使用できるようにします</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2329,7 +2329,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Accept room invitation?</source>
-        <translation>部屋への招待を承認しますか？</translation>
+        <translation>ルームへの招待を承認しますか？</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -2362,12 +2362,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>this room</source>
-        <translation>この部屋</translation>
+        <translation>このルーム</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This room has %1 members.</source>
-        <translation>この部屋には%1人のメンバーがいます。</translation>
+        <translation>このルームには%1人のメンバーがいます。</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -2385,7 +2385,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation>部屋に参加</translation>
+        <translation>ルームに参加</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2462,7 +2462,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+10"/>
         <source>Failed to stage dropped attachments for this room.</source>
-        <translation>この部屋へのドロップされた添付ファイルのステージングに失敗しました。</translation>
+        <translation>このルームへのドロップされた添付ファイルのステージングに失敗しました。</translation>
     </message>
 </context>
 <context>
@@ -2483,7 +2483,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>This is a public room, so re-joining later should be easy.</source>
-        <translation>これは公開部屋のため、後から再参加するのは簡単です。</translation>
+        <translation>これは公開ルームのため、後から再参加するのは簡単です。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2493,7 +2493,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>This is a private room, so you may need an invitation to re-join.</source>
-        <translation>これはプライベートな部屋のため、再参加には招待が必要な場合があります。</translation>
+        <translation>これはプライベートなルームのため、再参加には招待が必要な場合があります。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2503,7 +2503,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Leave the %1 room?</source>
-        <translation>%1の部屋を退出しますか？</translation>
+        <translation>%1のルームを退出しますか？</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2513,12 +2513,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Leave this room?</source>
-        <translation>この部屋を退出しますか？</translation>
+        <translation>このルームを退出しますか？</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>You will remain in any rooms you joined through it.</source>
-        <translation>そのスペースを通じて参加した部屋には引き続き参加したままになります。</translation>
+        <translation>そのスペースを通じて参加したルームには引き続き参加したままになります。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2912,7 +2912,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+20"/>
         <source>Opening your rooms...</source>
-        <translation>部屋を開いています…</translation>
+        <translation>ルームを開いています…</translation>
     </message>
 </context>
 <context>
@@ -3000,7 +3000,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Loading room…</source>
-        <translation>部屋を読み込み中…</translation>
+        <translation>ルームを読み込み中…</translation>
     </message>
 </context>
 <context>
@@ -3031,7 +3031,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation>部屋が選択されていません</translation>
+        <translation>ルームが選択されていません</translation>
     </message>
 </context>
 <context>
@@ -3465,7 +3465,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+53"/>
         <source>You don't have permission to send messages in this room</source>
-        <translation>この部屋でメッセージを送信する権限がありません</translation>
+        <translation>このルームでメッセージを送信する権限がありません</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3494,12 +3494,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPage.qml" line="+30"/>
         <source>The ten thousand chats can't happen in a void. Open a room?</source>
-        <translation>万の会話も、何もない場所では始まりません。部屋を開きますか？</translation>
+        <translation>万の会話も、何もない場所では始まりません。ルームを開きますか？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your friends are just a room away</source>
-        <translation>友達は部屋一つ先にいます</translation>
+        <translation>友達はルーム一つ先にいます</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3514,7 +3514,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Be present for a bit. Then open a room.</source>
-        <translation>一息ついて。それから部屋を開きましょう。</translation>
+        <translation>一息ついて。それからルームを開きましょう。</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3529,12 +3529,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Open a room. The rest follows.</source>
-        <translation>部屋を開きましょう。あとは自然に。</translation>
+        <translation>ルームを開きましょう。あとは自然に。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room to start a conversation</source>
-        <translation>会話を始めるには部屋を開いてください</translation>
+        <translation>会話を始めるにはルームを開いてください</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3544,22 +3544,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Ready to chat - pick a room</source>
-        <translation>チャットの準備完了 - 部屋を選んでください</translation>
+        <translation>チャットの準備完了 - ルームを選んでください</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All quiet here. Open a room?</source>
-        <translation>静かですね。部屋を開きますか？</translation>
+        <translation>静かですね。ルームを開きますか？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Chat rooms await - pick one or start your own</source>
-        <translation>チャット部屋が待っています。選ぶか、自分で作りましょう</translation>
+        <translation>チャットルームが待っています。選ぶか、自分で作りましょう</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No room leads to no chat</source>
-        <translation>部屋なしではチャットなし</translation>
+        <translation>ルームなしではチャットなし</translation>
     </message>
 </context>
 <context>
@@ -3567,32 +3567,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
         <source>Join room</source>
-        <translation>部屋に参加</translation>
+        <translation>ルームに参加</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Join an existing room by address or alias</source>
-        <translation>アドレスまたはエイリアスで既存の部屋に参加する</translation>
+        <translation>アドレスまたはエイリアスで既存のルームに参加する</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Explore public rooms</source>
-        <translation>公開部屋を探索する</translation>
+        <translation>公開ルームを探索する</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse the public room directory</source>
-        <translation>公開部屋ディレクトリを閲覧する</translation>
+        <translation>公開ルームディレクトリを閲覧する</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>New room/space</source>
-        <translation>新しい部屋/スペース</translation>
+        <translation>新しいルーム/スペース</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create a new room or space [Ctrl+N]</source>
-        <translation>新しい部屋またはスペースを作成する [Ctrl+N]</translation>
+        <translation>新しいルームまたはスペースを作成する [Ctrl+N]</translation>
     </message>
 </context>
 <context>
@@ -3600,7 +3600,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPageSearch.qml" line="+59"/>
         <source>Search your rooms &amp; spaces...</source>
-        <translation>部屋とスペースを検索…</translation>
+        <translation>ルームとスペースを検索…</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -3760,7 +3760,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Some of your logged-in devices are not verified yet. Verify to unlock encrypted messages.
 
 To start, make sure one of your other devices is available.</source>
-        <translation>ログイン中のデバイスの一部はまだ検証されていません。暗号化されたメッセージのロックを解除するには検証してください。
+        <translation>ログイン中のデバイスの一部はまだ検証されていません。暗号化済メッセージのロックを解除するには検証してください。
 
 開始するには、他のデバイスのいずれかが使用可能であることを確認してください。</translation>
     </message>
@@ -3771,12 +3771,12 @@ To start, make sure one of your other devices is available.</source>
 Verify to unlock encrypted messages.</source>
         <translation>このデバイス（ID: %1）はまだ検証されていません。
 
-暗号化されたメッセージのロックを解除するには検証してください。</translation>
+暗号化済メッセージのロックを解除するには検証してください。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify the other party to ensure your encrypted communications are secure.</source>
-        <translation>暗号化された通信のセキュリティを確保するために、相手を検証してください。</translation>
+        <translation>暗号化済通信のセキュリティを確保するために、相手を検証してください。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3820,7 +3820,7 @@ Verify to unlock encrypted messages.</source>
         <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
-        <translation>%1 が暗号化されたメッセージを送信しました</translation>
+        <translation>%1 が暗号化済メッセージを送信しました</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3843,7 +3843,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-1"/>
         <source>%1 replied with an encrypted message</source>
-        <translation>%1 が暗号化されたメッセージで返信しました</translation>
+        <translation>%1 が暗号化済メッセージで返信しました</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4060,7 +4060,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+4"/>
         <source>Which of the subcommunities and rooms should these permissions be applied to?</source>
-        <translation>これらの権限をどのサブコミュニティと部屋に適用しますか？</translation>
+        <translation>これらの権限をどのサブコミュニティとルームに適用しますか？</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -4070,7 +4070,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+12"/>
         <source>Overwrite exisiting modifications in rooms</source>
-        <translation>部屋の既存の変更を上書き</translation>
+        <translation>ルームの既存の変更を上書き</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -4085,7 +4085,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Existing modifications to the permissions in this room will be overwritten</source>
-        <translation>この部屋の権限に対する既存の変更が上書きされます</translation>
+        <translation>このルームの権限に対する既存の変更が上書きされます</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4103,12 +4103,12 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelEditingModels.cpp" line="+74"/>
         <source>Failed to load room permissions from the matrix-sdk backend.</source>
-        <translation>matrix-sdkバックエンドから部屋の権限を読み込めませんでした。</translation>
+        <translation>matrix-sdkバックエンドからルームの権限を読み込めませんでした。</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Failed to save room permissions to the matrix-sdk backend.</source>
-        <translation>matrix-sdkバックエンドへ部屋の権限を保存できませんでした。</translation>
+        <translation>matrix-sdkバックエンドへルームの権限を保存できませんでした。</translation>
     </message>
 </context>
 <context>
@@ -4196,12 +4196,12 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Change the room avatar</source>
-        <translation>部屋のアバターを変更する</translation>
+        <translation>ルームのアバターを変更する</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room addresses</source>
-        <translation>部屋のアドレスを変更する</translation>
+        <translation>ルームのアドレスを変更する</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4236,17 +4236,17 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Change the room name</source>
-        <translation>部屋の名前を変更する</translation>
+        <translation>ルームの名前を変更する</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room permissions</source>
-        <translation>部屋の権限を変更する</translation>
+        <translation>ルームの権限を変更する</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the rooms topic</source>
-        <translation>部屋のトピックを変更する</translation>
+        <translation>ルームのトピックを変更する</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4271,7 +4271,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Upgrade the room</source>
-        <translation>部屋をアップグレードする</translation>
+        <translation>ルームをアップグレードする</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4286,7 +4286,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Ban rooms using policy rules</source>
-        <translation>ポリシールールで部屋をBANする</translation>
+        <translation>ポリシールールでルームをBANする</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4296,7 +4296,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Edit child communities and rooms</source>
-        <translation>サブコミュニティと部屋を編集する</translation>
+        <translation>サブコミュニティとルームを編集する</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4331,7 +4331,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Change the room emotes</source>
-        <translation>部屋の絵文字を変更する</translation>
+        <translation>ルームの絵文字を変更する</translation>
     </message>
 </context>
 <context>
@@ -4402,7 +4402,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
 サブコマンド（ディスプレイサーバーなしで実行）:
   %1 app        インスタンスメタデータ（JSON）
   %1 profiles   プロファイルランチャー管理（オフライン）
-  %1 rooms      部屋の検索とナビゲーション（JSON）
+  %1 rooms      ルームの検索とナビゲーション（JSON）
   %1 user       アカウントとプレゼンス（JSON）
   %1 settings   外観設定（JSON）
   %1 media      メディアコンテンツの解決
@@ -4499,7 +4499,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/navigation/QuickSwitcher.qml" line="+67"/>
         <source>Find &amp; switch room or space</source>
-        <translation>部屋またはスペースを検索して切り替え</translation>
+        <translation>ルームまたはスペースを検索して切り替え</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -4509,12 +4509,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+17"/>
         <source>Searches among rooms and spaces you participate in, not across all of Matrix.</source>
-        <translation>Matrixのすべてではなく、参加している部屋やスペースの中から検索します。</translation>
+        <translation>Matrixのすべてではなく、参加しているルームやスペースの中から検索します。</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room or space name, #address or !id...</source>
-        <translation>部屋またはスペース名、#アドレスまたは!id...</translation>
+        <translation>ルームまたはスペース名、#アドレスまたは!id...</translation>
     </message>
 </context>
 <context>
@@ -4984,7 +4984,7 @@ Please go back and sign in manually.</source>
     <message>
         <location line="+8"/>
         <source>This message you are reporting will be sent to your server administrator for review. Please note that not all server administrators review reported content. You should also ask a room moderator to remove the content if necessary.</source>
-        <translation>報告するメッセージはレビューのためサーバー管理者に送信されます。すべてのサーバー管理者が報告されたコンテンツを確認するわけではありません。必要に応じて、部屋のモデレーターにコンテンツの削除を依頼してください。</translation>
+        <translation>報告するメッセージはレビューのためサーバー管理者に送信されます。すべてのサーバー管理者が報告されたコンテンツを確認するわけではありません。必要に応じて、ルームのモデレーターにコンテンツの削除を依頼してください。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5124,17 +5124,17 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/RoomDirectory.qml" line="+65"/>
         <source>This room is extremely large. You should probably stay away from it unless you have a very powerful server. Joining may take a very long time.</source>
-        <translation>この部屋は非常に大きいです。非常に強力なサーバーがない限り、参加しない方がよいでしょう。参加には非常に長い時間がかかる場合があります。</translation>
+        <translation>このルームは非常に大きいです。非常に強力なサーバーがない限り、参加しない方がよいでしょう。参加には非常に長い時間がかかる場合があります。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room is large. Joining may take a long time and increase resource usage on your server.</source>
-        <translation>この部屋は大きいです。参加には時間がかかり、サーバーのリソース使用量が増加する場合があります。</translation>
+        <translation>このルームは大きいです。参加には時間がかかり、サーバーのリソース使用量が増加する場合があります。</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Explore Public Rooms</source>
-        <translation>公開部屋を探索</translation>
+        <translation>公開ルームを探索</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -5154,7 +5154,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+20"/>
         <source>Number of known public rooms in this server's directory</source>
-        <translation>このサーバーのディレクトリにある既知の公開部屋の数</translation>
+        <translation>このサーバーのディレクトリにある既知の公開ルームの数</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -5189,7 +5189,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+1"/>
         <source>Rooms</source>
-        <translation>部屋</translation>
+        <translation>ルーム</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5244,12 +5244,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+21"/>
         <source>Rooms &amp; spaces</source>
-        <translation>部屋とスペース</translation>
+        <translation>ルームとスペース</translation>
     </message>
     <message>
         <location line="+109"/>
         <source>(unnamed room)</source>
-        <translation>（名前のない部屋）</translation>
+        <translation>（名前のないルーム）</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -5264,12 +5264,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+0"/>
         <source>Copy room address</source>
-        <translation>部屋のアドレスをコピー</translation>
+        <translation>ルームのアドレスをコピー</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>There are %1 members in this room</source>
-        <translation>この部屋には%1人のメンバーがいます</translation>
+        <translation>このルームには%1人のメンバーがいます</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5289,12 +5289,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+18"/>
         <source>The room size filter may be hiding results. Try a larger size or "Any".</source>
-        <translation>部屋のサイズフィルターが結果を隠している可能性があります。より大きいサイズか「すべて」を試してください。</translation>
+        <translation>ルームのサイズフィルターが結果を隠している可能性があります。より大きいサイズか「すべて」を試してください。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Enter a server address above to explore its public rooms.</source>
-        <translation>上にサーバーアドレスを入力して、公開部屋を探索してください。</translation>
+        <translation>上にサーバーアドレスを入力して、公開ルームを探索してください。</translation>
     </message>
 </context>
 <context>
@@ -5302,7 +5302,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../../src/models/RoomDirectoryModel.cpp" line="+262"/>
         <source>Room directory requires an active Matrix session.</source>
-        <translation>部屋のディレクトリにはアクティブなMatrixセッションが必要です。</translation>
+        <translation>ルームのディレクトリにはアクティブなMatrixセッションが必要です。</translation>
     </message>
 </context>
 <context>
@@ -5310,37 +5310,37 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
-        <translation>この部屋のメッセージはエンドツーエンド暗号化されていません。</translation>
+        <translation>このルームのメッセージはエンドツーエンド暗号化されていません。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This room contains only verified devices.</source>
-        <translation>この部屋には検証済みのデバイスのみが含まれています。</translation>
+        <translation>このルームには検証済のデバイスのみが含まれています。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains verified devices and devices which have never changed their master key.</source>
-        <translation>この部屋には検証済みのデバイスと、マスターキーを変更したことのないデバイスが含まれています。</translation>
+        <translation>このルームには検証済のデバイスと、マスターキーを変更したことのないデバイスが含まれています。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains unverified devices!</source>
-        <translation>この部屋には未検証のデバイスが含まれています！</translation>
+        <translation>このルームには未検証のデバイスが含まれています！</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Encryption is a room setting that can be enabled in Room Info.</source>
-        <translation>暗号化は部屋の設定で、部屋の情報から有効にできます。</translation>
+        <translation>暗号化はルームの設定で、ルームの情報から有効にできます。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Messages are end-to-end encrypted and all devices are verified.</source>
-        <translation>メッセージはエンドツーエンド暗号化されており、すべてのデバイスが検証済みです。</translation>
+        <translation>メッセージはエンドツーエンド暗号化されており、すべてのデバイスが検証済です。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted. Some devices are verified, others are trusted by first use.</source>
-        <translation>メッセージはエンドツーエンド暗号化されています。一部のデバイスは検証済みで、その他は初回使用時に信頼されています。</translation>
+        <translation>メッセージはエンドツーエンド暗号化されています。一部のデバイスは検証済で、その他は初回使用時に信頼されています。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5360,7 +5360,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>検証済み</translation>
+        <translation>検証済</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5380,7 +5380,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+24"/>
         <source>See Room Settings</source>
-        <translation>部屋の設定を見る</translation>
+        <translation>ルームの設定を見る</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -5393,7 +5393,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation>部屋が選択されていません</translation>
+        <translation>ルームが選択されていません</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5418,7 +5418,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>検証済み</translation>
+        <translation>検証済</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5446,7 +5446,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation>部屋リストに戻る</translation>
+        <translation>ルームリストに戻る</translation>
     </message>
 </context>
 <context>
@@ -5462,7 +5462,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderMembersButton.qml" line="+14"/>
         <source>Show the members of this room</source>
-        <translation>この部屋のメンバーを表示</translation>
+        <translation>このルームのメンバーを表示</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5488,7 +5488,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomAvatar.qml" line="+31"/>
         <source>Room settings</source>
-        <translation>部屋の設定</translation>
+        <translation>ルームの設定</translation>
     </message>
 </context>
 <context>
@@ -5496,12 +5496,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
         <source>This room is public. Anyone can join.</source>
-        <translation>この部屋はパブリックです。誰でも参加できます。</translation>
+        <translation>このルームはパブリックです。誰でも参加できます。</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>This room is private. Invitation required.</source>
-        <translation>この部屋はプライベートです。招待が必要です。</translation>
+        <translation>このルームはプライベートです。招待が必要です。</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -5519,7 +5519,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchButton.qml" line="+16"/>
         <source>Search within this room's messages [Ctrl+F]</source>
-        <translation>この部屋のメッセージを検索 [Ctrl+F]</translation>
+        <translation>このルームのメッセージを検索 [Ctrl+F]</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5532,7 +5532,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchRow.qml" line="+48"/>
         <source>Type to search in this room's messages</source>
-        <translation>この部屋のメッセージを検索...</translation>
+        <translation>このルームのメッセージを検索...</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -5545,7 +5545,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSettingsButton.qml" line="+13"/>
         <source>Room settings</source>
-        <translation>部屋の設定</translation>
+        <translation>ルームの設定</translation>
     </message>
 </context>
 <context>
@@ -5581,7 +5581,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+45"/>
         <source>Room Version</source>
-        <translation>部屋のバージョン</translation>
+        <translation>ルームのバージョン</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5624,7 +5624,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+0"/>
         <source>Room Info</source>
-        <translation>部屋の情報</translation>
+        <translation>ルームの情報</translation>
     </message>
 </context>
 <context>
@@ -5645,7 +5645,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+8"/>
         <source>Manage my profile in this room</source>
-        <translation>この部屋でのプロフィールを管理</translation>
+        <translation>このルームでのプロフィールを管理</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5713,7 +5713,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
-        <translation>この部屋の通知の受け取り方を設定します。</translation>
+        <translation>このルームの通知の受け取り方を設定します。</translation>
     </message>
 </context>
 <context>
@@ -5747,7 +5747,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove the room avatar?</source>
-        <translation>部屋のアバターを削除してもよろしいですか？</translation>
+        <translation>ルームのアバターを削除してもよろしいですか？</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -5808,7 +5808,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+16"/>
         <source>New room/space</source>
-        <translation>新しい部屋/スペース</translation>
+        <translation>新しいルーム/スペース</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -5828,12 +5828,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+9"/>
         <source>New room</source>
-        <translation>新しい部屋</translation>
+        <translation>新しいルーム</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A public or private room for group conversations</source>
-        <translation>グループ会話のための公開または非公開の部屋</translation>
+        <translation>グループ会話のための公開または非公開のルーム</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5848,7 +5848,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>Create a new public or private collection of rooms</source>
-        <translation>新しい公開または非公開の部屋のコレクションを作成する</translation>
+        <translation>新しい公開または非公開のルームのコレクションを作成する</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5861,12 +5861,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
         <source>Join room</source>
-        <translation>部屋に参加</translation>
+        <translation>ルームに参加</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New room</source>
-        <translation>新しい部屋</translation>
+        <translation>新しいルーム</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -5925,12 +5925,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <source>Copy room link</source>
-        <translation>部屋のリンクをコピー</translation>
+        <translation>ルームのリンクをコピー</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tag room as:</source>
-        <translation>部屋にタグを設定:</translation>
+        <translation>ルームにタグを設定:</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5955,12 +5955,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation>部屋の設定</translation>
+        <translation>ルームの設定</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave room</source>
-        <translation>部屋を退出</translation>
+        <translation>ルームを退出</translation>
     </message>
 </context>
 <context>
@@ -5984,7 +5984,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListFreezeIndicator.qml" line="+47"/>
         <source>Live updates are paused while you interact with the room list.</source>
-        <translation>部屋リストを操作中はリアルタイム更新が一時停止されています。</translation>
+        <translation>ルームリストを操作中はリアルタイム更新が一時停止されています。</translation>
     </message>
 </context>
 <context>
@@ -6124,7 +6124,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomOptionsButton.qml" line="+13"/>
         <source>Leave this room</source>
-        <translation>この部屋から退出</translation>
+        <translation>このルームから退出</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -6180,7 +6180,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+42"/>
         <source>Failed to update room access rules.</source>
-        <translation>部屋のアクセスルールを更新できませんでした。</translation>
+        <translation>ルームのアクセスルールを更新できませんでした。</translation>
     </message>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
@@ -6200,12 +6200,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+41"/>
         <source>Failed to update room name.</source>
-        <translation>部屋名を更新できませんでした。</translation>
+        <translation>ルーム名を更新できませんでした。</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to update room topic.</source>
-        <translation>部屋のトピックを更新できませんでした。</translation>
+        <translation>ルームのトピックを更新できませんでした。</translation>
     </message>
 </context>
 <context>
@@ -6235,12 +6235,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+15"/>
         <source>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;Aliases&lt;/a&gt; are alternative addresses (like #room:example.com) that people can use to find this room.</source>
-        <translation>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;エイリアス&lt;/a&gt;は、#room:example.com のような代替アドレスで、人々がこの部屋を見つけるために使用できます。</translation>
+        <translation>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;エイリアス&lt;/a&gt;は、#room:example.com のような代替アドレスで、人々がこのルームを見つけるために使用できます。</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room access</source>
-        <translation>部屋のアクセス</translation>
+        <translation>ルームのアクセス</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -6275,7 +6275,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+28"/>
         <source>Rooms to join via</source>
-        <translation>経由して参加できる部屋</translation>
+        <translation>経由して参加できるルーム</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -6291,7 +6291,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+17"/>
         <source>Lets &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;temporary accounts&lt;/a&gt; without full registration join the room.</source>
-        <translation>完全な登録なしの&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;一時アカウント&lt;/a&gt;が部屋に参加できるようにします。</translation>
+        <translation>完全な登録なしの&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;一時アカウント&lt;/a&gt;がルームに参加できるようにします。</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -6311,7 +6311,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+17"/>
         <source>Useful for room previews and public websites.</source>
-        <translation>部屋のプレビューや公開ウェブサイトに便利です。</translation>
+        <translation>ルームのプレビューや公開ウェブサイトに便利です。</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -6496,7 +6496,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+34"/>
         <source>Previewing this room</source>
-        <translation>この部屋をプレビュー中</translation>
+        <translation>このルームをプレビュー中</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -6506,7 +6506,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+2"/>
         <source>This room is possibly inaccessible</source>
-        <translation>この部屋はアクセスできない可能性があります</translation>
+        <translation>このルームはアクセスできない可能性があります</translation>
     </message>
 </context>
 <context>
@@ -6552,7 +6552,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>サインアウト、再インストール、または別のデバイスを設定する際に、暗号化されたメッセージにアクセスするために必要です。</translation>
+        <translation>サインアウト、再インストール、または別のデバイスを設定する際に、暗号化済メッセージにアクセスするために必要です。</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6894,13 +6894,13 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+3"/>
         <source>This account already has encryption keys, but this device is not verified. Verify it to unlock encrypted messages.</source>
         <extracomment>The user just signed in with this device and hasn't verified their master key.</extracomment>
-        <translation>このアカウントにはすでに暗号化キーがありますが、このデバイスは検証されていません。暗号化されたメッセージを解除するには、デバイスを検証してください。</translation>
+        <translation>このアカウントにはすでに暗号化キーがありますが、このデバイスは検証されていません。暗号化済メッセージを解除するには、デバイスを検証してください。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This device is verified, but some of your other logged-in devices are not. Review and verify them.</source>
         <extracomment>There are unverified devices signed in to this account.</extracomment>
-        <translation>このデバイスは検証済みですが、他のログイン中のデバイスの一部が検証されていません。確認して検証してください。</translation>
+        <translation>このデバイスは検証済ですが、他のログイン中のデバイスの一部が検証されていません。確認して検証してください。</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7062,7 +7062,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <location line="+11"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation>「全ての部屋」に含める</translation>
+        <translation>「全てのルーム」に含める</translation>
     </message>
 </context>
 <context>
@@ -7138,7 +7138,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <location line="+7"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation>「全ての部屋」に含める</translation>
+        <translation>「全てのルーム」に含める</translation>
     </message>
 </context>
 <context>
@@ -7272,7 +7272,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+134"/>
         <source>Only room image packs can be enabled globally.</source>
-        <translation>グローバルで有効にできるのは部屋の画像パックのみです。</translation>
+        <translation>グローバルで有効にできるのはルームの画像パックのみです。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7430,7 +7430,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+7"/>
         <source>Verification complete. Both devices have been verified.</source>
-        <translation>検証が完了しました。両方のデバイスが検証済みです。</translation>
+        <translation>検証が完了しました。両方のデバイスが検証済です。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -7624,12 +7624,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+10"/>
         <source>You haven't participated in any threads in this room yet.</source>
-        <translation>この部屋のスレッドにはまだ参加していません。</translation>
+        <translation>このルームのスレッドにはまだ参加していません。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No one has started a thread in this room yet.</source>
-        <translation>この部屋にはまだスレッドが開始されていません。</translation>
+        <translation>このルームにはまだスレッドが開始されていません。</translation>
     </message>
 </context>
 <context>
@@ -7637,7 +7637,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation>部屋リストに戻る</translation>
+        <translation>ルームリストに戻る</translation>
     </message>
 </context>
 <context>
@@ -7717,12 +7717,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+26"/>
         <source>This room was replaced for the following reason: %1</source>
-        <translation>この部屋は以下の理由で置き換えられました: %1</translation>
+        <translation>このルームは以下の理由で置き換えられました: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Go to replacement room</source>
-        <translation>移行先の部屋へ移動</translation>
+        <translation>移行先のルームへ移動</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -7740,7 +7740,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineMentionWarningBar.qml" line="+63"/>
         <source>You are about to notify the whole room</source>
-        <translation>部屋全体に通知しようとしています</translation>
+        <translation>ルーム全体に通知しようとしています</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7823,7 +7823,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+23"/>
         <source>This room is possibly inaccessible. If this room is private, you should remove it from this community.</source>
-        <translation>この部屋にアクセスできない可能性があります。プライベートな部屋の場合は、このコミュニティから削除してください。</translation>
+        <translation>このルームにアクセスできない可能性があります。プライベートなルームの場合は、このコミュニティから削除してください。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7838,7 +7838,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+9"/>
         <source>This room is available in the room list, but its timeline is not loaded yet.</source>
-        <translation>この部屋は部屋リストに表示されていますが、タイムラインはまだ読み込まれていません。</translation>
+        <translation>このルームはルームリストに表示されていますが、タイムラインはまだ読み込まれていません。</translation>
     </message>
 </context>
 <context>
@@ -7998,7 +7998,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
         <source>This command needs an active room.</source>
-        <translation>このコマンドにはアクティブな部屋が必要です。</translation>
+        <translation>このコマンドにはアクティブなルームが必要です。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8018,18 +8018,18 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+36"/>
         <source>Failed to update your room-specific display name for %1: %2</source>
-        <translation>%1 の部屋固有の表示名の更新に失敗しました: %2</translation>
+        <translation>%1 のルーム固有の表示名の更新に失敗しました: %2</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>The room timeline is not ready yet.</source>
-        <translation>部屋のタイムラインはまだ準備ができていません。</translation>
+        <translation>ルームのタイムラインはまだ準備ができていません。</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+10"/>
         <source>That message index could not be resolved in this room.</source>
-        <translation>このメッセージインデックスはこの部屋で解決できませんでした。</translation>
+        <translation>このメッセージインデックスはこのルームで解決できませんでした。</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -8044,12 +8044,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+10"/>
         <source>Marked this room as a direct message.</source>
-        <translation>この部屋をダイレクトメッセージとしてマークしました。</translation>
+        <translation>このルームをダイレクトメッセージとしてマークしました。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Marked this room as a regular room.</source>
-        <translation>この部屋を通常の部屋としてマークしました。</translation>
+        <translation>このルームを通常のルームとしてマークしました。</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8331,7 +8331,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Failed to update room display name.</source>
-        <translation>部屋の表示名の更新に失敗しました。</translation>
+        <translation>ルームの表示名の更新に失敗しました。</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -8417,7 +8417,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Failed to upload room avatar.</source>
-        <translation>部屋のアバターのアップロードに失敗しました。</translation>
+        <translation>ルームのアバターのアップロードに失敗しました。</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -8427,22 +8427,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Failed to remove room avatar.</source>
-        <translation>部屋のアバターの削除に失敗しました。</translation>
+        <translation>ルームのアバターの削除に失敗しました。</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/user/UserProfile.qml" line="+45"/>
         <source>Kick %1 from room?</source>
-        <translation>%1を部屋からキックしますか？</translation>
+        <translation>%1をルームからキックしますか？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ban %1 from room?</source>
-        <translation>%1 を部屋から禁止しますか？</translation>
+        <translation>%1 をルームから禁止しますか？</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Room member profile</source>
-        <translation>部屋のメンバープロフィール</translation>
+        <translation>ルームのメンバープロフィール</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8452,7 +8452,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+91"/>
         <source>Room</source>
-        <translation>部屋</translation>
+        <translation>ルーム</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -8467,7 +8467,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+14"/>
         <source>Change avatar for this room</source>
-        <translation>この部屋のアバターを変更</translation>
+        <translation>このルームのアバターを変更</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -8498,12 +8498,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>You have a room-specific avatar.</source>
-        <translation>この部屋専用のアバターが設定されています。</translation>
+        <translation>このルーム専用のアバターが設定されています。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a room-specific avatar.</source>
-        <translation>このユーザーは部屋固有のアバターを持っています。</translation>
+        <translation>このユーザーはルーム固有のアバターを持っています。</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -8513,7 +8513,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to reset your avatar for this room to the global one?</source>
-        <translation>この部屋のアバターをグローバルのものにリセットしてもよろしいですか？</translation>
+        <translation>このルームのアバターをグローバルのものにリセットしてもよろしいですか？</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8552,7 +8552,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Leave empty to clear the room-specific name.</source>
-        <translation>空にすると部屋固有の名前がクリアされます。</translation>
+        <translation>空にするとルーム固有の名前がクリアされます。</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -8594,7 +8594,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation>検証済み</translation>
+        <translation>検証済</translation>
     </message>
     <message>
         <location line="-514"/>
@@ -8662,12 +8662,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="-161"/>
         <source>Kick from room</source>
-        <translation>部屋からキック</translation>
+        <translation>ルームからキック</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ban from room</source>
-        <translation>部屋から禁止</translation>
+        <translation>ルームから禁止</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -8693,7 +8693,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+1"/>
         <source>After ignoring, you will no longer see their messages in any room.
 You can unignore later via this user's profile or via Settings → Account → Ignored users.</source>
-        <translation>無視すると、いずれの部屋でもそのユーザーのメッセージが表示されなくなります。
+        <translation>無視すると、いずれのルームでもそのユーザーのメッセージが表示されなくなります。
 後でこのユーザーのプロフィールまたは設定 → アカウント → 無視しているユーザーから無視を解除できます。</translation>
     </message>
     <message>
@@ -8709,7 +8709,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+25"/>
         <source>Set the power level for %1 in this room.</source>
-        <translation>この部屋での%1のパワーレベルを設定します。</translation>
+        <translation>このルームでの%1のパワーレベルを設定します。</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -8734,7 +8734,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+37"/>
         <source>Rooms in common</source>
-        <translation>共通の部屋</translation>
+        <translation>共通のルーム</translation>
     </message>
     <message>
         <location line="+84"/>
@@ -8789,7 +8789,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+9"/>
         <source>Device information becomes available only after exchanging encrypted messages with this user.</source>
-        <translation>デバイス情報は、このユーザーと暗号化されたメッセージを交換した後にのみ利用可能になります。</translation>
+        <translation>デバイス情報は、このユーザーと暗号化済メッセージを交換した後にのみ利用可能になります。</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -8921,7 +8921,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>メッセージの上に送信者のユーザー名を表示するタイミングを制御します。バブルモードでは自分のユーザー名は常に非表示です。小さい部屋ではアバターとバブルの色だけで十分なことが多いです。</translation>
+        <translation>メッセージの上に送信者のユーザー名を表示するタイミングを制御します。バブルモードでは自分のユーザー名は常に非表示です。小さいルームではアバターとバブルの色だけで十分なことが多いです。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -9317,7 +9317,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+11"/>
         <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>部屋リストとタイムラインのスワイプ切り替え、メッセージをスワイプして返信するなどのジェスチャーを有効にします。</translation>
+        <translation>ルームリストとタイムラインのスワイプ切り替え、メッセージをスワイプして返信するなどのジェスチャーを有効にします。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -9347,7 +9347,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+11"/>
         <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>カスタムアバターがないユーザーと部屋に表示されます。</translation>
+        <translation>カスタムアバターがないユーザーとルームに表示されます。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9362,17 +9362,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation>すべての部屋</translation>
+        <translation>すべてのルーム</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>すべての部屋を1つのビューに表示します。以下で除外としてマークされたフィルターに属する部屋はこのリストから非表示になります。</translation>
+        <translation>すべてのルームを1つのビューに表示します。以下で除外としてマークされたフィルターに属するルームはこのリストから非表示になります。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Matrix部屋タグAPIを通じて &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; タグが付けられた部屋。</translation>
+        <translation>MatrixルームタグAPIを通じて &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; タグが付けられたルーム。</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9387,37 +9387,37 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+12"/>
         <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>ダイレクトチャット（&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; など）ではない複数参加者の部屋。</translation>
+        <translation>ダイレクトチャット（&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; など）ではない複数参加者のルーム。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>管理メッセージのためにホームサーバーによって &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; タグが付けられた部屋。Matrix仕様の &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; モジュールを参照してください。</translation>
+        <translation>管理メッセージのためにホームサーバーによって &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; タグが付けられたルーム。Matrix仕様の &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; モジュールを参照してください。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Matrix部屋タグAPIを通じて &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; タグが付けられた部屋。</translation>
+        <translation>MatrixルームタグAPIを通じて &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; タグが付けられたルーム。</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room list</source>
-        <translation>部屋リスト</translation>
+        <translation>ルームリスト</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>部屋の横に未読強調（カウントバッジ、太字の部屋名、アバターバウンス、行ハイライト、左端マーカー）を表示します。</translation>
+        <translation>ルームの横に未読強調（カウントバッジ、太字のルーム名、アバターバウンス、行ハイライト、左端マーカー）を表示します。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>部屋リストのエントリに最後のメッセージのプレビューを追加します。スペーシャスレイアウトとコンパクトレイアウトでは独立した行に表示され、デンスレイアウトでは部屋名の横にインラインで表示されます。</translation>
+        <translation>ルームリストのエントリに最後のメッセージのプレビューを追加します。スペーシャスレイアウトとコンパクトレイアウトでは独立した行に表示され、デンスレイアウトではルーム名の横にインラインで表示されます。</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>部屋をクリックしたときにアクティブなタブを再利用するか、新しいタブを開くかを設定します。既存のタブがある部屋は常にそのタブがアクティブになります。</translation>
+        <translation>ルームをクリックしたときにアクティブなタブを再利用するか、新しいタブを開くかを設定します。既存のタブがあるルームは常にそのタブがアクティブになります。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9427,7 +9427,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+54"/>
         <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>最近閉じた事前レンダリング済みタイムラインにより、即座に部屋を切り替えられますが、CPUとRAMの使用量が増加します。開いているタブは常に事前レンダリングされます。開いているタブのみを保持するには0に設定してください。</translation>
+        <translation>最近閉じた事前レンダリング済みタイムラインにより、即座にルームを切り替えられますが、CPUとRAMの使用量が増加します。開いているタブは常に事前レンダリングされます。開いているタブのみを保持するには0に設定してください。</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
@@ -9462,7 +9462,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>メッセージの上に送信者のユーザー名を表示するタイミングを制御します。バブルモードでは自分のユーザー名は常に非表示です。小さい部屋ではアバターとバブルの色だけで十分なことが多いです。</translation>
+        <translation>メッセージの上に送信者のユーザー名を表示するタイミングを制御します。バブルモードでは自分のユーザー名は常に非表示です。小さいルームではアバターとバブルの色だけで十分なことが多いです。</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9482,7 +9482,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>スレッドの返信をメインタイムラインから非表示にし、スレッドのルートメッセージのみを表示します。部屋情報 → 設定で部屋ごとに上書きできます。&lt;br&gt;⚠️ スレッドごとの未読追跡はサポートされていないため、古いスレッドの返信を見逃す場合があります。</translation>
+        <translation>スレッドの返信をメインタイムラインから非表示にし、スレッドのルートメッセージのみを表示します。ルーム情報 → 設定でルームごとに上書きできます。&lt;br&gt;⚠️ スレッドごとの未読追跡はサポートされていないため、古いスレッドの返信を見逃す場合があります。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9493,7 +9493,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>メッセージが既読かどうかを表示します。ホームサーバーが既読確認をサポートしていない場合、部屋が既読としてマークされない場合があります。</translation>
+        <translation>メッセージが既読かどうかを表示します。ホームサーバーが既読確認をサポートしていない場合、ルームが既読としてマークされない場合があります。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9509,7 +9509,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>アクションバーに固定するリアクションのカンマ区切りリスト。残りのスロットは部屋ごとによく使うリアクションで埋められます。</translation>
+        <translation>アクションバーに固定するリアクションのカンマ区切りリスト。残りのスロットはルームごとによく使うリアクションで埋められます。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9519,7 +9519,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+18"/>
         <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>暗号化された画像はディスク上に復号化されて&lt;a href="komai://media-cache"&gt;キャッシュ&lt;/a&gt;されます（定期的に自動削除）。</translation>
+        <translation>暗号化済画像はディスク上に復号されて&lt;a href="komai://media-cache"&gt;キャッシュ&lt;/a&gt;されます（定期的に自動削除）。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9564,7 +9564,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>メッセージ入力でハッシュ（#）を入力するとインライン部屋ピッカーを表示します。</translation>
+        <translation>メッセージ入力でハッシュ（#）を入力するとインラインルームピッカーを表示します。</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9644,12 +9644,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>注意が必要な部屋の数をKomaiのウィンドウタイトルに追加します。</translation>
+        <translation>注意が必要なルームの数をKomaiのウィンドウタイトルに追加します。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>注意が必要な部屋数をアプリ/タスクバーバッジに表示します。Linuxでは、デフォルト以外のプロファイルは信頼性の高いアプリバッジのために専用のデスクトップランチャーが必要です。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;詳細はこちら&lt;/a&gt;。</translation>
+        <translation>注意が必要なルーム数をアプリ/タスクバーバッジに表示します。Linuxでは、デフォルト以外のプロファイルは信頼性の高いアプリバッジのために専用のデスクトップランチャーが必要です。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;詳細はこちら&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -9749,12 +9749,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+10"/>
         <source>Matrix Rooms Search</source>
-        <translation>Matrix部屋検索</translation>
+        <translation>Matrixルーム検索</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>有効にすると、&lt;a href="komai://rooms-directory"&gt;公開部屋を探す&lt;/a&gt;ダイアログに&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;のサポートを追加します。</translation>
+        <translation>有効にすると、&lt;a href="komai://rooms-directory"&gt;公開ルームを探す&lt;/a&gt;ダイアログに&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;のサポートを追加します。</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9774,17 +9774,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>暗号化メッセージを送信するにはユーザーが検証済みである必要があります。これにより安全性が向上しますが、E2EEの操作がより煩雑になります。</translation>
+        <translation>暗号化メッセージを送信するにはユーザーが検証済である必要があります。これにより安全性が向上しますが、E2EEの操作がより煩雑になります。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>検証済みの他のユーザーからの鍵のリクエストに対し、そのデバイスが本来鍵にアクセスできない場合でも自動的に返信します。</translation>
+        <translation>検証済の他のユーザーからの鍵のリクエストに対し、そのデバイスが本来鍵にアクセスできない場合でも自動的に返信します。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>暗号化されたオンラインキーバックアップからメッセージ暗号化キーをダウンロードし、アップロードします。</translation>
+        <translation>暗号化済オンラインキーバックアップからメッセージ暗号化キーをダウンロードし、アップロードします。</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -1,5 +1,8 @@
 name: CI
 
+# Pipeline overview, cache strategy, and design rationale:
+#   docs/architecture/ci.md
+
 on:
   pull_request:
   push:

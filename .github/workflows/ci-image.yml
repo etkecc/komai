@@ -3,6 +3,9 @@ name: CI image
 # Builds and pushes the CI base image used by ci.yml. Decoupled from
 # ci.yml so (a) the image doesn't get rebuilt on every CI run and
 # (b) Arch package drift can be refreshed without a Dockerfile change.
+#
+# Pipeline overview, cache strategy, and design rationale:
+#   docs/architecture/ci.md
 
 on:
   push:

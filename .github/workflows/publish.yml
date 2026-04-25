@@ -4,6 +4,9 @@ name: Publish
 # and Snap bundles on the self-hosted runner, then creates a GitHub
 # Release with the CHANGELOG section for that version as release notes
 # and the three artefacts attached.
+#
+# Pipeline overview, cache strategy, and design rationale:
+#   docs/architecture/ci.md
 
 on:
   workflow_run:

@@ -25,6 +25,7 @@ Technical documentation for Komai internals.
 - 🧵 [Thread Timeline](thread-timeline.md) -- SDK + /relations hybrid architecture, live updates, sync gap workaround, and delegate recycling fix
 - 🔢 [Thread Reply Counts](thread-reply-counts.md) -- why ThreadingSupport can't be used, list_threads() caching approach, and data flow
 - 🦀 [Rust in Komai](rust.md) -- CXX interop pattern, blocking FFI rules, directory layout, build integration, and packaging
+- 🚦 [CI Pipeline](ci.md) -- workflows, cache strategy (cargo-target unification with Corrosion, lock-hash key, optional host-mount), mold linker, ccache PCH sloppiness
 
 ## Differences from nheko
 

@@ -53,6 +53,10 @@ jobs:
       # step for the full explanation.
       # ccache wraps both C and C++ compiles; CMake enables it via the
       # -DCMAKE_{C,CXX}_COMPILER_LAUNCHER=ccache flags on Configure.
+      # CCACHE_DIR defaults to a workspace path; the "Wire host-mounted
+      # ccache" step below overrides it via $GITHUB_ENV when the
+      # provisioned cache disk is present, so subsequent steps and
+      # the ccache binary itself see the new value.
       CCACHE_DIR: ${{ github.workspace }}/var/cache/ccache
       CCACHE_MAXSIZE: "2G"
       CCACHE_COMPRESS: "true"
@@ -137,6 +141,23 @@ jobs:
           fi
           echo "Unified cargo target dir: ${UNIFIED}"
 
+      - name: Wire host-mounted ccache
+        # Mirrors the cargo-target host-mount pattern: when the
+        # provisioned cache disk is present (HOST_CACHE=true from
+        # the compute step above), point CCACHE_DIR at a subdir on
+        # it so ccache state persists across jobs without an
+        # actions/cache round-trip. On the validated baseline this
+        # eliminates ~2 min of Post Cache ccache save per run.
+        # On runners without the host-mount, CCACHE_DIR keeps its
+        # job-level default (workspace path) and the actions/cache
+        # step below runs as before — workflow stays portable.
+        if: env.HOST_CACHE == 'true'
+        run: |
+          CCACHE_HOST_DIR=/var/lib/komai-ci/ccache
+          mkdir -p "${CCACHE_HOST_DIR}"
+          echo "CCACHE_DIR=${CCACHE_HOST_DIR}" >> "${GITHUB_ENV}"
+          echo "Host-mounted ccache active at ${CCACHE_HOST_DIR}"
+
       # ---------- Caches --------------------------------------------------
       # Each cache is restored before its consumer step. Saves happen
       # automatically at end of job on successful completion.
@@ -161,6 +182,10 @@ jobs:
             cargo-home-
 
       - name: Cache ccache
+        # Gated by HOST_CACHE: skipped on runners with the host-
+        # mounted cache disk (ccache state persists there directly).
+        # Runs as before on any runner without the host-mount.
+        if: env.HOST_CACHE != 'true'
         uses: actions/cache@v5
         with:
           path: var/cache/ccache

@@ -1029,9 +1029,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n medlem</numerusform>
+            <numerusform>%n medlemmar</numerusform>
         </translation>
     </message>
     <message>
@@ -1796,9 +1796,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Vidarebefordra %n meddelande?</numerusform>
+            <numerusform>Vidarebefordra %n meddelanden?</numerusform>
         </translation>
     </message>
     <message>
@@ -1829,9 +1829,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Vidarebefordra %n markerat meddelande till &lt;b&gt;%1&lt;/b&gt;?</numerusform>
+            <numerusform>Vidarebefordra %n markerade meddelanden till &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2983,9 +2983,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Radera %n markerat meddelande?</numerusform>
+            <numerusform>Radera %n markerade meddelanden?</numerusform>
         </translation>
     </message>
     <message>
@@ -4143,17 +4143,17 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Tillämpade behörigheter på %n underordnat område.</numerusform>
+            <numerusform>Tillämpade behörigheter på %n underordnade områden.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Misslyckades med att tillämpa behörigheter på %n underordnat område: %1</numerusform>
+            <numerusform>Misslyckades med att tillämpa behörigheter på %n underordnade områden: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5639,9 +5639,9 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n medlem i %1</numerusform>
+            <numerusform>%n medlemmar i %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7589,9 +7589,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n trådsvar</numerusform>
+            <numerusform>%n trådsvar</numerusform>
         </translation>
     </message>
     <message>
@@ -7615,9 +7615,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n trådsvar</numerusform>
+            <numerusform>%n trådsvar</numerusform>
         </translation>
     </message>
     <message>
@@ -7792,9 +7792,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n trådsvar</numerusform>
+            <numerusform>%n trådsvar</numerusform>
         </translation>
     </message>
     <message>
@@ -7826,9 +7826,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n medlem</numerusform>
+            <numerusform>%n medlemmar</numerusform>
         </translation>
     </message>
     <message>
@@ -8093,9 +8093,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n markerat meddelande</numerusform>
+            <numerusform>%n markerade meddelanden</numerusform>
         </translation>
     </message>
     <message>
@@ -8239,9 +8239,11 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n rum behöver uppmärksamhet</numerusform>
+            <numerusform>
+%n rum behöver uppmärksamhet</numerusform>
         </translation>
     </message>
 </context>

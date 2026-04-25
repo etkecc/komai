@@ -1029,8 +1029,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message numerus="yes">
         <location line="+54"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n thành viên</numerusform>
         </translation>
     </message>
     <message>
@@ -1795,8 +1795,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Chuyển tiếp %n tin nhắn?</numerusform>
         </translation>
     </message>
     <message>
@@ -1827,8 +1827,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message numerus="yes">
         <location line="+3"/>
         <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Chuyển tiếp %n tin nhắn đã chọn tới &lt;b&gt;%1&lt;/b&gt;?</numerusform>
         </translation>
     </message>
     <message>
@@ -2980,8 +2980,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message numerus="yes">
         <location line="+1"/>
         <source>Delete %n selected messages?</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Xóa %n tin nhắn đã chọn?</numerusform>
         </translation>
     </message>
     <message>
@@ -4139,15 +4139,15 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
     <message numerus="yes">
         <location filename="../../../src/powerlevels/PowerlevelsSpacesListModel.cpp" line="+104"/>
         <source>Applied permissions to %n child space(s).</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Đã áp dụng quyền cho %n không gian con.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>Failed to apply permissions to %n child space(s): %1</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>Không thể áp dụng quyền cho %n không gian con: %1</numerusform>
         </translation>
     </message>
 </context>
@@ -5633,8 +5633,8 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
         <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n thành viên trong %1</numerusform>
         </translation>
     </message>
     <message>
@@ -7582,8 +7582,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message numerus="yes">
         <location line="+86"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n trả lời chủ đề</numerusform>
         </translation>
     </message>
     <message>
@@ -7607,8 +7607,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n trả lời chủ đề</numerusform>
         </translation>
     </message>
     <message>
@@ -7783,8 +7783,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message numerus="yes">
         <location line="+64"/>
         <source>%n thread reply(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n trả lời chủ đề</numerusform>
         </translation>
     </message>
     <message>
@@ -7816,8 +7816,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message numerus="yes">
         <location line="+19"/>
         <source>%n member(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n thành viên</numerusform>
         </translation>
     </message>
     <message>
@@ -8082,8 +8082,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message numerus="yes">
         <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n tin nhắn đã chọn</numerusform>
         </translation>
     </message>
     <message>
@@ -8227,8 +8227,9 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <location line="+31"/>
         <source>
 %n room(s) need attention</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>
+%n phòng cần chú ý</numerusform>
         </translation>
     </message>
 </context>

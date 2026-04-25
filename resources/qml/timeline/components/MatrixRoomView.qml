@@ -488,9 +488,9 @@ ColumnLayout {
                     function isEffectivelyAtLiveEdge() { return viewportSupport.isEffectivelyAtLiveEdge(); }
 
                     anchors.fill: parent
-                    anchors.margins: Komai.paddingLarge
-                    anchors.bottomMargin: matrixTypingIndicator.visible ? 0 : Komai.paddingLarge
-                    anchors.rightMargin: Komai.paddingLarge + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
+                    anchors.margins: Komai.paddingMedium
+                    anchors.bottomMargin: matrixTypingIndicator.visible ? 0 : Komai.paddingMedium
+                    anchors.rightMargin: Komai.paddingMedium + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
                     keyNavigationEnabled: false
                     KeyNavigation.priority: KeyNavigation.BeforeItem
                     Keys.priority: Keys.BeforeItem
@@ -755,8 +755,8 @@ ColumnLayout {
                 id: matrixTypingIndicator
 
                 Layout.fillWidth: true
-                Layout.leftMargin: Komai.paddingLarge
-                Layout.rightMargin: Komai.paddingLarge
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 room: root.composerRoom
                 visible: Settings.timelineTypingShowEnabled
             }

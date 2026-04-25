@@ -524,12 +524,12 @@
     <message>
         <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
         <source>Video Call</source>
-        <translation type="unfinished"/>
+        <translation>වීඩියෝ ඇමතුම</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Voice Call</source>
-        <translation type="unfinished"/>
+        <translation>හඬ ඇමතුම</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -549,7 +549,7 @@
     <message>
         <location line="+8"/>
         <source>Unknown microphone: %1</source>
-        <translation type="unfinished"/>
+        <translation>නොදන්නා මයික්‍රෝෆෝනය: %1</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -567,17 +567,17 @@
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
         <source>X11</source>
-        <translation type="unfinished"/>
+        <translation>X11</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>PipeWire</source>
-        <translation type="unfinished"/>
+        <translation>PipeWire</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Entire screen</source>
-        <translation type="unfinished"/>
+        <translation>සම්පූර්ණ තිරය</translation>
     </message>
 </context>
 <context>
@@ -585,17 +585,17 @@
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix සැසිය සූදානම් වනතෙක් පරිශීලකයන් ආරාධනා කළ නොහැකිය.</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Failed to invite %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ආරාධනා කිරීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
         <location line="+231"/>
         <source>Something went wrong</source>
-        <translation type="unfinished"/>
+        <translation>යමක් වැරදී ගියේය</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -606,128 +606,135 @@
 This may be a temporary issue (e.g. your system's secret storage failed to unlock). If so, you can close Komai, fix the problem, and relaunch — your data will still be there.
 
 If the problem persists, you can log out and sign in again, but this will delete your local message cache and encryption session.</source>
-        <translation type="unfinished"/>
+        <translation>Komai ගැටළුවකට මුහුණ දුන්නේය:
+
+%1
+
+මෙය තාවකාලික ගැටළුවක් විය හැකිය (උදා: ඔබේ සිස්ටමයේ රහස් ගබඩාව අගුළු ඇරීමට අසාර්ථක විය). එසේ නම්, ඔබට Komai වසා, ගැටළුව නිරාකරණය කර, නැවත ධාවනය කළ හැකිය — ඔබේ දත්ත තවමත් පවතිනු ඇත.
+
+ගැටළුව දිගටම පවතී නම්, ඔබට ලොග් අවුට් වී නැවත ලොග් ඉන් විය හැකිය, නමුත් මෙය ඔබේ දේශීය පණිවිඩ cache සහ සංකේතන සැසිය මකනු ඇත.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close &amp;&amp; preserve data</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න &amp;&amp; දත්ත ආරක්ෂා කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Log out &amp;&amp; start over</source>
-        <translation type="unfinished"/>
+        <translation>ලොග් අවුට් වන්න &amp;&amp; නැවත ආරම්භ කරන්න</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix backend තවම සූදානම් නොවේ.</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Knock on room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයට ඇතුළු වීමේ ඉල්ලීම</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට %1 ට සම්බන්ධ වීමට නොහැකි විය. ඔබ ඇතුළු වීමේ ඉල්ලීමක් ඉදිරිපත් කළ හැකිය, එවිට අන් අය ඔබව ආරාධනා කළ හැකිය. ඔබ එසේ කිරීමට කැමතිද?
+ඔබේ ඉල්ලීම පිළිගැනීමට අන් අයට හේතුවක් ලබා දිය හැකිය:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Do you really want to knock on %1? You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ %1 හට ඇතුළු වීමේ ඉල්ලීමක් කිරීමට සැබවින්ම කැමතිද? ඔබේ ඉල්ලීම පිළිගැනීමට අන් අයට හේතුවක් ලබා දිය හැකිය:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Failed to knock room: %1</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ ඇතුළු වීමේ ඉල්ලීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Failed to join room: %1</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයට සම්බන්ධ වීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Room creation failed: Bad Alias</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය සෑදීම අසාර්ථක විය: වැරදි Alias</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Room creation failed: %1</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය සෑදීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Failed to leave room: %1</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයෙන් පිටවීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to invite %1 to %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%2 ට %1 ආරාධනා කිරීම අසාර්ථක විය: %3</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Failed to kick %1 from %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%2 සිට %1 ඉවත් කිරීම අසාර්ථක විය: %3</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Kicked user: %1</source>
-        <translation type="unfinished"/>
+        <translation>ඉවත් කළ පරිශීලක: %1</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Failed to ban %1 in %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%2 හි %1 තහනම් කිරීම අසාර්ථක විය: %3</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Banned user: %1</source>
-        <translation type="unfinished"/>
+        <translation>තහනම් කළ පරිශීලක: %1</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Failed to unban %1 in %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%2 හි %1 ගේ තහනම ඉවත් කිරීම අසාර්ථක විය: %3</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Unbanned user: %1</source>
-        <translation type="unfinished"/>
+        <translation>තහනම ඉවත් කළ පරිශීලක: %1</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageBootstrap.cpp" line="+32"/>
         <source>Matrix backend runtime failed to start for this session. Please log in again.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම සැසිය සඳහා Matrix backend runtime ආරම්භ කිරීමට අසාර්ථක විය. කරුණාකර නැවතත් ලොග් ඉන් වන්න.</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>යතුරු උපස්ථ ප්‍රතිසාධනයට ක්‍රියාකාරී matrix-sdk backend runtime එකක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>යතුරු උපස්ථය අගුළු ඇරීමට ප්‍රතිසාධන යතුරක් හෝ මුරපදයක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Failed to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>යතුරු උපස්ථය අගුළු ඇරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unlock key backup: %1</source>
-        <translation type="unfinished"/>
+        <translation>යතුරු උපස්ථය අගුළු ඇරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption secrets unlocked.</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතන රහස් අගුළු ඇරිණ.</translation>
     </message>
 </context>
 <context>
@@ -735,32 +742,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/CloseToTrayPromptDialog.qml" line="+14"/>
         <source>Quit completely or close to tray?</source>
-        <translation type="unfinished"/>
+        <translation>සම්පූර්ණයෙන් ඉවත් වන්නද, නැතිනම් ට්‍රේ එකට වසන්නද?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Komai can keep running in the system tray so you keep getting notifications and can open it quickly.</source>
-        <translation type="unfinished"/>
+        <translation>Komai සිස්ටම් ට්‍රේ එකේ ධාවනය ඉදිරියට ගත හැකිය, එවිට ඔබට දිගටම දැනුම්දීම් ලැබෙන අතර ඉක්මනින් විවෘත කළ හැකිය.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>We won't ask again. You can change this later in Settings.</source>
-        <translation type="unfinished"/>
+        <translation>අපි නැවත නොඅසමු. ඔබට මෙය පසුව සැකසීම් හරහා වෙනස් කළ හැකිය.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation type="unfinished"/>
+        <translation>ට්‍රේ එකට වසන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation type="unfinished"/>
+        <translation>ඉවත් වන්න</translation>
     </message>
 </context>
 <context>
@@ -768,7 +775,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම් Pack</translation>
     </message>
 </context>
 <context>
@@ -776,17 +783,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/CommandValidationPresentation.qml" line="+26"/>
         <source>Hit Enter to insert it.</source>
-        <translation type="unfinished"/>
+        <translation>ඇතුළු කිරීමට Enter ඔබන්න.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Looks good! Hit Enter to send it.</source>
-        <translation type="unfinished"/>
+        <translation>හොඳයි! යැවීමට Enter ඔබන්න.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation type="unfinished"/>
+        <translation>පළමුව විධානයක් තෝරන්න. තෝරා ඇත්නම් Enter ඇතුළු කරයි; නැතිනම් යවයි.</translation>
     </message>
 </context>
 <context>
@@ -794,17 +801,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>නොකියවූ දර්ශක පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>'සියලු කාමර' හි ඇතුළත් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -812,7 +819,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>සැකසීම්…</translation>
     </message>
 </context>
 <context>
@@ -820,12 +827,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
         <source>Expand</source>
-        <translation type="unfinished"/>
+        <translation>පුළුල් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished"/>
+        <translation>හකුළන්න</translation>
     </message>
 </context>
 <context>
@@ -2466,7 +2473,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
         <source>Search…</source>
-        <translation type="unfinished"/>
+        <translation>සොයන්න…</translation>
     </message>
 </context>
 <context>
@@ -2474,62 +2481,62 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/LeaveRoomDialog.qml" line="+25"/>
         <source>This is a public space, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>මෙය පොදු අවකාශයකි, එබැවින් පසුව නැවත සම්බන්ධ වීම පහසු වනු ඇත.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a public room, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>මෙය පොදු කාමරයකි, එබැවින් පසුව නැවත සම්බන්ධ වීම පහසු වනු ඇත.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This is a private space, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>මෙය පෞද්ගලික අවකාශයකි, එබැවින් නැවත සම්බන්ධ වීමට ඔබට ආරාධනාවක් අවශ්‍ය විය හැක.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a private room, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>මෙය පෞද්ගලික කාමරයකි, එබැවින් නැවත සම්බන්ධ වීමට ඔබට ආරාධනාවක් අවශ්‍ය විය හැක.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave the %1 space?</source>
-        <translation type="unfinished"/>
+        <translation>%1 අවකාශයෙන් පිටවන්නද?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave the %1 room?</source>
-        <translation type="unfinished"/>
+        <translation>%1 කාමරයෙන් පිටවන්නද?</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Leave this space?</source>
-        <translation type="unfinished"/>
+        <translation>මෙම අවකාශයෙන් පිටවන්නද?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Leave this room?</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයෙන් පිටවන්නද?</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>You will remain in any rooms you joined through it.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ එමගින් සම්බන්ධ වූ ඕනෑම කාමරයක සිටිනු ඇත.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Re-joining may require an invitation depending on its join rules.</source>
-        <translation type="unfinished"/>
+        <translation>සම්බන්ධ වීමේ නීති අනුව නැවත සම්බන්ධ වීමට ආරාධනාවක් අවශ්‍ය විය හැක.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>පිටවන්න</translation>
     </message>
 </context>
 <context>
@@ -2539,27 +2546,27 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+48"/>
         <location line="+122"/>
         <source>Automatically cleaned after %1 days. Safe to purge manually anytime.</source>
-        <translation type="unfinished"/>
+        <translation>දින %1 කට පසු ස්වයංක්‍රීයව පිරිසිදු කෙරේ. ඕනෑම වේලාවක අතින් ඉවත් කිරීම ආරක්ෂිතය.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Local cache</source>
-        <translation type="unfinished"/>
+        <translation>දේශීය හැඹිලිය</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK තත්ව ගබඩාව</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>නොදනී</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Backend</source>
-        <translation type="unfinished"/>
+        <translation>Backend</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2569,72 +2576,72 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation>නොලැබේ</translation>
     </message>
     <message>
         <location line="-295"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රමාණය</translation>
     </message>
     <message>
         <location line="-282"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Directory</source>
-        <translation type="unfinished"/>
+        <translation>නාමාවලිය</translation>
     </message>
     <message>
         <location line="-268"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කෙරිණ!</translation>
     </message>
     <message>
         <location line="-294"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>පසුරු පුවරුවට පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="-277"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Browse</source>
-        <translation type="unfinished"/>
+        <translation>ගවේෂණය කරන්න</translation>
     </message>
     <message>
         <location line="-282"/>
         <source>Managed automatically. To reset local state, sign out and sign back in.</source>
-        <translation type="unfinished"/>
+        <translation>ස්වයංක්‍රීයව කළමනාකරණය කෙරේ. දේශීය තත්වය යළි පිහිටුවීමට, ඉවත් වී නැවත ඇතුළු වන්න.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK හැඹිලිය</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Managed by matrix-sdk. Inspect or clean it only while this application profile is fully closed.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk විසින් කළමනාකරණය කෙරේ. මෙම යෙදුම් ප්‍රොෆයිලය සම්පූර්ණයෙන් වසා ඇති විට පමණක් පරීක්ෂා කරන්න හෝ පිරිසිදු කරන්න.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation type="unfinished"/>
+        <translation>මාධ්‍ය හැඹිලිය</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Purged</source>
-        <translation type="unfinished"/>
+        <translation>පිරිසිදු කෙරිණ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Purge</source>
-        <translation type="unfinished"/>
+        <translation>පිරිසිදු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -2643,24 +2650,24 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
         <location line="+177"/>
         <source>Matrix ID</source>
-        <translation type="unfinished"/>
+        <translation>Matrix හැඳුනුම්පත</translation>
     </message>
     <message>
         <location line="-176"/>
         <location line="+281"/>
         <source>Server</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායකය</translation>
     </message>
     <message>
         <location line="-279"/>
         <location line="+730"/>
         <source>Sign in method</source>
-        <translation type="unfinished"/>
+        <translation>පිවිසුම් ක්‍රමය</translation>
     </message>
     <message>
         <location line="-649"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -2668,79 +2675,79 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+564"/>
         <location line="+208"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>පිවිසෙන්න</translation>
     </message>
     <message>
         <location line="-774"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණය</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>e.g. @user:example.com or user</source>
-        <translation type="unfinished"/>
+        <translation>උදා: @user:example.com හෝ user</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම් සේවාදායකයක ඇත. සම්පූර්ණ හැඳුනුම්පතකින් සේවාදායකය ස්වයංක්‍රීයව හඳුනාගැනීමට උත්සාහ කෙරේ.</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation type="unfinished"/>
+        <translation>උදා: example.com හෝ https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Both a server name and a full homeserver URL work.</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායක නාමය සහ සම්පූර්ණ නිවාස සේවාදායක URL දෙකම ක්‍රියා කරයි.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Checking server...</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායකය පරීක්ෂා කරමින්...</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+153"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>ඉදිරියට යන්න</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation type="unfinished"/>
+        <translation>හඳුනාගත හැකි නමක් තෝරන්න. අනෙකුන්ටද එය දැකිය හැක.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation type="unfinished"/>
+        <translation>තවත් අහඹු නාමයක් ජනනය කරන්න</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Suggestions:</source>
-        <translation type="unfinished"/>
+        <translation>යෝජනා:</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Continue in browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>බ්‍රව්සරයේ ඉදිරියට යන්න (SSO)</translation>
     </message>
     <message>
         <location line="+56"/>
         <location line="+201"/>
         <source>Your browser has been launched. Continue there.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ බ්‍රවුසරය විවෘත කරන ලදී. එතැනින් ඉදිරියට යන්න.</translation>
     </message>
     <message>
         <location line="-54"/>
         <source>Browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>බ්‍රව්සරය (SSO)</translation>
     </message>
     <message>
         <location line="-749"/>
@@ -2748,86 +2755,86 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+113"/>
         <location line="+88"/>
         <source>Password</source>
-        <translation type="unfinished"/>
+        <translation>මුරපදය</translation>
     </message>
     <message>
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation type="unfinished"/>
+        <translation>මුරපදය පෙන්වන්න/සඟවන්න</translation>
     </message>
     <message>
         <location line="-859"/>
         <location line="+409"/>
         <source>Device name</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ නාමය</translation>
     </message>
     <message>
         <location filename="../../../src/auth/LoginPageDiscovery.cpp" line="+96"/>
         <location line="+93"/>
         <location line="+49"/>
         <source>Invalid Matrix ID (e.g. @user:example.com)</source>
-        <translation type="unfinished"/>
+        <translation>වලංගු නොවන Matrix හැඳුනුම්පත (උදා: @user:example.com)</translation>
     </message>
     <message>
         <location line="-117"/>
         <source>Sign in with Apple</source>
-        <translation type="unfinished"/>
+        <translation>Apple සමඟ පිවිසෙන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Continue with Facebook</source>
-        <translation type="unfinished"/>
+        <translation>Facebook සමඟ ඉදිරියට යන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Google</source>
-        <translation type="unfinished"/>
+        <translation>Google සමඟ පිවිසෙන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Twitter</source>
-        <translation type="unfinished"/>
+        <translation>Twitter සමඟ පිවිසෙන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Login using %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 භාවිතා කර පිවිසෙන්න</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>SSO LOGIN</source>
-        <translation type="unfinished"/>
+        <translation>SSO පිවිසුම</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Continue in Browser</source>
-        <translation type="unfinished"/>
+        <translation>බ්‍රව්සරයේ ඉදිරියට යන්න</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>Empty password</source>
-        <translation type="unfinished"/>
+        <translation>හිස් මුරපදය</translation>
     </message>
     <message>
         <location line="+148"/>
         <source>SSO login failed</source>
-        <translation type="unfinished"/>
+        <translation>SSO පිවිසුම අසාර්ථක විය</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Failed to open the browser sign-in page.</source>
-        <translation type="unfinished"/>
+        <translation>බ්‍රව්සර පිවිසුම් පිටුව විවෘත කිරීමට අසමත් විය.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to open the SSO login page.</source>
-        <translation type="unfinished"/>
+        <translation>SSO පිවිසුම් පිටුව විවෘත කිරීමට අසමත් විය.</translation>
     </message>
     <message>
         <location filename="../../../src/auth/LoginPage.cpp" line="+41"/>
         <source>Login failed: server returned incomplete session data.</source>
-        <translation type="unfinished"/>
+        <translation>පිවිසීම අසමත් විය: සේවාදායකය අසම්පූර්ණ සැසි දත්ත ලබා දුන්නේය.</translation>
     </message>
 </context>
 <context>
@@ -2836,22 +2843,22 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>පිටවෙන්න</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>A call is in progress. Sign out?</source>
-        <translation type="unfinished"/>
+        <translation>ඇමතුමක් සිදු වෙමින් පවතී. පිටවෙන්නද?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you want to sign out?</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට සැබවින්ම පිටවීමට අවශ්‍යද?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -2864,24 +2871,24 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+63"/>
         <location line="+79"/>
         <source>Starting Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai ආරම්භ කෙරේ</translation>
     </message>
     <message>
         <location line="-462"/>
         <source>Checking your profile...</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ පැතිකඩ පරීක්ෂා කෙරේ…</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Opening the profile chooser...</source>
-        <translation type="unfinished"/>
+        <translation>පැතිකඩ තෝරනය විවෘත කෙරේ…</translation>
     </message>
     <message>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
         <source>Restoring your session...</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ සැසිය යථා තත්ත්වයට පත් කෙරේ…</translation>
     </message>
     <message>
         <location line="-280"/>
@@ -2889,7 +2896,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+112"/>
         <location line="+13"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai වෙත සාදරයෙන් පිළිගනිමු</translation>
     </message>
     <message>
         <location line="-337"/>
@@ -2897,18 +2904,18 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+113"/>
         <location line="+13"/>
         <source>Preparing sign-in...</source>
-        <translation type="unfinished"/>
+        <translation>පිවිසුම සූදානම් කෙරේ…</translation>
     </message>
     <message>
         <location line="-11"/>
         <location line="+13"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix සැසිය ආරම්භ කිරීම අසාර්ථක විය. කරුණාකර නැවත පිවිසෙන්න.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Opening your rooms...</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ කාමර විවෘත කෙරේ…</translation>
     </message>
 </context>
 <context>
@@ -2916,17 +2923,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 ටයිප් කරමින් සිටී…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 සහ %2 ටයිප් කරමින් සිටිති…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 සහ තවත් %3 දෙනෙක් ටයිප් කරමින් සිටිති…</translation>
     </message>
 </context>
 <context>
@@ -2935,43 +2942,43 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomDialogSupport.qml" line="+67"/>
         <location line="+70"/>
         <source>Optional reason</source>
-        <translation type="unfinished"/>
+        <translation>විකල්ප හේතුව</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Delete this message?</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පණිවිඩය මකන්නද?</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+72"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>මකන්න</translation>
     </message>
     <message>
         <location line="-50"/>
         <source>Cancel unsent message?</source>
-        <translation type="unfinished"/>
+        <translation>නොයැවූ පණිවිඩය අවලංගු කරන්නද?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>This message couldn't be sent. Cancelling removes it from the send queue.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පණිවිඩය යැවීමට නොහැකි විය. අවලංගු කිරීමෙන් එය යැවීමේ පෝලිමෙන් ඉවත් කෙරේ.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Keep</source>
-        <translation type="unfinished"/>
+        <translation>තබා ගන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>යැවීම අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Delete %1 of %2 selected messages?</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් %2 පණිවිඩ වලින් %1 ක් මකන්නද?</translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
@@ -2984,7 +2991,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+61"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම සිදුවීම සඳහා Raw JSON ලබා ගත නොහැක. එය මකා දමා ඇති විය හැක.</translation>
     </message>
 </context>
 <context>
@@ -2992,12 +2999,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
         <source>Loading thread…</source>
-        <translation type="unfinished"/>
+        <translation>නූල පූරණය කෙරේ…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Loading room…</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය පූරණය කෙරේ…</translation>
     </message>
 </context>
 <context>
@@ -3006,12 +3013,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
         <location line="+6"/>
         <source>Deleted message</source>
-        <translation type="unfinished"/>
+        <translation>මකන ලද පණිවිඩය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Originally sent by %1</source>
-        <translation type="unfinished"/>
+        <translation>මුලින් %1 විසින් යවන ලදී</translation>
     </message>
 </context>
 <context>
@@ -3019,7 +3026,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>ඇමුණුම</translation>
     </message>
 </context>
 <context>
@@ -3028,7 +3035,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයක් තෝරා නොමැත</translation>
     </message>
 </context>
 <context>
@@ -3039,7 +3046,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+33"/>
         <location line="+0"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>ඇමුණුම</translation>
     </message>
 </context>
 <context>
@@ -3047,31 +3054,31 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>නිර්මාතෘ</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+11"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>පරිපාලක (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>මධ්‍යස්ථකරු (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක (%1)</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished"/>
+        <translation>අභිමත (%1)</translation>
     </message>
 </context>
 <context>
@@ -3079,7 +3086,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>පෙන්වන්න</translation>
     </message>
 </context>
 <context>
@@ -3087,27 +3094,27 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+623"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>ඉදිරියට යවන්න</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>සුරකින්න</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
 </context>
 <context>
@@ -3115,23 +3122,23 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ක්‍රියාවන්</translation>
     </message>
     <message>
         <location line="+194"/>
         <source>Clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ක්ලිප්බෝඩ්</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>පාඨය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+26"/>
         <source>C</source>
-        <translation type="unfinished"/>
+        <translation>C</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -3140,152 +3147,152 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+13"/>
         <location line="+13"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කළා!</translation>
     </message>
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>හැඩසළකුණු කළ පාඨය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>H</source>
-        <translation type="unfinished"/>
+        <translation>H</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Copy link location</source>
-        <translation type="unfinished"/>
+        <translation>සබැඳි ස්ථානය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>L</source>
-        <translation type="unfinished"/>
+        <translation>L</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy permalink</source>
-        <translation type="unfinished"/>
+        <translation>ස්ථිර සබැඳිය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation>K</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>කළමනාකරණය කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>සිරකිරීම ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation type="unfinished"/>
+        <translation>සිරකරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>P</source>
-        <translation type="unfinished"/>
+        <translation>P</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unpinned!</source>
-        <translation type="unfinished"/>
+        <translation>සිරකිරීම ඉවත් කළා!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pinned!</source>
-        <translation type="unfinished"/>
+        <translation>සිරකළා!</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Media</source>
-        <translation type="unfinished"/>
+        <translation>මාධ්‍ය</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>ලෙස සුරකින්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation>S</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>බාහිර වැඩසටහනකින් විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation>O</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inspect</source>
-        <translation type="unfinished"/>
+        <translation>පරීක්ෂා කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>කියවූ රිසිට්පත්</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation>I</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished"/>
+        <translation>අමු පණිවිඩය බලන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation>U</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Moderate</source>
-        <translation type="unfinished"/>
+        <translation>නිය‍ාමනය කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Delete message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය මකන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>යැවීම අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය වාර්තා කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
 </context>
 <context>
@@ -3293,50 +3300,50 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
         <source>Reply in thread</source>
-        <translation type="unfinished"/>
+        <translation>නූලේ පිළිතුරු දෙන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New thread</source>
-        <translation type="unfinished"/>
+        <translation>නව නූල</translation>
     </message>
     <message>
         <location line="+141"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>සංස්කරණය කරන්න</translation>
     </message>
     <message>
         <location line="-147"/>
         <location line="+176"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>පිළිතුරු දෙන්න</translation>
     </message>
     <message>
         <location line="-170"/>
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>ඉදිරියට යවන්න</translation>
     </message>
     <message>
         <location line="-178"/>
         <location line="+192"/>
         <location line="+1"/>
         <source>Go to message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයට යන්න</translation>
     </message>
     <message>
         <location line="-112"/>
         <source>React</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිචාර දක්වන්න</translation>
     </message>
     <message>
         <location line="+127"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>විකල්ප</translation>
     </message>
 </context>
 <context>
@@ -3344,97 +3351,97 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
         <source>Repl&amp;y</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ප්‍රතිචාර දෙන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reply in &amp;Thread</source>
-        <translation type="unfinished"/>
+        <translation>&amp;නූලෙහි ප්‍රතිචාර දෙන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>&amp;සංස්කරණය කරන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Re&amp;act</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ප්‍රතික්‍රියා කරන්න</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>&amp;Forward</source>
-        <translation type="unfinished"/>
+        <translation>&amp;යොමු කරන්න</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>හැඩකළ පෙළ පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation type="unfinished"/>
+        <translation>&amp;සබැඳිය ස්ථානය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy link to eve&amp;nt</source>
-        <translation type="unfinished"/>
+        <translation>&amp;සිදුවීමට සබැඳිය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Un&amp;pin</source>
-        <translation type="unfinished"/>
+        <translation>පින් &amp;ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Pin</source>
-        <translation type="unfinished"/>
+        <translation>&amp;පින් කරන්න</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Go to &amp;message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;පණිවිඩයට යන්න</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>&amp;Save as</source>
-        <translation type="unfinished"/>
+        <translation>&amp;ලෙස සුරකින්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>&amp;බාහිර වැඩසටහනකින් විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>&amp;Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>&amp;කියවීමේ රිසිට්</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished"/>
+        <translation>අමු පණිවිඩය බලන්න</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය වාර්තා කරන්න</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&amp;Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>&amp;යැවීම අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Delete message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;පණිවිඩය මකන්න</translation>
     </message>
 </context>
 <context>
@@ -3442,32 +3449,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
         <source>Write a message, or press Up to select messages.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයක් ලියන්න, හෝ ඉහළ ඔබා පණිවිඩ තෝරන්න.</translation>
     </message>
     <message>
         <location line="+458"/>
         <source>Stickers</source>
-        <translation type="unfinished"/>
+        <translation>ස්ටිකර</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Emoji</source>
-        <translation type="unfinished"/>
+        <translation>ඉමොජි</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Send</source>
-        <translation type="unfinished"/>
+        <translation>යවන්න</translation>
     </message>
     <message>
         <location line="+53"/>
         <source>You don't have permission to send messages in this room</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ පණිවිඩ යැවීමට ඔබට අවසර නැත</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Attach more files or send the upload</source>
-        <translation type="unfinished"/>
+        <translation>තවත් ගොනු අමුණන්න හෝ උඩුගත කිරීම යවන්න</translation>
     </message>
 </context>
 <context>
@@ -3475,7 +3482,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පණිවිඩයේ ඔවුන් සඳහන් නොකරන්න</translation>
     </message>
 </context>
 <context>
@@ -3483,7 +3490,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/banners/NetworkConnectivityBanner.qml" line="+52"/>
         <source>Network connectivity trouble. Trying to reconnect…</source>
-        <translation type="unfinished"/>
+        <translation>ජාල සම්බන්ධතා ගැටළු. නැවත සම්බන්ධ වීමට උත්සාහ කරමින්…</translation>
     </message>
 </context>
 <context>
@@ -3491,72 +3498,72 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPage.qml" line="+30"/>
         <source>The ten thousand chats can't happen in a void. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>දස දහස් කතාබස් හිස් ස්ථානයේ සිදු විය නොහැක. කාමරයක් විවෘත කරන්නද?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your friends are just a room away</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ මිතුරන් කාමරයක් දුරින් සිටිති</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Connect with friends. Or bots. We don't judge.</source>
-        <translation type="unfinished"/>
+        <translation>මිතුරන් සමඟ සම්බන්ධ වන්න. හෝ බොට් සමඟ. අපි විනිශ්චය නොකරමු.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Friends, bots, communities - all a click away</source>
-        <translation type="unfinished"/>
+        <translation>මිතුරන්, බොට්, ප්‍රජාවන් - සියල්ල ක්ලික් එකක් දුරින්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Be present for a bit. Then open a room.</source>
-        <translation type="unfinished"/>
+        <translation>මදක් සිටින්න. ඉන්පසු කාමරයක් විවෘත කරන්න.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The best conversations haven't happened yet</source>
-        <translation type="unfinished"/>
+        <translation>හොඳම සංවාද තවම සිදු වී නැත</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>An empty screen, a full inbox of possibilities</source>
-        <translation type="unfinished"/>
+        <translation>හිස් තිරයක්, හැකියාවන්ගෙන් පිරි ලැයිස්තුවක්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room. The rest follows.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයක් විවෘත කරන්න. ඉතිරිය ඉබේ සිදු වේ.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room to start a conversation</source>
-        <translation type="unfinished"/>
+        <translation>සංවාදයක් ආරම්භ කිරීමට කාමරයක් විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Next conversation, a click away</source>
-        <translation type="unfinished"/>
+        <translation>ඊළඟ සංවාදය, ක්ලික් එකක් දුරින්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ready to chat - pick a room</source>
-        <translation type="unfinished"/>
+        <translation>කතාබස් කිරීමට සූදානම් - කාමරයක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All quiet here. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>මෙහි සියල්ල නිශ්ශබ්දයි. කාමරයක් විවෘත කරන්නද?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Chat rooms await - pick one or start your own</source>
-        <translation type="unfinished"/>
+        <translation>කතාබස් කාමර බලා සිටිති - එකක් තෝරන්න හෝ ඔබේම එකක් ආරම්භ කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No room leads to no chat</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයක් නැතිව කතාබසක් නැත</translation>
     </message>
 </context>
 <context>
@@ -3564,32 +3571,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයට සම්බන්ධ වන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Join an existing room by address or alias</source>
-        <translation type="unfinished"/>
+        <translation>ලිපිනයෙන් හෝ නාමාන්තරයෙන් පවතින කාමරයකට සම්බන්ධ වන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Explore public rooms</source>
-        <translation type="unfinished"/>
+        <translation>පොදු කාමර ගවේෂණය කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse the public room directory</source>
-        <translation type="unfinished"/>
+        <translation>පොදු කාමර නාමාවලිය ගවේෂණය කරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>New room/space</source>
-        <translation type="unfinished"/>
+        <translation>නව කාමරය/අවකාශය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create a new room or space [Ctrl+N]</source>
-        <translation type="unfinished"/>
+        <translation>නව කාමරයක් හෝ අවකාශයක් සාදන්න [Ctrl+N]</translation>
     </message>
 </context>
 <context>
@@ -3597,17 +3604,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPageSearch.qml" line="+59"/>
         <source>Search your rooms &amp; spaces...</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ කාමර සහ අවකාශ සොයන්න...</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation type="unfinished"/>
+        <translation>ගැළපීම් හමු නොවිණ.</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>(Space)</source>
-        <translation type="unfinished"/>
+        <translation>(අවකාශය)</translation>
     </message>
 </context>
 <context>
@@ -3615,128 +3622,129 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/pages/NewToMatrixPage.qml" line="+69"/>
         <source>Back</source>
-        <translation type="unfinished"/>
+        <translation>ආපසු</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Matrix සඳහා අලුත්ද?</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>What is Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Matrix යනු කුමක්ද?</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&lt;a href="%1"&gt;Matrix&lt;/a&gt; is an open communication network - like email, but for real-time messaging (chat).
 </source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="%1"&gt;Matrix&lt;/a&gt; යනු විවෘත සන්නිවේදන ජාලයකි - ඊමේල් හා සමාන, නමුත් තත්‍ය කාලීන පණිවිඩ හුවමාරුව (කතාබස) සඳහාය.
+</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your profile and message data is hosted on something called a &lt;a href="%1"&gt;homeserver&lt;/a&gt; (your home on the network), but you can talk to anyone on any other server.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ පැතිකඩ සහ පණිවිඩ දත්ත &lt;a href="%1"&gt;නිවස-සේවාදායකය&lt;/a&gt; (ජාලයේ ඔබේ නිවස) ලෙස හඳුන්වන දෙයක ගබඩා කෙරේ, නමුත් ඔබට ඕනෑම වෙනත් සේවාදායකයක ඕනෑම කෙනෙකු සමඟ කතා කළ හැකිය.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Homeservers connect to each other via &lt;a href="%1"&gt;Matrix Federation&lt;/a&gt;. Unlike centralized apps, no single company controls everything - you pick what works for you.</source>
-        <translation type="unfinished"/>
+        <translation>නිවස-සේවාදායකයන් &lt;a href="%1"&gt;Matrix Federation&lt;/a&gt; හරහා එකිනෙකට සම්බන්ධ වේ. මධ්‍යගත යෙදුම් මෙන් නොව, කිසිදු සමාගමක් සියල්ල පාලනය නොකරයි — ඔබට ගැළපෙන දෙය ඔබ තෝරා ගනී.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose your path</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ මාර්ගය තෝරන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Existing servers</source>
-        <translation type="unfinished"/>
+        <translation>පවතින සේවාදායකයන්</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Public server</source>
-        <translation type="unfinished"/>
+        <translation>පොදු සේවාදායකය</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Free community servers, great for getting started. Some may be busy during peak hours.</source>
-        <translation type="unfinished"/>
+        <translation>නොමිලේ ප්‍රජා සේවාදායකයන්, ආරම්භ කිරීමට විශිෂ්ටයි. සමහරක් උච්ච වේලාවල කාර්යබහුල විය හැකිය.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Another server</source>
-        <translation type="unfinished"/>
+        <translation>වෙනත් සේවාදායකයක්</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Register on a specific homeserver you already know about.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ දැනටමත් දන්නා නිශ්චිත නිවස-සේවාදායකයක ලියාපදිංචි වන්න.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Self-hosting</source>
-        <translation type="unfinished"/>
+        <translation>ස්වයං-සත්කාරකය</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>matrix-docker-ansible-deploy</source>
-        <translation type="unfinished"/>
+        <translation>matrix-docker-ansible-deploy</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>An Ansible playbook for self-hosting Matrix, by the makers of Komai.</source>
-        <translation type="unfinished"/>
+        <translation>Komai නිර්මාතෘවරුන් විසින් Matrix ස්වයං-සත්කාරකය සඳහා Ansible playbook එකක්.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Explore other self-hosting options</source>
-        <translation type="unfinished"/>
+        <translation>වෙනත් ස්වයං-සත්කාරක විකල්ප ගවේෂණය කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Browse Matrix server distributions and deployment tools.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix සේවාදායක බෙදාහැරීම් සහ යෙදවීමේ මෙවලම් ගවේෂණය කරන්න.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Managed hosting</source>
-        <translation type="unfinished"/>
+        <translation>කළමනාකරණය කළ සත්කාරකය</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>etke.cc</source>
-        <translation type="unfinished"/>
+        <translation>etke.cc</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your own server, professionally managed by the makers of Komai.</source>
-        <translation type="unfinished"/>
+        <translation>Komai නිර්මාතෘවරුන් විසින් වෘත්තීයමය ලෙස කළමනාකරණය කරනු ලබන ඔබේම සේවාදායකය.</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Explore other hosting providers</source>
-        <translation type="unfinished"/>
+        <translation>වෙනත් සත්කාරකය සපයන්නන් ගවේෂණය කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Browse the Matrix hosting provider ecosystem.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix සත්කාරකය සපයන්නන්ගේ පරිසර පද්ධතිය ගවේෂණය කරන්න.</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Matrix doesn't support migrating accounts between servers yet, so choose thoughtfully.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix තවමත් සේවාදායකයන් අතර ගිණුම් සංක්‍රමණය සඳහා සහාය නොදක්වයි, එබැවින් සිතා කල්පනා කර තෝරන්න.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Already have an account?</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුමක් දැනටමත් තිබේද?</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>පිවිසෙන්න</translation>
     </message>
 </context>
 <context>
@@ -3744,66 +3752,70 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/device-verification/NewVerificationRequest.qml" line="+13"/>
         <source>Received Verification Request</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීමේ ඉල්ලීමක් ලැබී ඇත</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Send verification request?</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීමේ ඉල්ලීමක් යවන්නද?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Some of your logged-in devices are not verified yet. Verify to unlock encrypted messages.
 
 To start, make sure one of your other devices is available.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ ලොග් වූ සමහර උපකරණ තවමත් තහවුරු කර නැත. සංකේතිත පණිවිඩ අගුළු ඇරීමට තහවුරු කරන්න.
+
+ආරම්භ කිරීමට, ඔබේ වෙනත් උපකරණයකින් එකක් ලබා ගත හැකිද යන්න සහතික කරගන්න.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This device (ID: %1) is not verified yet.
 
 Verify to unlock encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම උපකරණය (ID: %1) තවමත් තහවුරු කර නැත.
+
+සංකේතිත පණිවිඩ අගුළු ඇරීමට තහවුරු කරන්න.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify the other party to ensure your encrypted communications are secure.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ සංකේතිත සන්නිවේදනය ආරක්ෂිත බව සහතික කිරීමට අනෙක් පාර්ශ්වය තහවුරු කරන්න.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 has requested to verify their device %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ඔවුන්ගේ %2 උපකරණය තහවුරු කිරීමට ඉල්ලා සිටී.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 using the device %2 has requested to be verified.</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 උපකරණය භාවිතා කරමින්, තහවුරු කිරීමට ඉල්ලා සිටී.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your device (%1) has requested to be verified.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ (%1) උපකරණය තහවුරු කිරීමට ඉල්ලා සිටී.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deny</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතික්ෂේප කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>දැන් නොවේ</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Start verification</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම ආරම්භ කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Accept</source>
-        <translation type="unfinished"/>
+        <translation>පිළිගන්න</translation>
     </message>
 </context>
 <context>
@@ -3812,51 +3824,51 @@ Verify to unlock encrypted messages.</source>
         <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
-        <translation type="unfinished"/>
+        <translation>%1 සංකේතිත පණිවිඩයක් යැව්වා</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>%1 replied with a spoiler.</source>
         <comment>Format a reply in a notification. %1 is the sender.</comment>
-        <translation type="unfinished"/>
+        <translation>%1 spoiler එකකින් පිළිතුරු දුන්නා.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 replied: %2</source>
         <comment>Format a reply in a notification. %1 is the sender, %2 the message</comment>
-        <translation type="unfinished"/>
+        <translation>%1 පිළිතුරු දුන්නා: %2</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+9"/>
         <source>Message contains spoiler.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයේ spoiler අඩංගු වේ.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-1"/>
         <source>%1 replied with an encrypted message</source>
-        <translation type="unfinished"/>
+        <translation>%1 සංකේතිත පණිවිඩයකින් පිළිතුරු දුන්නා</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>%1 replied to a message</source>
-        <translation type="unfinished"/>
+        <translation>%1 පණිවිඩයකට පිළිතුරු දුන්නා</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/Manager.cpp" line="-43"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>%1 sent a message</source>
-        <translation type="unfinished"/>
+        <translation>%1 පණිවිඩයක් යැව්වා</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>පිළිතුරු දෙන්න</translation>
     </message>
 </context>
 <context>
@@ -3865,7 +3877,7 @@ Verify to unlock encrypted messages.</source>
         <location filename="../../qml/components/OverlayDialog.qml" line="+119"/>
         <location line="+4"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
 </context>
 <context>
@@ -3873,7 +3885,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/common/PhoneNumberInputDialog.qml" line="+63"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>ඉදිරියට යන්න</translation>
     </message>
 </context>
 <context>
@@ -3881,22 +3893,22 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+22"/>
         <source>Pinned messages (%1)</source>
-        <translation type="unfinished"/>
+        <translation>පින් කළ පණිවිඩ (%1)</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>pin කළ පණිවිඩ</translation>
     </message>
     <message>
         <location line="+191"/>
         <source>No pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>pin කළ පණිවිඩ නැත</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Important messages can be pinned (if you have privileges to do so) and they will show up here.</source>
-        <translation type="unfinished"/>
+        <translation>වැදගත් පණිවිඩ pin කළ හැකිය (ඒ සඳහා ඔබට වරප්‍රසාද ඇත්නම්) ඒවා මෙහි දිස්වනු ඇත.</translation>
     </message>
 </context>
 <context>
@@ -3904,32 +3916,32 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/voip/PlaceCall.qml" line="+40"/>
         <source>Place a call to %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1 වෙත ඇමතුමක් ගන්නද?</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation type="unfinished"/>
+        <translation>මයික්‍රොෆෝනයක් හමු නොවීය.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Voice</source>
-        <translation type="unfinished"/>
+        <translation>හඬ</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Video</source>
-        <translation type="unfinished"/>
+        <translation>වීඩියෝ</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Screen</source>
-        <translation type="unfinished"/>
+        <translation>තිරය</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -3937,7 +3949,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/delegates/Placeholder.qml" line="+12"/>
         <source>unimplemented event: </source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියාත්මක නොකළ සිදුවීම: </translation>
     </message>
 </context>
 <context>
@@ -3945,101 +3957,101 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/room/PowerLevelEditor.qml" line="+20"/>
         <source>Permissions in %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 හි අවසරයන්</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Be careful when editing permissions. You can't lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
-        <translation type="unfinished"/>
+        <translation>අවසරයන් සංස්කරණය කිරීමේදී ප්‍රවේශම් වන්න. ඔබට සමාන හෝ ඉහළ මට්ටමක සිටින පරිශීලකයන්ගේ අවසරයන් අඩු කළ නොහැක. අන් අය උසස් කිරීමේදී ප්‍රවේශම් වන්න.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Roles</source>
-        <translation type="unfinished"/>
+        <translation>භූමිකා</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයන්</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Move permissions between roles to change them</source>
-        <translation type="unfinished"/>
+        <translation>ඒවා වෙනස් කිරීමට භූමිකා අතර අවසරයන් ගෙනයන්න</translation>
     </message>
     <message>
         <location line="+28"/>
         <location line="+244"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>පරිපාලක (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>මධ්‍යස්ථකරු (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක (%1)</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished"/>
+        <translation>අභිරුචි (%1)</translation>
     </message>
     <message>
         <location line="-231"/>
         <source>Remove event type</source>
-        <translation type="unfinished"/>
+        <translation>සිදුවීම් වර්ගය ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add event type</source>
-        <translation type="unfinished"/>
+        <translation>සිදුවීම් වර්ගය එක් කරන්න</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Add new role</source>
-        <translation type="unfinished"/>
+        <translation>නව භූමිකාව එක් කරන්න</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Add</source>
-        <translation type="unfinished"/>
+        <translation>එක් කරන්න</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Move users up or down to change their permissions</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයන්ගේ අවසරයන් වෙනස් කිරීමට ඔවුන් ඉහළ හෝ පහළ ගෙනයන්න</translation>
     </message>
     <message>
         <location line="+135"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>නිර්මාතෘ</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Remove user</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයා ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add user</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයෙකු එක් කරන්න</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saving…</source>
-        <translation type="unfinished"/>
+        <translation>සුරකිමින්…</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>සුරකින්න</translation>
     </message>
 </context>
 <context>
@@ -4047,47 +4059,47 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/room/PowerLevelSpacesApplyDialog.qml" line="+19"/>
         <source>Apply permission changes</source>
-        <translation type="unfinished"/>
+        <translation>අවසර වෙනස්කම් යොදන්න</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Which of the subcommunities and rooms should these permissions be applied to?</source>
-        <translation type="unfinished"/>
+        <translation>මෙම අවසරයන් යෙදිය යුත්තේ කුමන උප-සමාජයන්ටද සහ කාමරවලටද?</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Apply permissions recursively</source>
-        <translation type="unfinished"/>
+        <translation>අවසරයන් පුනරාවර්තනයෙන් යොදන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Overwrite exisiting modifications in rooms</source>
-        <translation type="unfinished"/>
+        <translation>කාමරවල පවතින වෙනස්කම් අධිලේඛනය කරන්න</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>No permissions to apply the new permissions here</source>
-        <translation type="unfinished"/>
+        <translation>මෙහි නව අවසරයන් යෙදීමට අවශ්‍ය අවසරයක් නැත</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>No changes needed</source>
-        <translation type="unfinished"/>
+        <translation>වෙනස්කම් අවශ්‍ය නැත</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Existing modifications to the permissions in this room will be overwritten</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ අවසරයන්ට ඇති පවතින වෙනස්කම් අධිලේඛනය වේ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Permissions synchronized with community</source>
-        <translation type="unfinished"/>
+        <translation>සමාජය සමඟ සමමුහුර්ත කළ අවසරයන්</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Apply</source>
-        <translation type="unfinished"/>
+        <translation>යොදන්න</translation>
     </message>
 </context>
 <context>
@@ -4095,12 +4107,12 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelEditingModels.cpp" line="+74"/>
         <source>Failed to load room permissions from the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk backend එකෙන් කාමර අවසරයන් පූරණය කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Failed to save room permissions to the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>matrix-sdk backend එකට කාමර අවසරයන් සුරැකීම අසාර්ථක විය.</translation>
     </message>
 </context>
 <context>
@@ -4108,22 +4120,22 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/components/PowerlevelIndicator.qml" line="+34"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>නිර්මාතෘ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>මධ්‍යස්ථකරු (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක (%1)</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>පරිපාලක (%1)</translation>
     </message>
 </context>
 <context>
@@ -4150,182 +4162,182 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelsTypeListModel.cpp" line="+174"/>
         <source>Other events</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් සිදුවීම්</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Other state events</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් තත්ව සිදුවීම්</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Remove other users</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් පරිශීලකයන් ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban other users</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් පරිශීලකයන් තහනම් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invite other users</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් පරිශීලකයන් ආරාධනා කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Redact events sent by others</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් අය විසින් යවන ලද සිදුවීම් මකන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතික්‍රියා</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Deprecated aliases events</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු වූ අන්වර්ථ සිදුවීම්</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ අවතාරය වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room addresses</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ ලිපින වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send encrypted messages</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතිත පණිවිඩ යවන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Enable encryption</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය සක්‍රීය කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change guest access</source>
-        <translation type="unfinished"/>
+        <translation>අමුත්තන්ගේ ප්‍රවේශය වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change history visibility</source>
-        <translation type="unfinished"/>
+        <translation>ඉතිහාස දෘශ්‍යතාව වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change who can join</source>
-        <translation type="unfinished"/>
+        <translation>සම්බන්ධ විය හැකි අය වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send messages</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ යවන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room name</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ නම වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ අවසර වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the rooms topic</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ මාතෘකාව වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the widgets</source>
-        <translation type="unfinished"/>
+        <translation>විජට් වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the widgets (experimental)</source>
-        <translation type="unfinished"/>
+        <translation>විජට් වෙනස් කරන්න (පරීක්ෂණාත්මක)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Redact own events</source>
-        <translation type="unfinished"/>
+        <translation>තමාගේ සිදුවීම් මකන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the pinned events</source>
-        <translation type="unfinished"/>
+        <translation>සිරස් කළ සිදුවීම් වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Upgrade the room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය උසස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send stickers</source>
-        <translation type="unfinished"/>
+        <translation>ස්ටිකර් යවන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban users using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිපත්ති රීති භාවිතයෙන් පරිශීලකයන් තහනම් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban rooms using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිපත්ති රීති භාවිතයෙන් කාමර තහනම් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban servers using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිපත්ති රීති භාවිතයෙන් සේවාදායකයන් තහනම් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Edit child communities and rooms</source>
-        <translation type="unfinished"/>
+        <translation>ළමා ප්‍රජාවන් සහ කාමර සංස්කරණය කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change parent communities</source>
-        <translation type="unfinished"/>
+        <translation>මව් සමාජයන් වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Start a call</source>
-        <translation type="unfinished"/>
+        <translation>ඇමතුමක් ආරම්භ කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Negotiate a call</source>
-        <translation type="unfinished"/>
+        <translation>ඇමතුමක් සාකච්ඡා කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Answer a call</source>
-        <translation type="unfinished"/>
+        <translation>ඇමතුමකට පිළිතුරු දෙන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Hang up a call</source>
-        <translation type="unfinished"/>
+        <translation>ඇමතුමක් විසන්ධි කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reject a call</source>
-        <translation type="unfinished"/>
+        <translation>ඇමතුමක් ප්‍රතික්ෂේප කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room emotes</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ ඉමෝට් වෙනස් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -4333,7 +4345,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelsUserListModel.cpp" line="+125"/>
         <source>Other users</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් පරිශීලකයන්</translation>
     </message>
 </context>
 <context>
@@ -4341,17 +4353,17 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
-        <translation type="unfinished"/>
+        <translation>දී ඇති ප්‍රොෆයිල් සමඟ ධාවනය කරන්න. ප්‍රොෆයිල් තවම නොතිබේ නම් ස්වයංක්‍රීයව නව ප්‍රොෆයිල් නිර්මාණය කෙරේ. බහු ප්‍රොෆයිල් මඟින් වෙනම ගිණුම් සහ සමගාමී අවස්ථා ඉඩ දෙයි. අවසර ලත් හිස් නොවන ප්‍රොෆයිල් හැඳුනුම්: පළමු අකුර A-Z, a-z, හෝ '_'; ඉතිරි අකුරු A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>profile</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රොෆයිල්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>profile name</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රොෆයිල් නාමය</translation>
     </message>
 </context>
 <context>
@@ -4359,7 +4371,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="-27"/>
         <source>Alias for '--log-level trace'.</source>
-        <translation type="unfinished"/>
+        <translation>'--log-level trace' සඳහා අන්වර්ථය.</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -4376,104 +4388,116 @@ Subcommands (run without a display server):
   %1 theme      Theme file management (offline)
 
 Run '%1 &lt;group&gt; --help' for subcommand details.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ ප්‍රේම කළ හැකි අලංකාර Matrix කතාබස් යෙදුමකි.
+
+උප විධාන (ප්‍රදර්ශන සේවාදායකයකින් තොරව ධාවනය කරන්න):
+  %1 app        අවස්ථා පාර-දත්ත (JSON)
+  %1 profiles   ප්‍රොෆයිල් ගවේෂක කළමනාකරණය (නොබැඳි)
+  %1 rooms      කාමර සොයා ගැනීම සහ සංචාලනය (JSON)
+  %1 user       ගිණුම සහ සිටීම (JSON)
+  %1 settings   පෙනුම් සැකසීම් (JSON)
+  %1 media      මාධ්‍ය අන්තර්ගත විභේදනය
+  %1 mcp        MCP stdio සේවාදායක ආවරණ
+  %1 theme      තේමා ගොනු කළමනාකරණය (නොබැඳි)
+
+උප විධාන විස්තර සඳහා '%1 &lt;group&gt; --help' ධාවනය කරන්න.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Set the global log level, or a comma-separated list of &lt;target&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to 'warn' but disable logging for the 'ui' target, pass 'warn,ui=off'. levels:{trace,debug,info,warn,error,off} The RUST_LOG environment variable is used as a fallback when this flag is not set.</source>
-        <translation type="unfinished"/>
+        <translation>ගෝලීය ලොග් මට්ටම, හෝ &lt;target&gt;=&lt;level&gt; යුගල කොමාවෙන් වෙන් කළ ලැයිස්තුවක්, හෝ දෙකම සකසන්න. නිදසුනක් ලෙස, පෙරනිමි ලොග් මට්ටම 'warn' ලෙස සකසා 'ui' ඉලක්කය සඳහා ලොගිං අක්‍රීය කිරීමට, 'warn,ui=off' ලබා දෙන්න. මට්ටම්:{trace,debug,info,warn,error,off} RUST_LOG පරිසර විචල්‍යය මෙම ධජය සකස් නොකළ විට ආදේශ ලෙස භාවිතා කෙරේ.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>level</source>
-        <translation type="unfinished"/>
+        <translation>මට්ටම</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Set the log output type. The default is 'stderr'. types:{stderr,none}</source>
-        <translation type="unfinished"/>
+        <translation>ලොග් ප්‍රතිදාන වර්ගය සකසන්න. පෙරනිමිය 'stderr' වේ. වර්ග:{stderr,none}</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>type</source>
-        <translation type="unfinished"/>
+        <translation>වර්ගය</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
         <source>Respond</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිචාර දක්වන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Send</source>
-        <translation type="unfinished"/>
+        <translation>යවන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Write a message...</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයක් ලියන්න…</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
         <source>%1 Device verification fallback also failed: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 උපකරණ තහවුරු කිරීමේ ආදේශ ද අසාර්ථක විය: %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to start user verification.</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක තහවුරු කිරීම ආරම්භ කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to start verification for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>"%1" සඳහා තහවුරු කිරීම ආරම්භ කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location filename="../../../src/profile/ProfileManager.cpp" line="+78"/>
         <source>Unable to determine current executable path for profile launch.</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රොෆයිල් ආරම්භය සඳහා වත්මන් ක්‍රියාත්මක කළ හැකි මාර්ගය නිර්ණය කළ නොහැක.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to launch a detached Komai process for the selected profile.</source>
-        <translation type="unfinished"/>
+        <translation>තේරූ ප්‍රොෆයිල් සඳහා වෙන් කළ Komai ක්‍රියාවලිය ආරම්භ කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Profile name is required.</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රොෆයිල් නාමය අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+32"/>
         <location line="+24"/>
         <source>Invalid profile name: %1</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු ප්‍රොෆයිල් නාමය: %1</translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම ධාවන කාලය තුළ ස්පෂ්ට ප්‍රොෆයිල් ගවේෂක සහාය නොදේ.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unable to determine current executable path for launcher creation.</source>
-        <translation type="unfinished"/>
+        <translation>ගවේෂකය නිර්මාණය සඳහා වත්මන් ක්‍රියාත්මක කළ හැකි මාර්ගය නිර්ණය කළ නොහැක.</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Cannot delete the currently active profile from this instance.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම අවස්ථාවෙන් දැනට ක්‍රියාත්මක ප්‍රොෆයිල් මකා දැමිය නොහැක.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Failed to remove one or more profile directories for '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>'%1' සඳහා එකක් හෝ කිහිපයක් ප්‍රොෆයිල් නාමාවලි ඉවත් කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Profile files were deleted, but secure-store secret cleanup was incomplete for '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රොෆයිල් ගොනු මකා ඇත, නමුත් '%1' සඳහා ආරක්ෂිත-ගබඩා රහස් ඉවත් කිරීම අසම්පූර්ණ විය.</translation>
     </message>
 </context>
 <context>
@@ -4481,22 +4505,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/navigation/QuickSwitcher.qml" line="+67"/>
         <source>Find &amp; switch room or space</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය හෝ අවකාශය සොයා මාරු වන්න</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Searches among rooms and spaces you participate in, not across all of Matrix.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ සහභාගි වන කාමර සහ අවකාශ අතර සොයනු ලැබේ, Matrix සමස්තය හරහා නොව.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room or space name, #address or !id...</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ හෝ අවකාශයේ නම, #ලිපිනය හෝ !id…</translation>
     </message>
 </context>
 <context>
@@ -4504,49 +4528,49 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/RawMessageDialog.qml" line="+59"/>
         <source>Raw message inspection</source>
-        <translation type="unfinished"/>
+        <translation>අමු පණිවිඩ පරීක්ෂාව</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Cleartext</source>
-        <translation type="unfinished"/>
+        <translation>සාමාන්‍ය පෙළ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Wire form (same)</source>
-        <translation type="unfinished"/>
+        <translation>රැහැන් ආකෘතිය (සමාන)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Wire form</source>
-        <translation type="unfinished"/>
+        <translation>රැහැන් ආකෘතිය</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+10"/>
         <location line="+7"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කෙරිණ</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Copy All</source>
-        <translation type="unfinished"/>
+        <translation>සියල්ල පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy `body`</source>
-        <translation type="unfinished"/>
+        <translation>`body` පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Copy `formatted_body`</source>
-        <translation type="unfinished"/>
+        <translation>`formatted_body` පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>හරි</translation>
     </message>
 </context>
 <context>
@@ -4554,7 +4578,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>කියවීමේ රිසිත්</translation>
     </message>
 </context>
 <context>
@@ -4562,7 +4586,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../../src/models/ReadReceiptsModel.cpp" line="+113"/>
         <source>Yesterday, %1</source>
-        <translation type="unfinished"/>
+        <translation>ඊයේ, %1</translation>
     </message>
 </context>
 <context>
@@ -4570,7 +4594,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/delegates/Redacted.qml" line="+38"/>
         <source>Deleted message</source>
-        <translation type="unfinished"/>
+        <translation>මකා දැමූ පණිවිඩය</translation>
     </message>
 </context>
 <context>
@@ -4579,149 +4603,149 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
         <location line="+679"/>
         <source>Username</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක නාමය</translation>
     </message>
     <message>
         <location line="-677"/>
         <location line="+825"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="-787"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Email verification</source>
-        <translation type="unfinished"/>
+        <translation>ඊමේල් තහවුරු කිරීම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Token</source>
-        <translation type="unfinished"/>
+        <translation>ටෝකනය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Terms</source>
-        <translation type="unfinished"/>
+        <translation>නියම</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+385"/>
         <source>CAPTCHA</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA</translation>
     </message>
     <message>
         <location line="-384"/>
         <source>SSO</source>
-        <translation type="unfinished"/>
+        <translation>SSO</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Server</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායකය</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචි වන්න</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Public servers</source>
-        <translation type="unfinished"/>
+        <translation>පොදු සේවාදායකයන්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom server</source>
-        <translation type="unfinished"/>
+        <translation>අභිමත සේවාදායකය</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Community-operated servers with open registration</source>
-        <translation type="unfinished"/>
+        <translation>විවෘත ලියාපදිංචිය සහිත ප්‍රජා-ක්‍රියාකාරී සේවාදායකයන්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter any Matrix homeserver address</source>
-        <translation type="unfinished"/>
+        <translation>ඕනෑම Matrix නිවෙස් සේවාදායකයක ලිපිනය ඇතුළු කරන්න</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Based on %1, curated by the Komai team</source>
-        <translation type="unfinished"/>
+        <translation>%1 මත පදනම් වූ, Komai කණ්ඩායම විසින් සකස් කරන ලද</translation>
     </message>
     <message>
         <location line="+110"/>
         <source>Web</source>
-        <translation type="unfinished"/>
+        <translation>වෙබ්</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Registration is completed in your browser on the server's website.</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචිය සේවාදායකයේ වෙබ් අඩවියේ ඔබේ බ්‍රවුසරය හරහා සම්පූර්ණ කෙරේ.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Demo</source>
-        <translation type="unfinished"/>
+        <translation>නිරූපණය</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>A server for demonstration and testing purposes. Not suitable for real use.</source>
-        <translation type="unfinished"/>
+        <translation>නිරූපණ සහ පරීක්ෂා කිරීමේ අරමුණු සඳහා සේවාදායකයකි. සැබෑ භාවිතය සඳහා සුදුසු නොවේ.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචි ක්‍රියාවලියට බ්‍රවුසරයේ CAPTCHA අභියෝගයක් සම්පූර්ණ කිරීම අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Email</source>
-        <translation type="unfinished"/>
+        <translation>ඊමේල්</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The registration flow requires confirming a valid email address.</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචි ක්‍රියාවලියට වලංගු ඊමේල් ලිපිනයක් තහවුරු කිරීම අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation type="unfinished"/>
+        <translation>උදා. example.com හෝ https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>This server handles registration on its website.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම සේවාදායකය ලියාපදිංචිය තමන්ගේ වෙබ් අඩවිය හරහා සිදු කරයි.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Create your account there, then come back and sign in with Login.</source>
-        <translation type="unfinished"/>
+        <translation>එහි ඔබේ ගිණුම සාදන්න, ඉන්පසු ආපසු පැමිණ Login සමඟ ඇතුල් වන්න.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open registration page</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචි පිටුව විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4729,151 +4753,153 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+91"/>
         <location line="+103"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>දිගටම</translation>
     </message>
     <message>
         <location line="-568"/>
         <source>Create your account on %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 හි ඔබේ ගිණුම සාදන්න</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>This username is not available. Try a different one.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පරිශීලක නාමය ලබා ගත නොහැක. වෙනත් නාමයක් භාවිතා කරන්න.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Choose a username</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක නාමයක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation type="unfinished"/>
+        <translation>මුරපදය පෙන්වන්න/සඟවන්න</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose a password</source>
-        <translation type="unfinished"/>
+        <translation>මුරපදයක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Confirm password</source>
-        <translation type="unfinished"/>
+        <translation>මුරපදය තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Passwords do not match</source>
-        <translation type="unfinished"/>
+        <translation>මුරපද නොගැලපේ</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation type="unfinished"/>
+        <translation>හඳුනාගත හැකි නමක් තෝරන්න. අනෙක් අය ද එය දැකිය හැකිය.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation type="unfinished"/>
+        <translation>තවත් අහඹු නමක් ජනනය කරන්න</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Suggestions:</source>
-        <translation type="unfinished"/>
+        <translation>යෝජනා:</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Email verification required</source>
-        <translation type="unfinished"/>
+        <translation>ඊමේල් තහවුරු කිරීම අවශ්‍ය වේ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>your@email.com</source>
-        <translation type="unfinished"/>
+        <translation>your@email.com</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Send verification email</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීමේ ඊමේල් යවන්න</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ ඊමේල් පරීක්ෂා කර තහවුරු කිරීමේ සබැඳිය ක්ලික් කරන්න, ඉන්පසු පහතින් දිගටම ක්ලික් කරන්න.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Resend</source>
-        <translation type="unfinished"/>
+        <translation>නැවත යවන්න</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Terms of Service</source>
-        <translation type="unfinished"/>
+        <translation>සේවා නියම</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>I accept the terms</source>
-        <translation type="unfinished"/>
+        <translation>කොන්දේසි පිළිගනිමි</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Registration token required</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචි ටෝකනයක් අවශ්‍ය වේ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Enter your registration token</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ ලියාපදිංචි ටෝකනය ඇතුළු කරන්න</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>CAPTCHA verification required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA තහවුරු කිරීම අවශ්‍ය වේ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Additional verification required</source>
-        <translation type="unfinished"/>
+        <translation>අතිරේක තහවුරු කිරීමක් අවශ්‍ය වේ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ බ්‍රවුසරයේ තහවුරු කිරීම සම්පූර්ණ කරන්න, ඉන්පසු පහතින් තහවුරු කරන්න ක්ලික් කරන්න.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open verification</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>I've completed the verification</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම සම්පූර්ණ කළෙමි</translation>
     </message>
     <message>
         <location line="-1283"/>
         <location line="+772"/>
         <source>Password</source>
-        <translation type="unfinished"/>
+        <translation>මුරපදය</translation>
     </message>
     <message>
         <location line="-770"/>
         <location line="+893"/>
         <source>Device name</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ නාමය</translation>
     </message>
     <message>
         <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
         <source>Account created, but automatic sign-in failed: %1
 Please go back and sign in manually.</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම සාදන ලදී, නමුත් ස්වයංක්‍රීය පිවිසීම අසාර්ථක විය: %1
+කරුණාකර ආපසු ගොස් අතින් පිවිසෙන්න.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Account created, but session data could not be saved.
 Please go back and sign in manually.</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම සාදන ලදී, නමුත් සැසි දත්ත සුරැකිය නොහැකි විය.
+කරුණාකර ආපසු ගොස් අතින් පිවිසෙන්න.</translation>
     </message>
 </context>
 <context>
@@ -4881,22 +4907,22 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/delegates/Reply.qml" line="+85"/>
         <source>Image</source>
-        <translation type="unfinished"/>
+        <translation>රූපය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sticker</source>
-        <translation type="unfinished"/>
+        <translation>ස්ටිකරය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Video</source>
-        <translation type="unfinished"/>
+        <translation>වීඩියෝව</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>ඇමුණුම</translation>
     </message>
 </context>
 <context>
@@ -4904,17 +4930,17 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation type="unfinished"/>
+        <translation>සබැඳිය &amp;ස්ථානය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>&amp;Go to quoted message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;උපුටා ගත් පණිවිඩය වෙත යන්න</translation>
     </message>
 </context>
 <context>
@@ -4922,36 +4948,36 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
         <source>Replying in a thread</source>
-        <translation type="unfinished"/>
+        <translation>නූලකින් ප්‍රතිචාර දැක්වීම</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+53"/>
         <location line="+47"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
     <message>
         <location line="-62"/>
         <location line="+3"/>
         <source>Replying to %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ට ප්‍රතිචාර දැක්වීම</translation>
     </message>
     <message>
         <location line="-2"/>
         <location line="+3"/>
         <source>Replying to this message</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පණිවිඩයට ප්‍රතිචාර දැක්වීම</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Editing a message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයක් සංස්කරණය කිරීම</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිචාරය</translation>
     </message>
 </context>
 <context>
@@ -4959,57 +4985,57 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය වාර්තා කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This message you are reporting will be sent to your server administrator for review. Please note that not all server administrators review reported content. You should also ask a room moderator to remove the content if necessary.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ වාර්තා කරන මෙම පණිවිඩය සමාලෝචනය සඳහා ඔබේ සේවාදායක පරිපාලකට යවනු ලැබේ. සියලුම සේවාදායක පරිපාලකයන් වාර්තා කළ අන්තර්ගතය සමාලෝචනය නොකරන බව කරුණාවෙන් සලකන්න. අවශ්‍ය නම් අන්තර්ගතය ඉවත් කිරීමට කාමර මොඩරේටරයෙකුගෙන් ද ඉල්ලා සිටිය යුතුය.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Enter your reason for reporting:</source>
-        <translation type="unfinished"/>
+        <translation>වාර්තා කිරීමේ හේතුව ඇතුළු කරන්න:</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>How bad is the message?</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය කෙතරම් නරකද?</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Not bad</source>
-        <translation type="unfinished"/>
+        <translation>නරක නොවේ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mild</source>
-        <translation type="unfinished"/>
+        <translation>මෘදු</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bad</source>
-        <translation type="unfinished"/>
+        <translation>නරක</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Serious</source>
-        <translation type="unfinished"/>
+        <translation>බරපතල</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Extremely serious</source>
-        <translation type="unfinished"/>
+        <translation>ඉතා බරපතල</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Report</source>
-        <translation type="unfinished"/>
+        <translation>වාර්තා කරන්න</translation>
     </message>
 </context>
 <context>
@@ -5017,27 +5043,27 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityApprovalDialog.qml" line="+26"/>
         <source>Approve identity reset</source>
-        <translation type="unfinished"/>
+        <translation>අනන්‍යතා යළි සකස් කිරීම අනුමත කරන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Your server requires approval in the browser before it will reset this device's encryption identity.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම උපකරණයේ සංකේතන අනන්‍යතාව යළි සකස් කිරීමට පෙර ඔබේ සේවාදායකය බ්‍රව්සරයේ අනුමතිය අවශ්‍ය කරයි.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open approval page</source>
-        <translation type="unfinished"/>
+        <translation>අනුමත කිරීමේ පිටුව විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>I've approved it</source>
-        <translation type="unfinished"/>
+        <translation>මා එය අනුමත කළා</translation>
     </message>
 </context>
 <context>
@@ -5045,7 +5071,7 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityDialog.qml" line="+16"/>
         <source>Reset encryption identity?</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතන අනන්‍යතාව යළි සකසන්නද?</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5054,17 +5080,21 @@ Please go back and sign in manually.</source>
 You will get a new security key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation type="unfinished"/>
+        <translation>යළි සැකසීම මෙම ගිණුම සඳහා නව සංකේතන අනන්‍යතාවක් සාදා නැවත සැකසීම ආරම්භ කරයි.
+
+ඔබට නව ආරක්ෂා යතුරක් ලැබෙනු ඇත. නැවත යළි සැකසීම වළක්වා ගැනීමට එය සුරකින්න.
+
+කලින් සේවාදායක-පාර්ශ්ව යතුරු උපස්ථ ස්වයංක්‍රීයව ඉවත් නොකෙරේ.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>දැන් නොවේ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>යළි සකසන්න</translation>
     </message>
 </context>
 <context>
@@ -5072,27 +5102,27 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityPasswordDialog.qml" line="+28"/>
         <source>Confirm identity reset</source>
-        <translation type="unfinished"/>
+        <translation>අනන්‍යතා යළි සකස් කිරීම තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Your homeserver requires your account password before it will reset this device's encryption identity.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම උපකරණයේ සංකේතන අනන්‍යතාව යළි සකස් කිරීමට පෙර ඔබේ නිවාස සේවාදායකය ඔබේ ගිණුම් මුරපදය අවශ්‍ය කරයි.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Account password</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම් මුරපදය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>යළි සකසන්න</translation>
     </message>
 </context>
 <context>
@@ -5100,177 +5130,177 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/RoomDirectory.qml" line="+65"/>
         <source>This room is extremely large. You should probably stay away from it unless you have a very powerful server. Joining may take a very long time.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය අතිශයින් විශාලය. ඉතා ශක්තිමත් සේවාදායකයක් නොමැති නම් එයින් ඈත් වී සිටීම සිදු කළ යුතුය. සම්බන්ධ වීමට ඉතා දිගු කාලයක් ගත විය හැකිය.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room is large. Joining may take a long time and increase resource usage on your server.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය විශාලය. සම්බන්ධ වීමට දිගු කාලයක් ගත විය හැකි අතර ඔබේ සේවාදායකයේ සම්පත් භාවිතය වැඩි කළ හැකිය.</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Explore Public Rooms</source>
-        <translation type="unfinished"/>
+        <translation>පොදු කාමර ගවේෂණය කරන්න</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Server to explore</source>
-        <translation type="unfinished"/>
+        <translation>ගවේෂණය කළ යුතු සේවාදායකය</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Mine (%1)</source>
-        <translation type="unfinished"/>
+        <translation>මගේ (%1)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Another server</source>
-        <translation type="unfinished"/>
+        <translation>තවත් සේවාදායකයක්</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Number of known public rooms in this server's directory</source>
-        <translation type="unfinished"/>
+        <translation>මෙම සේවාදායකයේ නාමාවලියේ දන්නා පොදු කාමර ගණන</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Custom server</source>
-        <translation type="unfinished"/>
+        <translation>අභිරුචි සේවාදායකය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>example.com</source>
-        <translation type="unfinished"/>
+        <translation>example.com</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Choose</source>
-        <translation type="unfinished"/>
+        <translation>තෝරන්න</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Filtering</source>
-        <translation type="unfinished"/>
+        <translation>පෙරීම</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Type</source>
-        <translation type="unfinished"/>
+        <translation>වර්ගය</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>සියල්ල</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Rooms</source>
-        <translation type="unfinished"/>
+        <translation>කාමර</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Spaces</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශ</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රමාණය</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Up to large (≤ %1 members)</source>
-        <translation type="unfinished"/>
+        <translation>විශාල දක්වා (≤ %1 සාමාජිකයන්)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Up to very large (≤ %1 members)</source>
-        <translation type="unfinished"/>
+        <translation>ඉතා විශාල දක්වා (≤ %1 සාමාජිකයන්)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Any</source>
-        <translation type="unfinished"/>
+        <translation>ඕනෑම</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Keyword</source>
-        <translation type="unfinished"/>
+        <translation>මූල පදය</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>e.g. Matrix, food, coffee, tech</source>
-        <translation type="unfinished"/>
+        <translation>උදා: Matrix, ආහාර, කෝපි, තාක්ෂණය</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Quick presets:</source>
-        <translation type="unfinished"/>
+        <translation>ඉක්මන් පෙරසිද්ධ සැකසුම්:</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Language</source>
-        <translation type="unfinished"/>
+        <translation>භාෂාව</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Any language</source>
-        <translation type="unfinished"/>
+        <translation>ඕනෑම භාෂාවක්</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Rooms &amp; spaces</source>
-        <translation type="unfinished"/>
+        <translation>කාමර සහ අවකාශ</translation>
     </message>
     <message>
         <location line="+109"/>
         <source>(unnamed room)</source>
-        <translation type="unfinished"/>
+        <translation>(නම් නොකළ කාමරය)</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශය</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කළා!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy room address</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ලිපිනය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>There are %1 members in this room</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ %1 සාමාජිකයන් සිටිති</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>සම්බන්ධ වන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Nothing found.</source>
-        <translation type="unfinished"/>
+        <translation>කිසිවක් හමු නොවිය.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>The room size filter may be hiding results. Try a larger size or "Any".</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ප්‍රමාණ පෙරහන ප්‍රතිඵල සඟවා ඇති විය හැකිය. විශාල ප්‍රමාණයක් හෝ "ඕනෑම" උත්සාහ කරන්න.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Enter a server address above to explore its public rooms.</source>
-        <translation type="unfinished"/>
+        <translation>එහි පොදු කාමර ගවේෂණය කිරීමට ඉහත සේවාදායක ලිපිනයක් ඇතුළු කරන්න.</translation>
     </message>
 </context>
 <context>
@@ -5278,7 +5308,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../../src/models/RoomDirectoryModel.cpp" line="+262"/>
         <source>Room directory requires an active Matrix session.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර නාමාවලිය සඳහා ක්‍රියාශීලී Matrix සැසියක් අවශ්‍ය වේ.</translation>
     </message>
 </context>
 <context>
@@ -5286,82 +5316,82 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ පණිවිඩ අන්තයේ සිට අන්තය දක්වා සංකේතිත නොවේ.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This room contains only verified devices.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ ඇත්තේ තහවුරු කළ උපකරණ පමණි.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains verified devices and devices which have never changed their master key.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ තහවුරු කළ උපකරණ සහ ප්‍රධාන යතුර කිසිදා වෙනස් නොකළ උපකරණ ඇත.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains unverified devices!</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ තහවුරු නොකළ උපකරණ ඇත!</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Encryption is a room setting that can be enabled in Room Info.</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය Room Info හි සක්‍රිය කළ හැකි කාමර සැකසුමකි.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Messages are end-to-end encrypted and all devices are verified.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ අන්තයේ සිට අන්තය දක්වා සංකේතිත වන අතර, සියලු උපකරණ තහවුරු කළ ඒවා වේ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted. Some devices are verified, others are trusted by first use.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ අන්තයේ සිට අන්තය දක්වා සංකේතිත ය. සමහර උපකරණ තහවුරු කළ ඒවා ය; අනෙක් ඒවා පළමු භාවිතය මගින් විශ්වාස කළ ඒවා ය.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted, but the key is from an untrusted source.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ අන්තයේ සිට අන්තය දක්වා සංකේතිත ය, නමුත් යතුර විශ්වාස නොකළ ප්‍රභවයකින් ලැබී ඇත.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted, but some devices are unverified.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ අන්තයේ සිට අන්තය දක්වා සංකේතිත ය, නමුත් සමහර උපකරණ තහවුරු නොකළ ඒවා ය.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Unencrypted</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය නොකළ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කළ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>විශ්වාසදායී</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>අනතුරු ඇඟවීම</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Encryption status</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතන තත්ත්වය</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>See Room Settings</source>
-        <translation type="unfinished"/>
+        <translation>කාමර සැකසුම් බලන්න</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>See Members</source>
-        <translation type="unfinished"/>
+        <translation>සාමාජිකයන් බලන්න</translation>
     </message>
 </context>
 <context>
@@ -5369,52 +5399,52 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයක් තෝරාගෙන නොමැත</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Members (%1)</source>
-        <translation type="unfinished"/>
+        <translation>සාමාජිකයන් (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>පොදු</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Private</source>
-        <translation type="unfinished"/>
+        <translation>පෞද්ගලික</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Unencrypted</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය නොකළ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කළ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>විශ්වාසදායී</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>අනතුරු ඇඟවීම</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>සොයන්න</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>පිටවන්න</translation>
     </message>
 </context>
 <context>
@@ -5422,7 +5452,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ලැයිස්තුවට ආපසු</translation>
     </message>
 </context>
 <context>
@@ -5430,7 +5460,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderCommunitySection.qml" line="+43"/>
         <source>In %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 හි</translation>
     </message>
 </context>
 <context>
@@ -5438,12 +5468,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderMembersButton.qml" line="+14"/>
         <source>Show the members of this room</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ සාමාජිකයන් පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Members (%1)</source>
-        <translation type="unfinished"/>
+        <translation>සාමාජිකයන් (%1)</translation>
     </message>
 </context>
 <context>
@@ -5451,12 +5481,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderPinButton.qml" line="+18"/>
         <source>Show pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>සංලග්නිත පණිවිඩ පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pins (%1)</source>
-        <translation type="unfinished"/>
+        <translation>සංලග්නිත (%1)</translation>
     </message>
 </context>
 <context>
@@ -5464,7 +5494,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomAvatar.qml" line="+31"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>කාමර සැකසුම්</translation>
     </message>
 </context>
 <context>
@@ -5472,22 +5502,22 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
         <source>This room is public. Anyone can join.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය පොදුයි. ඕනෑ කෙනෙකුට සම්බන්ධ විය හැක.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>This room is private. Invitation required.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය පෞද්ගලිකයි. ආරාධනාවක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>පොදු</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Private</source>
-        <translation type="unfinished"/>
+        <translation>පෞද්ගලික</translation>
     </message>
 </context>
 <context>
@@ -5495,12 +5525,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchButton.qml" line="+16"/>
         <source>Search within this room's messages [Ctrl+F]</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ පණිවිඩ තුළ සොයන්න [Ctrl+F]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>සොයන්න</translation>
     </message>
 </context>
 <context>
@@ -5508,12 +5538,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchRow.qml" line="+48"/>
         <source>Type to search in this room's messages</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ පණිවිඩ සෙවීමට ටයිප් කරන්න</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Close search</source>
-        <translation type="unfinished"/>
+        <translation>සෙවුම වසන්න</translation>
     </message>
 </context>
 <context>
@@ -5521,7 +5551,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSettingsButton.qml" line="+13"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>කාමර සැකසුම්</translation>
     </message>
 </context>
 <context>
@@ -5529,12 +5559,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderThreadsButton.qml" line="+16"/>
         <source>Show threads</source>
-        <translation type="unfinished"/>
+        <translation>නූල් පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Threads</source>
-        <translation type="unfinished"/>
+        <translation>නූල්</translation>
     </message>
 </context>
 <context>
@@ -5542,32 +5572,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoAboutTab.qml" line="+51"/>
         <source>Internal ID</source>
-        <translation type="unfinished"/>
+        <translation>අභ්‍යන්තර ID</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් විය!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ක්ලිප්බෝඩ් වෙත පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Room Version</source>
-        <translation type="unfinished"/>
+        <translation>කාමර අනුවාදය</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය සහාය දක්වන ලක්ෂණ නිශ්චිත කරයි.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>තව දැනගන්න</translation>
     </message>
 </context>
 <context>
@@ -5575,32 +5605,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>සැකසීම්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Notifications</source>
-        <translation type="unfinished"/>
+        <translation>දැනුම්දීම්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>ගැන</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Members</source>
-        <translation type="unfinished"/>
+        <translation>සාමාජිකයන්</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Space Info</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශ තොරතුරු</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Room Info</source>
-        <translation type="unfinished"/>
+        <translation>කාමර තොරතුරු</translation>
     </message>
 </context>
 <context>
@@ -5617,52 +5647,52 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+6"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියා</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Manage my profile in this room</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ මගේ පැතිකඩ කළමනාකරණය කරන්න</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invite others</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් අය ආරාධනා කරන්න</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Search...</source>
-        <translation type="unfinished"/>
+        <translation>සොයන්න…</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Sort by: </source>
-        <translation type="unfinished"/>
+        <translation>අනුව වර්ග කරන්න: </translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Power level, then name</source>
-        <translation type="unfinished"/>
+        <translation>බලය මට්ටම, ඉන්පසු නම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation type="unfinished"/>
+        <translation>බලය මට්ටම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name, alphabetical</source>
-        <translation type="unfinished"/>
+        <translation>දර්ශන නම, අකාරාදී</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>User ID, alphabetical</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක ID, අකාරාදී</translation>
     </message>
     <message>
         <location line="+148"/>
         <source>Invited</source>
-        <translation type="unfinished"/>
+        <translation>ආරාධනා කළ</translation>
     </message>
 </context>
 <context>
@@ -5670,27 +5700,27 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoNotificationsTab.qml" line="+59"/>
         <source>Notifications</source>
-        <translation type="unfinished"/>
+        <translation>දැනුම්දීම්</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Muted</source>
-        <translation type="unfinished"/>
+        <translation>නිශ්ශබ්ද</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Mentions only</source>
-        <translation type="unfinished"/>
+        <translation>සඳහන් කිරීම් පමණි</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All messages</source>
-        <translation type="unfinished"/>
+        <translation>සියළු පණිවිඩ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය සඳහා දැනුම්දීම් ලබාගන්නා ආකාරය සකසන්න.</translation>
     </message>
 </context>
 <context>
@@ -5698,85 +5728,86 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+83"/>
         <source>General settings</source>
-        <translation type="unfinished"/>
+        <translation>සාමාන්‍ය සැකසීම්</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+49"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove the room avatar?</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට සැබවින්ම කාමරයේ අවතාරය ඉවත් කිරීමට අවශ්‍යද?</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+241"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="-193"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>නම</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>No name set</source>
-        <translation type="unfinished"/>
+        <translation>නමක් සකසා නොමැත</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Topic</source>
-        <translation type="unfinished"/>
+        <translation>මාතෘකාව</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>No topic set</source>
-        <translation type="unfinished"/>
+        <translation>මාතෘකාවක් සකසා නොමැත</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Once enabled, encryption cannot be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>සක්‍රීය කළ පසු, සංකේතනය අබල කළ නොහැක.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>End-to-End Encryption</source>
-        <translation type="unfinished"/>
+        <translation>අන්ත-සිට-අන්ත සංකේතනය</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Encryption is currently experimental and things might break unexpectedly.
 Please take note that it can't be disabled afterwards.</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය දැනට පර්යේෂණාත්මක වන අතර දේවල් අනපේක්ෂිත ලෙස බිඳ වැටිය හැකිය.
+එය පසුව අබල කළ නොහැකි බව කරුණාවෙන් සලකන්න.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Enable</source>
-        <translation type="unfinished"/>
+        <translation>සක්‍රීය කරන්න</translation>
     </message>
 </context>
 <context>
@@ -5784,52 +5815,52 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+16"/>
         <source>New room/space</source>
-        <translation type="unfinished"/>
+        <translation>නව කාමරය/අවකාශය</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>නව සෘජු කතාබහ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A 1-on-1 conversation with another user where you both get the same power level</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ දෙදෙනාම එකම බලය මට්ටම ලබාගන්නා අනෙකුත් පරිශීලකයෙකු සමඟ 1-ට-1 සංවාදයක්</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>නව කාමරය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A public or private room for group conversations</source>
-        <translation type="unfinished"/>
+        <translation>කණ්ඩායම් සංවාද සඳහා පොදු හෝ පෞද්ගලික කාමරයක්</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>නව අවකාශය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create a new public or private collection of rooms</source>
-        <translation type="unfinished"/>
+        <translation>කාමරවල නව පොදු හෝ පෞද්ගලික එකතුවක් සාදන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -5837,22 +5868,22 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයට සම්බන්ධ වන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>නව කාමරය</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>නව සෘජු කතාබහ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>නව අවකාශය</translation>
     </message>
 </context>
 <context>
@@ -5860,7 +5891,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/RoomList.qml" line="+472"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>සැකසීම්…</translation>
     </message>
 </context>
 <context>
@@ -5868,7 +5899,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListBotChatFooter.qml" line="+12"/>
         <source>New bot chat</source>
-        <translation type="unfinished"/>
+        <translation>නව බොට් කතාබහ</translation>
     </message>
 </context>
 <context>
@@ -5876,67 +5907,67 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
         <source>Enter the tag you want to use:</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ භාවිත කිරීමට අවශ්‍ය ටැගය ඇතුළු කරන්න:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>New tag</source>
-        <translation type="unfinished"/>
+        <translation>නව ටැගය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>සාදන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open in a new tab</source>
-        <translation type="unfinished"/>
+        <translation>නව ටැබයක් තුළ විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open in new window</source>
-        <translation type="unfinished"/>
+        <translation>නව කවුළුවක විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Copy room link</source>
-        <translation type="unfinished"/>
+        <translation>කාමර සබැඳිය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tag room as:</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය ටැග් කරන්න:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Favourite</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රියතම</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Low priority</source>
-        <translation type="unfinished"/>
+        <translation>අඩු ප්‍රමුඛතාව</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server notice</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායක දැනුම්දීම</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Create new tag...</source>
-        <translation type="unfinished"/>
+        <translation>නව ටැගයක් සාදන්න…</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>කාමර සැකසීම්</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයෙන් පිටවන්න</translation>
     </message>
 </context>
 <context>
@@ -5944,7 +5975,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListExploreFooter.qml" line="+14"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>නව</translation>
     </message>
 </context>
 <context>
@@ -5952,7 +5983,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
         <source>Need more?</source>
-        <translation type="unfinished"/>
+        <translation>තවත් අවශ්‍යද?</translation>
     </message>
 </context>
 <context>
@@ -5960,7 +5991,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListFreezeIndicator.qml" line="+47"/>
         <source>Live updates are paused while you interact with the room list.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ කාමර ලැයිස්තුව සමඟ කටයුතු කරන අතරතුර සජීවී යාවත්කාලීන විරාම ගැන්වේ.</translation>
     </message>
 </context>
 <context>
@@ -5969,7 +6000,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
         <location line="+85"/>
         <source>You:</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ:</translation>
     </message>
 </context>
 <context>
@@ -5977,42 +6008,42 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
         <source>Enter your status message:</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ තත්ව පණිවිඩය ඇතුළු කරන්න:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Status Message</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව පණිවිඩය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Set</source>
-        <translation type="unfinished"/>
+        <translation>සකසන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Profile Settings</source>
-        <translation type="unfinished"/>
+        <translation>පැතිකඩ සැකසීම්</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set Status Message</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව පණිවිඩය සකසන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>App Settings</source>
-        <translation type="unfinished"/>
+        <translation>යෙදුම් සැකසීම්</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open Profile Switcher</source>
-        <translation type="unfinished"/>
+        <translation>පැතිකඩ මාරුකාරකය විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>ඉවත් වන්න</translation>
     </message>
 </context>
 <context>
@@ -6020,22 +6051,22 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListSpaceHeader.qml" line="+40"/>
         <source>Space settings</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශ සැකසීම්</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශය</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Leave space</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශයෙන් පිටවන්න</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>පිටවන්න</translation>
     </message>
 </context>
 <context>
@@ -6044,7 +6075,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/shell/components/RoomListToTopButton.qml" line="+19"/>
         <location line="+1"/>
         <source>Scroll to top</source>
-        <translation type="unfinished"/>
+        <translation>ඉහළට අනුචලනය කරන්න</translation>
     </message>
 </context>
 <context>
@@ -6052,47 +6083,47 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListUserInfoMenu.qml" line="+29"/>
         <source>Enter your status message:</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ තත්ව පණිවිඩය ඇතුළු කරන්න:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Status Message</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව පණිවිඩය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Set</source>
-        <translation type="unfinished"/>
+        <translation>සකසන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Profile settings</source>
-        <translation type="unfinished"/>
+        <translation>පැතිකඩ සැකසීම්</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set status message</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව පණිවිඩය සකසන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Automatic online status</source>
-        <translation type="unfinished"/>
+        <translation>ස්වයංක්‍රීය මාර්ගගත තත්වය</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Online</source>
-        <translation type="unfinished"/>
+        <translation>බැඳි</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation>නොලැබේ</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Offline</source>
-        <translation type="unfinished"/>
+        <translation>නොබැඳි</translation>
     </message>
 </context>
 <context>
@@ -6100,12 +6131,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomOptionsButton.qml" line="+13"/>
         <source>Leave this room</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයෙන් පිටවන්න</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>පිටවන්න</translation>
     </message>
 </context>
 <context>
@@ -6113,7 +6144,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>ගලවා ගන්න</translation>
     </message>
 </context>
 <context>
@@ -6121,67 +6152,67 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+49"/>
         <source>Select an avatar</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරයක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"/>
+        <translation>සියලු ගොනු (*)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් ගොනුව රූපයක් නොවේ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation type="unfinished"/>
+        <translation>ගොනුව කියවීමේ දෝෂයකි: %1</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Failed to upload image.</source>
-        <translation type="unfinished"/>
+        <translation>රූපය උඩුගත කිරීමට අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය ඉවත් කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
         <source>Failed to update history visibility.</source>
-        <translation type="unfinished"/>
+        <translation>ඉතිහාස දෘශ්‍යතාව යාවත්කාලීන කිරීමට අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Failed to update room access rules.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ප්‍රවේශ නීති යාවත්කාලීන කිරීමට අසාර්ථක විය.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix backend runtime ලබාගත නොහැක.</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>Failed to enable encryption.</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය සක්‍රිය කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Failed to update notifications.</source>
-        <translation type="unfinished"/>
+        <translation>දැනුම්දීම් යාවත්කාලීන කිරීමට අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to update room name.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර නම යාවත්කාලීන කිරීමට අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to update room topic.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර මාතෘකාව යාවත්කාලීන කිරීමට අසාර්ථක විය.</translation>
     </message>
 </context>
 <context>
@@ -6189,178 +6220,178 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
         <source>Permissions</source>
-        <translation type="unfinished"/>
+        <translation>අවසරයන්</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Power levels &amp; permissions</source>
-        <translation type="unfinished"/>
+        <translation>බල මට්ටම් සහ අවසරයන්</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+36"/>
         <location line="+445"/>
         <source>Configure</source>
-        <translation type="unfinished"/>
+        <translation>වින්‍යාස කරන්න</translation>
     </message>
     <message>
         <location line="-454"/>
         <source>Aliases</source>
-        <translation type="unfinished"/>
+        <translation>අන්වර්ථ නාම</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;Aliases&lt;/a&gt; are alternative addresses (like #room:example.com) that people can use to find this room.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;අන්වර්ථ නාම&lt;/a&gt; යනු මෙම කාමරය සොයා ගැනීමට (#room:example.com වැනි) භාවිතා කළ හැකි විකල්ප ලිපිනයන් වේ.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room access</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ප්‍රවේශය</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Public (anyone can join)</source>
-        <translation type="unfinished"/>
+        <translation>පොදු (ඕනෑම කෙනෙකුට සම්බන්ධ විය හැකිය)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Private (invite only)</source>
-        <translation type="unfinished"/>
+        <translation>පෞද්ගලික (ආරාධනාවෙන් පමණයි)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Allow knocking</source>
-        <translation type="unfinished"/>
+        <translation>තට්ටු කිරීමට ඉඩ දෙන්න</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Non-members can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'&gt;request to join&lt;/a&gt;. Users with invite permission can accept.</source>
-        <translation type="unfinished"/>
+        <translation>සාමාජිකයින් නොවන අය &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'&gt;සම්බන්ධ වීමට ඉල්ලීමක්&lt;/a&gt; කළ හැකිය. ආරාධනා අවසරය ඇති පරිශීලකයින්ට එය පිළිගත හැකිය.</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Allow joining from Spaces</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශවලින් සම්බන්ධ වීමට ඉඩ දෙන්න</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Members of selected Spaces can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'&gt;join without an invitation&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් අවකාශවල සාමාජිකයින්ට &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'&gt;ආරාධනාවකින් තොරව සම්බන්ධ වීමට&lt;/a&gt; හැකිය.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Rooms to join via</source>
-        <translation type="unfinished"/>
+        <translation>හරහා සම්බන්ධ වන කාමර</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+361"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="-334"/>
         <source>Allow guests to join</source>
-        <translation type="unfinished"/>
+        <translation>අමුත්තන්ට සම්බන්ධ වීමට ඉඩ දෙන්න</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lets &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;temporary accounts&lt;/a&gt; without full registration join the room.</source>
-        <translation type="unfinished"/>
+        <translation>සම්පූර්ණ ලියාපදිංචියකින් තොරව &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;තාවකාලික ගිණුම්&lt;/a&gt;වලට කාමරයට සම්බන්ධ වීමට ඉඩ දෙයි.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Apply access rules</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රවේශ නීති යොදන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ දෘශ්‍යතාව</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Allow viewing history without joining</source>
-        <translation type="unfinished"/>
+        <translation>සම්බන්ධ නොවී ඉතිහාසය බැලීමට ඉඩ දෙන්න</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Useful for room previews and public websites.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර පෙරදසුන් සහ පොදු වෙබ් අඩවි සඳහා ප්‍රයෝජනවත්.</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Members can see messages since</source>
-        <translation type="unfinished"/>
+        <translation>සාමාජිකයින්ට දිය හැකි ඉතිහාසය</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The beginning</source>
-        <translation type="unfinished"/>
+        <translation>ආරම්භය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>They were invited</source>
-        <translation type="unfinished"/>
+        <translation>ඔවුන්ට ආරාධනා කළ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>They joined</source>
-        <translation type="unfinished"/>
+        <translation>ඔවුන් සම්බන්ධ වූහ</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Changing this won't affect already sent messages, only new ones.</source>
-        <translation type="unfinished"/>
+        <translation>මෙය වෙනස් කිරීම දැනටමත් යවන ලද පණිවිඩවලට බලපාන්නේ නැත, නව ඒවාට පමණි.</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+11"/>
         <source>Apply visibility changes</source>
-        <translation type="unfinished"/>
+        <translation>දෘශ්‍යතා වෙනස්කම් යොදන්න</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Locally hidden events</source>
-        <translation type="unfinished"/>
+        <translation>දේශීයව සඟවන ලද සිදුවීම්</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Collapse thread replies</source>
-        <translation type="unfinished"/>
+        <translation>නූල් පිළිතුරු හකුළන්න</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Global Default (currently: %1)</source>
-        <translation type="unfinished"/>
+        <translation>ගෝලීය පෙරනිමිය (දැනට: %1)</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+1"/>
         <source>On</source>
-        <translation type="unfinished"/>
+        <translation>සක්‍රිය</translation>
     </message>
     <message>
         <location line="-1"/>
         <location line="+2"/>
         <source>Off</source>
-        <translation type="unfinished"/>
+        <translation>අක්‍රිය</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>නූල් පිළිතුරු ප්‍රධාන ටයිම්ලයිනයෙන් සඟවයි, නූල් මූල පණිවිඩ පමණක් දැක්වෙයි.&lt;br&gt;⚠️ නූල් වෙන් නොකියවූ ලුහුබැඳීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මග හැරිය හැකිය.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Extra</source>
-        <translation type="unfinished"/>
+        <translation>අමතර</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Sticker &amp; Emote Settings</source>
-        <translation type="unfinished"/>
+        <translation>ස්ටිකර් සහ ඉමෝට් සැකසුම්</translation>
     </message>
 </context>
 <context>
@@ -6368,17 +6399,17 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>නව</translation>
     </message>
     <message>
         <location line="+134"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>සැකසුම්…</translation>
     </message>
     <message>
         <location line="-135"/>
         <source>Open a new tab [Ctrl+T]</source>
-        <translation type="unfinished"/>
+        <translation>නව ටැබ් එකක් විවෘත කරන්න [Ctrl+T]</translation>
     </message>
 </context>
 <context>
@@ -6386,69 +6417,69 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
         <source>New Tab</source>
-        <translation type="unfinished"/>
+        <translation>නව ටැබ්</translation>
     </message>
     <message>
         <location line="+250"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
-        <translation type="unfinished"/>
+        <translation>ටැබ් ඇමිනීම ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="-90"/>
         <location line="+90"/>
         <source>Pin Tab</source>
-        <translation type="unfinished"/>
+        <translation>ටැබ් ඇමිනන්න</translation>
     </message>
     <message>
         <location line="-72"/>
         <source>Close Tab [Ctrl+W]</source>
-        <translation type="unfinished"/>
+        <translation>ටැබ් වසන්න [Ctrl+W]</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Close Tab</source>
-        <translation type="unfinished"/>
+        <translation>ටැබ් වසන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Other Tabs</source>
-        <translation type="unfinished"/>
+        <translation>අනෙකුත් ටැබ් වසන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Tabs to the Right</source>
-        <translation type="unfinished"/>
+        <translation>දකුණු ටැබ් වසන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Unpinned Tabs</source>
-        <translation type="unfinished"/>
+        <translation>නොඇමිනූ ටැබ් වසන්න</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Close %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 වසන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>(Unread &amp; Draft) </source>
-        <translation type="unfinished"/>
+        <translation>(නොකියවූ සහ කෙටුම්පත) </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>(Unread) </source>
-        <translation type="unfinished"/>
+        <translation>(නොකියවූ) </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>(Draft) </source>
-        <translation type="unfinished"/>
+        <translation>(කෙටුම්පත) </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>(Pinned)</source>
-        <translation type="unfinished"/>
+        <translation>(අමුණා ඇත)</translation>
     </message>
 </context>
 <context>
@@ -6457,32 +6488,32 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
         <location line="+2"/>
         <source>Invited by %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 විසින් ආරාධනා කළ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Pending invite</source>
-        <translation type="unfinished"/>
+        <translation>ලැබී ඇති ආරාධනාව</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Pending invite.</source>
-        <translation type="unfinished"/>
+        <translation>ලැබී ඇති ආරාධනාව.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Previewing this room</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය පෙරදසුන් කෙරෙමින්</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation type="unfinished"/>
+        <translation>පෙරදසුනක් නොමැත</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room is possibly inaccessible</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයට ප්‍රවේශ විය නොහැකි විය හැක</translation>
     </message>
 </context>
 <context>
@@ -6490,27 +6521,27 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/auth/SSOHandler.cpp" line="+125"/>
         <source>Single Sign-On authentication completed</source>
-        <translation type="unfinished"/>
+        <translation>Single Sign-On සත්‍යාපනය සම්පූර්ණ විය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Close this page and switch back to Komai!</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පිටුව වසා Komai වෙත ආපසු යන්න!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Single Sign-On authentication failed</source>
-        <translation type="unfinished"/>
+        <translation>Single Sign-On සත්‍යාපනය අසාර්ථක විය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: %1</source>
-        <translation type="unfinished"/>
+        <translation>දෝෂය: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You can close this page and try again in Komai.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට මෙම පිටුව වසා Komai හි නැවත උත්සාහ කළ හැක.</translation>
     </message>
 </context>
 <context>
@@ -6518,32 +6549,32 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
         <source>Save your security key and keep it private</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ ආරක්ෂක යතුර සුරකින්න සහ පෞද්ගලිකව තබා ගන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ සංකේතන රහස් දැන් සේවාදායකයේ ගබඩා කර ඇති අතර, පහත යතුර භාවිතා කර සංකේතිත කර ඇත.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ ලොග් අවුට් වූ, නැවත ස්ථාපනය කළ, හෝ වෙනත් උපකරණයක් සකසා ගත් විට සංකේතිත පණිවිඩ ප්‍රවේශ වීමට ඔබට එය අවශ්‍ය වනු ඇත.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කළා</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>OK, I saved my security key</source>
-        <translation type="unfinished"/>
+        <translation>හරි, මම මගේ ආරක්ෂක යතුර සුරැකිවා</translation>
     </message>
 </context>
 <context>
@@ -6551,63 +6582,63 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
         <source>Share desktop with %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1 සමඟ desktop බෙදා ගන්නද?</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Method:</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රමය:</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Window:</source>
-        <translation type="unfinished"/>
+        <translation>කවුළුව:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Request screencast</source>
-        <translation type="unfinished"/>
+        <translation>Screencast ඉල්ලා සිටින්න</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Frame rate:</source>
-        <translation type="unfinished"/>
+        <translation>රාමු අනුපාතය:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Include your camera picture-in-picture</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ කැමරාව picture-in-picture ලෙස ඇතුළත් කරන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Request remote camera</source>
-        <translation type="unfinished"/>
+        <translation>දුරස්ථ කැමරාව ඉල්ලා සිටින්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+9"/>
         <source>View your callee's camera like a regular video call</source>
-        <translation type="unfinished"/>
+        <translation>සාමාන්‍ය වීඩියෝ ඇමතුමක් ලෙස ඔබ ඇමතූ පාර්ශ්වයේ කැමරාව නරඹන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show mouse cursor</source>
-        <translation type="unfinished"/>
+        <translation>මවුස් කර්සරය පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Share</source>
-        <translation type="unfinished"/>
+        <translation>බෙදා ගන්න</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Preview</source>
-        <translation type="unfinished"/>
+        <translation>පෙරදසුන</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -6615,247 +6646,247 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/SelectionModeHelpDialog.qml" line="+17"/>
         <source>This keyboard shortcut only works in Selection mode, after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම යතුරු පුවරු කෙටිමඟ ක්‍රියා කරන්නේ උදව් වසා දැමීමෙන් පසු, තේරීම් ආකාරයේ පමණකි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කෙටිමං, උදවු වසා දැමීමෙන් පසු තේරීම් ප්‍රකාරයේ ක්‍රියාත්මක වේ. &lt;a href="%1"&gt;සම්පූර්ණ මාර්ගෝපදේශය&lt;/a&gt; බලන්න.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Movement</source>
-        <translation type="unfinished"/>
+        <translation>චලනය</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Up</source>
-        <translation type="unfinished"/>
+        <translation>Up</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation>K</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move to older messages</source>
-        <translation type="unfinished"/>
+        <translation>පැරණි පණිවිඩ වෙත යන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Down</source>
-        <translation type="unfinished"/>
+        <translation>පහළ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>J</source>
-        <translation type="unfinished"/>
+        <translation>J</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move to newer messages</source>
-        <translation type="unfinished"/>
+        <translation>නව පණිවිඩ වෙත යන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+U</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+U</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move about half a screen up</source>
-        <translation type="unfinished"/>
+        <translation>තිරයෙන් අඩකක් පමණ ඉහළට යන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+D</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+D</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move about half a screen down</source>
-        <translation type="unfinished"/>
+        <translation>තිරයෙන් අඩකක් පමණ පහළට යන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>gg</source>
-        <translation type="unfinished"/>
+        <translation>gg</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Go to the oldest loaded message</source>
-        <translation type="unfinished"/>
+        <translation>පූරණය කළ පැරණිම පණිවිඩය වෙත යන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Shift+G</source>
-        <translation type="unfinished"/>
+        <translation>Shift+G</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Go to the newest loaded message</source>
-        <translation type="unfinished"/>
+        <translation>පූරණය කළ නවතම පණිවිඩය වෙත යන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Selection</source>
-        <translation type="unfinished"/>
+        <translation>තේරීම</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Toggle selection for the focused message</source>
-        <translation type="unfinished"/>
+        <translation>අවධානය යොමු කළ පණිවිඩය සඳහා තේරීම ටොගල් කරන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියා</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Enter</source>
-        <translation type="unfinished"/>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open inline actions for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් හෝ අවධානය යොමු කළ පණිවිඩය සඳහා පේළිතුළ ක්‍රියාවන් විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy original body for selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් පණිවිඩ සඳහා හෝ තෝරාගත් හෝ ඉස්මතු කළ පණිවිඩය සඳහා මුල් අන්තර්ගතය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy plain text for selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් පණිවිඩ සඳහා හෝ තෝරාගත් හෝ ඉස්මතු කළ පණිවිඩය සඳහා සරල පාඨය පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Reply to the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් හෝ අවධානය යොමු කළ පණිවිඩයට පිළිතුරු දෙන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>T</source>
-        <translation type="unfinished"/>
+        <translation>T</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open or continue the selected or focused thread</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් හෝ අවධානය යොමු කළ නූල විවෘත කරන්න හෝ දිගටම කරගෙන යන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>E</source>
-        <translation type="unfinished"/>
+        <translation>E</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Edit the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් හෝ අවධානය යොමු කළ පණිවිඩය සංස්කරණය කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>F</source>
-        <translation type="unfinished"/>
+        <translation>F</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් පණිවිඩ හෝ තෝරාගත් හෝ අවධානය යොමු කළ පණිවිඩය ඉදිරියට යවන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් පණිවිඩ, හෝ තෝරාගත් හෝ ඉස්මතු කළ පණිවිඩය මකන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation>U</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>View raw JSON for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් හෝ අවධානය යොමු කළ පණිවිඩය සඳහා අමු JSON බලන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation>O</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open full Message actions for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් හෝ අවධානය යොමු කළ පණිවිඩය සඳහා සම්පූර්ණ පණිවිඩ ක්‍රියාවන් විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>ආකාරය</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>?</source>
-        <translation type="unfinished"/>
+        <translation>?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open this help</source>
-        <translation type="unfinished"/>
+        <translation>මෙම උදව් විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation>I</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Exit Selection mode and return to the composer</source>
-        <translation type="unfinished"/>
+        <translation>තේරීම් ආකාරයෙන් පිටවී රචකය වෙත ආපසු යන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Escape</source>
-        <translation type="unfinished"/>
+        <translation>Escape</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Close actions, clear selection, or exit Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියා වසන්න, තේරීම හිස් කරන්න, හෝ තේරීම් ක්‍රමය අවසන් කරන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Keyboard Shortcuts in Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>තේරීම් ආකාරයේ යතුරු පුවරු කෙටිමං</translation>
     </message>
 </context>
 <context>
@@ -6864,24 +6895,24 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/components/banners/SelfVerificationBanner.qml" line="+24"/>
         <source>To prevent losing access to encrypted messages, set up encryption secrets backup.</source>
         <extracomment>Cross-signing setup has not run yet.</extracomment>
-        <translation type="unfinished"/>
+        <translation>සංකේතිත පණිවිඩවලට ප්‍රවේශය නැතිවීම වැළැක්වීමට, සංකේතන රහස් උපස්ථ ස්ථාපනය කරන්න.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This account already has encryption keys, but this device is not verified. Verify it to unlock encrypted messages.</source>
         <extracomment>The user just signed in with this device and hasn't verified their master key.</extracomment>
-        <translation type="unfinished"/>
+        <translation>මෙම ගිණුමේ දැනටමත් සංකේතන යතුරු ඇත, නමුත් මෙම උපකරණය තහවුරු කර නොමැත. සංකේතිත පණිවිඩ අගුළු ඇරීමට එය තහවුරු කරන්න.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This device is verified, but some of your other logged-in devices are not. Review and verify them.</source>
         <extracomment>There are unverified devices signed in to this account.</extracomment>
-        <translation type="unfinished"/>
+        <translation>මෙම උපකරණය තහවුරු කර ඇත, නමුත් ඔබගේ ලොග් වී ඇති සෙසු උපකරණ සමහරක් තහවුරු නොවී ඇත. ඒවා සමාලෝචනය කර තහවුරු කරන්න.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
 </context>
 <context>
@@ -6889,53 +6920,54 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/components/encryption/SelfVerificationCoordinator.qml" line="+44"/>
         <source>Encryption setup complete</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතන ස්ථාපනය සම්පූර්ණ විය</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Encryption setup successfully</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය සාර්ථකව ස්ථාපනය කරන ලදී</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption secrets unlocked</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතන රහස් අගුළු ඇරිනි</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This device can now use the recovered encryption secrets.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම උපකරණයට දැන් ප්‍රතිසාධනය කරන ලද සංකේතන රහස් භාවිතා කළ හැකිය.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption identity reset</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතන අනන්‍යතාව නැවත සකසන ලදී</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>A new encryption identity was created for this device. You may still want to set up backups again.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම උපකරණය සඳහා නව සංකේතන අනන්‍යතාවයක් සාදන ලදී. ඔබ නැවතත් උපස්ථ ස්ථාපනය කිරීමට අවශ්‍ය විය හැකිය.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Encryption setup failed</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතන ස්ථාපනය අසාර්ථක විය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Failed to setup encryption: %1</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය ස්ථාපනය කිරීමට අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Setup Encryption</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය ස්ථාපනය කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hello and welcome to Matrix!
 It seems like you are new. Before you can securely encrypt your messages, we need to setup a few small things. You can either press accept immediately or adjust a few basic options. We also try to explain a few of the basics. You can skip those parts, but they might prove to be helpful!</source>
-        <translation type="unfinished"/>
+        <translation>ආයුබෝවන් සහ Matrix වෙත සාදරයෙන් පිළිගනිමු!
+ඔබ නව කෙනෙකු ලෙස පෙනේ. ඔබගේ පණිවිඩ ආරක්ෂිතව සංකේතනය කිරීමට පෙර, කුඩා කාරණා කිහිපයක් සකස් කළ යුතුය. ඔබට ක්ෂණිකව පිළිගන්නට හෝ මූලික විකල්ප කිහිපයක් සකස් කරන්නට හැකිය. අපි මූලිකාංග කිහිපයක් ද පැහැදිලි කිරීමට උත්සාහ කරමු. ඔබට ඒ කොටස් මඟ හැරිය හැකිය, නමුත් ඒවා ප්‍රයෝජනවත් විය හැකිය!</translation>
     </message>
 </context>
 <context>
@@ -6943,23 +6975,23 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../../src/encryption/SelfVerificationStatus.cpp" line="+25"/>
         <source>The Rust Matrix backend is not active, so encryption recovery is unavailable.</source>
-        <translation type="unfinished"/>
+        <translation>Rust Matrix backend ක්‍රියාත්මක නොවන නිසා, සංකේතන ප්‍රතිසාධනය නොමැත.</translation>
     </message>
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම සඳහා දැනට වෙනත් ලොග් වූ උපකරණයක් නොමැත.</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+79"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීමේ කළමනාකරු නොමැත.</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>This account does not currently expose an unlockable key backup.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම ගිණුම දැනට අගුළු ඇරිය හැකි යතුරු උපස්ථයක් ප්‍රකාශ නොකරයි.</translation>
     </message>
 </context>
 <context>
@@ -6967,17 +6999,17 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAccessTokenField.qml" line="+24"/>
         <source>Click to reveal</source>
-        <translation type="unfinished"/>
+        <translation>හෙළිදරව් කිරීමට ක්ලික් කරන්න</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කළා!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>ක්ලිප්බෝඩ් වෙත පිටපත් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -6985,30 +7017,30 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAvatarPreview.qml" line="+28"/>
         <source>This preview shows how avatar settings affect rendering throughout the app.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පෙරදර්ශනය avatar සැකසුම් යෙදුම පුරා සදර්ශනයට බලපාන ආකාරය පෙන්වයි.</translation>
     </message>
     <message>
         <location line="+31"/>
         <location line="+3"/>
         <source>Hey everyone! Just joined the chat.</source>
-        <translation type="unfinished"/>
+        <translation>හේයි සියල්ලන්ට! දැන් කතාබහට සම්බන්ධ වූවෙමි.</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+3"/>
         <source>Welcome, Alice! I'm still setting up my profile.</source>
-        <translation type="unfinished"/>
+        <translation>සාදරයෙන් පිළිගනිමු, Alice! තවම මගේ පැතිකඩ සකසා ගනිමින් සිටිමි.</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+3"/>
         <source>Same here, still no avatar yet.</source>
-        <translation type="unfinished"/>
+        <translation>මෙහිත් ඒ ආකාරයමයි, තවම avatar එකක් නෑ.</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>අවතාර් පෙරදසුන</translation>
     </message>
 </context>
 <context>
@@ -7016,28 +7048,28 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show filter in sidebar</source>
-        <translation type="unfinished"/>
+        <translation>පැති තීරුවේ පෙරහන පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>නොකියෙවූ දර්ශක</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Emphasize this filter when it has unread messages</source>
-        <translation type="unfinished"/>
+        <translation>නොකියෙවූ පණිවිඩ ඇති විට මෙම පෙරහන ඉස්මතු කරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>'සියලු කාමර' හි ඇතුළත් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -7045,7 +7077,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowIgnoredUsers.qml" line="+12"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>කළමනාකරන්න</translation>
     </message>
 </context>
 <context>
@@ -7053,7 +7085,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowLogout.qml" line="+12"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>ඉවත් වන්න</translation>
     </message>
 </context>
 <context>
@@ -7061,12 +7093,12 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowPresenceStatusMessage.qml" line="+52"/>
         <source>Set a status message</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව පණිවිඩයක් සකසන්න</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Clear status message</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව පණිවිඩය මකන්න</translation>
     </message>
 </context>
 <context>
@@ -7074,7 +7106,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowProfileButton.qml" line="+11"/>
         <source>Open Profile Settings</source>
-        <translation type="unfinished"/>
+        <translation>පැතිකඩ සැකසුම් විවෘත කරන්න</translation>
     </message>
 </context>
 <context>
@@ -7082,38 +7114,38 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
         <source>No spaces found. Join a space to see it here.</source>
-        <translation type="unfinished"/>
+        <translation>කිසිදු අවකාශයක් හමු නොවිණි. මෙහි දැකීමට අවකාශයකට සම්බන්ධ වන්න.</translation>
     </message>
     <message>
         <location line="+90"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශය</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show space in sidebar</source>
-        <translation type="unfinished"/>
+        <translation>පැති තීරුවේ අවකාශය පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>නොකියෙවූ දර්ශක</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Emphasize this filter when it has unread messages</source>
-        <translation type="unfinished"/>
+        <translation>නොකියෙවූ පණිවිඩ ඇති විට මෙම පෙරහන ඉස්මතු කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>'සියලු කාමර' හි ඇතුළත් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -7121,43 +7153,44 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreview.qml" line="+21"/>
         <source>Alice</source>
-        <translation type="unfinished"/>
+        <translation>Alice</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Bob</source>
-        <translation type="unfinished"/>
+        <translation>Bob</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>පෙනුම &amp; දැනීම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This semi-functional preview shows how settings from the &lt;b&gt;%1&lt;/b&gt; tab and those below affect the timeline.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම අර්ධ-ක්‍රියාකාරී පෙරදර්ශනය &lt;b&gt;%1&lt;/b&gt; ටැබ් එකෙන් සහ පහතින් ඇති සැකසුම් timeline ට බලපාන ආකාරය පෙන්වයි.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I just stumbled upon %1 - finally, a %2 chat app I love! ❤️</source>
-        <translation type="unfinished"/>
+        <translation>හදිස්සියේ %1 සොයා ගතිමි - අවසානයේ, ආදරය කරන %2 chat යෙදුමක්! ❤️</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I'm giving it a try too! Currently tweaking how messages look.
 It seems pleasing to the eye and insanely fast! 🚀</source>
-        <translation type="unfinished"/>
+        <translation>මත් එය අත්හදා බලමි! දැනට පණිවිඩ පෙනෙන ආකාරය සකස් කරමින්.
+ඇසට හිතකර සහ ඉතා වේගවත් බව පෙනේ! 🚀</translation>
     </message>
     <message>
         <location line="+116"/>
         <source>You</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>Timeline පෙරදර්ශනය</translation>
     </message>
 </context>
 <context>
@@ -7167,24 +7200,24 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+108"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>සංස්කරණය කරන්න</translation>
     </message>
     <message>
         <location line="-100"/>
         <location line="+117"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>පිළිතුරු</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>React</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතික්‍රියා</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>විකල්ප</translation>
     </message>
 </context>
 <context>
@@ -7192,17 +7225,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 ටයිප් කරමින් සිටී…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 සහ %2 ටයිප් කරමින් සිටිති…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 සහ තවත් %3 දෙනෙකු ටයිප් කරමින් සිටිති…</translation>
     </message>
 </context>
 <context>
@@ -7210,7 +7243,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
-        <translation type="unfinished"/>
+        <translation>ඉහත ගිණුම් දැනුම්දීම් අක්‍රිය කර ඇති නිසා, පහත විකල්පවලට බලපෑමක් නොමැත.</translation>
     </message>
 </context>
 <context>
@@ -7218,7 +7251,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/ShortcutKeyBadge.qml" line="+14"/>
         <source>Press these keyboard keys to trigger this action.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම ක්‍රියාව ක්‍රියාත්මක කිරීමට මෙම යතුරුපුවරු යතුරු භාවිත කරන්න.</translation>
     </message>
 </context>
 <context>
@@ -7226,27 +7259,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම් ඇසුරුම</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>image</source>
-        <translation type="unfinished"/>
+        <translation>රූපය</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>File not found: %1</source>
-        <translation type="unfinished"/>
+        <translation>ගොනුව හමු නොවීය: %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The selected file is not an image: %1</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් ගොනුව රූපයක් නොවේ: %1</translation>
     </message>
     <message>
         <location line="+134"/>
         <source>Only room image packs can be enabled globally.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර රූප පැකේජ පමණක් ගෝලීය ලෙස ක්‍රියාත්මක කළ හැක.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7255,38 +7288,38 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix backend තවම සූදානම් නැත.</translation>
     </message>
     <message>
         <location line="-253"/>
         <source>Failed to update image-pack global enablement.</source>
-        <translation type="unfinished"/>
+        <translation>රූප-පැකේජය ගෝලීය ක්‍රියාත්මක කිරීම යාවත්කාලීන කිරීමට අසමත් විය.</translation>
     </message>
     <message>
         <location line="+132"/>
         <source>Failed to save image pack.</source>
-        <translation type="unfinished"/>
+        <translation>රූප ඇසුරුම සුරැකීමට අපොහොසත් විය.</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Failed to remove image pack.</source>
-        <translation type="unfinished"/>
+        <translation>රූප ඇසුරුම ඉවත් කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
         <location line="+27"/>
         <location line="+62"/>
         <source>Only local image files are supported here.</source>
-        <translation type="unfinished"/>
+        <translation>මෙහි දේශීය රූප ගොනු පමණක් සහාය දක්වයි.</translation>
     </message>
     <message>
         <location line="-35"/>
         <source>Failed to upload '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>'%1' උඩුගත කිරීමට අසමත් විය.</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Failed to upload the pack overview image.</source>
-        <translation type="unfinished"/>
+        <translation>පැකේජ දළ විශ්ලේෂණ රූපය උඩුගත කිරීමට අසමත් විය.</translation>
     </message>
 </context>
 <context>
@@ -7295,18 +7328,18 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
         <location line="+77"/>
         <source>Notification</source>
-        <translation type="unfinished"/>
+        <translation>දැනුම්දීම</translation>
     </message>
     <message>
         <location line="-65"/>
         <location line="+246"/>
         <source>Dismiss this message</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පණිවිඩය ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="-120"/>
         <source>+%1</source>
-        <translation type="unfinished"/>
+        <translation>+%1</translation>
     </message>
 </context>
 <context>
@@ -7314,17 +7347,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/TimelineTab/StateEventsSection.qml" line="+28"/>
         <source>Additional events</source>
-        <translation type="unfinished"/>
+        <translation>අතිරේක සිදුවීම්</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>If you're feeling overwhelmed, consider disabling some of these noisy events here globally, or per-room (in Room Settings).</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට අධික ලෙස දැනේ නම්, මෙම ඝෝෂාකාරී සිදුවීම් සමහරක් ගෝලීය ලෙස හෝ කාමරය අනුව (කාමර සැකසීම් හි) අබල කිරීම සලකා බලන්න.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Available after you sign in.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ පුරනය වූ පසු ලබා ගත හැක.</translation>
     </message>
 </context>
 <context>
@@ -7332,32 +7365,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/ui/StatusIndicator.qml" line="+23"/>
         <source>Failed: %1</source>
-        <translation type="unfinished"/>
+        <translation>අසමත් විය: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation>අසමත් විය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sending</source>
-        <translation type="unfinished"/>
+        <translation>යවමින්</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sent</source>
-        <translation type="unfinished"/>
+        <translation>යවා ඇත</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Received</source>
-        <translation type="unfinished"/>
+        <translation>ලැබුණි</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Read</source>
-        <translation type="unfinished"/>
+        <translation>කියවා ඇත</translation>
     </message>
 </context>
 <context>
@@ -7366,32 +7399,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
         <location line="+1088"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>සැකසීම්</translation>
     </message>
     <message>
         <location line="-717"/>
         <source>Pick an Emoji</source>
-        <translation type="unfinished"/>
+        <translation>ඉමෝජියක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pick a Sticker</source>
-        <translation type="unfinished"/>
+        <translation>ස්ටිකරයක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>සොයන්න</translation>
     </message>
     <message>
         <location line="+580"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියාත්මක පැකේජ වෙනස් කරන්න, පැකේජ ඉවත් කරන්න, හෝ නව ඒවා සාදන්න</translation>
     </message>
 </context>
 <context>
@@ -7399,17 +7432,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/device-verification/Success.qml" line="+12"/>
         <source>Verification Complete</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම සම්පූර්ණ විය</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verification complete. Both devices have been verified.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම සම්පූර්ණ විය. උපකරණ දෙකම තහවුරු කළ ඇත.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
 </context>
 <context>
@@ -7417,92 +7450,92 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SupportDialog.qml" line="+18"/>
         <source>Sponsor Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai අනුග්‍රහ කරන්න</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>&lt;a href="%1"&gt;Komai&lt;/a&gt; is fully &lt;a href="%2"&gt;Free Software&lt;/a&gt; (&lt;a href="%3"&gt;GPL-3.0-or-later&lt;/a&gt;) with no &lt;a href="%4"&gt;CLA&lt;/a&gt; and no gatekeeping.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="%1"&gt;Komai&lt;/a&gt; සම්පූර්ණයෙන්ම &lt;a href="%2"&gt;නිදහස් මෘදුකාංගයකි&lt;/a&gt; (&lt;a href="%3"&gt;GPL-3.0-or-later&lt;/a&gt;) &lt;a href="%4"&gt;CLA&lt;/a&gt; නොමැතිව සහ ප්‍රවේශ සීමා නොමැතිව.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>You can support Komai by contributing code, design, testing, translations, helping others, or financially.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට කේතය, නිර්මාණය, පරීක්ෂාව, පරිවර්තන, අන් අයට උදව් කිරීම හෝ මූල්‍යමය ලෙස දායක වීමෙන් Komai සහාය කළ හැකිය.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>If you'd like to help financially, you can use one of the options below.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ මූල්‍යමය ලෙස උදව් කිරීමට කැමති නම්, පහත විකල්පයන්ගෙන් එකක් භාවිතා කළ හැක.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Monetary support</source>
-        <translation type="unfinished"/>
+        <translation>මූල්‍ය සහාය</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>GitHub Sponsors</source>
-        <translation type="unfinished"/>
+        <translation>GitHub Sponsors</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Support via GitHub Sponsors</source>
-        <translation type="unfinished"/>
+        <translation>GitHub Sponsors හරහා සහාය</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Liberapay</source>
-        <translation type="unfinished"/>
+        <translation>Liberapay</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Support via Liberapay</source>
-        <translation type="unfinished"/>
+        <translation>Liberapay හරහා සහාය</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>I already sponsor!</source>
-        <translation type="unfinished"/>
+        <translation>මම දැනටමත් අනුග්‍රාහකයෙක්!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Click to unmark yourself as a sponsor</source>
-        <translation type="unfinished"/>
+        <translation>ඔබව අනුග්‍රාහකයෙකු ලෙස ඉවත් කිරීමට ක්ලික් කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mark yourself locally as a sponsor</source>
-        <translation type="unfinished"/>
+        <translation>ඔබව දේශීය ලෙස අනුග්‍රාහකයෙකු ලෙස සලකුණු කරන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Hide this button</source>
-        <translation type="unfinished"/>
+        <translation>මෙම බොත්තම සඟවන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Permanently hide the sponsor button from the interface</source>
-        <translation type="unfinished"/>
+        <translation>අනුග්‍රාහක බොත්තම අතුරු මුහුණතෙන් ස්ථිරව සඟවන්න</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Hide sponsor button?</source>
-        <translation type="unfinished"/>
+        <translation>අනුග්‍රාහක බොත්තම සඟවන්නද?</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>This will permanently hide the sponsor button from this screen.</source>
-        <translation type="unfinished"/>
+        <translation>මෙය මෙම තිරයෙන් අනුග්‍රාහක බොත්තම ස්ථිරව සඟවනු ඇත.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>සඟවන්න</translation>
     </message>
 </context>
 <context>
@@ -7510,12 +7543,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SyncedToMatrixBadge.qml" line="+30"/>
         <source>This setting is stored on your Matrix account and applies across all your devices which support it.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම සැකසීම ඔබේ Matrix ගිණුමේ ගබඩා කර ඇති අතර, එය සහාය දක්වන ඔබේ සියලු උපකරණ සඳහා අදාළ වේ.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Synced to Matrix</source>
-        <translation type="unfinished"/>
+        <translation>Matrix සමඟ සමමුහුර්ත කළ</translation>
     </message>
 </context>
 <context>
@@ -7523,12 +7556,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/delegates/TextMessage.qml" line="+187"/>
         <source>Show more</source>
-        <translation type="unfinished"/>
+        <translation>වැඩිපුර පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Show less</source>
-        <translation type="unfinished"/>
+        <translation>අඩුවෙන් පෙන්වන්න</translation>
     </message>
 </context>
 <context>
@@ -7536,17 +7569,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/ThreadViewBar.qml" line="+152"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>නූල</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Thread by %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ගේ නූල</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Thread by %1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1 ගේ නූල (%2)</translation>
     </message>
     <message numerus="yes">
         <location line="+86"/>
@@ -7559,12 +7592,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+65"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Close this thread and show the main timeline [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>මෙම නූල වසා ප්‍රධාන කාලරේඛාව පෙන්වන්න [Escape]</translation>
     </message>
 </context>
 <context>
@@ -7572,7 +7605,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ThreadsDialog.qml" line="+25"/>
         <source>Threads</source>
-        <translation type="unfinished"/>
+        <translation>නූල්</translation>
     </message>
     <message numerus="yes">
         <location line="+57"/>
@@ -7585,27 +7618,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>සියල්ල</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Participated</source>
-        <translation type="unfinished"/>
+        <translation>සහභාගී වූ</translation>
     </message>
     <message>
         <location line="+241"/>
         <source>No threads found</source>
-        <translation type="unfinished"/>
+        <translation>නූල් හමු නොවීය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>You haven't participated in any threads in this room yet.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ මෙම කාමරයේ කිසිදු නූලකට සහභාගී වී නොමැත.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No one has started a thread in this room yet.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ කිසිවෙකු නූලක් ආරම්භ කර නොමැත.</translation>
     </message>
 </context>
 <context>
@@ -7613,7 +7646,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ලැයිස්තුවට ආපසු</translation>
     </message>
 </context>
 <context>
@@ -7621,7 +7654,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
-        <translation type="unfinished"/>
+        <translation>%1 ගේ තත්ත්ව පණිවිඩය</translation>
     </message>
 </context>
 <context>
@@ -7629,17 +7662,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
-        <translation type="unfinished"/>
+        <translation>ගැටලුවක් වාර්තා කරන්න</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation type="unfinished"/>
+        <translation>අනුග්‍රාහකත්වය!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>අනුග්‍රාහකත්වය</translation>
     </message>
 </context>
 <context>
@@ -7647,68 +7680,68 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/TimelineEvent.qml" line="+229"/>
         <source>%1 placed a voice call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 හඬ ඇමතුමක් ගත්තා.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 placed a video call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 වීඩියෝ ඇමතුමක් ගත්තා.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 placed a call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ඇමතුමක් ගත්තා.</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>%1 answered the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ඇමතුමට පිළිතුරු දුන්නා.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 rejected the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ඇමතුම ප්‍රතික්ෂේප කළා.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 selected answer.</source>
-        <translation type="unfinished"/>
+        <translation>%1 පිළිතුර තෝරා ගත්තා.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 ended the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1 ඇමතුම අවසන් කළා.</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>%1 is negotiating the call...</source>
-        <translation type="unfinished"/>
+        <translation>%1 ඇමතුම සාකච්ඡා කරමින් සිටී…</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>Allow them in</source>
-        <translation type="unfinished"/>
+        <translation>ඔවුන්ට ඇතුළු වීමට ඉඩ දෙන්න</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>This room was replaced for the following reason: %1</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය පහත හේතුව නිසා ආදේශ කරන ලදී: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Go to replacement room</source>
-        <translation type="unfinished"/>
+        <translation>ආදේශ කාමරයට යන්න</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unsupported: %1</source>
-        <translation type="unfinished"/>
+        <translation>සහාය නොදෙනු ලැබේ: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Unsupported message</source>
-        <translation type="unfinished"/>
+        <translation>සහාය නොදෙන පණිවිඩය</translation>
     </message>
 </context>
 <context>
@@ -7716,17 +7749,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineMentionWarningBar.qml" line="+63"/>
         <source>You are about to notify the whole room</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ මුළු කාමරයටම දැනුම් දීමට සූදානම්</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>You are about to mention %1</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ %1 සඳහන් කිරීමට සූදානම්</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පණිවිඩයේ ඔවුන් සඳහන් නොකරන්න</translation>
     </message>
 </context>
 <context>
@@ -7734,22 +7767,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/TimelineMetadata.qml" line="+160"/>
         <source>Retry sending</source>
-        <translation type="unfinished"/>
+        <translation>නැවත යැවීමට උත්සාහ කරන්න</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Edited</source>
-        <translation type="unfinished"/>
+        <translation>සංස්කරණය කළ</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>PIN ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ක්‍රියාවන්</translation>
     </message>
     <message numerus="yes">
         <location line="+64"/>
@@ -7762,7 +7795,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Reply in this thread</source>
-        <translation type="unfinished"/>
+        <translation>මෙම නූලේ පිළිතුරු දෙන්න</translation>
     </message>
 </context>
 <context>
@@ -7770,7 +7803,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+156"/>
         <source>%1's status message</source>
-        <translation type="unfinished"/>
+        <translation>%1 ගේ තත්ත්ව පණිවිඩය</translation>
     </message>
 </context>
 <context>
@@ -7778,12 +7811,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation type="unfinished"/>
+        <translation>පෙරදසුනක් නොමැත</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>සැකසීම්</translation>
     </message>
     <message numerus="yes">
         <location line="+19"/>
@@ -7796,27 +7829,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+3"/>
         <source>View members of %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ගේ සාමාජිකයන් බලන්න</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>This room is possibly inaccessible. If this room is private, you should remove it from this community.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය ප්‍රවේශ කළ නොහැකි විය හැකිය. මෙම කාමරය පෞද්ගලික නම්, ඔබ එය මෙම ප්‍රජාවෙන් ඉවත් කළ යුතුය.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Join the conversation</source>
-        <translation type="unfinished"/>
+        <translation>සංවාදයට සම්බන්ධ වන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>පිටවන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This room is available in the room list, but its timeline is not loaded yet.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය කාමර ලැයිස්තුවේ ඇත, නමුත් එහි කාලරේඛාව තවම පූරණය නොවී ඇත.</translation>
     </message>
 </context>
 <context>
@@ -7825,7 +7858,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/timeline/components/TimelineToEndButton.qml" line="+93"/>
         <location line="+1"/>
         <source>Scroll to bottom</source>
-        <translation type="unfinished"/>
+        <translation>පහළට අනුචලනය කරන්න</translation>
     </message>
 </context>
 <context>
@@ -7834,218 +7867,220 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1146"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+293"/>
         <source>Failed to send message: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය යැවීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+123"/>
         <source>Failed to edit message: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය සංස්කරණය කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Failed to react: %1</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිචාර දැක්වීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Failed to delete message: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය මකා දැමීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to cancel unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>නොයැවූ පණිවිඩය අවලංගු කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to retry unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>නොයැවූ පණිවිඩය නැවත උත්සාහ කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>සමහර පණිවිඩ මකා දැමීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+120"/>
         <source>Failed to mark message as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය කියවූ ලෙස සලකුණු කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Failed to report message: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය වාර්තා කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+91"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය යොමු කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+136"/>
         <source>Failed to forward some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>සමහර පණිවිඩ යොමු කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Failed to pin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය ඇමිනීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Failed to unpin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය ගළවා ගැනීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location line="+232"/>
         <source>Select file(s)</source>
-        <translation type="unfinished"/>
+        <translation>ගොනු(ව) තෝරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"/>
+        <translation>සියලු ගොනු (*)</translation>
     </message>
     <message>
         <location line="+135"/>
         <source>Finish editing the current message before attaching files.</source>
-        <translation type="unfinished"/>
+        <translation>ගොනු අමුණීමට පෙර වත්මන් පණිවිඩය සංස්කරණය නිමා කරන්න.</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Only existing local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>ඇදගෙන හෙළීමෙන් අමුණිය හැක්කේ ස්ථානීයව පවතින ගොනු පමණි.</translation>
     </message>
     <message>
         <location line="+246"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ සැසිය කල් ඉකුත් වී ඇත. කරුණාකර නැවත පිවිසෙන්න.
+
+(%1)</translation>
     </message>
     <message>
         <location line="+77"/>
         <source>Save attachment</source>
-        <translation type="unfinished"/>
+        <translation>අමුණුම සුරකින්න</translation>
     </message>
     <message>
         <location line="+362"/>
         <source>Failed to send attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>අමුණුම '%1' යැවීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
-        <translation type="unfinished"/>
+        <translation>අමුණුම '%1' ලබා ගැනීම අසාර්ථක විය: ක්‍රියාකාරී Matrix සැසියක් නොමැත</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to fetch attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>අමුණුම '%1' ලබා ගැනීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Saved attachment '%1' but failed to open it</source>
-        <translation type="unfinished"/>
+        <translation>අමුණුම '%1' සුරකින ලදි, නමුත් විවෘත කිරීම අසාර්ථක විය</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>විවෘත කරන්න</translation>
     </message>
     <message>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation type="unfinished"/>
+        <translation>ෆෝල්ඩරයේ පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Saved attachment '%1'</source>
-        <translation type="unfinished"/>
+        <translation>අමුණුම '%1' සුරකින ලදි</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
         <source>Failed to ignore user %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයා %1 නොසලකා හැරීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
         <source>This command needs an active room.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම විධානයට ක්‍රියාකාරී කාමරයක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The chat page is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>කතාබස් පිටුව තවම සූදානම් නොවේ.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The Matrix session is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix සැසිය තවම සූදානම් නොවේ.</translation>
     </message>
     <message>
         <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
-        <translation type="unfinished"/>
+        <translation>දෘශ්‍ය කාල රේඛාවේ %1 ගෙන් පණිවිඩ හමු නොවීය.</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Failed to update your room-specific display name for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 සඳහා ඔබේ කාමරයට ආවේණික ප්‍රදර්ශන නාමය යාවත්කාලීන කිරීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>The room timeline is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර කාල රේඛාව තවම සූදානම් නොවේ.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+10"/>
         <source>That message index could not be resolved in this room.</source>
-        <translation type="unfinished"/>
+        <translation>ඒ පණිවිඩ සූචිකාව මෙම කාමරයේ විසඳිය නොහැකි විය.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Could not resolve that /goto target. Use an event ID, numeric message index, or Matrix link.</source>
-        <translation type="unfinished"/>
+        <translation>/goto ඉලක්කය විසඳිය නොහැකි විය. සිදුවීම් ID, සංඛ්‍යාත්මක පණිවිඩ දර්ශකයක් හෝ Matrix සබැඳියක් භාවිත කරන්න.</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Failed to update direct-message state for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 සඳහා සෘජු පණිවිඩ තත්ත්වය යාවත්කාලීන කිරීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Marked this room as a direct message.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය සෘජු පණිවිඩයක් ලෙස සලකුණු කරන ලදි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Marked this room as a regular room.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය සාමාන්‍ය කාමරයක් ලෙස සලකුණු කරන ලදි.</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Failed to update ignored-user state: %1</source>
-        <translation type="unfinished"/>
+        <translation>නොසලකා හළ පරිශීලක තත්ත්වය යාවත්කාලීන කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="-26"/>
         <source>Failed to resolve media for saving</source>
-        <translation type="unfinished"/>
+        <translation>සුරැකීම සඳහා මාධ්‍ය විසඳීම අසාර්ථක විය</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Failed to save media to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>මාධ්‍ය '%1' වෙත සුරැකීම අසාර්ථක විය</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saved to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>'%1' වෙත සුරකින ලදි</translation>
     </message>
 </context>
 <context>
@@ -8061,113 +8096,113 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>1 selected message</source>
-        <translation type="unfinished"/>
+        <translation>1 තෝරාගත් පණිවිඩය</translation>
     </message>
     <message>
         <location line="-4"/>
         <location line="+5"/>
         <source>Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>තේරීම් ප්‍රකාරය</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>කෙටිමග</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show keyboard shortcuts [?]</source>
-        <translation type="unfinished"/>
+        <translation>යතුරුපුවරු කෙටිමං පෙන්වන්න [?]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>පිළිතුරු දෙන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reply to message [R]</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයට පිළිතුරු දෙන්න [R]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>නූල</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open or continue a thread [T]</source>
-        <translation type="unfinished"/>
+        <translation>නූලක් විවෘත කරන්න හෝ දිගටම කරගෙන යන්න [T]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>සංස්කරණය</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Edit message [E]</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය සංස්කරණය කරන්න [E]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>යොමු කරන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Forward selected messages [F]</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් පණිවිඩ යොමු කරන්න [F]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward message [F]</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය යොමු කරන්න [F]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>මකන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Delete selected messages [D]</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් පණිවිඩ මකන්න [D]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete message [D]</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය මකන්න [D]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>විකල්ප</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>More message actions [O]</source>
-        <translation type="unfinished"/>
+        <translation>තවත් පණිවිඩ ක්‍රියා [O]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>හිස් කරන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clear selection [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>තේරීම හිස් කරන්න [Escape]</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>වසන්න</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Exit Selection mode and return to the composer [I or Escape]</source>
-        <translation type="unfinished"/>
+        <translation>තේරීම් ප්‍රකාරයෙන් පිටවී රචකය වෙත ආපසු යන්න [I or Escape]</translation>
     </message>
 </context>
 <context>
@@ -8175,12 +8210,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
         <source>OFF</source>
-        <translation type="unfinished"/>
+        <translation>අක්‍රිය</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>ON</source>
-        <translation type="unfinished"/>
+        <translation>සක්‍රිය</translation>
     </message>
 </context>
 <context>
@@ -8188,12 +8223,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation type="unfinished"/>
+        <translation>නික්මෙන්න</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8210,32 +8245,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>යතුරු උපස්ථය අගුළු හරින්න</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ ආරක්ෂක යතුර හෝ එහි මුර පදය (ලබා ගත හැකි නම්) ඇතුළු කිරීමෙන් සංකේතන රහස් අගුළු හරින්න.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Security keys look like this: </source>
-        <translation type="unfinished"/>
+        <translation>ආරක්ෂක යතුරු මෙලෙස පෙනේ: </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Security key or passphrase</source>
-        <translation type="unfinished"/>
+        <translation>ආරක්ෂක යතුර හෝ මුර පදය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unlock</source>
-        <translation type="unfinished"/>
+        <translation>අගුළු හරින්න</translation>
     </message>
 </context>
 <context>
@@ -8243,33 +8278,33 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
         <source>Attachments</source>
-        <translation type="unfinished"/>
+        <translation>ඇමුණුම්</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Detach all attachments</source>
-        <translation type="unfinished"/>
+        <translation>සියලු ඇමුණුම් වෙන් කරන්න</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Add an optional filename...</source>
-        <translation type="unfinished"/>
+        <translation>විකල්ප ගොනු නමක් එකතු කරන්න…</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Add an optional caption...</source>
-        <translation type="unfinished"/>
+        <translation>විකල්ප ශීර්ෂකයක් එකතු කරන්න…</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+2"/>
         <source>Detach</source>
-        <translation type="unfinished"/>
+        <translation>වෙන් කරන්න</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Note: each file is sent as a separate message.</source>
-        <translation type="unfinished"/>
+        <translation>සටහන: සෑම ගොනුවක්ම වෙනම පණිවිඩයක් ලෙස යවනු ලැබේ.</translation>
     </message>
 </context>
 <context>
@@ -8277,88 +8312,88 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/dialogs/user/UserProfile.qml" line="+45"/>
         <source>Kick %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>%1 කාමරයෙන් පිටකරන්නද?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ban %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>%1 කාමරයෙන් තහනම් කරන්නද?</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Room member profile</source>
-        <translation type="unfinished"/>
+        <translation>කාමර සාමාජික පැතිකඩ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>User profile</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක පැතිකඩ</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation>පැතිකඩ</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Change avatar for this room</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරය සඳහා අවතාරය වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Reset to global avatar</source>
-        <translation type="unfinished"/>
+        <translation>ගෝලීය අවතාරයට යළි සකසන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+100"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>You have a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට වෙනස් ගෝලීය අවතාරයක් ඇත.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පරිශීලකයාට වෙනස් ගෝලීය අවතාරයක් ඇත.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You have a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට කාමරයට විශේෂිත අවතාරයක් ඇත.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පරිශීලකයාට කාමරයට විශේෂිත අවතාරයක් ඇත.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reset avatar</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය යළි සකසන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to reset your avatar for this room to the global one?</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ මෙම කාමරය සඳහා ඔබේ අවතාරය ගෝලීය එකට නැවත සකසාගැනීමට කැමතිද?</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8367,303 +8402,304 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+100"/>
         <location line="+382"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>යළි සකසන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ ඔබේ අවතාරය ඉවත් කිරීමට කැමතිද?</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation>දර්ශන නාමය</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Leave empty to use your global name: %1</source>
-        <translation type="unfinished"/>
+        <translation>ඔබගේ ගෝලීය නාමය භාවිත කිරීමට හිස්ව තබන්න: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave empty to clear the room-specific name.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයට විශේෂිත නාමය ඉවත් කිරීමට හිස්ව තබන්න.</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>පිටපත් කළා!</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Copy display name</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රදර්ශන නම පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක හැඳුනුම</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක ID පිටපත් කරන්න</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>තත්ත්වය</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation type="unfinished"/>
+        <translation>බලතල මට්ටම</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කළ</translation>
     </message>
     <message>
         <location line="-514"/>
         <source>Implicitly trusted</source>
-        <translation type="unfinished"/>
+        <translation>ව්‍යංගව විශ්වාසිත</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු නොකළ</translation>
     </message>
     <message>
         <location line="-497"/>
         <source>Accepted on first use, not explicitly verified.</source>
-        <translation type="unfinished"/>
+        <translation>පළමු භාවිතයේදී පිළිගනු ලැබූ, නිශ්චිතවම තහවුරු නොකළ.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Identity keys changed or never seen. Consider verifying.</source>
-        <translation type="unfinished"/>
+        <translation>හැඳුනුම් යතුරු වෙනස් වී ඇත හෝ කිසිවිටෙකත් නොදුටු. තහවුරු කිරීම සලකා බලන්න.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Global display name: %1</source>
-        <translation type="unfinished"/>
+        <translation>ගෝලීය දර්ශන නාමය: %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියා</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Start direct chat</source>
-        <translation type="unfinished"/>
+        <translation>සෘජු කතාබස් ආරම්භ කරන්න</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Verify user</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයා තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Verify device</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණය තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unignore user</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයා නොසලකා හැරීම ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore user</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයා නොසලකා හරින්න</translation>
     </message>
     <message>
         <location line="+18"/>
         <location line="+90"/>
         <location line="+82"/>
         <source>Change power level</source>
-        <translation type="unfinished"/>
+        <translation>බලතල මට්ටම වෙනස් කරන්න</translation>
     </message>
     <message>
         <location line="-161"/>
         <source>Kick from room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයෙන් පිටකරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ban from room</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයෙන් තහනම් කරන්න</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove all messages</source>
-        <translation type="unfinished"/>
+        <translation>සියලු පණිවිඩ ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Unignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1 නොසලකා හැරීම ඉවත් කරන්නද?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1 නොසලකා හරින්නද?</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>You will see their messages again.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබට ඔවුන්ගේ පණිවිඩ නැවත දැකගත හැකි වනු ඇත.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>After ignoring, you will no longer see their messages in any room.
 You can unignore later via this user's profile or via Settings → Account → Ignored users.</source>
-        <translation type="unfinished"/>
+        <translation>නොසලකා හැරීමෙන් පසු, ඕනෑම කාමරයක ඔවුන්ගේ පණිවිඩ ඔබට තවදුරටත් නොපෙනෙනු ඇත.
+මෙම පරිශීලකයාගේ ප්‍රොෆයිලය හරහා හෝ සැකසීම් → ගිණුම → නොසලකා හළ පරිශීලකයන් හරහා පසුව නොසලකා හැරීම ඉවත් කළ හැකිය.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>නොසලකා හැරීම ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>නොසලකා හරින්න</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Set the power level for %1 in this room.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම කාමරයේ %1 සඳහා බලතල මට්ටම සකසන්න.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Presets:</source>
-        <translation type="unfinished"/>
+        <translation>පෙර සැකසුම්:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>User (0)</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක (0)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Moderator (50)</source>
-        <translation type="unfinished"/>
+        <translation>නියාමක (50)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Administrator (100)</source>
-        <translation type="unfinished"/>
+        <translation>පරිපාලක (100)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Rooms in common</source>
-        <translation type="unfinished"/>
+        <translation>පොදු කාමර</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ (සැසි)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>නැවුම් කරන ලදි</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>නැවුම් කරන්න</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>කළමනාකරණය</translation>
     </message>
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>මෙම උපකරණය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>අවහිර කළ</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>අවහිරය ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>අවහිර කරන්න</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>No known devices.</source>
-        <translation type="unfinished"/>
+        <translation>දන්නා උපකරණ නොමැත.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device information becomes available only after exchanging encrypted messages with this user.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම පරිශීලකයා සමඟ සංකේතිත පණිවිඩ හුවමාරු කර ගැනීමෙන් පසු පමණක් උපකරණ තොරතුරු ලබා ගත හැකිය.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Add optional reason for kicking %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 ඉවත් කිරීමට විකල්ප හේතුවක් එකතු කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add optional reason for banning %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 තහනම් කිරීමට විකල්ප හේතුවක් එකතු කරන්න</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Kick</source>
-        <translation type="unfinished"/>
+        <translation>පිටකරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ban</source>
-        <translation type="unfinished"/>
+        <translation>තහනම</translation>
     </message>
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම ඉවත් කරන්න</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
         <source>Only your own profile can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබගේ සිය පැතිකඩ පමණක් මෙහිදී වෙනස් කළ හැකිය.</translation>
     </message>
     <message>
         <location line="-58"/>
@@ -8675,123 +8711,123 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix backend runtime ලබා ගත නොහැක.</translation>
     </message>
     <message>
         <location line="-357"/>
         <source>Failed to set power level for %1.</source>
-        <translation type="unfinished"/>
+        <translation>%1 සඳහා බල මට්ටම සැකසීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to set power level for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 සඳහා බල මට්ටම සැකසීම අසාර්ථකයි: %2</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Failed to update display name.</source>
-        <translation type="unfinished"/>
+        <translation>දර්ශන නාමය යාවත්කාලීන කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to update room display name.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ දර්ශන නාමය යාවත්කාලීන කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Device name cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ නම හිස් විය නොහැක.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to rename device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" නැවත නම් කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to rename device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" නැවත නම් කිරීම අසාර්ථකයි: %2</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම් කළමනාකරු ලබා ගත නොහැක.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to clear verification for device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" සඳහා තහවුරු කිරීම ඉවත් කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to clear verification for device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" සඳහා තහවුරු කිරීම ඉවත් කිරීම අසාර්ථකයි: %2</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Failed to block device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" අවහිර කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to block device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" අවහිර කිරීම අසාර්ථකයි: %2</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Failed to unblock device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" අවහිරය ඉවත් කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unblock device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" අවහිරය ඉවත් කිරීම අසාර්ථකයි: %2</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරයක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"/>
+        <translation>සියලු ගොනු (*)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් ගොනුව රූපයක් නොවේ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation type="unfinished"/>
+        <translation>ගොනුව කියවීමේදී දෝෂයක්: %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+47"/>
         <source>Only your own avatar can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබගේ සිය අවතාරය පමණක් මෙහිදී වෙනස් කළ හැකිය.</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Failed to upload avatar.</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය උඩුගත කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to upload room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ අවතාරය උඩුගත කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>අවතාරය ඉවත් කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයේ අවතාරය ඉවත් කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8800,75 +8836,75 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+41"/>
         <location line="+40"/>
         <source>Device id cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ හැඳුනුම් කේතය හිස් විය නොහැක.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Device sign-out requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ ඉවත් වීමට සක්‍රිය matrix-sdk backend runtime එකක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+19"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" ඉවත් වීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="-54"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" ඉවත් වීම අසාර්ථකයි: %2</translation>
     </message>
     <message>
         <location line="-45"/>
         <location line="+53"/>
         <source>Signed out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණය "%1" ලොගවීමෙන් ඉවත් කරන ලදි.</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Sign Out Device</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණය ලොගවීමෙන් ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter your account password to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ "%1" ඉවත් වීමට ඔබගේ ගිණුමේ මුරපදය ඇතුළු කරන්න.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Password is required to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>"%1" උපකරණ ඉවත් වීමට මුරපදය අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Failed to open the browser for device sign-out.</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ ඉවත් වීම සඳහා බ්‍රව්සරය විවෘත කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Finish signing out device "%1" in your browser. The device list will refresh when you return.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබගේ බ්‍රව්සරයේ "%1" උපකරණ ඉවත් වීම සම්පූර්ණ කරන්න. ඔබ ආපසු පැමිණෙන විට උපකරණ ලැයිස්තුව යාවත්කාලීන වේ.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device sign-out for "%1" requires an unsupported authentication flow.</source>
-        <translation type="unfinished"/>
+        <translation>"%1" සඳහා උපකරණ ඉවත් වීමට සහාය නොදක්වන සත්‍යාපන ක්‍රමවේදයක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Failed to update ignored-user state for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>"%1" සඳහා නොසලකා හැරීමේ පරිශීලක තත්ත්වය යාවත්කාලීන කිරීම අසාර්ථකයි.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to update ignored-user state for "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>"%1" සඳහා නොසලකා හැරීමේ පරිශීලක තත්ත්වය යාවත්කාලීන කිරීම අසාර්ථකයි: %2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring users requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයන් නොසලකා හැරීමට සක්‍රිය matrix-sdk backend runtime එකක් අවශ්‍ය වේ.</translation>
     </message>
 </context>
 <context>
@@ -8876,33 +8912,34 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>ලා</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>අඳුරු</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ජාලයේ ඔබේ &lt;a href="%1"&gt;Presence&lt;/a&gt; තත්ත්වය පාලනය කරයි.
+ස්වයංක්‍රීය ක්‍රමය 'සබැඳි' හෝ 'නොලැබේ' (මිනිත්තු 5ක නිෂ්ක්‍රීයතාවෙන් පසු) වේ.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>කුඩා වීඩියෝ ක්ලිප් (%1 MB හෝ %2 s ට අඩු) inline ලෙස, නිශ්ශබ්දව සහ ලූප් කර ධාවනය කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නම් පෙන්වන විට පාලනය කරන්න. බුබුලු ප්‍රකාරයේදී, ඔබේ පරිශීලක නම සෑමවිටම සඟවා ඇත. කුඩා කාමරවලදී, අවතාර සහ බුබුලු වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
-        <translation type="unfinished"/>
+        <translation>⚠ අවතාර ප්‍රමාණය සඟවා ඇති ලෙස සකසා ඇති නිසා, යවන්නාගේ පරිශීලක නම් සෑමවිටම පෙන්වේ.</translation>
     </message>
 </context>
 <context>
@@ -8910,74 +8947,74 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>සැකසුම්</translation>
     </message>
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>පෙනුම සහ ස්වභාවය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Timeline</source>
-        <translation type="unfinished"/>
+        <translation>කාල රේඛාව</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Composer</source>
-        <translation type="unfinished"/>
+        <translation>රචකය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop</source>
-        <translation type="unfinished"/>
+        <translation>වැඩතල</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>ජාලය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Integrations</source>
-        <translation type="unfinished"/>
+        <translation>ඒකාබද්ධකරණ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Application Profiles</source>
-        <translation type="unfinished"/>
+        <translation>යෙදුම් පැතිකඩ</translation>
     </message>
     <message>
         <location line="+184"/>
         <source>Available after login</source>
-        <translation type="unfinished"/>
+        <translation>පිවිසීමෙන් පසු ලබා ගත හැකිය</translation>
     </message>
     <message>
         <location line="-188"/>
         <source>Calls</source>
-        <translation type="unfinished"/>
+        <translation>ඇමතුම්</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Navigation</source>
-        <translation type="unfinished"/>
+        <translation>සංචලනය</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>ගැන</translation>
     </message>
     <message>
         <location line="-17"/>
         <location line="+79"/>
         <location line="+13"/>
         <source>Back</source>
-        <translation type="unfinished"/>
+        <translation>ආපසු</translation>
     </message>
 </context>
 <context>
@@ -8988,7 +9025,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix backend runtime ලබා ගත නොහැකිය.</translation>
     </message>
 </context>
 <context>
@@ -8996,38 +9033,39 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/components/encryption/VerifyMasterKeyDialog.qml" line="+20"/>
         <source>Activate Encryption</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය සක්‍රිය කරන්න</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This account already has encryption keys, but this device is not verified yet.
 Verification marks this device as trusted and gives you access to encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>මෙම ගිණුමට දැනටමත් සංකේතන යතුරු ඇත, නමුත් මෙම උපකරණය තවම තහවුරු කර නොමැත.
+තහවුරු කිරීම මෙම උපකරණය විශ්වාසදායක ලෙස සලකුණු කර සංකේතිත පණිවිඩ වෙත ඔබට ප්‍රවේශය ලබා දෙයි.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>දැන් නොවේ</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset identity</source>
-        <translation type="unfinished"/>
+        <translation>අනන්‍යතාව නැවත සකසන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verify with another device</source>
-        <translation type="unfinished"/>
+        <translation>වෙනත් උපකරණයක් සමඟ තහවුරු කරන්න</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීම සඳහා වෙනත් පිවිසුණු උපකරණයක් දැනට ලබා ගත නොහැකිය.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>යතුරු උපස්ථය අගුළු හරින්න</translation>
     </message>
 </context>
 <context>
@@ -9035,27 +9073,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/device-verification/Waiting.qml" line="+14"/>
         <source>Waiting for Other Device</source>
-        <translation type="unfinished"/>
+        <translation>වෙනත් උපකරණය සඳහා රැඳී සිටිමු</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Waiting for the other device to accept the verification request.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීමේ ඉල්ලීම පිළිගැනීමට අනෙක් උපකරණය රැඳී සිටිමු.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to continue the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීමේ ක්‍රියාවලිය ඉදිරියට ගෙන යාමට අනෙක් උපකරණය රැඳී සිටිමු.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to complete the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කිරීමේ ක්‍රියාවලිය සම්පූර්ණ කිරීමට අනෙක් උපකරණය රැඳී සිටිමු.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -9063,22 +9101,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai වෙත සාදරයෙන් පිළිගනිමු</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
-        <translation type="unfinished"/>
+        <translation>ආරක්ෂිත රහස් ගබඩාව (OS keychain) මෙම පරිසරයේ ලබා ගත නොහැකිය, එබැවින් Komai දැනට ගොනු-පදනම් රහස් ගබඩාව භාවිත කරයි. මෙය අඩු ආරක්ෂිතයි.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>තව දැනගන්න</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>An early touch of personality</source>
-        <translation type="unfinished"/>
+        <translation>පෞරුෂයේ ආරම්භක ස්පර්ශය</translation>
     </message>
 </context>
 <context>
@@ -9086,17 +9124,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ට නවකයෙකුද?</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචි වන්න</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>පිවිසෙන්න</translation>
     </message>
 </context>
 <context>
@@ -9104,77 +9142,77 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
         <source>Theme</source>
-        <translation type="unfinished"/>
+        <translation>තේමාව</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>ආලෝකිත</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>අඳුරු</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Enable animations</source>
-        <translation type="unfinished"/>
+        <translation>සජීවිකරණ සක්‍රිය කරන්න</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation type="unfinished"/>
+        <translation>Komai දෘශ්‍ය ප්‍රතිපෝෂණය වැඩිදියුණු කිරීමට ස්ථාන කිහිපයක සජීවිකරණ භාවිත කරයි. ඒවා ඔබට අපහසුතාවක් ඇති කරන්නේ නම් අක්‍රිය කරන්න.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Prefer emoji suggestions for</source>
-        <translation type="unfinished"/>
+        <translation>සඳහා emoji යෝජනා ප්‍රමුඛ කරන්න</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Any gender</source>
-        <translation type="unfinished"/>
+        <translation>ඕනෑම ලිංගිකත්වයක්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👨 Men</source>
-        <translation type="unfinished"/>
+        <translation>👨 පිරිමින්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👩 Women</source>
-        <translation type="unfinished"/>
+        <translation>👩 කාන්තාවන්</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Any skin tone</source>
-        <translation type="unfinished"/>
+        <translation>ඕනෑම සමේ වර්ණයක්</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏻 ලා</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏼 මධ්‍යම-ලා</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation type="unfinished"/>
+        <translation>👍🏽 මධ්‍යම</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏾 මධ්‍යම-අඳුරු</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏿 අඳුරු</translation>
     </message>
 </context>
 <context>
@@ -9182,7 +9220,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
-        <translation type="unfinished"/>
+        <translation>ඊයේ</translation>
     </message>
 </context>
 <context>
@@ -9190,42 +9228,42 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation type="unfinished"/>
+        <translation>මිනිසුන්</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nature</source>
-        <translation type="unfinished"/>
+        <translation>ස්වභාවය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Food</source>
-        <translation type="unfinished"/>
+        <translation>ආහාර</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Activity</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියාකාරකම</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Travel</source>
-        <translation type="unfinished"/>
+        <translation>සංචාරය</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Objects</source>
-        <translation type="unfinished"/>
+        <translation>වස්තූන්</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Symbols</source>
-        <translation type="unfinished"/>
+        <translation>සංකේත</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Flags</source>
-        <translation type="unfinished"/>
+        <translation>කොඩි</translation>
     </message>
 </context>
 <context>
@@ -9233,12 +9271,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
         <source>You: %1</source>
-        <translation type="unfinished"/>
+        <translation>ඔබ: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1: %2</translation>
     </message>
 </context>
 <context>
@@ -9247,660 +9285,661 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation type="unfinished"/>
+        <translation>තේමාව</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation type="unfinished"/>
+        <translation>තවත් තේමා අවශ්‍යද? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; වෙතින් ආනයනය කරන්න හෝ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;ඔබේම සාදන්න&lt;/a&gt; (නැවත ආරම්භ කිරීම අවශ්‍ය).</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation type="unfinished"/>
+        <translation>අකුරු</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Font family</source>
-        <translation type="unfinished"/>
+        <translation>අකුරු පවුල</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation type="unfinished"/>
+        <translation>UI මූලද්‍රව්‍ය බොහොමයක් සෘජුවම ප්‍රමාණය වෙනස් කෙරේ. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසුව පමණක් යාවත්කාලීන විය හැකිය.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Emoji font family</source>
-        <translation type="unfinished"/>
+        <translation>ඉමොජි අකුරු පවුල</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Behavior</source>
-        <translation type="unfinished"/>
+        <translation>හැසිරීම</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Interaction mode</source>
-        <translation type="unfinished"/>
+        <translation>අන්තර්ක්‍රිය ප්‍රකාරය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation type="unfinished"/>
+        <translation>Desktop මූසිකය-ප්‍රථම හැසිරීම භාවිතා කරයි. Touch ප්‍රකාරය ස්වයිප් සහ ස්පර්ශ අන්තර්ක්‍රියා කෙරේ ප්‍රාධාන්‍යය ලබා දෙයි.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ලැයිස්තුව සහ Timeline අතර ස්වයිප් කිරීම, සහ පිළිතුරු දීමට පණිවිඩයක් ස්වයිප් කිරීම වැනි අභිනයන් සක්‍රිය කරන්න.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Controls when scrollbars are shown across the app.</source>
-        <translation type="unfinished"/>
+        <translation>යෙදුම පුරා scrollbars දිස්වන්නේ කවදාද යන්න පාලනය කරයි.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Layout</source>
-        <translation type="unfinished"/>
+        <translation>සැකැස්ම</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation type="unfinished"/>
+        <translation>ඉඩ, නිරූපක ප්‍රමාණ සහ ලැයිස්තු පේළි උස කෙරෙහි බලපායි.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatars</source>
-        <translation type="unfinished"/>
+        <translation>Avatars</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>Avatar පෙරදර්ශනය</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation type="unfinished"/>
+        <translation>අභිරුචි avatar නොමැති පරිශීලකයන් සහ කාමර සඳහා පෙන්වනු ලැබේ.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Communities sidebar</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රජා sidebar</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රජා සහ ටැග් පෙරීම් මත නොකියවූ අවධාරණය (ගණන් badge, row highlight, සහ වම් දාර marker) පෙන්වන්න.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation type="unfinished"/>
+        <translation>සියලු කාමර</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ සියලු කාමර එක දසුනක පෙන්වයි. පහතින් බැහැරකළ ලෙස සලකුණු කළ පෙරීම්වලට අයත් කාමර මෙම ලැයිස්තුවෙන් සඟවනු ලැබේ.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix room tagging API හරහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; ලෙස ලේබල් කළ කාමර.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation type="unfinished"/>
+        <translation>හෙයූරිස්ටික් මගින් bot ලෙස &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;හඳුනා ගත්&lt;/a&gt; පරිශීලකයන් හැර, සැබෑ මිනිසුන් සමඟ සෘජු කතාබස්.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation type="unfinished"/>
+        <translation>සංවාද හවුල්කරු bot හෝ bridge සේවා ගිණුමක් ලෙස &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;හඳුනා ගත්&lt;/a&gt; සෘජු කතාබස්.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation type="unfinished"/>
+        <translation>සෘජු කතාබස් නොවන (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; සහ අනෙකුත්) බහු-සහභාගිකාර කාමර.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation type="unfinished"/>
+        <translation>homeserver විසින් පරිපාලන පණිවිඩ සඳහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; ලෙස ලේබල් කළ කාමර. Matrix spec හි &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module බලන්න.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix room tagging API හරහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; ලෙස ලේබල් කළ කාමර.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room list</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ලැයිස්තුව</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර අසල නොකියවූ අවධාරණය (ගණන් badge, තද කාමර නාමය, avatar bounce, row highlight, සහ වම් දාර marker) පෙන්වන්න.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation type="unfinished"/>
+        <translation>කාමර ලැයිස්තු ඇතුළත් කිරීම්වලට අවසන් පණිවිඩ පෙරදර්ශනයක් එකතු කරයි. Spacious සහ Compact සැකසුම්වල ස්වකීය රේඛාවක දැක්වේ, Dense සැකසුමේ කාමර නාමය අසල inline ලෙස දැක්වේ.</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයක් ක්ලික් කිරීම ක්‍රියාකාරී ටැබ් නැවත භාවිත කරයිද නැතිනම් නව ටැබ් එකක් විවෘත කරයිද. දැනට ටැබ් ඇති කාමරවල ටැබ් සෑම අවස්ථාවකම සක්‍රිය කෙරේ.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tab bar</source>
-        <translation type="unfinished"/>
+        <translation>ටැබ් බාර්</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation type="unfinished"/>
+        <translation>මෑතකදී වසා දැමූ පෙර-විදහා ගත් timelines ක්ෂණික කාමර මාරුව සක්‍රිය කරයි, නමුත් CPU සහ RAM භාවිතය වැඩි කරයි. විවෘත ටැබ් සෑමවිටම පෙර-විදහා ගනී. විවෘත ටැබ් පමණක් රඳවා ගැනීමට 0 ලෙස සකසන්න.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
         <source>Presentation</source>
-        <translation type="unfinished"/>
+        <translation>ඉදිරිපත් කිරීම</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>Timeline පෙරදසුන</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ එක් පැත්තකම සිටිනවාද නැතහොත් යවන්නා අනුව එකිනෙකට ප්‍රතිවිරුද්ධව ස්ථානගත කෙරේදැයි තෝරන්න.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum message width (%)</source>
-        <translation type="unfinished"/>
+        <translation>උපරිම පණිවිඩ පළල (%)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation type="unfinished"/>
+        <translation>තනි පණිවිඩයකට ලබාගත හැකි timeline පළලෙහි ප්‍රතිශතය.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation type="unfinished"/>
+        <translation>Timeline සහ bubble පසුබිම්වල යවන්නාගේ වර්ණ පවරනු ලබන ආකාරය තෝරන්න.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නාම දිස්වන්නේ කවදාද යන්න පාලනය කරන්න. Bubble ප්‍රකාරයේදී, ඔබේ පරිශීලක නාමය සෑමවිටම සැඟවේ. කුඩා කාමරවල, avatars සහ bubble වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"/>
+        <translation>bubble layout සක්‍රිය කළ විට, ඔබේ ස්වකීය පණිවිඩ අසල ඔබේ avatar පෙන්වන්න. මෙය වම/දකුණ සමමිතිය වැඩිදියුණු කරන අතර රචකත්වය ස්කෑන් කිරීම පහසු කරයි.</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation type="unfinished"/>
+        <translation>හැඩතල ගන්වන ලද (HTML) timeline පණිවිඩවල ඇති කේත කොටස්වලට භාෂා-දැනුවත් syntax highlighting යොදන්න.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>සමහර පණිවිඩ, විශේෂයෙන් 🎊, ☀️, හෝ 🌦️ වැනි emoji සහිත ඒවා, වඩාත් ආකර්ෂණීය &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt; දැක්විය හැකිය.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රධාන timeline එකෙන් නූල් පිළිතුරු සඟවා, නූල් මූල පණිවිඩ පමණක් පෙන්වයි. කාමර තොරතුරු → සැකසීම් හි කාමරය අනුව ඉක්මවා යා හැකිය.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහුබැඳීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මගහැරිය හැකිය.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
         <source>Feedback</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රතිපෝෂණය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ පණිවිඩ කියවූදැයි පෙන්වන්න. ඔබේ homeserver කියවීම් රිසිට්පත් සහාය නොදක්වන්නේ නම්, කාමර කියවූ ලෙස සලකුණු නොකළ හැකිය.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියා</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how message actions are opened.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ක්‍රියා විවෘත කරන ආකාරය තෝරන්න.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation type="unfinished"/>
+        <translation>ක්‍රියා තීරුවට සවිකළ reactions කොමා-වෙන් කළ ලැයිස්තුව. ඉතිරි ස්ලොට් කාමරය අනුව ඔබ වැඩිපුරම භාවිතා කළ reactions මගින් පිරවේ.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Images handling</source>
-        <translation type="unfinished"/>
+        <translation>රූප හැසිරවීම</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතිත රූප තැටිය මත විකේතිතව &lt;a href="komai://media-cache"&gt;හැඹිලිගත&lt;/a&gt; වේ (ස්වයංක්‍රීයව නිතිපතා ඉවත් කෙරේ).</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Video handling</source>
-        <translation type="unfinished"/>
+        <translation>වීඩියෝ හැසිරවීම</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>හැකි විට stream කරයි; සංකේතිත හෝ seekable නොවන වීඩියෝ disk හි &lt;a href="komai://media-cache"&gt;cache&lt;/a&gt; කෙරේ (ස්වයංක්‍රීයව කාලීනව ඉවත් කෙරේ).</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Audio handling</source>
-        <translation type="unfinished"/>
+        <translation>ශ්‍රව්‍ය හසුරුවීම</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>හැකි විට stream කරයි; සංකේතිත හෝ seekable නොවන ශ්‍රව්‍ය disk හි &lt;a href="komai://media-cache"&gt;cache&lt;/a&gt; කෙරේ (ස්වයංක්‍රීයව කාලීනව ඉවත් කෙරේ).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Applied to inline audio players.</source>
-        <translation type="unfinished"/>
+        <translation>Inline ශ්‍රව්‍ය ධාවකවලට යොදනු ලැබේ.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
         <source>Input</source>
-        <translation type="unfinished"/>
+        <translation>ආදානය</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which Enter key combination sends messages.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ යවන Enter යතුරු සංයෝජනය තෝරන්න.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax ස්වයංක්‍රීයව Markdown plain-text fallback සහිත &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; පණිවිඩයක් නිපදවීමට පරිවර්තනය කෙරේදැයි පාලනය කරයි.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ආදාන ක්ෂේත්‍රයේ හෑෂ් ලකුණ (#) ටයිප් කරන විට inline කාමර picker එකක් පෙන්වන්න.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ආදාන ක්ෂේත්‍රයේ at ලකුණ (@) ටයිප් කරන විට inline පරිශීලක picker එකක් පෙන්වන්න.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation type="unfinished"/>
+        <translation>ඉමොජි</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයක් යවන විට :) :D :P වැනි පෙළ emoticons ස්වයංක්‍රීයව ඒවාට සමාන emoji සමඟ ප්‍රතිස්ථාපනය කරන්න. සෑම තැනකම හෝ අවසානයේ පමණක් ප්‍රතිස්ථාපනය කළ යුතු දැයි තෝරන්න.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ ආදාන ක්ෂේත්‍රයේ ද්විකොලනයක් (:) ටයිප් කරන විට inline emoji picker එකක් පෙන්වන්න.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Inline ඉමොජි තෝරක පමණක්: ලබාගත හැකි විට Unicode-නිර්වචිත ස්ත්‍රී/පුරුෂ විචල්‍යයන් (පිරිමි/ගැහැනු) කෙරේ ප්‍රාධාන්‍යය දෙන්න. අනෙක් ලිංගය සඳහා සෘජුව සෙවීම ඇතත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Inline ඉමොජි තෝරක පමණක්: ලබාගත හැකි විට එක් සමේ-ටෝනයක් විචල්‍යයකට ප්‍රාධාන්‍යය දෙන්න. වෙනත් සමේ-ටෝනයක් සඳහා සෘජුව සෙවීම ඇතත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Extras</source>
-        <translation type="unfinished"/>
+        <translation>අතිරේක</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම් දැනුම්දීම්</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enable notifications for this account</source>
-        <translation type="unfinished"/>
+        <translation>මෙම ගිණුම සඳහා දැනුම්දීම් සක්‍රිය කරන්න</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation type="unfinished"/>
+        <translation>හෝම්සර්වරයේ ඔබේ Matrix ගිණුම් මට්ටමේ දැනුම්දීම් ස්විචය පාලනය කරයි. ඔබේ සියලු clients/උපකරණ හරහා දැනුම්දීම් නිශ්ශබ්ද කිරීමට ක්‍රියා විරහිත කරන්න.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>System notifications</source>
-        <translation type="unfinished"/>
+        <translation>පද්ධති දැනුම්දීම්</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායකය දැනට අවධානය යොමු නොකළ විට ලැබුණු පණිවිඩ ගැන දැනුම් දෙන්න. ඉහත ගිණුම් දැනුම්දීම් සක්‍රිය කළ විට පමණක් මෙය ක්‍රියාත්මක වේ.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how much message text to include in notifications.</source>
-        <translation type="unfinished"/>
+        <translation>දැනුම්දීම්වලට ඇතුළත් කළ යුතු පණිවිඩ පෙළ ප්‍රමාණය තෝරන්න.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩයක් ලැබෙන විට අවධාන ඇඟවීමක් පෙන්වන්න (නිදසුනක් ලෙස, taskbar නිරූපක ක්‍රියාකාරිත්වය).</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Attention indicators</source>
-        <translation type="unfinished"/>
+        <translation>අවධාන දර්ශක</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation type="unfinished"/>
+        <translation>අවධානය අවශ්‍ය කාමරවල ගණන Komai කවුළු මාතෘකාවට එකතු කරන්න.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>app/taskbar badge හි අවධානය අවශ්‍ය කාමර ගණන පෙන්වන්න. Linux හිදී, default නොවන profiles සඳහා විශ්වාසදායක app badge ලබා ගැනීමට ස්වකීය desktop launcher අවශ්‍ය වේ. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;තවත් දැනගන්න&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System tray</source>
-        <translation type="unfinished"/>
+        <translation>පද්ධති ට්‍රේ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Keep the application running in the background after closing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායක කවුළුව වසා දැමූ පසු යෙදුම පසුබිමේ ක්‍රියාත්මකව තබා ගන්න.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Start the application in the background without showing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>client කවුළුව පෙන්නුම් නොකර පසුබිමේ application ආරම්භ කරන්න.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Window blur</source>
-        <translation type="unfinished"/>
+        <translation>කවුළු blur</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation type="unfinished"/>
+        <translation>අවධානය නැතිවූ පසු blur ආරම්භ වීමට කෙතරම් කාලයකට පෙරෙන්ද යන්න සකසන්න. ක්ෂණිකව blur කිරීමට 0 සකසන්න. උපරිම 3600 තත්පර (පැය 1) කි.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>සාමාන්‍ය</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation type="unfinished"/>
+        <translation>Legacy (MatrixRTC-ට පෙර) ඇමතුම් පිළිගැනීමට සහ ආරම්භ කිරීමට ඉඩ සලසයි.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ homeserver relay/STUN සේවාදායකයක් සපයන්නේ නැති විට turn.matrix.org fallback relay/STUN සේවාදායකයක් ලෙස භාවිත කරන්න.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Devices</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Microphone</source>
-        <translation type="unfinished"/>
+        <translation>මයික්‍රෝෆෝනය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>කැමරාව</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera resolution</source>
-        <translation type="unfinished"/>
+        <translation>කැමරා විභේදනය</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera frame rate</source>
-        <translation type="unfinished"/>
+        <translation>කැමරා රාමු අනුපාතය</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ringtone</source>
-        <translation type="unfinished"/>
+        <translation>රිංටෝනය</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Screen sharing</source>
-        <translation type="unfinished"/>
+        <translation>තිරය බෙදාගැනීම</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation type="unfinished"/>
+        <translation>තිරය බෙදාගැනීම සඳහා ඉලක්ක frames per second. අඩු අගයන් CPU සහ bandwidth අඩුවෙන් භාවිත කරයි.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
         <source>D-Bus</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D-Bus access</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus ප්‍රවේශය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation type="unfinished"/>
+        <translation>Komai දේශීය ඇමතුම්කරුවන්ට ලබා දෙන &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ප්‍රවේශ&lt;/a&gt; ප්‍රමාණය තෝරන්න.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Matrix Rooms Search</source>
-        <translation type="unfinished"/>
+        <translation>Matrix කාමර සෙවීම</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"/>
+        <translation>සක්‍රිය කළ විට, &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; සංවාදයට &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; සහාය එක් කරයි.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; ඕනෑම instance එකක් ක්‍රියා කරනු ඇත, නමුත් &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; යනු &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; විසින් පවත්වාගෙන යනු ලබන විශාල ජනප්‍රිය instance එකකි.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Browser</source>
-        <translation type="unfinished"/>
+        <translation>බ්‍රව්සරය</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතනය</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation type="unfinished"/>
+        <translation>ඔවුන්ට සංකේතිත පණිවිඩ යැවීමට පරිශීලකයෙකු තහවුරු කළ බව අවශ්‍ය කරයි. මෙය ආරක්ෂාව වැඩිදියුණු කරයි, නමුත් E2EE වඩාත් කරදරකාරී කරයි.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation type="unfinished"/>
+        <translation>තහවුරු කළ වෙනත් පරිශීලකයින්ගේ යතුරු ඉල්ලීම්වලට, එම උපකරණයට සාමාන්‍යයෙන් ප්‍රවේශය නොමැති වුවද, ස්වයංක්‍රීයව ප්‍රතිචාර දක්වයි.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතිත සබැඳි යතුරු උපස්ථයෙන් පණිවිඩ සංකේතන යතුරු බාගත කර එවෙත උඩුගත කරන්න.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Presence</source>
-        <translation type="unfinished"/>
+        <translation>සිටිම</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Status policy</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව ප්‍රතිපත්තිය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ජාලයේ ඔබේ &lt;a href="%1"&gt;Presence&lt;/a&gt; තත්ත්වය පාලනය කරයි.
+ස්වයංක්‍රීය යනු 'online' හෝ 'unavailable' (විනාඩි 5ක නිෂ්ක්‍රියභාවයෙන් පසු).</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Status message</source>
-        <translation type="unfinished"/>
+        <translation>තත්ව පණිවිඩය</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Transport</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රවාහනය</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reject invalid or untrusted server certificates.</source>
-        <translation type="unfinished"/>
+        <translation>අවලංගු හෝ විශ්වාස නොකරන සේවාදායක සහතිකා ප්‍රතික්ෂේප කරන්න.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation type="unfinished"/>
+        <translation>ලබා ගත හැකි විට Matrix සේවාදායක සම්බන්ධතා සඳහා HTTP/3 භාවිත කරන්න.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>ගිණුම</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලක ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation type="unfinished"/>
+        <translation>නිවාස සේවාදායකය</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Edit profile</source>
-        <translation type="unfinished"/>
+        <translation>පැතිකඩ සංස්කරණය කරන්න</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණය</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Device ID</source>
-        <translation type="unfinished"/>
+        <translation>උපකරණ හැඳුනුම්පත</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රවේශ ටෝකනය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation type="unfinished"/>
+        <translation>ඔබේ access token ඔබේ ගිණුමට සම්පූර්ණ ප්‍රවේශය ලබා දෙයි. එය කිසිවෙකු සමඟ බෙදා නොගන්න.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයන්</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>නොසලකා හරිනු ලැබූ පරිශීලකයන්</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Log out</source>
-        <translation type="unfinished"/>
+        <translation>පිටවීම</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"/>
+        <translation>යෙදුම</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>නම</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Platform</source>
-        <translation type="unfinished"/>
+        <translation>වේදිකාව</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>නිර්මාණය කළේ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>License</source>
-        <translation type="unfinished"/>
+        <translation>බලපත්‍රය</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Acknowledgements</source>
-        <translation type="unfinished"/>
+        <translation>ස්තූතිය</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fork base</source>
-        <translation type="unfinished"/>
+        <translation>Fork පදනම</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Fluent)</source>
-        <translation type="unfinished"/>
+        <translation>අයිකන් කට්ටලය (Fluent)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Font Awesome)</source>
-        <translation type="unfinished"/>
+        <translation>අයිකන් කට්ටලය (Font Awesome)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Default avatars (Boring Avatars)</source>
-        <translation type="unfinished"/>
+        <translation>පෙරනිමි avatars (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

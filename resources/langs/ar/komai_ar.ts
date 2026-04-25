@@ -6678,11 +6678,16 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>تسري هذه الاختصارات في وضع التحديد بعد إغلاق المساعدة. راجع &lt;a href="%1"&gt;الدليل الكامل&lt;/a&gt;.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>التنقل</translation>
     </message>

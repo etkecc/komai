@@ -6650,11 +6650,16 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>Deze sneltoetsen zijn actief in selectiemodus na het sluiten van Help. Zie de &lt;a href="%1"&gt;volledige gids&lt;/a&gt;.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>Beweging</translation>
     </message>

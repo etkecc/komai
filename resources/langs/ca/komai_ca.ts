@@ -6650,11 +6650,16 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>Aquestes dreceres s'apliquen en mode de selecció un cop tancada l'ajuda. Vegeu la &lt;a href="%1"&gt;guia completa&lt;/a&gt;.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>Moviment</translation>
     </message>

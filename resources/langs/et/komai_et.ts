@@ -6650,11 +6650,16 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>Need kiirklahvid kehtivad valimisrežiimis pärast abi sulgemist. Vaata &lt;a href="%1"&gt;täielikku juhendit&lt;/a&gt;.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>Liikumine</translation>
     </message>

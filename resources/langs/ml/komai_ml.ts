@@ -6650,11 +6650,16 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>ഈ ഷോർട്ട്കട്ടുകൾ സഹായം അടച്ചതിനു ശേഷം സെലക്ഷൻ മോഡിൽ ബാധകമാകും. &lt;a href="%1"&gt;പൂർണ്ണ ഗൈഡ്&lt;/a&gt; കാണുക.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>ചലനം</translation>
     </message>

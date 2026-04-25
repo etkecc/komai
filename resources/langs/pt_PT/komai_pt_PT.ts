@@ -6650,11 +6650,16 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>Estes atalhos aplicam-se no modo de seleção após fechar a Ajuda. Consulte o &lt;a href="%1"&gt;guia completo&lt;/a&gt;.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>Movimento</translation>
     </message>

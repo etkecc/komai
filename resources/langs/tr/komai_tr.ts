@@ -6643,11 +6643,16 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>Bu kısayollar, Yardım kapatıldıktan sonra Seçim modunda geçerlidir. &lt;a href="%1"&gt;Tam kılavuzu&lt;/a&gt; inceleyin.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>Hareket</translation>
     </message>

@@ -6643,11 +6643,16 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>这些快捷键在关闭帮助后的选择模式中生效。查看&lt;a href="%1"&gt;完整指南&lt;/a&gt;。</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>移动</translation>
     </message>

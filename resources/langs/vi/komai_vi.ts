@@ -6643,11 +6643,16 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+1"/>
-        <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation>Các phím tắt này áp dụng trong chế độ Chọn sau khi đóng Trợ giúp. Xem &lt;a href="%1"&gt;hướng dẫn đầy đủ&lt;/a&gt;.</translation>
+        <source>These shortcuts apply in Selection mode after closing Help.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>See the full guide</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Movement</source>
         <translation>Di chuyển</translation>
     </message>

@@ -6,48 +6,48 @@
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="+117"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation>個人資料</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>頭像</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>變更</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+43"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>移除頭像</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>確定要移除頭像嗎？</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation>顯示名稱</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>使用者 ID</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -57,33 +57,33 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>已複製！</translation>
     </message>
     <message>
         <location line="-762"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>複製使用者 ID</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation type="unfinished"/>
+        <translation>主伺服器</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Copy homeserver</source>
-        <translation type="unfinished"/>
+        <translation>複製主伺服器</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>This device (session)</source>
-        <translation type="unfinished"/>
+        <translation>此裝置（工作階段）</translation>
     </message>
     <message>
         <location line="+78"/>
         <location line="+411"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>此裝置</translation>
     </message>
     <message>
         <location line="-385"/>
@@ -91,124 +91,124 @@
         <location line="+294"/>
         <location line="+145"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>複製到剪貼簿</translation>
     </message>
     <message>
         <location line="-554"/>
         <location line="+457"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>登出</translation>
     </message>
     <message>
         <location line="-438"/>
         <location line="+460"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>名稱</translation>
     </message>
     <message>
         <location line="-410"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>存取權杖</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Click to reveal</source>
-        <translation type="unfinished"/>
+        <translation>點擊顯示</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Access tokens grant full account access. Keep private!</source>
-        <translation type="unfinished"/>
+        <translation>存取權杖可完整存取帳號，請妥善保管！</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Other devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>其他裝置（工作階段）</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>已重新整理</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>重新整理</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Hide other devices</source>
-        <translation type="unfinished"/>
+        <translation>隱藏其他裝置</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show all (%1) devices</source>
-        <translation type="unfinished"/>
+        <translation>顯示全部（%1）個裝置</translation>
     </message>
     <message>
         <location line="+137"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>已驗證</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>未驗證</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>已封鎖</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation>取消驗證</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>解除封鎖</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>封鎖</translation>
     </message>
     <message>
         <location line="+93"/>
         <source>IP address</source>
-        <translation type="unfinished"/>
+        <translation>IP 位址</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Last seen: %1</source>
-        <translation type="unfinished"/>
+        <translation>最後上線：%1</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Last seen: Unknown</source>
-        <translation type="unfinished"/>
+        <translation>最後上線：未知</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>使用者</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>已忽略的使用者</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>帳號</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>You are not logged in yet, so account details are unavailable.</source>
-        <translation type="unfinished"/>
+        <translation>您尚未登入，因此帳號詳細資訊無法使用。</translation>
     </message>
 </context>
 <context>
@@ -216,13 +216,13 @@
     <message>
         <location filename="../../qml/voip/ActiveCallBar.qml" line="+104"/>
         <source>Calling...</source>
-        <translation type="unfinished"/>
+        <translation>呼叫中……</translation>
     </message>
     <message>
         <location line="+9"/>
         <location line="+9"/>
         <source>Connecting...</source>
-        <translation type="unfinished"/>
+        <translation>連線中……</translation>
     </message>
     <message>
         <location line="+73"/>
@@ -237,12 +237,12 @@
     <message>
         <location line="+13"/>
         <source>Unmute Mic</source>
-        <translation type="unfinished"/>
+        <translation>解除麥克風靜音</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Mute Mic</source>
-        <translation type="unfinished"/>
+        <translation>麥克風靜音</translation>
     </message>
 </context>
 <context>
@@ -250,12 +250,12 @@
     <message>
         <location filename="../../../src/models/AliasEditModel.cpp" line="+117"/>
         <source>Failed to load room aliases from the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>無法從 matrix-sdk 後端載入聊天室別名。</translation>
     </message>
     <message>
         <location line="+310"/>
         <source>Failed to save room aliases to the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>無法將聊天室別名儲存至 matrix-sdk 後端。</translation>
     </message>
 </context>
 <context>
@@ -263,52 +263,52 @@
     <message>
         <location filename="../../qml/dialogs/room/AliasEditor.qml" line="+19"/>
         <source>Aliases to %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 的別名</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Primary alias</source>
-        <translation type="unfinished"/>
+        <translation>主要別名</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Make primary alias</source>
-        <translation type="unfinished"/>
+        <translation>設為主要別名</translation>
     </message>
     <message>
         <location line="-40"/>
         <source>Alternative addresses for this room. You can usually only add aliases on your own server. One alias can be marked as primary.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室的替代地址。通常只能在自己的伺服器上新增別名，其中一個可設為主要別名。</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Show this alias in the room's details</source>
-        <translation type="unfinished"/>
+        <translation>在聊天室詳情中顯示此別名</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Publish in room directory</source>
-        <translation type="unfinished"/>
+        <translation>發布至聊天室目錄</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove this alias</source>
-        <translation type="unfinished"/>
+        <translation>移除此別名</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>#new-alias:example.com</source>
-        <translation type="unfinished"/>
+        <translation>#new-alias:example.com</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Add</source>
-        <translation type="unfinished"/>
+        <translation>新增</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
 </context>
 <context>
@@ -316,32 +316,32 @@
     <message>
         <location filename="../../qml/dialogs/room/AllowedRoomsSettingsDialog.qml" line="+18"/>
         <source>Allowed rooms settings</source>
-        <translation type="unfinished"/>
+        <translation>允許的聊天室設定</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>List of rooms that allow access to this room. Anyone who is in any of those rooms can join this room.</source>
-        <translation type="unfinished"/>
+        <translation>允許存取此聊天室的聊天室清單。任何在這些聊天室中的人都可以加入此聊天室。</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Parent community</source>
-        <translation type="unfinished"/>
+        <translation>上層社群</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Other room</source>
-        <translation type="unfinished"/>
+        <translation>其他聊天室</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Enter additional rooms not in the list yet...</source>
-        <translation type="unfinished"/>
+        <translation>輸入尚未在清單中的其他聊天室……</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
 </context>
 <context>
@@ -349,115 +349,115 @@
     <message>
         <location filename="../../qml/components/ApplicationProfilesView.qml" line="+15"/>
         <source>Choose an application profile to launch, or create a new one.</source>
-        <translation type="unfinished"/>
+        <translation>選擇要啟動的應用程式設定檔，或建立新的設定檔。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Each application profile is a separate Komai instance with its own login, settings, and local data.</source>
-        <translation type="unfinished"/>
+        <translation>每個應用程式設定檔都是獨立的 Komai 實例，擁有各自的登入資訊、設定和本機資料。</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Create Application Profile</source>
-        <translation type="unfinished"/>
+        <translation>建立應用程式設定檔</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Profile name</source>
-        <translation type="unfinished"/>
+        <translation>設定檔名稱</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Examples: work, personal</source>
-        <translation type="unfinished"/>
+        <translation>範例：工作、個人</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Create desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>建立桌面啟動器</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Default already uses the packaged Komai launcher.</source>
-        <translation type="unfinished"/>
+        <translation>預設值已使用封裝的 Komai 啟動器。</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Recommended for non-default Linux profiles. This makes app badges and taskbar grouping reliable when you launch the profile from its own desktop launcher.</source>
-        <translation type="unfinished"/>
+        <translation>建議用於非預設的 Linux 設定檔。這可使應用程式徽章和工作列分組在從專屬桌面啟動器啟動設定檔時更加可靠。</translation>
     </message>
     <message>
         <location line="+20"/>
         <location line="+48"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="-36"/>
         <source>Create and Launch</source>
-        <translation type="unfinished"/>
+        <translation>建立並啟動</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Delete Application Profile '%1'?</source>
-        <translation type="unfinished"/>
+        <translation>刪除應用程式設定檔「%1」？</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>This removes its config, cache, local database, and stored secrets.</source>
-        <translation type="unfinished"/>
+        <translation>這將刪除其設定、快取、本機資料庫和儲存的密鑰。</translation>
     </message>
     <message>
         <location line="+17"/>
         <location line="+262"/>
         <location line="+5"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>刪除</translation>
     </message>
     <message>
         <location line="-216"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>已重新整理</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>重新整理</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>新增</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>No profiles found yet.</source>
-        <translation type="unfinished"/>
+        <translation>尚未找到任何設定檔。</translation>
     </message>
     <message>
         <location line="+138"/>
         <source>Current</source>
-        <translation type="unfinished"/>
+        <translation>目前</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>User: %1</source>
-        <translation type="unfinished"/>
+        <translation>使用者：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>User: not signed in yet</source>
-        <translation type="unfinished"/>
+        <translation>使用者：尚未登入</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Homeserver: %1</source>
-        <translation type="unfinished"/>
+        <translation>主伺服器：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Homeserver: not available</source>
-        <translation type="unfinished"/>
+        <translation>主伺服器：不可用</translation>
     </message>
 </context>
 <context>
@@ -465,22 +465,22 @@
     <message>
         <location filename="../../qml/components/AttributionFooter.qml" line="+84"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
-        <translation type="unfinished"/>
+        <translation>%1 由 %2 建立（託管 Matrix 伺服器服務）。</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Sponsoring!</source>
-        <translation type="unfinished"/>
+        <translation>贊助中！</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>贊助</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Report an issue</source>
-        <translation type="unfinished"/>
+        <translation>回報問題</translation>
     </message>
 </context>
 <context>
@@ -488,17 +488,17 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation type="unfinished"/>
+        <translation>連結瀏覽器指令</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Use this command to launch links; use %u where the link URL should be inserted.</source>
-        <translation type="unfinished"/>
+        <translation>使用此指令開啟連結；在應插入連結 URL 的位置使用 %u。</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Example: brave --profile-directory="Profile 7" %u</source>
-        <translation type="unfinished"/>
+        <translation>範例：brave --profile-directory="Profile 7" %u</translation>
     </message>
 </context>
 <context>
@@ -506,7 +506,7 @@
     <message>
         <location filename="../../qml/voip/CallInvite.qml" line="+78"/>
         <source>Video Call</source>
-        <translation type="unfinished"/>
+        <translation>視訊通話</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -524,7 +524,7 @@
     <message>
         <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
         <source>Video Call</source>
-        <translation type="unfinished"/>
+        <translation>視訊通話</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -549,12 +549,12 @@
     <message>
         <location line="+8"/>
         <source>Unknown microphone: %1</source>
-        <translation type="unfinished"/>
+        <translation>未知麥克風：%1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Unknown camera: %1</source>
-        <translation type="unfinished"/>
+        <translation>未知攝影機：%1</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -572,7 +572,7 @@
     <message>
         <location line="+6"/>
         <source>PipeWire</source>
-        <translation type="unfinished"/>
+        <translation>PipeWire</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -585,17 +585,17 @@
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 工作階段就緒前無法邀請使用者。</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Failed to invite %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>邀請 %1 失敗：%2</translation>
     </message>
     <message>
         <location line="+231"/>
         <source>Something went wrong</source>
-        <translation type="unfinished"/>
+        <translation>發生錯誤</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -606,128 +606,135 @@
 This may be a temporary issue (e.g. your system's secret storage failed to unlock). If so, you can close Komai, fix the problem, and relaunch — your data will still be there.
 
 If the problem persists, you can log out and sign in again, but this will delete your local message cache and encryption session.</source>
-        <translation type="unfinished"/>
+        <translation>Komai 遇到了問題：
+
+%1
+
+這可能是暫時性問題（例如您系統的金鑰儲存解鎖失敗）。若是如此，您可以關閉 Komai，修復問題後重新啟動——您的資料仍會保留。
+
+若問題持續發生，您可以登出並重新登入，但這將刪除您的本機訊息快取和加密工作階段。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Close &amp;&amp; preserve data</source>
-        <translation type="unfinished"/>
+        <translation>關閉 &amp;&amp; 保留資料</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Log out &amp;&amp; start over</source>
-        <translation type="unfinished"/>
+        <translation>登出 &amp;&amp; 重新開始</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 後端尚未準備就緒。</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Knock on room</source>
-        <translation type="unfinished"/>
+        <translation>敲門請求</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Do you really want to knock on %1? You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>您確定要敲門加入 %1 嗎？您可以選擇提供讓其他人接受您敲門請求的原因：</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Failed to knock room: %1</source>
-        <translation type="unfinished"/>
+        <translation>敲門請求失敗：%1</translation>
     </message>
     <message>
         <location line="+62"/>
         <source>Room creation failed: Bad Alias</source>
-        <translation type="unfinished"/>
+        <translation>建立聊天室失敗：別名無效</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>Failed to invite %1 to %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>邀請 %1 加入 %2 失敗：%3</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Kicked user: %1</source>
-        <translation type="unfinished"/>
+        <translation>已踢出使用者：%1</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Failed to ban %1 in %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>在 %2 中封禁 %1 失敗：%3</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Banned user: %1</source>
-        <translation type="unfinished"/>
+        <translation>已封禁的使用者：%1</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Failed to unban %1 in %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>在 %2 中解除封禁 %1 失敗：%3</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Unbanned user: %1</source>
-        <translation type="unfinished"/>
+        <translation>已解除封禁使用者：%1</translation>
     </message>
     <message>
         <location line="-265"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
-        <translation type="unfinished"/>
+        <translation>您無法加入 %1。您可以嘗試敲門，讓其他人邀請您加入。您是否要這樣做？
+您可以選擇提供原因，讓其他人接受您的敲門請求：</translation>
     </message>
     <message>
         <location line="+74"/>
         <source>Failed to join room: %1</source>
-        <translation type="unfinished"/>
+        <translation>加入聊天室失敗：%1</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Room creation failed: %1</source>
-        <translation type="unfinished"/>
+        <translation>建立聊天室失敗：%1</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Failed to leave room: %1</source>
-        <translation type="unfinished"/>
+        <translation>離開聊天室失敗：%1</translation>
     </message>
     <message>
         <location line="+68"/>
         <source>Failed to kick %1 from %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>從 %2 踢出 %1 失敗：%3</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageBootstrap.cpp" line="+32"/>
         <source>Matrix backend runtime failed to start for this session. Please log in again.</source>
-        <translation type="unfinished"/>
+        <translation>本次工作階段的 Matrix 後端執行時期啟動失敗。請重新登入。</translation>
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>金鑰備份還原需要正在執行的 matrix-sdk 後端。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>需要復原金鑰或密語才能解鎖金鑰備份。</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Failed to unlock key backup.</source>
-        <translation type="unfinished"/>
+        <translation>解鎖金鑰備份失敗。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unlock key backup: %1</source>
-        <translation type="unfinished"/>
+        <translation>解鎖金鑰備份失敗：%1</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption secrets unlocked.</source>
-        <translation type="unfinished"/>
+        <translation>加密金鑰已解鎖。</translation>
     </message>
 </context>
 <context>
@@ -735,32 +742,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/CloseToTrayPromptDialog.qml" line="+14"/>
         <source>Quit completely or close to tray?</source>
-        <translation type="unfinished"/>
+        <translation>完全退出還是縮小至系統匣？</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Komai can keep running in the system tray so you keep getting notifications and can open it quickly.</source>
-        <translation type="unfinished"/>
+        <translation>Komai 可繼續在系統匣中執行，讓您持續收到通知並可快速開啟。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>We won't ask again. You can change this later in Settings.</source>
-        <translation type="unfinished"/>
+        <translation>我們不會再詢問。您可以稍後在設定中更改此選項。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation type="unfinished"/>
+        <translation>縮小至系統匣</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation type="unfinished"/>
+        <translation>退出</translation>
     </message>
 </context>
 <context>
@@ -768,7 +775,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/imagepacks/CombinedImagePackModel.cpp" line="+31"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>帳號貼圖包</translation>
     </message>
 </context>
 <context>
@@ -776,17 +783,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/CommandValidationPresentation.qml" line="+26"/>
         <source>Hit Enter to insert it.</source>
-        <translation type="unfinished"/>
+        <translation>按 Enter 鍵插入。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Looks good! Hit Enter to send it.</source>
-        <translation type="unfinished"/>
+        <translation>看起來不錯！按 Enter 鍵傳送。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation type="unfinished"/>
+        <translation>請先選擇指令。選取後按 Enter 插入；否則按 Enter 傳送。</translation>
     </message>
 </context>
 <context>
@@ -794,17 +801,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>顯示</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>顯示未讀指示器</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>納入「所有聊天室」</translation>
     </message>
 </context>
 <context>
@@ -812,7 +819,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>設定...</translation>
     </message>
 </context>
 <context>
@@ -820,12 +827,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
         <source>Expand</source>
-        <translation type="unfinished"/>
+        <translation>展開</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished"/>
+        <translation>收合</translation>
     </message>
 </context>
 <context>
@@ -833,72 +840,72 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
-        <translation type="unfinished"/>
+        <translation>標記為最愛的聊天室。使用 Matrix m.favourite 標籤，您的選擇會在各客戶端同步。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Rooms tagged as low priority. They stay visually quiet in the room list unless you receive a loud ping or open this filter.</source>
-        <translation type="unfinished"/>
+        <translation>標記為低優先順序的聊天室。除非您收到響亮通知或開啟此篩選器，否則它們在聊天室清單中會保持靜默。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Messages from your homeserver administrator. Uses the Matrix m.server_notice tag.</source>
-        <translation type="unfinished"/>
+        <translation>來自您家伺服器管理員的訊息。使用 Matrix m.server_notice 標籤。</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>All rooms</source>
-        <translation type="unfinished"/>
+        <translation>所有聊天室</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>People</source>
-        <translation type="unfinished"/>
+        <translation>聯絡人</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bots</source>
-        <translation type="unfinished"/>
+        <translation>機器人</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Groups</source>
-        <translation type="unfinished"/>
+        <translation>群組</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>All your joined rooms. Rooms from filters you've excluded from 'All rooms' are omitted.</source>
-        <translation type="unfinished"/>
+        <translation>所有您已加入的聊天室。已從「所有聊天室」排除的過濾器聊天室不會顯示。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct chats with real people. Detected from Matrix m.direct account data and a 2-3 member heuristic, excluding users identified as bots.</source>
-        <translation type="unfinished"/>
+        <translation>與真實使用者的私訊。根據 Matrix m.direct 帳號資料及 2-3 人啟發式規則偵測，排除已識別為機器人的使用者。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct chats with bots or bridge accounts. Identified from username and display-name patterns.</source>
-        <translation type="unfinished"/>
+        <translation>與機器人或橋接帳號的私訊。根據使用者名稱和顯示名稱模式識別。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Multi-participant rooms that aren't direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>非私訊的多人聊天室。</translation>
     </message>
     <message>
         <location line="-94"/>
         <source>Favourites</source>
-        <translation type="unfinished"/>
+        <translation>最愛</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation type="unfinished"/>
+        <translation>低優先級</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation type="unfinished"/>
+        <translation>伺服器通知</translation>
     </message>
 </context>
 <context>
@@ -906,43 +913,43 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/Completer.qml" line="+219"/>
         <source>Pick an emoji</source>
-        <translation type="unfinished"/>
+        <translation>選擇表情符號</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a user to mention</source>
-        <translation type="unfinished"/>
+        <translation>選擇要提及的使用者</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a command</source>
-        <translation type="unfinished"/>
+        <translation>選擇指令</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pick a room to link to</source>
-        <translation type="unfinished"/>
+        <translation>選擇要連結的聊天室</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>No matches found.</source>
-        <translation type="unfinished"/>
+        <translation>找不到符合的項目。</translation>
     </message>
     <message>
         <location line="+170"/>
         <source>Notify the whole room</source>
-        <translation type="unfinished"/>
+        <translation>通知整個聊天室</translation>
     </message>
     <message>
         <location line="+147"/>
         <location line="+55"/>
         <source>(Space)</source>
-        <translation type="unfinished"/>
+        <translation>（空間）</translation>
     </message>
 </context>
 <context>
@@ -950,7 +957,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
         <source>Attach an image or file</source>
-        <translation type="unfinished"/>
+        <translation>附加圖片或檔案</translation>
     </message>
 </context>
 <context>
@@ -958,17 +965,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+18"/>
         <source>Hang up</source>
-        <translation type="unfinished"/>
+        <translation>掛斷</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Already on a call</source>
-        <translation type="unfinished"/>
+        <translation>通話中</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Place a call</source>
-        <translation type="unfinished"/>
+        <translation>撥打通話</translation>
     </message>
 </context>
 <context>
@@ -976,17 +983,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
         <source>Pause recording [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>暫停錄音 [Ctrl+R]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Resume recording [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>繼續錄音 [Ctrl+R]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Record a voice message [Ctrl+R]</source>
-        <translation type="unfinished"/>
+        <translation>錄製語音訊息 [Ctrl+R]</translation>
     </message>
 </context>
 <context>
@@ -994,17 +1001,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+111"/>
         <source>Finalize recording for preview</source>
-        <translation type="unfinished"/>
+        <translation>完成錄音以預覽</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Paused</source>
-        <translation type="unfinished"/>
+        <translation>已暫停</translation>
     </message>
     <message>
         <location line="+74"/>
         <source>Discard recording</source>
-        <translation type="unfinished"/>
+        <translation>捨棄錄音</translation>
     </message>
 </context>
 <context>
@@ -1012,12 +1019,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/ConfirmJoinRoomDialog.qml" line="+18"/>
         <source>Confirm community join</source>
-        <translation type="unfinished"/>
+        <translation>確認加入社群</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Confirm room join</source>
-        <translation type="unfinished"/>
+        <translation>確認加入聊天室</translation>
     </message>
     <message numerus="yes">
         <location line="+54"/>
@@ -1029,27 +1036,27 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+23"/>
         <source>This room can't be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室無法直接加入。不過，您可以敲門，聊天室成員可以接受或拒絕此加入請求。您還可以在下方提供讓他們接受您的原因：</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Do you want to join this room? You can optionally add a reason below:</source>
-        <translation type="unfinished"/>
+        <translation>您想加入這個聊天室嗎？您可以在下方選擇性地新增原因：</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Knock</source>
-        <translation type="unfinished"/>
+        <translation>敲門</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>加入</translation>
     </message>
 </context>
 <context>
@@ -1057,63 +1064,63 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/CreateDirect.qml" line="+21"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>新私訊</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation type="unfinished"/>
+        <translation>依名稱或 @user:example.com 搜尋</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>Start chat directly</source>
-        <translation type="unfinished"/>
+        <translation>直接開始聊天</translation>
     </message>
     <message>
         <location line="+79"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation type="unfinished"/>
+        <translation>未知顯示名稱</translation>
     </message>
     <message>
         <location line="-84"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation type="unfinished"/>
+        <translation>輸入搜尋關鍵字，結果將顯示於此。</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation type="unfinished"/>
+        <translation>找不到符合的使用者。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Use the suggestion above to start a chat by Matrix ID.</source>
-        <translation type="unfinished"/>
+        <translation>使用上方的建議透過 Matrix ID 開始聊天。</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Remove selected user</source>
-        <translation type="unfinished"/>
+        <translation>移除已選使用者</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>加密</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>End-to-end encryption protects messages so only you and the recipient can read them.</source>
-        <translation type="unfinished"/>
+        <translation>端對端加密保護訊息，使只有您和收件人能夠閱讀。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>建立</translation>
     </message>
 </context>
 <context>
@@ -1121,72 +1128,72 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/CreateRoom.qml" line="+37"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>名稱</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Topic</source>
-        <translation type="unfinished"/>
+        <translation>主題</translation>
     </message>
     <message>
         <location line="-27"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>新空間</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>新聊天室</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Alias</source>
-        <translation type="unfinished"/>
+        <translation>別名</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>公開</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Anyone can join a public space. Private spaces require an invite.</source>
-        <translation type="unfinished"/>
+        <translation>任何人都可以加入公開空間。私人空間需要邀請。</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Anyone can join a public room. Private rooms require an invite.</source>
-        <translation type="unfinished"/>
+        <translation>任何人都可以加入公開聊天室。私人聊天室需要邀請。</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Invitees get the same power level as the room creator.</source>
-        <translation type="unfinished"/>
+        <translation>受邀者與聊天室建立者享有相同的權限等級。</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Only participants can read messages. Cannot be disabled once enabled.</source>
-        <translation type="unfinished"/>
+        <translation>只有參與者可以讀取訊息。啟用後無法停用。</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Encryption has a high cost in public rooms with many participants.</source>
-        <translation type="unfinished"/>
+        <translation>在有大量參與者的公開聊天室中，加密代價較高。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>建立</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>已信任</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>加密</translation>
     </message>
 </context>
 <context>
@@ -1194,17 +1201,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/device-verification/DigitVerification.qml" line="+13"/>
         <source>Do both devices show the same sequence of numbers?</source>
-        <translation type="unfinished"/>
+        <translation>兩個裝置是否顯示相同的數字序列？</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>They do not match!</source>
-        <translation type="unfinished"/>
+        <translation>不相符！</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation type="unfinished"/>
+        <translation>相符！</translation>
     </message>
 </context>
 <context>
@@ -1212,337 +1219,337 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/device-verification/EmojiVerification.qml" line="+13"/>
         <source>Do both devices show the same sequence of emojis?</source>
-        <translation type="unfinished"/>
+        <translation>兩個裝置是否顯示相同的表情符號序列？</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Dog</source>
-        <translation type="unfinished"/>
+        <translation>狗</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cat</source>
-        <translation type="unfinished"/>
+        <translation>貓</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lion</source>
-        <translation type="unfinished"/>
+        <translation>獅子</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Horse</source>
-        <translation type="unfinished"/>
+        <translation>馬</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Unicorn</source>
-        <translation type="unfinished"/>
+        <translation>獨角獸</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pig</source>
-        <translation type="unfinished"/>
+        <translation>豬</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Elephant</source>
-        <translation type="unfinished"/>
+        <translation>大象</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rabbit</source>
-        <translation type="unfinished"/>
+        <translation>兔子</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Panda</source>
-        <translation type="unfinished"/>
+        <translation>熊貓</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rooster</source>
-        <translation type="unfinished"/>
+        <translation>公雞</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Penguin</source>
-        <translation type="unfinished"/>
+        <translation>企鵝</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Turtle</source>
-        <translation type="unfinished"/>
+        <translation>烏龜</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Fish</source>
-        <translation type="unfinished"/>
+        <translation>魚</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Octopus</source>
-        <translation type="unfinished"/>
+        <translation>章魚</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Butterfly</source>
-        <translation type="unfinished"/>
+        <translation>蝴蝶</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Flower</source>
-        <translation type="unfinished"/>
+        <translation>花</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Tree</source>
-        <translation type="unfinished"/>
+        <translation>樹</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cactus</source>
-        <translation type="unfinished"/>
+        <translation>仙人掌</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Mushroom</source>
-        <translation type="unfinished"/>
+        <translation>蘑菇</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Globe</source>
-        <translation type="unfinished"/>
+        <translation>地球</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Moon</source>
-        <translation type="unfinished"/>
+        <translation>月亮</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cloud</source>
-        <translation type="unfinished"/>
+        <translation>雲</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Fire</source>
-        <translation type="unfinished"/>
+        <translation>火</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Banana</source>
-        <translation type="unfinished"/>
+        <translation>香蕉</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Apple</source>
-        <translation type="unfinished"/>
+        <translation>蘋果</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Strawberry</source>
-        <translation type="unfinished"/>
+        <translation>草莓</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Corn</source>
-        <translation type="unfinished"/>
+        <translation>玉米</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pizza</source>
-        <translation type="unfinished"/>
+        <translation>披薩</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cake</source>
-        <translation type="unfinished"/>
+        <translation>蛋糕</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Heart</source>
-        <translation type="unfinished"/>
+        <translation>心</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Smiley</source>
-        <translation type="unfinished"/>
+        <translation>笑臉</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Robot</source>
-        <translation type="unfinished"/>
+        <translation>機器人</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hat</source>
-        <translation type="unfinished"/>
+        <translation>帽子</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Glasses</source>
-        <translation type="unfinished"/>
+        <translation>眼鏡</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Spanner</source>
-        <translation type="unfinished"/>
+        <translation>扳手</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Santa</source>
-        <translation type="unfinished"/>
+        <translation>聖誕老人</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Thumbs Up</source>
-        <translation type="unfinished"/>
+        <translation>讚</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Umbrella</source>
-        <translation type="unfinished"/>
+        <translation>雨傘</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hourglass</source>
-        <translation type="unfinished"/>
+        <translation>沙漏</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clock</source>
-        <translation type="unfinished"/>
+        <translation>時鐘</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Gift</source>
-        <translation type="unfinished"/>
+        <translation>禮物</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Light Bulb</source>
-        <translation type="unfinished"/>
+        <translation>燈泡</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Book</source>
-        <translation type="unfinished"/>
+        <translation>書</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>鉛筆</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Paperclip</source>
-        <translation type="unfinished"/>
+        <translation>迴紋針</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Scissors</source>
-        <translation type="unfinished"/>
+        <translation>剪刀</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Lock</source>
-        <translation type="unfinished"/>
+        <translation>鎖</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Key</source>
-        <translation type="unfinished"/>
+        <translation>鑰匙</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hammer</source>
-        <translation type="unfinished"/>
+        <translation>鎚子</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Telephone</source>
-        <translation type="unfinished"/>
+        <translation>電話</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Flag</source>
-        <translation type="unfinished"/>
+        <translation>旗幟</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Train</source>
-        <translation type="unfinished"/>
+        <translation>火車</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Bicycle</source>
-        <translation type="unfinished"/>
+        <translation>腳踏車</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Aeroplane</source>
-        <translation type="unfinished"/>
+        <translation>飛機</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Rocket</source>
-        <translation type="unfinished"/>
+        <translation>火箭</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Trophy</source>
-        <translation type="unfinished"/>
+        <translation>獎盃</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ball</source>
-        <translation type="unfinished"/>
+        <translation>球</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Guitar</source>
-        <translation type="unfinished"/>
+        <translation>吉他</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Trumpet</source>
-        <translation type="unfinished"/>
+        <translation>小號</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Bell</source>
-        <translation type="unfinished"/>
+        <translation>鈴鐺</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Anchor</source>
-        <translation type="unfinished"/>
+        <translation>錨</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Headphones</source>
-        <translation type="unfinished"/>
+        <translation>耳機</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Folder</source>
-        <translation type="unfinished"/>
+        <translation>資料夾</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Pin</source>
-        <translation type="unfinished"/>
+        <translation>圖釘</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>They do not match!</source>
-        <translation type="unfinished"/>
+        <translation>它們不相符！</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>They match!</source>
-        <translation type="unfinished"/>
+        <translation>它們相符！</translation>
     </message>
 </context>
 <context>
@@ -1550,52 +1557,52 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/Encrypted.qml" line="+23"/>
         <source>You weren't in the room when this message was sent.</source>
-        <translation type="unfinished"/>
+        <translation>此訊息傳送時您不在聊天室中。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message couldn't be decrypted because the sender's identity is no longer verified.</source>
-        <translation type="unfinished"/>
+        <translation>此訊息無法解密，因為傳送者的身份已不再經過驗證。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message was sent from a device that isn't signed by its owner.</source>
-        <translation type="unfinished"/>
+        <translation>此訊息來自未經擁有者簽署的裝置。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message was sent from a device we couldn't securely identify.</source>
-        <translation type="unfinished"/>
+        <translation>此訊息來自我們無法安全識別的裝置。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>History isn't available on this device. Turn on key backup to access older messages.</source>
-        <translation type="unfinished"/>
+        <translation>此裝置上沒有歷史記錄。開啟金鑰備份以存取較舊的訊息。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify this device to access messages sent before it was added to your account.</source>
-        <translation type="unfinished"/>
+        <translation>驗證此裝置以存取加入帳號前傳送的訊息。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender's security settings prevented sharing encryption keys with this device.</source>
-        <translation type="unfinished"/>
+        <translation>傳送者的安全設定阻止了與此裝置共享加密金鑰。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender didn't share the encryption keys with this device.</source>
-        <translation type="unfinished"/>
+        <translation>傳送者未與此裝置共享加密金鑰。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This message couldn't be decrypted.</source>
-        <translation type="unfinished"/>
+        <translation>此訊息無法解密。</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Request key</source>
-        <translation type="unfinished"/>
+        <translation>請求金鑰</translation>
     </message>
 </context>
 <context>
@@ -1603,12 +1610,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished"/>
+        <translation>%1 啟用了端對端加密</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Encryption keeps your messages safe by only allowing the people you sent the message to to read it. For extra security, if you want to make sure you are talking to the right people, you can verify them in real life.</source>
-        <translation type="unfinished"/>
+        <translation>加密透過只允許收件人閱讀來保護您的訊息安全。為了額外的安全性，如果您想確認正在與正確的人交談，可以在現實生活中驗證他們。</translation>
     </message>
 </context>
 <context>
@@ -1616,67 +1623,67 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/EncryptionIndicator.qml" line="+81"/>
         <source>Encrypted by a verified device.</source>
-        <translation type="unfinished"/>
+        <translation>由已驗證的裝置加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The authenticity of this encrypted message can't be guaranteed on this device.</source>
-        <translation type="unfinished"/>
+        <translation>此裝置無法保證此加密訊息的真實性。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unknown or deleted device.</source>
-        <translation type="unfinished"/>
+        <translation>由未知或已刪除的裝置加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by a device not verified by its owner.</source>
-        <translation type="unfinished"/>
+        <translation>由擁有者未驗證的裝置加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Not encrypted.</source>
-        <translation type="unfinished"/>
+        <translation>未加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified user.</source>
-        <translation type="unfinished"/>
+        <translation>由未驗證的使用者加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by a previously-verified user who is no longer verified.</source>
-        <translation type="unfinished"/>
+        <translation>由先前已驗證但現已不再驗證的使用者加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The sender of the event does not match the owner of the device that created the Megolm session.</source>
-        <translation type="unfinished"/>
+        <translation>事件的傳送者與建立 Megolm 會話的裝置擁有者不符。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This message is not encrypted!</source>
-        <translation type="unfinished"/>
+        <translation>此訊息未加密！</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Encrypted by a verified device</source>
-        <translation type="unfinished"/>
+        <translation>由已驗證的裝置加密</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified device, but you have trusted that user so far.</source>
-        <translation type="unfinished"/>
+        <translation>由未驗證的裝置加密，但您目前信任該使用者。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can't verify who sent the message.</source>
-        <translation type="unfinished"/>
+        <translation>金鑰來自不受信任的來源，可能由其他使用者轉發或來自線上金鑰備份。因此我們無法驗證訊息的傳送者。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted by an unverified device.</source>
-        <translation type="unfinished"/>
+        <translation>由未驗證的裝置加密。</translation>
     </message>
 </context>
 <context>
@@ -1684,47 +1691,47 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/device-verification/Failed.qml" line="+26"/>
         <source>Key mismatch detected!</source>
-        <translation type="unfinished"/>
+        <translation>偵測到金鑰不符！</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Device verification timed out.</source>
-        <translation type="unfinished"/>
+        <translation>裝置驗證已逾時。</translation>
     </message>
     <message>
         <location line="-15"/>
         <source>Verification Failed</source>
-        <translation type="unfinished"/>
+        <translation>驗證失敗</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>The other client does not support this verification method.</source>
-        <translation type="unfinished"/>
+        <translation>對方客戶端不支援此驗證方式。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The other party canceled the verification.</source>
-        <translation type="unfinished"/>
+        <translation>對方已取消驗證。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The verification was accepted by a different device.</source>
-        <translation type="unfinished"/>
+        <translation>驗證已由其他裝置接受。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verification messages received out of order!</source>
-        <translation type="unfinished"/>
+        <translation>驗證訊息接收順序錯誤！</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Unknown verification error.</source>
-        <translation type="unfinished"/>
+        <translation>未知驗證錯誤。</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
 </context>
 <context>
@@ -1732,12 +1739,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Save file</source>
-        <translation type="unfinished"/>
+        <translation>儲存檔案</translation>
     </message>
 </context>
 <context>
@@ -1745,22 +1752,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
-        <translation type="unfinished"/>
+        <translation>聊天室標籤只能在此工作階段中已加入的聊天室中變更。</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Room tags are temporarily unavailable because the Matrix session is not active.</source>
-        <translation type="unfinished"/>
+        <translation>由於 Matrix 工作階段尚未啟動，聊天室標籤暫時無法使用。</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to add room tag: %1</source>
-        <translation type="unfinished"/>
+        <translation>新增聊天室標籤失敗：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room tag: %1</source>
-        <translation type="unfinished"/>
+        <translation>移除聊天室標籤失敗：%1</translation>
     </message>
 </context>
 <context>
@@ -1768,22 +1775,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="-109"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation type="unfinished"/>
+        <translation>轉寄會將此內容（不揭露發送者）傳送至另一個聊天室。</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Forward message?</source>
-        <translation type="unfinished"/>
+        <translation>轉寄訊息？</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages?</source>
-        <translation type="unfinished"/>
+        <translation>轉寄 %1 則（共 %2 則）訊息？</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -1795,27 +1802,27 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
-        <translation type="unfinished"/>
+        <translation>已選取的 %1 則訊息中，只有 1 則可以轉寄。不支援的訊息將被略過。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Only %1 of %2 selected messages can be forwarded. Unsupported messages will be skipped.</source>
-        <translation type="unfinished"/>
+        <translation>已選取的 %2 則訊息中，只有 %1 則可以轉寄。不支援的訊息將被略過。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation type="unfinished"/>
+        <translation>轉寄會將這些訊息（不揭露發送者）傳送至另一個聊天室。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>將已選取的 %1 則訊息中的 1 則轉寄至 &lt;b&gt;%2&lt;/b&gt;？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>將已選取的 %2 則訊息中的 %1 則轉寄至 &lt;b&gt;%3&lt;/b&gt;？</translation>
     </message>
     <message numerus="yes">
         <location line="+3"/>
@@ -1827,22 +1834,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+163"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"/>
+        <translation>聊天室名稱、地址或 ID...</translation>
     </message>
     <message>
         <location line="-170"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>轉寄至 &lt;b&gt;%1&lt;/b&gt;？</translation>
     </message>
     <message>
         <location line="+291"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>轉寄</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -1851,7 +1858,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../../src/imagepacks/GridImagePackModel.cpp" line="+35"/>
         <location line="+178"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>帳號貼圖包</translation>
     </message>
 </context>
 <context>
@@ -1859,27 +1866,27 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/moderation/HiddenEventsDialog.qml" line="+19"/>
         <source>Hidden events</source>
-        <translation type="unfinished"/>
+        <translation>隱藏的事件</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Hidden events in this room</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室的隱藏事件</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in this room:</source>
-        <translation type="unfinished"/>
+        <translation>選擇要在此聊天室中&lt;b&gt;顯示&lt;/b&gt;的額外事件：</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose which extra events are &lt;b&gt;shown&lt;/b&gt; in all rooms:</source>
-        <translation type="unfinished"/>
+        <translation>選擇要在所有聊天室中&lt;b&gt;顯示&lt;/b&gt;的額外事件：</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
 </context>
 <context>
@@ -1887,62 +1894,62 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/HiddenEventsSettingsContent.qml" line="+182"/>
         <source>Show member changes</source>
-        <translation type="unfinished"/>
+        <translation>顯示成員變更</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins, leaves, bans, display name changes, and avatar changes.</source>
-        <translation type="unfinished"/>
+        <translation>加入、離開、封禁、顯示名稱變更及頭像變更。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show power level changes</source>
-        <translation type="unfinished"/>
+        <translation>顯示權限等級變更</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Moderator changes and room permission updates.</source>
-        <translation type="unfinished"/>
+        <translation>管理員變更及聊天室權限更新。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show stickers</source>
-        <translation type="unfinished"/>
+        <translation>顯示貼圖</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show sticker events in the timeline.</source>
-        <translation type="unfinished"/>
+        <translation>在時間軸中顯示貼圖事件。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show reactions as events</source>
-        <translation type="unfinished"/>
+        <translation>將回應顯示為事件</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Separate reaction events, not just reaction pills.</source>
-        <translation type="unfinished"/>
+        <translation>顯示獨立的回應事件，而非僅顯示回應標籤。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show call setup events</source>
-        <translation type="unfinished"/>
+        <translation>顯示通話建立事件</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation type="unfinished"/>
+        <translation>底層 m.call 建立流量。主要用於通話除錯。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show server access changes</source>
-        <translation type="unfinished"/>
+        <translation>顯示伺服器存取變更</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Allowed and blocked homeserver list changes.</source>
-        <translation type="unfinished"/>
+        <translation>允許和封鎖的主伺服器清單變更。</translation>
     </message>
 </context>
 <context>
@@ -1950,32 +1957,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/common/HideFilterDialog.qml" line="+17"/>
         <source>Hide the "%1" filter?</source>
-        <translation type="unfinished"/>
+        <translation>隱藏「%1」篩選器？</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>To show this filter again, go to Application Settings → Navigation → Communities Sidebar and enable the "Show" toggle for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>若要再次顯示此篩選器，請前往應用程式設定 → 導覽 → 社群側欄，並為「%1」啟用「顯示」切換開關。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This filter is currently excluded from "All rooms", so its rooms won't appear there either. You can change this in Application Settings → Navigation.</source>
-        <translation type="unfinished"/>
+        <translation>此篩選器目前已從「所有聊天室」中排除，因此其聊天室也不會出現在那裡。你可以在應用程式設定 → 導覽中變更此設定。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You'll still be able to find rooms that belonged to it in "All rooms".</source>
-        <translation type="unfinished"/>
+        <translation>你仍然可以在「所有聊天室」中找到屬於它的聊天室。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>隱藏</translation>
     </message>
 </context>
 <context>
@@ -1983,62 +1990,62 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/moderation/IgnoredUsers.qml" line="+15"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>已忽略的使用者</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ignore User</source>
-        <translation type="unfinished"/>
+        <translation>忽略使用者</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Matrix user ID</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 使用者 ID</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>忽略</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Please enter a user ID.</source>
-        <translation type="unfinished"/>
+        <translation>請輸入使用者 ID。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Invalid format. Expected: @user:server.com</source>
-        <translation type="unfinished"/>
+        <translation>格式無效。預期格式：@user:server.com</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>This user is already ignored.</source>
-        <translation type="unfinished"/>
+        <translation>此使用者已被忽略。</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring a user hides their messages (they can still see yours!).</source>
-        <translation type="unfinished"/>
+        <translation>忽略使用者會隱藏他們的訊息（他們仍然可以看到你的訊息！）。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>新增</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>取消忽略</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>You are not ignoring anyone.</source>
-        <translation type="unfinished"/>
+        <translation>你沒有忽略任何人。</translation>
     </message>
 </context>
 <context>
@@ -2046,22 +2053,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/media/ImagePackDeleteDialog.qml" line="+17"/>
         <source>Delete sticker pack</source>
-        <translation type="unfinished"/>
+        <translation>刪除貼圖包</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you wish to delete the sticker pack '%1'?</source>
-        <translation type="unfinished"/>
+        <translation>你確定要刪除貼圖包「%1」嗎？</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>刪除</translation>
     </message>
 </context>
 <context>
@@ -2069,99 +2076,99 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/media/ImagePackEditorDialog.qml" line="+23"/>
         <source>Editing image pack</source>
-        <translation type="unfinished"/>
+        <translation>編輯圖片包</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Add images</source>
-        <translation type="unfinished"/>
+        <translation>新增圖片</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Images (*.png *.webp *.gif *.jpg *.jpeg)</source>
-        <translation type="unfinished"/>
+        <translation>圖片 (*.png *.webp *.gif *.jpg *.jpeg)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select images for pack</source>
-        <translation type="unfinished"/>
+        <translation>選擇圖包的圖片</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add to pack</source>
-        <translation type="unfinished"/>
+        <translation>加入圖包</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Change the overview image for this pack</source>
-        <translation type="unfinished"/>
+        <translation>更換此圖包的概覽圖片</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Overview Image (*.png *.webp *.jpg *.jpeg)</source>
-        <translation type="unfinished"/>
+        <translation>概覽圖片 (*.png *.webp *.jpg *.jpeg)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Select overview image for pack</source>
-        <translation type="unfinished"/>
+        <translation>選擇圖包的概覽圖片</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>State key</source>
-        <translation type="unfinished"/>
+        <translation>狀態鍵</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Packname</source>
-        <translation type="unfinished"/>
+        <translation>圖包名稱</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Attribution</source>
-        <translation type="unfinished"/>
+        <translation>版權歸屬</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+86"/>
         <source>Use as Emoji</source>
-        <translation type="unfinished"/>
+        <translation>用作表情符號</translation>
     </message>
     <message>
         <location line="-74"/>
         <location line="+86"/>
         <source>Use as Sticker</source>
-        <translation type="unfinished"/>
+        <translation>用作貼圖</translation>
     </message>
     <message>
         <location line="-40"/>
         <source>Shortcode</source>
-        <translation type="unfinished"/>
+        <translation>短代碼</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Body</source>
-        <translation type="unfinished"/>
+        <translation>內文</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Remove from pack</source>
-        <translation type="unfinished"/>
+        <translation>從圖包中移除</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
 </context>
 <context>
@@ -2169,57 +2176,57 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/media/ImagePackSettingsDialog.qml" line="+28"/>
         <source>Image pack settings</source>
-        <translation type="unfinished"/>
+        <translation>圖片包設定</translation>
     </message>
     <message>
         <location line="+71"/>
         <source>Create account pack</source>
-        <translation type="unfinished"/>
+        <translation>建立帳號圖包</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>New room pack</source>
-        <translation type="unfinished"/>
+        <translation>新聊天室圖包</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Private pack</source>
-        <translation type="unfinished"/>
+        <translation>私人圖包</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pack from this room</source>
-        <translation type="unfinished"/>
+        <translation>來自此聊天室的圖包</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pack from parent community</source>
-        <translation type="unfinished"/>
+        <translation>來自上層社群的圖包</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Globally enabled pack</source>
-        <translation type="unfinished"/>
+        <translation>全域啟用的圖包</translation>
     </message>
     <message>
         <location line="+68"/>
         <source>Enable globally</source>
-        <translation type="unfinished"/>
+        <translation>全域啟用</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Enables this pack to be used in all rooms</source>
-        <translation type="unfinished"/>
+        <translation>允許在所有聊天室中使用此圖包</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>編輯</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
 </context>
 <context>
@@ -2227,7 +2234,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
         <source>External player</source>
-        <translation type="unfinished"/>
+        <translation>外部播放器</translation>
     </message>
 </context>
 <context>
@@ -2235,12 +2242,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/common/InputDialog.qml" line="+19"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>確定</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -2248,68 +2255,68 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
         <source>Invite users to %1</source>
-        <translation type="unfinished"/>
+        <translation>邀請使用者加入 %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite users</source>
-        <translation type="unfinished"/>
+        <translation>邀請使用者</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Selected users</source>
-        <translation type="unfinished"/>
+        <translation>已選擇的使用者</translation>
     </message>
     <message>
         <location line="+54"/>
         <location line="+264"/>
         <source>Unknown display name</source>
-        <translation type="unfinished"/>
+        <translation>未知的顯示名稱</translation>
     </message>
     <message>
         <location line="-246"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>No one is selected yet.</source>
-        <translation type="unfinished"/>
+        <translation>尚未選擇任何人。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>搜尋</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Search by name or @user:example.com</source>
-        <translation type="unfinished"/>
+        <translation>依名稱或 @user:example.com 搜尋</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>Invite directly</source>
-        <translation type="unfinished"/>
+        <translation>直接邀請</translation>
     </message>
     <message>
         <location line="+129"/>
         <source>Type a search query. Results will appear here.</source>
-        <translation type="unfinished"/>
+        <translation>輸入搜尋關鍵字，結果將顯示於此。</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation type="unfinished"/>
+        <translation>找不到符合的使用者。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Use the suggestion above to invite by Matrix ID.</source>
-        <translation type="unfinished"/>
+        <translation>使用上方建議以 Matrix ID 邀請。</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Invite</source>
-        <translation type="unfinished"/>
+        <translation>邀請</translation>
     </message>
 </context>
 <context>
@@ -2317,32 +2324,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/InviteResponseDialog.qml" line="+23"/>
         <source>Join %1?</source>
-        <translation type="unfinished"/>
+        <translation>加入 %1？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Accept room invitation?</source>
-        <translation type="unfinished"/>
+        <translation>接受聊天室邀請？</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Invited by %1</source>
-        <translation type="unfinished"/>
+        <translation>由 %1 邀請</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation type="unfinished">拒絕</translation>
+        <translation>拒絕</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Decline and ignore user</source>
-        <translation type="unfinished"/>
+        <translation>拒絕並忽略使用者</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Accept</source>
-        <translation type="unfinished">接受</translation>
+        <translation>接受</translation>
     </message>
 </context>
 <context>
@@ -2350,27 +2357,27 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/JoinLargeRoomDialog.qml" line="+21"/>
         <source>Really join %1?</source>
-        <translation type="unfinished"/>
+        <translation>確定加入 %1？</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>this room</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This room has %1 members.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室有 %1 位成員。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Join anyway</source>
-        <translation type="unfinished"/>
+        <translation>仍要加入</translation>
     </message>
 </context>
 <context>
@@ -2378,17 +2385,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>加入聊天室</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>E.g. !roomID or #alias:example.com</source>
-        <translation type="unfinished"/>
+        <translation>例如：!roomID 或 #alias:example.com</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>加入</translation>
     </message>
 </context>
 <context>
@@ -2397,52 +2404,52 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
-        <translation type="unfinished"/>
+        <translation>需要設定檔名稱。</translation>
     </message>
     <message>
         <location line="-56"/>
         <source>Not signed in</source>
-        <translation type="unfinished"/>
+        <translation>未登入</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign in to start syncing this profile.</source>
-        <translation type="unfinished"/>
+        <translation>登入以開始同步此設定檔。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Not synced</source>
-        <translation type="unfinished"/>
+        <translation>未同步</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No matrix-sdk state store yet.</source>
-        <translation type="unfinished"/>
+        <translation>尚無 matrix-sdk 狀態儲存。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ready</source>
-        <translation type="unfinished"/>
+        <translation>就緒</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Could not remove some files.</source>
-        <translation type="unfinished"/>
+        <translation>無法刪除部分檔案。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Could not recreate the cache folder.</source>
-        <translation type="unfinished"/>
+        <translation>無法重新建立快取資料夾。</translation>
     </message>
     <message>
         <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
         <source>A fine %1 chat app you can get to love</source>
-        <translation type="unfinished"/>
+        <translation>一款你會愛上的優質 %1 聊天應用程式</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix</source>
-        <translation type="unfinished"/>
+        <translation>Matrix</translation>
     </message>
 </context>
 <context>
@@ -2450,12 +2457,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
         <source>Only local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>僅能透過拖放方式附加本機檔案。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Failed to stage dropped attachments for this room.</source>
-        <translation type="unfinished"/>
+        <translation>無法為此聊天室暫存拖放的附件。</translation>
     </message>
 </context>
 <context>
@@ -2463,7 +2470,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
         <source>Search…</source>
-        <translation type="unfinished"/>
+        <translation>搜尋…</translation>
     </message>
 </context>
 <context>
@@ -2471,62 +2478,62 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/LeaveRoomDialog.qml" line="+25"/>
         <source>This is a public space, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>這是公開空間，日後重新加入應該很容易。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a public room, so re-joining later should be easy.</source>
-        <translation type="unfinished"/>
+        <translation>這是公開聊天室，之後重新加入應該很容易。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This is a private space, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>這是私人空間，重新加入可能需要邀請。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a private room, so you may need an invitation to re-join.</source>
-        <translation type="unfinished"/>
+        <translation>這是私人聊天室，重新加入可能需要邀請。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave the %1 space?</source>
-        <translation type="unfinished"/>
+        <translation>離開 %1 空間？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave the %1 room?</source>
-        <translation type="unfinished"/>
+        <translation>離開 %1 聊天室？</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Leave this space?</source>
-        <translation type="unfinished"/>
+        <translation>離開此空間？</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Leave this room?</source>
-        <translation type="unfinished"/>
+        <translation>離開此聊天室？</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>You will remain in any rooms you joined through it.</source>
-        <translation type="unfinished"/>
+        <translation>您透過它加入的所有聊天室，您仍將繼續留在其中。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Re-joining may require an invitation depending on its join rules.</source>
-        <translation type="unfinished"/>
+        <translation>依加入規則，重新加入可能需要邀請。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>離開</translation>
     </message>
 </context>
 <context>
@@ -2536,27 +2543,27 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+48"/>
         <location line="+122"/>
         <source>Automatically cleaned after %1 days. Safe to purge manually anytime.</source>
-        <translation type="unfinished"/>
+        <translation>自動在 %1 天後清理。可隨時手動清除。</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Local cache</source>
-        <translation type="unfinished"/>
+        <translation>本機快取</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK 狀態儲存區</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>未知</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Backend</source>
-        <translation type="unfinished"/>
+        <translation>後端</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2566,72 +2573,72 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation>無法使用</translation>
     </message>
     <message>
         <location line="-295"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>大小</translation>
     </message>
     <message>
         <location line="-282"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Directory</source>
-        <translation type="unfinished"/>
+        <translation>目錄</translation>
     </message>
     <message>
         <location line="-268"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>已複製！</translation>
     </message>
     <message>
         <location line="-294"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>複製到剪貼簿</translation>
     </message>
     <message>
         <location line="-277"/>
         <location line="+137"/>
         <location line="+157"/>
         <source>Browse</source>
-        <translation type="unfinished"/>
+        <translation>瀏覽</translation>
     </message>
     <message>
         <location line="-282"/>
         <source>Managed automatically. To reset local state, sign out and sign back in.</source>
-        <translation type="unfinished"/>
+        <translation>自動管理。如需重設本機狀態，請登出後重新登入。</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished"/>
+        <translation>Matrix SDK 快取</translation>
     </message>
     <message>
         <location line="+86"/>
         <source>Managed by matrix-sdk. Inspect or clean it only while this application profile is fully closed.</source>
-        <translation type="unfinished"/>
+        <translation>由 matrix-sdk 管理。僅在此應用程式設定檔完全關閉時才可檢查或清理。</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation type="unfinished"/>
+        <translation>媒體快取</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Purged</source>
-        <translation type="unfinished"/>
+        <translation>已清除</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Purge</source>
-        <translation type="unfinished"/>
+        <translation>清除</translation>
     </message>
 </context>
 <context>
@@ -2641,85 +2648,85 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+93"/>
         <location line="+49"/>
         <source>Invalid Matrix ID (e.g. @user:example.com)</source>
-        <translation type="unfinished"/>
+        <translation>無效的 Matrix ID（例如 @user:example.com）</translation>
     </message>
     <message>
         <location line="-117"/>
         <source>Sign in with Apple</source>
-        <translation type="unfinished"/>
+        <translation>使用 Apple 登入</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Continue with Facebook</source>
-        <translation type="unfinished"/>
+        <translation>使用 Facebook 繼續</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Google</source>
-        <translation type="unfinished"/>
+        <translation>使用 Google 登入</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Twitter</source>
-        <translation type="unfinished"/>
+        <translation>使用 Twitter 登入</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Login using %1</source>
-        <translation type="unfinished"/>
+        <translation>使用 %1 登入</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>SSO LOGIN</source>
-        <translation type="unfinished"/>
+        <translation>SSO 登入</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Continue in Browser</source>
-        <translation type="unfinished"/>
+        <translation>在瀏覽器中繼續</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>Empty password</source>
-        <translation type="unfinished"/>
+        <translation>密碼為空</translation>
     </message>
     <message>
         <location line="+148"/>
         <source>SSO login failed</source>
-        <translation type="unfinished"/>
+        <translation>SSO 登入失敗</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Failed to open the browser sign-in page.</source>
-        <translation type="unfinished"/>
+        <translation>無法開啟瀏覽器登入頁面。</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Failed to open the SSO login page.</source>
-        <translation type="unfinished"/>
+        <translation>無法開啟 SSO 登入頁面。</translation>
     </message>
     <message>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
         <location line="+177"/>
         <source>Matrix ID</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ID</translation>
     </message>
     <message>
         <location line="-176"/>
         <location line="+281"/>
         <source>Server</source>
-        <translation type="unfinished"/>
+        <translation>伺服器</translation>
     </message>
     <message>
         <location line="-279"/>
         <location line="+730"/>
         <source>Sign in method</source>
-        <translation type="unfinished"/>
+        <translation>登入方式</translation>
     </message>
     <message>
         <location line="-649"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -2727,79 +2734,79 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+564"/>
         <location line="+208"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>登入</translation>
     </message>
     <message>
         <location line="-774"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>帳號</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>裝置</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>e.g. @user:example.com or user</source>
-        <translation type="unfinished"/>
+        <translation>例如：@user:example.com 或 user</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
-        <translation type="unfinished"/>
+        <translation>帳號存在於伺服器上。完整 ID 將嘗試自動偵測伺服器。</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation type="unfinished"/>
+        <translation>例如：example.com 或 https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Both a server name and a full homeserver URL work.</source>
-        <translation type="unfinished"/>
+        <translation>伺服器名稱和完整 homeserver URL 皆可使用。</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Checking server...</source>
-        <translation type="unfinished"/>
+        <translation>正在檢查伺服器……</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+153"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>繼續</translation>
     </message>
     <message>
         <location line="-88"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation type="unfinished"/>
+        <translation>選擇一個易於識別的名稱。其他人也可以看到。</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation type="unfinished"/>
+        <translation>產生另一個隨機名稱</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Suggestions:</source>
-        <translation type="unfinished"/>
+        <translation>建議：</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Continue in browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>在瀏覽器中繼續（SSO）</translation>
     </message>
     <message>
         <location line="+56"/>
         <location line="+201"/>
         <source>Your browser has been launched. Continue there.</source>
-        <translation type="unfinished"/>
+        <translation>您的瀏覽器已開啟，請在那裡繼續。</translation>
     </message>
     <message>
         <location line="-54"/>
         <source>Browser (SSO)</source>
-        <translation type="unfinished"/>
+        <translation>瀏覽器（SSO）</translation>
     </message>
     <message>
         <location line="-749"/>
@@ -2807,24 +2814,24 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+113"/>
         <location line="+88"/>
         <source>Password</source>
-        <translation type="unfinished"/>
+        <translation>密碼</translation>
     </message>
     <message>
         <location line="-189"/>
         <location line="+208"/>
         <source>Show/Hide Password</source>
-        <translation type="unfinished"/>
+        <translation>顯示／隱藏密碼</translation>
     </message>
     <message>
         <location line="-859"/>
         <location line="+409"/>
         <source>Device name</source>
-        <translation type="unfinished"/>
+        <translation>裝置名稱</translation>
     </message>
     <message>
         <location filename="../../../src/auth/LoginPage.cpp" line="+41"/>
         <source>Login failed: server returned incomplete session data.</source>
-        <translation type="unfinished"/>
+        <translation>登入失敗：伺服器傳回不完整的工作階段資料。</translation>
     </message>
 </context>
 <context>
@@ -2833,22 +2840,22 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/dialogs/account/LogoutDialog.qml" line="+15"/>
         <location line="+24"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>登出</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>A call is in progress. Sign out?</source>
-        <translation type="unfinished"/>
+        <translation>通話進行中，確定要登出？</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you want to sign out?</source>
-        <translation type="unfinished"/>
+        <translation>確定要登出嗎？</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -2861,24 +2868,24 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+63"/>
         <location line="+79"/>
         <source>Starting Komai</source>
-        <translation type="unfinished"/>
+        <translation>正在啟動 Komai</translation>
     </message>
     <message>
         <location line="-462"/>
         <source>Checking your profile...</source>
-        <translation type="unfinished"/>
+        <translation>正在檢查您的個人資料……</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Opening the profile chooser...</source>
-        <translation type="unfinished"/>
+        <translation>正在開啟個人資料選擇器……</translation>
     </message>
     <message>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
         <source>Restoring your session...</source>
-        <translation type="unfinished"/>
+        <translation>正在還原您的工作階段……</translation>
     </message>
     <message>
         <location line="-280"/>
@@ -2886,7 +2893,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+112"/>
         <location line="+13"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>歡迎使用 Komai</translation>
     </message>
     <message>
         <location line="-337"/>
@@ -2894,18 +2901,18 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+113"/>
         <location line="+13"/>
         <source>Preparing sign-in...</source>
-        <translation type="unfinished"/>
+        <translation>正在準備登入……</translation>
     </message>
     <message>
         <location line="-11"/>
         <location line="+13"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 工作階段初始化失敗，請重新登入。</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Opening your rooms...</source>
-        <translation type="unfinished"/>
+        <translation>正在開啟您的聊天室……</translation>
     </message>
 </context>
 <context>
@@ -2913,17 +2920,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 正在輸入……</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 和 %2 正在輸入……</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1、%2 和其他 %3 人正在輸入……</translation>
     </message>
 </context>
 <context>
@@ -2932,43 +2939,43 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomDialogSupport.qml" line="+67"/>
         <location line="+70"/>
         <source>Optional reason</source>
-        <translation type="unfinished"/>
+        <translation>選填原因</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Delete this message?</source>
-        <translation type="unfinished"/>
+        <translation>刪除此訊息？</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+72"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>刪除</translation>
     </message>
     <message>
         <location line="-50"/>
         <source>Cancel unsent message?</source>
-        <translation type="unfinished"/>
+        <translation>取消未傳送的訊息？</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>This message couldn't be sent. Cancelling removes it from the send queue.</source>
-        <translation type="unfinished"/>
+        <translation>此訊息無法傳送，取消後將從傳送佇列中移除。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Keep</source>
-        <translation type="unfinished"/>
+        <translation>保留</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>取消傳送</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Delete %1 of %2 selected messages?</source>
-        <translation type="unfinished"/>
+        <translation>刪除已選取 %2 則訊息中的 %1 則？</translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
@@ -2980,7 +2987,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+61"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
-        <translation type="unfinished"/>
+        <translation>此事件無法取得原始 JSON，可能已被刪除。</translation>
     </message>
 </context>
 <context>
@@ -2988,12 +2995,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
         <source>Loading thread…</source>
-        <translation type="unfinished"/>
+        <translation>正在載入討論串……</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Loading room…</source>
-        <translation type="unfinished"/>
+        <translation>正在載入聊天室……</translation>
     </message>
 </context>
 <context>
@@ -3002,12 +3009,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
         <location line="+6"/>
         <source>Deleted message</source>
-        <translation type="unfinished"/>
+        <translation>已刪除的訊息</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Originally sent by %1</source>
-        <translation type="unfinished"/>
+        <translation>原訊息由 %1 傳送</translation>
     </message>
 </context>
 <context>
@@ -3015,7 +3022,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>附件</translation>
     </message>
 </context>
 <context>
@@ -3024,7 +3031,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location filename="../../qml/timeline/components/MatrixRoomHeaderPane.qml" line="+35"/>
         <location line="+1"/>
         <source>No room selected</source>
-        <translation type="unfinished"/>
+        <translation>未選取聊天室</translation>
     </message>
 </context>
 <context>
@@ -3035,7 +3042,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+33"/>
         <location line="+0"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>附件</translation>
     </message>
 </context>
 <context>
@@ -3043,31 +3050,31 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>建立者</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+11"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>管理員（%1）</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>版主（%1）</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>使用者（%1）</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+11"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished"/>
+        <translation>自訂（%1）</translation>
     </message>
 </context>
 <context>
@@ -3075,7 +3082,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>顯示</translation>
     </message>
 </context>
 <context>
@@ -3083,27 +3090,27 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+623"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>轉傳</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>開啟</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>複製</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
 </context>
 <context>
@@ -3111,23 +3118,23 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation>訊息操作</translation>
     </message>
     <message>
         <location line="+194"/>
         <source>Clipboard</source>
-        <translation type="unfinished"/>
+        <translation>剪貼簿</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Copy text</source>
-        <translation type="unfinished"/>
+        <translation>複製文字</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+26"/>
         <source>C</source>
-        <translation type="unfinished"/>
+        <translation>C</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -3136,152 +3143,152 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+13"/>
         <location line="+13"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>已複製！</translation>
     </message>
     <message>
         <location line="-46"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>複製格式化文字</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>H</source>
-        <translation type="unfinished"/>
+        <translation>H</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>複製</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Copy link location</source>
-        <translation type="unfinished"/>
+        <translation>複製連結位址</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>L</source>
-        <translation type="unfinished"/>
+        <translation>L</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy permalink</source>
-        <translation type="unfinished"/>
+        <translation>複製永久連結</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation>K</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>管理</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>取消釘選</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation type="unfinished"/>
+        <translation>釘選</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>P</source>
-        <translation type="unfinished"/>
+        <translation>P</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unpinned!</source>
-        <translation type="unfinished"/>
+        <translation>已取消釘選！</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pinned!</source>
-        <translation type="unfinished"/>
+        <translation>已釘選！</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Media</source>
-        <translation type="unfinished"/>
+        <translation>媒體</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>另存新檔</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation>S</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>以外部程式開啟</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation>O</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inspect</source>
-        <translation type="unfinished"/>
+        <translation>檢查</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>已讀回條</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation>I</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished"/>
+        <translation>查看原始訊息</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation>U</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Moderate</source>
-        <translation type="unfinished"/>
+        <translation>管控</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Delete message</source>
-        <translation type="unfinished"/>
+        <translation>刪除訊息</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>取消傳送</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>檢舉訊息</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
 </context>
 <context>
@@ -3289,50 +3296,50 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
         <source>Reply in thread</source>
-        <translation type="unfinished"/>
+        <translation>在討論串中回覆</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New thread</source>
-        <translation type="unfinished"/>
+        <translation>新討論串</translation>
     </message>
     <message>
         <location line="+141"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>編輯</translation>
     </message>
     <message>
         <location line="-147"/>
         <location line="+176"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>回覆</translation>
     </message>
     <message>
         <location line="-170"/>
         <location line="+184"/>
         <location line="+1"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>轉傳</translation>
     </message>
     <message>
         <location line="-178"/>
         <location line="+192"/>
         <location line="+1"/>
         <source>Go to message</source>
-        <translation type="unfinished"/>
+        <translation>前往訊息</translation>
     </message>
     <message>
         <location line="-112"/>
         <source>React</source>
-        <translation type="unfinished"/>
+        <translation>回應</translation>
     </message>
     <message>
         <location line="+127"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>選項</translation>
     </message>
 </context>
 <context>
@@ -3340,97 +3347,97 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
         <source>Repl&amp;y</source>
-        <translation type="unfinished"/>
+        <translation>回覆(&amp;Y)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reply in &amp;Thread</source>
-        <translation type="unfinished"/>
+        <translation>在討論串中回覆(&amp;T)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>編輯(&amp;E)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Re&amp;act</source>
-        <translation type="unfinished"/>
+        <translation>回應(&amp;A)</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>&amp;Forward</source>
-        <translation type="unfinished"/>
+        <translation>轉傳(&amp;F)</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>複製(&amp;C)</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy formatted text</source>
-        <translation type="unfinished"/>
+        <translation>複製格式化文字</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy &amp;link location</source>
-        <translation type="unfinished"/>
+        <translation>複製連結位址(&amp;L)</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Copy link to eve&amp;nt</source>
-        <translation type="unfinished"/>
+        <translation>複製事件連結(&amp;N)</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Un&amp;pin</source>
-        <translation type="unfinished"/>
+        <translation>取消釘選(&amp;P)</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Pin</source>
-        <translation type="unfinished"/>
+        <translation>釘選(&amp;P)</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Go to &amp;message</source>
-        <translation type="unfinished"/>
+        <translation>前往訊息(&amp;M)</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>&amp;Save as</source>
-        <translation type="unfinished"/>
+        <translation>另存新檔(&amp;S)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Open in external program</source>
-        <translation type="unfinished"/>
+        <translation>以外部程式開啟(&amp;O)</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>&amp;Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>已讀回條(&amp;R)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>View raw message</source>
-        <translation type="unfinished"/>
+        <translation>檢視原始訊息</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>檢舉訊息</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&amp;Cancel send</source>
-        <translation type="unfinished"/>
+        <translation>取消傳送(&amp;C)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Delete message</source>
-        <translation type="unfinished"/>
+        <translation>刪除訊息(&amp;D)</translation>
     </message>
 </context>
 <context>
@@ -3438,32 +3445,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
         <source>Write a message, or press Up to select messages.</source>
-        <translation type="unfinished"/>
+        <translation>輸入訊息，或按向上鍵選擇訊息。</translation>
     </message>
     <message>
         <location line="+458"/>
         <source>Stickers</source>
-        <translation type="unfinished"/>
+        <translation>貼圖</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Emoji</source>
-        <translation type="unfinished"/>
+        <translation>表情符號</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Send</source>
-        <translation type="unfinished"/>
+        <translation>傳送</translation>
     </message>
     <message>
         <location line="+53"/>
         <source>You don't have permission to send messages in this room</source>
-        <translation type="unfinished"/>
+        <translation>你在此聊天室沒有傳送訊息的權限</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Attach more files or send the upload</source>
-        <translation type="unfinished"/>
+        <translation>附加更多檔案或傳送上傳內容</translation>
     </message>
 </context>
 <context>
@@ -3471,7 +3478,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/MessageInputWarning.qml" line="+73"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation>不要在此訊息中提及他們</translation>
     </message>
 </context>
 <context>
@@ -3479,7 +3486,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/components/banners/NetworkConnectivityBanner.qml" line="+52"/>
         <source>Network connectivity trouble. Trying to reconnect…</source>
-        <translation type="unfinished"/>
+        <translation>網路連線問題。正在嘗試重新連線……</translation>
     </message>
 </context>
 <context>
@@ -3487,72 +3494,72 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPage.qml" line="+30"/>
         <source>The ten thousand chats can't happen in a void. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>萬次對話無法在虛空中發生。開啟一個聊天室？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your friends are just a room away</source>
-        <translation type="unfinished"/>
+        <translation>你的朋友只差一個聊天室</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Connect with friends. Or bots. We don't judge.</source>
-        <translation type="unfinished"/>
+        <translation>與朋友聯繫。或機器人。我們不評判。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Friends, bots, communities - all a click away</source>
-        <translation type="unfinished"/>
+        <translation>朋友、機器人、社群——一鍵即達</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Be present for a bit. Then open a room.</source>
-        <translation type="unfinished"/>
+        <translation>先停留片刻。然後開啟一個聊天室。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The best conversations haven't happened yet</source>
-        <translation type="unfinished"/>
+        <translation>最好的對話尚未發生</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>An empty screen, a full inbox of possibilities</source>
-        <translation type="unfinished"/>
+        <translation>空白的畫面，充滿無限可能</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room. The rest follows.</source>
-        <translation type="unfinished"/>
+        <translation>開啟一個聊天室。其餘自然而來。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room to start a conversation</source>
-        <translation type="unfinished"/>
+        <translation>開啟一個聊天室以開始對話</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Next conversation, a click away</source>
-        <translation type="unfinished"/>
+        <translation>下一段對話，一鍵即達</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ready to chat - pick a room</source>
-        <translation type="unfinished"/>
+        <translation>準備好聊天了——選一個聊天室</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All quiet here. Open a room?</source>
-        <translation type="unfinished"/>
+        <translation>這裡一片寂靜。開啟一個聊天室？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Chat rooms await - pick one or start your own</source>
-        <translation type="unfinished"/>
+        <translation>聊天室在等你——選一個或建立自己的</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No room leads to no chat</source>
-        <translation type="unfinished"/>
+        <translation>沒有聊天室就沒有對話</translation>
     </message>
 </context>
 <context>
@@ -3560,32 +3567,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>加入聊天室</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Join an existing room by address or alias</source>
-        <translation type="unfinished"/>
+        <translation>透過地址或別名加入現有聊天室</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Explore public rooms</source>
-        <translation type="unfinished"/>
+        <translation>探索公開聊天室</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse the public room directory</source>
-        <translation type="unfinished"/>
+        <translation>瀏覽公開聊天室目錄</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>New room/space</source>
-        <translation type="unfinished"/>
+        <translation>新聊天室/空間</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create a new room or space [Ctrl+N]</source>
-        <translation type="unfinished"/>
+        <translation>建立新聊天室或空間 [Ctrl+N]</translation>
     </message>
 </context>
 <context>
@@ -3593,17 +3600,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/NewTabPageSearch.qml" line="+59"/>
         <source>Search your rooms &amp; spaces...</source>
-        <translation type="unfinished"/>
+        <translation>搜尋你的聊天室和空間...</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>No matches found.</source>
-        <translation type="unfinished"/>
+        <translation>找不到符合的結果。</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>(Space)</source>
-        <translation type="unfinished"/>
+        <translation>（空間）</translation>
     </message>
 </context>
 <context>
@@ -3611,128 +3618,129 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/pages/NewToMatrixPage.qml" line="+69"/>
         <source>Back</source>
-        <translation type="unfinished"/>
+        <translation>返回</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>初次使用 Matrix？</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>What is Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>什麼是 Matrix？</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>&lt;a href="%1"&gt;Matrix&lt;/a&gt; is an open communication network - like email, but for real-time messaging (chat).
 </source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="%1"&gt;Matrix&lt;/a&gt; 是一個開放的通訊網路——類似電子郵件，但用於即時訊息（聊天）。
+</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your profile and message data is hosted on something called a &lt;a href="%1"&gt;homeserver&lt;/a&gt; (your home on the network), but you can talk to anyone on any other server.</source>
-        <translation type="unfinished"/>
+        <translation>你的個人資料和訊息資料存放在稱為&lt;a href="%1"&gt;主伺服器&lt;/a&gt;的地方（你在網路上的家），但你可以與任何其他伺服器上的使用者交流。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Homeservers connect to each other via &lt;a href="%1"&gt;Matrix Federation&lt;/a&gt;. Unlike centralized apps, no single company controls everything - you pick what works for you.</source>
-        <translation type="unfinished"/>
+        <translation>主伺服器透過 &lt;a href="%1"&gt;Matrix 聯邦&lt;/a&gt; 互相連接。與集中式應用程式不同，沒有單一公司控制一切——你可以選擇適合自己的方案。</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose your path</source>
-        <translation type="unfinished"/>
+        <translation>選擇你的路徑</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Existing servers</source>
-        <translation type="unfinished"/>
+        <translation>現有伺服器</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Public server</source>
-        <translation type="unfinished"/>
+        <translation>公開伺服器</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Free community servers, great for getting started. Some may be busy during peak hours.</source>
-        <translation type="unfinished"/>
+        <translation>免費社群伺服器，非常適合入門。高峰時段可能較為繁忙。</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Another server</source>
-        <translation type="unfinished"/>
+        <translation>其他伺服器</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Register on a specific homeserver you already know about.</source>
-        <translation type="unfinished"/>
+        <translation>在你已知的特定主伺服器上註冊。</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Self-hosting</source>
-        <translation type="unfinished"/>
+        <translation>自行架設</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>matrix-docker-ansible-deploy</source>
-        <translation type="unfinished"/>
+        <translation>matrix-docker-ansible-deploy</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>An Ansible playbook for self-hosting Matrix, by the makers of Komai.</source>
-        <translation type="unfinished"/>
+        <translation>一個用於自架 Matrix 的 Ansible Playbook，由 Komai 的開發者提供。</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Explore other self-hosting options</source>
-        <translation type="unfinished"/>
+        <translation>探索其他自架選項</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Browse Matrix server distributions and deployment tools.</source>
-        <translation type="unfinished"/>
+        <translation>瀏覽 Matrix 伺服器發行版和部署工具。</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Managed hosting</source>
-        <translation type="unfinished"/>
+        <translation>代管服務</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>etke.cc</source>
-        <translation type="unfinished"/>
+        <translation>etke.cc</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your own server, professionally managed by the makers of Komai.</source>
-        <translation type="unfinished"/>
+        <translation>你的專屬伺服器，由 Komai 的開發者專業管理。</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Explore other hosting providers</source>
-        <translation type="unfinished"/>
+        <translation>探索其他託管服務提供商</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Browse the Matrix hosting provider ecosystem.</source>
-        <translation type="unfinished"/>
+        <translation>瀏覽 Matrix 託管服務提供商生態系。</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Matrix doesn't support migrating accounts between servers yet, so choose thoughtfully.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 目前尚不支援在伺服器之間遷移帳號，請謹慎選擇。</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Already have an account?</source>
-        <translation type="unfinished"/>
+        <translation>已有帳號？</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>登入</translation>
     </message>
 </context>
 <context>
@@ -3740,66 +3748,70 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/device-verification/NewVerificationRequest.qml" line="+13"/>
         <source>Received Verification Request</source>
-        <translation type="unfinished"/>
+        <translation>收到驗證請求</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Send verification request?</source>
-        <translation type="unfinished"/>
+        <translation>發送驗證請求？</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Some of your logged-in devices are not verified yet. Verify to unlock encrypted messages.
 
 To start, make sure one of your other devices is available.</source>
-        <translation type="unfinished"/>
+        <translation>你部分已登入的裝置尚未驗證。請驗證以解鎖加密訊息。
+
+開始前，請確保你的其他裝置之一可用。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This device (ID: %1) is not verified yet.
 
 Verify to unlock encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>此裝置（ID：%1）尚未驗證。
+
+請驗證以解鎖加密訊息。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify the other party to ensure your encrypted communications are secure.</source>
-        <translation type="unfinished"/>
+        <translation>驗證對方以確保加密通訊的安全性。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 has requested to verify their device %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 已請求驗證其裝置 %2。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 using the device %2 has requested to be verified.</source>
-        <translation type="unfinished"/>
+        <translation>%1 正在使用裝置 %2，已請求進行驗證。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Your device (%1) has requested to be verified.</source>
-        <translation type="unfinished"/>
+        <translation>你的裝置（%1）已請求進行驗證。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deny</source>
-        <translation type="unfinished"/>
+        <translation>拒絕</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>暫不處理</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Start verification</source>
-        <translation type="unfinished"/>
+        <translation>開始驗證</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Accept</source>
-        <translation type="unfinished">接受</translation>
+        <translation>接受</translation>
     </message>
 </context>
 <context>
@@ -3808,51 +3820,51 @@ Verify to unlock encrypted messages.</source>
         <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
-        <translation type="unfinished"/>
+        <translation>%1 傳送了一則加密訊息</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>%1 replied with a spoiler.</source>
         <comment>Format a reply in a notification. %1 is the sender.</comment>
-        <translation type="unfinished"/>
+        <translation>%1 回覆了一則劇透內容。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 replied: %2</source>
         <comment>Format a reply in a notification. %1 is the sender, %2 the message</comment>
-        <translation type="unfinished"/>
+        <translation>%1 回覆：%2</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+9"/>
         <source>Message contains spoiler.</source>
-        <translation type="unfinished"/>
+        <translation>訊息包含劇透內容。</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-1"/>
         <source>%1 replied with an encrypted message</source>
-        <translation type="unfinished"/>
+        <translation>%1 回覆了一則加密訊息</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>%1 replied to a message</source>
-        <translation type="unfinished"/>
+        <translation>%1 回覆了一則訊息</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/Manager.cpp" line="-43"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>%1 sent a message</source>
-        <translation type="unfinished"/>
+        <translation>%1 傳送了一則訊息</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>開啟</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>回覆</translation>
     </message>
 </context>
 <context>
@@ -3861,7 +3873,7 @@ Verify to unlock encrypted messages.</source>
         <location filename="../../qml/components/OverlayDialog.qml" line="+119"/>
         <location line="+4"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
 </context>
 <context>
@@ -3869,7 +3881,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/common/PhoneNumberInputDialog.qml" line="+63"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>繼續</translation>
     </message>
 </context>
 <context>
@@ -3877,22 +3889,22 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+22"/>
         <source>Pinned messages (%1)</source>
-        <translation type="unfinished"/>
+        <translation>釘選訊息（%1）</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>釘選訊息</translation>
     </message>
     <message>
         <location line="+191"/>
         <source>No pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>沒有釘選訊息</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Important messages can be pinned (if you have privileges to do so) and they will show up here.</source>
-        <translation type="unfinished"/>
+        <translation>重要訊息可以釘選（如果你有相應權限），並將在此處顯示。</translation>
     </message>
 </context>
 <context>
@@ -3900,32 +3912,32 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/voip/PlaceCall.qml" line="+40"/>
         <source>Place a call to %1?</source>
-        <translation type="unfinished"/>
+        <translation>撥打電話給 %1？</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>No microphone found.</source>
-        <translation type="unfinished"/>
+        <translation>找不到麥克風。</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Voice</source>
-        <translation type="unfinished"/>
+        <translation>語音</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Video</source>
-        <translation type="unfinished"/>
+        <translation>視訊</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Screen</source>
-        <translation type="unfinished"/>
+        <translation>螢幕</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -3933,7 +3945,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/delegates/Placeholder.qml" line="+12"/>
         <source>unimplemented event: </source>
-        <translation type="unfinished"/>
+        <translation>未實作的事件：</translation>
     </message>
 </context>
 <context>
@@ -3941,101 +3953,101 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/room/PowerLevelEditor.qml" line="+20"/>
         <source>Permissions in %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 的權限</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Be careful when editing permissions. You can't lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
-        <translation type="unfinished"/>
+        <translation>編輯權限時請謹慎。您無法降低與您同級或更高級別者的權限。提升他人時請謹慎。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Roles</source>
-        <translation type="unfinished"/>
+        <translation>角色</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>使用者</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Move permissions between roles to change them</source>
-        <translation type="unfinished"/>
+        <translation>在角色之間移動權限以進行變更</translation>
     </message>
     <message>
         <location line="+28"/>
         <location line="+244"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>管理員（%1）</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>版主（%1）</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>使用者（%1）</translation>
     </message>
     <message>
         <location line="-242"/>
         <location line="+244"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished"/>
+        <translation>自訂（%1）</translation>
     </message>
     <message>
         <location line="-231"/>
         <source>Remove event type</source>
-        <translation type="unfinished"/>
+        <translation>移除事件類型</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add event type</source>
-        <translation type="unfinished"/>
+        <translation>新增事件類型</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Add new role</source>
-        <translation type="unfinished"/>
+        <translation>新增角色</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Add</source>
-        <translation type="unfinished"/>
+        <translation>新增</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Move users up or down to change their permissions</source>
-        <translation type="unfinished"/>
+        <translation>上下移動使用者以變更其權限</translation>
     </message>
     <message>
         <location line="+135"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>建立者</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Remove user</source>
-        <translation type="unfinished"/>
+        <translation>移除使用者</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add user</source>
-        <translation type="unfinished"/>
+        <translation>新增使用者</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saving…</source>
-        <translation type="unfinished"/>
+        <translation>儲存中……</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
 </context>
 <context>
@@ -4043,47 +4055,47 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/dialogs/room/PowerLevelSpacesApplyDialog.qml" line="+19"/>
         <source>Apply permission changes</source>
-        <translation type="unfinished"/>
+        <translation>套用權限變更</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Which of the subcommunities and rooms should these permissions be applied to?</source>
-        <translation type="unfinished"/>
+        <translation>這些權限應套用至哪些子社群和聊天室？</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Apply permissions recursively</source>
-        <translation type="unfinished"/>
+        <translation>遞迴套用權限</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Overwrite exisiting modifications in rooms</source>
-        <translation type="unfinished"/>
+        <translation>覆寫聊天室中現有的修改</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>No permissions to apply the new permissions here</source>
-        <translation type="unfinished"/>
+        <translation>無權限在此套用新權限</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>No changes needed</source>
-        <translation type="unfinished"/>
+        <translation>無需變更</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Existing modifications to the permissions in this room will be overwritten</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室現有的權限修改將被覆寫</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Permissions synchronized with community</source>
-        <translation type="unfinished"/>
+        <translation>已與社群同步權限</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Apply</source>
-        <translation type="unfinished"/>
+        <translation>套用</translation>
     </message>
 </context>
 <context>
@@ -4091,12 +4103,12 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelEditingModels.cpp" line="+74"/>
         <source>Failed to load room permissions from the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>無法從 matrix-sdk 後端載入聊天室權限。</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Failed to save room permissions to the matrix-sdk backend.</source>
-        <translation type="unfinished"/>
+        <translation>無法將聊天室權限儲存至 matrix-sdk 後端。</translation>
     </message>
 </context>
 <context>
@@ -4104,22 +4116,22 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../qml/components/PowerlevelIndicator.qml" line="+34"/>
         <source>Creator</source>
-        <translation type="unfinished"/>
+        <translation>建立者</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>版主（%1）</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>User (%1)</source>
-        <translation type="unfinished"/>
+        <translation>使用者（%1）</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished"/>
+        <translation>管理員（%1）</translation>
     </message>
 </context>
 <context>
@@ -4144,182 +4156,182 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelsTypeListModel.cpp" line="+174"/>
         <source>Other events</source>
-        <translation type="unfinished"/>
+        <translation>其他事件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Other state events</source>
-        <translation type="unfinished"/>
+        <translation>其他狀態事件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Remove other users</source>
-        <translation type="unfinished"/>
+        <translation>移除其他使用者</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban other users</source>
-        <translation type="unfinished"/>
+        <translation>封禁其他使用者</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Invite other users</source>
-        <translation type="unfinished"/>
+        <translation>邀請其他使用者</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Redact events sent by others</source>
-        <translation type="unfinished"/>
+        <translation>刪除他人傳送的事件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions</source>
-        <translation type="unfinished"/>
+        <translation>反應</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Deprecated aliases events</source>
-        <translation type="unfinished"/>
+        <translation>已棄用的別名事件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>變更聊天室頭像</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room addresses</source>
-        <translation type="unfinished"/>
+        <translation>變更聊天室地址</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send encrypted messages</source>
-        <translation type="unfinished"/>
+        <translation>傳送加密訊息</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Enable encryption</source>
-        <translation type="unfinished"/>
+        <translation>啟用加密</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change guest access</source>
-        <translation type="unfinished"/>
+        <translation>變更訪客存取權限</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change history visibility</source>
-        <translation type="unfinished"/>
+        <translation>變更歷史記錄可見性</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change who can join</source>
-        <translation type="unfinished"/>
+        <translation>變更加入條件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send messages</source>
-        <translation type="unfinished"/>
+        <translation>傳送訊息</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room name</source>
-        <translation type="unfinished"/>
+        <translation>變更聊天室名稱</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>變更聊天室權限</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the rooms topic</source>
-        <translation type="unfinished"/>
+        <translation>變更聊天室主題</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the widgets</source>
-        <translation type="unfinished"/>
+        <translation>變更小工具</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the widgets (experimental)</source>
-        <translation type="unfinished"/>
+        <translation>變更小工具（實驗性）</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Redact own events</source>
-        <translation type="unfinished"/>
+        <translation>刪除自己的事件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the pinned events</source>
-        <translation type="unfinished"/>
+        <translation>變更置頂事件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Upgrade the room</source>
-        <translation type="unfinished"/>
+        <translation>升級聊天室</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Send stickers</source>
-        <translation type="unfinished"/>
+        <translation>傳送貼圖</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban users using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>使用策略規則封禁使用者</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban rooms using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>使用策略規則封禁聊天室</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Ban servers using policy rules</source>
-        <translation type="unfinished"/>
+        <translation>使用策略規則封禁伺服器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Edit child communities and rooms</source>
-        <translation type="unfinished"/>
+        <translation>編輯子社群與聊天室</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change parent communities</source>
-        <translation type="unfinished"/>
+        <translation>變更上層社群</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Start a call</source>
-        <translation type="unfinished"/>
+        <translation>發起通話</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Negotiate a call</source>
-        <translation type="unfinished"/>
+        <translation>協商通話</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Answer a call</source>
-        <translation type="unfinished"/>
+        <translation>接聽通話</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Hang up a call</source>
-        <translation type="unfinished"/>
+        <translation>掛斷通話</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reject a call</source>
-        <translation type="unfinished"/>
+        <translation>拒絕通話</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Change the room emotes</source>
-        <translation type="unfinished"/>
+        <translation>變更聊天室表情符號</translation>
     </message>
 </context>
 <context>
@@ -4327,7 +4339,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/powerlevels/PowerlevelsUserListModel.cpp" line="+125"/>
         <source>Other users</source>
-        <translation type="unfinished"/>
+        <translation>其他使用者</translation>
     </message>
 </context>
 <context>
@@ -4335,17 +4347,17 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
-        <translation type="unfinished"/>
+        <translation>使用指定的設定檔執行。如果設定檔尚不存在，將自動建立。多個設定檔可使用不同帳號並同時執行多個實例。允許的非空設定檔 ID：第一個字元為 A-Z、a-z 或 '_'；其餘字元為 A-Z、a-z、0-9、'_'、'-'。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>profile</source>
-        <translation type="unfinished"/>
+        <translation>設定檔</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>profile name</source>
-        <translation type="unfinished"/>
+        <translation>設定檔名稱</translation>
     </message>
 </context>
 <context>
@@ -4353,7 +4365,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="-27"/>
         <source>Alias for '--log-level trace'.</source>
-        <translation type="unfinished"/>
+        <translation>'--log-level trace' 的別名。</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -4370,104 +4382,116 @@ Subcommands (run without a display server):
   %1 theme      Theme file management (offline)
 
 Run '%1 &lt;group&gt; --help' for subcommand details.</source>
-        <translation type="unfinished"/>
+        <translation>一款你會愛上的優秀 Matrix 聊天應用程式。
+
+子指令（無需顯示伺服器即可執行）：
+  %1 app        實例元資料（JSON）
+  %1 profiles   設定檔啟動器管理（離線）
+  %1 rooms      聊天室探索與導覽（JSON）
+  %1 user       帳號與在線狀態（JSON）
+  %1 settings   外觀設定（JSON）
+  %1 media      媒體內容解析
+  %1 mcp        MCP stdio 伺服器包裝器
+  %1 theme      佈景主題檔案管理（離線）
+
+執行 '%1 &lt;group&gt; --help' 查看子指令詳情。</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Set the global log level, or a comma-separated list of &lt;target&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to 'warn' but disable logging for the 'ui' target, pass 'warn,ui=off'. levels:{trace,debug,info,warn,error,off} The RUST_LOG environment variable is used as a fallback when this flag is not set.</source>
-        <translation type="unfinished"/>
+        <translation>設定全域日誌等級，或以逗號分隔的 &lt;target&gt;=&lt;level&gt; 配對清單，或兩者皆設定。例如，要將預設日誌等級設為 'warn' 但停用 'ui' 目標的日誌，請傳入 'warn,ui=off'。等級：{trace,debug,info,warn,error,off} 未設定此旗標時，將使用 RUST_LOG 環境變數作為備用。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>level</source>
-        <translation type="unfinished"/>
+        <translation>等級</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Set the log output type. The default is 'stderr'. types:{stderr,none}</source>
-        <translation type="unfinished"/>
+        <translation>設定日誌輸出類型。預設為 'stderr'。類型：{stderr,none}</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>type</source>
-        <translation type="unfinished"/>
+        <translation>類型</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
         <source>Respond</source>
-        <translation type="unfinished"/>
+        <translation>回覆</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Send</source>
-        <translation type="unfinished"/>
+        <translation>傳送</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Write a message...</source>
-        <translation type="unfinished"/>
+        <translation>輸入訊息……</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
         <source>%1 Device verification fallback also failed: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 裝置驗證備用方案也失敗：%2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to start user verification.</source>
-        <translation type="unfinished"/>
+        <translation>無法啟動使用者驗證。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to start verification for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>無法為「%1」啟動驗證。</translation>
     </message>
     <message>
         <location filename="../../../src/profile/ProfileManager.cpp" line="+78"/>
         <source>Unable to determine current executable path for profile launch.</source>
-        <translation type="unfinished"/>
+        <translation>無法確定目前的可執行檔路徑以啟動設定檔。</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to launch a detached Komai process for the selected profile.</source>
-        <translation type="unfinished"/>
+        <translation>無法為所選設定檔啟動獨立的 Komai 程序。</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Profile name is required.</source>
-        <translation type="unfinished"/>
+        <translation>需要設定檔名稱。</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+32"/>
         <location line="+24"/>
         <source>Invalid profile name: %1</source>
-        <translation type="unfinished"/>
+        <translation>無效的設定檔名稱：%1</translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
-        <translation type="unfinished"/>
+        <translation>此執行環境不支援明確的設定檔啟動器。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unable to determine current executable path for launcher creation.</source>
-        <translation type="unfinished"/>
+        <translation>無法確定目前的可執行檔路徑以建立啟動器。</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Cannot delete the currently active profile from this instance.</source>
-        <translation type="unfinished"/>
+        <translation>無法從此實例刪除目前使用中的設定檔。</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Failed to remove one or more profile directories for '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>無法移除 '%1' 的一個或多個設定檔目錄。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Profile files were deleted, but secure-store secret cleanup was incomplete for '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>設定檔檔案已刪除，但 '%1' 的安全儲存機密清除不完整。</translation>
     </message>
 </context>
 <context>
@@ -4475,22 +4499,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/navigation/QuickSwitcher.qml" line="+67"/>
         <source>Find &amp; switch room or space</source>
-        <translation type="unfinished"/>
+        <translation>尋找並切換聊天室或空間</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Searches among rooms and spaces you participate in, not across all of Matrix.</source>
-        <translation type="unfinished"/>
+        <translation>在你參與的聊天室和空間中搜尋，不涵蓋整個 Matrix。</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room or space name, #address or !id...</source>
-        <translation type="unfinished"/>
+        <translation>聊天室或空間名稱、#位址 或 !id……</translation>
     </message>
 </context>
 <context>
@@ -4498,49 +4522,49 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/RawMessageDialog.qml" line="+59"/>
         <source>Raw message inspection</source>
-        <translation type="unfinished"/>
+        <translation>原始訊息檢視</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Cleartext</source>
-        <translation type="unfinished"/>
+        <translation>明文</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Wire form (same)</source>
-        <translation type="unfinished"/>
+        <translation>線路格式（相同）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Wire form</source>
-        <translation type="unfinished"/>
+        <translation>線路格式</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+10"/>
         <location line="+7"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>已複製</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>Copy All</source>
-        <translation type="unfinished"/>
+        <translation>全部複製</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Copy `body`</source>
-        <translation type="unfinished"/>
+        <translation>複製 `body`</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Copy `formatted_body`</source>
-        <translation type="unfinished"/>
+        <translation>複製 `formatted_body`</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>確定</translation>
     </message>
 </context>
 <context>
@@ -4548,7 +4572,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ReadReceipts.qml" line="+19"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation>已讀回執</translation>
     </message>
 </context>
 <context>
@@ -4556,7 +4580,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../../src/models/ReadReceiptsModel.cpp" line="+113"/>
         <source>Yesterday, %1</source>
-        <translation type="unfinished"/>
+        <translation>昨天，%1</translation>
     </message>
 </context>
 <context>
@@ -4564,7 +4588,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/delegates/Redacted.qml" line="+38"/>
         <source>Deleted message</source>
-        <translation type="unfinished"/>
+        <translation>已刪除的訊息</translation>
     </message>
 </context>
 <context>
@@ -4573,149 +4597,149 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
         <location line="+679"/>
         <source>Username</source>
-        <translation type="unfinished"/>
+        <translation>使用者名稱</translation>
     </message>
     <message>
         <location line="-677"/>
         <location line="+825"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>確認</translation>
     </message>
     <message>
         <location line="-787"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>驗證</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Email verification</source>
-        <translation type="unfinished"/>
+        <translation>電子郵件驗證</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Token</source>
-        <translation type="unfinished"/>
+        <translation>令牌</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Terms</source>
-        <translation type="unfinished"/>
+        <translation>條款</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+385"/>
         <source>CAPTCHA</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA</translation>
     </message>
     <message>
         <location line="-384"/>
         <source>SSO</source>
-        <translation type="unfinished"/>
+        <translation>SSO</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation>驗證</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Server</source>
-        <translation type="unfinished"/>
+        <translation>伺服器</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>帳號</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>註冊</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Public servers</source>
-        <translation type="unfinished"/>
+        <translation>公開伺服器</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom server</source>
-        <translation type="unfinished"/>
+        <translation>自訂伺服器</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Community-operated servers with open registration</source>
-        <translation type="unfinished"/>
+        <translation>開放註冊的社群伺服器</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter any Matrix homeserver address</source>
-        <translation type="unfinished"/>
+        <translation>輸入任意 Matrix 家庭伺服器位址</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Based on %1, curated by the Komai team</source>
-        <translation type="unfinished"/>
+        <translation>基於 %1，由 Komai 團隊精選</translation>
     </message>
     <message>
         <location line="+110"/>
         <source>Web</source>
-        <translation type="unfinished"/>
+        <translation>網頁</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Registration is completed in your browser on the server's website.</source>
-        <translation type="unfinished"/>
+        <translation>將在瀏覽器中於伺服器網站上完成註冊。</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Demo</source>
-        <translation type="unfinished"/>
+        <translation>示範</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>A server for demonstration and testing purposes. Not suitable for real use.</source>
-        <translation type="unfinished"/>
+        <translation>僅供示範與測試用途的伺服器，不適合實際使用。</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
-        <translation type="unfinished"/>
+        <translation>註冊流程需要在瀏覽器中完成 CAPTCHA 驗證。</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Email</source>
-        <translation type="unfinished"/>
+        <translation>電子郵件</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The registration flow requires confirming a valid email address.</source>
-        <translation type="unfinished"/>
+        <translation>註冊流程需要確認有效的電子郵件地址。</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>e.g. example.com or https://matrix.example.com</source>
-        <translation type="unfinished"/>
+        <translation>例如：example.com 或 https://matrix.example.com</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>This server handles registration on its website.</source>
-        <translation type="unfinished"/>
+        <translation>此伺服器透過其網站處理註冊。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Create your account there, then come back and sign in with Login.</source>
-        <translation type="unfinished"/>
+        <translation>在那裡建立帳號後，返回並使用登入頁面登入。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open registration page</source>
-        <translation type="unfinished"/>
+        <translation>開啟註冊頁面</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4723,151 +4747,153 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+91"/>
         <location line="+103"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>繼續</translation>
     </message>
     <message>
         <location line="-568"/>
         <source>Create your account on %1</source>
-        <translation type="unfinished"/>
+        <translation>在 %1 上建立帳號</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>This username is not available. Try a different one.</source>
-        <translation type="unfinished"/>
+        <translation>此使用者名稱不可用，請嘗試其他名稱。</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Choose a username</source>
-        <translation type="unfinished"/>
+        <translation>選擇使用者名稱</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Show/Hide Password</source>
-        <translation type="unfinished"/>
+        <translation>顯示／隱藏密碼</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose a password</source>
-        <translation type="unfinished"/>
+        <translation>選擇密碼</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Confirm password</source>
-        <translation type="unfinished"/>
+        <translation>確認密碼</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Passwords do not match</source>
-        <translation type="unfinished"/>
+        <translation>密碼不符</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Choose a recognizable name. Others can see it too.</source>
-        <translation type="unfinished"/>
+        <translation>選擇一個易於辨識的名稱，其他人也能看到。</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Generate another random name</source>
-        <translation type="unfinished"/>
+        <translation>產生另一個隨機名稱</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Suggestions:</source>
-        <translation type="unfinished"/>
+        <translation>建議：</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Email verification required</source>
-        <translation type="unfinished"/>
+        <translation>需要電子郵件驗證</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>your@email.com</source>
-        <translation type="unfinished"/>
+        <translation>your@email.com</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Send verification email</source>
-        <translation type="unfinished"/>
+        <translation>傳送驗證電子郵件</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
-        <translation type="unfinished"/>
+        <translation>請檢查您的電子郵件並點擊驗證連結，然後點擊下方的「繼續」。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Resend</source>
-        <translation type="unfinished"/>
+        <translation>重新傳送</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Terms of Service</source>
-        <translation type="unfinished"/>
+        <translation>服務條款</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>I accept the terms</source>
-        <translation type="unfinished"/>
+        <translation>我接受條款</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Registration token required</source>
-        <translation type="unfinished"/>
+        <translation>需要註冊權杖</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Enter your registration token</source>
-        <translation type="unfinished"/>
+        <translation>輸入您的註冊權杖</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>CAPTCHA verification required</source>
-        <translation type="unfinished"/>
+        <translation>需要 CAPTCHA 驗證</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Additional verification required</source>
-        <translation type="unfinished"/>
+        <translation>需要額外驗證</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
-        <translation type="unfinished"/>
+        <translation>請在瀏覽器中完成驗證，然後點擊下方的「確認」。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open verification</source>
-        <translation type="unfinished"/>
+        <translation>開啟驗證頁面</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>I've completed the verification</source>
-        <translation type="unfinished"/>
+        <translation>我已完成驗證</translation>
     </message>
     <message>
         <location line="-1283"/>
         <location line="+772"/>
         <source>Password</source>
-        <translation type="unfinished"/>
+        <translation>密碼</translation>
     </message>
     <message>
         <location line="-770"/>
         <location line="+893"/>
         <source>Device name</source>
-        <translation type="unfinished"/>
+        <translation>裝置名稱</translation>
     </message>
     <message>
         <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
         <source>Account created, but automatic sign-in failed: %1
 Please go back and sign in manually.</source>
-        <translation type="unfinished"/>
+        <translation>帳號已建立，但自動登入失敗：%1
+請返回並手動登入。</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Account created, but session data could not be saved.
 Please go back and sign in manually.</source>
-        <translation type="unfinished"/>
+        <translation>帳號已建立，但工作階段資料無法儲存。
+請返回並手動登入。</translation>
     </message>
 </context>
 <context>
@@ -4875,22 +4901,22 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/delegates/Reply.qml" line="+85"/>
         <source>Image</source>
-        <translation type="unfinished"/>
+        <translation>圖片</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sticker</source>
-        <translation type="unfinished"/>
+        <translation>貼圖</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Video</source>
-        <translation type="unfinished"/>
+        <translation>影片</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Attachment</source>
-        <translation type="unfinished"/>
+        <translation>附件</translation>
     </message>
 </context>
 <context>
@@ -4898,17 +4924,17 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;複製</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Copy &amp;link location</source>
-        <translation type="unfinished"/>
+        <translation>複製&amp;連結位置</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>&amp;Go to quoted message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;前往引用的訊息</translation>
     </message>
 </context>
 <context>
@@ -4916,36 +4942,36 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
         <source>Replying in a thread</source>
-        <translation type="unfinished"/>
+        <translation>正在討論串中回覆</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+53"/>
         <location line="+47"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="-62"/>
         <location line="+3"/>
         <source>Replying to %1</source>
-        <translation type="unfinished"/>
+        <translation>正在回覆 %1</translation>
     </message>
     <message>
         <location line="-2"/>
         <location line="+3"/>
         <source>Replying to this message</source>
-        <translation type="unfinished"/>
+        <translation>正在回覆此訊息</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Editing a message</source>
-        <translation type="unfinished"/>
+        <translation>正在編輯訊息</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>回覆</translation>
     </message>
 </context>
 <context>
@@ -4953,57 +4979,57 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/dialogs/moderation/ReportMessage.qml" line="+18"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation>檢舉訊息</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This message you are reporting will be sent to your server administrator for review. Please note that not all server administrators review reported content. You should also ask a room moderator to remove the content if necessary.</source>
-        <translation type="unfinished"/>
+        <translation>你所檢舉的訊息將傳送給伺服器管理員進行審查。請注意，並非所有伺服器管理員都會審查檢舉內容。如有必要，你也應請聊天室版主移除該內容。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Enter your reason for reporting:</source>
-        <translation type="unfinished"/>
+        <translation>請輸入檢舉原因：</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>How bad is the message?</source>
-        <translation type="unfinished"/>
+        <translation>此訊息的嚴重程度如何？</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Not bad</source>
-        <translation type="unfinished"/>
+        <translation>不嚴重</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mild</source>
-        <translation type="unfinished"/>
+        <translation>輕微</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Bad</source>
-        <translation type="unfinished"/>
+        <translation>不良</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Serious</source>
-        <translation type="unfinished"/>
+        <translation>嚴重</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Extremely serious</source>
-        <translation type="unfinished"/>
+        <translation>極度嚴重</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Report</source>
-        <translation type="unfinished"/>
+        <translation>檢舉</translation>
     </message>
 </context>
 <context>
@@ -5011,27 +5037,27 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityApprovalDialog.qml" line="+26"/>
         <source>Approve identity reset</source>
-        <translation type="unfinished"/>
+        <translation>批准身分重置</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Your server requires approval in the browser before it will reset this device's encryption identity.</source>
-        <translation type="unfinished"/>
+        <translation>你的伺服器需要在瀏覽器中批准，才能重置此裝置的加密身分。</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open approval page</source>
-        <translation type="unfinished"/>
+        <translation>開啟批准頁面</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>I've approved it</source>
-        <translation type="unfinished"/>
+        <translation>我已批准</translation>
     </message>
 </context>
 <context>
@@ -5039,7 +5065,7 @@ Please go back and sign in manually.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityDialog.qml" line="+16"/>
         <source>Reset encryption identity?</source>
-        <translation type="unfinished"/>
+        <translation>重置加密身分？</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5048,17 +5074,21 @@ Please go back and sign in manually.</source>
 You will get a new security key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation type="unfinished"/>
+        <translation>重置將為此帳號建立新的加密身分並重新開始設定。
+
+你將獲得新的安全金鑰，建議妥善保存以避免再次重置。
+
+伺服器端的舊金鑰備份不會自動移除。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>暫不</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>重置</translation>
     </message>
 </context>
 <context>
@@ -5066,27 +5096,27 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/components/encryption/ResetEncryptionIdentityPasswordDialog.qml" line="+28"/>
         <source>Confirm identity reset</source>
-        <translation type="unfinished"/>
+        <translation>確認重置身份</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Your homeserver requires your account password before it will reset this device's encryption identity.</source>
-        <translation type="unfinished"/>
+        <translation>你的家伺服器需要你的帳戶密碼，才能重置此裝置的加密身份。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Account password</source>
-        <translation type="unfinished"/>
+        <translation>帳號密碼</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>重置</translation>
     </message>
 </context>
 <context>
@@ -5094,177 +5124,177 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/RoomDirectory.qml" line="+65"/>
         <source>This room is extremely large. You should probably stay away from it unless you have a very powerful server. Joining may take a very long time.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室規模極大。除非你擁有非常強大的伺服器，否則建議不要加入。加入可能需要非常長的時間。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room is large. Joining may take a long time and increase resource usage on your server.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室規模較大。加入可能需要較長時間，並增加伺服器的資源使用量。</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Explore Public Rooms</source>
-        <translation type="unfinished"/>
+        <translation>探索公開聊天室</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Server to explore</source>
-        <translation type="unfinished"/>
+        <translation>要探索的伺服器</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Mine (%1)</source>
-        <translation type="unfinished"/>
+        <translation>我的（%1）</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Another server</source>
-        <translation type="unfinished"/>
+        <translation>其他伺服器</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Number of known public rooms in this server's directory</source>
-        <translation type="unfinished"/>
+        <translation>此伺服器目錄中已知的公開聊天室數量</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Custom server</source>
-        <translation type="unfinished"/>
+        <translation>自訂伺服器</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>example.com</source>
-        <translation type="unfinished"/>
+        <translation>example.com</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Choose</source>
-        <translation type="unfinished"/>
+        <translation>選擇</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Filtering</source>
-        <translation type="unfinished"/>
+        <translation>篩選</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Type</source>
-        <translation type="unfinished"/>
+        <translation>類型</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>全部</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Rooms</source>
-        <translation type="unfinished"/>
+        <translation>聊天室</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Spaces</source>
-        <translation type="unfinished"/>
+        <translation>空間</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>規模</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Up to large (≤ %1 members)</source>
-        <translation type="unfinished"/>
+        <translation>最多大型（≤ %1 位成員）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Up to very large (≤ %1 members)</source>
-        <translation type="unfinished"/>
+        <translation>最多超大型（≤ %1 位成員）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Any</source>
-        <translation type="unfinished"/>
+        <translation>任意</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Keyword</source>
-        <translation type="unfinished"/>
+        <translation>關鍵字</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>e.g. Matrix, food, coffee, tech</source>
-        <translation type="unfinished"/>
+        <translation>例如：Matrix、食物、咖啡、科技</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Quick presets:</source>
-        <translation type="unfinished"/>
+        <translation>快速預設：</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Language</source>
-        <translation type="unfinished"/>
+        <translation>語言</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Any language</source>
-        <translation type="unfinished"/>
+        <translation>任何語言</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Rooms &amp; spaces</source>
-        <translation type="unfinished"/>
+        <translation>聊天室與空間</translation>
     </message>
     <message>
         <location line="+109"/>
         <source>(unnamed room)</source>
-        <translation type="unfinished"/>
+        <translation>（未命名聊天室）</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>空間</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>已複製！</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy room address</source>
-        <translation type="unfinished"/>
+        <translation>複製聊天室地址</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>There are %1 members in this room</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室有 %1 位成員</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>加入</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>開啟</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Nothing found.</source>
-        <translation type="unfinished"/>
+        <translation>找不到結果。</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>The room size filter may be hiding results. Try a larger size or "Any".</source>
-        <translation type="unfinished"/>
+        <translation>聊天室規模篩選器可能隱藏了結果。請嘗試更大的規模或「任意」。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Enter a server address above to explore its public rooms.</source>
-        <translation type="unfinished"/>
+        <translation>在上方輸入伺服器地址以瀏覽其公開聊天室。</translation>
     </message>
 </context>
 <context>
@@ -5272,7 +5302,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../../src/models/RoomDirectoryModel.cpp" line="+262"/>
         <source>Room directory requires an active Matrix session.</source>
-        <translation type="unfinished"/>
+        <translation>聊天室目錄需要有效的 Matrix 工作階段。</translation>
     </message>
 </context>
 <context>
@@ -5280,82 +5310,82 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室的訊息未端對端加密。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This room contains only verified devices.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室僅包含已驗證的裝置。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains verified devices and devices which have never changed their master key.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室包含已驗證的裝置，以及從未更換主金鑰的裝置。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room contains unverified devices!</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室包含未驗證的裝置！</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Encryption is a room setting that can be enabled in Room Info.</source>
-        <translation type="unfinished"/>
+        <translation>加密是聊天室設定，可在聊天室資訊中啟用。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Messages are end-to-end encrypted and all devices are verified.</source>
-        <translation type="unfinished"/>
+        <translation>訊息已端對端加密，且所有裝置均已驗證。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted. Some devices are verified, others are trusted by first use.</source>
-        <translation type="unfinished"/>
+        <translation>訊息已端對端加密。部分裝置已驗證，其他裝置則採用首次使用信任。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted, but the key is from an untrusted source.</source>
-        <translation type="unfinished"/>
+        <translation>訊息已端對端加密，但金鑰來自不受信任的來源。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Messages are end-to-end encrypted, but some devices are unverified.</source>
-        <translation type="unfinished"/>
+        <translation>訊息已端對端加密，但部分裝置尚未驗證。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Unencrypted</source>
-        <translation type="unfinished"/>
+        <translation>未加密</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>已驗證</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>已信任</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>警告</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Encryption status</source>
-        <translation type="unfinished"/>
+        <translation>加密狀態</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>See Room Settings</source>
-        <translation type="unfinished"/>
+        <translation>查看聊天室設定</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>See Members</source>
-        <translation type="unfinished"/>
+        <translation>查看成員</translation>
     </message>
 </context>
 <context>
@@ -5363,52 +5393,52 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation type="unfinished"/>
+        <translation>未選擇聊天室</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Members (%1)</source>
-        <translation type="unfinished"/>
+        <translation>成員（%1）</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>公開</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Private</source>
-        <translation type="unfinished"/>
+        <translation>私密</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Unencrypted</source>
-        <translation type="unfinished"/>
+        <translation>未加密</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>已驗證</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation>已信任</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>警告</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>搜尋</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>離開</translation>
     </message>
 </context>
 <context>
@@ -5416,7 +5446,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderBackButton.qml" line="+12"/>
         <source>Back to room list</source>
-        <translation type="unfinished"/>
+        <translation>返回聊天室列表</translation>
     </message>
 </context>
 <context>
@@ -5424,7 +5454,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderCommunitySection.qml" line="+43"/>
         <source>In %1</source>
-        <translation type="unfinished"/>
+        <translation>在 %1 中</translation>
     </message>
 </context>
 <context>
@@ -5432,12 +5462,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderMembersButton.qml" line="+14"/>
         <source>Show the members of this room</source>
-        <translation type="unfinished"/>
+        <translation>顯示此聊天室的成員</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Members (%1)</source>
-        <translation type="unfinished"/>
+        <translation>成員（%1）</translation>
     </message>
 </context>
 <context>
@@ -5445,12 +5475,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderPinButton.qml" line="+18"/>
         <source>Show pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>顯示釘選訊息</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Pins (%1)</source>
-        <translation type="unfinished"/>
+        <translation>釘選（%1）</translation>
     </message>
 </context>
 <context>
@@ -5458,7 +5488,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomAvatar.qml" line="+31"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>聊天室設定</translation>
     </message>
 </context>
 <context>
@@ -5466,22 +5496,22 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
         <source>This room is public. Anyone can join.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室為公開聊天室，任何人都可以加入。</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>This room is private. Invitation required.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室為私密聊天室，需要邀請才能加入。</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation>公開</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Private</source>
-        <translation type="unfinished"/>
+        <translation>私密</translation>
     </message>
 </context>
 <context>
@@ -5489,12 +5519,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchButton.qml" line="+16"/>
         <source>Search within this room's messages [Ctrl+F]</source>
-        <translation type="unfinished"/>
+        <translation>搜尋此聊天室的訊息 [Ctrl+F]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>搜尋</translation>
     </message>
 </context>
 <context>
@@ -5502,12 +5532,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSearchRow.qml" line="+48"/>
         <source>Type to search in this room's messages</source>
-        <translation type="unfinished"/>
+        <translation>輸入文字以搜尋此聊天室的訊息</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Close search</source>
-        <translation type="unfinished"/>
+        <translation>關閉搜尋</translation>
     </message>
 </context>
 <context>
@@ -5515,7 +5545,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderSettingsButton.qml" line="+13"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>聊天室設定</translation>
     </message>
 </context>
 <context>
@@ -5523,12 +5553,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeaderThreadsButton.qml" line="+16"/>
         <source>Show threads</source>
-        <translation type="unfinished"/>
+        <translation>顯示討論串</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Threads</source>
-        <translation type="unfinished"/>
+        <translation>討論串</translation>
     </message>
 </context>
 <context>
@@ -5536,32 +5566,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoAboutTab.qml" line="+51"/>
         <source>Internal ID</source>
-        <translation type="unfinished"/>
+        <translation>內部 ID</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>已複製！</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>複製到剪貼簿</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Room Version</source>
-        <translation type="unfinished"/>
+        <translation>聊天室版本</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Determines which features the room supports.</source>
-        <translation type="unfinished"/>
+        <translation>決定此聊天室支援哪些功能。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>了解更多</translation>
     </message>
 </context>
 <context>
@@ -5569,32 +5599,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>設定</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Notifications</source>
-        <translation type="unfinished"/>
+        <translation>通知</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>關於</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Members</source>
-        <translation type="unfinished"/>
+        <translation>成員</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Space Info</source>
-        <translation type="unfinished"/>
+        <translation>空間資訊</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Room Info</source>
-        <translation type="unfinished"/>
+        <translation>聊天室資訊</translation>
     </message>
 </context>
 <context>
@@ -5610,52 +5640,52 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+6"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>操作</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Manage my profile in this room</source>
-        <translation type="unfinished"/>
+        <translation>管理我在此聊天室的個人資料</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invite others</source>
-        <translation type="unfinished"/>
+        <translation>邀請其他人</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Search...</source>
-        <translation type="unfinished"/>
+        <translation>搜尋...</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Sort by: </source>
-        <translation type="unfinished"/>
+        <translation>排序方式： </translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Power level, then name</source>
-        <translation type="unfinished"/>
+        <translation>權限等級，然後名稱</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level</source>
-        <translation type="unfinished"/>
+        <translation>權限等級</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name, alphabetical</source>
-        <translation type="unfinished"/>
+        <translation>顯示名稱，按字母排序</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>User ID, alphabetical</source>
-        <translation type="unfinished"/>
+        <translation>使用者ID，依字母排序</translation>
     </message>
     <message>
         <location line="+148"/>
         <source>Invited</source>
-        <translation type="unfinished"/>
+        <translation>已邀請</translation>
     </message>
 </context>
 <context>
@@ -5663,27 +5693,27 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoNotificationsTab.qml" line="+59"/>
         <source>Notifications</source>
-        <translation type="unfinished"/>
+        <translation>通知</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Muted</source>
-        <translation type="unfinished"/>
+        <translation>已靜音</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Mentions only</source>
-        <translation type="unfinished"/>
+        <translation>僅限提及</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All messages</source>
-        <translation type="unfinished"/>
+        <translation>所有訊息</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
-        <translation type="unfinished"/>
+        <translation>設定你在此聊天室接收通知的方式。</translation>
     </message>
 </context>
 <context>
@@ -5691,85 +5721,86 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+83"/>
         <source>General settings</source>
-        <translation type="unfinished"/>
+        <translation>一般設定</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>頭像</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>變更</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+49"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>移除頭像</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove the room avatar?</source>
-        <translation type="unfinished"/>
+        <translation>你確定要移除聊天室頭像嗎？</translation>
     </message>
     <message>
         <location line="+8"/>
         <location line="+241"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="-193"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>名稱</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>No name set</source>
-        <translation type="unfinished"/>
+        <translation>未設定名稱</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Topic</source>
-        <translation type="unfinished"/>
+        <translation>主題</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>No topic set</source>
-        <translation type="unfinished"/>
+        <translation>未設定主題</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>加密</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Once enabled, encryption cannot be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>一旦啟用，加密將無法停用。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>End-to-End Encryption</source>
-        <translation type="unfinished"/>
+        <translation>端對端加密</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Encryption is currently experimental and things might break unexpectedly.
 Please take note that it can't be disabled afterwards.</source>
-        <translation type="unfinished"/>
+        <translation>加密功能目前仍處於實驗階段，可能會出現意外問題。
+請注意，一旦啟用後將無法停用。</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Enable</source>
-        <translation type="unfinished"/>
+        <translation>啟用</translation>
     </message>
 </context>
 <context>
@@ -5777,52 +5808,52 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+16"/>
         <source>New room/space</source>
-        <translation type="unfinished"/>
+        <translation>新聊天室／空間</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>新私訊</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A 1-on-1 conversation with another user where you both get the same power level</source>
-        <translation type="unfinished"/>
+        <translation>與另一位使用者的一對一對話，雙方擁有相同的權限等級</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>新聊天室</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A public or private room for group conversations</source>
-        <translation type="unfinished"/>
+        <translation>供群組對話的公開或私人聊天室</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>新空間</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create a new public or private collection of rooms</source>
-        <translation type="unfinished"/>
+        <translation>建立新的公開或私人聊天室集合</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation>S</translation>
     </message>
 </context>
 <context>
@@ -5830,22 +5861,22 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
         <source>Join room</source>
-        <translation type="unfinished"/>
+        <translation>加入聊天室</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation>新聊天室</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation>新私訊</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation>新空間</translation>
     </message>
 </context>
 <context>
@@ -5853,7 +5884,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/RoomList.qml" line="+472"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>設定...</translation>
     </message>
 </context>
 <context>
@@ -5861,7 +5892,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListBotChatFooter.qml" line="+12"/>
         <source>New bot chat</source>
-        <translation type="unfinished"/>
+        <translation>新機器人對話</translation>
     </message>
 </context>
 <context>
@@ -5869,67 +5900,67 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
         <source>Enter the tag you want to use:</source>
-        <translation type="unfinished"/>
+        <translation>輸入你想使用的標籤：</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>New tag</source>
-        <translation type="unfinished"/>
+        <translation>新標籤</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation>建立</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open in a new tab</source>
-        <translation type="unfinished"/>
+        <translation>在新分頁中開啟</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Open in new window</source>
-        <translation type="unfinished"/>
+        <translation>在新視窗中開啟</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Copy room link</source>
-        <translation type="unfinished"/>
+        <translation>複製聊天室連結</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Tag room as:</source>
-        <translation type="unfinished"/>
+        <translation>將聊天室標記為：</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Favourite</source>
-        <translation type="unfinished"/>
+        <translation>我的最愛</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Low priority</source>
-        <translation type="unfinished"/>
+        <translation>低優先</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server notice</source>
-        <translation type="unfinished"/>
+        <translation>伺服器通知</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Create new tag...</source>
-        <translation type="unfinished"/>
+        <translation>建立新標籤...</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Room settings</source>
-        <translation type="unfinished"/>
+        <translation>聊天室設定</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave room</source>
-        <translation type="unfinished"/>
+        <translation>離開聊天室</translation>
     </message>
 </context>
 <context>
@@ -5937,7 +5968,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListExploreFooter.qml" line="+14"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>新建</translation>
     </message>
 </context>
 <context>
@@ -5945,7 +5976,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
         <source>Need more?</source>
-        <translation type="unfinished"/>
+        <translation>需要更多？</translation>
     </message>
 </context>
 <context>
@@ -5953,7 +5984,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListFreezeIndicator.qml" line="+47"/>
         <source>Live updates are paused while you interact with the room list.</source>
-        <translation type="unfinished"/>
+        <translation>當你與聊天室列表互動時，即時更新已暫停。</translation>
     </message>
 </context>
 <context>
@@ -5962,7 +5993,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
         <location line="+85"/>
         <source>You:</source>
-        <translation type="unfinished"/>
+        <translation>你：</translation>
     </message>
 </context>
 <context>
@@ -5970,42 +6001,42 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
         <source>Enter your status message:</source>
-        <translation type="unfinished"/>
+        <translation>輸入你的狀態訊息：</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Status Message</source>
-        <translation type="unfinished"/>
+        <translation>狀態訊息</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Set</source>
-        <translation type="unfinished"/>
+        <translation>設定</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Profile Settings</source>
-        <translation type="unfinished"/>
+        <translation>個人檔案設定</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set Status Message</source>
-        <translation type="unfinished"/>
+        <translation>設定狀態訊息</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>App Settings</source>
-        <translation type="unfinished"/>
+        <translation>應用程式設定</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open Profile Switcher</source>
-        <translation type="unfinished"/>
+        <translation>開啟個人檔案切換器</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>登出</translation>
     </message>
 </context>
 <context>
@@ -6013,22 +6044,22 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListSpaceHeader.qml" line="+40"/>
         <source>Space settings</source>
-        <translation type="unfinished"/>
+        <translation>空間設定</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>空間</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Leave space</source>
-        <translation type="unfinished"/>
+        <translation>離開空間</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>離開</translation>
     </message>
 </context>
 <context>
@@ -6037,7 +6068,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/shell/components/RoomListToTopButton.qml" line="+19"/>
         <location line="+1"/>
         <source>Scroll to top</source>
-        <translation type="unfinished"/>
+        <translation>捲回頂端</translation>
     </message>
 </context>
 <context>
@@ -6045,47 +6076,47 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListUserInfoMenu.qml" line="+29"/>
         <source>Enter your status message:</source>
-        <translation type="unfinished"/>
+        <translation>輸入你的狀態訊息：</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Status Message</source>
-        <translation type="unfinished"/>
+        <translation>狀態訊息</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Set</source>
-        <translation type="unfinished"/>
+        <translation>設定</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Profile settings</source>
-        <translation type="unfinished"/>
+        <translation>個人檔案設定</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Set status message</source>
-        <translation type="unfinished"/>
+        <translation>設定狀態訊息</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Automatic online status</source>
-        <translation type="unfinished"/>
+        <translation>自動線上狀態</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Online</source>
-        <translation type="unfinished"/>
+        <translation>線上</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation>暫時離開</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Offline</source>
-        <translation type="unfinished"/>
+        <translation>離線</translation>
     </message>
 </context>
 <context>
@@ -6093,12 +6124,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomOptionsButton.qml" line="+13"/>
         <source>Leave this room</source>
-        <translation type="unfinished"/>
+        <translation>離開此聊天室</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>離開</translation>
     </message>
 </context>
 <context>
@@ -6106,7 +6137,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>取消釘選</translation>
     </message>
 </context>
 <context>
@@ -6114,67 +6145,67 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+49"/>
         <source>Select an avatar</source>
-        <translation type="unfinished"/>
+        <translation>選擇頭像</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"/>
+        <translation>所有檔案 (*)</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation type="unfinished"/>
+        <translation>所選檔案不是圖片</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation type="unfinished"/>
+        <translation>讀取檔案時發生錯誤：%1</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Failed to upload image.</source>
-        <translation type="unfinished"/>
+        <translation>上傳圖片失敗。</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>移除頭像失敗。</translation>
     </message>
     <message>
         <location filename="../../../src/ui/roomsettings/RoomSettingsAccess.cpp" line="+202"/>
         <source>Failed to update history visibility.</source>
-        <translation type="unfinished"/>
+        <translation>更新歷史記錄可見性失敗。</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Failed to update room access rules.</source>
-        <translation type="unfinished"/>
+        <translation>更新聊天室存取規則失敗。</translation>
     </message>
     <message>
         <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 後端執行環境不可用。</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>Failed to enable encryption.</source>
-        <translation type="unfinished"/>
+        <translation>啟用加密失敗。</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Failed to update notifications.</source>
-        <translation type="unfinished"/>
+        <translation>更新通知失敗。</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to update room name.</source>
-        <translation type="unfinished"/>
+        <translation>更新聊天室名稱失敗。</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to update room topic.</source>
-        <translation type="unfinished"/>
+        <translation>更新聊天室主題失敗。</translation>
     </message>
 </context>
 <context>
@@ -6182,178 +6213,178 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
         <source>Permissions</source>
-        <translation type="unfinished"/>
+        <translation>權限</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Power levels &amp; permissions</source>
-        <translation type="unfinished"/>
+        <translation>權力等級與權限</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+36"/>
         <location line="+445"/>
         <source>Configure</source>
-        <translation type="unfinished"/>
+        <translation>設定</translation>
     </message>
     <message>
         <location line="-454"/>
         <source>Aliases</source>
-        <translation type="unfinished"/>
+        <translation>別名</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;Aliases&lt;/a&gt; are alternative addresses (like #room:example.com) that people can use to find this room.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;別名&lt;/a&gt;是人們可用來找到此聊天室的替代地址（例如 #room:example.com）。</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room access</source>
-        <translation type="unfinished"/>
+        <translation>聊天室存取</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Public (anyone can join)</source>
-        <translation type="unfinished"/>
+        <translation>公開（任何人皆可加入）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Private (invite only)</source>
-        <translation type="unfinished"/>
+        <translation>私人（僅限邀請）</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Allow knocking</source>
-        <translation type="unfinished"/>
+        <translation>允許敲門</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Non-members can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'&gt;request to join&lt;/a&gt;. Users with invite permission can accept.</source>
-        <translation type="unfinished"/>
+        <translation>非成員可&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'&gt;申請加入&lt;/a&gt;。擁有邀請權限的使用者可以接受。</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Allow joining from Spaces</source>
-        <translation type="unfinished"/>
+        <translation>允許從空間加入</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Members of selected Spaces can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'&gt;join without an invitation&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>所選空間的成員可&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'&gt;無需邀請即可加入&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Rooms to join via</source>
-        <translation type="unfinished"/>
+        <translation>可透過以下方式加入的聊天室</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+361"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>變更</translation>
     </message>
     <message>
         <location line="-334"/>
         <source>Allow guests to join</source>
-        <translation type="unfinished"/>
+        <translation>允許訪客加入</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Lets &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;temporary accounts&lt;/a&gt; without full registration join the room.</source>
-        <translation type="unfinished"/>
+        <translation>允許&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;臨時帳號&lt;/a&gt;不需完整註冊即可加入聊天室。</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Apply access rules</source>
-        <translation type="unfinished"/>
+        <translation>套用存取規則</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation type="unfinished"/>
+        <translation>訊息可見性</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Allow viewing history without joining</source>
-        <translation type="unfinished"/>
+        <translation>允許不加入即可查看歷史記錄</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Useful for room previews and public websites.</source>
-        <translation type="unfinished"/>
+        <translation>適用於聊天室預覽和公開網站。</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Members can see messages since</source>
-        <translation type="unfinished"/>
+        <translation>成員可以查看從以下時間起的訊息</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The beginning</source>
-        <translation type="unfinished"/>
+        <translation>最初</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>They were invited</source>
-        <translation type="unfinished"/>
+        <translation>他們受邀時</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>They joined</source>
-        <translation type="unfinished"/>
+        <translation>他們加入時</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Changing this won't affect already sent messages, only new ones.</source>
-        <translation type="unfinished"/>
+        <translation>變更此設定不會影響已發送的訊息，只會影響新訊息。</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+11"/>
         <source>Apply visibility changes</source>
-        <translation type="unfinished"/>
+        <translation>套用可見性變更</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Locally hidden events</source>
-        <translation type="unfinished"/>
+        <translation>本機隱藏的事件</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Collapse thread replies</source>
-        <translation type="unfinished"/>
+        <translation>收合討論串回覆</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Global Default (currently: %1)</source>
-        <translation type="unfinished"/>
+        <translation>全域預設值（目前：%1）</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+1"/>
         <source>On</source>
-        <translation type="unfinished"/>
+        <translation>開</translation>
     </message>
     <message>
         <location line="-1"/>
         <location line="+2"/>
         <source>Off</source>
-        <translation type="unfinished"/>
+        <translation>關</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>在主時間軸隱藏討論串回覆，只顯示討論串根訊息。&lt;br&gt;⚠️ 不支援每個討論串的未讀追蹤，因此你可能會錯過較舊討論串中的回覆。</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Extra</source>
-        <translation type="unfinished"/>
+        <translation>額外</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Sticker &amp; Emote Settings</source>
-        <translation type="unfinished"/>
+        <translation>貼圖與表情設定</translation>
     </message>
 </context>
 <context>
@@ -6361,17 +6392,17 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>新增</translation>
     </message>
     <message>
         <location line="+134"/>
         <source>Settings...</source>
-        <translation type="unfinished"/>
+        <translation>設定...</translation>
     </message>
     <message>
         <location line="-135"/>
         <source>Open a new tab [Ctrl+T]</source>
-        <translation type="unfinished"/>
+        <translation>開啟新分頁 [Ctrl+T]</translation>
     </message>
 </context>
 <context>
@@ -6379,69 +6410,69 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
         <source>New Tab</source>
-        <translation type="unfinished"/>
+        <translation>新增分頁</translation>
     </message>
     <message>
         <location line="+250"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
-        <translation type="unfinished"/>
+        <translation>取消釘選分頁</translation>
     </message>
     <message>
         <location line="-90"/>
         <location line="+90"/>
         <source>Pin Tab</source>
-        <translation type="unfinished"/>
+        <translation>釘選分頁</translation>
     </message>
     <message>
         <location line="-72"/>
         <source>Close Tab [Ctrl+W]</source>
-        <translation type="unfinished"/>
+        <translation>關閉分頁 [Ctrl+W]</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Close Tab</source>
-        <translation type="unfinished"/>
+        <translation>關閉分頁</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Other Tabs</source>
-        <translation type="unfinished"/>
+        <translation>關閉其他分頁</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Tabs to the Right</source>
-        <translation type="unfinished"/>
+        <translation>關閉右側分頁</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close Unpinned Tabs</source>
-        <translation type="unfinished"/>
+        <translation>關閉未釘選的分頁</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Close %1</source>
-        <translation type="unfinished"/>
+        <translation>關閉 %1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>(Unread &amp; Draft) </source>
-        <translation type="unfinished"/>
+        <translation>（未讀與草稿） </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>(Unread) </source>
-        <translation type="unfinished"/>
+        <translation>（未讀） </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>(Draft) </source>
-        <translation type="unfinished"/>
+        <translation>（草稿） </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>(Pinned)</source>
-        <translation type="unfinished"/>
+        <translation>（已釘選）</translation>
     </message>
 </context>
 <context>
@@ -6450,32 +6481,32 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
         <location line="+2"/>
         <source>Invited by %1</source>
-        <translation type="unfinished"/>
+        <translation>由 %1 邀請</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Pending invite</source>
-        <translation type="unfinished"/>
+        <translation>待處理的邀請</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Pending invite.</source>
-        <translation type="unfinished"/>
+        <translation>待處理的邀請。</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Previewing this room</source>
-        <translation type="unfinished"/>
+        <translation>正在預覽此聊天室</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>No preview available</source>
-        <translation type="unfinished"/>
+        <translation>無可用預覽</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This room is possibly inaccessible</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室可能無法存取</translation>
     </message>
 </context>
 <context>
@@ -6483,27 +6514,27 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../../src/auth/SSOHandler.cpp" line="+125"/>
         <source>Single Sign-On authentication completed</source>
-        <translation type="unfinished"/>
+        <translation>單一登入驗證已完成</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Close this page and switch back to Komai!</source>
-        <translation type="unfinished"/>
+        <translation>關閉此頁面並切換回 Komai！</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Single Sign-On authentication failed</source>
-        <translation type="unfinished"/>
+        <translation>單一登入驗證失敗</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: %1</source>
-        <translation type="unfinished"/>
+        <translation>錯誤：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You can close this page and try again in Komai.</source>
-        <translation type="unfinished"/>
+        <translation>你可以關閉此頁面並在 Komai 中重試。</translation>
     </message>
 </context>
 <context>
@@ -6511,32 +6542,32 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
         <source>Save your security key and keep it private</source>
-        <translation type="unfinished"/>
+        <translation>儲存你的安全金鑰並妥善保管</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation type="unfinished"/>
+        <translation>你的加密機密現已儲存在伺服器上，並使用以下金鑰進行加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation type="unfinished"/>
+        <translation>如果你登出、重新安裝或設定其他裝置，將需要此金鑰才能存取加密訊息。</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation>已複製</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>複製</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>OK, I saved my security key</source>
-        <translation type="unfinished"/>
+        <translation>好的，我已儲存安全金鑰</translation>
     </message>
 </context>
 <context>
@@ -6544,63 +6575,63 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
         <source>Share desktop with %1?</source>
-        <translation type="unfinished"/>
+        <translation>與 %1 分享桌面？</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Method:</source>
-        <translation type="unfinished"/>
+        <translation>方式：</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Window:</source>
-        <translation type="unfinished"/>
+        <translation>視窗：</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Request screencast</source>
-        <translation type="unfinished"/>
+        <translation>請求螢幕投放</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Frame rate:</source>
-        <translation type="unfinished"/>
+        <translation>影格率：</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Include your camera picture-in-picture</source>
-        <translation type="unfinished"/>
+        <translation>包含你的相機子母畫面</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Request remote camera</source>
-        <translation type="unfinished"/>
+        <translation>請求遠端攝影機</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+9"/>
         <source>View your callee's camera like a regular video call</source>
-        <translation type="unfinished"/>
+        <translation>像一般視訊通話一樣查看受話方的攝影機</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show mouse cursor</source>
-        <translation type="unfinished"/>
+        <translation>顯示滑鼠游標</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Share</source>
-        <translation type="unfinished"/>
+        <translation>分享</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Preview</source>
-        <translation type="unfinished"/>
+        <translation>預覽</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -6608,247 +6639,247 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/SelectionModeHelpDialog.qml" line="+17"/>
         <source>This keyboard shortcut only works in Selection mode, after closing Help.</source>
-        <translation type="unfinished"/>
+        <translation>此鍵盤快捷鍵僅在關閉說明後的選取模式中有效。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>These shortcuts apply in Selection mode after closing Help. See the &lt;a href="%1"&gt;full guide&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>這些快捷鍵在關閉說明後於選取模式中生效。請參閱&lt;a href="%1"&gt;完整指南&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Movement</source>
-        <translation type="unfinished"/>
+        <translation>移動</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Up</source>
-        <translation type="unfinished"/>
+        <translation>Up</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation>K</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move to older messages</source>
-        <translation type="unfinished"/>
+        <translation>移至較舊的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Down</source>
-        <translation type="unfinished"/>
+        <translation>Down</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>J</source>
-        <translation type="unfinished"/>
+        <translation>J</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move to newer messages</source>
-        <translation type="unfinished"/>
+        <translation>移至較新的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+U</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+U</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move about half a screen up</source>
-        <translation type="unfinished"/>
+        <translation>向上移動約半個畫面</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+D</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+D</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Move about half a screen down</source>
-        <translation type="unfinished"/>
+        <translation>向下移動約半個畫面</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>gg</source>
-        <translation type="unfinished"/>
+        <translation>gg</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Go to the oldest loaded message</source>
-        <translation type="unfinished"/>
+        <translation>前往最舊載入的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Shift+G</source>
-        <translation type="unfinished"/>
+        <translation>Shift+G</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Go to the newest loaded message</source>
-        <translation type="unfinished"/>
+        <translation>前往最新載入的訊息</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Selection</source>
-        <translation type="unfinished"/>
+        <translation>選取</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Toggle selection for the focused message</source>
-        <translation type="unfinished"/>
+        <translation>切換聚焦訊息的選取狀態</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>操作</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Enter</source>
-        <translation type="unfinished"/>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open inline actions for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>開啟所選或聚焦訊息的內嵌動作</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy original body for selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>複製所選訊息的原始內容，或已選取或聚焦的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy plain text for selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>複製所選訊息的純文字，或已選取或聚焦的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation>R</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Reply to the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>回覆所選或聚焦的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>T</source>
-        <translation type="unfinished"/>
+        <translation>T</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open or continue the selected or focused thread</source>
-        <translation type="unfinished"/>
+        <translation>開啟或繼續所選或聚焦的討論串</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>E</source>
-        <translation type="unfinished"/>
+        <translation>E</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Edit the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>編輯已選取或聚焦的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>F</source>
-        <translation type="unfinished"/>
+        <translation>F</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>轉發所選訊息，或已選取或聚焦的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete selected messages, or the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>刪除所選訊息，或已選取或聚焦的訊息</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation>U</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>View raw JSON for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>檢視所選或聚焦訊息的原始 JSON</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation>O</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open full Message actions for the selected or focused message</source>
-        <translation type="unfinished"/>
+        <translation>開啟所選或聚焦訊息的完整訊息動作</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>模式</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>?</source>
-        <translation type="unfinished"/>
+        <translation>?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open this help</source>
-        <translation type="unfinished"/>
+        <translation>開啟此說明</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation>I</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Exit Selection mode and return to the composer</source>
-        <translation type="unfinished"/>
+        <translation>退出選取模式並返回輸入框</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Escape</source>
-        <translation type="unfinished"/>
+        <translation>Escape</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Close actions, clear selection, or exit Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>關閉操作、清除選取，或退出選取模式</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Keyboard Shortcuts in Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>選取模式的鍵盤快捷鍵</translation>
     </message>
 </context>
 <context>
@@ -6857,24 +6888,24 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/components/banners/SelfVerificationBanner.qml" line="+24"/>
         <source>To prevent losing access to encrypted messages, set up encryption secrets backup.</source>
         <extracomment>Cross-signing setup has not run yet.</extracomment>
-        <translation type="unfinished"/>
+        <translation>為避免失去加密訊息的存取權，請設定加密金鑰備份。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This account already has encryption keys, but this device is not verified. Verify it to unlock encrypted messages.</source>
         <extracomment>The user just signed in with this device and hasn't verified their master key.</extracomment>
-        <translation type="unfinished"/>
+        <translation>此帳號已有加密金鑰，但此裝置尚未驗證。請驗證以解鎖加密訊息。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This device is verified, but some of your other logged-in devices are not. Review and verify them.</source>
         <extracomment>There are unverified devices signed in to this account.</extracomment>
-        <translation type="unfinished"/>
+        <translation>此裝置已驗證，但您其他已登入的裝置有部分尚未驗證。請檢查並驗證它們。</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
 </context>
 <context>
@@ -6882,53 +6913,54 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/components/encryption/SelfVerificationCoordinator.qml" line="+44"/>
         <source>Encryption setup complete</source>
-        <translation type="unfinished"/>
+        <translation>加密設定完成</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Encryption setup successfully</source>
-        <translation type="unfinished"/>
+        <translation>加密設定成功</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption secrets unlocked</source>
-        <translation type="unfinished"/>
+        <translation>加密金鑰已解鎖</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>This device can now use the recovered encryption secrets.</source>
-        <translation type="unfinished"/>
+        <translation>此裝置現在可以使用已復原的加密金鑰。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Encryption identity reset</source>
-        <translation type="unfinished"/>
+        <translation>加密身份已重置</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>A new encryption identity was created for this device. You may still want to set up backups again.</source>
-        <translation type="unfinished"/>
+        <translation>已為此裝置建立新的加密身份。您可能仍需重新設定備份。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Encryption setup failed</source>
-        <translation type="unfinished"/>
+        <translation>加密設定失敗</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Failed to setup encryption: %1</source>
-        <translation type="unfinished"/>
+        <translation>加密設定失敗：%1</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Setup Encryption</source>
-        <translation type="unfinished"/>
+        <translation>設定加密</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hello and welcome to Matrix!
 It seems like you are new. Before you can securely encrypt your messages, we need to setup a few small things. You can either press accept immediately or adjust a few basic options. We also try to explain a few of the basics. You can skip those parts, but they might prove to be helpful!</source>
-        <translation type="unfinished"/>
+        <translation>歡迎使用 Matrix！
+看起來您是新使用者。在您可以安全地加密訊息之前，我們需要設定一些小事項。您可以立即按下接受，或調整一些基本選項。我們也會說明一些基本概念，您可以跳過這些部分，但它們可能對您有所幫助！</translation>
     </message>
 </context>
 <context>
@@ -6936,23 +6968,23 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../../src/encryption/SelfVerificationStatus.cpp" line="+25"/>
         <source>The Rust Matrix backend is not active, so encryption recovery is unavailable.</source>
-        <translation type="unfinished"/>
+        <translation>Rust Matrix 後端未啟用，因此無法進行加密復原。</translation>
     </message>
     <message>
         <location line="+158"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>目前沒有其他已登入的裝置可用於驗證。</translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+79"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>驗證管理員無法使用。</translation>
     </message>
     <message>
         <location line="-59"/>
         <source>This account does not currently expose an unlockable key backup.</source>
-        <translation type="unfinished"/>
+        <translation>此帳號目前沒有可解鎖的金鑰備份。</translation>
     </message>
 </context>
 <context>
@@ -6960,17 +6992,17 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAccessTokenField.qml" line="+24"/>
         <source>Click to reveal</source>
-        <translation type="unfinished"/>
+        <translation>點擊以顯示</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>已複製！</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>複製到剪貼簿</translation>
     </message>
 </context>
 <context>
@@ -6978,30 +7010,30 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAvatarPreview.qml" line="+28"/>
         <source>This preview shows how avatar settings affect rendering throughout the app.</source>
-        <translation type="unfinished"/>
+        <translation>此預覽顯示頭像設定如何影響整個應用程式的顯示效果。</translation>
     </message>
     <message>
         <location line="+31"/>
         <location line="+3"/>
         <source>Hey everyone! Just joined the chat.</source>
-        <translation type="unfinished"/>
+        <translation>大家好！剛加入聊天。</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+3"/>
         <source>Welcome, Alice! I'm still setting up my profile.</source>
-        <translation type="unfinished"/>
+        <translation>歡迎，Alice！我還在設定我的個人資料。</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+3"/>
         <source>Same here, still no avatar yet.</source>
-        <translation type="unfinished"/>
+        <translation>我也是，還沒有頭像。</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>頭像預覽</translation>
     </message>
 </context>
 <context>
@@ -7009,28 +7041,28 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>顯示</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show filter in sidebar</source>
-        <translation type="unfinished"/>
+        <translation>在側邊欄顯示篩選器</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>未讀指示器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Emphasize this filter when it has unread messages</source>
-        <translation type="unfinished"/>
+        <translation>有未讀訊息時強調此篩選器</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>包含在「全部聊天室」中</translation>
     </message>
 </context>
 <context>
@@ -7038,7 +7070,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowIgnoredUsers.qml" line="+12"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>管理</translation>
     </message>
 </context>
 <context>
@@ -7046,7 +7078,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowLogout.qml" line="+12"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation>登出</translation>
     </message>
 </context>
 <context>
@@ -7054,12 +7086,12 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowPresenceStatusMessage.qml" line="+52"/>
         <source>Set a status message</source>
-        <translation type="unfinished"/>
+        <translation>設定狀態訊息</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Clear status message</source>
-        <translation type="unfinished"/>
+        <translation>清除狀態訊息</translation>
     </message>
 </context>
 <context>
@@ -7067,7 +7099,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowProfileButton.qml" line="+11"/>
         <source>Open Profile Settings</source>
-        <translation type="unfinished"/>
+        <translation>開啟個人資料設定</translation>
     </message>
 </context>
 <context>
@@ -7075,38 +7107,38 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
         <source>No spaces found. Join a space to see it here.</source>
-        <translation type="unfinished"/>
+        <translation>未找到空間。加入一個空間即可在此顯示。</translation>
     </message>
     <message>
         <location line="+90"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation>空間</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>顯示</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show space in sidebar</source>
-        <translation type="unfinished"/>
+        <translation>在側邊欄顯示空間</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unread indicators</source>
-        <translation type="unfinished"/>
+        <translation>未讀指示器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Emphasize this filter when it has unread messages</source>
-        <translation type="unfinished"/>
+        <translation>有未讀訊息時強調此篩選器</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation>包含在「全部聊天室」中</translation>
     </message>
 </context>
 <context>
@@ -7114,43 +7146,44 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreview.qml" line="+21"/>
         <source>Alice</source>
-        <translation type="unfinished"/>
+        <translation>Alice</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Bob</source>
-        <translation type="unfinished"/>
+        <translation>Bob</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>外觀與感覺</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This semi-functional preview shows how settings from the &lt;b&gt;%1&lt;/b&gt; tab and those below affect the timeline.</source>
-        <translation type="unfinished"/>
+        <translation>此半功能性預覽顯示來自 &lt;b&gt;%1&lt;/b&gt; 標籤及其下方的設定如何影響時間軸。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I just stumbled upon %1 - finally, a %2 chat app I love! ❤️</source>
-        <translation type="unfinished"/>
+        <translation>我剛發現了 %1——終於找到一個我喜愛的 %2 聊天應用程式！❤️</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>I'm giving it a try too! Currently tweaking how messages look.
 It seems pleasing to the eye and insanely fast! 🚀</source>
-        <translation type="unfinished"/>
+        <translation>我也來試試！目前正在調整訊息的顯示方式。
+看起來賞心悅目而且速度超快！🚀</translation>
     </message>
     <message>
         <location line="+116"/>
         <source>You</source>
-        <translation type="unfinished"/>
+        <translation>你</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>時間軸預覽</translation>
     </message>
 </context>
 <context>
@@ -7160,24 +7193,24 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+108"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>編輯</translation>
     </message>
     <message>
         <location line="-100"/>
         <location line="+117"/>
         <location line="+1"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>回覆</translation>
     </message>
     <message>
         <location line="-48"/>
         <source>React</source>
-        <translation type="unfinished"/>
+        <translation>反應</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>選項</translation>
     </message>
 </context>
 <context>
@@ -7185,17 +7218,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 正在輸入……</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1 和 %2 正在輸入……</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation>%1、%2 和另外 %3 人正在輸入……</translation>
     </message>
 </context>
 <context>
@@ -7203,7 +7236,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
-        <translation type="unfinished"/>
+        <translation>以下選項無效，因為帳號通知已在上方停用。</translation>
     </message>
 </context>
 <context>
@@ -7211,7 +7244,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/ShortcutKeyBadge.qml" line="+14"/>
         <source>Press these keyboard keys to trigger this action.</source>
-        <translation type="unfinished"/>
+        <translation>按下這些鍵盤按鍵以觸發此操作。</translation>
     </message>
 </context>
 <context>
@@ -7219,27 +7252,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation>帳號貼圖包</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>image</source>
-        <translation type="unfinished"/>
+        <translation>圖片</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>File not found: %1</source>
-        <translation type="unfinished"/>
+        <translation>找不到檔案：%1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The selected file is not an image: %1</source>
-        <translation type="unfinished"/>
+        <translation>所選檔案不是圖片：%1</translation>
     </message>
     <message>
         <location line="+134"/>
         <source>Only room image packs can be enabled globally.</source>
-        <translation type="unfinished"/>
+        <translation>只有聊天室圖片包才能全域啟用。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7248,38 +7281,38 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 後端尚未就緒。</translation>
     </message>
     <message>
         <location line="-253"/>
         <source>Failed to update image-pack global enablement.</source>
-        <translation type="unfinished"/>
+        <translation>更新圖片包全域啟用狀態失敗。</translation>
     </message>
     <message>
         <location line="+132"/>
         <source>Failed to save image pack.</source>
-        <translation type="unfinished"/>
+        <translation>儲存圖片包失敗。</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Failed to remove image pack.</source>
-        <translation type="unfinished"/>
+        <translation>移除圖片包失敗。</translation>
     </message>
     <message>
         <location line="+27"/>
         <location line="+62"/>
         <source>Only local image files are supported here.</source>
-        <translation type="unfinished"/>
+        <translation>此處僅支援本機圖片檔案。</translation>
     </message>
     <message>
         <location line="-35"/>
         <source>Failed to upload '%1'.</source>
-        <translation type="unfinished"/>
+        <translation>上傳「%1」失敗。</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Failed to upload the pack overview image.</source>
-        <translation type="unfinished"/>
+        <translation>上傳包概覽圖片失敗。</translation>
     </message>
 </context>
 <context>
@@ -7288,18 +7321,18 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
         <location line="+77"/>
         <source>Notification</source>
-        <translation type="unfinished"/>
+        <translation>通知</translation>
     </message>
     <message>
         <location line="-65"/>
         <location line="+246"/>
         <source>Dismiss this message</source>
-        <translation type="unfinished"/>
+        <translation>關閉此訊息</translation>
     </message>
     <message>
         <location line="-120"/>
         <source>+%1</source>
-        <translation type="unfinished"/>
+        <translation>+%1</translation>
     </message>
 </context>
 <context>
@@ -7307,17 +7340,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/TimelineTab/StateEventsSection.qml" line="+28"/>
         <source>Additional events</source>
-        <translation type="unfinished"/>
+        <translation>其他事件</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>If you're feeling overwhelmed, consider disabling some of these noisy events here globally, or per-room (in Room Settings).</source>
-        <translation type="unfinished"/>
+        <translation>若感到不堪負荷，可考慮在此全域停用部分雜亂事件，或在各聊天室中停用（在聊天室設定中）。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Available after you sign in.</source>
-        <translation type="unfinished"/>
+        <translation>登入後可用。</translation>
     </message>
 </context>
 <context>
@@ -7325,32 +7358,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/ui/StatusIndicator.qml" line="+23"/>
         <source>Failed: %1</source>
-        <translation type="unfinished"/>
+        <translation>失敗：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation>失敗</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sending</source>
-        <translation type="unfinished"/>
+        <translation>傳送中</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sent</source>
-        <translation type="unfinished"/>
+        <translation>已傳送</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Received</source>
-        <translation type="unfinished"/>
+        <translation>已收到</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Read</source>
-        <translation type="unfinished"/>
+        <translation>已讀</translation>
     </message>
 </context>
 <context>
@@ -7359,32 +7392,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
         <location line="+1088"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>設定</translation>
     </message>
     <message>
         <location line="-717"/>
         <source>Pick an Emoji</source>
-        <translation type="unfinished"/>
+        <translation>選擇表情符號</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pick a Sticker</source>
-        <translation type="unfinished"/>
+        <translation>選擇貼圖</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>搜尋</translation>
     </message>
     <message>
         <location line="+580"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
-        <translation type="unfinished"/>
+        <translation>變更已啟用的貼圖包、移除貼圖包或建立新的貼圖包</translation>
     </message>
 </context>
 <context>
@@ -7392,17 +7425,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/device-verification/Success.qml" line="+12"/>
         <source>Verification Complete</source>
-        <translation type="unfinished"/>
+        <translation>驗證完成</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verification complete. Both devices have been verified.</source>
-        <translation type="unfinished"/>
+        <translation>驗證完成。兩個裝置均已驗證。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
 </context>
 <context>
@@ -7410,92 +7443,92 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SupportDialog.qml" line="+18"/>
         <source>Sponsor Komai</source>
-        <translation type="unfinished"/>
+        <translation>贊助 Komai</translation>
     </message>
     <message>
         <location line="+87"/>
         <source>&lt;a href="%1"&gt;Komai&lt;/a&gt; is fully &lt;a href="%2"&gt;Free Software&lt;/a&gt; (&lt;a href="%3"&gt;GPL-3.0-or-later&lt;/a&gt;) with no &lt;a href="%4"&gt;CLA&lt;/a&gt; and no gatekeeping.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;a href="%1"&gt;Komai&lt;/a&gt; 完全是 &lt;a href="%2"&gt;自由軟體&lt;/a&gt;（&lt;a href="%3"&gt;GPL-3.0-or-later&lt;/a&gt;），沒有 &lt;a href="%4"&gt;CLA&lt;/a&gt;，也沒有門禁限制。</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>You can support Komai by contributing code, design, testing, translations, helping others, or financially.</source>
-        <translation type="unfinished"/>
+        <translation>您可以透過貢獻程式碼、設計、測試、翻譯、協助他人或提供財務支援來支持 Komai。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>If you'd like to help financially, you can use one of the options below.</source>
-        <translation type="unfinished"/>
+        <translation>若您想提供財務支援，可使用以下其中一種方式。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Monetary support</source>
-        <translation type="unfinished"/>
+        <translation>財務支援</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>GitHub Sponsors</source>
-        <translation type="unfinished"/>
+        <translation>GitHub Sponsors</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Support via GitHub Sponsors</source>
-        <translation type="unfinished"/>
+        <translation>透過 GitHub Sponsors 支援</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Liberapay</source>
-        <translation type="unfinished"/>
+        <translation>Liberapay</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Support via Liberapay</source>
-        <translation type="unfinished"/>
+        <translation>透過 Liberapay 支援</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>I already sponsor!</source>
-        <translation type="unfinished"/>
+        <translation>我已是贊助者！</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Click to unmark yourself as a sponsor</source>
-        <translation type="unfinished"/>
+        <translation>點擊以取消自己的贊助者標記</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mark yourself locally as a sponsor</source>
-        <translation type="unfinished"/>
+        <translation>在本機將自己標記為贊助者</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Hide this button</source>
-        <translation type="unfinished"/>
+        <translation>隱藏此按鈕</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Permanently hide the sponsor button from the interface</source>
-        <translation type="unfinished"/>
+        <translation>從介面中永久隱藏贊助按鈕</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Hide sponsor button?</source>
-        <translation type="unfinished"/>
+        <translation>隱藏贊助按鈕？</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>This will permanently hide the sponsor button from this screen.</source>
-        <translation type="unfinished"/>
+        <translation>這將從此畫面中永久隱藏贊助按鈕。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>隱藏</translation>
     </message>
 </context>
 <context>
@@ -7503,12 +7536,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SyncedToMatrixBadge.qml" line="+30"/>
         <source>This setting is stored on your Matrix account and applies across all your devices which support it.</source>
-        <translation type="unfinished"/>
+        <translation>此設定儲存於您的 Matrix 帳號，並套用至所有支援此功能的裝置。</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Synced to Matrix</source>
-        <translation type="unfinished"/>
+        <translation>已同步至 Matrix</translation>
     </message>
 </context>
 <context>
@@ -7516,12 +7549,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/delegates/TextMessage.qml" line="+187"/>
         <source>Show more</source>
-        <translation type="unfinished"/>
+        <translation>顯示更多</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Show less</source>
-        <translation type="unfinished"/>
+        <translation>顯示更少</translation>
     </message>
 </context>
 <context>
@@ -7529,17 +7562,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/ThreadViewBar.qml" line="+152"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>討論串</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Thread by %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 的討論串</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Thread by %1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1 的討論串（%2）</translation>
     </message>
     <message numerus="yes">
         <location line="+86"/>
@@ -7551,12 +7584,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+65"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Close this thread and show the main timeline [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>關閉此討論串並顯示主時間軸 [Escape]</translation>
     </message>
 </context>
 <context>
@@ -7564,7 +7597,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ThreadsDialog.qml" line="+25"/>
         <source>Threads</source>
-        <translation type="unfinished"/>
+        <translation>討論串</translation>
     </message>
     <message numerus="yes">
         <location line="+57"/>
@@ -7576,27 +7609,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+13"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>全部</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Participated</source>
-        <translation type="unfinished"/>
+        <translation>已參與</translation>
     </message>
     <message>
         <location line="+241"/>
         <source>No threads found</source>
-        <translation type="unfinished"/>
+        <translation>找不到討論串</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>You haven't participated in any threads in this room yet.</source>
-        <translation type="unfinished"/>
+        <translation>你尚未在此聊天室中參與任何討論串。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No one has started a thread in this room yet.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室尚無人建立討論串。</translation>
     </message>
 </context>
 <context>
@@ -7604,7 +7637,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
         <source>Back to room list</source>
-        <translation type="unfinished"/>
+        <translation>返回聊天室列表</translation>
     </message>
 </context>
 <context>
@@ -7612,7 +7645,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
-        <translation type="unfinished"/>
+        <translation>%1的狀態訊息</translation>
     </message>
 </context>
 <context>
@@ -7620,17 +7653,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
-        <translation type="unfinished"/>
+        <translation>回報問題</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Sponsoring!</source>
-        <translation type="unfinished"/>
+        <translation>贊助中！</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>贊助</translation>
     </message>
 </context>
 <context>
@@ -7638,68 +7671,68 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/TimelineEvent.qml" line="+229"/>
         <source>%1 placed a voice call.</source>
-        <translation type="unfinished"/>
+        <translation>%1發起了語音通話。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 placed a video call.</source>
-        <translation type="unfinished"/>
+        <translation>%1發起了視訊通話。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 placed a call.</source>
-        <translation type="unfinished"/>
+        <translation>%1發起了通話。</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>%1 answered the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1已接聽通話。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 rejected the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1拒絕了通話。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 selected answer.</source>
-        <translation type="unfinished"/>
+        <translation>%1已選擇應答。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 ended the call.</source>
-        <translation type="unfinished"/>
+        <translation>%1已結束通話。</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>%1 is negotiating the call...</source>
-        <translation type="unfinished"/>
+        <translation>%1正在協商通話……</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>Allow them in</source>
-        <translation type="unfinished"/>
+        <translation>允許進入</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>This room was replaced for the following reason: %1</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室已因以下原因被替換：%1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Go to replacement room</source>
-        <translation type="unfinished"/>
+        <translation>前往替代聊天室</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unsupported: %1</source>
-        <translation type="unfinished"/>
+        <translation>不支援：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Unsupported message</source>
-        <translation type="unfinished"/>
+        <translation>不支援的訊息</translation>
     </message>
 </context>
 <context>
@@ -7707,17 +7740,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineMentionWarningBar.qml" line="+63"/>
         <source>You are about to notify the whole room</source>
-        <translation type="unfinished"/>
+        <translation>你即將通知整個聊天室</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>You are about to mention %1</source>
-        <translation type="unfinished"/>
+        <translation>你即將提及%1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation>在此訊息中不提及他們</translation>
     </message>
 </context>
 <context>
@@ -7725,22 +7758,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/TimelineMetadata.qml" line="+160"/>
         <source>Retry sending</source>
-        <translation type="unfinished"/>
+        <translation>重試傳送</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Edited</source>
-        <translation type="unfinished"/>
+        <translation>已編輯</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation>取消釘選</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation>訊息操作</translation>
     </message>
     <message numerus="yes">
         <location line="+64"/>
@@ -7752,7 +7785,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Reply in this thread</source>
-        <translation type="unfinished"/>
+        <translation>在此討論串中回覆</translation>
     </message>
 </context>
 <context>
@@ -7760,7 +7793,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+156"/>
         <source>%1's status message</source>
-        <translation type="unfinished"/>
+        <translation>%1的狀態訊息</translation>
     </message>
 </context>
 <context>
@@ -7768,12 +7801,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation type="unfinished"/>
+        <translation>無可用預覽</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>設定</translation>
     </message>
     <message numerus="yes">
         <location line="+19"/>
@@ -7785,27 +7818,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+3"/>
         <source>View members of %1</source>
-        <translation type="unfinished"/>
+        <translation>查看%1的成員</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>This room is possibly inaccessible. If this room is private, you should remove it from this community.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室可能無法存取。若此聊天室為私人，你應將其從此社群中移除。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Join the conversation</source>
-        <translation type="unfinished"/>
+        <translation>加入對話</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation>離開</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This room is available in the room list, but its timeline is not loaded yet.</source>
-        <translation type="unfinished"/>
+        <translation>此聊天室已在聊天室列表中，但時間軸尚未載入。</translation>
     </message>
 </context>
 <context>
@@ -7814,7 +7847,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/timeline/components/TimelineToEndButton.qml" line="+93"/>
         <location line="+1"/>
         <source>Scroll to bottom</source>
-        <translation type="unfinished"/>
+        <translation>捲動至底部</translation>
     </message>
 </context>
 <context>
@@ -7823,218 +7856,220 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1146"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+293"/>
         <source>Failed to send message: %1</source>
-        <translation type="unfinished"/>
+        <translation>傳送訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+123"/>
         <source>Failed to edit message: %1</source>
-        <translation type="unfinished"/>
+        <translation>編輯訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+100"/>
         <source>Failed to react: %1</source>
-        <translation type="unfinished"/>
+        <translation>新增反應失敗：%1</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Failed to delete message: %1</source>
-        <translation type="unfinished"/>
+        <translation>刪除訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to cancel unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>取消未傳送訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Failed to retry unsent message: %1</source>
-        <translation type="unfinished"/>
+        <translation>重試未傳送訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>刪除部分訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+120"/>
         <source>Failed to mark message as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>將訊息標記為已讀失敗：%1</translation>
     </message>
     <message>
         <location line="+70"/>
         <source>Failed to report message: %1</source>
-        <translation type="unfinished"/>
+        <translation>回報訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+91"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
-        <translation type="unfinished"/>
+        <translation>轉寄訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+136"/>
         <source>Failed to forward some messages: %1</source>
-        <translation type="unfinished"/>
+        <translation>轉寄部分訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Failed to pin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>釘選訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Failed to unpin message: %1</source>
-        <translation type="unfinished"/>
+        <translation>取消釘選訊息失敗：%1</translation>
     </message>
     <message>
         <location line="+232"/>
         <source>Select file(s)</source>
-        <translation type="unfinished"/>
+        <translation>選取檔案</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"/>
+        <translation>所有檔案 (*)</translation>
     </message>
     <message>
         <location line="+135"/>
         <source>Finish editing the current message before attaching files.</source>
-        <translation type="unfinished"/>
+        <translation>請先完成編輯目前的訊息，再附加檔案。</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Only existing local files can be attached by drag and drop.</source>
-        <translation type="unfinished"/>
+        <translation>只能透過拖放附加本機現有的檔案。</translation>
     </message>
     <message>
         <location line="+246"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
-        <translation type="unfinished"/>
+        <translation>您的工作階段已過期。請重新登入。
+
+（%1）</translation>
     </message>
     <message>
         <location line="+77"/>
         <source>Save attachment</source>
-        <translation type="unfinished"/>
+        <translation>儲存附件</translation>
     </message>
     <message>
         <location line="+362"/>
         <source>Failed to send attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>傳送附件「%1」失敗：%2</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
-        <translation type="unfinished"/>
+        <translation>擷取附件「%1」失敗：無作用中的 Matrix 工作階段</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Failed to fetch attachment '%1': %2</source>
-        <translation type="unfinished"/>
+        <translation>擷取附件「%1」失敗：%2</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Saved attachment '%1' but failed to open it</source>
-        <translation type="unfinished"/>
+        <translation>已儲存附件「%1」，但無法開啟</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>開啟</translation>
     </message>
     <message>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation type="unfinished"/>
+        <translation>在資料夾中顯示</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Saved attachment '%1'</source>
-        <translation type="unfinished"/>
+        <translation>已儲存附件「%1」</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
         <source>Failed to ignore user %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>忽略使用者%1失敗：%2</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
         <source>This command needs an active room.</source>
-        <translation type="unfinished"/>
+        <translation>此指令需要一個活躍的聊天室。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>The chat page is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>聊天頁面尚未就緒。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The Matrix session is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 工作階段尚未就緒。</translation>
     </message>
     <message>
         <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
-        <translation type="unfinished"/>
+        <translation>在可見的時間軸中未找到來自 %1 的訊息。</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Failed to update your room-specific display name for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>更新 %1 的聊天室專屬顯示名稱失敗：%2</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>The room timeline is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation>聊天室時間軸尚未就緒。</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+10"/>
         <source>That message index could not be resolved in this room.</source>
-        <translation type="unfinished"/>
+        <translation>無法在此聊天室中解析該訊息索引。</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Could not resolve that /goto target. Use an event ID, numeric message index, or Matrix link.</source>
-        <translation type="unfinished"/>
+        <translation>無法解析該 /goto 目標。請使用事件 ID、數字訊息索引或 Matrix 連結。</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Failed to update direct-message state for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>更新 %1 的私訊狀態失敗：%2</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Marked this room as a direct message.</source>
-        <translation type="unfinished"/>
+        <translation>已將此聊天室標記為私訊。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Marked this room as a regular room.</source>
-        <translation type="unfinished"/>
+        <translation>已將此聊天室標記為一般聊天室。</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Failed to update ignored-user state: %1</source>
-        <translation type="unfinished"/>
+        <translation>更新忽略使用者狀態失敗：%1</translation>
     </message>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="-26"/>
         <source>Failed to resolve media for saving</source>
-        <translation type="unfinished"/>
+        <translation>無法解析要儲存的媒體</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Failed to save media to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>無法將媒體儲存至「%1」</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saved to '%1'</source>
-        <translation type="unfinished"/>
+        <translation>已儲存至「%1」</translation>
     </message>
 </context>
 <context>
@@ -8049,113 +8084,113 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>1 selected message</source>
-        <translation type="unfinished"/>
+        <translation>已選取 1 則訊息</translation>
     </message>
     <message>
         <location line="-4"/>
         <location line="+5"/>
         <source>Selection mode</source>
-        <translation type="unfinished"/>
+        <translation>選取模式</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>快捷鍵</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show keyboard shortcuts [?]</source>
-        <translation type="unfinished"/>
+        <translation>顯示鍵盤快捷鍵 [?]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Reply</source>
-        <translation type="unfinished"/>
+        <translation>回覆</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reply to message [R]</source>
-        <translation type="unfinished"/>
+        <translation>回覆訊息 [R]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Thread</source>
-        <translation type="unfinished"/>
+        <translation>討論串</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Open or continue a thread [T]</source>
-        <translation type="unfinished"/>
+        <translation>開啟或繼續討論串 [T]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>編輯</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Edit message [E]</source>
-        <translation type="unfinished"/>
+        <translation>編輯訊息 [E]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation>轉傳</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Forward selected messages [F]</source>
-        <translation type="unfinished"/>
+        <translation>轉傳選取的訊息 [F]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Forward message [F]</source>
-        <translation type="unfinished"/>
+        <translation>轉傳訊息 [F]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>刪除</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Delete selected messages [D]</source>
-        <translation type="unfinished"/>
+        <translation>刪除選取的訊息 [D]</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete message [D]</source>
-        <translation type="unfinished"/>
+        <translation>刪除訊息 [D]</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>選項</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>More message actions [O]</source>
-        <translation type="unfinished"/>
+        <translation>更多訊息操作 [O]</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>清除</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Clear selection [Escape]</source>
-        <translation type="unfinished"/>
+        <translation>清除選取 [Escape]</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Exit Selection mode and return to the composer [I or Escape]</source>
-        <translation type="unfinished"/>
+        <translation>退出選取模式並返回編輯器 [I or Escape]</translation>
     </message>
 </context>
 <context>
@@ -8163,12 +8198,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
         <source>OFF</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>ON</source>
-        <translation type="unfinished"/>
+        <translation>開啟</translation>
     </message>
 </context>
 <context>
@@ -8176,12 +8211,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>顯示</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation type="unfinished"/>
+        <translation>退出</translation>
     </message>
     <message numerus="yes">
         <location line="+31"/>
@@ -8197,32 +8232,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/encryption/UnlockKeyBackupDialog.qml" line="+30"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>解鎖金鑰備份</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation type="unfinished"/>
+        <translation>請提供您的安全金鑰或通行密碼（如有）以解鎖加密機密。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Security keys look like this: </source>
-        <translation type="unfinished"/>
+        <translation>安全金鑰的格式如下： </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Security key or passphrase</source>
-        <translation type="unfinished"/>
+        <translation>安全金鑰或通行密碼</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Unlock</source>
-        <translation type="unfinished"/>
+        <translation>解鎖</translation>
     </message>
 </context>
 <context>
@@ -8230,33 +8265,33 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
         <source>Attachments</source>
-        <translation type="unfinished"/>
+        <translation>附件</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Detach all attachments</source>
-        <translation type="unfinished"/>
+        <translation>移除所有附件</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Add an optional filename...</source>
-        <translation type="unfinished"/>
+        <translation>新增可選檔名……</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Add an optional caption...</source>
-        <translation type="unfinished"/>
+        <translation>新增可選說明文字……</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+2"/>
         <source>Detach</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Note: each file is sent as a separate message.</source>
-        <translation type="unfinished"/>
+        <translation>注意：每個檔案將以獨立訊息傳送。</translation>
     </message>
 </context>
 <context>
@@ -8264,7 +8299,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
         <source>Only your own profile can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>此處只能變更您自己的個人資料。</translation>
     </message>
     <message>
         <location line="-58"/>
@@ -8276,209 +8311,209 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+76"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 後端執行環境不可用。</translation>
     </message>
     <message>
         <location line="-357"/>
         <source>Failed to set power level for %1.</source>
-        <translation type="unfinished"/>
+        <translation>無法設定%1的權限等級。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to set power level for %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>無法設定%1的權限等級：%2</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Failed to update display name.</source>
-        <translation type="unfinished"/>
+        <translation>無法更新顯示名稱。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to update room display name.</source>
-        <translation type="unfinished"/>
+        <translation>無法更新聊天室顯示名稱。</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Device name cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>裝置名稱不得為空。</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Failed to rename device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>無法重新命名裝置「%1」。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to rename device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>無法重新命名裝置「%1」：%2</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>The verification manager is not available.</source>
-        <translation type="unfinished"/>
+        <translation>驗證管理器無法使用。</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to clear verification for device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>無法清除裝置「%1」的驗證狀態。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to clear verification for device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>無法清除裝置「%1」的驗證狀態：%2</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Failed to block device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>封鎖裝置「%1」失敗。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to block device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>封鎖裝置「%1」失敗：%2</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Failed to unblock device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>無法解除封鎖裝置「%1」。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to unblock device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>無法解除封鎖裝置「%1」：%2</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Select an avatar</source>
-        <translation type="unfinished"/>
+        <translation>選擇頭像</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"/>
+        <translation>所有檔案（*）</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>The selected file is not an image</source>
-        <translation type="unfinished"/>
+        <translation>所選檔案不是圖片</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error while reading file: %1</source>
-        <translation type="unfinished"/>
+        <translation>讀取檔案時發生錯誤：%1</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+47"/>
         <source>Only your own avatar can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation>此處只能變更您自己的頭像。</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Failed to upload avatar.</source>
-        <translation type="unfinished"/>
+        <translation>無法上傳頭像。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to upload room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>無法上傳聊天室頭像。</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Failed to remove avatar.</source>
-        <translation type="unfinished"/>
+        <translation>無法移除頭像。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Failed to remove room avatar.</source>
-        <translation type="unfinished"/>
+        <translation>無法移除聊天室頭像。</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/user/UserProfile.qml" line="+45"/>
         <source>Kick %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>將%1從聊天室踢出？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ban %1 from room?</source>
-        <translation type="unfinished"/>
+        <translation>要將 %1 封禁於此聊天室嗎？</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Room member profile</source>
-        <translation type="unfinished"/>
+        <translation>聊天室成員資料</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>User profile</source>
-        <translation type="unfinished"/>
+        <translation>使用者資料</translation>
     </message>
     <message>
         <location line="+91"/>
         <source>Room</source>
-        <translation type="unfinished"/>
+        <translation>聊天室</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation>個人資料</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation>頭像</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Change avatar for this room</source>
-        <translation type="unfinished"/>
+        <translation>更改此聊天室的頭像</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>更改</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Reset to global avatar</source>
-        <translation type="unfinished"/>
+        <translation>重置為全域頭像</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+100"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>You have a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>你設有不同的全域頭像。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a different global avatar.</source>
-        <translation type="unfinished"/>
+        <translation>此使用者設有不同的全域頭像。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You have a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>你設有聊天室專屬頭像。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This user has a room-specific avatar.</source>
-        <translation type="unfinished"/>
+        <translation>此使用者設有聊天室專屬頭像。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Reset avatar</source>
-        <translation type="unfinished"/>
+        <translation>重置頭像</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to reset your avatar for this room to the global one?</source>
-        <translation type="unfinished"/>
+        <translation>您確定要將此聊天室的頭像重設為全域頭像嗎？</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8487,298 +8522,299 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+100"/>
         <location line="+382"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="-1118"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation>重置</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation>移除頭像</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation>您確定要移除您的頭像嗎？</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation>顯示名稱</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Leave empty to use your global name: %1</source>
-        <translation type="unfinished"/>
+        <translation>留空以使用全域名稱：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave empty to clear the room-specific name.</source>
-        <translation type="unfinished"/>
+        <translation>留空以清除聊天室專屬名稱。</translation>
     </message>
     <message>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation>已複製！</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Copy display name</source>
-        <translation type="unfinished"/>
+        <translation>複製顯示名稱</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>使用者 ID</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation>複製使用者 ID</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>狀態</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Power level</source>
-        <translation type="unfinished"/>
+        <translation>權限等級</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation>驗證</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+516"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation>已驗證</translation>
     </message>
     <message>
         <location line="-514"/>
         <source>Implicitly trusted</source>
-        <translation type="unfinished"/>
+        <translation>隱式信任</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+514"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation>未驗證</translation>
     </message>
     <message>
         <location line="-497"/>
         <source>Accepted on first use, not explicitly verified.</source>
-        <translation type="unfinished"/>
+        <translation>首次使用時接受，未明確驗證。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Identity keys changed or never seen. Consider verifying.</source>
-        <translation type="unfinished"/>
+        <translation>身份金鑰已變更或從未出現過。建議進行驗證。</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Global display name: %1</source>
-        <translation type="unfinished"/>
+        <translation>全域顯示名稱：%1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>操作</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Start direct chat</source>
-        <translation type="unfinished"/>
+        <translation>開始私訊</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Verify user</source>
-        <translation type="unfinished"/>
+        <translation>驗證使用者</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Verify device</source>
-        <translation type="unfinished"/>
+        <translation>驗證裝置</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Unignore user</source>
-        <translation type="unfinished"/>
+        <translation>取消忽略使用者</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore user</source>
-        <translation type="unfinished"/>
+        <translation>忽略使用者</translation>
     </message>
     <message>
         <location line="+18"/>
         <location line="+90"/>
         <location line="+82"/>
         <source>Change power level</source>
-        <translation type="unfinished"/>
+        <translation>更改權限等級</translation>
     </message>
     <message>
         <location line="-161"/>
         <source>Kick from room</source>
-        <translation type="unfinished"/>
+        <translation>從聊天室踢出</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Ban from room</source>
-        <translation type="unfinished"/>
+        <translation>從聊天室封禁</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Remove all messages</source>
-        <translation type="unfinished"/>
+        <translation>移除所有訊息</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Unignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>取消忽略 %1？</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ignore %1?</source>
-        <translation type="unfinished"/>
+        <translation>忽略%1？</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>You will see their messages again.</source>
-        <translation type="unfinished"/>
+        <translation>你將再次看到他們的訊息。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>After ignoring, you will no longer see their messages in any room.
 You can unignore later via this user's profile or via Settings → Account → Ignored users.</source>
-        <translation type="unfinished"/>
+        <translation>忽略後，您將不再在任何聊天室中看到其訊息。
+您可以稍後透過此使用者的個人資料或設定 → 帳號 → 已忽略使用者取消忽略。</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation>取消忽略</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>忽略</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Set the power level for %1 in this room.</source>
-        <translation type="unfinished"/>
+        <translation>設定 %1 在此聊天室的權限等級。</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Presets:</source>
-        <translation type="unfinished"/>
+        <translation>預設值：</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>User (0)</source>
-        <translation type="unfinished"/>
+        <translation>使用者 (0)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Moderator (50)</source>
-        <translation type="unfinished"/>
+        <translation>版主（50）</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Administrator (100)</source>
-        <translation type="unfinished"/>
+        <translation>管理員（100）</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Rooms in common</source>
-        <translation type="unfinished"/>
+        <translation>共同聊天室</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Devices (sessions)</source>
-        <translation type="unfinished"/>
+        <translation>裝置（工作階段）</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation>已重新整理</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation>重新整理</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation>管理</translation>
     </message>
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation>此裝置</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation>已封鎖</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation>驗證</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation>解除封鎖</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation>封鎖</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>No known devices.</source>
-        <translation type="unfinished"/>
+        <translation>無已知裝置。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device information becomes available only after exchanging encrypted messages with this user.</source>
-        <translation type="unfinished"/>
+        <translation>裝置資訊僅在與此使用者交換加密訊息後才可使用。</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Add optional reason for kicking %1</source>
-        <translation type="unfinished"/>
+        <translation>新增踢出 %1 的可選原因</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add optional reason for banning %1</source>
-        <translation type="unfinished"/>
+        <translation>新增封禁 %1 的可選原因</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Kick</source>
-        <translation type="unfinished"/>
+        <translation>踢出</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ban</source>
-        <translation type="unfinished"/>
+        <translation>封禁</translation>
     </message>
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation>取消驗證</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8787,75 +8823,75 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+41"/>
         <location line="+40"/>
         <source>Device id cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>裝置 ID 不得為空。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Device sign-out requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>裝置登出需要活躍的 matrix-sdk 後端執行環境。</translation>
     </message>
     <message>
         <location line="+19"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>無法登出裝置「%1」。</translation>
     </message>
     <message>
         <location line="-54"/>
         <location line="+55"/>
         <source>Failed to sign out device "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>無法登出裝置「%1」：%2</translation>
     </message>
     <message>
         <location line="-45"/>
         <location line="+53"/>
         <source>Signed out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>已登出裝置「%1」。</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Sign Out Device</source>
-        <translation type="unfinished"/>
+        <translation>登出裝置</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter your account password to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>請輸入您的帳號密碼以登出裝置「%1」。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Password is required to sign out device "%1".</source>
-        <translation type="unfinished"/>
+        <translation>登出裝置「%1」需要輸入密碼。</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Failed to open the browser for device sign-out.</source>
-        <translation type="unfinished"/>
+        <translation>無法開啟瀏覽器以登出裝置。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Finish signing out device "%1" in your browser. The device list will refresh when you return.</source>
-        <translation type="unfinished"/>
+        <translation>請在瀏覽器中完成裝置「%1」的登出。返回後裝置清單將會重新整理。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Device sign-out for "%1" requires an unsupported authentication flow.</source>
-        <translation type="unfinished"/>
+        <translation>裝置「%1」的登出需要不支援的驗證流程。</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>Failed to update ignored-user state for "%1".</source>
-        <translation type="unfinished"/>
+        <translation>無法更新「%1」的忽略使用者狀態。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Failed to update ignored-user state for "%1": %2</source>
-        <translation type="unfinished"/>
+        <translation>無法更新「%1」的忽略使用者狀態：%2</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Ignoring users requires an active matrix-sdk backend runtime.</source>
-        <translation type="unfinished"/>
+        <translation>忽略使用者需要啟用中的 matrix-sdk 後端執行環境。</translation>
     </message>
 </context>
 <context>
@@ -8863,33 +8899,34 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>淺色</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>深色</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>控制你在 Matrix 網路上的&lt;a href="%1"&gt;在線狀態&lt;/a&gt;。
+自動模式為「線上」或「暫時離開」（閒置 5 分鐘後）。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>以靜音循環方式內嵌播放小型影片（小於 %1 MB 或 %2 秒）。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>控制寄件者使用者名稱顯示在訊息上方的時機。在泡泡模式中，自己的使用者名稱永遠隱藏。在較小的聊天室中，頭像和泡泡顏色通常已足夠辨識。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
-        <translation type="unfinished"/>
+        <translation>⚠ 頭像大小設定為隱藏，因此寄件者使用者名稱將一律顯示。</translation>
     </message>
 </context>
 <context>
@@ -8897,74 +8934,74 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>設定</translation>
     </message>
     <message>
         <location line="-236"/>
         <source>Look &amp; Feel</source>
-        <translation type="unfinished"/>
+        <translation>外觀 &amp; 風格</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Timeline</source>
-        <translation type="unfinished"/>
+        <translation>時間軸</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Composer</source>
-        <translation type="unfinished"/>
+        <translation>訊息編輯器</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop</source>
-        <translation type="unfinished"/>
+        <translation>桌面</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>網路</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>帳號</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Integrations</source>
-        <translation type="unfinished"/>
+        <translation>整合</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Application Profiles</source>
-        <translation type="unfinished"/>
+        <translation>應用程式設定檔</translation>
     </message>
     <message>
         <location line="+184"/>
         <source>Available after login</source>
-        <translation type="unfinished"/>
+        <translation>登入後可用</translation>
     </message>
     <message>
         <location line="-188"/>
         <source>Calls</source>
-        <translation type="unfinished"/>
+        <translation>通話</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Navigation</source>
-        <translation type="unfinished"/>
+        <translation>導覽</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>關於</translation>
     </message>
     <message>
         <location line="-17"/>
         <location line="+79"/>
         <location line="+13"/>
         <source>Back</source>
-        <translation type="unfinished"/>
+        <translation>返回</translation>
     </message>
 </context>
 <context>
@@ -8975,7 +9012,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 後端執行環境無法使用。</translation>
     </message>
 </context>
 <context>
@@ -8983,38 +9020,39 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/components/encryption/VerifyMasterKeyDialog.qml" line="+20"/>
         <source>Activate Encryption</source>
-        <translation type="unfinished"/>
+        <translation>啟用加密</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>This account already has encryption keys, but this device is not verified yet.
 Verification marks this device as trusted and gives you access to encrypted messages.</source>
-        <translation type="unfinished"/>
+        <translation>此帳號已有加密金鑰，但此裝置尚未驗證。
+驗證將此裝置標記為受信任，並讓你存取加密訊息。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation>稍後再說</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset identity</source>
-        <translation type="unfinished"/>
+        <translation>重設身分</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Verify with another device</source>
-        <translation type="unfinished"/>
+        <translation>使用其他裝置驗證</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>No other signed-in device is currently available for verification.</source>
-        <translation type="unfinished"/>
+        <translation>目前沒有其他已登入的裝置可供驗證。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Unlock key backup</source>
-        <translation type="unfinished"/>
+        <translation>解鎖金鑰備份</translation>
     </message>
 </context>
 <context>
@@ -9022,27 +9060,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/device-verification/Waiting.qml" line="+14"/>
         <source>Waiting for Other Device</source>
-        <translation type="unfinished"/>
+        <translation>等待其他裝置</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Waiting for the other device to accept the verification request.</source>
-        <translation type="unfinished"/>
+        <translation>等待其他裝置接受驗證請求。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to continue the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>等待其他裝置繼續驗證流程。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Waiting for the other device to complete the verification process.</source>
-        <translation type="unfinished"/>
+        <translation>等待其他裝置完成驗證流程。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -9050,22 +9088,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation>歡迎使用 Komai</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
-        <translation type="unfinished"/>
+        <translation>此環境不支援安全密碼儲存（作業系統金鑰鏈），因此 Komai 目前使用以檔案為基礎的密碼儲存。此方式較不安全。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Learn more</source>
-        <translation type="unfinished"/>
+        <translation>了解更多</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>An early touch of personality</source>
-        <translation type="unfinished"/>
+        <translation>初步展現個人特色</translation>
     </message>
 </context>
 <context>
@@ -9073,17 +9111,17 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
         <source>New to Matrix?</source>
-        <translation type="unfinished"/>
+        <translation>初次使用 Matrix？</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation>註冊</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation>登入</translation>
     </message>
 </context>
 <context>
@@ -9091,77 +9129,77 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
         <source>Theme</source>
-        <translation type="unfinished"/>
+        <translation>主題</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>淺色</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>深色</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Enable animations</source>
-        <translation type="unfinished"/>
+        <translation>啟用動畫</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation type="unfinished"/>
+        <translation>Komai 在多處使用動畫以改善視覺回饋。如果動畫讓你感到不適，可以將其停用。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Prefer emoji suggestions for</source>
-        <translation type="unfinished"/>
+        <translation>表情符號建議偏好</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Any gender</source>
-        <translation type="unfinished"/>
+        <translation>任何性別</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👨 Men</source>
-        <translation type="unfinished"/>
+        <translation>👨 男性</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👩 Women</source>
-        <translation type="unfinished"/>
+        <translation>👩 女性</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Any skin tone</source>
-        <translation type="unfinished"/>
+        <translation>任何膚色</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏻 淺色</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation type="unfinished"/>
+        <translation>👍🏼 中淺色</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation type="unfinished"/>
+        <translation>👍🏽 中等</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏾 中深色</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation type="unfinished"/>
+        <translation>👍🏿 深色</translation>
     </message>
 </context>
 <context>
@@ -9169,7 +9207,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
-        <translation type="unfinished"/>
+        <translation>昨天</translation>
     </message>
 </context>
 <context>
@@ -9177,42 +9215,42 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation type="unfinished"/>
+        <translation>人物</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Nature</source>
-        <translation type="unfinished"/>
+        <translation>自然</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Food</source>
-        <translation type="unfinished"/>
+        <translation>食物</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Activity</source>
-        <translation type="unfinished"/>
+        <translation>活動</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Travel</source>
-        <translation type="unfinished"/>
+        <translation>旅行</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Objects</source>
-        <translation type="unfinished"/>
+        <translation>物品</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Symbols</source>
-        <translation type="unfinished"/>
+        <translation>符號</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Flags</source>
-        <translation type="unfinished"/>
+        <translation>旗幟</translation>
     </message>
 </context>
 <context>
@@ -9220,12 +9258,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
         <source>You: %1</source>
-        <translation type="unfinished"/>
+        <translation>你：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1：%2</translation>
     </message>
 </context>
 <context>
@@ -9234,660 +9272,661 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
         <location line="+3"/>
         <source>Theme</source>
-        <translation type="unfinished"/>
+        <translation>佈景主題</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation type="unfinished"/>
+        <translation>需要更多主題？從 &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; 匯入或&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;自行建立&lt;/a&gt;（需要重新啟動）。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation type="unfinished"/>
+        <translation>字型</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Font family</source>
-        <translation type="unfinished"/>
+        <translation>字型家族</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation type="unfinished"/>
+        <translation>大多數 UI 元素可即時調整大小。部分標籤可能需要重新啟動應用程式後才會更新。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Emoji font family</source>
-        <translation type="unfinished"/>
+        <translation>Emoji 字型系列</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Behavior</source>
-        <translation type="unfinished"/>
+        <translation>行為</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Interaction mode</source>
-        <translation type="unfinished"/>
+        <translation>互動模式</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation type="unfinished"/>
+        <translation>桌面模式優先使用滑鼠操作。觸控模式偏向滑動和觸控互動。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation type="unfinished"/>
+        <translation>啟用手勢操作，例如在聊天室清單和時間軸之間滑動，以及滑動訊息以回覆。</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Controls when scrollbars are shown across the app.</source>
-        <translation type="unfinished"/>
+        <translation>控制應用程式中捲動條的顯示時機。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Layout</source>
-        <translation type="unfinished"/>
+        <translation>版面配置</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation type="unfinished"/>
+        <translation>影響間距、圖示大小和清單列高度。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Avatars</source>
-        <translation type="unfinished"/>
+        <translation>頭像</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation type="unfinished"/>
+        <translation>頭像預覽</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation type="unfinished"/>
+        <translation>顯示於未設定自訂頭像的使用者和聊天室。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Communities sidebar</source>
-        <translation type="unfinished"/>
+        <translation>社群側邊欄</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation type="unfinished"/>
+        <translation>在社群與標籤篩選器上顯示未讀強調效果（計數徽章、列醒目顯示及左側邊緣標記）。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation type="unfinished"/>
+        <translation>所有聊天室</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation type="unfinished"/>
+        <translation>在單一檢視中顯示所有聊天室。屬於下方標記為排除之篩選器的聊天室將從此清單中隱藏。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>透過 Matrix 聊天室標記 API 標記為 &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; 的聊天室。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation type="unfinished"/>
+        <translation>與真實使用者的私訊，排除被啟發式&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;偵測&lt;/a&gt;為機器人的使用者。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation type="unfinished"/>
+        <translation>對話方被&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;偵測&lt;/a&gt;為機器人或橋接服務帳號的私訊。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation type="unfinished"/>
+        <translation>非私訊的多人聊天室（&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; 等）。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation type="unfinished"/>
+        <translation>由主伺服器標記為 &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; 的聊天室，用於管理訊息。請參閱 Matrix 規範中的 &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; 模組。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation type="unfinished"/>
+        <translation>透過 Matrix 聊天室標記 API 標記為 &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; 的聊天室。</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Room list</source>
-        <translation type="unfinished"/>
+        <translation>聊天室列表</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation type="unfinished"/>
+        <translation>在聊天室旁顯示未讀強調效果（計數徽章、粗體聊天室名稱、頭像跳動、列醒目顯示及左側邊緣標記）。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation type="unfinished"/>
+        <translation>在聊天室清單項目中加入最後一則訊息的預覽。在寬敞和緊湊版面中單獨一行顯示，在密集版面中則顯示於聊天室名稱旁邊。</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation type="unfinished"/>
+        <translation>點擊聊天室時是否重用現有分頁或開啟新分頁。已有分頁的聊天室在任何情況下都會啟動該分頁。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tab bar</source>
-        <translation type="unfinished"/>
+        <translation>分頁列</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation type="unfinished"/>
+        <translation>最近關閉的預先渲染時間軸可實現即時切換聊天室，但會增加 CPU 和記憶體使用量。已開啟的分頁始終為預先渲染狀態。設為 0 則僅保留已開啟的分頁。</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
         <source>Presentation</source>
-        <translation type="unfinished"/>
+        <translation>呈現方式</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation type="unfinished"/>
+        <translation>時間軸預覽</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation type="unfinished"/>
+        <translation>選擇訊息是保持在同一側，還是依發送者分別顯示在對側。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum message width (%)</source>
-        <translation type="unfinished"/>
+        <translation>最大訊息寬度（%）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation type="unfinished"/>
+        <translation>單則訊息可佔用的可用時間軸寬度百分比。</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation type="unfinished"/>
+        <translation>選擇如何在時間軸和氣泡背景中指派發送者顏色。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"/>
+        <translation>控制發送者使用者名稱顯示於訊息上方的時機。在氣泡模式下，您自己的使用者名稱始終隱藏。在較小的聊天室中，頭像和氣泡顏色通常已提供足夠的情境。</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"/>
+        <translation>啟用氣泡佈局時，在你自己的訊息旁顯示你的頭像。這能改善左右對稱性，讓作者身份更易於辨識。</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation type="unfinished"/>
+        <translation>對格式化（HTML）時間軸訊息中的程式碼區塊套用語言感知語法高亮。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>某些訊息，尤其是包含表情符號（如 🎊、☀️ 或 🌦️）的訊息，可顯示更精彩的&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;時間軸效果&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation type="unfinished"/>
+        <translation>從主時間軸隱藏討論串回覆，僅顯示討論串根訊息。可在聊天室資訊 → 設定中針對各聊天室覆寫。&lt;br&gt;⚠️ 不支援每個討論串的未讀追蹤，您可能會錯過較舊討論串中的回覆。</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
         <source>Feedback</source>
-        <translation type="unfinished"/>
+        <translation>意見回饋</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation type="unfinished"/>
+        <translation>顯示你的訊息是否已被閱讀。若你的主伺服器不支援已讀回條，聊天室可能無法標記為已讀。</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation type="unfinished"/>
+        <translation>操作</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how message actions are opened.</source>
-        <translation type="unfinished"/>
+        <translation>選擇訊息操作的開啟方式。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation type="unfinished"/>
+        <translation>釘選在操作欄中的回應清單，以逗號分隔。剩餘位置將以每個聊天室中最常使用的回應填充。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Images handling</source>
-        <translation type="unfinished"/>
+        <translation>圖片處理</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>已加密的圖片會以解密形式&lt;a href="komai://media-cache"&gt;快取&lt;/a&gt;於磁碟上（定期自動清除）。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Video handling</source>
-        <translation type="unfinished"/>
+        <translation>視訊處理</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>盡可能串流播放；已加密或不可跳轉的視訊將&lt;a href="komai://media-cache"&gt;快取&lt;/a&gt;至磁碟（定期自動清除）。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Audio handling</source>
-        <translation type="unfinished"/>
+        <translation>音訊處理</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation type="unfinished"/>
+        <translation>盡可能串流播放；已加密或不可跳轉的音訊將&lt;a href="komai://media-cache"&gt;快取&lt;/a&gt;至磁碟（定期自動清除）。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Applied to inline audio players.</source>
-        <translation type="unfinished"/>
+        <translation>套用於內嵌音訊播放器。</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
         <source>Input</source>
-        <translation type="unfinished"/>
+        <translation>輸入</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose which Enter key combination sends messages.</source>
-        <translation type="unfinished"/>
+        <translation>選擇使用哪種 Enter 鍵組合來發送訊息。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation type="unfinished"/>
+        <translation>控制是否自動將 &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; 語法轉換為附有 Markdown 純文字備用內容的 &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; 訊息。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>在訊息輸入框中輸入井號（#）時顯示內嵌聊天室選擇器。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>在訊息輸入框中輸入 @ 符號時顯示內嵌使用者選擇器。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation type="unfinished"/>
+        <translation>Emoji</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"/>
+        <translation>發送訊息時自動將 :) :D :P 等文字表情符號替換為對應的 emoji。選擇是否在所有位置替換或僅在結尾替換。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation type="unfinished"/>
+        <translation>在訊息輸入框中輸入冒號（:）時顯示內嵌表情符號選擇器。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>僅限內嵌表情符號選擇器：在可用時優先顯示 Unicode 定義的性別變體（男性／女性）。明確搜尋其他性別仍然有效。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>僅限內嵌表情符號選擇器：在可用時優先顯示單一膚色變體。明確搜尋其他膚色仍然有效。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Extras</source>
-        <translation type="unfinished"/>
+        <translation>額外功能</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
-        <translation type="unfinished"/>
+        <translation>帳號通知</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enable notifications for this account</source>
-        <translation type="unfinished"/>
+        <translation>啟用此帳號的通知</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation type="unfinished"/>
+        <translation>控制主伺服器上您 Matrix 帳號層級的通知開關。關閉後將在所有用戶端／裝置上靜音通知。</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>System notifications</source>
-        <translation type="unfinished"/>
+        <translation>系統通知</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation type="unfinished"/>
+        <translation>當客戶端未聚焦時通知已收到的訊息。此選項僅在上方啟用帳號通知時生效。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Choose how much message text to include in notifications.</source>
-        <translation type="unfinished"/>
+        <translation>選擇在通知中包含多少訊息文字。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation type="unfinished"/>
+        <translation>收到訊息時顯示注意提示（例如工作列圖示動態）。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Attention indicators</source>
-        <translation type="unfinished"/>
+        <translation>注意指示器</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation type="unfinished"/>
+        <translation>在 Komai 視窗標題中附加需要注意的聊天室數量。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>在應用程式／工作列徽章上顯示需要注意的聊天室數量。在 Linux 上，非預設設定檔需要各自的桌面啟動器才能可靠顯示應用程式徽章。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>System tray</source>
-        <translation type="unfinished"/>
+        <translation>系統匣</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Keep the application running in the background after closing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>關閉客戶端視窗後繼續在背景執行應用程式。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Start the application in the background without showing the client window.</source>
-        <translation type="unfinished"/>
+        <translation>在背景啟動應用程式，不顯示客戶端視窗。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Window blur</source>
-        <translation type="unfinished"/>
+        <translation>視窗模糊</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation type="unfinished"/>
+        <translation>設定失去焦點後多久開始模糊。設為 0 可立即模糊。最大值為 3600 秒（1 小時）。</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>一般</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation type="unfinished"/>
+        <translation>允許接受和發起舊版（MatrixRTC 前）通話。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation type="unfinished"/>
+        <translation>當你的主伺服器未提供時，使用 turn.matrix.org 作為備援中繼/STUN 伺服器。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Devices</source>
-        <translation type="unfinished">裝置</translation>
+        <translation>裝置</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Microphone</source>
-        <translation type="unfinished"/>
+        <translation>麥克風</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>攝影機</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera resolution</source>
-        <translation type="unfinished"/>
+        <translation>攝影機解析度</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Camera frame rate</source>
-        <translation type="unfinished"/>
+        <translation>攝影機影格率</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ringtone</source>
-        <translation type="unfinished"/>
+        <translation>鈴聲</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Screen sharing</source>
-        <translation type="unfinished"/>
+        <translation>螢幕共享</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation type="unfinished"/>
+        <translation>螢幕分享的目標每秒幀數。較低的值使用較少的 CPU 與頻寬。</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
         <source>D-Bus</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>D-Bus access</source>
-        <translation type="unfinished"/>
+        <translation>D-Bus 存取</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation type="unfinished"/>
+        <translation>選擇 Komai 向本機呼叫者公開多少 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus 存取&lt;/a&gt;權限。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Matrix Rooms Search</source>
-        <translation type="unfinished"/>
+        <translation>Matrix 聊天室搜尋</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"/>
+        <translation>啟用後，將&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix 聊天室搜尋&lt;/a&gt;支援加入&lt;a href="komai://rooms-directory"&gt;探索公開聊天室&lt;/a&gt;對話框。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>任何 &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; 的執行個體均可使用，但 &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; 是由 &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; 營運的大型熱門執行個體。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Browser</source>
-        <translation type="unfinished"/>
+        <translation>瀏覽器</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation>加密</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation type="unfinished"/>
+        <translation>需要使用者通過驗證才能向其傳送加密訊息。這可提高安全性，但會使 E2EE 的使用更加繁瑣。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation type="unfinished"/>
+        <translation>若其他使用者已驗證，即使該裝置本不應存取這些金鑰，也會自動回應其金鑰請求。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation type="unfinished"/>
+        <translation>從加密線上金鑰備份下載並上傳訊息加密金鑰。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Presence</source>
-        <translation type="unfinished"/>
+        <translation>在線狀態</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Status policy</source>
-        <translation type="unfinished"/>
+        <translation>狀態政策</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation type="unfinished"/>
+        <translation>控制您在 Matrix 網路上的 &lt;a href="%1"&gt;線上狀態&lt;/a&gt;。
+自動模式會在「線上」或「不可用」（閒置 5 分鐘後）之間切換。</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Status message</source>
-        <translation type="unfinished"/>
+        <translation>狀態訊息</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Transport</source>
-        <translation type="unfinished"/>
+        <translation>傳輸</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Reject invalid or untrusted server certificates.</source>
-        <translation type="unfinished"/>
+        <translation>拒絕無效或不受信任的伺服器憑證。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation type="unfinished"/>
+        <translation>在可用時使用 HTTP/3 連線至 Matrix 伺服器。</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>帳號</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation>使用者 ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation type="unfinished"/>
+        <translation>主伺服器</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Edit profile</source>
-        <translation type="unfinished"/>
+        <translation>編輯個人資料</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>裝置</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Device ID</source>
-        <translation type="unfinished"/>
+        <translation>裝置 ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation>存取權杖</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation type="unfinished"/>
+        <translation>你的存取權杖可完整存取你的帳號。請勿與任何人分享。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation>使用者</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation>已忽略的使用者</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Log out</source>
-        <translation type="unfinished"/>
+        <translation>登出</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
         <source>Application</source>
-        <translation type="unfinished"/>
+        <translation>應用程式</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>名稱</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Platform</source>
-        <translation type="unfinished"/>
+        <translation>平台</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>建立者</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>License</source>
-        <translation type="unfinished"/>
+        <translation>授權條款</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Acknowledgements</source>
-        <translation type="unfinished"/>
+        <translation>致謝</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fork base</source>
-        <translation type="unfinished"/>
+        <translation>分叉基礎</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Fluent)</source>
-        <translation type="unfinished"/>
+        <translation>圖示集（Fluent）</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Icon set (Font Awesome)</source>
-        <translation type="unfinished"/>
+        <translation>圖示集（Font Awesome）</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Default avatars (Boring Avatars)</source>
-        <translation type="unfinished"/>
+        <translation>預設頭像（Boring Avatars）</translation>
     </message>
 </context>
 </TS>

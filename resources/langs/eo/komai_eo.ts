@@ -7184,12 +7184,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
-        <source>No spaces found. Join a space to see it here.</source>
-        <translation>Neniuj spacoj trovitaj. Aliĝi al spaco por vidi ĝin ĉi tie.</translation>
-    </message>
-    <message>
-        <location line="+97"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
         <source>Space</source>
         <translation>Spaco</translation>
     </message>

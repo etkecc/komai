@@ -7175,12 +7175,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
-        <source>No spaces found. Join a space to see it here.</source>
-        <translation>Không tìm thấy không gian nào. Tham gia một không gian để xem tại đây.</translation>
-    </message>
-    <message>
-        <location line="+97"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
         <source>Space</source>
         <translation>Không gian</translation>
     </message>

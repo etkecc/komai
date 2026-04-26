@@ -7175,12 +7175,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
-        <source>No spaces found. Join a space to see it here.</source>
-        <translation>未找到空間。加入一個空間即可在此顯示。</translation>
-    </message>
-    <message>
-        <location line="+97"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
         <source>Space</source>
         <translation>空間</translation>
     </message>

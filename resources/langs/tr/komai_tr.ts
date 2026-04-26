@@ -7175,12 +7175,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
-        <source>No spaces found. Join a space to see it here.</source>
-        <translation>Alan bulunamadı. Burada görmek için bir alana katılın.</translation>
-    </message>
-    <message>
-        <location line="+97"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
         <source>Space</source>
         <translation>Uzay</translation>
     </message>

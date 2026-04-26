@@ -7189,12 +7189,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+36"/>
-        <source>No spaces found. Join a space to see it here.</source>
-        <translation>Nenalezeny žádné prostory. Připoj se k prostoru, aby se zde zobrazil.</translation>
-    </message>
-    <message>
-        <location line="+97"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
         <source>Space</source>
         <translation>Prostor</translation>
     </message>

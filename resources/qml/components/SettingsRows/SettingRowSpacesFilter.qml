@@ -28,17 +28,6 @@ ColumnLayout {
 
     spacing: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
 
-    // "No spaces" message
-    Label {
-        Layout.fillWidth: true
-        Layout.leftMargin: Komai.paddingSmall
-        visible: root.spacesList.length === 0
-        text: qsTr("No spaces found. Join a space to see it here.")
-        color: palette.buttonText
-        font.pointSize: Settings.uiFontSizePt
-        wrapMode: Text.Wrap
-    }
-
     // Space entries
     Repeater {
         model: root.spacesList

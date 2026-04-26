@@ -36,7 +36,7 @@ See also:
 - [User Settings Guide](../../user-guide/settings/README.md)
 - [Settings Architecture](../settings/README.md)
 - [Storage Architecture](../storage.md)
-- [Storage Guide](../../user-guide/storage.md)
+- [Storage Guide](../../user-guide/operations/storage.md)
 - [Secret Storage Differences](secret-services.md)
 - [Settings Name Mapping](settings-mapping.md)
 - [Settings Example (config.yml)](../../user-guide/settings/examples/profile/config.yml)

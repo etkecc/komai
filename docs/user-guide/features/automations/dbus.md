@@ -6,7 +6,7 @@ Komai exposes a local [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) A
 
 > **Need MCP host integration?** See the [MCP server guide](mcp.md). MCP is stdio-based, uses the same running-instance automation surface, and does not require D-Bus to be enabled.
 
-> **Before you start:** D-Bus integration must be enabled in [Settings → Integrations → D-Bus](../settings/integrations/dbus.md).
+> **Before you start:** D-Bus integration must be enabled in [Settings → Integrations → D-Bus](../../settings/integrations/dbus.md).
 
 > **Just need a quick command?** The [CLI](cli.md) provides the same operations as ready-made commands with human & agent-friendly JSON output -- no D-Bus library needed. CLI commands are always available regardless of the D-Bus access setting.
 
@@ -305,5 +305,5 @@ busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Media upload ss
 ## 🔐 Security notes
 
 - Access is local-only to users that can talk to your current session bus.
-- Access is controlled per profile by **Settings → Integrations → D-Bus** ([details](../settings/integrations/dbus.md)).
+- Access is controlled per profile by **Settings → Integrations → D-Bus** ([details](../../settings/integrations/dbus.md)).
 - Keep D-Bus access enabled only when needed for your workflow.

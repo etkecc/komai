@@ -8954,8 +8954,8 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Reprodukuje male video klipove (ispod %1 MB ili %2 s) unutar toka, bez zvuka i u petlji. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Saznaj više&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Reprodukuje male video klipove (ispod %1 MB ili %2 s) unutar toka, bez zvuka i u petlji. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9315,8 +9315,8 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Trebaš više tema? Uvezi iz &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ili &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;kreiraj sopstvenu&lt;/a&gt; (potreban je restart).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Trebaš više tema? Uvezi iz &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ili &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kreiraj sopstvenu&lt;/a&gt; (potreban je restart).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9415,13 +9415,13 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Direktni razgovori sa stvarnim osobama, isključujući korisnike &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detektovane&lt;/a&gt; kao botovi heuristikama.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Direktni razgovori sa stvarnim osobama, isključujući korisnike &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detektovane&lt;/a&gt; kao botovi heuristikama.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Direktni razgovori gde je sagovornik &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detektovan&lt;/a&gt; kao bot ili nalog servisnog mosta.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Direktni razgovori gde je sagovornik &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detektovan&lt;/a&gt; kao bot ili nalog servisnog mosta.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9515,8 +9515,8 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Neke poruke, posebno one sa emojijima poput 🎊, ☀️ ili 🌦️, mogu prikazati efektniji &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;tajmlajn efekat&lt;/a&gt;.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Neke poruke, posebno one sa emojijima poput 🎊, ☀️ ili 🌦️, mogu prikazati efektniji &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;tajmlajn efekat&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9627,13 +9627,13 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Samo za ugrađeni birač emoji-ja: preferuj varijante pola definisane Unicodeom (muškarac/žena) kada su dostupne. Eksplicitno traženje drugog pola i dalje funkcioniše. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Saznaj više&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Samo za ugrađeni birač emoji-ja: preferuj varijante pola definisane Unicodeom (muškarac/žena) kada su dostupne. Eksplicitno traženje drugog pola i dalje funkcioniše. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Samo za ugrađeni birač emoji-ja: preferuj jednu varijantu tena kože kada je dostupna. Eksplicitno traženje drugog tena i dalje funkcioniše. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Saznaj više&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Samo za ugrađeni birač emoji-ja: preferuj jednu varijantu tena kože kada je dostupna. Eksplicitno traženje drugog tena i dalje funkcioniše. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9687,8 +9687,8 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Prikaži broj soba koje zahtevaju pažnju na bedžu aplikacije/trake zadataka. Na Linuxu, profili koji nisu podrazumevani trebaju sopstveni pokretač radne površine za pouzdane bedževe aplikacije. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Saznaj više&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Prikaži broj soba koje zahtevaju pažnju na bedžu aplikacije/trake zadataka. Na Linuxu, profili koji nisu podrazumevani trebaju sopstveni pokretač radne površine za pouzdane bedževe aplikacije. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

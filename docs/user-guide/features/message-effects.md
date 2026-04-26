@@ -62,4 +62,4 @@ The goal is a little delight, not chaos.
 
 ## 🔗 More
 
-- Technical details: [Message Effects Architecture](../architecture/message-effects.md)
+- Technical details: [Message Effects Architecture](../../architecture/message-effects.md)

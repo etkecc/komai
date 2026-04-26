@@ -54,7 +54,7 @@ komai -p work     # always launch profile "work" directly
 komai -p ""       # same selector-mode behavior as bare `komai`
 ```
 
-Profile names follow the same validation rules as `-p` names documented in [Settings -> Profile Location](settings/README.md#profile-location). In practice, that means names like `work`, `personal`, `dev_build`, or `work-2` are valid, while names containing `.` are not.
+Profile names follow the same validation rules as `-p` names documented in [Settings -> Profile Location](../settings/README.md#profile-location). In practice, that means names like `work`, `personal`, `dev_build`, or `work-2` are valid, while names containing `.` are not.
 
 ## Reliable App Badges With Multiple Profiles
 

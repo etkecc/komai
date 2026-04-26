@@ -6,7 +6,7 @@
     // Theme
     { QT_TR_NOOP("Theme"),
       QT_TR_NOOP(
-        "Need more themes? Import from <a href=\"https://tinted-theming.github.io/tinted-gallery/\">Tinted Gallery</a> or <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md\">create your own</a> (restart required)."),
+        "Need more themes? Import from <a href=\"https://tinted-theming.github.io/tinted-gallery/\">Tinted Gallery</a> or <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md\">create your own</a> (restart required)."),
       SM::ThemeSelector, SM::TabLookFeel,
       lookFeelThemeValue,
       setLookFeelThemeValue,
@@ -171,7 +171,7 @@
     // CommunitiesFilterPeople
     COMMUNITY_FILTER_ROW(
       "People",
-      QT_TR_NOOP("Direct chats with real people, excluding users <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics\">detected</a> as bots by heuristics."),
+      QT_TR_NOOP("Direct chats with real people, excluding users <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics\">detected</a> as bots by heuristics."),
       SM::TabNavigation,
       navigationCommunitiesFilterPeople,
       setNavigationCommunitiesFilterPeople,
@@ -183,7 +183,7 @@
     // CommunitiesFilterBots
     COMMUNITY_FILTER_ROW(
       "Bots",
-      QT_TR_NOOP("Direct chats where the conversation partner is <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics\">detected</a> as a bot or bridge service account."),
+      QT_TR_NOOP("Direct chats where the conversation partner is <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics\">detected</a> as a bot or bridge service account."),
       SM::TabNavigation,
       navigationCommunitiesFilterBots,
       setNavigationCommunitiesFilterBots,

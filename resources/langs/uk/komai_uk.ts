@@ -8954,8 +8954,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Відтворює невеликі відеокліпи (до %1 МБ або %2 с) вбудовано, без звуку та у циклі. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Докладніше&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Відтворює невеликі відеокліпи (до %1 МБ або %2 с) вбудовано, без звуку та у циклі. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Докладніше&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9315,8 +9315,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Потрібно більше тем? Імпортуйте з &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; або &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;створіть власну&lt;/a&gt; (потрібен перезапуск).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Потрібно більше тем? Імпортуйте з &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; або &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;створіть власну&lt;/a&gt; (потрібен перезапуск).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9415,13 +9415,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Прямі чати з реальними людьми, за винятком користувачів, &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;визначених&lt;/a&gt; як боти за евристиками.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Прямі чати з реальними людьми, за винятком користувачів, &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;визначених&lt;/a&gt; як боти за евристиками.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Прямі чати, де співрозмовник &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;визначений&lt;/a&gt; як бот або обліковий запис служби-мосту.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Прямі чати, де співрозмовник &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;визначений&lt;/a&gt; як бот або обліковий запис служби-мосту.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9515,8 +9515,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Деякі повідомлення, особливо ті, що містять емодзі, як-от 🎊, ☀️ або 🌦️, можуть показувати ефектніший &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;ефект стрічки&lt;/a&gt;.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Деякі повідомлення, особливо ті, що містять емодзі, як-от 🎊, ☀️ або 🌦️, можуть показувати ефектніший &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;ефект стрічки&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9627,13 +9627,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Лише вбудований вибір емодзі: надавати перевагу ґендерним варіантам, визначеним Unicode (чоловік/жінка), якщо доступні. Явний пошук іншого варіанту ґендеру все одно працює. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Дізнатися більше&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Лише вбудований вибір емодзі: надавати перевагу ґендерним варіантам, визначеним Unicode (чоловік/жінка), якщо доступні. Явний пошук іншого варіанту ґендеру все одно працює. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Дізнатися більше&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Лише вбудований вибір емодзі: надавати перевагу одному варіанту кольору шкіри, якщо доступно. Явний пошук іншого кольору шкіри все одно працює. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Дізнатися більше&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Лише вбудований вибір емодзі: надавати перевагу одному варіанту кольору шкіри, якщо доступно. Явний пошук іншого кольору шкіри все одно працює. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Дізнатися більше&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9687,8 +9687,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Показувати кількість кімнат, що потребують уваги, на значку програми/панелі задач. У Linux профілі, що не є типовими, потребують власного ярлика робочого столу для надійних значків програм. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Дізнатися більше&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Показувати кількість кімнат, що потребують уваги, на значку програми/панелі задач. У Linux профілі, що не є типовими, потребують власного ярлика робочого столу для надійних значків програм. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Дізнатися більше&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -8940,8 +8940,8 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Lit les petits clips vidéo (inférieurs à %1 Mo ou %2 s) en ligne, muet et en boucle. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;En savoir plus&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Lit les petits clips vidéo (inférieurs à %1 Mo ou %2 s) en ligne, muet et en boucle. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;En savoir plus&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9301,8 +9301,8 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Besoin de plus de thèmes ? Importez depuis &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ou &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;créez le vôtre&lt;/a&gt; (redémarrage requis).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Besoin de plus de thèmes ? Importez depuis &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ou &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;créez le vôtre&lt;/a&gt; (redémarrage requis).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9401,13 +9401,13 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Messages directs avec de vraies personnes, excluant les utilisateurs &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;détectés&lt;/a&gt; comme bots par heuristique.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Messages directs avec de vraies personnes, excluant les utilisateurs &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;détectés&lt;/a&gt; comme bots par heuristique.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Messages directs dont le correspondant est &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;détecté&lt;/a&gt; comme un bot ou un compte de service de pont.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Messages directs dont le correspondant est &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;détecté&lt;/a&gt; comme un bot ou un compte de service de pont.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9501,8 +9501,8 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Certains messages, notamment ceux avec des emojis comme 🎊, ☀️ ou 🌦️, peuvent afficher un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;effet visuel&lt;/a&gt; plus élaboré.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Certains messages, notamment ceux avec des emojis comme 🎊, ☀️ ou 🌦️, peuvent afficher un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;effet visuel&lt;/a&gt; plus élaboré.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9613,13 +9613,13 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Sélecteur d'emoji intégré uniquement : préférer les variantes de genre définies par Unicode (homme/femme) lorsqu'elles sont disponibles. La recherche explicite de l'autre genre fonctionne toujours. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;En savoir plus&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Sélecteur d'emoji intégré uniquement : préférer les variantes de genre définies par Unicode (homme/femme) lorsqu'elles sont disponibles. La recherche explicite de l'autre genre fonctionne toujours. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;En savoir plus&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Sélecteur d'emoji intégré uniquement : préférer une variante de teinte de peau lorsqu'elle est disponible. La recherche explicite d'une autre teinte de peau fonctionne toujours. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;En savoir plus&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Sélecteur d'emoji intégré uniquement : préférer une variante de teinte de peau lorsqu'elle est disponible. La recherche explicite d'une autre teinte de peau fonctionne toujours. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;En savoir plus&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9673,8 +9673,8 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Affiche le nombre de salons nécessitant une attention sur le badge de l'application/barre des tâches. Sur Linux, les profils non par défaut nécessitent leur propre lanceur de bureau pour des badges fiables. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;En savoir plus&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Affiche le nombre de salons nécessitant une attention sur le badge de l'application/barre des tâches. Sur Linux, les profils non par défaut nécessitent leur propre lanceur de bureau pour des badges fiables. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;En savoir plus&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -8926,8 +8926,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>以靜音循環方式內嵌播放小型影片（小於 %1 MB 或 %2 秒）。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;了解更多&lt;/a&gt;。</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>以靜音循環方式內嵌播放小型影片（小於 %1 MB 或 %2 秒）。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9287,8 +9287,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>需要更多主題？從 &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; 匯入或&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;自行建立&lt;/a&gt;（需要重新啟動）。</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>需要更多主題？從 &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; 匯入或&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;自行建立&lt;/a&gt;（需要重新啟動）。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9387,13 +9387,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>與真實使用者的私訊，排除被啟發式&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;偵測&lt;/a&gt;為機器人的使用者。</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>與真實使用者的私訊，排除被啟發式&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;偵測&lt;/a&gt;為機器人的使用者。</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>對話方被&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;偵測&lt;/a&gt;為機器人或橋接服務帳號的私訊。</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>對話方被&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;偵測&lt;/a&gt;為機器人或橋接服務帳號的私訊。</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9487,8 +9487,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>某些訊息，尤其是包含表情符號（如 🎊、☀️ 或 🌦️）的訊息，可顯示更精彩的&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;時間軸效果&lt;/a&gt;。</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>某些訊息，尤其是包含表情符號（如 🎊、☀️ 或 🌦️）的訊息，可顯示更精彩的&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;時間軸效果&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9599,13 +9599,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>僅限內嵌表情符號選擇器：在可用時優先顯示 Unicode 定義的性別變體（男性／女性）。明確搜尋其他性別仍然有效。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>僅限內嵌表情符號選擇器：在可用時優先顯示 Unicode 定義的性別變體（男性／女性）。明確搜尋其他性別仍然有效。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>僅限內嵌表情符號選擇器：在可用時優先顯示單一膚色變體。明確搜尋其他膚色仍然有效。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>僅限內嵌表情符號選擇器：在可用時優先顯示單一膚色變體。明確搜尋其他膚色仍然有效。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9659,8 +9659,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>在應用程式／工作列徽章上顯示需要注意的聊天室數量。在 Linux 上，非預設設定檔需要各自的桌面啟動器才能可靠顯示應用程式徽章。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;了解更多&lt;/a&gt;。</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>在應用程式／工作列徽章上顯示需要注意的聊天室數量。在 Linux 上，非預設設定檔需要各自的桌面啟動器才能可靠顯示應用程式徽章。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+4"/>

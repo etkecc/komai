@@ -8926,8 +8926,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>کلیپ‌های ویدیویی کوچک (زیر %1 مگابایت یا %2 ثانیه) را به‌صورت درون‌خطی، بی‌صدا و حلقه‌ای پخش می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>کلیپ‌های ویدیویی کوچک (زیر %1 مگابایت یا %2 ثانیه) را به‌صورت درون‌خطی، بی‌صدا و حلقه‌ای پخش می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9287,8 +9287,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>به تم‌های بیشتری نیاز دارید؟ از &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; وارد کنید یا &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;خودتان بسازید&lt;/a&gt; (نیاز به راه‌اندازی مجدد).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>به تم‌های بیشتری نیاز دارید؟ از &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; وارد کنید یا &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;خودتان بسازید&lt;/a&gt; (نیاز به راه‌اندازی مجدد).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9387,13 +9387,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>چت‌های مستقیم با افراد واقعی، به استثنای کاربرانی که توسط الگوریتم‌های اکتشافی به عنوان ربات &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;شناسایی&lt;/a&gt; شده‌اند.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>چت‌های مستقیم با افراد واقعی، به استثنای کاربرانی که توسط الگوریتم‌های اکتشافی به عنوان ربات &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;شناسایی&lt;/a&gt; شده‌اند.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>چت‌های مستقیمی که طرف مکالمه به عنوان ربات یا حساب سرویس پل &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;تشخیص داده شده&lt;/a&gt; است.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>چت‌های مستقیمی که طرف مکالمه به عنوان ربات یا حساب سرویس پل &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;تشخیص داده شده&lt;/a&gt; است.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9487,8 +9487,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>برخی پیام‌ها، به‌ویژه آن‌هایی که شامل ایموجی‌هایی مانند 🎊، ☀️ یا 🌦️ هستند، می‌توانند &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;جلوه خط زمانی&lt;/a&gt; زیباتری نشان دهند.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>برخی پیام‌ها، به‌ویژه آن‌هایی که شامل ایموجی‌هایی مانند 🎊، ☀️ یا 🌦️ هستند، می‌توانند &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;جلوه خط زمانی&lt;/a&gt; زیباتری نشان دهند.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9599,13 +9599,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>فقط انتخاب‌کننده شکلک درون‌خطی: در صورت وجود، نوع جنسیتی تعریف‌شده توسط Unicode (مرد/زن) ترجیح داده می‌شود. جستجوی صریح برای جنسیت دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>فقط انتخاب‌کننده شکلک درون‌خطی: در صورت وجود، نوع جنسیتی تعریف‌شده توسط Unicode (مرد/زن) ترجیح داده می‌شود. جستجوی صریح برای جنسیت دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>فقط انتخاب‌کننده شکلک درون‌خطی: در صورت وجود، یک نوع رنگ پوست ترجیح داده می‌شود. جستجوی صریح برای رنگ پوست دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>فقط انتخاب‌کننده شکلک درون‌خطی: در صورت وجود، یک نوع رنگ پوست ترجیح داده می‌شود. جستجوی صریح برای رنگ پوست دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9659,8 +9659,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>تعداد اتاق‌هایی که نیاز به توجه دارند را در نشان برنامه/نوار وظیفه نمایش دهد. در لینوکس، پروفایل‌های غیر پیش‌فرض برای نشان‌های قابل‌اعتماد به راه‌انداز دسکتاپ مختص خود نیاز دارند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>تعداد اتاق‌هایی که نیاز به توجه دارند را در نشان برنامه/نوار وظیفه نمایش دهد. در لینوکس، پروفایل‌های غیر پیش‌فرض برای نشان‌های قابل‌اعتماد به راه‌انداز دسکتاپ مختص خود نیاز دارند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -13,10 +13,10 @@ This is controlled in **Settings → Integrations → D-Bus** with the **D-Bus a
 
 No restart is needed when changing it.
 
-> **Note:** This setting only affects the D-Bus API. The [CLI](../../automations/cli.md) and [MCP server](../../automations/mcp.md) use separate local channels and are not controlled by this setting. For the full automation overview, see [Automations](../../automations/README.md).
+> **Note:** This setting only affects the D-Bus API. The [CLI](../../features/automations/cli.md) and [MCP server](../../features/automations/mcp.md) use separate local channels and are not controlled by this setting. For the full automation overview, see [Automations](../../features/automations/README.md).
 
 ## What's exposed
 
-Each [application profile](../../application-profiles.md) registers its own D-Bus service (e.g. `cc.etke.komai.profile.default`), so multiple profiles can be targeted independently.
+Each [application profile](../../features/application-profiles.md) registers its own D-Bus service (e.g. `cc.etke.komai.profile.default`), so multiple profiles can be targeted independently.
 
-For the full list of available methods, examples, and multi-profile usage, see the [D-Bus API guide](../../automations/dbus.md).
+For the full list of available methods, examples, and multi-profile usage, see the [D-Bus API guide](../../features/automations/dbus.md).

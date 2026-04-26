@@ -8954,8 +8954,8 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Redă clipuri video mici (sub %1 MB sau %2 s) inline, fără sunet și în buclă. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Află mai multe&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Redă clipuri video mici (sub %1 MB sau %2 s) inline, fără sunet și în buclă. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9315,8 +9315,8 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Ai nevoie de mai multe teme? Importă din &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; sau &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;creează-ți propriile&lt;/a&gt; (necesită repornire).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Ai nevoie de mai multe teme? Importă din &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; sau &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;creează-ți propriile&lt;/a&gt; (necesită repornire).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9415,13 +9415,13 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Conversații directe cu persoane reale, excluzând utilizatorii &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detectați&lt;/a&gt; ca boți prin euristici.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Conversații directe cu persoane reale, excluzând utilizatorii &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detectați&lt;/a&gt; ca boți prin euristici.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Conversații directe în care partenerul de conversație este &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detectat&lt;/a&gt; ca bot sau cont de serviciu bridge.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Conversații directe în care partenerul de conversație este &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detectat&lt;/a&gt; ca bot sau cont de serviciu bridge.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9515,8 +9515,8 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Unele mesaje, în special cele cu emoji-uri precum 🎊, ☀️ sau 🌦️, pot afișa un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;efect de cronologie&lt;/a&gt; mai elaborat.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Unele mesaje, în special cele cu emoji-uri precum 🎊, ☀️ sau 🌦️, pot afișa un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;efect de cronologie&lt;/a&gt; mai elaborat.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9627,13 +9627,13 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Doar pentru selectorul inline de emoji: preferă variantele de gen definite de Unicode (bărbat/femeie) când sunt disponibile. Căutarea explicită a celuilalt gen funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Află mai multe&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Doar pentru selectorul inline de emoji: preferă variantele de gen definite de Unicode (bărbat/femeie) când sunt disponibile. Căutarea explicită a celuilalt gen funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Doar pentru selectorul de emoji inline: preferă o variantă de ton de piele când este disponibilă. Căutarea explicită a altui ton de piele funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Află mai multe&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Doar pentru selectorul de emoji inline: preferă o variantă de ton de piele când este disponibilă. Căutarea explicită a altui ton de piele funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9687,8 +9687,8 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Afișează numărul de camere care necesită atenție pe insigna aplicației/barei de activități. Pe Linux, profilurile non-implicite necesită propriul launcher de desktop pentru insigne fiabile. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Află mai multe&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Afișează numărul de camere care necesită atenție pe insigna aplicației/barei de activități. Pe Linux, profilurile non-implicite necesită propriul launcher de desktop pentru insigne fiabile. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

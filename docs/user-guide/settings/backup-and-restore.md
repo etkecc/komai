@@ -30,4 +30,4 @@ Common secure-backend backup targets:
 See also:
 
 - [Settings Overview](README.md)
-- [Storage Locations](../storage.md#secrets--providers)
+- [Storage Locations](../operations/storage.md#secrets--providers)

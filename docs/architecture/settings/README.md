@@ -317,7 +317,7 @@ This keeps fallback and secure-backend key identity consistent.
 
 - Canonical references are:
   - [User Settings Guide](../../user-guide/settings/README.md)
-  - [Storage Guide](../../user-guide/storage.md)
+  - [Storage Guide](../../user-guide/operations/storage.md)
   - [this architecture document](README.md)
   - [settings migration playbook](migrations.md)
   - [Storage Architecture](../storage.md)

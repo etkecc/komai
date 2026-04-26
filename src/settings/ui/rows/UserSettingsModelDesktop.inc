@@ -66,7 +66,7 @@
     // DesktopAttentionAppBadgeEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show attention count on app icon/taskbar badge",
-      QT_TR_NOOP("Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles\">Learn more</a>."),
+      QT_TR_NOOP("Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles\">Learn more</a>."),
       SM::TabDesktop, desktopAttentionAppBadgeEnabled, setDesktopAttentionAppBadgeEnabled, nullptr, DesktopAttentionAppBadgeEnabled, SettingKey::DesktopAttentionAppBadgeEnabled),
 
     // DesktopSystemTraySection

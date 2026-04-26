@@ -96,7 +96,7 @@ autoplayGifVideosDescriptionRoleData(int role)
              "Plays small video clips (under %1 MB or %2 s) inline, muted and looped. "
              "<a "
              "href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/"
-             "media-playback.md#%EF%B8%8F-inline-gif-video-playback\">"
+             "features/media-playback.md#%EF%B8%8F-inline-gif-video-playback\">"
              "Learn more</a>.")
       .arg(maxSizeMB)
       .arg(maxDurationS);

@@ -39,5 +39,5 @@ External tools referenced here:
 Related docs:
 
 - [`docs/maintainers/development.md`](../docs/maintainers/development.md)
-- [`docs/user-guide/themes.md`](../docs/user-guide/themes.md)
+- [`docs/user-guide/features/themes.md`](../docs/user-guide/features/themes.md)
 - [`docs/maintainers/translations.md`](../docs/maintainers/translations.md)

@@ -115,6 +115,6 @@ Representative C++ test executables:
 
 - [Architecture](../architecture/)
 - [Performance Tracing](../architecture/performance.md)
-- [Themes](../user-guide/themes.md)
+- [Themes](../user-guide/features/themes.md)
 - [Translations](translations.md)
 - [Packaging](packaging/README.md)

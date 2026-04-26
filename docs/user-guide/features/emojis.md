@@ -61,7 +61,7 @@ Why `:酒` differs:
 | `:玄米茶` | 🍵 ([Genmaicha](https://en.wikipedia.org/wiki/Genmaicha)) | 🌐 all locales |
 | `:nihonshu` | 🍶 ([Sake](https://en.wikipedia.org/wiki/Sake)) | 🌐 all locales |
 | `:酒` | 🍶, 🍷, 🍺, 🥃 and other alcohol-related ones | 🇯🇵 `ja` locale |
-| `:komai` | 🦁 ([🦁 Komai Identity](identity.md)) | 🌐 all locales |
+| `:komai` | 🦁 ([🦁 Komai Identity](../identity.md)) | 🌐 all locales |
 
 
 ## 🎛️ Emoji Preferences
@@ -163,5 +163,5 @@ Komai then applies small project-specific alias overrides on top.
 
 ## 🔗 More Details
 
-- User-facing summary in [Differences from nheko](differences-from-nheko.md#-composer-and-replies)
-- Technical architecture and pipeline details in [Emoji Architecture](../architecture/emojis.md)
+- User-facing summary in [Differences from nheko](../differences-from-nheko.md#-composer-and-replies)
+- Technical architecture and pipeline details in [Emoji Architecture](../../architecture/emojis.md)

@@ -8926,8 +8926,8 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Phát các đoạn video nhỏ (dưới %1 MB hoặc %2 giây) trực tiếp, tắt tiếng và lặp lại. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Phát các đoạn video nhỏ (dưới %1 MB hoặc %2 giây) trực tiếp, tắt tiếng và lặp lại. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9287,8 +9287,8 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Cần thêm chủ đề? Nhập từ &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; hoặc &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;tạo chủ đề của riêng bạn&lt;/a&gt; (cần khởi động lại).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Cần thêm chủ đề? Nhập từ &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; hoặc &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;tạo chủ đề của riêng bạn&lt;/a&gt; (cần khởi động lại).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9387,13 +9387,13 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Tin nhắn trực tiếp với người thật, không bao gồm những người dùng được &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;phát hiện&lt;/a&gt; là bot bằng phương pháp phỏng đoán.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Tin nhắn trực tiếp với người thật, không bao gồm những người dùng được &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;phát hiện&lt;/a&gt; là bot bằng phương pháp phỏng đoán.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Tin nhắn trực tiếp mà người đối thoại được &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;phát hiện&lt;/a&gt; là bot hoặc tài khoản dịch vụ bridge.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Tin nhắn trực tiếp mà người đối thoại được &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;phát hiện&lt;/a&gt; là bot hoặc tài khoản dịch vụ bridge.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9487,8 +9487,8 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Một số tin nhắn, đặc biệt là những tin có emoji như 🎊, ☀️ hoặc 🌦️, có thể hiển thị &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;hiệu ứng dòng thời gian&lt;/a&gt; đẹp hơn.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Một số tin nhắn, đặc biệt là những tin có emoji như 🎊, ☀️ hoặc 🌦️, có thể hiển thị &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;hiệu ứng dòng thời gian&lt;/a&gt; đẹp hơn.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9599,13 +9599,13 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Chỉ bộ chọn emoji nội tuyến: ưu tiên biến thể giới tính được Unicode định nghĩa (nam/nữ) khi có sẵn. Tìm kiếm rõ ràng cho giới tính khác vẫn hoạt động. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Chỉ bộ chọn emoji nội tuyến: ưu tiên biến thể giới tính được Unicode định nghĩa (nam/nữ) khi có sẵn. Tìm kiếm rõ ràng cho giới tính khác vẫn hoạt động. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Chỉ bộ chọn emoji nội tuyến: ưu tiên một biến thể màu da khi có sẵn. Tìm kiếm rõ ràng cho màu da khác vẫn hoạt động. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Chỉ bộ chọn emoji nội tuyến: ưu tiên một biến thể màu da khi có sẵn. Tìm kiếm rõ ràng cho màu da khác vẫn hoạt động. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9659,8 +9659,8 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Hiển thị số phòng cần chú ý trên huy hiệu ứng dụng/thanh tác vụ. Trên Linux, các hồ sơ không mặc định cần trình khởi chạy desktop riêng để huy hiệu hoạt động ổn định. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Hiển thị số phòng cần chú ý trên huy hiệu ứng dụng/thanh tác vụ. Trên Linux, các hồ sơ không mặc định cần trình khởi chạy desktop riêng để huy hiệu hoạt động ổn định. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -8,10 +8,10 @@ To import a tinted-theming theme: `just theme-tinted-import <slug>` — see [Arc
 
 To create a starter theme: `just theme-create-sample dark my-theme` — generates a YAML skeleton here for manual customisation.
 
-To hand-craft a theme: create a `.yml` with all 20 palette keys and a `userColors` section (see [Theme YAML format](../../docs/user-guide/themes.md#-theme-yaml-format)) and place it here, then `just build`.
+To hand-craft a theme: create a `.yml` with all 20 palette keys and a `userColors` section (see [Theme YAML format](../../docs/user-guide/features/themes.md#-theme-yaml-format)) and place it here, then `just build`.
 
 ## Further reading
 
-- [User guide: Themes](../../docs/user-guide/themes.md) — end-user documentation, YAML format reference
+- [User guide: Themes](../../docs/user-guide/features/themes.md) — end-user documentation, YAML format reference
 - [Architecture: Themes](../../docs/architecture/themes.md) — import pipeline, Base16 mapping, contrast heuristics
 - [Architecture: CLI](../../docs/architecture/cli.md) — CLI subcommand dispatch design

@@ -8940,8 +8940,8 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Speelt kleine videoclips (onder %1 MB of %2 s) inline af, gedempt en herhaald. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Meer informatie&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Speelt kleine videoclips (onder %1 MB of %2 s) inline af, gedempt en herhaald. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Meer informatie&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9301,8 +9301,8 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Meer thema's nodig? Importeer uit &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; of &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;maak je eigen&lt;/a&gt; (herstart vereist).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Meer thema's nodig? Importeer uit &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; of &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;maak je eigen&lt;/a&gt; (herstart vereist).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9401,13 +9401,13 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Directe berichten met echte mensen, exclusief gebruikers die &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;gedetecteerd&lt;/a&gt; worden als bots via heuristieken.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Directe berichten met echte mensen, exclusief gebruikers die &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;gedetecteerd&lt;/a&gt; worden als bots via heuristieken.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Directe berichten waarbij de gesprekspartner &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;gedetecteerd&lt;/a&gt; wordt als een bot of bridge-serviceaccount.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Directe berichten waarbij de gesprekspartner &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;gedetecteerd&lt;/a&gt; wordt als een bot of bridge-serviceaccount.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9501,8 +9501,8 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Sommige berichten, vooral die met emoji's zoals 🎊, ☀️ of 🌦️, kunnen een fraaier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;tijdlijneffect&lt;/a&gt; tonen.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Sommige berichten, vooral die met emoji's zoals 🎊, ☀️ of 🌦️, kunnen een fraaier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;tijdlijneffect&lt;/a&gt; tonen.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9613,13 +9613,13 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan Unicode-gedefinieerde geslachtsvarianten (man/vrouw) indien beschikbaar. Expliciet zoeken naar het andere geslacht werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Meer info&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan Unicode-gedefinieerde geslachtsvarianten (man/vrouw) indien beschikbaar. Expliciet zoeken naar het andere geslacht werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer info&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan één huidtintvariant indien beschikbaar. Expliciet zoeken naar een ander huidtint werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Meer info&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan één huidtintvariant indien beschikbaar. Expliciet zoeken naar een ander huidtint werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer info&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9673,8 +9673,8 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Toon het aantal kamers dat aandacht vereist op het app-/taakbalkbadge. Op Linux hebben niet-standaard profielen een eigen bureaubladlauncher nodig voor betrouwbare app-badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Meer informatie&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Toon het aantal kamers dat aandacht vereist op het app-/taakbalkbadge. Op Linux hebben niet-standaard profielen een eigen bureaubladlauncher nodig voor betrouwbare app-badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Meer informatie&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

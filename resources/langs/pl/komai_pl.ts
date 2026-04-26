@@ -8955,8 +8955,8 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Odtwarza krótkie klipy wideo (poniżej %1 MB lub %2 s) wbudowane, wyciszone i zapętlone. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Odtwarza krótkie klipy wideo (poniżej %1 MB lub %2 s) wbudowane, wyciszone i zapętlone. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9316,8 +9316,8 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Potrzebujesz więcej motywów? Zaimportuj z &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; lub &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;utwórz własny&lt;/a&gt; (wymagane ponowne uruchomienie).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Potrzebujesz więcej motywów? Zaimportuj z &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; lub &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;utwórz własny&lt;/a&gt; (wymagane ponowne uruchomienie).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9416,13 +9416,13 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Bezpośrednie czaty z prawdziwymi osobami, z wyłączeniem użytkowników &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;wykrytych&lt;/a&gt; jako boty przez heurystyki.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Bezpośrednie czaty z prawdziwymi osobami, z wyłączeniem użytkowników &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;wykrytych&lt;/a&gt; jako boty przez heurystyki.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Bezpośrednie czaty, w których rozmówca jest &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;wykryty&lt;/a&gt; jako bot lub konto usługi bridge.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Bezpośrednie czaty, w których rozmówca jest &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;wykryty&lt;/a&gt; jako bot lub konto usługi bridge.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9516,8 +9516,8 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Niektóre wiadomości, zwłaszcza te z emoji, np. 🎊, ☀️ lub 🌦️, mogą wyświetlać bardziej efektowny &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;efekt na osi czasu&lt;/a&gt;.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Niektóre wiadomości, zwłaszcza te z emoji, np. 🎊, ☀️ lub 🌦️, mogą wyświetlać bardziej efektowny &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;efekt na osi czasu&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9628,13 +9628,13 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Tylko wbudowany wybieracz emoji: preferuj warianty płciowe zdefiniowane przez Unicode (mężczyzna/kobieta), gdy są dostępne. Wyszukiwanie konkretnej płci nadal działa. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Tylko wbudowany wybieracz emoji: preferuj warianty płciowe zdefiniowane przez Unicode (mężczyzna/kobieta), gdy są dostępne. Wyszukiwanie konkretnej płci nadal działa. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Tylko wbudowany wybieracz emoji: preferuj jeden wariant koloru skóry, gdy jest dostępny. Wyszukiwanie innego koloru skóry nadal działa. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Tylko wbudowany wybieracz emoji: preferuj jeden wariant koloru skóry, gdy jest dostępny. Wyszukiwanie innego koloru skóry nadal działa. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9688,8 +9688,8 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Pokaż liczbę pokojów wymagających uwagi na odznace aplikacji/paska zadań. Na Linuksie niestandardowe profile potrzebują własnego programu uruchamiającego dla niezawodnych odznak aplikacji. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Pokaż liczbę pokojów wymagających uwagi na odznace aplikacji/paska zadań. Na Linuksie niestandardowe profile potrzebują własnego programu uruchamiającego dla niezawodnych odznak aplikacji. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

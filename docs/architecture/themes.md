@@ -2,7 +2,7 @@
 
 This document describes the technical pipeline for Komai's theme system.
 For theme authoring rules and contrast targets, see [Theme Design Guide](theme-design-guide.md).
-For user-facing documentation, see [docs/user-guide/themes.md](../user-guide/themes.md).
+For user-facing documentation, see [docs/user-guide/features/themes.md](../user-guide/features/themes.md).
 
 
 ## Pipeline overview

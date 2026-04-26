@@ -8940,8 +8940,8 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ചെറിയ വീഡിയോ ക്ലിപ്പുകൾ (%1 MB-ൽ കുറവ് അല്ലെങ്കിൽ %2 സെക്കൻഡ്) ഇൻലൈനിൽ, മ്യൂട്ട് ചെയ്ത് ലൂപ്പ് ചെയ്ത് പ്ലേ ചെയ്യുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ചെറിയ വീഡിയോ ക്ലിപ്പുകൾ (%1 MB-ൽ കുറവ് അല്ലെങ്കിൽ %2 സെക്കൻഡ്) ഇൻലൈനിൽ, മ്യൂട്ട് ചെയ്ത് ലൂപ്പ് ചെയ്ത് പ്ലേ ചെയ്യുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9301,8 +9301,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>കൂടുതൽ തീമുകൾ വേണോ? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക അല്ലെങ്കിൽ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;നിങ്ങളുടേത് സൃഷ്ടിക്കുക&lt;/a&gt; (പുനരാരംഭം ആവശ്യമാണ്).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>കൂടുതൽ തീമുകൾ വേണോ? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക അല്ലെങ്കിൽ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;നിങ്ങളുടേത് സൃഷ്ടിക്കുക&lt;/a&gt; (പുനരാരംഭം ആവശ്യമാണ്).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9401,13 +9401,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>ഹ്യൂറിസ്റ്റിക്സ് വഴി ബോട്ടുകൾ ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; ഉപയോക്താക്കളെ ഒഴിവാക്കി, യഥാർത്ഥ ആളുകളുമായുള്ള നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>ഹ്യൂറിസ്റ്റിക്സ് വഴി ബോട്ടുകൾ ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; ഉപയോക്താക്കളെ ഒഴിവാക്കി, യഥാർത്ഥ ആളുകളുമായുള്ള നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>സംഭാഷണ പങ്കാളി ബോട്ട് അല്ലെങ്കിൽ ബ്രിഡ്ജ് സർവ്വീസ് അക്കൗണ്ട് ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>സംഭാഷണ പങ്കാളി ബോട്ട് അല്ലെങ്കിൽ ബ്രിഡ്ജ് സർവ്വീസ് അക്കൗണ്ട് ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9501,8 +9501,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>ചില സന്ദേശങ്ങൾ, പ്രത്യേകിച്ച് 🎊, ☀️, അല്ലെങ്കിൽ 🌦️ പോലുള്ള ഇമോജികൾ ഉള്ളവ, ഒരു മനോഹരമായ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;ടൈംലൈൻ ഇഫക്റ്റ്&lt;/a&gt; കാണിക്കാം.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>ചില സന്ദേശങ്ങൾ, പ്രത്യേകിച്ച് 🎊, ☀️, അല്ലെങ്കിൽ 🌦️ പോലുള്ള ഇമോജികൾ ഉള്ളവ, ഒരു മനോഹരമായ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;ടൈംലൈൻ ഇഫക്റ്റ്&lt;/a&gt; കാണിക്കാം.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9613,13 +9613,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ Unicode-നിർവചിച്ച ലിംഗ വേരിയന്റുകൾ (പുരുഷൻ/സ്ത്രീ) മുൻഗണന നൽകുക. മറ്റ് ലിംഗം വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ Unicode-നിർവചിച്ച ലിംഗ വേരിയന്റുകൾ (പുരുഷൻ/സ്ത്രീ) മുൻഗണന നൽകുക. മറ്റ് ലിംഗം വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ ഒരു ത്വക്ക്-ടോൺ വേരിയന്റ് മുൻഗണന നൽകുക. മറ്റ് ത്വക്ക് ടോൺ വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ ഒരു ത്വക്ക്-ടോൺ വേരിയന്റ് മുൻഗണന നൽകുക. മറ്റ് ത്വക്ക് ടോൺ വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9673,8 +9673,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം ആപ്പ്/ടാസ്‌ക്ബാർ ബാഡ്ജിൽ കാണിക്കുക. Linux-ൽ, ഡിഫോൾട്ടല്ലാത്ത പ്രൊഫൈലുകൾക്ക് വിശ്വസനീയമായ ആപ്പ് ബാഡ്ജുകൾക്ക് സ്വന്തം ഡെസ്‌ക്‌ടോപ്പ് ലോഞ്ചർ ആവശ്യമാണ്. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം ആപ്പ്/ടാസ്‌ക്ബാർ ബാഡ്ജിൽ കാണിക്കുക. Linux-ൽ, ഡിഫോൾട്ടല്ലാത്ത പ്രൊഫൈലുകൾക്ക് വിശ്വസനീയമായ ആപ്പ് ബാഡ്ജുകൾക്ക് സ്വന്തം ഡെസ്‌ക്‌ടോപ്പ് ലോഞ്ചർ ആവശ്യമാണ്. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

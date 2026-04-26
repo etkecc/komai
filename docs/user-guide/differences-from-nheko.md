@@ -13,7 +13,7 @@ For project background and naming context, see [🦁 Identity](identity.md).
 
 Komai ships multiple built-in color themes (light and dark variants): Komai, Nord, Catppuccin, Dracula, Rosé Pine, Tokyo Night, and more, and the built-in set is maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for Komai's common UI text pairings.
 
-New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-in ones, but you don't have to -- Komai also supports [🗂️ User themes](themes.md#-user-themes).
+New themes are easy to add (see [🎨 Themes](features/themes.md)) so they become built-in ones, but you don't have to -- Komai also supports [🗂️ User themes](features/themes.md#-user-themes).
 Theme authors can also define exact user color palettes in the theme itself, instead of relying on automatic color derivation, for more predictable and intentional results.
 
 
@@ -34,14 +34,14 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 
 - **Room actions bar** (create, join, search) moved above the room list for a natural top-to-bottom flow
 - **User avatar button** with settings gear -- click opens Settings directly; right-click provides profile, status, and logout
-- **Application Profiles UI** -- dedicated profile switcher/manager for creating, launching, and deleting app profiles (instead of relying only on CLI `-p` usage). See [👥 Application Profiles](application-profiles.md)
+- **Application Profiles UI** -- dedicated profile switcher/manager for creating, launching, and deleting app profiles (instead of relying only on CLI `-p` usage). See [👥 Application Profiles](features/application-profiles.md)
 - **Compact room list** with denser entry layout
 - **Polished top bar** -- selectable topic text, hidden empty topic, dedicated settings button
 - **Smarter direct chat detection** -- Komai combines [`m.direct`](https://spec.matrix.org/v1.17/client-server-api/#mdirect) account data with member-count heuristics to (hopefully in most cases) correctly identify direct chats, including 3-member rooms where one member is a bridge bot -- giving them the right name, avatar, and room-list placement
-- **Revamped communities sidebar** -- configurable [filter sections](communities-sidebar.md#filter-sections) (People, Bots, Groups, Favourites, Server Notices, Low Priority) with local attention counting (unread messages and unsent drafts) that works even when notifications are disabled at the homeserver level. Every filter can be [hidden, have its unread indicators suppressed, or excluded from "All rooms"](communities-sidebar.md#per-filter-options) via Settings > Navigation or right-click. See [🏘️ Communities Sidebar](communities-sidebar.md)
+- **Revamped communities sidebar** -- configurable [filter sections](features/communities-sidebar.md#filter-sections) (People, Bots, Groups, Favourites, Server Notices, Low Priority) with local attention counting (unread messages and unsent drafts) that works even when notifications are disabled at the homeserver level. Every filter can be [hidden, have its unread indicators suppressed, or excluded from "All rooms"](features/communities-sidebar.md#per-filter-options) via Settings > Navigation or right-click. See [🏘️ Communities Sidebar](features/communities-sidebar.md)
 - **Local unread counting for room list badges** -- room list notification badges use locally-tracked unread message counts instead of homeserver-derived notification counts, so badges appear even when push notifications are disabled
 - **Low-priority rooms stay visually quiet** -- rooms tagged low priority are de-emphasized in the room list (no bold name, avatar bounce, count badge, row highlight, or left-edge marker) unless a loud notification arrives or you open the Low Priority filter. Lets you park noisy rooms without hiding them entirely
-- **Keyboard-first main chat workflow** -- room header actions, empty-composer controls, the communities sidebar, and the room list now participate in a coherent keyboard flow instead of dead-ending or skipping important controls. Sidebar lists can be focused directly, browsed with arrows or Vim-like keys, paged with `Ctrl+U`/`Ctrl+D`, jumped with `gg`/`Shift+G`, and cycled with `Tab`/`Shift+Tab`. See [⌨️ Keyboard Shortcuts](keyboard-shortcuts.md)
+- **Keyboard-first main chat workflow** -- room header actions, empty-composer controls, the communities sidebar, and the room list now participate in a coherent keyboard flow instead of dead-ending or skipping important controls. Sidebar lists can be focused directly, browsed with arrows or Vim-like keys, paged with `Ctrl+U`/`Ctrl+D`, jumped with `gg`/`Shift+G`, and cycled with `Tab`/`Shift+Tab`. See [⌨️ Keyboard Shortcuts](features/keyboard-shortcuts.md)
 - **Avatars on the bubble side** -- received messages show the avatar on the left, yours on the right
 - **Mouse back/forward navigation** -- use mouse back/forward buttons to navigate through your room and filter history, like a browser. Filter-only intermediate steps are skipped automatically so back always jumps to a meaningfully different state
 
@@ -61,7 +61,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
   - **Timeline video thumbnails** -- videos in the timeline show a thumbnail with a play button overlay and hover effects; clicking opens the media viewer directly
 - **Revamped inline audio player** -- audio clips stay in the timeline, play without a separate Download step, and support adjustable playback speed
 - **Forward button** in the message action bar
-- **[Message special effects](message-effects.md)** -- emoji-triggered visual effects (confetti, sunlight, hearts, rainfall, lightning, and the Komai logo) that also work in a non-animated static form when UI animations are disabled
+- **[Message special effects](features/message-effects.md)** -- emoji-triggered visual effects (confetti, sunlight, hearts, rainfall, lightning, and the Komai logo) that also work in a non-animated static form when UI animations are disabled
 - **Pinned and recent emoji reactions** directly in the action bar
 - **Swipe-to-reply disabled** by default to prevent accidental replies on desktop
 - **Formatted-message code block highlighting** (powered by [syntect](https://github.com/trishume/syntect)) with heuristic language auto-detection for unlabeled fenced blocks, and a user toggle under [Settings](settings/README.md).
@@ -118,14 +118,14 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 
 ## 🤖 Automation and Scripting
 
-- **Broader local automation surface** -- Komai supports a documented JSON [CLI](automations/cli.md), a [D-Bus API](automations/dbus.md), and [Model Context Protocol (MCP)](automations/mcp.md) support for MCP-compatible hosts, making the running app easier to script, integrate, and use with AI tooling.
+- **Broader local automation surface** -- Komai supports a documented JSON [CLI](features/automations/cli.md), a [D-Bus API](features/automations/dbus.md), and [Model Context Protocol (MCP)](features/automations/mcp.md) support for MCP-compatible hosts, making the running app easier to script, integrate, and use with AI tooling.
 
 
 ## 🔧 Internal Improvements
 
 - We completed a major codebase reorganization and refactoring to make Komai easier to maintain and evolve.
 - **Rust-powered Matrix runtime** -- Komai now runs on the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) instead of the older [mtxclient](https://github.com/Nheko-Reborn/mtxclient) + deprecated [libolm](https://gitlab.matrix.org/matrix-org/olm) stack.
-- **Removed built-in file logging** -- Komai logs to stderr only, relying on the underlying system (systemd-journald, Snap, Flatpak) to capture and store application output. See [Logging](logging.md) for details on collecting logs
+- **Removed built-in file logging** -- Komai logs to stderr only, relying on the underlying system (systemd-journald, Snap, Flatpak) to capture and store application output. See [Logging](operations/logging.md) for details on collecting logs
 - **Removed client-side event expiry** -- nheko's "delete expired events periodically" feature (client-side redaction of old messages) has been removed. It was a workaround for missing server-side retention support ([MSC4011](https://github.com/matrix-org/matrix-spec-proposals/pull/4011)) and is too costly to reimplement on top of matrix-sdk.
 - **Removed custom invite permissions** -- nheko's `/blockinvites` and `/allowinvites` slash commands (backed by a custom `im.nheko.invite_permissions` account data event) have been removed. The feature was non-standard, not understood by other clients, and only partially effective. Use the standard `/ignore` command or server-side policies instead.
 - **Not so eager to destroy your session** during temporary secret storage failures ([nheko#1875](https://github.com/Nheko-Reborn/nheko/issues/1875)) -- you can now close, fix your keychain, and relaunch without losing data
@@ -136,7 +136,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
   - no exhaustive benchmark campaign was run, so treat these numbers with the usual benchmark grain of salt
   - implementation details and tracing knobs: [⚡ Performance Tracing](../architecture/performance.md)
 - **Remembers your last open room** -- restarting the app brings you right back where you left off
-- **Predictable profile selection** -- launching without `-p` opens the profile switcher unless only `default` exists, instead of remembering the last-used profile. See [Application Profiles](application-profiles.md)
+- **Predictable profile selection** -- launching without `-p` opens the profile switcher unless only `default` exists, instead of remembering the last-used profile. See [Application Profiles](features/application-profiles.md)
 - **Per-profile settings** -- all settings (theme, notifications, sidebar widths, etc.) are stored per-profile, so each account can have its own look and feel. See [Settings](settings/README.md#profiles)
 - **Human-readable YAML settings** -- settings are stored in YAML files instead of Qt's INI format, making manual editing and backup straightforward. See [Settings](settings/README.md)
 - **Split settings by concern** -- each profile stores `config.yml` (preferences), `state.yml` (runtime/layout), `session.yml` (session metadata), and `secrets.yml` (file-mode fallback secrets), instead of one monolithic file

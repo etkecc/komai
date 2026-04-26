@@ -8926,8 +8926,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>%1 MB 또는 %2초 미만의 소형 동영상 클립을 인라인으로 음소거하여 반복 재생합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;자세히 보기&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>%1 MB 또는 %2초 미만의 소형 동영상 클립을 인라인으로 음소거하여 반복 재생합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;자세히 보기&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9287,8 +9287,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>더 많은 테마가 필요하신가요? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;에서 가져오거나 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;직접 만드세요&lt;/a&gt; (재시작 필요).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>더 많은 테마가 필요하신가요? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;에서 가져오거나 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;직접 만드세요&lt;/a&gt; (재시작 필요).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9387,13 +9387,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>휴리스틱으로 봇으로 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;감지된&lt;/a&gt; 사용자를 제외한 실제 사람과의 다이렉트 채팅.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>휴리스틱으로 봇으로 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;감지된&lt;/a&gt; 사용자를 제외한 실제 사람과의 다이렉트 채팅.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>대화 상대가 봇 또는 브리지 서비스 계정으로 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;감지된&lt;/a&gt; 다이렉트 채팅.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>대화 상대가 봇 또는 브리지 서비스 계정으로 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;감지된&lt;/a&gt; 다이렉트 채팅.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9487,8 +9487,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>일부 메시지, 특히 🎊, ☀️, 🌦️ 같은 이모지가 포함된 메시지는 더 화려한 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;타임라인 효과&lt;/a&gt;를 표시할 수 있습니다.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>일부 메시지, 특히 🎊, ☀️, 🌦️ 같은 이모지가 포함된 메시지는 더 화려한 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;타임라인 효과&lt;/a&gt;를 표시할 수 있습니다.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9599,13 +9599,13 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>인라인 이모지 선택기 전용: 가능한 경우 Unicode 정의 성별 변형(남성/여성)을 우선합니다. 다른 성별을 명시적으로 검색하는 것은 여전히 작동합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;자세히 알아보기&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>인라인 이모지 선택기 전용: 가능한 경우 Unicode 정의 성별 변형(남성/여성)을 우선합니다. 다른 성별을 명시적으로 검색하는 것은 여전히 작동합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>인라인 이모지 선택기 전용: 가능한 경우 하나의 피부 톤 변형을 우선합니다. 다른 피부 톤을 명시적으로 검색하는 것은 여전히 작동합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;자세히 알아보기&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>인라인 이모지 선택기 전용: 가능한 경우 하나의 피부 톤 변형을 우선합니다. 다른 피부 톤을 명시적으로 검색하는 것은 여전히 작동합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9659,8 +9659,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>앱/작업 표시줄 배지에 주의가 필요한 방의 수를 표시합니다. Linux에서 기본 프로필이 아닌 경우 안정적인 앱 배지를 위해 별도의 데스크톱 실행기가 필요합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;자세히 알아보기&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>앱/작업 표시줄 배지에 주의가 필요한 방의 수를 표시합니다. Linux에서 기본 프로필이 아닌 경우 안정적인 앱 배지를 위해 별도의 데스크톱 실행기가 필요합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

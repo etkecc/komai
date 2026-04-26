@@ -67,7 +67,7 @@ See [docs/maintainers/packaging/native.md](docs/maintainers/packaging/native.md)
 ### Themes
 - `resources/themes/*.yml` -- Theme definitions (colors, styles)
 - `src/ui/Theme.cpp` / `.h` -- Theme loading and application
-- See [docs/user-guide/themes.md](docs/user-guide/themes.md) for theme format
+- See [docs/user-guide/features/themes.md](docs/user-guide/features/themes.md) for theme format
 
 ### Icons
 - `resources/icons/ui/*.svg` -- UI icon assets (mostly Fluent-derived + some Komai-authored icons)

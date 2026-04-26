@@ -8940,8 +8940,8 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Reprodueix clips de vídeo petits (menys de %1 MB o %2 s) integrats, silenciats i en bucle. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Més informació&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Reprodueix clips de vídeo petits (menys de %1 MB o %2 s) integrats, silenciats i en bucle. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9301,8 +9301,8 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Necessiteu més temes? Importeu des de la &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Galeria Tinted&lt;/a&gt; o &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;creeu el vostre propi&lt;/a&gt; (cal reiniciar).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Necessiteu més temes? Importeu des de la &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Galeria Tinted&lt;/a&gt; o &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;creeu el vostre propi&lt;/a&gt; (cal reiniciar).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9401,13 +9401,13 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Xats directes amb persones reals, excloent els usuaris &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detectats&lt;/a&gt; com a bots per heurístiques.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Xats directes amb persones reals, excloent els usuaris &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detectats&lt;/a&gt; com a bots per heurístiques.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Xats directes on l'interlocutor és &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detectat&lt;/a&gt; com a bot o compte de servei de pont.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Xats directes on l'interlocutor és &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detectat&lt;/a&gt; com a bot o compte de servei de pont.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9501,8 +9501,8 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Alguns missatges, especialment els que contenen emojis com 🎊, ☀️ o 🌦️, poden mostrar un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;efecte de línia de temps&lt;/a&gt; més vistós.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Alguns missatges, especialment els que contenen emojis com 🎊, ☀️ o 🌦️, poden mostrar un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;efecte de línia de temps&lt;/a&gt; més vistós.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9613,13 +9613,13 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Només al selector d'emoji en línia: prefereix les variants de gènere definides per Unicode (home/dona) quan estan disponibles. La cerca explícita de l'altre gènere segueix funcionant. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Més informació&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Només al selector d'emoji en línia: prefereix les variants de gènere definides per Unicode (home/dona) quan estan disponibles. La cerca explícita de l'altre gènere segueix funcionant. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Només al selector d'emoji en línia: prefereix una variant de to de pell quan n'hi ha. La cerca explícita d'un altre to de pell segueix funcionant. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Més informació&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Només al selector d'emoji en línia: prefereix una variant de to de pell quan n'hi ha. La cerca explícita d'un altre to de pell segueix funcionant. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9673,8 +9673,8 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Mostra el nombre de sales que necessiten atenció a la insígnia de l'aplicació/barra de tasques. A Linux, els perfils no predeterminats necessiten el seu propi llançador d'escriptori per a insígnies d'aplicació fiables. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Més informació&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Mostra el nombre de sales que necessiten atenció a la insígnia de l'aplicació/barra de tasques. A Linux, els perfils no predeterminats necessiten el seu propi llançador d'escriptori per a insígnies d'aplicació fiables. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

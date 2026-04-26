@@ -1,11 +1,11 @@
 # 🎨 Themes
 
-Komai uses a data-driven theme system. Built-in themes are defined as YAML files in [`resources/themes/`](../../resources/themes/) and compiled into the binary at build time. Each YAML file contains resolved palette colors directly — what you see in the YAML is what the app uses.
+Komai uses a data-driven theme system. Built-in themes are defined as YAML files in [`resources/themes/`](../../../resources/themes/) and compiled into the binary at build time. Each YAML file contains resolved palette colors directly — what you see in the YAML is what the app uses.
 
 
 ## 🧰 Built-in themes
 
-Komai ships with several built-in themes (see [`resources/themes/`](../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Nord, Rosé Pine, and Tokyo Night. The built-in set is maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for Komai's common UI text pairs.
+Komai ships with several built-in themes (see [`resources/themes/`](../../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Nord, Rosé Pine, and Tokyo Night. The built-in set is maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for Komai's common UI text pairs.
 
 
 ## ⚙️ Where Your Current Theme Choice Is Stored
@@ -23,8 +23,8 @@ ui:
     slug: dark-komai
 ```
 
-See [Settings: What Goes Where](settings/README.md#what-goes-where) for config semantics and
-[Settings: Profile Location](settings/README.md#profile-location) for profile paths.
+See [Settings: What Goes Where](../settings/README.md#what-goes-where) for config semantics and
+[Settings: Profile Location](../settings/README.md#profile-location) for profile paths.
 
 
 ## 🗂️ User themes
@@ -36,7 +36,7 @@ In addition to built-in themes, Komai loads custom theme YAML files at startup f
 3. `/usr/share/komai/themes/` — distro-packaged themes
 
 The filename (without the extension) becomes the theme slug. User themes appear in the Settings dropdown alongside built-in themes.
-For storage context, see [Storage Locations](storage.md#linux-paths).
+For storage context, see [Storage Locations](../operations/storage.md#linux-paths).
 
 **Priority rules:**
 - Built-in themes always win over external themes with the same slug
@@ -87,7 +87,7 @@ These commands work without a display server (SSH, containers) and do not requir
 
 ### ✍️ Hand-crafted themes
 
-Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all palette keys and a `userColors` section, then rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed; Komai restart required).
+Drop a `.yml` file into [`resources/themes/`](../../../resources/themes/) with all palette keys and a `userColors` section, then rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed; Komai restart required).
 
 Built-in themes are held to a stricter bar than ad-hoc user themes: they should pass Komai's WCAG AA audit for the common text pairings used throughout the app. For the baseline accessibility requirement, see [WCAG 2.2 Contrast (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html).
 
@@ -163,9 +163,9 @@ Outer timeline metadata such as the timestamp beside a bubble uses the normal ti
 
 Imported themes also include an optional `source_base16:` section with the original Base16 palette for reference. This section is ignored by the build.
 
-See [docs/architecture/themes.md](../architecture/themes.md) for the technical pipeline details.
+See [docs/architecture/themes.md](../../architecture/themes.md) for the technical pipeline details.
 
 
 ## ⚙️ How it works
 
-Built-in themes live in [`resources/themes/*.yml`](../../resources/themes/) and are compiled into the binary. Editing a theme YAML and rebuilding is all that's needed. See [Architecture: Themes](../architecture/themes.md) for internals.
+Built-in themes live in [`resources/themes/*.yml`](../../../resources/themes/) and are compiled into the binary. Editing a theme YAML and rebuilding is all that's needed. See [Architecture: Themes](../../architecture/themes.md) for internals.

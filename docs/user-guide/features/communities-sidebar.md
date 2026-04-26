@@ -92,7 +92,7 @@ Komai determines whether a room is a direct chat using two methods:
 
 ## Bot Detection Heuristics
 
-Komai uses [heuristics](../../src/utils/BotDetection.cpp) to classify users as bots or bridge service accounts. This classification determines whether a direct chat appears in the **People** or **Bots** filter. All checks are case-insensitive.
+Komai uses [heuristics](../../../src/utils/BotDetection.cpp) to classify users as bots or bridge service accounts. This classification determines whether a direct chat appears in the **People** or **Bots** filter. All checks are case-insensitive.
 
 A user is considered a bot if any of the following match. Checks are applied in the order listed -- this matters for the puppet escape hatch below.
 
@@ -117,4 +117,4 @@ In addition to the filter sections above, the communities sidebar shows your [Ma
 
 ---
 
-For technical details, see [Communities Sidebar Filters (architecture)](../architecture/communities-sidebar-filters.md).
+For technical details, see [Communities Sidebar Filters (architecture)](../../architecture/communities-sidebar-filters.md).

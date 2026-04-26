@@ -1,13 +1,13 @@
 # 🗄️ Storage Locations
 
 Komai stores data in several places depending on purpose.
-Use this page as the physical "where", and [Settings](settings/README.md) as the behavioral "what/why".
+Use this page as the physical "where", and [Settings](../settings/README.md) as the behavioral "what/why".
 
 Quick jumps:
 
-- Profile semantics: [settings](settings/README.md#what-goes-where)
-- Secret provider behavior: [settings](settings/README.md#secret-storage-modes)
-- Theme files and loading rules: [themes.md](themes.md#-user-themes)
+- Profile semantics: [settings](../settings/README.md#what-goes-where)
+- Secret provider behavior: [settings](../settings/README.md#secret-storage-modes)
+- Theme files and loading rules: [themes.md](../features/themes.md#-user-themes)
 
 ## Linux Paths
 
@@ -18,16 +18,16 @@ Quick jumps:
 | Matrix SDK runtime cache | `~/.cache/komai/profiles/<profile-id>/matrix-sdk/cache/` |
 | App media cache | `~/.cache/komai/profiles/<profile-id>/media/` |
 | Optional explicit profile launcher (native Linux) | `~/.local/share/applications/cc.etke.komai.profile.<profile-id>.desktop` |
-| User themes | `~/.local/share/komai/themes/` (see [themes.md](themes.md#-user-themes)) |
+| User themes | `~/.local/share/komai/themes/` (see [themes.md](../features/themes.md#-user-themes)) |
 | HTTP alt-svc cache (HTTP/3 enabled) | `~/.cache/komai/profiles/<profile-id>/http/alt_svc_cache.txt` |
 
-`<profile-id>` is the `-p` [Application Profile](application-profiles.md) name/identifier.
+`<profile-id>` is the `-p` [Application Profile](../features/application-profiles.md) name/identifier.
 
 Komai currently stores persistent Matrix state through the Rust
 `matrix-sdk` SQLite-backed store.
 
 💡 If a profile is not explicitly specified, Komai opens the profile switcher unless only `default` exists.
-See [Settings](settings/README.md#profile-location) for allowed profile-id characters.
+See [Settings](../settings/README.md#profile-location) for allowed profile-id characters.
 
 ## File Patterns We Write
 
@@ -58,7 +58,7 @@ Inside `~/.config/komai/profiles/<profile-id>/`:
 - `session.yml` - non-secret session/account metadata
 - `secrets.yml` - only used when `secrets.provider=file`
 
-See [Settings](settings/README.md#what-goes-where) for semantics and examples.
+See [Settings](../settings/README.md#what-goes-where) for semantics and examples.
 
 ## Local Reset
 
@@ -77,12 +77,12 @@ The media cache is separate and can be purged from the Settings UI while Komai i
 - 📄 `secrets.provider=file`: secrets are stored in `secrets.yml`.
 
 Secure-backend secrets are not part of on-disk YAML backup.
-For behavior and startup switching rules, see [Settings: Secret Storage Modes](settings/README.md#secret-storage-modes).
-For backup guidance (including keychain backup), see [Settings: Backup and Restore](settings/backup-and-restore.md).
+For behavior and startup switching rules, see [Settings: Secret Storage Modes](../settings/README.md#secret-storage-modes).
+For backup guidance (including keychain backup), see [Settings: Backup and Restore](../settings/backup-and-restore.md).
 
 ## See Also
 
-- [Settings](settings/README.md)
-- [Themes](themes.md)
-- [Architecture: Storage](../architecture/storage.md)
-- [Architecture: Settings](../architecture/settings/README.md)
+- [Settings](../settings/README.md)
+- [Themes](../features/themes.md)
+- [Architecture: Storage](../../architecture/storage.md)
+- [Architecture: Settings](../../architecture/settings/README.md)

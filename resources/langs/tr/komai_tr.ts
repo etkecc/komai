@@ -8926,8 +8926,8 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Küçük video klipleri (%1 MB veya %2 sn altında) satır içinde, sessiz ve döngülü olarak oynatır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Küçük video klipleri (%1 MB veya %2 sn altında) satır içinde, sessiz ve döngülü olarak oynatır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9287,8 +9287,8 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Daha fazla tema mı istiyorsunuz? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;'den içe aktarın veya &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;kendinizinkini oluşturun&lt;/a&gt; (yeniden başlatma gerektirir).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Daha fazla tema mı istiyorsunuz? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;'den içe aktarın veya &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kendinizinkini oluşturun&lt;/a&gt; (yeniden başlatma gerektirir).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9387,13 +9387,13 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Buluşsal yöntemlerle bot olarak &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;algılanan&lt;/a&gt; kullanıcılar hariç, gerçek kişilerle doğrudan sohbetler.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Buluşsal yöntemlerle bot olarak &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;algılanan&lt;/a&gt; kullanıcılar hariç, gerçek kişilerle doğrudan sohbetler.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Sohbet ortağının bot veya köprü hizmet hesabı olarak &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;algılandığı&lt;/a&gt; doğrudan sohbetler.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Sohbet ortağının bot veya köprü hizmet hesabı olarak &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;algılandığı&lt;/a&gt; doğrudan sohbetler.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9487,8 +9487,8 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>🎊, ☀️ veya 🌦️ gibi emojiler içeren bazı mesajlar daha şık bir &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;zaman çizelgesi efekti&lt;/a&gt; gösterebilir.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>🎊, ☀️ veya 🌦️ gibi emojiler içeren bazı mesajlar daha şık bir &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;zaman çizelgesi efekti&lt;/a&gt; gösterebilir.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9599,13 +9599,13 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Yalnızca satır içi emoji seçici: mevcut olduğunda Unicode tanımlı cinsiyet varyantlarını (erkek/kadın) tercih eder. Diğer cinsiyet için açıkça arama yapmak yine de çalışır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Yalnızca satır içi emoji seçici: mevcut olduğunda Unicode tanımlı cinsiyet varyantlarını (erkek/kadın) tercih eder. Diğer cinsiyet için açıkça arama yapmak yine de çalışır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Yalnızca satır içi emoji seçici: mevcut olduğunda tek bir ten tonu varyantını tercih eder. Başka bir ten tonu için açıkça arama yapmak yine de çalışır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Yalnızca satır içi emoji seçici: mevcut olduğunda tek bir ten tonu varyantını tercih eder. Başka bir ten tonu için açıkça arama yapmak yine de çalışır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9659,8 +9659,8 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Uygulama/görev çubuğu rozetinde dikkat gerektiren oda sayısını göster. Linux'ta varsayılan olmayan profiller, güvenilir uygulama rozetleri için kendi masaüstü başlatıcılarına ihtiyaç duyar. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Uygulama/görev çubuğu rozetinde dikkat gerektiren oda sayısını göster. Linux'ta varsayılan olmayan profiller, güvenilir uygulama rozetleri için kendi masaüstü başlatıcılarına ihtiyaç duyar. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

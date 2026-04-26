@@ -8943,8 +8943,8 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Ludas malgrandajn videoklipdojn (sub %1 MB aŭ %2 s) enlinie, sen sono kaj en buklo. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Ekscii pli&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Ludas malgrandajn videoklipdojn (sub %1 MB aŭ %2 s) enlinie, sen sono kaj en buklo. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Ekscii pli&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9304,8 +9304,8 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Bezonas pliajn temojn? Importu de &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; aŭ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;kreu vian propran&lt;/a&gt; (restartigo bezonata).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Bezonas pliajn temojn? Importu de &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; aŭ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kreu vian propran&lt;/a&gt; (restartigo bezonata).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9404,13 +9404,13 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Rektaj babiladoj kun realaj homoj, esceptante uzantojn &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detektitajn&lt;/a&gt; kiel robotojn per heŭristiko.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Rektaj babiladoj kun realaj homoj, esceptante uzantojn &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detektitajn&lt;/a&gt; kiel robotojn per heŭristiko.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Rektaj babiladoj, kie la konversacia partnero estas &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detektita&lt;/a&gt; kiel roboto aŭ ponta serva konto.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Rektaj babiladoj, kie la konversacia partnero estas &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detektita&lt;/a&gt; kiel roboto aŭ ponta serva konto.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9504,8 +9504,8 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Kelkaj mesaĝoj, precipe tiuj kun emodĵioj kiel 🎊, ☀️, aŭ 🌦️, povas montri pli belan &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;tempolinian efekton&lt;/a&gt;.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Kelkaj mesaĝoj, precipe tiuj kun emodĵioj kiel 🎊, ☀️, aŭ 🌦️, povas montri pli belan &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;tempolinian efekton&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9616,13 +9616,13 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Nur enlinia emoji-elektilo: preferi Unicode-difinitajn sekso-variantojn (viro/virino) kiam disponeblaj. Eksplicita serĉado por la alia sekso ankoraŭ funkcias. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Lernu pli&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Nur enlinia emoji-elektilo: preferi Unicode-difinitajn sekso-variantojn (viro/virino) kiam disponeblaj. Eksplicita serĉado por la alia sekso ankoraŭ funkcias. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lernu pli&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Nur enlinia emoji-elektilo: preferi unu haŭtotonan varianton kiam disponebla. Eksplicita serĉado por alia haŭtotono ankoraŭ funkcias. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Lernu pli&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Nur enlinia emoji-elektilo: preferi unu haŭtotonan varianton kiam disponebla. Eksplicita serĉado por alia haŭtotono ankoraŭ funkcias. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lernu pli&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9676,8 +9676,8 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Montru la nombron de ĉambroj bezonantaj atenton sur la app/taskobreto-insigno. Sur Linux, ne-defaŭltaj profiloj bezonas sian propran labortablan lanĉilon por fidindaj app-insignoj. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Lernu pli&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Montru la nombron de ĉambroj bezonantaj atenton sur la app/taskobreto-insigno. Sur Linux, ne-defaŭltaj profiloj bezonas sian propran labortablan lanĉilon por fidindaj app-insignoj. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Lernu pli&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -1,6 +1,6 @@
 # Theme Pipeline
 
-Scripts here maintain Komai's built-in theme system from YAML source files; see [`docs/user-guide/themes.md`](../../docs/user-guide/themes.md) for author workflow and [`docs/architecture/themes.md`](../../docs/architecture/themes.md) for internals.
+Scripts here maintain Komai's built-in theme system from YAML source files; see [`docs/user-guide/features/themes.md`](../../docs/user-guide/features/themes.md) for author workflow and [`docs/architecture/themes.md`](../../docs/architecture/themes.md) for internals.
 
 Quick orientation:
 
@@ -45,5 +45,5 @@ Tool references:
 
 Related docs:
 
-- [`docs/user-guide/themes.md`](../../docs/user-guide/themes.md)
+- [`docs/user-guide/features/themes.md`](../../docs/user-guide/features/themes.md)
 - [`docs/architecture/themes.md`](../../docs/architecture/themes.md)

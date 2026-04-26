@@ -359,6 +359,6 @@ Start Komai first: komai -p work
 
 ## 🔐 Security
 
-CLI commands use a per-profile Unix socket and do not require enabling [D-Bus access](../settings/integrations/dbus.md) in Settings. The socket's filesystem permissions restrict access to the owning user, which is the same trust boundary as running the Komai binary itself. If you can execute `komai`, you already have full access to the user's session, config files, and credentials.
+CLI commands use a per-profile Unix socket and do not require enabling [D-Bus access](../../settings/integrations/dbus.md) in Settings. The socket's filesystem permissions restrict access to the owning user, which is the same trust boundary as running the Komai binary itself. If you can execute `komai`, you already have full access to the user's session, config files, and credentials.
 
-This is distinct from the [D-Bus API](dbus.md), which can be called by any process on the session bus. The CLI channel is not exposed on D-Bus and is not affected by the [D-Bus access setting](../settings/integrations/dbus.md).
+This is distinct from the [D-Bus API](dbus.md), which can be called by any process on the session bus. The CLI channel is not exposed on D-Bus and is not affected by the [D-Bus access setting](../../settings/integrations/dbus.md).

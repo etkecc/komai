@@ -12,7 +12,7 @@ Components.OverlayDialog {
     id: root
 
     property var appRoot
-    readonly property string keyboardShortcutsGuideUrl: "https://github.com/etkecc/komai/blob/main/docs/user-guide/keyboard-shortcuts.md"
+    readonly property string keyboardShortcutsGuideUrl: "https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md"
     property string activeWarningKey: ""
     readonly property string selectionModeShortcutWarningText: qsTr("This keyboard shortcut only works in Selection mode, after closing Help.")
     readonly property string defaultIntroText: qsTr("These shortcuts apply in Selection mode after closing Help.")

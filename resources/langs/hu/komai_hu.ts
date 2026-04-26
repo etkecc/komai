@@ -8926,8 +8926,8 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+16"/>
-        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Kis videoklipeket (%1 MB vagy %2 mp alatt) játszik le beágyazottan, némán és ciklikusan. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Tudj meg többet&lt;/a&gt;.</translation>
+        <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Kis videoklipeket (%1 MB vagy %2 mp alatt) játszik le beágyazottan, némán és ciklikusan. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Tudj meg többet&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -9287,8 +9287,8 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     </message>
     <message>
         <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Több témára van szüksége? Importáljon a &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ból, vagy &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md"&gt;hozzon létre sajátot&lt;/a&gt; (újraindítás szükséges).</translation>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Több témára van szüksége? Importáljon a &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ból, vagy &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;hozzon létre sajátot&lt;/a&gt; (újraindítás szükséges).</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9387,13 +9387,13 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Közvetlen csevegések valódi emberekkel, kizárva a heurisztikák által botnak &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;észlelt&lt;/a&gt; felhasználókat.</translation>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Közvetlen csevegések valódi emberekkel, kizárva a heurisztikák által botnak &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;észlelt&lt;/a&gt; felhasználókat.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Közvetlen csevegések, ahol a partner botként vagy hídszolgáltatás-fiókként &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics"&gt;észlelhető&lt;/a&gt;.</translation>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Közvetlen csevegések, ahol a partner botként vagy hídszolgáltatás-fiókként &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;észlelhető&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9487,8 +9487,8 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     </message>
     <message>
         <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Egyes üzenetek, különösen az olyan emojikkal rendelkezők, mint a 🎊, ☀️ vagy 🌦️, látványosabb &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;idővonal-effektet&lt;/a&gt; jeleníthetnek meg.</translation>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Egyes üzenetek, különösen az olyan emojikkal rendelkezők, mint a 🎊, ☀️ vagy 🌦️, látványosabb &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;idővonal-effektet&lt;/a&gt; jeleníthetnek meg.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9599,13 +9599,13 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     </message>
     <message>
         <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Csak a beágyazott emojikiválasztóban: ha elérhető, az Unicode által meghatározott nemi változatot (férfi/nő) részesíti előnyben. A másik nemre való explicit keresés továbbra is működik. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Tudj meg többet&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Csak a beágyazott emojikiválasztóban: ha elérhető, az Unicode által meghatározott nemi változatot (férfi/nő) részesíti előnyben. A másik nemre való explicit keresés továbbra is működik. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tudj meg többet&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Csak a beágyazott emojikiválasztóban: ha elérhető, egyetlen bőrtónusváltozatot részesít előnyben. Másik bőrtónusra való explicit keresés továbbra is működik. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences"&gt;Tudj meg többet&lt;/a&gt;.</translation>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Csak a beágyazott emojikiválasztóban: ha elérhető, egyetlen bőrtónusváltozatot részesít előnyben. Másik bőrtónusra való explicit keresés továbbra is működik. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tudj meg többet&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -9659,8 +9659,8 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     </message>
     <message>
         <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>A figyelmet igénylő szobák számának megjelenítése az alkalmazás/tálca jelvényén. Linux rendszeren a nem alapértelmezett profilokhoz saját asztali indítóra van szükség a megbízható alkalmazásjelvényekhez. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;További információ&lt;/a&gt;.</translation>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>A figyelmet igénylő szobák számának megjelenítése az alkalmazás/tálca jelvényén. Linux rendszeren a nem alapértelmezett profilokhoz saját asztali indítóra van szükség a megbízható alkalmazásjelvényekhez. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;További információ&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

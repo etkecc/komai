@@ -5,7 +5,7 @@ Some secrets may live in your OS keychain, depending on [`secrets.provider`](#se
 
 Quick links:
 
-- 👥 [Application Profiles](../application-profiles.md)
+- 👥 [Application Profiles](../features/application-profiles.md)
 - 🔐 [Secret Storage](secret-storage.md)
 - 💾 [Backup and Restore](backup-and-restore.md)
 - 🔌 [Integrations](integrations/README.md)
@@ -36,11 +36,11 @@ Files in each profile directory:
 - `session.yml` - account/session metadata (non-secret)
 - `secrets.yml` - file-mode fallback secrets (only when `secrets.provider=file`)
 
-See also: [Storage Locations](../storage.md#linux-paths).
+See also: [Storage Locations](../operations/storage.md#linux-paths).
 
 ## Profiles
 
-For UI-based profile management, see [👥 Application Profiles](../application-profiles.md).
+For UI-based profile management, see [👥 Application Profiles](../features/application-profiles.md).
 
 Use `-p` to run a named profile:
 
@@ -87,14 +87,14 @@ Development/testing override:
 
 ## What Goes Where
 
-- `config.yml`: theme, fonts, desktop behavior (`desktop.notifications.*`, `desktop.attention.*`, `desktop.system_tray.*`, `desktop.window_focus_blur.*`), timeline behavior and maintenance, timeline media handling (including image/video/audio external-open preferences and the default inline playback speed), local HiddenEvents preferences (`timeline.hidden_events.global` / `timeline.hidden_events.by_room`), [communities sidebar filters](../communities-sidebar.md#-settings), network/db settings, `secrets.provider`, `network.presence.status_policy`
-- `state.yml`: window size, sidebar widths, [hidden/collapsed sidebar state](../communities-sidebar.md#-hiding-sections), hidden pins/widgets, drafts, and similar runtime UI state
+- `config.yml`: theme, fonts, desktop behavior (`desktop.notifications.*`, `desktop.attention.*`, `desktop.system_tray.*`, `desktop.window_focus_blur.*`), timeline behavior and maintenance, timeline media handling (including image/video/audio external-open preferences and the default inline playback speed), local HiddenEvents preferences (`timeline.hidden_events.global` / `timeline.hidden_events.by_room`), [communities sidebar filters](../features/communities-sidebar.md#-settings), network/db settings, `secrets.provider`, `network.presence.status_policy`
+- `state.yml`: window size, sidebar widths, [hidden/collapsed sidebar state](../features/communities-sidebar.md#-hiding-sections), hidden pins/widgets, drafts, and similar runtime UI state
 - `session.yml`: user id, homeserver, device id
 - `secrets.yml`: `secrets` map (only when `secrets.provider=file`)
 - Full example files: [settings/examples/profile/](examples/profile/)
 
 Theme note: the currently selected theme is stored as `ui.theme.slug` in `config.yml`.
-See [Themes](../themes.md#-where-your-current-theme-choice-is-stored).
+See [Themes](../features/themes.md#-where-your-current-theme-choice-is-stored).
 
 ## Configuration Management
 
@@ -130,7 +130,7 @@ Learn about optional integration hooks in the Integrations docs:
 ## Backup and Restore
 
 Check [Secret Storage Modes](#secret-storage-modes) first so you know what must be backed up.
-Also see [Storage Locations](../storage.md#secrets--providers) for on-disk vs secure-backend split.
+Also see [Storage Locations](../operations/storage.md#secrets--providers) for on-disk vs secure-backend split.
 
 Backup profile files:
 
@@ -168,8 +168,8 @@ Common secure-backend backup targets:
 | User themes | `~/.local/share/komai/themes/` |
 | Log file (file logging enabled) | `~/.cache/komai/profiles/<profile-id>/logs/komai.log` |
 
-For complete storage details, see [storage.md](../storage.md).
-For theme file locations and loading rules, see [themes.md](../themes.md#-user-themes).
+For complete storage details, see [storage.md](../operations/storage.md).
+For theme file locations and loading rules, see [themes.md](../features/themes.md#-user-themes).
 
 For implementation details, see [architecture/settings/README.md](../../architecture/settings/README.md) and
 [architecture/storage.md](../../architecture/storage.md).

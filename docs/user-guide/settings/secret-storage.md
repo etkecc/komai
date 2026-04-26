@@ -33,4 +33,4 @@ See also:
 
 - [Settings Overview](README.md)
 - [Backup and Restore](backup-and-restore.md)
-- [Storage Locations](../storage.md#secrets--providers)
+- [Storage Locations](../operations/storage.md#secrets--providers)

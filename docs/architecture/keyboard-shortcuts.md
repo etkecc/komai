@@ -3,7 +3,7 @@
 This document describes how keyboard shortcuts are implemented in Komai and where different kinds
 of shortcuts should live.
 
-For the user-facing shortcut list, see [../user-guide/keyboard-shortcuts.md](../user-guide/keyboard-shortcuts.md).
+For the user-facing shortcut list, see [../user-guide/features/keyboard-shortcuts.md](../user-guide/features/keyboard-shortcuts.md).
 
 ## Layers
 
@@ -236,7 +236,7 @@ To add another Latin-letter key to this system:
 
 1. Add its logical key and native scan-code mapping to `LayoutAgnosticKeys.cpp`.
 2. Use `LayoutAgnosticKeys.matchesLatinKey(...)` from the relevant QML handler.
-3. Update [../user-guide/keyboard-shortcuts.md](../user-guide/keyboard-shortcuts.md) if the binding is user-facing.
+3. Update [../user-guide/features/keyboard-shortcuts.md](../user-guide/features/keyboard-shortcuts.md) if the binding is user-facing.
 
 Keep this helper small and deliberate. It is intended for bindings where physical-key behavior is
 important, not for every shortcut in the app.
@@ -248,7 +248,7 @@ When adding or changing shortcuts:
 - prefer `StandardKey` for standard commands
 - prefer local `Shortcut` objects for simple commands owned by one view or dialog
 - use `Keys.onPressed` when focus, text input, precedence, or key sequences matter
-- keep user-facing wording in [../user-guide/keyboard-shortcuts.md](../user-guide/keyboard-shortcuts.md)
+- keep user-facing wording in [../user-guide/features/keyboard-shortcuts.md](../user-guide/features/keyboard-shortcuts.md)
 - keep implementation rationale in architecture docs like this one
 
 If a shortcut must survive non-Latin keyboard layouts in a physical-key sense, do not assume plain

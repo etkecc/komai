@@ -197,4 +197,4 @@ The pattern-matching approach prioritizes avoiding false positives (real people 
 
 ---
 
-For user-facing documentation, see [Communities Sidebar (user guide)](../user-guide/communities-sidebar.md).
+For user-facing documentation, see [Communities Sidebar (user guide)](../user-guide/features/communities-sidebar.md).

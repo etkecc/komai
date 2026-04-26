@@ -5980,8 +5980,8 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>더 필요하세요?</translation>
+        <source>Need more rooms?</source>
+        <translation>방이 더 필요하신가요?</translation>
     </message>
 </context>
 <context>
@@ -6964,73 +6964,73 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>암호화 설정</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>종단간 암호화는 메시지를 비공개로 유지합니다. 대화 상대와 나만 읽을 수 있습니다.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>로그인이나 재설치 후에도 암호화가 계속 작동하려면 암호화 키를 보존해야 합니다.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>암호화 키를 비밀 저장소(SSSS)에 저장</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>권장</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>교차 서명 키를 서버에 암호화하여 저장하므로 새 로그인 시 암호화된 신원을 복구할 수 있습니다.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>서버 측 키 백업 설정</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>메시지 복호화 키를 서버에 암호화하여 저장하므로 새 로그인 시에도 이전 메시지를 읽을 수 있습니다.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>암호문으로 비밀 저장소 잠금 해제 허용</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>선택 사항</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>보안 키와 동일한 비밀 저장소를 잠금 해제하는 기억하기 쉬운 문구입니다.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>암호문</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>최상의 보안을 위해 계정 비밀번호를 재사용하지 마세요.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">나중에</translation>
+        <translation>나중에</translation>
     </message>
 </context>
 <context>

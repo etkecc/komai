@@ -5994,8 +5994,8 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Mai mult?</translation>
+        <source>Need more rooms?</source>
+        <translation>Ai nevoie de mai multe camere?</translation>
     </message>
 </context>
 <context>
@@ -6978,73 +6978,73 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Configurează criptarea</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Criptarea end-to-end menține mesajele private. Doar tu și persoanele cu care discuți le puteți citi.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Pentru ca criptarea să continue să funcționeze la reconectări sau reinstalări, cheile de criptare trebuie păstrate.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Salvează cheile de criptare în Secret Storage (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Recomandat</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Stochează cheile de cross-signing criptate pe server, astfel încât autentificările noi să poată recupera identitatea criptată.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Configurează backup-ul cheilor pe server</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Stochează cheile de decriptare a mesajelor criptate pe server, astfel încât mesajele mai vechi să rămână lizibile la autentificări noi.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Permite deblocarea Secret Storage cu o frază de acces</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Opțional</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>O expresie memorabilă care deblochează același Secret Storage ca și cheia de securitate.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Frază de acces</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Pentru securitate maximă, nu refolosi parola contului.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Nu acum</translation>
+        <translation>Nu acum</translation>
     </message>
 </context>
 <context>

@@ -5980,8 +5980,8 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>بیشتر می‌خواهید؟</translation>
+        <source>Need more rooms?</source>
+        <translation>به اتاق‌های بیشتری نیاز دارید؟</translation>
     </message>
 </context>
 <context>
@@ -6964,73 +6964,73 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>راه‌اندازی رمزگذاری</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>رمزگذاری سرتاسری پیام‌های شما را خصوصی نگه می‌دارد. فقط شما و افرادی که با آن‌ها گفتگو می‌کنید می‌توانید آن‌ها را بخوانید.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>برای اینکه رمزگذاری در ورودهای مجدد یا نصب‌های مجدد کار کند، کلیدهای رمزگذاری شما باید نگهداری شوند.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>ذخیره کلیدهای رمزگذاری در Secret Storage (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>پیشنهادشده</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>کلیدهای امضای متقاطع شما را به‌صورت رمزگذاری‌شده در سرور ذخیره می‌کند تا ورودهای جدید بتوانند هویت رمزگذاری‌شده شما را بازیابی کنند.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>راه‌اندازی پشتیبان‌گیری از کلید در سرور</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>کلیدهای رمزگشایی پیام‌های شما را به‌صورت رمزگذاری‌شده در سرور ذخیره می‌کند تا پیام‌های قدیمی‌تر در ورودهای جدید قابل خواندن بمانند.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>اجازه باز کردن Secret Storage با عبارت عبور</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>اختیاری</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>عبارتی به‌یادماندنی که همان Secret Storage را مانند کلید امنیتی باز می‌کند.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>عبارت عبور</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>برای بهترین امنیت، از رمز عبور حساب خود دوباره استفاده نکنید.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">نه الان</translation>
+        <translation>نه الان</translation>
     </message>
 </context>
 <context>

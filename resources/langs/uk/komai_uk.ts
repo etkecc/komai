@@ -5994,8 +5994,8 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Потрібно більше?</translation>
+        <source>Need more rooms?</source>
+        <translation>Потрібно більше кімнат?</translation>
     </message>
 </context>
 <context>
@@ -6978,73 +6978,73 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Налаштувати шифрування</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Наскрізне шифрування зберігає ваші повідомлення приватними. Лише ви та люди, з якими ви спілкуєтеся, можуть їх читати.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Щоб шифрування продовжувало працювати після кожного входу або перевстановлення, ключі шифрування потрібно зберегти.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Зберегти ключі шифрування в Секретному сховищі (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Рекомендовано</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Зберігає ваші ключі перехресного підписання у зашифрованому вигляді на сервері, щоб під час нових входів можна було відновити зашифровану ідентичність.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Налаштувати резервне копіювання ключів на стороні сервера</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Зберігає ваші ключі дешифрування повідомлень у зашифрованому вигляді на сервері, щоб старіші повідомлення залишалися читабельними під час нових входів.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Дозволити розблокування Секретного сховища за допомогою парольної фрази</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Необов'язково</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Запам'ятовувана фраза, яка відкриває те саме Секретне сховище, що й ключ безпеки.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Парольна фраза</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Для кращої безпеки не використовуйте пароль облікового запису повторно.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Не зараз</translation>
+        <translation>Не зараз</translation>
     </message>
 </context>
 <context>

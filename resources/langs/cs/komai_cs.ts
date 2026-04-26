@@ -5994,8 +5994,8 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Potřebuješ více?</translation>
+        <source>Need more rooms?</source>
+        <translation>Potřebuješ více místností?</translation>
     </message>
 </context>
 <context>
@@ -6978,73 +6978,73 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Nastavit šifrování</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Šifrování end-to-end chrání soukromí tvých zpráv. Přečíst je mohou jen ty a lidé, se kterými si píšeš.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Aby šifrování fungovalo i po dalším přihlášení nebo reinstalaci, je nutné tvé šifrovací klíče zálohovat.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Uložit šifrovací klíče do Tajného úložiště (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Doporučeno</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Ukládá tvé klíče pro vzájemné podepisování zašifrované na server, takže při novém přihlášení lze obnovit šifrovanou identitu.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Nastavit zálohu klíčů na serveru</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Ukládá tvé klíče pro dešifrování zpráv zašifrované na server, takže starší zprávy zůstanou čitelné i při novém přihlášení.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Povolit odemknutí Tajného úložiště pomocí přístupové fráze</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Volitelné</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Zapamatovatelná fráze, která odemkne stejné Tajné úložiště jako bezpečnostní klíč.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Přístupová fráze</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Pro nejlepší zabezpečení nepoužívej znovu heslo ke svému účtu.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Teď ne</translation>
+        <translation>Teď ne</translation>
     </message>
 </context>
 <context>

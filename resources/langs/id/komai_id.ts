@@ -5980,8 +5980,8 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Butuh lebih banyak?</translation>
+        <source>Need more rooms?</source>
+        <translation>Butuh lebih banyak ruangan?</translation>
     </message>
 </context>
 <context>
@@ -6964,73 +6964,73 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Atur enkripsi</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Enkripsi ujung-ke-ujung menjaga pesan Anda tetap privat. Hanya Anda dan orang-orang yang Anda ajak mengobrol yang dapat membacanya.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Agar enkripsi tetap berfungsi saat masuk ulang atau instal ulang, kunci enkripsi Anda perlu disimpan.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Simpan kunci enkripsi ke Secret Storage (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Disarankan</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Menyimpan kunci cross-signing Anda terenkripsi di server, sehingga masuk baru dapat memulihkan identitas terenkripsi Anda.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Atur pencadangan kunci di sisi server</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Menyimpan kunci dekripsi pesan Anda terenkripsi di server, sehingga pesan lama tetap dapat dibaca saat masuk baru.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Izinkan membuka Secret Storage dengan frasa sandi</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Opsional</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Frasa mudah diingat yang membuka Secret Storage yang sama seperti kunci keamanan.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Frasa sandi</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Untuk keamanan terbaik, jangan gunakan ulang kata sandi akun Anda.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Tidak sekarang</translation>
+        <translation>Nanti saja</translation>
     </message>
 </context>
 <context>

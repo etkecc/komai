@@ -5980,8 +5980,8 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>もっと必要ですか？</translation>
+        <source>Need more rooms?</source>
+        <translation>もっとルームが必要ですか？</translation>
     </message>
 </context>
 <context>
@@ -6964,73 +6964,73 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>暗号化を設定する</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>エンドツーエンド暗号化でメッセージのプライバシーを保護します。読めるのは、あなたとチャット相手だけです。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>サインインや再インストールをまたいで暗号化が機能し続けるよう、暗号化キーを保存する必要があります。</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>暗号化キーをシークレットストレージ（SSSS）に保存する</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>推奨</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>クロス署名キーを暗号化してサーバーに保存します。新しいサインイン時に、暗号化済みのアイデンティティを復元できます。</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>サーバー側のキーバックアップを設定する</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>メッセージ復号キーを暗号化してサーバーに保存します。新しいサインイン後も古いメッセージを読み続けることができます。</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>パスフレーズによるシークレットストレージのアンロックを許可する</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>任意</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>セキュリティキーと同じシークレットストレージを開くことができる、覚えやすいフレーズです。</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>パスフレーズ</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>セキュリティのため、アカウントのパスワードを使い回さないでください。</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">今はしない</translation>
+        <translation>後で</translation>
     </message>
 </context>
 <context>

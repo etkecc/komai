@@ -5957,7 +5957,7 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
+        <source>Need more rooms?</source>
         <translation type="unfinished"/>
     </message>
 </context>

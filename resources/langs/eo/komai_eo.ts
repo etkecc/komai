@@ -5989,8 +5989,8 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Bezonas pli?</translation>
+        <source>Need more rooms?</source>
+        <translation>Bezonas vi pli da ĉambroj?</translation>
     </message>
 </context>
 <context>
@@ -6973,73 +6973,73 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Agordi ĉifradon</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Ĉifrado de fino ĝis fino konservas viajn mesaĝojn privatajn. Nur vi kaj la personoj kun kiuj vi babilas povas legi ilin.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Por ke ĉifrado daŭre funkciu tra ensalutoj aŭ reinstaladoj, viaj ĉifradaj ŝlosiloj devas esti konservitaj.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Konservi ĉifradajn ŝlosilojn al Sekreta Stokado (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Rekomendita</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Stokas viajn kruc-subskribajn ŝlosilojn ĉifrite sur la servilo, por ke novaj ensalutoj povu reakiri vian ĉifritan identecon.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Agordi servilan savkopion de ŝlosiloj</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Stokas viajn mesaĝ-malĉifradajn ŝlosilojn ĉifrite sur la servilo, por ke pli malnovaj mesaĝoj restu legeblaj ĉe novaj ensalutoj.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Permesi malŝlosi Sekreta Stokadon per pasfrazo</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Laŭvola</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Memorinda frazo kiu malŝlosas la saman Sekreta Stokadon kiel la sekureca ŝlosilo.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Pasfrazo</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Por plej bona sekureco, ne reuzu la pasvorton de via konto.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Ne nun</translation>
+        <translation>Ne nun</translation>
     </message>
 </context>
 <context>

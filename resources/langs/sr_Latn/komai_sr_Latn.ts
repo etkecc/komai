@@ -5994,8 +5994,8 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Treba više?</translation>
+        <source>Need more rooms?</source>
+        <translation>Treba ti više soba?</translation>
     </message>
 </context>
 <context>
@@ -6978,73 +6978,73 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Podesi šifrovanje</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>End-to-end šifrovanje čuva tvoje poruke privatnim. Samo ti i osobe s kojima razgovaraš možete ih čitati.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Da bi šifrovanje nastavilo da radi tokom prijava ili ponovnih instalacija, tvoji ključevi za šifrovanje moraju biti sačuvani.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Sačuvaj ključeve šifrovanja u Tajno Skladište (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Preporučeno</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Čuva tvoje ključeve za unakrsno potpisivanje šifrovano na serveru, kako bi nove prijave mogle oporaviti tvoj šifrovani identitet.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Podesi serversku rezervnu kopiju ključeva</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Čuva tvoje ključeve za dešifrovanje poruka šifrovano na serveru, kako bi starije poruke ostale čitljive pri novim prijavama.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Dozvoli otključavanje Tajnog Skladišta pristupnom frazom</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Opciono</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Pamtljiva fraza koja otključava isto Tajno Skladište kao i sigurnosni ključ.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Pristupna fraza</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Za najbolju sigurnost, nemoj ponovo koristiti lozinku svog naloga.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Ne sada</translation>
+        <translation>Ne sada</translation>
     </message>
 </context>
 <context>

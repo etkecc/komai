@@ -5980,8 +5980,8 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Cần thêm?</translation>
+        <source>Need more rooms?</source>
+        <translation>Cần thêm phòng?</translation>
     </message>
 </context>
 <context>
@@ -6964,73 +6964,73 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Thiết lập mã hóa</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Mã hóa đầu cuối giữ cho tin nhắn của bạn được riêng tư. Chỉ bạn và những người bạn nhắn tin mới có thể đọc chúng.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Để mã hóa tiếp tục hoạt động qua các lần đăng nhập hoặc cài đặt lại, khóa mã hóa của bạn cần được bảo toàn.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Lưu khóa mã hóa vào Secret Storage (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Được khuyến nghị</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Lưu trữ khóa ký chéo của bạn ở dạng mã hóa trên máy chủ, để các lần đăng nhập mới có thể khôi phục danh tính đã mã hóa của bạn.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Thiết lập sao lưu khóa phía máy chủ</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Lưu trữ khóa giải mã tin nhắn của bạn ở dạng mã hóa trên máy chủ, để các tin nhắn cũ vẫn có thể đọc được trên các lần đăng nhập mới.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Cho phép mở khóa Secret Storage bằng cụm mật khẩu</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Tùy chọn</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Một cụm từ dễ nhớ để mở khóa cùng Secret Storage như khóa bảo mật.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Cụm mật khẩu</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Để bảo mật tốt nhất, đừng sử dụng lại mật khẩu tài khoản của bạn.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Không phải lúc này</translation>
+        <translation>Chưa phải lúc này</translation>
     </message>
 </context>
 <context>

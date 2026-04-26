@@ -5987,8 +5987,8 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>കൂടുതൽ വേണോ?</translation>
+        <source>Need more rooms?</source>
+        <translation>കൂടുതൽ മുറികൾ വേണോ?</translation>
     </message>
 </context>
 <context>
@@ -6971,73 +6971,73 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>End-to-end എൻക്രിപ്ഷൻ നിങ്ങളുടെ സന്ദേശങ്ങൾ സ്വകാര്യമായി സൂക്ഷിക്കുന്നു. നിങ്ങൾക്കും നിങ്ങൾ ചാറ്റ് ചെയ്യുന്ന ആളുകൾക്കും മാത്രമേ അവ വായിക്കാൻ കഴിയൂ.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>സൈൻ-ഇൻ കഴിഞ്ഞോ പുനഃസ്ഥാപിച്ചതിന് ശേഷവും എൻക്രിപ്ഷൻ പ്രവർത്തിക്കണമെങ്കിൽ, നിങ്ങളുടെ എൻക്രിപ്ഷൻ കീകൾ സൂക്ഷിക്കേണ്ടതുണ്ട്.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Secret Storage (SSSS)-ൽ എൻക്രിപ്ഷൻ കീകൾ സംരക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>ശുപാർശ ചെയ്തത്</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ cross-signing കീകൾ സെർവറിൽ എൻക്രിപ്റ്റ് ചെയ്ത് സൂക്ഷിക്കുന്നു, അതിനാൽ പുതിയ സൈൻ-ഇന്നുകൾക്ക് നിങ്ങളുടെ എൻക്രിപ്റ്റഡ് ഐഡന്റിറ്റി വീണ്ടെടുക്കാൻ കഴിയും.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>സെർവർ-സൈഡ് കീ ബാക്കപ്പ് സജ്ജീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സന്ദേശ-ഡീക്രിപ്ഷൻ കീകൾ സെർവറിൽ എൻക്രിപ്റ്റ് ചെയ്ത് സൂക്ഷിക്കുന്നു, അതിനാൽ പഴയ സന്ദേശങ്ങൾ പുതിയ സൈൻ-ഇന്നുകളിൽ വായിക്കാൻ കഴിയും.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു പാസ്‌ഫ്രേസ് ഉപയോഗിച്ച് Secret Storage അൺലോക്ക് ചെയ്യാൻ അനുവദിക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>ഐച്ഛികം</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>സുരക്ഷാ കീ പോലെ ഒരേ Secret Storage തുറക്കുന്ന, ഓർമിക്കാൻ എളുപ്പമുള്ള ഒരു വാക്യം.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>പാസ്‌ഫ്രേസ്</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>ഏറ്റവും നല്ല സുരക്ഷയ്ക്കായി, നിങ്ങളുടെ അക്കൗണ്ട് പാസ്‌വേഡ് വീണ്ടും ഉപയോഗിക്കരുത്.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">ഇപ്പോൾ വേണ്ട</translation>
+        <translation>ഇപ്പോൾ വേണ്ട</translation>
     </message>
 </context>
 <context>

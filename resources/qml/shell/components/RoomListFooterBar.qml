@@ -37,7 +37,7 @@ Rectangle {
         Label {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
-            text: qsTr("Need more?")
+            text: qsTr("Need more rooms?")
             font.pixelSize: Komai.fontPixelSize
             color: palette.buttonText
             elide: Text.ElideRight

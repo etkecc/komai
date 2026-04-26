@@ -6015,8 +6015,8 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>تحتاج إلى المزيد؟</translation>
+        <source>Need more rooms?</source>
+        <translation>هل تحتاج إلى مزيد من الغرف؟</translation>
     </message>
 </context>
 <context>
@@ -6999,73 +6999,73 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>إعداد التشفير</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>يحافظ التشفير من طرف إلى طرف على خصوصية رسائلك. أنت والأشخاص الذين تتحدث معهم فقط يمكنهم قراءتها.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>لكي يستمر التشفير في العمل عبر عمليات تسجيل الدخول أو إعادة التثبيت، يجب الحفاظ على مفاتيح التشفير الخاصة بك.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>حفظ مفاتيح التشفير في التخزين السري (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>موصى به</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>يخزن مفاتيح التوقيع المتقاطع الخاصة بك مشفرةً على الخادم، حتى تتمكن عمليات تسجيل الدخول الجديدة من استرداد هويتك المشفرة.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>إعداد النسخ الاحتياطي للمفاتيح على الخادم</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>يخزن مفاتيح فك تشفير الرسائل الخاصة بك مشفرةً على الخادم، حتى تبقى الرسائل القديمة قابلة للقراءة عند تسجيل الدخول الجديد.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>السماح بفتح التخزين السري بعبارة مرور</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>اختياري</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>عبارة سهلة التذكر تفتح نفس التخزين السري مثل مفتاح الأمان.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>عبارة المرور</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>للحصول على أفضل أمان، لا تعيد استخدام كلمة مرور حسابك.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">ليس الآن</translation>
+        <translation>ليس الآن</translation>
     </message>
 </context>
 <context>

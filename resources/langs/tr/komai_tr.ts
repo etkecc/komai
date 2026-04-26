@@ -5980,8 +5980,8 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Daha fazlasına mı ihtiyacınız var?</translation>
+        <source>Need more rooms?</source>
+        <translation>Daha fazla odaya ihtiyacınız var mı?</translation>
     </message>
 </context>
 <context>
@@ -6964,73 +6964,73 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Şifrelemeyi kur</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Uçtan uca şifreleme mesajlarınızı gizli tutar. Bunları yalnızca siz ve sohbet ettiğiniz kişiler okuyabilir.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Şifrelemenin oturum açmalar veya yeniden yüklemeler arasında çalışmaya devam etmesi için şifreleme anahtarlarınızın korunması gerekir.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Şifreleme anahtarlarını Gizli Depolamaya kaydet (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Önerilen</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Çapraz imzalama anahtarlarınızı sunucuda şifreli olarak depolar; yeni oturum açmalar şifreli kimliğinizi bu sayede kurtarabilir.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Sunucu tarafı anahtar yedeklemesini kur</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Mesaj şifre çözme anahtarlarınızı sunucuda şifreli olarak depolar; eski mesajlar bu sayede yeni oturum açmalarda okunabilir kalır.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Gizli Depolamayı bir parola ifadesiyle açmaya izin ver</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>İsteğe bağlı</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Güvenlik anahtarıyla aynı Gizli Depolamayı açan, akılda kalıcı bir ifade.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Parola ifadesi</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>En iyi güvenlik için hesap parolanızı yeniden kullanmayın.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Şimdi değil</translation>
+        <translation>Şimdi değil</translation>
     </message>
 </context>
 <context>

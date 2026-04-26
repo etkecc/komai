@@ -5987,8 +5987,8 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Besoin de plus ?</translation>
+        <source>Need more rooms?</source>
+        <translation>Besoin de plus de salons ?</translation>
     </message>
 </context>
 <context>
@@ -6971,73 +6971,73 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Configurer le chiffrement</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>Le chiffrement de bout en bout garde vos messages privés. Seuls vous et les personnes avec qui vous discutez pouvez les lire.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Pour que le chiffrement continue de fonctionner lors des reconnexions ou réinstallations, vos clés de chiffrement doivent être conservées.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Enregistrer les clés de chiffrement dans le Secret Storage (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Recommandé</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Stocke vos clés de signature croisée chiffrées sur le serveur, afin que les nouvelles connexions puissent récupérer votre identité chiffrée.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Configurer la sauvegarde des clés côté serveur</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Stocke vos clés de déchiffrement de messages chiffrées sur le serveur, afin que les anciens messages restent lisibles lors des nouvelles connexions.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Autoriser le déverrouillage du Secret Storage avec une phrase de passe</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Facultatif</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Une phrase mémorable qui déverrouille le même Secret Storage que la clé de sécurité.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Phrase de passe</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Pour une meilleure sécurité, ne réutilisez pas le mot de passe de votre compte.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Pas maintenant</translation>
+        <translation>Pas maintenant</translation>
     </message>
 </context>
 <context>

@@ -5987,8 +5987,8 @@ Si noti che non può essere disabilitata in seguito.</translation>
     <name>RoomListFooterBar</name>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
-        <source>Need more?</source>
-        <translation>Hai bisogno di altro?</translation>
+        <source>Need more rooms?</source>
+        <translation>Hai bisogno di altre stanze?</translation>
     </message>
 </context>
 <context>
@@ -6971,73 +6971,73 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <location line="+6"/>
         <location line="+188"/>
         <source>Set up encryption</source>
-        <translation type="unfinished"/>
+        <translation>Configura la crittografia</translation>
     </message>
     <message>
         <location line="-180"/>
         <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
-        <translation type="unfinished"/>
+        <translation>La crittografia end-to-end mantiene i tuoi messaggi privati. Solo tu e le persone con cui chatti potete leggerli.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
-        <translation type="unfinished"/>
+        <translation>Perché la crittografia continui a funzionare tra accessi e reinstallazioni, le chiavi di crittografia devono essere conservate.</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save encryption keys to Secret Storage (SSSS)</source>
-        <translation type="unfinished"/>
+        <translation>Salva le chiavi di crittografia in Secret Storage (SSSS)</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+44"/>
         <source>Recommended</source>
-        <translation type="unfinished"/>
+        <translation>Consigliato</translation>
     </message>
     <message>
         <location line="-33"/>
         <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
-        <translation type="unfinished"/>
+        <translation>Archivia le chiavi di firma incrociata crittate sul server, in modo che i nuovi accessi possano recuperare la tua identità crittata.</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set up server-side key backup</source>
-        <translation type="unfinished"/>
+        <translation>Configura il backup delle chiavi sul server</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
-        <translation type="unfinished"/>
+        <translation>Archivia le chiavi di decrittazione dei messaggi crittate sul server, in modo che i messaggi precedenti rimangano leggibili ai nuovi accessi.</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Consenti lo sblocco di Secret Storage con una passphrase</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Optional</source>
-        <translation type="unfinished"/>
+        <translation>Facoltativo</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation type="unfinished"/>
+        <translation>Una frase memorabile che sblocca lo stesso Secret Storage della chiave di sicurezza.</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Passphrase</source>
-        <translation type="unfinished"/>
+        <translation>Passphrase</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>For best security, don't reuse your account password.</source>
-        <translation type="unfinished"/>
+        <translation>Per una maggiore sicurezza, non riutilizzare la password dell'account.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished">Non ora</translation>
+        <translation>Non ora</translation>
     </message>
 </context>
 <context>

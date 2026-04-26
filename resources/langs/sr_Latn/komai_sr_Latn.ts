@@ -843,7 +843,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Sobe označene kao omiljene. Koristi Matrix oznaku m.favourite, tako da se izbori sinhronizuju između klijenata.</translation>
     </message>
@@ -1757,7 +1757,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Oznake sobe mogu se menjati samo za sobe kojima si se pridružio/la i koje su dostupne u ovoj sesiji.</translation>
     </message>

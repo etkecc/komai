@@ -88,17 +88,27 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
         case CommunitiesModel::Roles::Id:
             return "space:" + id;
         case CommunitiesModel::Roles::UnreadMessages: {
-            int count = 0;
-            auto end  = spaceOrder_.lastChild(index.row() - kFixedRowCount);
-            for (int i = index.row() - kFixedRowCount; i <= end; i++)
+            // Hidden subspaces don't appear in the sidebar, so they shouldn't
+            // contribute to the visible parent's badge either.
+            int count        = 0;
+            const auto start = index.row() - kFixedRowCount;
+            const auto end   = spaceOrder_.lastChild(start);
+            for (int i = start; i <= end; i++) {
+                if (i != start && isSpaceEffectivelyHidden(spaceOrder_.tree[i].id))
+                    continue;
                 count += spaceOrder_.tree[i].unreadRoomCount;
+            }
             return count;
         }
         case CommunitiesModel::Roles::HasLoudNotification: {
-            auto end = spaceOrder_.lastChild(index.row() - kFixedRowCount);
-            for (int i = index.row() - kFixedRowCount; i <= end; i++)
+            const auto start = index.row() - kFixedRowCount;
+            const auto end   = spaceOrder_.lastChild(start);
+            for (int i = start; i <= end; i++) {
+                if (i != start && isSpaceEffectivelyHidden(spaceOrder_.tree[i].id))
+                    continue;
                 if (spaceOrder_.tree[i].hasHighlight)
                     return true;
+            }
             return false;
         }
         }
@@ -341,16 +351,8 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
     auto idx = sourceRow - CommunitiesModel::kFixedRowCount;
 
     // Check if this space or any ancestor is hidden
-    {
-        auto checkIdx = idx;
-        while (checkIdx >= 0) {
-            if (m->hiddenSpaceIds_.contains(m->spaceOrder_.tree[checkIdx].id))
-                return false;
-            if (m->spaceOrder_.tree[checkIdx].depth == 0)
-                break;
-            checkIdx = m->spaceOrder_.parent(checkIdx);
-        }
-    }
+    if (m->isSpaceEffectivelyHidden(m->spaceOrder_.tree[idx].id))
+        return false;
 
     while (idx >= 0 && m->spaceOrder_.tree[idx].depth > 0) {
         idx = m->spaceOrder_.parent(idx);

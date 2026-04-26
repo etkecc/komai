@@ -843,7 +843,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Als Favoriten markierte Räume. Verwendet den Matrix-Tag m.favourite, sodass deine Auswahl über Clients hinweg synchronisiert wird.</translation>
     </message>
@@ -1756,7 +1756,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Raumtags können nur für beigetretene Räume in dieser Sitzung geändert werden.</translation>
     </message>

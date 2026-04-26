@@ -843,7 +843,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Salas marcadas como favoritas. Utiliza a etiqueta Matrix m.favourite, pelo que as suas escolhas sincronizam entre clientes.</translation>
     </message>
@@ -1756,7 +1756,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>As etiquetas de sala só podem ser alteradas para salas em que tenha entrado e que estejam disponíveis nesta sessão.</translation>
     </message>

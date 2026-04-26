@@ -843,7 +843,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Kamers gemarkeerd als favorieten. Gebruikt de Matrix m.favourite-tag, zodat je keuzes worden gesynchroniseerd tussen clients.</translation>
     </message>
@@ -1756,7 +1756,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Kamertags kunnen alleen worden gewijzigd voor kamers waaraan je deelneemt en die beschikbaar zijn in deze sessie.</translation>
     </message>

@@ -843,7 +843,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Кімнати, позначені як улюблені. Використовує тег Matrix m.favourite, тому ваш вибір синхронізується між клієнтами.</translation>
     </message>
@@ -1757,7 +1757,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Теги кімнат можна змінювати лише для кімнат, до яких ви приєднані та які доступні в цій сесії.</translation>
     </message>

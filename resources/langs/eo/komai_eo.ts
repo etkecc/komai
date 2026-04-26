@@ -843,7 +843,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Ĉambroj etikeditaj kiel plej ŝatataj. Uzas la etikedon Matrix m.favourite, do viaj elektoj sinkroniĝas inter klientoj.</translation>
     </message>
@@ -1756,7 +1756,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Ĉambraj etikedoj povas esti ŝanĝitaj nur por aliĝitaj ĉambroj disponeblaj en ĉi tiu sesio.</translation>
     </message>

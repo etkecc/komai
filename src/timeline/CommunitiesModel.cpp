@@ -96,6 +96,10 @@ CommunitiesModel::CommunitiesModel(QObject *parent)
 
     connect(
       this, &CommunitiesModel::globalExcludesChanged, this, [this]() { recomputeFilterBadges(); });
+    // Hidden status now affects unread/highlight rollups onto ancestor space rows
+    // (hidden subspaces no longer contribute), so rebuild badges on toggle.
+    connect(
+      this, &CommunitiesModel::hiddenSpacesChanged, this, [this]() { recomputeFilterBadges(); });
 }
 
 QHash<int, QByteArray>
@@ -563,6 +567,47 @@ CommunitiesModel::isSpaceHidden(const QString &spaceId) const
     if (spaceId.startsWith(QLatin1String("space:")))
         return hiddenSpaceIds_.contains(spaceId.mid(6));
     return hiddenSpaceIds_.contains(spaceId);
+}
+
+bool
+CommunitiesModel::isSpaceEffectivelyHidden(const QString &spaceId) const
+{
+    const auto bareId = spaceId.startsWith(QLatin1String("space:")) ? spaceId.mid(6) : spaceId;
+
+    auto idx = spaceOrder_.indexOf(bareId);
+    if (idx < 0)
+        return hiddenSpaceIds_.contains(bareId);
+
+    while (idx >= 0) {
+        if (hiddenSpaceIds_.contains(spaceOrder_.tree[idx].id))
+            return true;
+        if (spaceOrder_.tree[idx].depth == 0)
+            break;
+        idx = spaceOrder_.parent(idx);
+    }
+    return false;
+}
+
+bool
+CommunitiesModel::isSpaceEffectivelyExcludedFromAllRooms(const QString &spaceId,
+                                                         const QString &stopAtBareId) const
+{
+    const auto bareId = spaceId.startsWith(QLatin1String("space:")) ? spaceId.mid(6) : spaceId;
+
+    auto idx = spaceOrder_.indexOf(bareId);
+    if (idx < 0)
+        return globalExcludedFilterIds_.contains(QStringLiteral("space:") + bareId);
+
+    while (idx >= 0) {
+        if (!stopAtBareId.isEmpty() && spaceOrder_.tree[idx].id == stopAtBareId)
+            return false;
+        if (globalExcludedFilterIds_.contains(QStringLiteral("space:") + spaceOrder_.tree[idx].id))
+            return true;
+        if (spaceOrder_.tree[idx].depth == 0)
+            break;
+        idx = spaceOrder_.parent(idx);
+    }
+    return false;
 }
 
 void

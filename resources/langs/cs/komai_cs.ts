@@ -843,7 +843,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Místnosti označené jako oblíbené. Používá značku Matrix m.favourite, takže volby se synchronizují mezi klienty.</translation>
     </message>
@@ -1757,7 +1757,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Štítky místností lze měnit pouze pro připojené místnosti dostupné v této relaci.</translation>
     </message>

@@ -843,7 +843,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Salons marqués comme favoris. Utilise le tag Matrix m.favourite, vos choix sont donc synchronisés entre les clients.</translation>
     </message>
@@ -1756,7 +1756,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Les étiquettes de salon ne peuvent être modifiées que pour les salons rejoints disponibles dans cette session.</translation>
     </message>

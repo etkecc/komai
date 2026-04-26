@@ -213,6 +213,18 @@ public slots:
     Q_INVOKABLE void toggleSpaceHidden(const QString &spaceId);
     Q_INVOKABLE QVariantList spaceEntries() const;
 
+    // Cascade-aware queries: a space is "effectively" hidden / excluded if it
+    // OR any of its ancestor spaces carries the corresponding flag.
+    //
+    // For the exclusion query, stopAtBareId acts as a ceiling: when the walk
+    // reaches that ancestor it stops without considering it (or anything above).
+    // Pass it when the caller is already filtering BY a specific space, so
+    // exclusions on that space — or anything above it — don't apply within the
+    // user's explicit per-space view.
+    bool isSpaceEffectivelyHidden(const QString &spaceId) const;
+    bool isSpaceEffectivelyExcludedFromAllRooms(const QString &spaceId,
+                                                const QString &stopAtBareId = {}) const;
+
     FilteredCommunitiesModel *filtered() { return new FilteredCommunitiesModel(this, this); }
 
 signals:

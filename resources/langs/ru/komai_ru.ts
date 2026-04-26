@@ -843,7 +843,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Комнаты, помеченные как избранные. Использует тег Matrix m.favourite, поэтому выбор синхронизируется между клиентами.</translation>
     </message>
@@ -1757,7 +1757,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Теги комнат можно изменять только для комнат, в которых ты состоишь и которые доступны в этой сессии.</translation>
     </message>

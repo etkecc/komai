@@ -843,7 +843,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>പ്രിയപ്പെട്ടവ ആയി ടാഗ് ചെയ്ത മുറികൾ. Matrix m.favourite ടാഗ് ഉപയോഗിക്കുന്നു, അതിനാൽ നിങ്ങളുടെ തിരഞ്ഞെടുപ്പുകൾ ക്ലയന്റുകൾ വഴി സമന്വയിക്കുന്നു.</translation>
     </message>
@@ -1756,7 +1756,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>ഈ സെഷനിൽ ലഭ്യമായ ചേർന്ന മുറികൾക്ക് മാത്രമേ മുറി ടാഗുകൾ മാറ്റാൻ കഴിയൂ.</translation>
     </message>

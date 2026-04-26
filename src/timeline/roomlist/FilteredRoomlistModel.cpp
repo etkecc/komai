@@ -11,6 +11,7 @@
 #include <QClipboard>
 #include <QGuiApplication>
 
+#include "CommunitiesModel.h"
 #include "Permissions.h"
 #include "TimelineEventTypes.h"
 #include "logging/Logging.h"
@@ -303,11 +304,19 @@ FilteredRoomlistModel::excludedBySpaces(int sourceRow, const QString &requiredSp
     if (globalExcludedSpaces.empty())
         return false;
 
+    auto *communities  = CommunitiesModel::instance();
     const auto parents = rowParentSpaces(sourceRow);
     for (const auto &space : parents) {
         if (!requiredSpace.isEmpty() && space == requiredSpace)
             continue;
-        if (globalExcludedSpaces.contains(space))
+        // Cascade upward: a parent space is "excluded" if it OR any of its
+        // ancestor spaces is in the All-rooms exclude list. Without this,
+        // excluding a top-level space would leave subspace rooms still visible
+        // in All rooms. When viewing a specific space, stop the walk at it so
+        // exclusions on the explicitly-viewed space (or its ancestors) don't
+        // hide rooms within the user's chosen view.
+        if (communities ? communities->isSpaceEffectivelyExcludedFromAllRooms(space, requiredSpace)
+                        : globalExcludedSpaces.contains(space))
             return true;
     }
 
@@ -478,14 +487,19 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
     // Space rooms are skipped above (structural, not regular rooms) but should
     // still count toward the "All rooms" badge — unless the space itself is excluded.
     if (result.contains(QString())) {
+        auto *communities = CommunitiesModel::instance();
         for (int row = 0; row < rows; row++) {
             const auto idx = sourceModel()->index(row, 0);
             if (!sourceModel()->data(idx, RoomlistModel::IsSpace).toBool())
                 continue;
 
-            // Respect the per-space Exclude setting.
-            auto roomId = sourceModel()->data(idx, RoomlistModel::RoomId).toString();
-            if (globalExcludedSpaces.contains(roomId))
+            // Respect the per-space Exclude setting, including cascade from
+            // ancestor spaces (excluding a parent excludes its subspaces too).
+            auto roomId         = sourceModel()->data(idx, RoomlistModel::RoomId).toString();
+            const bool excluded = communities
+                                    ? communities->isSpaceEffectivelyExcludedFromAllRooms(roomId)
+                                    : globalExcludedSpaces.contains(roomId);
+            if (excluded)
                 continue;
 
             const auto attentionState = RoomlistModel::attentionStateForRow(sourceModel(), idx);

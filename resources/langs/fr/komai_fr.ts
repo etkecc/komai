@@ -843,7 +843,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+147"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Salons marqués comme favoris. Utilise le tag Matrix m.favourite, vos choix sont donc synchronisés entre les clients.</translation>
     </message>

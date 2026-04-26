@@ -843,7 +843,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+147"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Δωμάτια με ετικέτα αγαπημένων. Χρησιμοποιεί την ετικέτα Matrix m.favourite, ώστε οι επιλογές σας να συγχρονίζονται σε όλες τις εφαρμογές.</translation>
     </message>

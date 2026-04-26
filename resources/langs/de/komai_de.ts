@@ -843,7 +843,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+147"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Als Favoriten markierte Räume. Verwendet den Matrix-Tag m.favourite, sodass deine Auswahl über Clients hinweg synchronisiert wird.</translation>
     </message>

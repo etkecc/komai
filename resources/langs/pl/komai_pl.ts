@@ -843,7 +843,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+147"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Pokoje oznaczone jako ulubione. Korzysta z tagu Matrix m.favourite, dzięki czemu wybory synchronizują się między klientami.</translation>
     </message>

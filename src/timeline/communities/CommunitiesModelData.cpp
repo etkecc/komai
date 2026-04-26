@@ -37,16 +37,25 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == CommunitiesModel::Roles::IsEmpty) {
-        // Only the three "fixed" filters (People, Bots, Groups) report
-        // emptiness. All Rooms, spaces, and tag-based filters are never
-        // marked empty (they may have nothing matching, but we don't fade
-        // their rows because the user enabled them deliberately).
+        // The three fixed filters (People, Bots, Groups) and the two
+        // always-shown tag filters (Favourites, Low Priority) report
+        // emptiness so the delegate can render them faded. All Rooms,
+        // spaces, Server Notices, and user tags are never marked empty:
+        // they're only present when they have rooms, or — like All Rooms —
+        // their meaning doesn't really map onto "empty".
         if (index.row() == kRowPeople)
             return !hasRoomsForFixedFilter(QStringLiteral("people"));
         if (index.row() == kRowBots)
             return !hasRoomsForFixedFilter(QStringLiteral("bot"));
         if (index.row() == kRowGroups)
             return !hasRoomsForFixedFilter(QStringLiteral("group"));
+
+        const int tagIdx = index.row() - kFixedRowCount - spaceOrder_.size();
+        if (tagIdx >= 0 && tagIdx < tags_.size()) {
+            const auto &tag = tags_.at(tagIdx);
+            if (tag == QLatin1String("m.favourite") || tag == QLatin1String("m.lowpriority"))
+                return !hasRoomsForTag(tag);
+        }
         return false;
     }
 

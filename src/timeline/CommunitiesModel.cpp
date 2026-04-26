@@ -239,6 +239,32 @@ CommunitiesModel::hasRoomsForFixedFilter(const QString &filterId) const
     return false;
 }
 
+bool
+CommunitiesModel::hasRoomsForTag(const QString &tag) const
+{
+    auto *filtered = FilteredRoomlistModel::instance();
+    auto *model    = filtered ? filtered->sourceModel() : nullptr;
+    if (!model)
+        return false;
+
+    const int rows = model->rowCount();
+    for (int row = 0; row < rows; ++row) {
+        const auto idx = model->index(row, 0, QModelIndex());
+
+        if (model->data(idx, RoomlistModel::IsPreview).toBool() ||
+            model->data(idx, RoomlistModel::IsSpace).toBool() ||
+            model->data(idx, RoomlistModel::IsInvite).toBool()) {
+            continue;
+        }
+
+        const auto tags = model->data(idx, RoomlistModel::Tags).toStringList();
+        if (tags.contains(tag))
+            return true;
+    }
+
+    return false;
+}
+
 void
 CommunitiesModel::clear()
 {
@@ -357,6 +383,16 @@ CommunitiesModel::initializeSidebar()
 
     for (const auto &t : ts)
         tags_.push_back(QString::fromStdString(t));
+
+    // Favourites and Low Priority are always-present filters: their rows
+    // render even when no rooms carry the tag (faded via the IsEmpty role)
+    // so the filter stays discoverable. Server Notices stays opt-in — it
+    // only appears when the homeserver actually pushes notice rooms.
+    for (const auto &alwaysShown :
+         {QStringLiteral("m.favourite"), QStringLiteral("m.lowpriority")}) {
+        if (!tags_.contains(alwaysShown))
+            tags_.push_back(alwaysShown);
+    }
 
     spaceOrder_.restoreCollapsed();
 

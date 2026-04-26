@@ -843,7 +843,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+147"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Phòng được gắn thẻ yêu thích. Sử dụng thẻ Matrix m.favourite, nên lựa chọn của bạn được đồng bộ trên các ứng dụng.</translation>
     </message>

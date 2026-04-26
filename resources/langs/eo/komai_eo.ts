@@ -843,7 +843,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+147"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Ĉambroj etikeditaj kiel plej ŝatataj. Uzas la etikedon Matrix m.favourite, do viaj elektoj sinkroniĝas inter klientoj.</translation>
     </message>

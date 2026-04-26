@@ -31,7 +31,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/application-profiles.md)
 - 🎨 10+ [built-in themes](docs/user-guide/themes.md#-built-in-themes), maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for common UI text pairings. Also [🗂️ user-themable](docs/user-guide/themes.md#️-user-themes)
 - 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/maintainers/translations.md))
-- 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that both grandma and power users can use, making neither of you feel stupid or incapable
+- 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that treats both grandma and power users as capable adults: neither dumbed down nor buried in complexity
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md)
 - 🧭 First-class [Matrix Room Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme), with language filtering) and room size filtering
 - 📋 Good support for hundreds of rooms and spaces

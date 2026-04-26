@@ -3,9 +3,6 @@
 <component type="desktop">
   <id>cc.etke.komai</id>
   <launchable type="desktop-id">@KOMAI_DESKTOP_ID@.desktop</launchable>
-  <replaces>
-    <id>cc.etke.komai</id>
-  </replaces>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <developer id="cc.etke">
@@ -14,41 +11,61 @@
   <name>Komai</name>
   <summary>A Matrix chat app you can get to love</summary>
   <description>
-    <p>Komai is a desktop-first Matrix chat application built with Rust, C++ and QML. It is optimized for large screens, with comfortably readable text, larger hit targets, and a keyboard-driven workflow designed for productivity.</p>
+    <p>Komai is a desktop-first Matrix chat application built with Rust, C++ and QML. It is optimized for large screens, with comfortably readable text, generous hit targets, and a user interface that treats both newcomers and power users as capable adults: neither dumbed down nor buried in complexity.</p>
     <p>Komai began as a usability-focused fork of nheko, but has since been heavily rebuilt around the Rust matrix-sdk runtime and a growing Rust core.</p>
     <p>Features include:</p>
     <ul>
       <li>Matrix messaging with end-to-end encryption support</li>
       <li>Voice and video calls</li>
-      <li>File, image, audio and emoji messages with a built-in media viewer</li>
+      <li>File, image, audio and custom-emoji messages, with a built-in media viewer including gallery navigation and in-app video playback</li>
+      <li>Smarter emoji search using localized Unicode CLDR keywords</li>
       <li>Replies, threads, and message forwarding</li>
       <li>Multi-account support via dedicated application profiles</li>
       <li>10+ built-in themes meeting WCAG AA contrast guidelines, plus user-themable support</li>
       <li>30+ languages</li>
-      <li>Keyboard-driven workflow with Vim-style shortcuts</li>
+      <li>Browser-style room tabs with pinning, for juggling multiple conversations</li>
+      <li>Keyboard shortcuts for the main chat workflow, with human- and Vim-style bindings</li>
+      <li>First-class Matrix room search and room-size filtering</li>
+      <li>Selection mode for bulk actions like forwarding and moderation</li>
       <li>Local automation via Model Context Protocol (MCP), CLI commands, and D-Bus</li>
+      <li>Native and lightweight — no Electron</li>
     </ul>
     <p>Komai is fully Free Software (GPL-3.0-or-later), with no CLA and no contributor gatekeeping.</p>
   </description>
   <languages>
+    <lang>ar</lang>
+    <lang>ca</lang>
     <lang>cs</lang>
     <lang>de</lang>
     <lang>el</lang>
     <lang>en</lang>
     <lang>eo</lang>
+    <lang>es</lang>
     <lang>et</lang>
+    <lang>fa</lang>
     <lang>fi</lang>
     <lang>fr</lang>
     <lang>hu</lang>
+    <lang>id</lang>
+    <lang>ie</lang>
     <lang>it</lang>
     <lang>ja</lang>
+    <lang>ko</lang>
     <lang>ml</lang>
     <lang>nl</lang>
     <lang>pl</lang>
+    <lang>pt_BR</lang>
+    <lang>pt_PT</lang>
     <lang>ro</lang>
     <lang>ru</lang>
+    <lang>si</lang>
+    <lang>sr_Latn</lang>
     <lang>sv</lang>
+    <lang>tr</lang>
+    <lang>uk</lang>
+    <lang>vi</lang>
     <lang>zh_CN</lang>
+    <lang>zh_Hant</lang>
   </languages>
   <content_rating type="oars-1.0">
     <content_attribute id="social-chat">intense</content_attribute>
@@ -72,12 +89,11 @@
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/etkecc/komai</url>
-  <update_contact>https://github.com/etkecc</update_contact>
+  <url type="bugtracker">https://github.com/etkecc/komai/issues</url>
+  <url type="help">https://github.com/etkecc/komai/blob/main/docs/user-guide/README.md</url>
+  <url type="translate">https://github.com/etkecc/komai/blob/main/docs/maintainers/translations.md</url>
+  <update_contact>slavi_AT_devture.com</update_contact>
   <releases>
     <release version="2026.04.24.0" date="2026-04-24"/>
   </releases>
-  <developer_name>Komai</developer_name>
-  <url type="bugtracker">https://github.com/etkecc/komai/issues</url>
-  <url type="help">https://github.com/etkecc/komai</url>
-  <url type="translate">https://github.com/etkecc/komai</url>
 </component>

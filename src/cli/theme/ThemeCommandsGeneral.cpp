@@ -119,6 +119,9 @@ handleCreateSample(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*ap
         };
     }
 
+    palette["attentionText"] =
+      theme_color::deriveAttentionText(palette["attention"], palette["highlightedText"]);
+
     auto userColors =
       theme_color::generateUserColors(palette["highlight"], palette["base"], variant);
     std::vector<std::string> linkBackgrounds = {

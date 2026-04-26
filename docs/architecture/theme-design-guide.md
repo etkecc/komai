@@ -34,6 +34,8 @@ These are the roles that matter most in the current QML, based on common usage:
   selected row/button background, accent surface, focus/selection color
 - `highlightedText`:
   text shown on `highlight`
+- `attentionText`:
+  text shown on `attention` backgrounds (e.g. unread-mention badges)
 - `userColors`:
   literal user/bubble slots; bubble `background` is authored directly, while optional per-slot `text`, `secondaryText`, and `link` can override the global palette for that bubble only
 - `mid`:
@@ -51,6 +53,7 @@ Use WCAG contrast ratios as the baseline. For the standard itself, see the W3C e
 - `text` on `window`, `base`, `alternateBase`: target `>= 4.5`
 - `buttonText` on `window`, `base`, `alternateBase`: target `>= 4.5`
 - `highlightedText` on `highlight`: target `>= 4.5`
+- `attentionText` on `attention`: target `>= 4.5`
 - `brightText` on `dark`: target `>= 4.5`
 - semantic text colors used as actual text on neutral backgrounds: target `>= 4.5`
 - links on neutral backgrounds: target `>= 4.5`

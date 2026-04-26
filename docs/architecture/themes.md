@@ -65,13 +65,15 @@ rather than free functions.
 
 ## YAML format
 
-Theme files contain 20 color keys under `palette:`, plus a required
+Theme files contain 21 color keys under `palette:`, plus a required
 `userColors:` section:
 
 - **16 Qt palette roles:** `window`, `windowText`, `base`, `alternateBase`, `text`,
   `brightText`, `button`, `buttonText`, `light`, `mid`, `dark`, `highlight`,
   `highlightedText`, `link`, `toolTipBase`, `toolTipText`
-- **4 app-level semantic colors:** `attention`, `success`, `warning`, `error`
+- **5 app-level semantic colors:** `attention`, `attentionText`, `success`, `warning`, `error`
+  (`attentionText` is the text color paired with `attention` backgrounds, e.g.
+  unread-mention badges)
 - **`userColors`** — bubble/user color slots (timeline, member lists, profiles, etc.):
   - `self` — mapping with required `background` and optional `text`,
     `secondaryText`, `link`
@@ -122,7 +124,9 @@ at import time by `komai theme tinted-import` — never at build time.
 | toolTipText      | base05                       |
 
 Semantic accent colors: `attention` ← base08, `success` ← base0B, `warning` ← base09,
-`error` ← base08.
+`error` ← base08. `attentionText` is derived from the resolved `attention`:
+`highlightedText` is reused if it already gives ≥ 4.5 contrast against `attention`,
+otherwise the better of black/white is chosen.
 
 
 ## Contrast heuristics

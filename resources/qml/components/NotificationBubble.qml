@@ -46,7 +46,7 @@ Rectangle {
         width: Math.max(implicitWidth + Komai.paddingSmall, bubbleRoot.height)
         font.bold: true
         font.pixelSize: bubbleRoot.baseFontPixelSize * bubbleRoot.fontScale
-        color: bubbleRoot.hasLoudNotification ? "white" : bubbleRoot.bubbleTextColor
+        color: bubbleRoot.hasLoudNotification ? Komai.theme.attentionText : bubbleRoot.bubbleTextColor
         text: bubbleRoot.unreadCount > 9999 ? "9999+" : bubbleRoot.unreadCount
 
         HoverHandler {

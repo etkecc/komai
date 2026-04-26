@@ -92,6 +92,8 @@ handleTintedImport(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*ap
     theme_color::Palette finalPalette;
     finalPalette.insert(mapped.begin(), mapped.end());
     finalPalette.insert(custom.begin(), custom.end());
+    finalPalette["attentionText"] =
+      theme_color::deriveAttentionText(finalPalette["attention"], finalPalette["highlightedText"]);
 
     // Generate user colors from the highlight (accent) color
     auto userColors =

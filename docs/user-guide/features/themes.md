@@ -94,7 +94,7 @@ Built-in themes are held to a stricter bar than ad-hoc user themes: they should 
 
 ## 🧩 Theme YAML format
 
-Each theme defines 16 Qt palette colors and 4 app-level semantic colors under `palette:`, plus a `userColors` section for message-bubble/user colors. Unknown keys are rejected by the validator to catch typos.
+Each theme defines 16 Qt palette colors and 5 app-level semantic colors under `palette:`, plus a `userColors` section for message-bubble/user colors. Unknown keys are rejected by the validator to catch typos.
 
 ```yaml
 name: "My Theme"
@@ -117,7 +117,8 @@ palette:
   link: "#8f5200"            # hyperlinks
   toolTipBase: "#ffffff"     # tooltip background
   toolTipText: "#334258"     # tooltip text
-  attention: "#a82353"       # attention / destructive accents
+  attention: "#a82353"       # attention / destructive accents (e.g. unread-mention badge background)
+  attentionText: "#f2f5f8"   # text shown on attention backgrounds
   success: "#008000"         # success accents
   warning: "#f49300"         # warning accents
   error: "#dd3d3d"           # error messages

@@ -4,7 +4,7 @@
 Checks:
   - Required fields: name, variant, palette, userColors
   - variant is "light" or "dark"
-  - All 20 palette keys (16 QPalette + 4 custom) are present with valid #-prefixed hex
+  - All 21 palette keys (16 QPalette + 5 custom) are present with valid #-prefixed hex
   - userColors.self is a mapping with required background and optional text roles
   - userColors.others is a list of such mappings (minimum 1)
   - source_base16 keys (if present) are valid #-prefixed hex
@@ -73,7 +73,7 @@ def validate_theme(path: str) -> list[str]:
                 f"{filename}: variant={variant!r} does not match theme identifier '{filename}'"
             )
 
-    # Check palette — all 20 keys must exist with valid hex
+    # Check palette — all keys must exist with valid hex
     palette = data.get("palette")
     if isinstance(palette, dict):
         for key in ALL_PALETTE_KEYS:

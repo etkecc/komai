@@ -36,8 +36,9 @@ inline constexpr std::array<const char *, 16> PALETTE_KEYS = {
   "toolTipText",
 };
 
-inline constexpr std::array<const char *, 4> CUSTOM_KEYS = {
+inline constexpr std::array<const char *, 5> CUSTOM_KEYS = {
   "attention",
+  "attentionText",
   "success",
   "warning",
   "error",
@@ -104,6 +105,13 @@ base16ToPalette(const Palette &palette, const std::string &variant);
 // Map Base16 slots to semantic accent colors (4 keys)
 Palette
 base16ToCustom(const Palette &palette);
+
+// Pick a readable text color to pair with `attention`. Prefers `preferred` when
+// it already gives ≥4.5 contrast (so themes can keep a tinted dark/light tone
+// instead of pure black/white); otherwise picks whichever of black/white
+// contrasts better against `attention`.
+std::string
+deriveAttentionText(const std::string &attention, const std::string &preferred);
 
 // Guess light/dark variant from base00 luminance
 std::string

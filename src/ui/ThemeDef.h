@@ -33,7 +33,7 @@ struct ThemeDef
     QColor toolTipBase, toolTipText;
 
     // Semantic accent colors
-    QColor attention, success, warning, error;
+    QColor attention, attentionText, success, warning, error;
 
     // User colors for sender/member color coding
     ThemeUserColorSlot userColorSelf;

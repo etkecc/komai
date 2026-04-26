@@ -65,6 +65,12 @@ def build_core_checks(palette: dict[str, str]) -> list[CheckResult]:
             True,
         ),
         CheckResult(
+            "attention/attentionText",
+            contrast_ratio(palette["attention"], palette["attentionText"]),
+            4.5,
+            True,
+        ),
+        CheckResult(
             "dark/brightText",
             contrast_ratio(palette["dark"], palette["brightText"]),
             4.5,

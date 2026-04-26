@@ -46,6 +46,8 @@ pub struct ExternalThemePalette {
     #[serde(rename = "toolTipText")]
     pub tool_tip_text: String,
     pub attention: String,
+    #[serde(rename = "attentionText")]
+    pub attention_text: String,
     pub success: String,
     pub warning: String,
     pub error: String,
@@ -135,6 +137,7 @@ impl ExternalThemePalette {
         validate_required_color("key 'toolTipBase'", &self.tool_tip_base)?;
         validate_required_color("key 'toolTipText'", &self.tool_tip_text)?;
         validate_required_color("key 'attention'", &self.attention)?;
+        validate_required_color("key 'attentionText'", &self.attention_text)?;
         validate_required_color("key 'success'", &self.success)?;
         validate_required_color("key 'warning'", &self.warning)?;
         validate_required_color("key 'error'", &self.error)?;

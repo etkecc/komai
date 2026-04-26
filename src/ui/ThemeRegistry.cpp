@@ -130,6 +130,7 @@ convertFfiTheme(const ::komai::rust::ThemeExternalDefinition &ffi,
     def.toolTipBase     = parseColor(palette.tool_tip_base);
     def.toolTipText     = parseColor(palette.tool_tip_text);
     def.attention       = parseColor(palette.attention);
+    def.attentionText   = parseColor(palette.attention_text);
     def.success         = parseColor(palette.success);
     def.warning         = parseColor(palette.warning);
     def.error           = parseColor(palette.error);

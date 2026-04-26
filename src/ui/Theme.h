@@ -21,6 +21,7 @@ class Theme final : public QPalette
     Q_PROPERTY(QColor sidebarBackground READ sidebarBackground CONSTANT)
     Q_PROPERTY(QColor separator READ separator CONSTANT)
     Q_PROPERTY(QColor attention READ attention CONSTANT)
+    Q_PROPERTY(QColor attentionText READ attentionText CONSTANT)
     Q_PROPERTY(QColor success READ success CONSTANT)
     Q_PROPERTY(QColor error READ error CONSTANT)
     Q_PROPERTY(QColor warning READ warning CONSTANT)
@@ -36,6 +37,7 @@ public:
     QColor sidebarBackground() const { return sidebarBackground_; }
     QColor separator() const { return separator_; }
     QColor attention() const { return attention_; }
+    QColor attentionText() const { return attentionText_; }
     QColor success() const { return success_; }
     QColor error() const { return error_; }
     QColor warning() const { return warning_; }
@@ -45,7 +47,7 @@ public:
     QList<QColor> userColorOthers() const { return userColorOthers_; }
 
 private:
-    QColor sidebarBackground_, separator_, attention_, success_, error_, warning_;
+    QColor sidebarBackground_, separator_, attention_, attentionText_, success_, error_, warning_;
     QColor userColorSelf_;
     QList<QColor> userColorOthers_;
 };

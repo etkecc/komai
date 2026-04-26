@@ -490,6 +490,7 @@ mod bridge {
         tool_tip_base: String,
         tool_tip_text: String,
         attention: String,
+        attention_text: String,
         success: String,
         warning: String,
         error: String,

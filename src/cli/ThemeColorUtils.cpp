@@ -404,6 +404,16 @@ base16ToCustom(const Palette &palette)
 }
 
 std::string
+deriveAttentionText(const std::string &attention, const std::string &preferred)
+{
+    constexpr double MIN = 4.5;
+    if (!preferred.empty() && contrastRatio(attention, preferred) >= MIN)
+        return preferred;
+    return contrastRatio("#000000", attention) >= contrastRatio("#ffffff", attention) ? "#000000"
+                                                                                      : "#ffffff";
+}
+
+std::string
 detectVariant(const Palette &palette)
 {
     auto it        = palette.find("base00");

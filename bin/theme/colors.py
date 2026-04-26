@@ -29,7 +29,7 @@ PALETTE_KEYS = [
     "toolTipText",
 ]
 
-CUSTOM_KEYS = ["attention", "success", "warning", "error"]
+CUSTOM_KEYS = ["attention", "attentionText", "success", "warning", "error"]
 
 ALL_PALETTE_KEYS = PALETTE_KEYS + CUSTOM_KEYS
 USER_COLOR_SLOT_KEYS = ["background", "text", "secondaryText", "link"]

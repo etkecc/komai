@@ -19,6 +19,7 @@ palette:
   toolTipBase: "#202228"
   toolTipText: "#caccd1"
   attention: "#a82353"
+  attentionText: "#f4f5f8"
   success: "#008000"
   warning: "#fcc53a"
   error: "#dd3d3d"

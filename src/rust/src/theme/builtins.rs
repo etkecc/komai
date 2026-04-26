@@ -132,6 +132,7 @@ fn palette_to_ffi(palette: &ExternalThemePalette) -> ThemePaletteData {
         tool_tip_base: palette.tool_tip_base.clone(),
         tool_tip_text: palette.tool_tip_text.clone(),
         attention: palette.attention.clone(),
+        attention_text: palette.attention_text.clone(),
         success: palette.success.clone(),
         warning: palette.warning.clone(),
         error: palette.error.clone(),

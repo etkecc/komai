@@ -48,6 +48,7 @@ Theme::Theme(QStringView theme)
     if (def) {
         sidebarBackground_ = p.color(QPalette::AlternateBase);
         attention_         = def->attention;
+        attentionText_     = def->attentionText;
         success_           = def->success;
         warning_           = def->warning;
         error_             = def->error;
@@ -60,6 +61,7 @@ Theme::Theme(QStringView theme)
         // Unknown theme — fall back to palette-derived defaults
         sidebarBackground_ = p.color(QPalette::AlternateBase);
         attention_         = QColor(QColorConstants::Svg::red);
+        attentionText_     = QColor(QColorConstants::Svg::white);
         success_           = QColor(QColorConstants::Svg::green);
         warning_           = QColor(QColorConstants::Svg::orange);
         error_             = QColor(0xdd, 0x3d, 0x3d);

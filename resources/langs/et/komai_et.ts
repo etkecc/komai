@@ -5894,7 +5894,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+488"/>
         <source>Settings...</source>
         <translation>Seaded…</translation>
     </message>

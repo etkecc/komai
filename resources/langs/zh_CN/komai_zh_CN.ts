@@ -5887,7 +5887,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+488"/>
         <source>Settings...</source>
         <translation>设置...</translation>
     </message>

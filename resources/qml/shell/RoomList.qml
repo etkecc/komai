@@ -447,7 +447,6 @@ Page {
             footer: Column {
                 id: roomListFooter
 
-                visible: exploreFooter.visible || botChatFooter.visible
                 width: roomlist.width
 
                 RoomListExploreFooter {

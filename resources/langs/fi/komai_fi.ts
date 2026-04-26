@@ -5894,7 +5894,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+489"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+488"/>
         <source>Settings...</source>
         <translation>Asetukset…</translation>
     </message>

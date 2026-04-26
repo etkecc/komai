@@ -144,7 +144,7 @@ body:
       label: Relevant log output
       description: |
         Paste relevant logs. Remove secrets/tokens before posting.
-        See [Logging](https://github.com/etkecc/komai/blob/main/docs/user-guide/logging.md) for how to collect logs.
+        See [Logging](https://github.com/etkecc/komai/blob/main/docs/user-guide/operations/logging.md) for how to collect logs.
       render: shell
     validations:
       required: false

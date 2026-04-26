@@ -6928,7 +6928,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SelfVerificationCoordinator</name>
     <message>
-        <location filename="../../qml/components/encryption/SelfVerificationCoordinator.qml" line="+44"/>
+        <location filename="../../qml/components/encryption/SelfVerificationCoordinator.qml" line="+67"/>
         <source>Encryption setup complete</source>
         <translation>සංකේතන ස්ථාපනය සම්පූර්ණ විය</translation>
     </message>
@@ -6968,16 +6968,76 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>සංකේතනය ස්ථාපනය කිරීමට අසාර්ථක විය: %1</translation>
     </message>
     <message>
-        <location line="+33"/>
-        <source>Setup Encryption</source>
-        <translation>සංකේතනය ස්ථාපනය කරන්න</translation>
+        <location line="+6"/>
+        <location line="+188"/>
+        <source>Set up encryption</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Hello and welcome to Matrix!
-It seems like you are new. Before you can securely encrypt your messages, we need to setup a few small things. You can either press accept immediately or adjust a few basic options. We also try to explain a few of the basics. You can skip those parts, but they might prove to be helpful!</source>
-        <translation>ආයුබෝවන් සහ Matrix වෙත සාදරයෙන් පිළිගනිමු!
-ඔබ නව කෙනෙකු ලෙස පෙනේ. ඔබගේ පණිවිඩ ආරක්ෂිතව සංකේතනය කිරීමට පෙර, කුඩා කාරණා කිහිපයක් සකස් කළ යුතුය. ඔබට ක්ෂණිකව පිළිගන්නට හෝ මූලික විකල්ප කිහිපයක් සකස් කරන්නට හැකිය. අපි මූලිකාංග කිහිපයක් ද පැහැදිලි කිරීමට උත්සාහ කරමු. ඔබට ඒ කොටස් මඟ හැරිය හැකිය, නමුත් ඒවා ප්‍රයෝජනවත් විය හැකිය!</translation>
+        <location line="-180"/>
+        <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Save encryption keys to Secret Storage (SSSS)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+44"/>
+        <source>Recommended</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-33"/>
+        <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Set up server-side key backup</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Allow unlocking Secret Storage with a passphrase</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Optional</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Passphrase</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>For best security, don't reuse your account password.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Not now</source>
+        <translation type="unfinished">දැන් නොවේ</translation>
     </message>
 </context>
 <context>

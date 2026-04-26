@@ -13,6 +13,29 @@ import cc.etke.komai 1.0
 Item {
     enabled: false
     visible: false
+
+    component OptionBadge: Rectangle {
+        id: optionBadge
+
+        required property string label
+        required property color tone
+
+        implicitWidth: optionBadgeLabel.implicitWidth + Komai.paddingSmall * 2
+        implicitHeight: optionBadgeLabel.implicitHeight + Komai.paddingSmall
+        radius: Komai.paddingSmall
+        color: Qt.rgba(tone.r, tone.g, tone.b, 0.15)
+        border.color: tone
+        border.width: 1
+
+        Label {
+            id: optionBadgeLabel
+            anchors.centerIn: parent
+            text: optionBadge.label
+            color: optionBadge.tone
+            font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
+        }
+    }
+
     SaveSecurityKeyDialog {
         id: showRecoverKeyDialog
     }
@@ -101,129 +124,203 @@ Item {
             text: qsTr("Failed to setup encryption: %1").arg(failureDialog.errorMessage)
         }
     }
-    Components.MainWindowDialog {
+    Components.OverlayDialog {
         id: bootstrapCrosssigning
 
-        // Workaround palettes not inheriting for popups
-        palette: timelineRoot.palette
+        title: qsTr("Set up encryption")
+        titleIcon: ":/icons/icons/ui/shield-regular.svg"
+        titleIconColor: palette.text
+        closePolicy: Popup.NoAutoClose
 
-        background: Rectangle {
-            border.color: Komai.theme.separator
-            border.width: 1
-            color: palette.window
-            radius: Komai.paddingSmall
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            text: qsTr("End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.")
+            wrapMode: Text.Wrap
         }
 
-        onAccepted: SelfVerificationStatus.setupCrosssigning(storeSecretsOnline.checked, usePassword.checked ? passwordField.text : "", encryptionBackupOnlineEnabled.checked)
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            text: qsTr("For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.")
+            wrapMode: Text.Wrap
+        }
 
-        GridLayout {
-            id: grid
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.topMargin: Komai.paddingSmall
+            spacing: Komai.paddingMedium
 
-            columnSpacing: 0
-            columns: 2
-            rowSpacing: 0
-            width: bootstrapCrosssigning.useableWidth
-            z: 1
-
-            Label {
-                Layout.alignment: Qt.AlignHCenter
-                Layout.columnSpan: 2
-                Layout.margins: Komai.paddingMedium
-                color: palette.text
-                font.pointSize: Settings.uiFontSizePt * 2
-                text: qsTr("Setup Encryption")
-                wrapMode: Text.Wrap
-            }
-            Label {
-                Layout.alignment: Qt.AlignLeft
-                Layout.columnSpan: 2
-                Layout.margins: Komai.paddingMedium
-                Layout.maximumWidth: grid.width - Komai.paddingMedium * 2
-                color: palette.text
-                text: qsTr("Hello and welcome to Matrix!\nIt seems like you are new. Before you can securely encrypt your messages, we need to setup a few small things. You can either press accept immediately or adjust a few basic options. We also try to explain a few of the basics. You can skip those parts, but they might prove to be helpful!")
-                wrapMode: Text.Wrap
-            }
-            Label {
-                Layout.alignment: Qt.AlignLeft
-                Layout.columnSpan: 1
-                Layout.margins: Komai.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
-                color: palette.text
-                text: "Store secrets online.\nYou have a few secrets to make all the encryption magic work. While you can keep them stored only locally, we recommend storing them encrypted on the server. Otherwise it will be painful to recover them. Only disable this if you are paranoid and like losing your data!"
-                wrapMode: Text.Wrap
-            }
-            Item {
-                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+            ColumnLayout {
                 Layout.fillWidth: true
-                Layout.margins: Komai.paddingMedium
-                Layout.preferredHeight: storeSecretsOnline.height
+                spacing: 0
 
-                ToggleButton {
-                    id: storeSecretsOnline
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
 
-                    checked: true
-
-                    onClicked: console.log("Store secrets toggled: " + checked)
+                    Label {
+                        color: palette.text
+                        font.bold: true
+                        text: qsTr("Save encryption keys to Secret Storage (SSSS)")
+                        wrapMode: Text.Wrap
+                    }
+                    OptionBadge {
+                        Layout.alignment: Qt.AlignVCenter
+                        label: qsTr("Recommended")
+                        tone: Komai.theme.success
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                }
+                Label {
+                    Layout.fillWidth: true
+                    color: palette.text
+                    opacity: 0.75
+                    text: qsTr("Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.")
+                    wrapMode: Text.Wrap
                 }
             }
-            Label {
-                Layout.alignment: Qt.AlignLeft
-                Layout.columnSpan: 1
-                Layout.margins: Komai.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
-                Layout.rowSpan: 2
-                color: palette.text
-                text: "Set an online backup password.\nWe recommend you DON'T set a password and instead only rely on the recovery key. You will get a recovery key in any case when storing the cross-signing secrets online, but passwords are usually not very random, so they are easier to attack than a completely random recovery key. If you choose to use a password, DON'T make it the same as your login password, otherwise your server can read all your encrypted messages. (You don't want that.)"
-                visible: storeSecretsOnline.checked
-                wrapMode: Text.Wrap
+
+            ToggleButton {
+                id: storeSecretsOnline
+
+                checked: true
             }
-            Item {
-                Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Komai.paddingMedium
+            opacity: storeSecretsOnline.checked ? 1.0 : 0.5
+
+            ColumnLayout {
                 Layout.fillWidth: true
-                Layout.margins: Komai.paddingMedium
-                Layout.preferredHeight: storeSecretsOnline.height
-                Layout.rowSpan: usePassword.checked ? 1 : 2
-                Layout.topMargin: Komai.paddingLarge
-                visible: storeSecretsOnline.checked
+                spacing: 0
 
-                ToggleButton {
-                    id: usePassword
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
 
-                    checked: false
+                    Label {
+                        color: palette.text
+                        font.bold: true
+                        text: qsTr("Set up server-side key backup")
+                        wrapMode: Text.Wrap
+                    }
+                    OptionBadge {
+                        Layout.alignment: Qt.AlignVCenter
+                        label: qsTr("Recommended")
+                        tone: Komai.theme.success
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                }
+                Label {
+                    Layout.fillWidth: true
+                    color: palette.text
+                    opacity: 0.75
+                    text: qsTr("Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.")
+                    wrapMode: Text.Wrap
                 }
             }
-            Components.KomaiTextField {
-                id: passwordField
 
-                Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-                Layout.columnSpan: 1
+            ToggleButton {
+                id: encryptionBackupOnlineEnabled
+
+                enabled: storeSecretsOnline.checked
+                checked: true
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Komai.paddingMedium
+            opacity: storeSecretsOnline.checked ? 1.0 : 0.5
+
+            ColumnLayout {
                 Layout.fillWidth: true
-                Layout.margins: Komai.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
-                echoMode: TextInput.Password
-                visible: storeSecretsOnline.checked && usePassword.checked
+                spacing: 0
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        color: palette.text
+                        font.bold: true
+                        text: qsTr("Allow unlocking Secret Storage with a passphrase")
+                        wrapMode: Text.Wrap
+                    }
+                    OptionBadge {
+                        Layout.alignment: Qt.AlignVCenter
+                        label: qsTr("Optional")
+                        tone: palette.buttonText
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                }
+                Label {
+                    Layout.fillWidth: true
+                    color: palette.text
+                    opacity: 0.75
+                    text: qsTr("A memorable phrase that unlocks the same Secret Storage as the security key.")
+                    wrapMode: Text.Wrap
+                }
             }
-            Label {
-                Layout.alignment: Qt.AlignLeft
-                Layout.columnSpan: 1
-                Layout.margins: Komai.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
-                color: palette.text
-                text: "Use online key backup.\nStore the keys for your messages securely encrypted online. In general you do want this, because it protects your messages from becoming unreadable, if you sign out by accident. It does however carry a small security risk, if you ever share your recovery key by accident. Currently this also has some other weaknesses, that might allow the server to insert new keys into your backup. The server will however never be able to read your messages."
-                wrapMode: Text.Wrap
+
+            ToggleButton {
+                id: usePassword
+
+                enabled: storeSecretsOnline.checked
+                checked: false
+                onCheckedChanged: if (checked) passwordField.forceActiveFocus()
             }
+        }
+
+        Components.KomaiTextField {
+            id: passwordField
+
+            Layout.fillWidth: true
+            echoMode: TextInput.Password
+            placeholderText: qsTr("Passphrase")
+            visible: storeSecretsOnline.checked && usePassword.checked
+        }
+
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            opacity: 0.65
+            text: qsTr("For best security, don't reuse your account password.")
+            wrapMode: Text.Wrap
+            visible: storeSecretsOnline.checked && usePassword.checked
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.topMargin: Komai.paddingSmall
+            spacing: Komai.paddingSmall
+
+            Components.KomaiButton {
+                text: qsTr("Not now")
+                onClicked: bootstrapCrosssigning.close()
+            }
+
             Item {
-                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                 Layout.fillWidth: true
-                Layout.margins: Komai.paddingMedium
-                Layout.preferredHeight: storeSecretsOnline.height
+            }
 
-                ToggleButton {
-                    id: encryptionBackupOnlineEnabled
+            Components.KomaiButton {
+                icon.source: "qrc:/icons/icons/ui/shield-regular-checkmark.svg"
+                text: qsTr("Set up encryption")
+                highlighted: true
 
-                    checked: true
-
-                    onClicked: console.log("Online key backup toggled: " + checked)
+                onClicked: {
+                    SelfVerificationStatus.setupCrosssigning(storeSecretsOnline.checked, usePassword.checked ? passwordField.text : "", storeSecretsOnline.checked && encryptionBackupOnlineEnabled.checked);
+                    bootstrapCrosssigning.close();
                 }
             }
         }

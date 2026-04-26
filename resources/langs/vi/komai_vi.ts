@@ -6921,7 +6921,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>SelfVerificationCoordinator</name>
     <message>
-        <location filename="../../qml/components/encryption/SelfVerificationCoordinator.qml" line="+44"/>
+        <location filename="../../qml/components/encryption/SelfVerificationCoordinator.qml" line="+67"/>
         <source>Encryption setup complete</source>
         <translation>Thiết lập mã hóa hoàn tất</translation>
     </message>
@@ -6961,16 +6961,76 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Không thể thiết lập mã hóa: %1</translation>
     </message>
     <message>
-        <location line="+33"/>
-        <source>Setup Encryption</source>
-        <translation>Thiết lập Mã hóa</translation>
+        <location line="+6"/>
+        <location line="+188"/>
+        <source>Set up encryption</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Hello and welcome to Matrix!
-It seems like you are new. Before you can securely encrypt your messages, we need to setup a few small things. You can either press accept immediately or adjust a few basic options. We also try to explain a few of the basics. You can skip those parts, but they might prove to be helpful!</source>
-        <translation>Xin chào và chào mừng bạn đến với Matrix!
-Có vẻ như bạn mới tham gia. Trước khi có thể mã hóa tin nhắn một cách an toàn, chúng ta cần thiết lập một số thứ nhỏ. Bạn có thể nhấn chấp nhận ngay lập tức hoặc điều chỉnh một vài tùy chọn cơ bản. Chúng tôi cũng cố giải thích một số điều cơ bản. Bạn có thể bỏ qua những phần đó, nhưng chúng có thể hữu ích!</translation>
+        <location line="-180"/>
+        <source>End-to-end encryption keeps your messages private. Only you and the people you chat with can read them.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>For encryption to keep working across sign-ins or reinstalls, your encryption keys need to be preserved.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Save encryption keys to Secret Storage (SSSS)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+44"/>
+        <source>Recommended</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-33"/>
+        <source>Stores your cross-signing keys encrypted on the server, so new sign-ins can recover your encrypted identity.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Set up server-side key backup</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Stores your message-decryption keys encrypted on the server, so older messages stay readable on new sign-ins.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Allow unlocking Secret Storage with a passphrase</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Optional</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Passphrase</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>For best security, don't reuse your account password.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Not now</source>
+        <translation type="unfinished">Không phải lúc này</translation>
     </message>
 </context>
 <context>

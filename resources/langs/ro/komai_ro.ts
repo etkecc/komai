@@ -7134,7 +7134,7 @@ Se pare că ești nou. Înainte de a putea cripta în siguranță mesajele, treb
         <translation>Nu s-au găsit spații. Alătură-te unui spațiu pentru a-l vedea aici.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Spațiu</translation>
     </message>

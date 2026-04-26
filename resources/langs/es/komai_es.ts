@@ -7130,7 +7130,7 @@ Parece que eres nuevo/a. Antes de poder cifrar tus mensajes de forma segura, nec
         <translation>No se han encontrado espacios. Únete a un espacio para verlo aquí.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Espacio</translation>
     </message>

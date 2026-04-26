@@ -7127,7 +7127,7 @@ Sembla que ets nou aquí. Abans de poder xifrar els missatges de manera segura, 
         <translation>No s'han trobat espais. Uneix-te a un espai per veure'l aquí.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Espai</translation>
     </message>

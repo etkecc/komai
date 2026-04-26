@@ -7127,7 +7127,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>Δεν βρέθηκαν χώροι. Συμμετέχετε σε έναν χώρο για να τον δείτε εδώ.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Χώρος</translation>
     </message>

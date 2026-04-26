@@ -7134,7 +7134,7 @@ Izgleda da si nov/a. Pre nego što možeš bezbedno da šifruješ poruke, treba 
         <translation>Nema pronađenih prostora. Pridruži se prostoru da ga vidiš ovde.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Prostor</translation>
     </message>

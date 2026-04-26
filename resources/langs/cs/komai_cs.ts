@@ -7134,7 +7134,7 @@ Zdá se, že jsi tu nový. Než budeš moci bezpečně šifrovat zprávy, je pot
         <translation>Nenalezeny žádné prostory. Připoj se k prostoru, aby se zde zobrazil.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Prostor</translation>
     </message>

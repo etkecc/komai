@@ -7127,7 +7127,7 @@ Parece que você é novo por aqui. Antes de poder criptografar suas mensagens co
         <translation>Nenhum espaço encontrado. Entre em um espaço para vê-lo aqui.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Espaço</translation>
     </message>

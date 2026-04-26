@@ -7127,7 +7127,7 @@ Tundub, et olete uus kasutaja. Enne kui saate sõnumeid turvaliselt krüptida, o
         <translation>Ruume ei leitud. Liitu ruumiga, et seda siin näha.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Ruum</translation>
     </message>

@@ -7127,7 +7127,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>කිසිදු අවකාශයක් හමු නොවිණි. මෙහි දැකීමට අවකාශයකට සම්බන්ධ වන්න.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>අවකාශය</translation>
     </message>

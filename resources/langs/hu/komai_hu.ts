@@ -7120,7 +7120,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>Nem található tér. Csatlakozzon egy térhez, hogy megjelenjen itt.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Tér</translation>
     </message>

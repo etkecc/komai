@@ -7127,7 +7127,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>ഒരു സ്പേസും കണ്ടെത്തിയില്ല. ഇവിടെ കാണുന്നതിന് ഒരു സ്പേസിൽ ചേരുക.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>സ്പേസ്</translation>
     </message>

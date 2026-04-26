@@ -7120,7 +7120,7 @@ Có vẻ như bạn mới tham gia. Trước khi có thể mã hóa tin nhắn m
         <translation>Không tìm thấy không gian nào. Tham gia một không gian để xem tại đây.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Không gian</translation>
     </message>

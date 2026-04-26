@@ -7127,7 +7127,7 @@ Het lijkt erop dat je nieuw bent. Voordat je berichten veilig kunt versleutelen,
         <translation>Geen ruimten gevonden. Word lid van een ruimte om die hier te zien.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Ruimte</translation>
     </message>

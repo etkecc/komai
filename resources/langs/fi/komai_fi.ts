@@ -7127,7 +7127,7 @@ Vaikuttaa siltä, että olet uusi käyttäjä. Ennen kuin voit salata viestisi t
         <translation>Tiloja ei löydy. Liity tilaan nähdäksesi sen täällä.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Tila</translation>
     </message>

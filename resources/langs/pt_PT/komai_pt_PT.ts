@@ -7127,7 +7127,7 @@ Parece que é novo por aqui. Antes de poder encriptar as suas mensagens de forma
         <translation>Nenhum espaço encontrado. Entra num espaço para o ver aqui.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Espaço</translation>
     </message>

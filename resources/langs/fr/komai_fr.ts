@@ -7127,7 +7127,7 @@ Il semble que vous soyez nouveau. Pour pouvoir chiffrer vos messages en toute s√
         <translation>Aucun espace trouv√©. Rejoignez un espace pour le voir ici.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Espace</translation>
     </message>

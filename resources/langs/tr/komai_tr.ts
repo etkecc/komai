@@ -7120,7 +7120,7 @@ Yeni olduğunuz anlaşılıyor. Mesajlarınızı güvenli şekilde şifreleyebil
         <translation>Alan bulunamadı. Burada görmek için bir alana katılın.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Uzay</translation>
     </message>

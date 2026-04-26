@@ -7134,7 +7134,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>Просторів не знайдено. Приєднайтесь до простору, щоб побачити його тут.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Простір</translation>
     </message>

@@ -50,8 +50,15 @@ ColumnLayout {
             readonly property string spaceId: modelData.id
             readonly property string spaceName: modelData.name || spaceId
             readonly property string spaceAvatar: modelData.avatarUrl
+            readonly property int spaceDepth: modelData.depth || 0
 
             Layout.fillWidth: true
+            // Indent subspaces so the parent → child relationship is visible.
+            // The cascade rules (a hidden parent forces children hidden in the
+            // sidebar; an All-rooms-excluded parent excludes children too) are
+            // not enforced inside this list, so each row remains independently
+            // configurable even when its parent is hidden/excluded.
+            Layout.leftMargin: spaceDepth * Komai.paddingLarge
             implicitHeight: spaceCardBg.implicitHeight
 
             HoverHandler {

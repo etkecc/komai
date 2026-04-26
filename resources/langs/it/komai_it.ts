@@ -7127,7 +7127,7 @@ Sembra che tu sia nuovo. Prima di poter crittare i messaggi in modo sicuro, è n
         <translation>Nessuno spazio trovato. Accedi a uno spazio per vederlo qui.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Spazio</translation>
     </message>

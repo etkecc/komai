@@ -7135,7 +7135,7 @@ Wygląda na to, że jesteś nowym użytkownikiem. Zanim będziesz mógł(a) bezp
         <translation>Nie znaleziono przestrzeni. Dołącz do przestrzeni, aby ją tu zobaczyć.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Przestrzeń</translation>
     </message>

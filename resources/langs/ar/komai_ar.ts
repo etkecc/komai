@@ -7155,7 +7155,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>لم يتم العثور على فضاءات. انضم إلى فضاء لرؤيته هنا.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>فضاء</translation>
     </message>

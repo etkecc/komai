@@ -7120,7 +7120,7 @@ Seperti nya Anda baru di sini. Sebelum dapat mengenkripsi pesan dengan aman, per
         <translation>Tidak ada ruang ditemukan. Bergabung dengan ruang untuk melihatnya di sini.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Ruang</translation>
     </message>

@@ -7127,7 +7127,7 @@ It sembla que vu es nov. Ante que vu posse criptar securmen vus mesages, nos dev
         <translation>Null spacies trovat. Juntar se a un spacie por vider it ci.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Spacie</translation>
     </message>

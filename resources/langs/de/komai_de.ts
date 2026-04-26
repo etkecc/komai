@@ -7127,7 +7127,7 @@ Es scheint, du bist neu hier. Bevor du deine Nachrichten sicher verschlüsseln k
         <translation>Keine Spaces gefunden. Betritt einen Space, um ihn hier zu sehen.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Space</translation>
     </message>

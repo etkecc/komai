@@ -642,9 +642,6 @@ CommunitiesModel::spaceEntries() const
     result.reserve(spaceOrder_.size());
 
     for (const auto &elem : spaceOrder_.tree) {
-        if (elem.depth > 0)
-            continue; // Only top-level spaces for settings; subspaces inherit parent visibility
-
         auto it = spaces_.find(elem.id);
         if (it == spaces_.end())
             continue;
@@ -653,6 +650,7 @@ CommunitiesModel::spaceEntries() const
         entry[QStringLiteral("id")]        = QStringLiteral("space:") + elem.id;
         entry[QStringLiteral("name")]      = QString::fromStdString(it->second.name);
         entry[QStringLiteral("avatarUrl")] = QString::fromStdString(it->second.avatar_url);
+        entry[QStringLiteral("depth")]     = elem.depth;
         result.append(entry);
     }
 

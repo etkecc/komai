@@ -7127,7 +7127,7 @@ Det verkar som att du är ny. Innan du kan kryptera dina meddelanden på ett sä
         <translation>Inga områden hittades. Gå med i ett område för att se det här.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Område</translation>
     </message>

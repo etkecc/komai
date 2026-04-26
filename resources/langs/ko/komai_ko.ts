@@ -7120,7 +7120,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>스페이스를 찾을 수 없습니다. 스페이스에 참여하면 여기에 표시됩니다.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>스페이스</translation>
     </message>

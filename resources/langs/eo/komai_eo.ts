@@ -7129,7 +7129,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>Neniuj spacoj trovitaj. Aliĝi al spaco por vidi ĝin ĉi tie.</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>Spaco</translation>
     </message>

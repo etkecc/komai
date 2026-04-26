@@ -7120,7 +7120,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <translation>未找到空間。加入一個空間即可在此顯示。</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+97"/>
         <source>Space</source>
         <translation>空間</translation>
     </message>

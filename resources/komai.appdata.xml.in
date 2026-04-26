@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2020-2022 mujx, Komai developers -->
 <component type="desktop">
   <id>cc.etke.komai</id>
   <launchable type="desktop-id">@KOMAI_DESKTOP_ID@.desktop</launchable>
@@ -67,10 +66,23 @@
     <lang>zh_CN</lang>
     <lang>zh_Hant</lang>
   </languages>
-  <content_rating type="oars-1.0">
+  <content_rating type="oars-1.1">
     <content_attribute id="social-chat">intense</content_attribute>
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
+  <keywords>
+    <keyword>matrix</keyword>
+    <keyword>chat</keyword>
+    <keyword>messaging</keyword>
+    <keyword>e2ee</keyword>
+    <keyword>encryption</keyword>
+    <keyword>im</keyword>
+    <keyword>nheko</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#f49300</color>
+    <color type="primary" scheme_preference="dark">#f49300</color>
+  </branding>
   <screenshots>
     <screenshot type="default">
       <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/chat.png</image>

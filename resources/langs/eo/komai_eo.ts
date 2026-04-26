@@ -830,7 +830,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
         <source>Expand</source>
         <translation>Etendi</translation>
     </message>
@@ -843,7 +843,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Ĉambroj etikeditaj kiel plej ŝatataj. Uzas la etikedon Matrix m.favourite, do viaj elektoj sinkroniĝas inter klientoj.</translation>
     </message>

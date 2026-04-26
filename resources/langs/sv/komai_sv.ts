@@ -830,7 +830,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
         <source>Expand</source>
         <translation>Expandera</translation>
     </message>
@@ -843,7 +843,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Rum märkta som favoriter. Använder Matrix m.favourite-taggen, så dina val synkroniseras mellan klienter.</translation>
     </message>

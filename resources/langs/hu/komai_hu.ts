@@ -830,7 +830,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
         <source>Expand</source>
         <translation>Kibontás</translation>
     </message>
@@ -843,7 +843,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Kedvencként megjelölt szobák. A Matrix m.favourite címkét használja, így a választásai szinkronizálódnak az ügyfelek között.</translation>
     </message>

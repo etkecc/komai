@@ -830,7 +830,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
         <source>Expand</source>
         <translation>Perluas</translation>
     </message>
@@ -843,7 +843,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Ruangan yang ditandai sebagai favorit. Menggunakan tag Matrix m.favourite, sehingga pilihan Anda tersinkronisasi di semua klien.</translation>
     </message>

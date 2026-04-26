@@ -830,7 +830,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
         <source>Expand</source>
         <translation>Mở rộng</translation>
     </message>
@@ -843,7 +843,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Phòng được gắn thẻ yêu thích. Sử dụng thẻ Matrix m.favourite, nên lựa chọn của bạn được đồng bộ trên các ứng dụng.</translation>
     </message>

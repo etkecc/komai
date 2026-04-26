@@ -830,7 +830,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
         <source>Expand</source>
         <translation>පුළුල් කරන්න</translation>
     </message>
@@ -843,7 +843,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>ප්‍රියතමයන් ලෙස ලේබල් කළ කාමර. Matrix m.favourite ලේබලය භාවිතා කරන බැවින් ඔබේ තේරීම් සෑම client අතරත් සමමුහුර්ත වේ.</translation>
     </message>

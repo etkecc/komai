@@ -126,6 +126,7 @@ ItemDelegate {
         anchors.rightMargin: Komai.paddingMedium + Komai.paddingSmall
         anchors.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium
         anchors.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium
+        opacity: (model.isEmpty ?? false) ? 0.6 : 1.0
         spacing: Komai.paddingMedium
 
         ImageButton {

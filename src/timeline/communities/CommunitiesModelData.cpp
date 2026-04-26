@@ -36,6 +36,20 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
               data(index, CommunitiesModel::Roles::Id).toString());
     }
 
+    if (role == CommunitiesModel::Roles::IsEmpty) {
+        // Only the three "fixed" filters (People, Bots, Groups) report
+        // emptiness. All Rooms, spaces, and tag-based filters are never
+        // marked empty (they may have nothing matching, but we don't fade
+        // their rows because the user enabled them deliberately).
+        if (index.row() == kRowPeople)
+            return !hasRoomsForFixedFilter(QStringLiteral("people"));
+        if (index.row() == kRowBots)
+            return !hasRoomsForFixedFilter(QStringLiteral("bot"));
+        if (index.row() == kRowGroups)
+            return !hasRoomsForFixedFilter(QStringLiteral("group"));
+        return false;
+    }
+
     if (index.row() >= 0 && index.row() < kFixedRowCount) {
         const auto &f = fixedFilters_[index.row()];
         switch (role) {
@@ -319,19 +333,18 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
     if (!m)
         return true;
 
-    // Check community filter settings for well-known filter rows.
-    // Each filter is hidden when its setting is off OR when no rooms match.
+    // Hide a filter row only when the user has explicitly turned it off in
+    // Settings → Navigation. Empty filters stay visible (faded via the IsEmpty
+    // role) so users can still discover the per-filter footer actions like
+    // "New bot chat".
     auto settings = UserSettings::instance();
     if (settings) {
         const auto tagId = m->data(m->index(sourceRow), CommunitiesModel::Roles::Id).toString();
-        if (tagId == QLatin1String("people") &&
-            (!settings->navigationCommunitiesFilterPeople() || !m->hasRoomsForFixedFilter(tagId)))
+        if (tagId == QLatin1String("people") && !settings->navigationCommunitiesFilterPeople())
             return false;
-        if (tagId == QLatin1String("bot") &&
-            (!settings->navigationCommunitiesFilterBots() || !m->hasRoomsForFixedFilter(tagId)))
+        if (tagId == QLatin1String("bot") && !settings->navigationCommunitiesFilterBots())
             return false;
-        if (tagId == QLatin1String("group") &&
-            (!settings->navigationCommunitiesFilterGroups() || !m->hasRoomsForFixedFilter(tagId)))
+        if (tagId == QLatin1String("group") && !settings->navigationCommunitiesFilterGroups())
             return false;
         if (tagId == QLatin1String("tag:m.favourite") &&
             !settings->navigationCommunitiesFilterFavourites())

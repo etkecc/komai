@@ -117,6 +117,7 @@ CommunitiesModel::roleNames() const
       {UnreadMessages, "unreadMessages"},
       {HasLoudNotification, "hasLoudNotification"},
       {UnreadIndicatorsHidden, "unreadIndicatorsHidden"},
+      {IsEmpty, "isEmpty"},
     };
 }
 
@@ -202,7 +203,8 @@ CommunitiesModel::recomputeFilterBadges()
 {
     computeFilterBadges();
     if (rowCount() > 0)
-        emit dataChanged(index(0), index(rowCount() - 1), {UnreadMessages, HasLoudNotification});
+        emit dataChanged(
+          index(0), index(rowCount() - 1), {UnreadMessages, HasLoudNotification, IsEmpty});
 }
 
 bool
@@ -260,9 +262,6 @@ CommunitiesModel::initializeSidebar()
         f.unreadRoomCount = 0;
         f.hasHighlight    = false;
     }
-    hasPeopleRooms_ = false;
-    hasBotRooms_    = false;
-    hasGroupRooms_  = false;
 
     std::set<std::string> ts;
     std::set<std::string> isSpace;
@@ -278,19 +277,10 @@ CommunitiesModel::initializeSidebar()
                 continue;
 
             const bool isInvite    = roomlistModel->data(idx, RoomlistModel::IsInvite).toBool();
-            const bool isBotRoom   = roomlistModel->data(idx, RoomlistModel::IsBotRoom).toBool();
-            const bool isDirect    = roomlistModel->data(idx, RoomlistModel::IsDirect).toBool();
             const bool isSpaceRoom = roomlistModel->data(idx, RoomlistModel::IsSpace).toBool();
 
             if (isInvite)
                 continue;
-
-            if (isBotRoom)
-                hasBotRooms_ = true;
-            else if (isDirect)
-                hasPeopleRooms_ = true;
-            else if (!isSpaceRoom)
-                hasGroupRooms_ = true;
 
             if (!isSpaceRoom) {
                 const auto tags = roomlistModel->data(idx, RoomlistModel::Tags).toStringList();

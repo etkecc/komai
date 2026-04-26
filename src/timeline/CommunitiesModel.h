@@ -77,6 +77,7 @@ public:
         HasLoudNotification,
         UnreadIndicatorsHidden,
         IsDirect,
+        IsEmpty,
     };
 
     struct FlatTree
@@ -267,9 +268,6 @@ private:
       {"bot", QStringLiteral(":/icons/icons/ui/robot-sparkle.svg"), {}},
       {"group", QStringLiteral(":/icons/icons/ui/people.svg"), {}},
     }};
-    bool hasPeopleRooms_                                     = false;
-    bool hasBotRooms_                                        = false;
-    bool hasGroupRooms_                                      = false;
 
     friend class FilteredCommunitiesModel;
 

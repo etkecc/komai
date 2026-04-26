@@ -830,7 +830,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
         <source>Expand</source>
         <translation>Развернуть</translation>
     </message>
@@ -843,7 +843,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+124"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+138"/>
         <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
         <translation>Комнаты, помеченные как избранные. Использует тег Matrix m.favourite, поэтому выбор синхронизируется между клиентами.</translation>
     </message>

@@ -96,6 +96,31 @@ Development/testing override:
 Theme note: the currently selected theme is stored as `ui.theme.slug` in `config.yml`.
 See [Themes](../themes.md#-where-your-current-theme-choice-is-stored).
 
+## Configuration Management
+
+Komai's settings live in plain YAML files (`config.yml`, `state.yml`, `session.yml`) under each profile directory. The format is human-editable and stable, which makes Komai amenable to external configuration management -- no proprietary format, no binary blobs, no registry.
+
+Reference YAML files showing every setting and its default live in [`examples/profile/`](examples/profile/).
+
+Common workflows:
+
+- 🏠 **Dotfile sync** with [chezmoi](https://www.chezmoi.io/), [yadm](https://yadm.io/), or [GNU Stow](https://www.gnu.org/software/stow/) to version and replicate `~/.config/komai/` across machines.
+- 🏢 **`/etc/skel` templates** -- drop a `~/.config/komai/profiles/default/config.yml` template into `/etc/skel/` so new user accounts on a workstation start with predefined settings.
+- 🛠️ **Configuration management** with [Ansible](https://www.ansible.com/), [Puppet](https://www.puppet.com/), [Chef](https://www.chef.io/), or [Salt](https://saltproject.io/) to template and deploy YAML files per host or per user.
+- ❄️ **NixOS / home-manager** modules to render `config.yml` from typed Nix expressions.
+
+Tips:
+
+- 👥 Use `-p <name>` to keep a managed/corporate profile separate from a personal one. Each profile has its own config directory.
+- 🔐 Komai never writes secrets to `config.yml` (see [Secret Storage Modes](#secret-storage-modes)). Templated configs only need to cover non-secret preferences.
+- 🪄 If `config.yml` is missing or partial, Komai fills in defaults and creates the file on first launch -- a minimal template covering only the keys you care about works fine.
+- 🔌 For runtime control without editing files, see the [D-Bus integration](integrations/dbus.md).
+
+Caveats:
+
+- ⚠️ Komai does **not** currently enforce read-only / policy-locked settings. Users running the app can change any setting from the UI; managed setups need to re-deploy `config.yml` to keep them in sync.
+- 🚫 There is no system-wide `/etc/komai/` layer -- all configuration lives under each user's `~/.config/komai/`. System-wide rollout means templating the per-user files (via `/etc/skel`, dotfiles, or config management) rather than a single global file.
+
 ## Integrations
 
 Learn about optional integration hooks in the Integrations docs:

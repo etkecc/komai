@@ -16,7 +16,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 
 - 🖥️ **Desktop-first UX** — optimized for large screens
 - 👓 **Readable and easy to use** — comfortably readable text, larger hit targets, and interaction patterns that respect [Fitts's law](https://www.nngroup.com/articles/fitts-law/)
-- 🎨 **Yours to shape** — [themeable](docs/user-guide/themes.md) and [customizable](docs/user-guide/settings/README.md)
+- 🎨 **Yours to shape** — [themeable](docs/user-guide/themes.md), [customizable](docs/user-guide/settings/README.md), and [config-management friendly](docs/user-guide/settings/README.md#configuration-management) via plain-YAML files
 - ⚡ **Responsive by design** — native performance is a design constraint
 - 🎓 **Educate, don't over-abstract away** — like [Arch Linux](https://wiki.archlinux.org/title/Arch_Linux), we prefer exposing Matrix's real concepts over hiding them
 

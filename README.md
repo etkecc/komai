@@ -26,7 +26,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 Highlights:
 
 - 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime)
-- 📞 (Legacy) Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
+- 📞 Legacy Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (including custom stickers), with a built-in media viewer featuring gallery navigation and in-app video playback
 - 😀 Richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃) -- see [Emoji Search and Picker](docs/user-guide/emojis.md)
 - 💬 Replies, [Discord](https://discord.com/)-style threads, and message forwarding
@@ -37,7 +37,7 @@ Highlights:
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md)
 - 🧭 First-class [Matrix Room Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme), with language filtering) and room size filtering
 - 📋 Good support for hundreds of rooms and spaces
-- 📑 **Browser-style [room tabs](docs/user-guide/tabs.md)** for juggling multiple conversations at once, with pinning and closed-tab recovery — a power-user feature still rare among Matrix clients
+- 📑 **Browser-style [room tabs](docs/user-guide/tabs.md)** for juggling multiple conversations at once, with pinning and more (a power-user feature still rare among Matrix clients)
 - ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/keyboard-shortcuts.md), with human and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts
 - 🔀 [Selection mode](docs/user-guide/keyboard-shortcuts.md#selection-mode) for bulk actions (forwarding, moderation)
 - ⚡ Quick & lightweight native application ([Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
@@ -52,36 +52,11 @@ Curious where Komai came from and what changed along the way? See 📄 [Differen
 <!-- TODO: add screenshots -->
 
 
-## 🚀 Getting Started
+## 📥 Installation
 
-### Building from source
+Komai ships as **AppImage**, **Flatpak**, and **Snap** packages on the [GitHub Releases](https://github.com/etkecc/komai/releases) page, plus a [`komai`](https://aur.archlinux.org/packages/komai) package on the Arch Linux AUR.
 
-Komai can be built from the source code in the repository. To built it, you can use [`just`](https://github.com/casey/just) — a more modern command-runner alternative to `make`. The `just` utility executes shortcut commands (called as "recipes"). The targets of the recipes are defined in [`justfile`](./justfile).
-
-Here are the commands to build Komai with the utility:
-
-```sh
-git clone https://github.com/etkecc/komai && cd komai
-just build
-just run
-```
-
-For dependencies, distro-specific package lists, CMake flags, and more, see 📄 [Native build](docs/maintainers/packaging/native.md).
-For contributor workflow and local checks, see 📄 [Development](docs/maintainers/development.md).
-
-
-## 📦 Packaging
-
-See 📄 [Native build](docs/maintainers/packaging/native.md) for building from source (`just build && just run`), including dependencies, distro packages, and CMake flags.
-
-Pre-built packaging formats (alphabetical):
-
-- [AppImage](docs/maintainers/packaging/appimage.md) -- `just appimage-build-docker` (portable single-file bundle)
-- [Arch Linux](docs/maintainers/packaging/archlinux.md) -- PKGBUILD for `makepkg` / AUR
-- [Flatpak](docs/maintainers/packaging/flatpak.md) -- `just flatpak-build && just flatpak-install`
-- [Snap](docs/maintainers/packaging/snap.md) -- `just snap-build-docker && just snap-install`
-
-See 📄 [Packaging](docs/maintainers/packaging/README.md) for an overview of all methods.
+See 📄 [Installation](docs/user-guide/installation.md) for download links and install commands. To build Komai yourself, see 📄 [Native build](docs/maintainers/packaging/native.md).
 
 
 ## 📚 Documentation

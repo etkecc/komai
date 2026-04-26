@@ -1,5 +1,6 @@
 # 👤 User Guide
 
+- 📥 [Installation](installation.md) -- pre-built AppImage/Flatpak/Snap, AUR, and build-from-source pointers
 - ⚙️ [Settings](settings/README.md) -- profiles, settings, secret providers, backup
 - 👥 [Application Profiles](application-profiles.md) -- profile switcher, create/launch/delete workflows
 - 🤖 [Automations](automations/README.md) -- MCP, CLI, and D-Bus surfaces for scripts, desktop tools, and AI hosts

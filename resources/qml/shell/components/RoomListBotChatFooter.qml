@@ -17,7 +17,7 @@ RoomListFooterBar {
         var colonIdx = uid.indexOf(":");
         var serverName = colonIdx >= 0 ? uid.substring(colonIdx + 1) : "";
         timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog, {
-            "initialSearchText": "bot:" + serverName
+            "initialSearchText": "bot " + serverName
         });
     }
 }

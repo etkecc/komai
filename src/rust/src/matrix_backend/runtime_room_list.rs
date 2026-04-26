@@ -673,6 +673,43 @@ fn direct_chat_avatar_url(
         .and_then(|candidate| (!candidate.avatar_url.is_empty()).then(|| candidate.avatar_url.clone()))
 }
 
+// The member-lookup branch exists because the homeserver omits the heroes
+// summary for rooms that carry an explicit name, leaving DM rooms without a
+// room avatar with no server-provided way to find the partner's avatar.
+async fn resolve_room_avatar_url(
+    room: &RoomListItem,
+    classification: &MatrixRoomClassification,
+    hero_candidates: &[RoomHeroCandidate],
+) -> String {
+    if let Some(url) = room.avatar_url() {
+        return normalize_mxc_uri(url.to_string());
+    }
+
+    if !classification.is_direct || classification.direct_chat_other_user_id.is_empty() {
+        return String::new();
+    }
+
+    if let Some(url) =
+        direct_chat_avatar_url(hero_candidates, &classification.direct_chat_other_user_id)
+    {
+        return url;
+    }
+
+    let Ok(partner_user_id) =
+        matrix_sdk::ruma::UserId::parse(&classification.direct_chat_other_user_id)
+    else {
+        return String::new();
+    };
+
+    match room.get_member_no_sync(&partner_user_id).await {
+        Ok(Some(member)) => member
+            .avatar_url()
+            .map(|uri| normalize_mxc_uri(uri.to_string()))
+            .unwrap_or_default(),
+        Ok(None) | Err(_) => String::new(),
+    }
+}
+
 async fn fetch_parent_space_room_ids(room: &RoomListItem) -> Vec<String> {
     let Ok(parent_spaces) = room.parent_spaces().await else {
         tracing::debug!(
@@ -730,6 +767,8 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let hero_candidates = room_hero_candidates(room);
     let classification = classify_room(room, &hero_candidates);
+    let avatar_url =
+        resolve_room_avatar_url(room, &classification, &hero_candidates).await;
     // `matrix_sdk_base::Room::latest_event` is a synchronous inherent method
     // that returns a `BaseLatestEventValue` populated directly from the room's
     // cached `RoomInfo`. We call it via UFCS to avoid dispatching to
@@ -824,21 +863,7 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
             .map(|name| name.to_string())
             .or_else(|| room.name())
             .unwrap_or_else(|| room.room_id().to_string()),
-        avatar_url: room
-            .avatar_url()
-            .map(|url| normalize_mxc_uri(url.to_string()))
-            .or_else(|| {
-                classification
-                    .is_direct
-                    .then(|| {
-                        direct_chat_avatar_url(
-                            &hero_candidates,
-                            &classification.direct_chat_other_user_id,
-                        )
-                    })
-                    .flatten()
-            })
-            .unwrap_or_default(),
+        avatar_url,
         topic: room.topic().unwrap_or_default(),
         room_alias: room
             .canonical_alias()

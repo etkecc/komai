@@ -361,6 +361,23 @@ QtObject {
         rootItem.deferredInitialBufferTopUpPending = true;
         rootItem.bufferPaginationInFlight = false;
         rootItem.lastInitialBufferTriggerCount = -1;
+
+        // The whole timeline already fits inside the viewport, so the room
+        // switch is effectively done — content is on screen and the user
+        // can read it.  Clear roomSwitchInProgress and schedule a read
+        // marker update; otherwise small rooms get stuck with the unread
+        // badge because the deferred top-up only clears that flag once
+        // contentHeight reaches desiredBufferedHeight, which is
+        // unreachable when the room has fewer messages than the viewport
+        // can hold.
+        if (rootItem.roomSwitchInProgress) {
+            if (!rootItem.perfLoggedUsefulHeightReady) {
+                rootItem.perfLoggedUsefulHeightReady = true;
+                rootItem.markRoomSwitchPerfPhase("qml.matrix_room.useful_height_ready");
+            }
+            rootItem.roomSwitchInProgress = false;
+            rootItem.scheduleReadMarkerUpdate(true);
+        }
     }
 
     function handleModelResetAboutToReplace() {

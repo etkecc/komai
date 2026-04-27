@@ -258,7 +258,14 @@ Item {
         anchors.left: undefined
         anchors.right: undefined
         x: root.wrapper.messageIsRightAligned ? (parent.width - width) : 0
-        y: root.wrapper.alignBubbleToTop ? 0 : (parent.height - height)
+        // For state events, the bubbleBody can be taller than the bubble
+        // (the side-anchored metadata's height feeds into bubbleBody's
+        // implicitHeight). Center the bubble in that extra space so the
+        // state-event text+icon sit at the visual middle of the hover
+        // highlight rectangle (#56).
+        y: root.wrapper.alignBubbleToTop
+            ? (root.wrapper.isStateEvent ? Math.max(0, Math.round((parent.height - height) / 2)) : 0)
+            : (parent.height - height)
 
         property color roomColor: root.wrapper.resolveUserColor(root.wrapper.userId, root.wrapper.themeBaseColor)
         property var roomBubblePalette: root.wrapper.resolveUserBubblePalette(root.wrapper.userId, roomColor)
@@ -308,6 +315,12 @@ Item {
 
                 anchors.left: parent.left
                 anchors.right: parent.right
+                // State-event text renders at 0.95x and the bubble height is
+                // floored to a full text line (and may be raised further by
+                // the side-anchored metadata's height). Without centering,
+                // the smaller text sits at the top of the hover-highlight
+                // rectangle with empty space below (#56).
+                anchors.verticalCenter: root.wrapper.isStateEvent ? parent.verticalCenter : undefined
 
                 // Compute reply palette here (not on the Reply item) to avoid
                 // a binding loop: Reply sets its own palette.* from bubblePalette,

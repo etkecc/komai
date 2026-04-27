@@ -27,9 +27,16 @@ The SDK timeline is never rebuilt during the session.
 ### /relations refresh (live updates)
 
 On each room timeline sync update, the C++ side dispatches a `Refresh` command
-to the thread timeline loop.  After a 1.5-second debounce (to coalesce rapid
+to the thread timeline loop.  After a 300 ms debounce (to coalesce rapid
 updates from pagination and local echo), the loop fetches events from the server
 via the `/relations` endpoint, bypassing the SDK's stale thread event cache.
+
+The debounce is short on purpose: thread reply local echoes never transition
+to remote echoes in matrix-sdk 0.16 (sync events don't reach
+`TimelineFocus::Thread`), so the QML treats them as local echoes — with no
+React/Edit/Reply buttons — until the `/relations` merge replaces them with
+their server-confirmed twin. Every additional millisecond of debounce is a
+millisecond the user can't react to a just-sent thread reply.
 
 ### Merged snapshot
 
@@ -41,6 +48,14 @@ Each snapshot published to the C++ model merges both sources:
    converter and added to fill gaps
 3. SDK items with stale delivery state (pending/sent) are replaced by the
    /relations version when the server confirms delivery
+4. Reaction annotations from /relations (`m.reaction` events with
+   `m.annotation` rel_type) are folded onto matching parents'
+   `reactions` arrays — they don't become standalone rows. The merge
+   takes the union of SDK senders and /relations senders, so /relations'
+   pagination limit (50 with recurse) doesn't drop reactions that the
+   SDK already aggregated. Edits (`m.replace`) are dropped from the
+   /relations row stream too — they fold into the original via
+   `unsigned.relations.replace`.
 
 SDK items take priority when both sources have the same event, preserving the
 richer data (reactions, reply previews, delivery state).
@@ -108,24 +123,22 @@ server.
 
 ## Remaining limitations
 
-- **Reactions on new events**: Events that arrive only via /relations (not in
-  the SDK timeline's initial load) lack reaction aggregations.  Reactions added
-  after the initial load are not visible until the thread is re-entered.
-
 - **Reply previews on new events**: Events from /relations have reply-to event
   IDs but sender/body are not resolved (the SDK's `fetch_details_for_event`
   only works on SDK timeline items).
 
-- **~1.5s live update delay**: The debounce window means sync-delivered events
-  appear ~1.5 seconds after arrival, not instantly.
+- **~300 ms live update delay**: The debounce window means sync-delivered
+  events (and reactions on them) appear ~300 ms after arrival, not instantly.
 
-- **50-event /relations limit**: The refresh fetch uses `limit: 50`.  Threads
-  longer than 50 messages may not show all recent events via /relations.  The
-  SDK pagination command is available for loading older events.
+- **50-event /relations limit**: The refresh fetch uses `limit: 50` with
+  recursion, covering replies, edits, and reactions in the same response.
+  In threads where this cap is hit, older reactions still surface from
+  whatever the SDK had — the merge takes the union of senders, not just
+  the /relations slice.
 
 - **Local echo delivery indicator timing**: Own messages show a delivery
   indicator (pending -> sent) until the next /relations refresh confirms
-  delivery (~1.5s after sync).
+  delivery (~300 ms after sync).
 
 ## Key files
 

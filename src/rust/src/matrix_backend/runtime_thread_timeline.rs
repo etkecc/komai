@@ -36,11 +36,22 @@ use super::*;
 use super::event_summary::summarize_sync_timeline_event;
 use super::timeline_snapshot::{build_room_timeline_snapshot, collect_unavailable_reply_event_ids};
 
-use std::collections::HashSet;
+use std::collections::{BTreeMap, HashSet};
 use std::time::Duration;
 
 use matrix_sdk::deserialized_responses::TimelineEvent;
 use matrix_sdk::ruma::EventId;
+
+/// `/relations` result split into things that become timeline rows
+/// (replies, attachments, …) and reaction aggregations to fold onto
+/// existing items. Reaction events themselves are filtered out of the
+/// items list so they don't render as stray "Reactions updated" rows.
+#[derive(Default)]
+struct ThreadRelationsData {
+    items: Vec<MatrixTimelineItem>,
+    /// parent_event_id -> key -> sender_id -> reaction_event_id
+    annotations: HashMap<String, HashMap<String, HashMap<String, String>>>,
+}
 
 /// Per-handle state for an active thread view.
 pub struct ThreadTimelineState {
@@ -295,37 +306,38 @@ async fn run_thread_timeline_loop(
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
 
-    // /relations items for the merge.  Seeded by an initial fetch below so
+    // /relations data for the merge.  Seeded by an initial fetch below so
     // we don't sit on a stale SDK snapshot while waiting for sync to nudge
     // us — `TimelineFocus::Thread` doesn't receive sync events in
     // matrix-sdk 0.16, so without this the view can show only the cached
     // root and miss events posted in another session.
-    let mut relations_items: Vec<MatrixTimelineItem> = Vec::new();
+    let mut relations_data = ThreadRelationsData::default();
 
     // Publish the initial snapshot from the SDK timeline.
     publish_merged_snapshot(
         handle_id, &room_id, &thread_root_id,
         &current_values, own_user_id, &empty_receipts,
-        &relations_items,
+        &relations_data,
         &thread_timeline_snapshot,
         &room_timeline_media_lookup,
     );
 
-    // Initial /relations fetch — bypasses the 1500ms Refresh debounce so the
+    // Initial /relations fetch — bypasses the Refresh debounce so the
     // first paint reflects server state, not just whatever the SDK Thread
     // event cache happened to have.
     match fetch_relations_events(&room, &parsed_thread_root_id).await {
-        Ok(items) => {
-            relations_items = items;
+        Ok(data) => {
             tracing::info!(
                 handle_id, room_id, thread_root_id,
-                relations_count = relations_items.len(),
+                relations_count = data.items.len(),
+                annotation_parents = data.annotations.len(),
                 "Initial thread /relations fetch"
             );
+            relations_data = data;
             publish_merged_snapshot(
                 handle_id, &room_id, &thread_root_id,
                 &current_values, own_user_id, &empty_receipts,
-                &relations_items,
+                &relations_data,
                 &thread_timeline_snapshot,
                 &room_timeline_media_lookup,
             );
@@ -377,7 +389,7 @@ async fn run_thread_timeline_loop(
                         publish_merged_snapshot(
                             handle_id, &room_id, &thread_root_id,
                             &current_values, own_user_id, &empty_receipts,
-                            &relations_items,
+                            &relations_data,
                             &thread_timeline_snapshot,
                             &room_timeline_media_lookup,
                         );
@@ -418,12 +430,16 @@ async fn run_thread_timeline_loop(
                         }
                     }
                     Some(ThreadTimelineCommand::Refresh) => {
-                        // Debounce: schedule the actual /relations fetch
-                        // for 1.5 seconds from now.  If more Refresh
-                        // commands arrive before that, the deadline stays.
+                        // Debounce: coalesce a burst of Refresh commands
+                        // (room-timeline syncs, pagination, …) into a
+                        // single /relations fetch. Kept short because
+                        // local echoes for thread replies stay stuck
+                        // until /relations reconciles them — this is the
+                        // upper bound on "React button missing after
+                        // sending a thread reply".
                         if refresh_deadline.is_none() {
                             refresh_deadline = Some(
-                                tokio::time::Instant::now() + Duration::from_millis(1500)
+                                tokio::time::Instant::now() + Duration::from_millis(300)
                             );
                         }
                     }
@@ -447,15 +463,16 @@ async fn run_thread_timeline_loop(
                     &room,
                     &parsed_thread_root_id,
                 ).await {
-                    Ok(items) => {
-                        let prev_count = relations_items.len();
-                        relations_items = items;
+                    Ok(data) => {
+                        let prev_count = relations_data.items.len();
                         tracing::info!(
                             handle_id, room_id, thread_root_id,
-                            relations_count = relations_items.len(),
+                            relations_count = data.items.len(),
+                            annotation_parents = data.annotations.len(),
                             prev_count,
                             "Refreshed thread /relations"
                         );
+                        relations_data = data;
                     }
                     Err(error) => {
                         tracing::warn!(
@@ -468,7 +485,7 @@ async fn run_thread_timeline_loop(
                 publish_merged_snapshot(
                     handle_id, &room_id, &thread_root_id,
                     &current_values, own_user_id, &empty_receipts,
-                    &relations_items,
+                    &relations_data,
                     &thread_timeline_snapshot,
                     &room_timeline_media_lookup,
                 );
@@ -483,7 +500,7 @@ async fn run_thread_timeline_loop(
 // Merged snapshot building
 // ---------------------------------------------------------------------------
 
-/// Build a merged snapshot from SDK timeline items and /relations items,
+/// Build a merged snapshot from SDK timeline items and /relations data,
 /// then publish it to the shared snapshot and notify C++.
 fn publish_merged_snapshot(
     handle_id: u64,
@@ -492,10 +509,11 @@ fn publish_merged_snapshot(
     sdk_values: &Vector<Arc<TimelineItem>>,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
     read_own_event_ids: &HashSet<String>,
-    relations_items: &[MatrixTimelineItem],
+    relations_data: &ThreadRelationsData,
     thread_timeline_snapshot: &Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: &Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
 ) {
+    let relations_items = &relations_data.items;
     let (mut sdk_items, media_lookup) =
         build_room_timeline_snapshot(sdk_values, own_user_id, read_own_event_ids, None);
 
@@ -607,6 +625,27 @@ fn publish_merged_snapshot(
         }
     }
 
+    // Fold reaction annotations from /relations onto matching items. The
+    // SDK Thread timeline doesn't see reaction sync events in matrix-sdk
+    // 0.16 and the raw /relations path doesn't aggregate, so without this
+    // a just-sent reaction never shows up as a chip in thread view.
+    //
+    // This is a *merge*, not an overwrite: /relations is paginated (limit
+    // 50 with recurse), so for very long threads it can omit older
+    // reactions the SDK already aggregated. Keeping SDK senders preserves
+    // those.
+    if !relations_data.annotations.is_empty() {
+        for item in &mut sdk_items {
+            if item.event_id.is_empty() {
+                continue;
+            }
+            let Some(parent_annotations) = relations_data.annotations.get(&item.event_id) else {
+                continue;
+            };
+            apply_relations_annotations(item, parent_annotations, own_user_id);
+        }
+    }
+
     let snapshot_count = sdk_items.len();
     {
         let mut guard = thread_timeline_snapshot
@@ -628,18 +667,116 @@ fn publish_merged_snapshot(
     }
 }
 
+/// Merge `/relations`-derived annotations into an item's `reactions`
+/// array. Existing SDK reactions are preserved (their per-sender
+/// information may be richer than what we can derive from raw events),
+/// and `/relations` adds any senders the SDK hasn't seen — ensuring that
+/// a just-sent reaction surfaces as a chip in thread view.
+fn apply_relations_annotations(
+    item: &mut MatrixTimelineItem,
+    annotations: &HashMap<String, HashMap<String, String>>,
+    own_user_id: Option<&matrix_sdk::ruma::UserId>,
+) {
+    const MAX_DISPLAYED_USERS: usize = 10;
+
+    // Seed per-key sender maps from the existing SDK summary. The
+    // SDK-built `users` field is a newline-joined list (truncated with a
+    // "… and N more" sentinel beyond MAX_DISPLAYED_USERS) — we recover
+    // what we can; the truncated tail is fine to lose since /relations
+    // typically supplies the full sender list anyway.
+    let mut by_key: BTreeMap<String, BTreeMap<String, String>> = BTreeMap::new();
+    let own_str = own_user_id.map(|u| u.as_str().to_owned());
+
+    for reaction in item.reactions.drain(..) {
+        let mut senders = BTreeMap::<String, String>::new();
+        for line in reaction.users.split('\n') {
+            let trimmed = line.trim();
+            if trimmed.is_empty() || trimmed.starts_with('…') {
+                continue;
+            }
+            senders.insert(trimmed.to_owned(), String::new());
+        }
+        // Restore own user's reaction event id so a future redact can
+        // target it. `__local__` means it's still a local echo with no
+        // server-confirmed event id; treat it as "we reacted, no event id".
+        if let Some(own) = own_str.as_deref() {
+            if !reaction.self_reacted_event.is_empty() {
+                let event_id = if reaction.self_reacted_event == "__local__" {
+                    String::new()
+                } else {
+                    reaction.self_reacted_event.clone()
+                };
+                senders.insert(own.to_owned(), event_id);
+            }
+        }
+        by_key.entry(reaction.key).or_default().extend(senders);
+    }
+
+    for (key, senders) in annotations {
+        let entry = by_key.entry(key.clone()).or_default();
+        for (sender, reaction_event_id) in senders {
+            // Prefer the /relations-supplied reaction event id over an
+            // SDK placeholder (empty string) so the redact path has a
+            // real target.
+            match entry.get(sender) {
+                Some(existing) if !existing.is_empty() => continue,
+                _ => {
+                    entry.insert(sender.clone(), reaction_event_id.clone());
+                }
+            }
+        }
+    }
+
+    item.reactions = by_key
+        .into_iter()
+        .filter(|(_, senders)| !senders.is_empty())
+        .map(|(key, senders)| {
+            let total = senders.len();
+            let mut users_list: Vec<String> = senders
+                .keys()
+                .take(MAX_DISPLAYED_USERS)
+                .cloned()
+                .collect();
+            if total > MAX_DISPLAYED_USERS {
+                users_list.push(format!("… and {} more", total - MAX_DISPLAYED_USERS));
+            }
+            let users = users_list.join("\n");
+            let self_reacted_event = own_str
+                .as_deref()
+                .and_then(|own| senders.get(own).cloned())
+                .unwrap_or_default();
+            MatrixReactionSummary {
+                key,
+                users,
+                self_reacted_event,
+                count: total as u64,
+            }
+        })
+        .collect();
+
+    item.reactions_summary = item
+        .reactions
+        .iter()
+        .map(|r| format!("{} {}", r.key, r.count))
+        .collect::<Vec<_>>()
+        .join("  ");
+}
+
 // ---------------------------------------------------------------------------
 // /relations fetch + raw event conversion
 // ---------------------------------------------------------------------------
 
-/// Fetch thread events from the server via `/relations` and convert them
-/// to `MatrixTimelineItem` using a basic converter.  These items lack
-/// SDK-processed aggregations (reactions, reply previews) but ensure
-/// events delivered by sync are visible.
+/// Fetch thread events from the server via `/relations` and split them
+/// into timeline rows + reaction aggregations.  Replies/attachments become
+/// basic `MatrixTimelineItem` rows (no SDK-processed reply previews; that's
+/// added in `publish_merged_snapshot` if the SDK has the same item).
+/// Edits and reactions don't get their own rows — edits fold into the
+/// original via `unsigned.relations.replace`, reactions get aggregated
+/// onto their parent's `reactions` array during merge.
 async fn fetch_relations_events(
     room: &Room,
     thread_root_id: &OwnedEventId,
-) -> Result<Vec<MatrixTimelineItem>, String> {
+) -> Result<ThreadRelationsData, String> {
     let opts = matrix_sdk::room::RelationsOptions {
         from: None,
         dir: matrix_sdk::ruma::api::Direction::Backward,
@@ -669,22 +806,101 @@ async fn fetch_relations_events(
     // chronological order.
     events.reverse();
 
-    let mut items = Vec::with_capacity(events.len());
+    let mut data = ThreadRelationsData::default();
     for event in &events {
-        // `IncludeRelations::AllRelations` returns edit events too. The SDK
-        // timeline applies them onto the original (and so does our raw path
-        // via `unsigned.relations.replace`), so the edit event itself must
-        // not become a separate timeline item — otherwise the thread shows
-        // a stray "* …" message containing the Matrix edit fallback body.
-        if is_replacement_event(event.raw().json().get()) {
+        let raw_json = event.raw().json().get();
+
+        // Edits fold into the original via `unsigned.relations.replace`,
+        // so an `m.replace` event must not become its own timeline row —
+        // it would render as a stray "* …" with the Matrix edit fallback.
+        if event_relation_rel_type(raw_json) == Some("m.replace") {
             continue;
         }
+
+        // Reactions become aggregations on the parent's `reactions` array
+        // rather than rows of their own. `recurse: true` brings reactions
+        // on thread replies into this fetch — the SDK Thread timeline
+        // doesn't see them via sync in matrix-sdk 0.16, so this path is
+        // how a just-sent reaction surfaces in thread view.
+        if let Some(annotation) = parse_annotation_event(raw_json) {
+            data.annotations
+                .entry(annotation.parent_event_id)
+                .or_default()
+                .entry(annotation.key)
+                .or_default()
+                .insert(annotation.sender_id, annotation.reaction_event_id);
+            continue;
+        }
+
         if let Some(item) = raw_event_to_timeline_item(event, room, &own_user_id).await {
-            items.push(item);
+            data.items.push(item);
         }
     }
 
-    Ok(items)
+    Ok(data)
+}
+
+struct ParsedAnnotation {
+    parent_event_id: String,
+    key: String,
+    sender_id: String,
+    reaction_event_id: String,
+}
+
+/// Parse an `m.reaction` event JSON into its annotation parts. Returns
+/// `None` for any event that isn't a usable reaction (wrong type, missing
+/// fields, or redacted — redactions strip `content.m.relates_to`).
+fn parse_annotation_event(json_str: &str) -> Option<ParsedAnnotation> {
+    let parsed: serde_json::Value = serde_json::from_str(json_str).ok()?;
+
+    if parsed.get("type").and_then(|v| v.as_str()) != Some("m.reaction") {
+        return None;
+    }
+
+    let relates_to = parsed.get("content").and_then(|c| c.get("m.relates_to"))?;
+    if relates_to.get("rel_type").and_then(|v| v.as_str()) != Some("m.annotation") {
+        return None;
+    }
+
+    let parent_event_id = relates_to.get("event_id").and_then(|v| v.as_str())?.to_owned();
+    let key = relates_to.get("key").and_then(|v| v.as_str())?.to_owned();
+    let sender_id = parsed.get("sender").and_then(|v| v.as_str())?.to_owned();
+    let reaction_event_id = parsed
+        .get("event_id")
+        .and_then(|v| v.as_str())
+        .unwrap_or("")
+        .to_owned();
+
+    if parent_event_id.is_empty() || key.is_empty() || sender_id.is_empty() {
+        return None;
+    }
+
+    Some(ParsedAnnotation {
+        parent_event_id,
+        key,
+        sender_id,
+        reaction_event_id,
+    })
+}
+
+/// Read the `content.m.relates_to.rel_type` of a raw event, if any.
+fn event_relation_rel_type(json_str: &str) -> Option<&'static str> {
+    // Cheap path: parse just enough to look up the rel_type. We map known
+    // values to `'static` strings so callers don't have to deal with
+    // owned-vs-borrowed lifetimes.
+    let parsed: serde_json::Value = serde_json::from_str(json_str).ok()?;
+    let rel_type = parsed
+        .get("content")?
+        .get("m.relates_to")?
+        .get("rel_type")?
+        .as_str()?;
+    match rel_type {
+        "m.replace" => Some("m.replace"),
+        "m.annotation" => Some("m.annotation"),
+        "m.thread" => Some("m.thread"),
+        "m.reference" => Some("m.reference"),
+        _ => None,
+    }
 }
 
 /// Convert a raw `TimelineEvent` into a basic `MatrixTimelineItem`.
@@ -816,24 +1032,6 @@ async fn resolve_member_profile(
         ),
         _ => (user_id.to_string(), String::new()),
     }
-}
-
-/// True when the raw event is an edit (`content.m.relates_to.rel_type ==
-/// "m.replace"`). The thread `/relations` fetch uses `AllRelations`, which
-/// returns edits alongside the messages they replace; we drop them so the
-/// edit content is only rendered onto the original message, never as a
-/// stray timeline item.
-fn is_replacement_event(json_str: &str) -> bool {
-    let parsed: serde_json::Value = match serde_json::from_str(json_str) {
-        Ok(v) => v,
-        Err(_) => return false,
-    };
-    parsed
-        .get("content")
-        .and_then(|c| c.get("m.relates_to"))
-        .and_then(|r| r.get("rel_type"))
-        .and_then(|v| v.as_str())
-        == Some("m.replace")
 }
 
 /// Extract thread root ID and reply-to event ID from raw event JSON.

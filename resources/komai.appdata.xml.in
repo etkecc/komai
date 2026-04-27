@@ -85,19 +85,24 @@
   </branding>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/chat.png</image>
+      <caption>Browsing a Matrix room with the timeline, room list, and tabs</caption>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/docs/user-guide/screenshots/main-view.webp</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/start.png</image>
+      <caption>The welcome screen at first launch</caption>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/docs/user-guide/screenshots/welcome.webp</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/settings.png</image>
+      <caption>Signing in with a Matrix account</caption>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/docs/user-guide/screenshots/sign-in.webp</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/login.png</image>
+      <caption>Komai's settings page</caption>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/docs/user-guide/screenshots/settings.webp</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/mobile.png</image>
+      <caption>One of 10+ built-in themes</caption>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/docs/user-guide/screenshots/themes-dark-matrix.webp</image>
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/etkecc/komai</url>

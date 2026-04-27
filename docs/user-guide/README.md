@@ -22,6 +22,7 @@
 - 🧭 [Room Directory](features/room-directory.md) -- browse public rooms on your homeserver, custom servers, or globally via Matrix Rooms Search
 - 📑 [Room Tabs](features/tabs.md) -- browser-style tabs for juggling multiple conversations, with pinning and closed-tab recovery
 - 🎨 [Themes](features/themes.md) -- built-in and custom themes
+- 💬 [Threads](features/threads.md) -- Discord-style threads, the Threads dialog, and collapsing replies on the main timeline
 
 ## 🛠️ [Operations](operations/README.md)
 

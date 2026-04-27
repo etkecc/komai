@@ -7743,7 +7743,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+229"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+231"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 ha fet una trucada de veu.</translation>
     </message>

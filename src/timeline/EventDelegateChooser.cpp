@@ -688,6 +688,8 @@ EventDelegateChooser::updatePolish()
     auto layoutItem = [this](QQuickItem *item, int inset) {
         if (item) {
             QObject::disconnect(item, &QQuickItem::implicitWidthChanged, this, &QQuickItem::polish);
+            QObject::disconnect(
+              item, &QQuickItem::implicitHeightChanged, this, &QQuickItem::polish);
 
             auto attached = qobject_cast<EventDelegateChooserAttachedType *>(
               qmlAttachedPropertiesObject<EventDelegateChooser>(item));
@@ -724,6 +726,11 @@ EventDelegateChooser::updatePolish()
             item->ensurePolished();
 
             QObject::connect(item, &QQuickItem::implicitWidthChanged, this, &QQuickItem::polish);
+            // Also re-layout when implicit height changes — covers the case where an
+            // external html update (e.g. an edit) re-wraps text inside the previous
+            // (shrunk-to-content) width and the implicitWidth signal alone doesn't
+            // trigger a polish in time (#61).
+            QObject::connect(item, &QQuickItem::implicitHeightChanged, this, &QQuickItem::polish);
         }
     };
 

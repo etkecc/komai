@@ -153,14 +153,16 @@ EventDelegateChooser {
             formatted: {
                 var prefix = TimelineManager.escapeEmoji(userName) + " ";
                 var body = formattedBody;
-                // Inject the username prefix inside the first block-level tag
-                // to keep everything inline. Without this, "Name <p>text</p>"
-                // renders as two separate blocks with a line break.
-                var match = body.match(/^(<p[^>]*>)/i);
-                var inner = match
-                    ? body.replace(match[1], match[1] + prefix)
-                    : prefix + body;
-                return "<span style=\"font-style:italic\">" + inner + "</span>";
+                // Render the whole emote as a single inline italic run.
+                // formattedBody comes wrapped in <p> from the HTML pipeline,
+                // and a <p> nested inside a <span> is invalid HTML.
+                // Convert paragraph breaks to line breaks so the rare
+                // multi-paragraph emote still breaks visually.
+                var inline = body
+                    .replace(/<\/p>\s*<p[^>]*>/gi, "<br><br>")
+                    .replace(/^\s*<p[^>]*>/i, "")
+                    .replace(/<\/p>\s*$/i, "");
+                return "<span style=\"font-style:italic\">" + prefix + inline + "</span>";
             }
             isOnlyEmoji: 0
             keepFullText: true

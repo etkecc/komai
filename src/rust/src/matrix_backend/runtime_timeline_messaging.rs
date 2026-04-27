@@ -212,35 +212,34 @@ pub async fn send_room_reply_message(
         "Sending matrix-sdk room reply"
     );
 
-    if is_threaded {
-        // When a thread_id is set, build the reply manually with EnforceThread::Threaded
-        // so the message is placed into the correct thread.
+    // We construct the reply event and hand it directly to the send queue
+    // instead of using `Timeline::send_reply`, which would rebuild a fresh
+    // `Timeline` per send (event-cache subscribe, encryption-state lookup,
+    // etc.) — those `.await`s can stall on a degraded network (e.g. just
+    // after a suspend/resume) and leave the reply with no local echo.
+    let enforce_thread = if is_threaded {
         let is_reply_within_thread = replied_to_event_id != thread_id;
         let reply_within_thread = if is_reply_within_thread {
             matrix_sdk::ruma::events::room::message::ReplyWithinThread::Yes
         } else {
             matrix_sdk::ruma::events::room::message::ReplyWithinThread::No
         };
-        let reply = Reply {
-            event_id: parsed_event_id,
-            enforce_thread: EnforceThread::Threaded(reply_within_thread),
-            add_mentions: AddMentions::Yes,
-        };
-        let reply_content = room.make_reply_event(content, reply)
-            .await
-            .map_err(|e| format!("failed to build matrix-sdk threaded reply event: {e}"))?;
-        room.send_queue()
-            .send(reply_content.into())
-            .await
-            .map_err(|e| format!("failed to queue matrix-sdk threaded reply: {e}"))?;
+        EnforceThread::Threaded(reply_within_thread)
     } else {
-        room.timeline()
-            .await
-            .map_err(|e| format!("failed to build matrix-sdk room timeline for reply: {e}"))?
-            .send_reply(content, parsed_event_id)
-            .await
-            .map_err(|e| format!("failed to send matrix-sdk room reply: {e}"))?;
-    }
+        EnforceThread::MaybeThreaded
+    };
+    let reply = Reply {
+        event_id: parsed_event_id,
+        enforce_thread,
+        add_mentions: AddMentions::Yes,
+    };
+    let reply_content = room.make_reply_event(content, reply)
+        .await
+        .map_err(|e| format!("failed to build matrix-sdk reply event: {e}"))?;
+    room.send_queue()
+        .send(reply_content.into())
+        .await
+        .map_err(|e| format!("failed to queue matrix-sdk reply: {e}"))?;
 
     tracing::debug!(
         handle_id,

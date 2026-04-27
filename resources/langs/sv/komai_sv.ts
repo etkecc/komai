@@ -916,7 +916,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+219"/>
+        <location filename="../../qml/components/Completer.qml" line="+223"/>
         <source>Pick an emoji</source>
         <translation>Välj en emoji</translation>
     </message>

@@ -20,7 +20,11 @@ Control {
     property string completerType
     property string commandValidationMessage: ""
     property string commandValidationState: "none"
-    property string backendModel: completerType
+    // Default empty: changeCompleter() falls back to completerType. Avoids a
+    // stale read when changeCompleter runs from onCompleterTypeChanged before
+    // the completerType-bound default has re-evaluated. ForwardCompleter etc.
+    // can still override this with a fixed backend name.
+    property string backendModel: ""
     property alias count: listView.count
     property alias currentIndex: listView.currentIndex
     property bool fullWidth: false

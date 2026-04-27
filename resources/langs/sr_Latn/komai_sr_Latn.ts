@@ -916,7 +916,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+219"/>
+        <location filename="../../qml/components/Completer.qml" line="+223"/>
         <source>Pick an emoji</source>
         <translation>Izaberi emoji</translation>
     </message>

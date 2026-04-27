@@ -916,7 +916,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+219"/>
+        <location filename="../../qml/components/Completer.qml" line="+223"/>
         <source>Pick an emoji</source>
         <translation>Tria un emoji</translation>
     </message>

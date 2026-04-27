@@ -916,7 +916,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+219"/>
+        <location filename="../../qml/components/Completer.qml" line="+223"/>
         <source>Pick an emoji</source>
         <translation>Chọn emoji</translation>
     </message>

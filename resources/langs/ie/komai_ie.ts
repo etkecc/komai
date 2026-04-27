@@ -916,7 +916,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+219"/>
+        <location filename="../../qml/components/Completer.qml" line="+223"/>
         <source>Pick an emoji</source>
         <translation>Selecter un emoji</translation>
     </message>

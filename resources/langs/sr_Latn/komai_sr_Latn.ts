@@ -2998,7 +2998,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>Sirovi JSON nije dostupan za ovaj događaj. Možda je obrisan.</translation>
     </message>
@@ -4582,6 +4582,22 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reakcije</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Prikaži sve reakcije</translation>
     </message>
 </context>
 <context>

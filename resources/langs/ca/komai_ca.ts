@@ -2994,7 +2994,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>El JSON en brut no està disponible per a aquest esdeveniment. Pot ser que s'hagi suprimit.</translation>
     </message>
@@ -4576,6 +4576,22 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>D'acord</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reaccions</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Mostra totes les reaccions</translation>
     </message>
 </context>
 <context>

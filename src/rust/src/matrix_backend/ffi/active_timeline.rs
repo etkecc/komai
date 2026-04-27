@@ -54,6 +54,7 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
             .map(|reaction| ffi::MatrixReactionSummary {
                 key: reaction.key,
                 users: reaction.users,
+                user_ids: reaction.user_ids,
                 self_reacted_event: reaction.self_reacted_event,
                 count: reaction.count,
             })

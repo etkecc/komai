@@ -340,6 +340,10 @@ QtObject {
         return support.dialogSupport.openReadReceiptsDialog(eventId);
     }
 
+    function openReactionDetailsDialog(eventId, reactions) {
+        return support.dialogSupport.openReactionDetailsDialog(eventId, reactions);
+    }
+
     function openMatrixForwardDialog(eventId) {
         return support.dialogSupport.openMatrixForwardDialog(eventId);
     }

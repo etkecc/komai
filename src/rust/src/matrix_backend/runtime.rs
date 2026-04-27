@@ -455,6 +455,7 @@ pub struct MatrixReadReceiptEntry {
 pub struct MatrixReactionSummary {
     pub key: String,
     pub users: String,
+    pub user_ids: Vec<String>,
     pub self_reacted_event: String,
     pub count: u64,
 }

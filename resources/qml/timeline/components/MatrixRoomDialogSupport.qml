@@ -165,6 +165,13 @@ Item {
     }
 
     Component {
+        id: reactionDetailsDialogComponent
+
+        TimelineDialogs.ReactionDetailsDialog {
+        }
+    }
+
+    Component {
         id: reportMessageDialogComponent
 
         ModerationDialogs.ReportMessage {
@@ -323,6 +330,20 @@ Item {
 
         support.pendingReadReceiptsEventId = trimmedEventId;
         return null;
+    }
+
+    function openReactionDetailsDialog(eventId, reactions) {
+        const trimmedEventId = String(eventId || "").trim();
+        if (trimmedEventId.length === 0)
+            return null;
+        if (!reactions || reactions.length === 0)
+            return null;
+
+        return support.showDialogFromComponent(reactionDetailsDialogComponent, {
+                "eventId": trimmedEventId,
+                "reactions": reactions,
+                "roomModel": support.dialogRoomModel
+            });
     }
 
     function openMatrixForwardDialog(eventId) {

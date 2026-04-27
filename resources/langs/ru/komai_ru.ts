@@ -2998,7 +2998,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>Исходный JSON недоступен для этого события. Возможно, оно было удалено.</translation>
     </message>
@@ -4582,6 +4582,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+10"/>
         <source>OK</source>
         <translation>ОК</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Реакции</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Показать все реакции</translation>
     </message>
 </context>
 <context>

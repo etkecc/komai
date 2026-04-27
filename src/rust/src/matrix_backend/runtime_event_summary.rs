@@ -778,23 +778,30 @@ fn summarize_reaction_items(
     reactions: &ReactionsByKeyBySender,
     own_user_id: Option<&UserId>,
 ) -> Vec<MatrixReactionSummary> {
-    const MAX_DISPLAYED_REACTIONS: usize = 10;
-    const MAX_DISPLAYED_USERS: usize = 10;
+    // The full list of distinct reactions is exposed unconditionally — QML caps
+    // the number of pills rendered inline and offers a "+N" pill that opens a
+    // details dialog for the remainder.
+    const MAX_TOOLTIP_USERS: usize = 10;
 
     reactions
         .iter()
-        .take(MAX_DISPLAYED_REACTIONS)
         .map(|(key, senders)| {
-            let total_senders = senders.len();
-            let mut users: Vec<String> = senders
-                .keys()
-                .take(MAX_DISPLAYED_USERS)
-                .map(|sender_id| sender_id.to_string())
-                .collect();
-            if total_senders > MAX_DISPLAYED_USERS {
-                users.push(format!("… and {} more", total_senders - MAX_DISPLAYED_USERS));
+            let user_ids: Vec<String> =
+                senders.keys().map(|sender_id| sender_id.to_string()).collect();
+            let total_senders = user_ids.len();
+            // The tooltip is a single-line-per-user textual list. It stays
+            // capped to keep hover tooltips reasonable; the details dialog has
+            // the complete list with avatars and is the right place to inspect
+            // who reacted.
+            let mut tooltip_users: Vec<String> =
+                user_ids.iter().take(MAX_TOOLTIP_USERS).cloned().collect();
+            if total_senders > MAX_TOOLTIP_USERS {
+                tooltip_users.push(format!(
+                    "… and {} more",
+                    total_senders - MAX_TOOLTIP_USERS
+                ));
             }
-            let users = users.join("\n");
+            let users = tooltip_users.join("\n");
             let self_reacted_event = own_user_id
                 .and_then(|user_id| senders.get(user_id))
                 .map(|info| match &info.status {
@@ -811,6 +818,7 @@ fn summarize_reaction_items(
             MatrixReactionSummary {
                 key: key.clone(),
                 users,
+                user_ids,
                 self_reacted_event,
                 count: senders.len() as u64,
             }

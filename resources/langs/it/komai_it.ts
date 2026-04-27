@@ -2994,7 +2994,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>Il JSON grezzo non è disponibile per questo evento. Potrebbe essere stato eliminato.</translation>
     </message>
@@ -4576,6 +4576,22 @@ Esegui '%1 &lt;group&gt; --help' per dettagli sui sottocomandi.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reazioni</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Mostra tutte le reazioni</translation>
     </message>
 </context>
 <context>

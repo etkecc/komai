@@ -2994,7 +2994,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>JSON brut ne es disponibil por ci event. It posse esser delet.</translation>
     </message>
@@ -4576,6 +4576,22 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reactiones</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Monstrar omni reactiones</translation>
     </message>
 </context>
 <context>

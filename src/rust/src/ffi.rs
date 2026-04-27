@@ -1060,6 +1060,7 @@ mod bridge {
     struct MatrixReactionSummary {
         key: String,
         users: String,
+        user_ids: Vec<String>,
         self_reacted_event: String,
         count: u64,
     }

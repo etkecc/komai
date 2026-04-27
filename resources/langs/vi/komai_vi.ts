@@ -2990,7 +2990,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>JSON thô không có sẵn cho sự kiện này. Nó có thể đã bị xóa.</translation>
     </message>
@@ -4570,6 +4570,22 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Phản ứng</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Hiển thị tất cả phản ứng</translation>
     </message>
 </context>
 <context>

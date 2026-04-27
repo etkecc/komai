@@ -2994,7 +2994,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>Le JSON brut n'est pas disponible pour cet événement. Il a peut-être été effacé.</translation>
     </message>
@@ -4576,6 +4576,22 @@ Exécutez '%1 &lt;group&gt; --help' pour les détails des sous-commandes.</trans
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Réactions</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Afficher toutes les réactions</translation>
     </message>
 </context>
 <context>

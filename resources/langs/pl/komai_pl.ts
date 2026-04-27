@@ -2998,7 +2998,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>Surowy JSON nie jest dostępny dla tego zdarzenia. Mogło zostać zredagowane.</translation>
     </message>
@@ -4583,6 +4583,22 @@ Uruchom '%1 &lt;group&gt; --help', aby uzyskać szczegóły podkomendy.</transla
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reakcje</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Pokaż wszystkie reakcje</translation>
     </message>
 </context>
 <context>

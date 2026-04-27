@@ -2990,7 +2990,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>이 이벤트의 원시 JSON을 사용할 수 없습니다. 삭제되었을 수 있습니다.</translation>
     </message>
@@ -4570,6 +4570,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+10"/>
         <source>OK</source>
         <translation>확인</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>반응</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>모든 반응 보기</translation>
     </message>
 </context>
 <context>

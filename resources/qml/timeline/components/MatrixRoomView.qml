@@ -304,6 +304,7 @@ ColumnLayout {
     function openRemoveMessageDialog(eventId, transactionId) { return interactionSupport.openRemoveMessageDialog(eventId, transactionId); }
     function openRawMessageDialog(eventId) { return interactionSupport.openRawMessageDialog(eventId); }
     function openReadReceiptsDialog(eventId) { return interactionSupport.openReadReceiptsDialog(eventId); }
+    function openReactionDetailsDialog(eventId, reactions) { return interactionSupport.openReactionDetailsDialog(eventId, reactions); }
     function openMatrixForwardDialog(eventId) { return interactionSupport.openMatrixForwardDialog(eventId); }
     function openForwardDialog(eventId) { return interactionSupport.openForwardDialog(eventId); }
     function openForwardDialogForEvents(eventIds, selectionCount) { return interactionSupport.openForwardDialogForEvents(eventIds, selectionCount); }

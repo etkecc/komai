@@ -2994,7 +2994,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>Krudaj JSON-datumoj ne disponeblas por ĉi tiu evento. Eble ĝi estis forigita.</translation>
     </message>
@@ -4576,6 +4576,22 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>Akcepti</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reagoj</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Montri ĉiujn reagojn</translation>
     </message>
 </context>
 <context>

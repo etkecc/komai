@@ -2990,7 +2990,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>JSON mentah tidak tersedia untuk peristiwa ini. Mungkin telah diredaksi.</translation>
     </message>
@@ -4570,6 +4570,22 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reaksi</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Tampilkan semua reaksi</translation>
     </message>
 </context>
 <context>

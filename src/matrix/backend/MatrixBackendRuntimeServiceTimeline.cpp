@@ -52,8 +52,13 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
     reactions.reserve(static_cast<qsizetype>(item.reactions.size()));
     for (const auto &reaction : item.reactions) {
         Reaction value;
-        value.key_              = QString::fromStdString(std::string(reaction.key));
-        value.users_            = QString::fromStdString(std::string(reaction.users));
+        value.key_   = QString::fromStdString(std::string(reaction.key));
+        value.users_ = QString::fromStdString(std::string(reaction.users));
+        QStringList userIds;
+        userIds.reserve(static_cast<qsizetype>(reaction.user_ids.size()));
+        for (const auto &userId : reaction.user_ids)
+            userIds.push_back(QString::fromStdString(std::string(userId)));
+        value.userIds_          = userIds;
         value.selfReactedEvent_ = QString::fromStdString(std::string(reaction.self_reacted_event));
         value.count_            = static_cast<int>(reaction.count);
         reactions.push_back(QVariant::fromValue(value));

@@ -16,10 +16,23 @@ Flow {
     property var roomModel: null
     readonly property var effectiveRoomModel: roomModel ? roomModel : (typeof room !== "undefined" ? room : null)
 
+    // Beyond this many distinct reactions we collapse the rest behind a "+N"
+    // pill that opens the reaction-details dialog. Picked empirically: enough
+    // to cover the vast majority of messages without letting reactions take
+    // over the bubble.
+    property int visibleCap: 10
+
+    // Emitted when the user clicks the "+N" pill. The host wires this to
+    // chatRoot.openReactionDetailsDialog(eventId).
+    signal reactionDetailsRequested(string eventId)
+
     // lower-contrast colors to avoid distracting from text & to enhance hover effect
     property color gentleHighlight: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.35)
     property color gentleText: Qt.hsla(palette.text.hslHue, palette.text.hslSaturation, palette.text.hslLightness, 0.6)
     property alias reactions: repeater.model
+
+    readonly property int reactionCount: reactions ? reactions.length : 0
+    readonly property int hiddenReactionCount: Math.max(0, reactionCount - visibleCap)
 
     spacing: 4
 
@@ -33,6 +46,10 @@ Flow {
             readonly property string reactionToolTipText: reactionDisplayKeyElided
                 ? modelData.users
                 : (modelData.displayKey + "\n" + modelData.users)
+            // Hide reactions past the visible cap; the "+N" pill below covers them.
+            // Invisible items are excluded from Flow layout, so this just trims
+            // the row without leaving gaps.
+            visible: index < reactionFlow.visibleCap
             hoverEnabled: true
             leftPadding: textMetrics.height / 2
             rightPadding: textMetrics.height / 2
@@ -125,6 +142,65 @@ Flow {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
             }
+        }
+    }
+
+    // "+N" overflow pill. Intentionally shaped like neither a reaction nor a
+    // self-reacted reaction (no emoji, no "emoji | counter" divider, neutral
+    // background) so it reads as a control, not as a reaction.
+    //
+    // Padding/font sizing mirrors the regular reaction pill so the heights and
+    // line-up match: side padding scales off the same 1x emoji-font metric;
+    // content font matches the dominant `reactionText` size (1.5x).
+    AbstractButton {
+        id: morePill
+
+        visible: reactionFlow.hiddenReactionCount > 0
+        hoverEnabled: true
+        leftPadding: morePillSizeMetrics.height / 2
+        rightPadding: morePillSizeMetrics.height / 2
+        topPadding: Komai.paddingSmall / 2
+        bottomPadding: Komai.paddingSmall / 2
+
+        TextMetrics {
+            id: morePillSizeMetrics
+
+            font.family: Settings.uiFontEmojiFamily
+            font.pointSize: Settings.uiFontSizePt
+            text: "+"
+        }
+
+        KomaiToolTip {
+            anchorItem: morePill
+            anchorX: morePill.width / 2
+            anchorY: 0
+            maxWidth: 300
+            text: qsTr("Show all reactions")
+            delay: Komai.tooltipDelay
+            requestedVisible: morePill.hovered
+        }
+
+        background: Rectangle {
+            anchors.fill: parent
+            border.color: morePill.hovered ? palette.dark : reactionFlow.gentleText
+            border.width: 1
+            color: morePill.hovered ? palette.dark : palette.window
+            radius: Komai.paddingMedium
+        }
+        contentItem: Text {
+            color: morePill.hovered ? palette.brightText : palette.windowText
+            font.family: Settings.uiFontEmojiFamily
+            font.pointSize: Settings.uiFontSizePt * 1.5
+            text: "+" + reactionFlow.hiddenReactionCount
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        onClicked: reactionFlow.reactionDetailsRequested(String(reactionFlow.eventId || ""))
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
         }
     }
 }

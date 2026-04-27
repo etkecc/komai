@@ -7,6 +7,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 struct Reaction
 {
@@ -14,6 +15,7 @@ struct Reaction
     Q_PROPERTY(QString key READ key CONSTANT)
     Q_PROPERTY(QString displayKey READ displayKey CONSTANT)
     Q_PROPERTY(QString users READ users CONSTANT)
+    Q_PROPERTY(QStringList userIds READ userIds CONSTANT)
     Q_PROPERTY(QString selfReactedEvent READ selfReactedEvent CONSTANT)
     Q_PROPERTY(int count READ count CONSTANT)
 
@@ -21,11 +23,13 @@ public:
     QString key() const { return key_; }
     QString displayKey() const { return key_.toHtmlEscaped(); }
     QString users() const { return users_.toHtmlEscaped(); }
+    QStringList userIds() const { return userIds_; }
     QString selfReactedEvent() const { return selfReactedEvent_; }
     int count() const { return count_; }
 
     QString key_;
     QString users_;
+    QStringList userIds_;
     QString selfReactedEvent_;
     int count_;
 

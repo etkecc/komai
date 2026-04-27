@@ -2998,7 +2998,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>JSON-ul brut nu este disponibil pentru acest eveniment. Este posibil să fi fost șters.</translation>
     </message>
@@ -4582,6 +4582,22 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reacții</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Afișează toate reacțiile</translation>
     </message>
 </context>
 <context>

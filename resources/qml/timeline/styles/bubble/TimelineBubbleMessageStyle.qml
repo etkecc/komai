@@ -241,6 +241,11 @@ TimelineMessageStyleBase {
                 layoutDirection: (!wrapper.isStateEvent && wrapper.messageIsRightAligned) ? Qt.RightToLeft : Qt.LeftToRight
                 reactions: wrapper.reactions
                 width: bubbleBody.width
+
+                onReactionDetailsRequested: (eventId) => {
+                    if (chatRoot && chatRoot.openReactionDetailsDialog)
+                        chatRoot.openReactionDetailsDialog(eventId, wrapper.reactions);
+                }
             }
         },
         Loader {

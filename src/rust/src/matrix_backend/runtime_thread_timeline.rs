@@ -677,7 +677,9 @@ fn apply_relations_annotations(
     annotations: &HashMap<String, HashMap<String, String>>,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
 ) {
-    const MAX_DISPLAYED_USERS: usize = 10;
+    // Tooltip text stays compact; the full sender list rides on `user_ids`
+    // and is consumed by the reaction-details dialog.
+    const MAX_TOOLTIP_USERS: usize = 10;
 
     // Seed per-key sender maps from the existing SDK summary. The
     // SDK-built `users` field is a newline-joined list (truncated with a
@@ -732,13 +734,14 @@ fn apply_relations_annotations(
         .filter(|(_, senders)| !senders.is_empty())
         .map(|(key, senders)| {
             let total = senders.len();
-            let mut users_list: Vec<String> = senders
-                .keys()
-                .take(MAX_DISPLAYED_USERS)
+            let user_ids: Vec<String> = senders.keys().cloned().collect();
+            let mut users_list: Vec<String> = user_ids
+                .iter()
+                .take(MAX_TOOLTIP_USERS)
                 .cloned()
                 .collect();
-            if total > MAX_DISPLAYED_USERS {
-                users_list.push(format!("… and {} more", total - MAX_DISPLAYED_USERS));
+            if total > MAX_TOOLTIP_USERS {
+                users_list.push(format!("… and {} more", total - MAX_TOOLTIP_USERS));
             }
             let users = users_list.join("\n");
             let self_reacted_event = own_str
@@ -748,6 +751,7 @@ fn apply_relations_annotations(
             MatrixReactionSummary {
                 key,
                 users,
+                user_ids,
                 self_reacted_event,
                 count: total as u64,
             }

@@ -2994,7 +2994,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         </translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+68"/>
         <source>Raw JSON is not available for this event. It may have been redacted.</source>
         <translation>O JSON bruto não está disponível para este evento. Ele pode ter sido excluído.</translation>
     </message>
@@ -4576,6 +4576,22 @@ Execute '%1 &lt;grupo&gt; --help' para detalhes dos subcomandos.</translation>
         <location line="+10"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>ReactionDetailsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
+        <source>Reactions</source>
+        <translation>Reações</translation>
+    </message>
+</context>
+<context>
+    <name>Reactions</name>
+    <message>
+        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <source>Show all reactions</source>
+        <translation>Mostrar todas as reações</translation>
     </message>
 </context>
 <context>

@@ -35,10 +35,10 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md)
 - 🧭 Polished [Room Directory](docs/user-guide/features/room-directory.md) with first-class [Matrix Rooms Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme)), language filtering, and room size filtering
 - 📋 Good support for hundreds of rooms and spaces
-- 📑 **Browser-style [room tabs](docs/user-guide/features/tabs.md)** for juggling multiple conversations at once, with pinning and more (a power-user feature still rare among Matrix clients)
+- 📑 Browser-style [room tabs](docs/user-guide/features/tabs.md) for juggling multiple conversations at once, with pinning and more (a power-user feature still rare among Matrix clients)
 - ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/features/keyboard-shortcuts.md), with human and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts
 - 🔀 [Selection mode](docs/user-guide/features/keyboard-shortcuts.md#selection-mode) for bulk actions (forwarding, moderation)
-- ⚡ Quick & lightweight native application ([Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
+- ⚡ Quick & relatively lightweight native application ([Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
 - 🤖 Human- and agent-ready local automation via [Model Context Protocol (MCP)](docs/user-guide/features/automations/mcp.md), [CLI commands](docs/user-guide/features/automations/cli.md), and the [D-Bus API](docs/user-guide/features/automations/dbus.md)
 - 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping
 

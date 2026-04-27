@@ -591,7 +591,13 @@ Item {
 
             x: {
                 if (root.wrapper.pushMetadataToEdge) {
-                    var threadInset = root.wrapper.threadId ? Komai.paddingSmall : 0;
+                    // Match the dashed thread outline below: it wraps both
+                    // thread replies (`threadId`) and thread roots
+                    // (`isThreadRoot`), so the metadata bar needs the same
+                    // inset in both cases or the row-edge bar sits flush
+                    // against the outline only on thread roots.
+                    var inThread = root.wrapper.threadId || root.wrapper.isThreadRoot;
+                    var threadInset = inThread ? Komai.paddingSmall : 0;
                     return Math.round(root.wrapper.messageIsRightAligned
                         ? threadInset
                         : (root.width - width - threadInset));

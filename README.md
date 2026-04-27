@@ -28,12 +28,12 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 📞 Legacy Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (including custom stickers), with a [built-in media viewer](docs/user-guide/features/media-playback.md) featuring gallery navigation and in-app video playback
 - 😀 Richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃) -- see [Emoji Search and Picker](docs/user-guide/features/emojis.md)
-- 💬 Replies, [Discord](https://discord.com/)-style threads, and message forwarding
+- 💬 Replies, [Discord](https://discord.com/)-style [threads](docs/user-guide/features/threads.md), and message forwarding
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)
 - 🎨 10+ [built-in themes](docs/user-guide/features/themes.md#-built-in-themes), maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for common UI text pairings. Also [🗂️ user-themable](docs/user-guide/features/themes.md#️-user-themes)
 - 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/maintainers/translations.md))
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md)
-- 🧭 First-class [Matrix Room Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme), with language filtering) and room size filtering
+- 🧭 Polished [Room Directory](docs/user-guide/features/room-directory.md) with first-class [Matrix Rooms Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme)), language filtering, and room size filtering
 - 📋 Good support for hundreds of rooms and spaces
 - 📑 **Browser-style [room tabs](docs/user-guide/features/tabs.md)** for juggling multiple conversations at once, with pinning and more (a power-user feature still rare among Matrix clients)
 - ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/features/keyboard-shortcuts.md), with human and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts

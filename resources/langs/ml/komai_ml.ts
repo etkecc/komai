@@ -468,7 +468,7 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+84"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 നിർമ്മിച്ചിരിക്കുന്നത് %2 ആണ് (മാനേജ്ഡ് Matrix സർവർ ഹോസ്റ്റിംഗ്).</translation>
     </message>

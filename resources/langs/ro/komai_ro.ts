@@ -468,7 +468,7 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+84"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 este creat de %2 (găzduire gestionată de servere Matrix).</translation>
     </message>

@@ -19,9 +19,15 @@ Rectangle {
     readonly property real stackThreshold: footerLogo.logoSize + 180 + buttonsGroup.implicitWidth + 5 * Komai.paddingMedium
     readonly property bool stacked: width > 0 && width < stackThreshold
 
+    // Always reserve paddingSmall above and below the inner content. In single-row
+    // mode the footer also keeps Komai.navigationRowHeight as a baseline so it
+    // visually aligns with adjacent bars on Compact/Spacious — but it grows past
+    // that baseline on Dense, where navigationRowHeight is shorter than the
+    // buttons' implicit height and would otherwise crop them.
     implicitHeight: stacked
         ? (textGroup.implicitHeight + buttonsGroup.implicitHeight + content.rowSpacing + 2 * Komai.paddingSmall)
-        : Komai.navigationRowHeight
+        : Math.max(Komai.navigationRowHeight,
+                   Math.max(textGroup.implicitHeight, buttonsGroup.implicitHeight) + 2 * Komai.paddingSmall)
     Layout.fillWidth: true
     Layout.preferredHeight: implicitHeight
     color: palette.alternateBase
@@ -40,8 +46,8 @@ Rectangle {
         anchors.fill: parent
         anchors.leftMargin: Komai.paddingMedium
         anchors.rightMargin: Komai.paddingMedium
-        anchors.topMargin: root.stacked ? Komai.paddingSmall : 0
-        anchors.bottomMargin: root.stacked ? Komai.paddingSmall : 0
+        anchors.topMargin: Komai.paddingSmall
+        anchors.bottomMargin: Komai.paddingSmall
         columns: root.stacked ? 1 : 2
         rowSpacing: Komai.paddingSmall
         columnSpacing: Komai.paddingMedium

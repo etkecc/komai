@@ -106,6 +106,29 @@ RowLayout {
         && room.supportsThreadNavigation !== false
         && room.thread !== undefined
 
+    // `Settings.resolvedTimelineThreadsCollapseReplies(roomId)` is a
+    // Q_INVOKABLE that won't re-evaluate on settings changes by itself,
+    // so we bump a revision counter from the Settings change signals and
+    // depend on it inside the binding (mirrors the pattern in
+    // MatrixRoomView.qml).
+    property int _collapseRepliesRevision: 0
+    readonly property bool collapseThreadRepliesActive: {
+        const _rev = _collapseRepliesRevision;
+        const roomId = room ? String(room.roomId || "") : "";
+        if (roomId.length === 0)
+            return Settings.timelineThreadsCollapseReplies;
+        return Settings.resolvedTimelineThreadsCollapseReplies(roomId);
+    }
+    Connections {
+        target: Settings
+        function onTimelineThreadsCollapseRepliesChanged() {
+            metadata._collapseRepliesRevision++;
+        }
+        function onTimelineThreadsCollapseRepliesByRoomChanged() {
+            metadata._collapseRepliesRevision++;
+        }
+    }
+
     spacing: 2
 
     Label {
@@ -289,7 +312,12 @@ RowLayout {
             anchors.left: threadIcon.right
             anchors.leftMargin: 1
             anchors.verticalCenter: parent.verticalCenter
-            visible: metadata.isThreadRoot && metadata.threadReplyCount > 0
+            // Only meaningful when replies are hidden — otherwise the
+            // thread's replies are already inline in the timeline and the
+            // count is just visual noise next to the root's thread icon.
+            visible: metadata.isThreadRoot
+                && metadata.threadReplyCount > 0
+                && metadata.collapseThreadRepliesActive
             text: metadata.threadReplyCount.toLocaleString()
             color: threadButtonContainer.threadColor
             font.pointSize: Settings.uiFontSizePt * metadata.scaling * 1.2

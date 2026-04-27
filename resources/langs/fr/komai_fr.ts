@@ -7830,7 +7830,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+160"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+183"/>
         <source>Retry sending</source>
         <translation>Réessayer l'envoi</translation>
     </message>
@@ -7850,7 +7850,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Actions du message</translation>
     </message>
     <message numerus="yes">
-        <location line="+64"/>
+        <location line="+69"/>
         <source>%n thread reply(s)</source>
         <translation>
             <numerusform>%n réponse dans le fil</numerusform>

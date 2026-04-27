@@ -6,6 +6,7 @@
 
 #include <QClipboard>
 #include <QElapsedTimer>
+#include <QFontMetrics>
 #include <QGuiApplication>
 #include <QPalette>
 #include <QQuickWindow>
@@ -267,6 +268,14 @@ LitehtmlItem::relayout()
     const qint64 renderUs = timer.nsecsElapsed() / 1000;
     int cw                = m_document->content_width() + static_cast<int>(m_leftPadding) +
              static_cast<int>(m_rightPadding);
+    // litehtml's content_width is the sum of glyph advance widths. Italic
+    // glyphs slant past their advance, so the last character's ink extends a
+    // few pixels past content_width and gets clipped at the bubble edge.
+    // Reserve a small overhang on the right when the default font is italic
+    // (emotes, notices). A fraction of the font ascent scales naturally with
+    // font size; clamp to a sensible minimum so tiny fonts still get a buffer.
+    if (m_font.italic())
+        cw += qMax(2, qRound(QFontMetrics(m_font).ascent() * 0.2));
     setImplicitWidth(cw);
     setImplicitHeight(m_document->height());
     updateTextureSize();

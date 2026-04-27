@@ -6,7 +6,7 @@ For build dependencies and distro package names, see [Packaging: Native build](p
 
 ## ✅ Prerequisites
 
-- Linux/macOS/Windows development environment
+- Linux development environment (x86_64). Komai has never been built or tested on macOS or Windows by the maintainers — see [Native build — Windows and macOS notes](packaging/native.md#-windows-and-macos-untested) if you want to attempt one of those platforms.
 - [`just`](https://github.com/casey/just) (command runner used by this project)
 - Build dependencies from [packaging/native.md](packaging/native.md)
 - (Recommended) [`mise`](https://mise.jdx.dev/) for tool management used by `prek`

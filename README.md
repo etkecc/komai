@@ -64,6 +64,8 @@ More screenshots are inlined on individual feature pages — see the [👤 User 
 
 Komai ships as **AppImage**, **Flatpak**, and **Snap** packages on the [GitHub Releases](https://github.com/etkecc/komai/releases) page, plus a [`komai`](https://aur.archlinux.org/packages/komai) package on the Arch Linux AUR.
 
+Komai is **Linux-only** for now (x86_64). There are no official Windows or macOS builds, and building from source on those platforms has never been tested by the maintainers. If you'd like to try, see 📄 [Native build — Windows and macOS notes](docs/maintainers/packaging/native.md#-windows-and-macos-untested) for tentative pointers.
+
 See 📄 [Installation](docs/user-guide/installation.md) for download links and install commands. To build Komai yourself, see 📄 [Native build](docs/maintainers/packaging/native.md).
 
 

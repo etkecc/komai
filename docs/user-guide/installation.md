@@ -2,6 +2,11 @@
 
 Komai runs on Linux desktops (x86_64). Pre-built packages are published with each release, and an Arch Linux package is available from the AUR. If you'd rather build it yourself, see 🔨 [Build from source](#-build-from-source).
 
+> **Windows and macOS users:** there are no official builds. Building
+> from source on those platforms has never been tested by the maintainers.
+> If you'd like to try, see 📄 [Native build — Windows and macOS notes](../maintainers/packaging/native.md#-windows-and-macos-untested)
+> for tentative pointers. Contributions to flesh those out are welcome.
+
 ## 📦 Pre-built packages
 
 Each [GitHub release](https://github.com/etkecc/komai/releases) ships these formats:

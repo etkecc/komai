@@ -126,6 +126,90 @@ Note: macOS bundle builds also need the Qt installation used for the build to
 include ICNS imageformat support, because the app bundle icon is generated from
 `resources/komai.svg` during the build.
 
+## 🪟 Windows and macOS (untested)
+
+> ⚠️ **Untested by maintainers.** Komai has never been built on Windows
+> or macOS by the project. The notes below are tentative pointers based
+> on the build system's cross-platform underpinnings (Qt 6, CMake, Rust),
+> not verified instructions. If you get a build working — or hit issues
+> we should document — contributions to flesh out this section are very
+> welcome.
+
+The Linux build is driven by CMake (with `just` as a thin convenience
+wrapper) and CPM downloads most C++ dependencies. Both are
+cross-platform, so a build *should* be theoretically achievable on
+Windows and macOS provided the [Prerequisites](#prerequisites) above are
+installed.
+
+### Common prerequisites (in addition to the ones at the top of this page)
+
+- A [Qt 6.5+](https://www.qt.io/download) installation including the
+  Base, Declarative, Multimedia, SVG, and Tools modules. The official Qt
+  installer is the simplest path on both platforms.
+- [Python 3](https://www.python.org/downloads/) on `PATH`.
+- [Rust 1.95.0](https://rustup.rs/) — `rustup` will pick the toolchain
+  pinned in [`rust-toolchain.toml`](../../../rust-toolchain.toml)
+  automatically.
+- A C++20 compiler:
+  - **Windows:** Visual Studio 2022 (MSVC 19.13+) or LLVM/clang-cl.
+  - **macOS:** Xcode 14+ or a recent Apple Clang from the Command Line
+    Tools.
+
+### Windows-specific notes
+
+- Run the build from a *Developer Command Prompt for VS 2022* (or the
+  PowerShell variant) so MSVC, CMake, and Qt are all on `PATH` together.
+- VOIP (voice & video calls) depends on GStreamer, which is Linux-leaning
+  — easiest first attempt is to build with `-DVOIP=OFF`.
+- X11 screensharing is Linux-only; pass `-DSCREENSHARE_X11=OFF` (it is
+  off by default on non-Linux platforms but doesn't hurt to be explicit).
+- Long CPM build paths can hit the default Windows 260-character path
+  limit. Building from a short path (e.g. `C:\src\komai`) avoids this.
+- OpenSSL needs to be discoverable by CMake. The
+  [Shining Light Productions OpenSSL build](https://slproweb.com/products/Win32OpenSSL.html)
+  is a common choice; set `OPENSSL_ROOT_DIR` if CMake can't find it.
+
+```cmd
+cmake -S. -Bvar/build/native -DCMAKE_BUILD_TYPE=Release ^
+    -DVOIP=OFF -DSCREENSHARE_X11=OFF
+cmake --build var/build/native --parallel
+```
+
+### macOS-specific notes
+
+- Install Qt via the official installer and point CMake at it via
+  `-DCMAKE_PREFIX_PATH=/path/to/Qt/6.x.x/macos`.
+- The Qt installation must include ICNS imageformat support, because
+  the app bundle icon is generated from `resources/komai.svg` during
+  the build.
+- VOIP (GStreamer) typically works on macOS via Homebrew
+  (`brew install gstreamer gst-plugins-base gst-plugins-good
+  gst-plugins-bad gst-plugins-ugly`), but is untested in this project.
+  Pass `-DVOIP=OFF` for a first attempt if anything goes wrong.
+
+```sh
+cmake -S. -Bvar/build/native -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_PREFIX_PATH=$HOME/Qt/6.8.0/macos
+cmake --build var/build/native --parallel $(sysctl -n hw.ncpu)
+```
+
+### What's likely to go wrong
+
+- **VOIP / GStreamer.** GStreamer 1.20+ is non-trivial on Windows and
+  imperfectly packaged on macOS. Disable with `-DVOIP=OFF` for a first
+  successful build, then re-enable once the rest works.
+- **qtkeychain / KDSingleApplication.** Both build via CPM by default; if
+  CPM fails (network, compiler quirks), install them manually and point
+  CMake at them via `-DCPM_<package>_USE_LOCAL=ON`.
+- **Single-instance support (KDSingleApplication).** Cross-platform in
+  principle but has had platform-specific bugs historically.
+- **The Snap, Flatpak, and AppImage build helpers in `etc/packaging/`
+  are Linux-only.** Only the plain CMake build flow above applies on
+  Windows and macOS.
+
+If you get this working, please open an issue or PR with what worked so
+this section can be tightened up.
+
 ## Debug builds
 
 ```sh

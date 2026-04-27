@@ -46,9 +46,9 @@ syntect = { version = "5", default-features = false, features = ["default-fancy"
 # types through `matrix_sdk::ruma::*` rather than `ruma::*` directly so we
 # don't build in a hard coupling to the direct ruma version.
 ruma = { git = "https://github.com/ruma/ruma", rev = "7680eebd9586669e1a4e5b1fd1c2c691221369d4", features = ["unstable-msc2545"] }
-matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite", "markdown"] }
-matrix-sdk-base = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da" }
-matrix-sdk-ui = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "fd6cb6647f8cdf1a02b93af1bf6c172bbf2d52da" }
+matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "eda8d1df38e656fa2eb68626d3f8d51116cc0f7e", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite", "markdown"] }
+matrix-sdk-base = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "eda8d1df38e656fa2eb68626d3f8d51116cc0f7e" }
+matrix-sdk-ui = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "eda8d1df38e656fa2eb68626d3f8d51116cc0f7e" }
 
 # TLS backend: rustls with aws-lc-rs as the crypto provider, matching what
 # matrix-sdk now hard-wires. Previously we forced native-tls (OpenSSL) to avoid

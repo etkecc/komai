@@ -2,6 +2,8 @@
 
 This page covers how Komai handles media playback on the timeline.
 
+See a [🖼️ Screenshot of the timeline media viewer](../screenshots/timeline-media-viewer.webp).
+
 
 ## 🎞️ Inline GIF Video Playback
 

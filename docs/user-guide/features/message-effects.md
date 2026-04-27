@@ -8,6 +8,8 @@ or lightning.
 
 Think of them as tiny bits of atmosphere, not essential message content.
 
+See a [🖼️ Screenshot of the rain and thunder effect](../screenshots/timeline-message-effects-rain-and-thunder.webp).
+
 ## 🌤️ What They Look Like
 
 Depending on the message, Komai may show effects such as:

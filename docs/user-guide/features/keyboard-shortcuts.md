@@ -80,6 +80,8 @@ These shortcuts apply while you are viewing a room timeline.
 Selection mode lets you move through the timeline with the keyboard and optionally select more
 than one message. Focused and selected messages are shown differently.
 
+![Timeline selection mode in action](../screenshots/timeline-selection-mode.webp)
+
 `Ctrl+Click` on a message also enters Selection mode if needed and toggles that message in the
 explicit selection.
 

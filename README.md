@@ -47,7 +47,17 @@ Curious where Komai came from and what changed along the way? See 📄 [Differen
 
 ## 📸 Screenshots
 
-<!-- TODO: add screenshots -->
+![Main view](docs/user-guide/screenshots/main-view.webp)
+
+A few more screenshots:
+
+- [🖼️ Welcome page](docs/user-guide/screenshots/welcome.webp)
+- [🖼️ Sign in](docs/user-guide/screenshots/sign-in.webp)
+- [🖼️ Register](docs/user-guide/screenshots/registration.webp)
+- [🖼️ Settings](docs/user-guide/screenshots/settings.webp)
+- [🖼️ Dark Matrix theme](docs/user-guide/screenshots/themes-dark-matrix.webp)
+
+More screenshots are inlined on individual feature pages — see the [👤 User Guide](docs/user-guide/README.md).
 
 
 ## 📥 Installation

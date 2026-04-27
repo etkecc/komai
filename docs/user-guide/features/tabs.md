@@ -2,6 +2,8 @@
 
 Tabs let you keep multiple rooms open at once and switch between them, just like a web browser. Unusual among Matrix clients, most of which force you to pick a single active room at a time.
 
+![Room tabs](../screenshots/tabs.webp)
+
 
 ## 🎯 Quick start
 

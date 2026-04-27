@@ -6,6 +6,8 @@ You can [✍️ trigger it](#%EF%B8%8F-how-to-trigger-it) from the composer, [�
 
 Komai also supports [🖼️ custom emojis and stickers](#%EF%B8%8F-custom-emojis-and-stickers) via Matrix image packs.
 
+![Emoji picker](../screenshots/emoji-picker.webp)
+
 
 ## ✍️ How to Trigger It
 

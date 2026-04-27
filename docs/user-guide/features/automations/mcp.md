@@ -4,6 +4,8 @@ Komai can expose a running [application profile](../application-profiles.md) as 
 
 MCP is an open protocol for connecting apps to MCP-compatible hosts, including MCP clients like [Claude Code](#claude-code), [Codex](#codex), and others. In Komai, that means a host can discover tools, read room and account data, fetch media, and, when allowed, trigger actions in the running app.
 
+See a [🖼️ Screenshot of an MCP host (Codex) talking to Komai](../../screenshots/automations-mcp-codex.webp).
+
 > **Need shell scripts or quick terminal automation?** Use the [CLI commands](cli.md).
 >
 > **Need a classic desktop IPC API?** Use the [D-Bus API](dbus.md).
@@ -143,6 +145,8 @@ codex mcp add komai-default -- /absolute/path/to/komai mcp serve --profile defau
 ```
 
 The server name includes the profile (`komai-default`) so you can add multiple profiles side by side (e.g. `komai-work`).
+
+See a [🖼️ Screenshot of Codex talking to Komai over MCP](../../screenshots/automations-mcp-codex.webp).
 
 ### Other MCP hosts
 

@@ -5,7 +5,9 @@ Komai uses a data-driven theme system. Built-in themes are defined as YAML files
 
 ## 🧰 Built-in themes
 
-Komai ships with several built-in themes (see [`resources/themes/`](../../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Nord, Rosé Pine, and Tokyo Night. The built-in set is maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for Komai's common UI text pairs.
+Komai ships with several built-in themes (see [`resources/themes/`](../../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Matrix, Nord, Rosé Pine, and Tokyo Night. The built-in set is maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for Komai's common UI text pairs.
+
+See a [🖼️ Screenshot of the dark-matrix built-in theme](../screenshots/themes-dark-matrix.webp).
 
 
 ## ⚙️ Where Your Current Theme Choice Is Stored

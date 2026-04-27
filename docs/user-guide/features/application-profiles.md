@@ -2,6 +2,8 @@
 
 Application Profiles let you run multiple independent Komai instances on the same machine.
 
+See a [🖼️ Screenshot of the application profile switcher](../screenshots/application-profile-switcher.webp).
+
 Each profile has its own:
 
 - login/session

@@ -3,6 +3,8 @@
 Komai stores settings and session data as YAML under a per-profile directory.
 Some secrets may live in your OS keychain, depending on [`secrets.provider`](#secret-storage-modes).
 
+See a [🖼️ Screenshot of the settings page](../screenshots/settings.webp).
+
 Quick links:
 
 - 👥 [Application Profiles](../features/application-profiles.md)

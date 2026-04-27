@@ -671,6 +671,14 @@ async fn fetch_relations_events(
 
     let mut items = Vec::with_capacity(events.len());
     for event in &events {
+        // `IncludeRelations::AllRelations` returns edit events too. The SDK
+        // timeline applies them onto the original (and so does our raw path
+        // via `unsigned.relations.replace`), so the edit event itself must
+        // not become a separate timeline item — otherwise the thread shows
+        // a stray "* …" message containing the Matrix edit fallback body.
+        if is_replacement_event(event.raw().json().get()) {
+            continue;
+        }
         if let Some(item) = raw_event_to_timeline_item(event, room, &own_user_id).await {
             items.push(item);
         }
@@ -808,6 +816,24 @@ async fn resolve_member_profile(
         ),
         _ => (user_id.to_string(), String::new()),
     }
+}
+
+/// True when the raw event is an edit (`content.m.relates_to.rel_type ==
+/// "m.replace"`). The thread `/relations` fetch uses `AllRelations`, which
+/// returns edits alongside the messages they replace; we drop them so the
+/// edit content is only rendered onto the original message, never as a
+/// stray timeline item.
+fn is_replacement_event(json_str: &str) -> bool {
+    let parsed: serde_json::Value = match serde_json::from_str(json_str) {
+        Ok(v) => v,
+        Err(_) => return false,
+    };
+    parsed
+        .get("content")
+        .and_then(|c| c.get("m.relates_to"))
+        .and_then(|r| r.get("rel_type"))
+        .and_then(|v| v.as_str())
+        == Some("m.replace")
 }
 
 /// Extract thread root ID and reply-to event ID from raw event JSON.

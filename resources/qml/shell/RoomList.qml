@@ -172,6 +172,12 @@ Page {
         ListView {
             id: roomlist
 
+            // True until we have scrolled the active room into view once
+            // (typically the saved current room on startup). After that we
+            // never touch the viewport in response to current-room changes,
+            // so tab switches don't yank the user's scroll position.
+            property bool _initialScrollPending: true
+
             readonly property bool hasVerticalOverflow: contentHeight > height
             readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
             readonly property bool scrollbarVisible: {
@@ -395,8 +401,13 @@ Page {
                     const roomId = Rooms.currentRoomId;
                     if (!roomId)
                         return;
+                    if (!roomlist._initialScrollPending)
+                        return;
 
                     Qt.callLater(function () {
+                        if (!roomlist._initialScrollPending)
+                            return;
+
                         const activeRoomId = Rooms.currentRoomId;
                         if (!activeRoomId || activeRoomId !== roomId)
                             return;
@@ -404,6 +415,8 @@ Page {
                         const index = Rooms.roomidToIndex(roomId);
                         if (index < 0)
                             return;
+
+                        roomlist._initialScrollPending = false;
 
                         if (roomlist.activeFocus)
                             roomlist.currentIndex = index;

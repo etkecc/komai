@@ -5917,7 +5917,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+488"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
         <source>Settings...</source>
         <translation>Setări…</translation>
     </message>

@@ -5917,7 +5917,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+488"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
         <source>Settings...</source>
         <translation>Nastavení…</translation>
     </message>

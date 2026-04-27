@@ -5903,7 +5903,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+488"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
         <source>Settings...</source>
         <translation>Beállítások...</translation>
     </message>

@@ -5910,7 +5910,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+488"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
         <source>Settings...</source>
         <translation>Inställningar...</translation>
     </message>

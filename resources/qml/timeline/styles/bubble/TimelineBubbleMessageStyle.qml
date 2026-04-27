@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Window
 import cc.etke.komai
 import "../../../components"
@@ -236,15 +237,34 @@ TimelineMessageStyleBase {
             width: bubbleBody.width
             x: bubbleBody.x
 
-            sourceComponent: Reactions {
-                eventId: wrapper.eventId
-                layoutDirection: (!wrapper.isStateEvent && wrapper.messageIsRightAligned) ? Qt.RightToLeft : Qt.LeftToRight
-                reactions: wrapper.reactions
+            // Reactions always read left-to-right (no `Qt.RightToLeft` flow
+            // direction): reversing the row makes it hard to scan and
+            // misorders the "+N" overflow pill. For right-aligned bubbles
+            // ("Opposing by sender" mode) we preserve the visual association
+            // with the bubble by anchoring the row to the right edge —
+            // achieved with a fillWidth leading spacer that pushes the Flow
+            // to the right when content fits, or collapses to zero when the
+            // Flow needs the full width to wrap.
+            sourceComponent: RowLayout {
+                spacing: 0
                 width: bubbleBody.width
 
-                onReactionDetailsRequested: (eventId) => {
-                    if (chatRoot && chatRoot.openReactionDetailsDialog)
-                        chatRoot.openReactionDetailsDialog(eventId, wrapper.reactions);
+                Item {
+                    Layout.fillWidth: wrapper.messageIsRightAligned
+                    Layout.preferredWidth: 0
+                    visible: wrapper.messageIsRightAligned
+                }
+
+                Reactions {
+                    eventId: wrapper.eventId
+                    reactions: wrapper.reactions
+                    Layout.maximumWidth: bubbleBody.width
+                    Layout.fillWidth: !wrapper.messageIsRightAligned
+
+                    onReactionDetailsRequested: (eventId) => {
+                        if (chatRoot && chatRoot.openReactionDetailsDialog)
+                            chatRoot.openReactionDetailsDialog(eventId, wrapper.reactions);
+                    }
                 }
             }
         },

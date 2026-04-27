@@ -51,7 +51,7 @@ timeline:
     sender_username: only_in_large_rooms
     max_width_px: 0
     emoji_only_enlarge: true
-    hover_highlight: false
+    hover_highlight: true
     formatted:
       code_syntax_highlighting: true
     actions:

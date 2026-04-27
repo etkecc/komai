@@ -19,6 +19,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 🎨 **Yours to shape** — [themeable](docs/user-guide/features/themes.md), [customizable](docs/user-guide/settings/README.md), and [config-management friendly](docs/user-guide/settings/README.md#configuration-management) via plain-YAML files
 - ⚡ **Responsive by design** — native performance is a design constraint
 - 🎓 **Educate, don't over-abstract away** — like [Arch Linux](https://wiki.archlinux.org/title/Arch_Linux), we prefer exposing Matrix's real concepts over hiding them
+- 🧠 **For both grandma and power users** — neither dumbed down nor buried in complexity
 
 
 ## 🌟 Features
@@ -31,7 +32,6 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)
 - 🎨 10+ [built-in themes](docs/user-guide/features/themes.md#-built-in-themes), maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for common UI text pairings. Also [🗂️ user-themable](docs/user-guide/features/themes.md#️-user-themes)
 - 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/maintainers/translations.md))
-- 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that treats both grandma and power users as capable adults: neither dumbed down nor buried in complexity
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md)
 - 🧭 First-class [Matrix Room Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme), with language filtering) and room size filtering
 - 📋 Good support for hundreds of rooms and spaces

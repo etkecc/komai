@@ -52,15 +52,15 @@
     <message>
         <location line="+32"/>
         <location line="+69"/>
-        <location line="+123"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="+126"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copied!</source>
         <translation>복사됨!</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-849"/>
         <source>Copy user ID</source>
         <translation>사용자 ID 복사</translation>
     </message>
@@ -80,48 +80,48 @@
         <translation>이 기기 (세션)</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+411"/>
+        <location line="+81"/>
+        <location line="+441"/>
         <source>This device</source>
         <translation>이 기기</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="-415"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>클립보드에 복사</translation>
     </message>
     <message>
-        <location line="-566"/>
-        <location line="+469"/>
+        <location line="-638"/>
+        <location line="+508"/>
         <source>Sign out</source>
         <translation>로그아웃</translation>
     </message>
     <message>
-        <location line="-450"/>
-        <location line="+472"/>
+        <location line="-481"/>
+        <location line="+509"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location line="-422"/>
+        <location line="-445"/>
         <source>Access token</source>
         <translation>액세스 토큰</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Click to reveal</source>
         <translation>클릭하여 표시</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+46"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>액세스 토큰은 계정에 완전한 접근 권한을 부여합니다. 비공개로 유지하세요!</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Other devices (sessions)</source>
         <translation>다른 기기 (세션)</translation>
     </message>
@@ -146,7 +146,7 @@
         <translation>모든 기기 (%1개) 표시</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+149"/>
         <source>Verified</source>
         <translation>검증됨</translation>
     </message>
@@ -161,17 +161,17 @@
         <translation>차단됨</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+70"/>
         <source>Verify</source>
         <translation>검증</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unverify</source>
         <translation>검증 취소</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unblock</source>
         <translation>차단 해제</translation>
     </message>
@@ -181,12 +181,12 @@
         <translation>차단</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+115"/>
         <source>IP address</source>
         <translation>IP 주소</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+67"/>
         <source>Last seen: %1</source>
         <translation>마지막 접속: %1</translation>
     </message>
@@ -2447,7 +2447,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>캐시 폴더를 다시 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>사랑하게 될 훌륭한 %1 채팅 앱</translation>
     </message>
@@ -7109,7 +7109,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowCommunityFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+117"/>
         <source>Show</source>
         <translation>표시</translation>
     </message>
@@ -7175,12 +7175,12 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+133"/>
         <source>Space</source>
         <translation>스페이스</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Show</source>
         <translation>표시</translation>
     </message>

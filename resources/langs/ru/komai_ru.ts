@@ -52,15 +52,15 @@
     <message>
         <location line="+32"/>
         <location line="+69"/>
-        <location line="+123"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="+126"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copied!</source>
         <translation>Скопировано!</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-849"/>
         <source>Copy user ID</source>
         <translation>Скопировать ID пользователя</translation>
     </message>
@@ -80,48 +80,48 @@
         <translation>Это устройство (сессия)</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+411"/>
+        <location line="+81"/>
+        <location line="+441"/>
         <source>This device</source>
         <translation>Это устройство</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="-415"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>Скопировать в буфер обмена</translation>
     </message>
     <message>
-        <location line="-566"/>
-        <location line="+469"/>
+        <location line="-638"/>
+        <location line="+508"/>
         <source>Sign out</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location line="-450"/>
-        <location line="+472"/>
+        <location line="-481"/>
+        <location line="+509"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location line="-422"/>
+        <location line="-445"/>
         <source>Access token</source>
         <translation>Токен доступа</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Click to reveal</source>
         <translation>Нажми, чтобы показать</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+46"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>Токены доступа предоставляют полный доступ к аккаунту. Храни в тайне!</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Other devices (sessions)</source>
         <translation>Другие устройства (сессии)</translation>
     </message>
@@ -146,7 +146,7 @@
         <translation>Показать все (%1) устройств</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+149"/>
         <source>Verified</source>
         <translation>Верифицирован</translation>
     </message>
@@ -161,17 +161,17 @@
         <translation>Заблокирован</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+70"/>
         <source>Verify</source>
         <translation>Верифицировать</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unverify</source>
         <translation>Отменить Верификацию</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unblock</source>
         <translation>Разблокировать</translation>
     </message>
@@ -181,12 +181,12 @@
         <translation>Заблокировать</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+115"/>
         <source>IP address</source>
         <translation>IP-адрес</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+67"/>
         <source>Last seen: %1</source>
         <translation>Последний раз в сети: %1</translation>
     </message>
@@ -2453,7 +2453,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Не удалось воссоздать папку кэша.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Отличный чат-клиент для %1, который полюбишь</translation>
     </message>
@@ -7123,7 +7123,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowCommunityFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+117"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>
@@ -7189,12 +7189,12 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+133"/>
         <source>Space</source>
         <translation>Пространство</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>

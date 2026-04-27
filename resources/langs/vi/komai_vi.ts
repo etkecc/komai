@@ -52,15 +52,15 @@
     <message>
         <location line="+32"/>
         <location line="+69"/>
-        <location line="+123"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="+126"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copied!</source>
         <translation>Đã sao chép!</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-849"/>
         <source>Copy user ID</source>
         <translation>Sao chép ID người dùng</translation>
     </message>
@@ -80,48 +80,48 @@
         <translation>Thiết bị này (phiên)</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+411"/>
+        <location line="+81"/>
+        <location line="+441"/>
         <source>This device</source>
         <translation>Thiết bị này</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="-415"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>Sao chép vào bảng nhớ tạm</translation>
     </message>
     <message>
-        <location line="-566"/>
-        <location line="+469"/>
+        <location line="-638"/>
+        <location line="+508"/>
         <source>Sign out</source>
         <translation>Đăng xuất</translation>
     </message>
     <message>
-        <location line="-450"/>
-        <location line="+472"/>
+        <location line="-481"/>
+        <location line="+509"/>
         <source>Name</source>
         <translation>Tên</translation>
     </message>
     <message>
-        <location line="-422"/>
+        <location line="-445"/>
         <source>Access token</source>
         <translation>Mã truy cập</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Click to reveal</source>
         <translation>Nhấp để hiện</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+46"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>Mã truy cập cấp quyền truy cập đầy đủ vào tài khoản. Giữ bí mật!</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Other devices (sessions)</source>
         <translation>Thiết bị khác (phiên)</translation>
     </message>
@@ -146,7 +146,7 @@
         <translation>Hiện tất cả (%1) thiết bị</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+149"/>
         <source>Verified</source>
         <translation>Đã xác minh</translation>
     </message>
@@ -161,17 +161,17 @@
         <translation>Đã chặn</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+70"/>
         <source>Verify</source>
         <translation>Xác minh</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unverify</source>
         <translation>Hủy xác minh</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unblock</source>
         <translation>Bỏ chặn</translation>
     </message>
@@ -181,12 +181,12 @@
         <translation>Chặn</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+115"/>
         <source>IP address</source>
         <translation>Địa chỉ IP</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+67"/>
         <source>Last seen: %1</source>
         <translation>Lần cuối thấy: %1</translation>
     </message>
@@ -2447,7 +2447,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Không thể tạo lại thư mục bộ nhớ đệm.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Ứng dụng trò chuyện %1 tuyệt vời mà bạn sẽ yêu thích</translation>
     </message>
@@ -7109,7 +7109,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>SettingRowCommunityFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+117"/>
         <source>Show</source>
         <translation>Hiển thị</translation>
     </message>
@@ -7175,12 +7175,12 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+133"/>
         <source>Space</source>
         <translation>Không gian</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Show</source>
         <translation>Hiển thị</translation>
     </message>

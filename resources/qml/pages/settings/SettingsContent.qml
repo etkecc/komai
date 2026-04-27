@@ -44,7 +44,7 @@ Item {
 
             spacing: Komai.paddingSmall
             property real sideMargin: Komai.paddingMedium
-            property int settingRowStackBreakpoint: 700
+            property int settingRowStackBreakpoint: Komai.settingRowStackBreakpoint
             width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin
 
@@ -439,6 +439,7 @@ Item {
                                         SettingRowSpacesFilter {
                                             anchors.left: parent.left
                                             anchors.right: parent.right
+                                            useStackedLayout: r.useStackedLayout
                                         }
                                     }
                                     DelegateChoice {

@@ -13,6 +13,8 @@ import "../../ui" as Ui
 ColumnLayout {
     id: root
 
+    property bool useStackedLayout: false
+
     property int _hiddenSpacesRevision: 0
     property int _unreadIndicatorsHiddenRevision: 0
     property int _globalExcludesRevision: 0
@@ -59,86 +61,97 @@ ColumnLayout {
                 id: spaceCardBg
                 anchors.left: parent.left
                 anchors.right: parent.right
-                implicitHeight: spaceCardRow.implicitHeight + Komai.paddingMedium * 2
+                implicitHeight: spaceCardContent.implicitHeight + Komai.paddingMedium * 2
                 color: spaceCardHover.hovered ? palette.dark : palette.window
                 border.color: Qt.rgba(palette.mid.r, palette.mid.g, palette.mid.b, 0.4)
                 border.width: 1
                 radius: Komai.paddingMedium
 
-                RowLayout {
-                    id: spaceCardRow
+                GridLayout {
+                    id: spaceCardContent
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: Komai.paddingSmall
                     anchors.rightMargin: Komai.paddingSmall
-                    spacing: Komai.paddingMedium
+                    columns: root.useStackedLayout ? 1 : 2
+                    rowSpacing: Komai.paddingSmall
+                    columnSpacing: Komai.paddingMedium
 
-                    // Space avatar
-                    Avatar {
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredWidth: Komai.iconSize
-                        Layout.preferredHeight: Komai.iconSize
-                        displayName: spaceCard.spaceName
-                        enabled: false
-                        roomid: spaceCard.spaceId
-                        textColor: spaceCardHover.hovered ? palette.brightText : palette.text
-                        url: {
-                            if (spaceCard.spaceAvatar.startsWith("mxc://"))
-                                return spaceCard.spaceAvatar.replace("mxc://", "image://MxcImage/");
-                            else if (spaceCard.spaceAvatar.length > 0)
-                                return spaceCard.spaceAvatar;
-                            else
-                                return "";
-                        }
-                    }
-
-                    // Space name + badge
-                    Item {
+                    // Identity column: [avatar] [name + badge]
+                    RowLayout {
                         Layout.fillWidth: true
                         Layout.minimumWidth: 0
-                        implicitHeight: spaceNameRow.implicitHeight
+                        Layout.alignment: Qt.AlignVCenter
+                        spacing: Komai.paddingMedium
 
-                        Row {
-                            id: spaceNameRow
-                            width: parent.width
-                            spacing: Komai.paddingSmall
-                            clip: true
-
-                            Rectangle {
-                                id: spaceBadgeRect
-                                readonly property color badgeColor: spaceCardHover.hovered ? palette.brightText : palette.buttonText
-                                anchors.verticalCenter: parent.verticalCenter
-                                implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
-                                implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
-                                radius: Komai.paddingSmall
-                                color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.15)
-                                border.color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.4)
-                                border.width: 1
-
-                                Label {
-                                    id: spaceBadgeLabel
-                                    anchors.centerIn: parent
-                                    text: qsTr("Space")
-                                    color: spaceBadgeRect.badgeColor
-                                    font.pointSize: Settings.uiFontSizePt * 0.8
-                                }
+                        // Space avatar
+                        Avatar {
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: Komai.iconSize
+                            Layout.preferredHeight: Komai.iconSize
+                            displayName: spaceCard.spaceName
+                            enabled: false
+                            roomid: spaceCard.spaceId
+                            textColor: spaceCardHover.hovered ? palette.brightText : palette.text
+                            url: {
+                                if (spaceCard.spaceAvatar.startsWith("mxc://"))
+                                    return spaceCard.spaceAvatar.replace("mxc://", "image://MxcImage/");
+                                else if (spaceCard.spaceAvatar.length > 0)
+                                    return spaceCard.spaceAvatar;
+                                else
+                                    return "";
                             }
+                        }
 
-                            Text {
-                                width: Math.min(implicitWidth, spaceNameRow.width - spaceBadgeRect.width - spaceNameRow.spacing)
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: spaceCard.spaceName
-                                color: spaceCardHover.hovered ? palette.brightText : palette.text
-                                font.pointSize: 1.1 * Settings.uiFontSizePt
-                                elide: Text.ElideRight
+                        // Space name + badge
+                        Item {
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 0
+                            implicitHeight: spaceNameRow.implicitHeight
+
+                            Row {
+                                id: spaceNameRow
+                                width: parent.width
+                                spacing: Komai.paddingSmall
+                                clip: true
+
+                                Rectangle {
+                                    id: spaceBadgeRect
+                                    readonly property color badgeColor: spaceCardHover.hovered ? palette.brightText : palette.buttonText
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
+                                    implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
+                                    radius: Komai.paddingSmall
+                                    color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.15)
+                                    border.color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.4)
+                                    border.width: 1
+
+                                    Label {
+                                        id: spaceBadgeLabel
+                                        anchors.centerIn: parent
+                                        text: qsTr("Space")
+                                        color: spaceBadgeRect.badgeColor
+                                        font.pointSize: Settings.uiFontSizePt * 0.8
+                                    }
+                                }
+
+                                Text {
+                                    width: Math.min(implicitWidth, spaceNameRow.width - spaceBadgeRect.width - spaceNameRow.spacing)
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: spaceCard.spaceName
+                                    color: spaceCardHover.hovered ? palette.brightText : palette.text
+                                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                                    elide: Text.ElideRight
+                                }
                             }
                         }
                     }
 
                     // Controls
                     Flow {
-                        Layout.alignment: Qt.AlignVCenter
+                        Layout.alignment: root.useStackedLayout ? (Qt.AlignLeft | Qt.AlignVCenter) : (Qt.AlignRight | Qt.AlignVCenter)
+                        Layout.fillWidth: root.useStackedLayout
                         spacing: Komai.paddingSmall
 
                         // Show toggle

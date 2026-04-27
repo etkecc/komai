@@ -40,66 +40,75 @@ Item {
         id: cardBg
         anchors.left: parent.left
         anchors.right: parent.right
-        implicitHeight: cardRow.implicitHeight + Komai.paddingMedium * 2
+        implicitHeight: cardContent.implicitHeight + Komai.paddingMedium * 2
         color: cardHover.hovered ? palette.dark : palette.window
         border.color: Qt.rgba(palette.mid.r, palette.mid.g, palette.mid.b, 0.4)
         border.width: 1
         radius: Komai.paddingMedium
 
-        RowLayout {
-            id: cardRow
+        GridLayout {
+            id: cardContent
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: Komai.paddingSmall
             anchors.rightMargin: Komai.paddingSmall
-            spacing: Komai.paddingMedium
+            columns: root.useStackedLayout ? 1 : 2
+            rowSpacing: Komai.paddingSmall
+            columnSpacing: Komai.paddingMedium
 
-            // Large icon
-            Image {
-                Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: Komai.iconSize
-                Layout.preferredHeight: Komai.iconSize
-                source: root.model.icon
-                    ? "image://colorimage/" + root.model.icon + "?" + (cardHover.hovered ? palette.brightText : palette.buttonText)
-                    : ""
-                sourceSize.width: Komai.iconSize
-                sourceSize.height: Komai.iconSize
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-                visible: (root.model.icon ?? "").length > 0
-            }
-
-            // Name + description
-            ColumnLayout {
+            // Identity column: [icon] [name + description]
+            RowLayout {
                 Layout.fillWidth: true
                 Layout.minimumWidth: 0
                 Layout.alignment: Qt.AlignVCenter
-                spacing: 2
+                spacing: Komai.paddingMedium
 
-                Text {
-                    Layout.fillWidth: true
-                    text: root.model.name ?? ""
-                    color: cardHover.hovered ? palette.brightText : palette.text
-                    font.pointSize: 1.1 * Settings.uiFontSizePt
-                    elide: Text.ElideRight
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredWidth: Komai.iconSize
+                    Layout.preferredHeight: Komai.iconSize
+                    source: root.model.icon
+                        ? "image://colorimage/" + root.model.icon + "?" + (cardHover.hovered ? palette.brightText : palette.buttonText)
+                        : ""
+                    sourceSize.width: Komai.iconSize
+                    sourceSize.height: Komai.iconSize
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
+                    visible: (root.model.icon ?? "").length > 0
                 }
 
-                Text {
+                ColumnLayout {
                     Layout.fillWidth: true
-                    visible: (root.model.description ?? "").length > 0
-                    text: root.model.description ?? ""
-                    textFormat: Text.RichText
-                    color: cardHover.hovered ? palette.brightText : palette.buttonText
-                    font.pointSize: Settings.uiFontSizePt
-                    wrapMode: Text.Wrap
-                    onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+                    Layout.minimumWidth: 0
+                    Layout.alignment: Qt.AlignVCenter
+                    spacing: 2
+
+                    Text {
+                        Layout.fillWidth: true
+                        text: root.model.name ?? ""
+                        color: cardHover.hovered ? palette.brightText : palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        elide: Text.ElideRight
+                    }
+
+                    Text {
+                        Layout.fillWidth: true
+                        visible: (root.model.description ?? "").length > 0
+                        text: root.model.description ?? ""
+                        textFormat: Text.RichText
+                        color: cardHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        wrapMode: Text.Wrap
+                        onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+                    }
                 }
             }
 
             // Controls
             Flow {
-                Layout.alignment: Qt.AlignVCenter
+                Layout.alignment: root.useStackedLayout ? (Qt.AlignLeft | Qt.AlignVCenter) : (Qt.AlignRight | Qt.AlignVCenter)
+                Layout.fillWidth: root.useStackedLayout
                 spacing: Komai.paddingSmall
 
                 // --- Show toggle ---
@@ -188,7 +197,6 @@ Item {
 
             Label {
                 id: labelText
-                visible: !root.useStackedLayout
                 color: palette.text
                 font.pointSize: Settings.uiFontSizePt
             }

@@ -52,15 +52,15 @@
     <message>
         <location line="+32"/>
         <location line="+69"/>
-        <location line="+123"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="+126"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copied!</source>
         <translation>¡Copiado!</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-849"/>
         <source>Copy user ID</source>
         <translation>Copiar ID de usuario</translation>
     </message>
@@ -80,48 +80,48 @@
         <translation>Este dispositivo (sesión)</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+411"/>
+        <location line="+81"/>
+        <location line="+441"/>
         <source>This device</source>
         <translation>Este dispositivo</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="-415"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>Copiar al portapapeles</translation>
     </message>
     <message>
-        <location line="-566"/>
-        <location line="+469"/>
+        <location line="-638"/>
+        <location line="+508"/>
         <source>Sign out</source>
         <translation>Cerrar sesión</translation>
     </message>
     <message>
-        <location line="-450"/>
-        <location line="+472"/>
+        <location line="-481"/>
+        <location line="+509"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location line="-422"/>
+        <location line="-445"/>
         <source>Access token</source>
         <translation>Token de acceso</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Click to reveal</source>
         <translation>Clic para mostrar</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+46"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>Los tokens de acceso otorgan acceso completo a la cuenta. ¡Mantenlos en privado!</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Other devices (sessions)</source>
         <translation>Otros dispositivos (sesiones)</translation>
     </message>
@@ -146,7 +146,7 @@
         <translation>Mostrar todos los (%1) dispositivos</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+149"/>
         <source>Verified</source>
         <translation>Verificado</translation>
     </message>
@@ -161,17 +161,17 @@
         <translation>Bloqueado</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+70"/>
         <source>Verify</source>
         <translation>Verificar</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unverify</source>
         <translation>Desverificar</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unblock</source>
         <translation>Desbloquear</translation>
     </message>
@@ -181,12 +181,12 @@
         <translation>Bloquear</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+115"/>
         <source>IP address</source>
         <translation>Dirección IP</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+67"/>
         <source>Last seen: %1</source>
         <translation>Última vez: %1</translation>
     </message>
@@ -2453,7 +2453,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>No se pudo recrear la carpeta de caché.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Una buena app de chat %1 que puedes llegar a amar</translation>
     </message>
@@ -7119,7 +7119,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>SettingRowCommunityFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+117"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
@@ -7185,12 +7185,12 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+133"/>
         <source>Space</source>
         <translation>Espacio</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>

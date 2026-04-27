@@ -52,15 +52,15 @@
     <message>
         <location line="+32"/>
         <location line="+69"/>
-        <location line="+123"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="+126"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copied!</source>
         <translation>Скопійовано!</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-849"/>
         <source>Copy user ID</source>
         <translation>Копіювати ID користувача</translation>
     </message>
@@ -80,48 +80,48 @@
         <translation>Цей пристрій (сесія)</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+411"/>
+        <location line="+81"/>
+        <location line="+441"/>
         <source>This device</source>
         <translation>Цей пристрій</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="-415"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>Копіювати до буфера обміну</translation>
     </message>
     <message>
-        <location line="-566"/>
-        <location line="+469"/>
+        <location line="-638"/>
+        <location line="+508"/>
         <source>Sign out</source>
         <translation>Вийти</translation>
     </message>
     <message>
-        <location line="-450"/>
-        <location line="+472"/>
+        <location line="-481"/>
+        <location line="+509"/>
         <source>Name</source>
         <translation>Ім'я</translation>
     </message>
     <message>
-        <location line="-422"/>
+        <location line="-445"/>
         <source>Access token</source>
         <translation>Токен доступу</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Click to reveal</source>
         <translation>Натисніть, щоб показати</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+46"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>Токени доступу надають повний доступ до облікового запису. Тримайте в таємниці!</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Other devices (sessions)</source>
         <translation>Інші пристрої (сесії)</translation>
     </message>
@@ -146,7 +146,7 @@
         <translation>Показати всі (%1) пристрої</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+149"/>
         <source>Verified</source>
         <translation>Перевірений</translation>
     </message>
@@ -161,17 +161,17 @@
         <translation>Заблокований</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+70"/>
         <source>Verify</source>
         <translation>Перевірити</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unverify</source>
         <translation>Зняти підтвердження</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unblock</source>
         <translation>Розблокувати</translation>
     </message>
@@ -181,12 +181,12 @@
         <translation>Заблокувати</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+115"/>
         <source>IP address</source>
         <translation>IP-адреса</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+67"/>
         <source>Last seen: %1</source>
         <translation>Востаннє в мережі: %1</translation>
     </message>
@@ -2453,7 +2453,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не вдалося відтворити теку кешу.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Чудовий чат-застосунок %1, який можна полюбити</translation>
     </message>
@@ -7123,7 +7123,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowCommunityFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+117"/>
         <source>Show</source>
         <translation>Показати</translation>
     </message>
@@ -7189,12 +7189,12 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+133"/>
         <source>Space</source>
         <translation>Простір</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Show</source>
         <translation>Показати</translation>
     </message>

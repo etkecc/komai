@@ -34,6 +34,11 @@ class Komai : public QObject
     Q_PROPERTY(int paddingSmall READ paddingSmall CONSTANT)
     Q_PROPERTY(int paddingMedium READ paddingMedium CONSTANT)
     Q_PROPERTY(int paddingLarge READ paddingLarge CONSTANT)
+    // Width threshold (in px) below which Settings rows should switch from a
+    // side-by-side label/control layout to a stacked one. Centralized so all
+    // settings surfaces (the generic Settings rows, the Account device cards,
+    // etc.) react at the same point.
+    Q_PROPERTY(int settingRowStackBreakpoint READ settingRowStackBreakpoint CONSTANT)
     // Vertical padding inside the composer's multi-line text area. Shared so
     // that composer action buttons can match the textarea's single-line height.
     Q_PROPERTY(int composerTextAreaPadding READ composerTextAreaPadding CONSTANT)
@@ -82,6 +87,7 @@ public:
     int paddingSmall() const { return 4; }
     int paddingMedium() const { return 8; }
     int paddingLarge() const { return 20; }
+    int settingRowStackBreakpoint() const { return 900; }
     int composerTextAreaPadding() const { return 6; }
 
     int tooltipDelay() const;

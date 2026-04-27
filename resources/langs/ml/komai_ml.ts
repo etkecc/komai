@@ -52,15 +52,15 @@
     <message>
         <location line="+32"/>
         <location line="+69"/>
-        <location line="+123"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="+126"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copied!</source>
         <translation>പകർത്തി!</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-849"/>
         <source>Copy user ID</source>
         <translation>ഉപയോക്തൃ ID പകർത്തുക</translation>
     </message>
@@ -80,48 +80,48 @@
         <translation>ഈ ഉപകരണം (സെഷൻ)</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+411"/>
+        <location line="+81"/>
+        <location line="+441"/>
         <source>This device</source>
         <translation>ഈ ഉപകരണം</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="-415"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക</translation>
     </message>
     <message>
-        <location line="-566"/>
-        <location line="+469"/>
+        <location line="-638"/>
+        <location line="+508"/>
         <source>Sign out</source>
         <translation>സൈൻ ഔട്ട്</translation>
     </message>
     <message>
-        <location line="-450"/>
-        <location line="+472"/>
+        <location line="-481"/>
+        <location line="+509"/>
         <source>Name</source>
         <translation>പേര്</translation>
     </message>
     <message>
-        <location line="-422"/>
+        <location line="-445"/>
         <source>Access token</source>
         <translation>ആക്സസ് ടോക്കൺ</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Click to reveal</source>
         <translation>കാണാൻ ക്ലിക്ക് ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+46"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>ആക്സസ് ടോക്കണുകൾ അക്കൗണ്ടിലേക്ക് പൂർണ്ണ ആക്സസ് നൽകുന്നു. സ്വകാര്യമായി സൂക്ഷിക്കുക!</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Other devices (sessions)</source>
         <translation>മറ്റ് ഉപകരണങ്ങൾ (സെഷനുകൾ)</translation>
     </message>
@@ -146,7 +146,7 @@
         <translation>എല്ലാ (%1) ഉപകരണങ്ങളും കാണിക്കുക</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+149"/>
         <source>Verified</source>
         <translation>പരിശോധിക്കപ്പെട്ടത്</translation>
     </message>
@@ -161,17 +161,17 @@
         <translation>തടഞ്ഞ</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+70"/>
         <source>Verify</source>
         <translation>പരിശോധിക്കുക</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unverify</source>
         <translation>പരിശോധന നീക്കുക</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unblock</source>
         <translation>അൺബ്ലോക്ക് ചെയ്യുക</translation>
     </message>
@@ -181,12 +181,12 @@
         <translation>തടയുക</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+115"/>
         <source>IP address</source>
         <translation>ഐപി വിലാസം</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+67"/>
         <source>Last seen: %1</source>
         <translation>അവസാനം കണ്ടത്: %1</translation>
     </message>
@@ -2450,7 +2450,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ക്യാഷ് ഫോൾഡർ പുനർനിർമ്മിക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>നിങ്ങൾ ഇഷ്ടപ്പെട്ടു പോകുന്ന ഒരു മികച്ച %1 ചാറ്റ് ആപ്പ്</translation>
     </message>
@@ -7116,7 +7116,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowCommunityFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+117"/>
         <source>Show</source>
         <translation>കാണിക്കുക</translation>
     </message>
@@ -7182,12 +7182,12 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+133"/>
         <source>Space</source>
         <translation>സ്പേസ്</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Show</source>
         <translation>കാണിക്കുക</translation>
     </message>

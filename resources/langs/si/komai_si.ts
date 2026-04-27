@@ -52,15 +52,15 @@
     <message>
         <location line="+32"/>
         <location line="+69"/>
-        <location line="+123"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="+126"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copied!</source>
         <translation>පිටපත් කළා!</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-849"/>
         <source>Copy user ID</source>
         <translation>පරිශීලක ID පිටපත් කරන්න</translation>
     </message>
@@ -80,48 +80,48 @@
         <translation>මෙම උපකරණය (සැසිය)</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+411"/>
+        <location line="+81"/>
+        <location line="+441"/>
         <source>This device</source>
         <translation>මෙම උපකරණය</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+131"/>
-        <location line="+294"/>
-        <location line="+157"/>
+        <location line="-415"/>
+        <location line="+164"/>
+        <location line="+293"/>
+        <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>ක්ලිප්බෝඩ් වෙත පිටපත් කරන්න</translation>
     </message>
     <message>
-        <location line="-566"/>
-        <location line="+469"/>
+        <location line="-638"/>
+        <location line="+508"/>
         <source>Sign out</source>
         <translation>ඉවත් වන්න</translation>
     </message>
     <message>
-        <location line="-450"/>
-        <location line="+472"/>
+        <location line="-481"/>
+        <location line="+509"/>
         <source>Name</source>
         <translation>නම</translation>
     </message>
     <message>
-        <location line="-422"/>
+        <location line="-445"/>
         <source>Access token</source>
         <translation>ප්‍රවේශ ටෝකනය</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Click to reveal</source>
         <translation>හෙළිදරව් කිරීමට ක්ලික් කරන්න</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+46"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>ප්‍රවේශ ටෝකන සම්පූර්ණ ගිණුම් ප්‍රවේශය ලබා දෙයි. රහසිගතව තබා ගන්න!</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Other devices (sessions)</source>
         <translation>අනෙකුත් උපකරණ (සැසි)</translation>
     </message>
@@ -146,7 +146,7 @@
         <translation>සියලු (%1) උපකරණ පෙන්වන්න</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+149"/>
         <source>Verified</source>
         <translation>තහවුරු කළ</translation>
     </message>
@@ -161,17 +161,17 @@
         <translation>අවහිර කළ</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+70"/>
         <source>Verify</source>
         <translation>තහවුරු කරන්න</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unverify</source>
         <translation>තහවුරු ඉවත් කරන්න</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Unblock</source>
         <translation>අවහිර ඉවත් කරන්න</translation>
     </message>
@@ -181,12 +181,12 @@
         <translation>අවහිර කරන්න</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+115"/>
         <source>IP address</source>
         <translation>IP ලිපිනය</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+67"/>
         <source>Last seen: %1</source>
         <translation>අවසන් වරට දක්නා ලදී: %1</translation>
     </message>
@@ -2450,7 +2450,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>හැඹිලි ෆෝල්ඩරය නැවත සෑදිය නොහැකි විය.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+110"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>ඔබට ප්‍රිය කළ හැකි හොඳ %1 කතාබස් යෙදුම</translation>
     </message>
@@ -7116,7 +7116,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowCommunityFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+108"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowCommunityFilter.qml" line="+117"/>
         <source>Show</source>
         <translation>පෙන්වන්න</translation>
     </message>
@@ -7182,12 +7182,12 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SettingRowSpacesFilter</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+122"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowSpacesFilter.qml" line="+133"/>
         <source>Space</source>
         <translation>අවකාශය</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Show</source>
         <translation>පෙන්වන්න</translation>
     </message>

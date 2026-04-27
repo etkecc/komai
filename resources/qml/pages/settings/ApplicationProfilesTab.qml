@@ -13,7 +13,10 @@ Item {
 
     ApplicationProfilesView {
         anchors.fill: parent
-        anchors.margins: Komai.paddingLarge
+        anchors.leftMargin: Komai.paddingMedium
+        anchors.rightMargin: Komai.paddingMedium
+        anchors.topMargin: Komai.paddingLarge
+        anchors.bottomMargin: Komai.paddingLarge
         standalone: false
     }
 }

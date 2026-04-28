@@ -984,6 +984,92 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>ComposerTranscriptionBanner</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <source>Voice transcription is enabled but not configured.</source>
+        <translation>语音转录已启用，但尚未配置。</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Recording &amp; transcribing… Click Stop to finish, Esc to cancel.</source>
+        <translation>正在录音并转录……点击停止完成，Esc 取消。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording &amp; transcribing… Release the button to stop.</source>
+        <translation>正在录音并转录……松开按键以停止。</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording &amp; transcribing… Release Space to stop.</source>
+        <translation>正在录音并转录……松开空格键以停止。</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Recording… Click Stop to transcribe, Esc to cancel.</source>
+        <translation>正在录音……点击停止以转录，Esc 取消。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording… Release the button to transcribe.</source>
+        <translation>正在录音……松开按键以转录。</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording… Release Space to transcribe.</source>
+        <translation>正在录音……松开空格键以转录。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transcribing…</source>
+        <translation>转录中……</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Transcription failed: %1.</source>
+        <translation>转录失败：%1。</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transcription failed.</source>
+        <translation>转录失败。</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Stop and transcribe</source>
+        <translation>停止并转录</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open Settings → Integrations → Voice transcription</source>
+        <translation>打开设置 → 集成 → 语音转录</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Dismiss</source>
+        <translation>关闭</translation>
+    </message>
+</context>
+<context>
+    <name>ComposerTranscriptionButton</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <source>Click to transcribe speech to text (or release if held)</source>
+        <translation>单击以语音转文字（或松开按键）</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hold or click to transcribe speech to text [long-press Space]</source>
+        <translation>按住或单击以语音转文字 [长按空格键]</translation>
+    </message>
+</context>
+<context>
     <name>ComposerVoiceButton</name>
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
@@ -3448,12 +3534,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>输入消息，或按向上键选择消息。</translation>
     </message>
     <message>
-        <location line="+458"/>
+        <location line="+495"/>
         <source>Stickers</source>
         <translation>贴纸</translation>
     </message>
@@ -7315,7 +7401,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>以下选项无效，因为上方已禁用账户通知。</translation>
     </message>
@@ -8285,6 +8371,119 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>开</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <source>Voice transcription</source>
+        <translation>语音转录</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>OpenAI cloud</source>
+        <translation>OpenAI 云</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>API key</source>
+        <translation>API 密钥</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <source>Provider</source>
+        <translation>提供商</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI 批处理（一次性）</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI 实时（流式）</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Hosting</source>
+        <translation>托管</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>其他（兼容 OpenAI 的服务器）</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>示例：http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Example: sk-…</source>
+        <translation>示例：sk-…</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Model</source>
+        <translation>模型</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Leave empty to use a sensible default for the selected Provider. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>留空则使用所选提供商的合理默认值。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;了解更多&lt;/a&gt;。</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
+        <translation>留空则由服务器自动检测。否则，请填入 ISO-639-1 代码（如 en、bg、fr）。</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>示例：姓名：Alice、Bob、Carol。术语：Matrix、Komai、federation。</translation>
+    </message>
+    <message>
+        <location line="-122"/>
+        <source>API base URL</source>
+        <translation>API 基础 URL</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Show/Hide API key</source>
+        <translation>显示/隐藏 API 密钥</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>示例：gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>示例：whisper-1</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Example: en</source>
+        <translation>示例：en</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Prompt</source>
+        <translation>提示词</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vocabulary or style hint passed to the transcription model. Helps with names, jargon, or style preferences.</source>
+        <translation>传递给转录模型的词汇或风格提示，有助于识别人名、术语或风格偏好。</translation>
+    </message>
+    <message>
+        <location line="-17"/>
+        <source>Language</source>
+        <translation>语言</translation>
     </message>
 </context>
 <context>
@@ -9568,7 +9767,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
         <source>Feedback</source>
         <translation>反馈</translation>
     </message>
@@ -9629,7 +9828,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>应用于内联音频播放器。</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
         <source>Input</source>
         <translation>输入</translation>
     </message>
@@ -9652,6 +9851,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>在消息输入框中输入 @ 符号时显示内联用户选择器。</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>启用语音转文字功能。在&lt;a href="komai://settings/integrations/transcription"&gt;集成 → 语音转录&lt;/a&gt;中配置转录提供商。</translation>
     </message>
     <message>
         <location line="+3"/>

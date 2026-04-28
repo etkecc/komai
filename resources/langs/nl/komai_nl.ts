@@ -984,6 +984,92 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
 </context>
 <context>
+    <name>ComposerTranscriptionBanner</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <source>Voice transcription is enabled but not configured.</source>
+        <translation>Spraaktranscriptie is ingeschakeld maar niet geconfigureerd.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Recording &amp; transcribing… Click Stop to finish, Esc to cancel.</source>
+        <translation>Opnemen &amp; transcriberen… Klik op Stop om te voltooien, Esc om te annuleren.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording &amp; transcribing… Release the button to stop.</source>
+        <translation>Opnemen &amp; transcriberen… Laat de knop los om te stoppen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording &amp; transcribing… Release Space to stop.</source>
+        <translation>Opnemen &amp; transcriberen… Laat Space los om te stoppen.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Recording… Click Stop to transcribe, Esc to cancel.</source>
+        <translation>Opnemen… Klik op Stop om te transcriberen, Esc om te annuleren.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording… Release the button to transcribe.</source>
+        <translation>Opnemen… Laat de knop los om te transcriberen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording… Release Space to transcribe.</source>
+        <translation>Opnemen… Laat Space los om te transcriberen.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transcribing…</source>
+        <translation>Transcriberen…</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Transcription failed: %1.</source>
+        <translation>Transcriptie mislukt: %1.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transcription failed.</source>
+        <translation>Transcriptie mislukt.</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Stop and transcribe</source>
+        <translation>Stoppen en transcriberen</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Settings</source>
+        <translation>Instellingen</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open Settings → Integrations → Voice transcription</source>
+        <translation>Instellingen openen → Integraties → Spraaktranscriptie</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Dismiss</source>
+        <translation>Sluiten</translation>
+    </message>
+</context>
+<context>
+    <name>ComposerTranscriptionButton</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <source>Click to transcribe speech to text (or release if held)</source>
+        <translation>Klik om spraak naar tekst te transcriberen (of laat los als je het vasthoudt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hold or click to transcribe speech to text [long-press Space]</source>
+        <translation>Vasthouden of klikken om spraak naar tekst te transcriberen [lang Space indrukken]</translation>
+    </message>
+</context>
+<context>
     <name>ComposerVoiceButton</name>
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
@@ -3452,12 +3538,12 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Schrijf een bericht, of druk op Omhoog om berichten te selecteren.</translation>
     </message>
     <message>
-        <location line="+458"/>
+        <location line="+495"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>
@@ -7322,7 +7408,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>De onderstaande opties hebben geen effect omdat accountmeldingen hierboven zijn uitgeschakeld.</translation>
     </message>
@@ -8297,6 +8383,119 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>AAN</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <source>Voice transcription</source>
+        <translation>Spraaktranscriptie</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>OpenAI cloud</source>
+        <translation>OpenAI-cloud</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>API key</source>
+        <translation>API-sleutel</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <source>Provider</source>
+        <translation>Aanbieder</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI Batch (eenmalig)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI Realtime (streaming)</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Hosting</source>
+        <translation>Hosting</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>Overig (OpenAI-compatibele server)</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>Voorbeeld: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Example: sk-…</source>
+        <translation>Voorbeeld: sk-…</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Model</source>
+        <translation>Model</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Leave empty to use a sensible default for the selected Provider. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Leeg laten voor een verstandige standaard voor de geselecteerde aanbieder. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Meer informatie&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
+        <translation>Leeg laten om de server automatisch te laten detecteren. Anders een ISO-639-1-code (bijv. en, bg, fr).</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>Voorbeeld: Namen: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</translation>
+    </message>
+    <message>
+        <location line="-122"/>
+        <source>API base URL</source>
+        <translation>API-basis-URL</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Show/Hide API key</source>
+        <translation>API-sleutel tonen/verbergen</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>Voorbeeld: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>Voorbeeld: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Example: en</source>
+        <translation>Voorbeeld: en</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Prompt</source>
+        <translation>Prompt</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vocabulary or style hint passed to the transcription model. Helps with names, jargon, or style preferences.</source>
+        <translation>Woordenschat- of stijlhint doorgegeven aan het transcriptiemodel. Helpt met namen, jargon of stijlvoorkeuren.</translation>
+    </message>
+    <message>
+        <location line="-17"/>
+        <source>Language</source>
+        <translation>Taal</translation>
     </message>
 </context>
 <context>
@@ -9582,7 +9781,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
         <source>Feedback</source>
         <translation>Feedback</translation>
     </message>
@@ -9643,7 +9842,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <translation>Van toepassing op ingebedde audiospelers.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
         <source>Input</source>
         <translation>Invoer</translation>
     </message>
@@ -9666,6 +9865,11 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Toon een inline gebruikerskiezer wanneer je een apenstaartje (@) in het berichtinvoerveld typt.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>Schakelt spraak-naar-tekst in. Configureer de transcriptieaanbieder in &lt;a href="komai://settings/integrations/transcription"&gt;Integraties → Spraaktranscriptie&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+3"/>

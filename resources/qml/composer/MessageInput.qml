@@ -34,6 +34,10 @@ Rectangle {
             Rooms.persistDraftForRoom(_draftRoomId, _draftText);
         _draftRoomId = "";
         _draftText = "";
+        // Cancel any in-flight transcription gesture; the audio + result
+        // belong to the previous room.
+        if (transcriptionState !== "idle")
+            _cancelTranscriptionGesture();
     }
     readonly property string text: messageInput.text
     readonly property bool textInputActiveFocus: messageInput.activeFocus
@@ -50,6 +54,107 @@ Rectangle {
     }
     readonly property bool composerEnabled: !hasUploads && !hasVoiceRecording
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
+
+    // Transcription gesture state. Two trigger surfaces share this state
+    // machine (Space long-press in the textarea, and the composer
+    // microphone button). `transcriptionTriggerKind` records which surface
+    // started the current gesture — it determines what release/click
+    // counts as "stop and dispatch" and what banner copy to show.
+    //  States:
+    //  - "idle"         : nothing happening
+    //  - "armed"        : trigger pressed, waiting for the long-press threshold
+    //  - "recording"    : threshold passed (or click-toggle entered), capturing audio
+    //  - "transcribing" : audio submitted, waiting for the API result
+    //  - "error"        : last attempt failed (banner shows the message)
+    //  Trigger kinds:
+    //  - "space"         : long-press Space in the textarea; release commits
+    //  - "button-hold"   : button mouse-held; release commits
+    //  - "button-toggle" : button clicked (no hold); next click commits
+    property string transcriptionState: "idle"
+    property string transcriptionTriggerKind: ""
+    // Effective provider for the in-flight gesture (resolved from
+    // Transcription.resolveForRoom at gesture start so per-room overrides
+    // apply). Drives banner copy: "Recording…" for batch (transcription
+    // happens at release) vs "Recording & transcribing…" for realtime
+    // (transcription happens live). Empty when state is idle.
+    property string transcriptionEffectiveProvider: ""
+    property string transcriptionLastError: ""
+    property int _transcriptionJobId: 0
+    readonly property bool transcriptionGestureEligible:
+        Settings.composerInputTranscriptionEnabled === true
+        && composerEnabled
+        && !popup.opened
+        && !walkModeActive
+
+    Timer {
+        id: transcriptionLongPressTimer
+        interval: 350
+        repeat: false
+        onTriggered: inputBar._beginTranscriptionRecording()
+    }
+
+    Connections {
+        // Toggling the master toggle off mid-gesture must cleanly cancel —
+        // no banner left over, no API call fired after the flip.
+        target: Settings
+        function onComposerInputTranscriptionEnabledChanged() {
+            if (Settings.composerInputTranscriptionEnabled !== true
+                && inputBar.transcriptionState !== "idle")
+                inputBar._cancelTranscriptionGesture();
+        }
+    }
+
+    Connections {
+        target: Transcription
+        function onBatchFinished(jobId, text) {
+            if (jobId !== inputBar._transcriptionJobId)
+                return;
+            inputBar._transcriptionJobId = 0;
+            inputBar.transcriptionState = "idle";
+            inputBar.transcriptionTriggerKind = "";
+            inputBar.transcriptionEffectiveProvider = "";
+            inputBar.transcriptionLastError = "";
+            TranscriptionAudioCapture.discardRecording();
+            if (text && text.length > 0)
+                inputBar._insertTranscribedText(text);
+        }
+        function onBatchFailed(jobId, errorCode, errorMessage) {
+            if (jobId !== inputBar._transcriptionJobId)
+                return;
+            inputBar._transcriptionJobId = 0;
+            inputBar.transcriptionState = "error";
+            inputBar.transcriptionTriggerKind = "";
+            inputBar.transcriptionEffectiveProvider = "";
+            inputBar.transcriptionLastError = errorMessage && errorMessage.length > 0
+                ? errorMessage
+                : errorCode;
+            TranscriptionAudioCapture.discardRecording();
+        }
+    }
+
+    Connections {
+        target: TranscriptionAudioCapture
+        function onRecordingFinished(filePath) {
+            // Only react when we are mid-flight from the gesture (i.e. the
+            // user released Space and we asked the recorder to stop). Other
+            // callers of stopRecording should set state themselves.
+            if (inputBar.transcriptionState !== "transcribing")
+                return;
+            if (!filePath || !inputBar.room) {
+                inputBar._abortTranscriptionInFlight();
+                return;
+            }
+            inputBar._transcriptionJobId =
+                Transcription.runBatchAsync(inputBar.room.roomId, filePath);
+        }
+        function onErrorOccurred(message) {
+            if (inputBar.transcriptionState === "idle")
+                return;
+            inputBar._abortTranscriptionInFlight();
+            inputBar.transcriptionState = "error";
+            inputBar.transcriptionLastError = message;
+        }
+    }
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property bool composerExpanded: textInput.targetTextAreaHeight > textInput.singleLineHeight
     readonly property bool commandPickerVisible: popup.opened && completer.completerType === "command"
@@ -96,6 +201,181 @@ Rectangle {
         messageInput.text = value;
         messageInput.cursorPosition = value.length;
         return true;
+    }
+
+    // Transcription gesture helpers ---------------------------------------
+    // Each entry point arms the gesture with a `triggerKind` that the rest
+    // of the state machine threads through:
+    //  - "space" / "button-hold": the long-press timer arms recording;
+    //    short-release hands control back ("space" types one literal space,
+    //    "button-hold" promotes to "button-toggle" and starts recording).
+    //  - "button-toggle": skip the long-press wait; recording starts
+    //    immediately and stays running until the user clicks again.
+    //
+    // A pre-flight readiness check (api_url + api_key present where required)
+    // gates every entry point: when the user attempts the gesture but the
+    // Integrations side is not configured, we surface the not-configured
+    // banner with an "Open Settings" link instead of recording.
+    function _transcriptionResolved() {
+        if (!room || !room.roomId)
+            return null;
+        return Transcription.resolveForRoom(room.roomId);
+    }
+
+    function _armTranscriptionGesture(triggerKind) {
+        if (transcriptionState !== "idle" && transcriptionState !== "error")
+            return;
+        transcriptionLastError = "";
+        transcriptionTriggerKind = triggerKind;
+        var resolved = _transcriptionResolved();
+        if (!resolved || !resolved.isReady) {
+            transcriptionEffectiveProvider = "";
+            transcriptionState = "not-configured";
+            return;
+        }
+        transcriptionEffectiveProvider = resolved.provider || "";
+        transcriptionState = "armed";
+        transcriptionLongPressTimer.restart();
+    }
+
+    function _beginTranscriptionRecording() {
+        if (transcriptionState !== "armed")
+            return;
+        transcriptionState = "recording";
+        TranscriptionAudioCapture.startRecording();
+    }
+
+    function _beginTranscriptionInToggleMode() {
+        // Called when the button is clicked (released before the hold
+        // threshold). Cancels the armed timer and starts recording right
+        // away in click-to-stop mode.
+        if (transcriptionState !== "idle"
+            && transcriptionState !== "error"
+            && transcriptionState !== "armed") {
+            return;
+        }
+        transcriptionLongPressTimer.stop();
+        transcriptionLastError = "";
+        transcriptionTriggerKind = "button-toggle";
+        var resolved = _transcriptionResolved();
+        if (!resolved || !resolved.isReady) {
+            transcriptionEffectiveProvider = "";
+            transcriptionState = "not-configured";
+            return;
+        }
+        transcriptionEffectiveProvider = resolved.provider || "";
+        transcriptionState = "recording";
+        TranscriptionAudioCapture.startRecording();
+    }
+
+    function _commitTranscriptionGesture() {
+        // Generic release/commit. Behavior depends on trigger kind:
+        //  - "space" + armed: short tap, type one literal space.
+        //  - "button-hold" + armed: short tap, promote to toggle mode and
+        //    start recording (caller decides whether to do this).
+        //  - any + not-configured: dismiss the hint; "space" types one
+        //    literal space because the user did press it.
+        //  - any + recording: stop recorder and wait for the file to flush.
+        if (transcriptionState === "armed" || transcriptionState === "not-configured") {
+            transcriptionLongPressTimer.stop();
+            const kind = transcriptionTriggerKind;
+            transcriptionState = "idle";
+            transcriptionTriggerKind = "";
+            transcriptionEffectiveProvider = "";
+            if (kind === "space")
+                messageInput.insert(messageInput.cursorPosition, " ");
+            return;
+        }
+        if (transcriptionState === "recording") {
+            transcriptionState = "transcribing";
+            TranscriptionAudioCapture.stopRecording();
+        }
+    }
+
+    function _cancelTranscriptionGesture() {
+        if (transcriptionState === "idle")
+            return;
+        transcriptionLongPressTimer.stop();
+        if (transcriptionState === "recording" || transcriptionState === "transcribing")
+            TranscriptionAudioCapture.discardRecording();
+        _transcriptionJobId = 0;
+        transcriptionState = "idle";
+        transcriptionTriggerKind = "";
+        transcriptionEffectiveProvider = "";
+        transcriptionLastError = "";
+    }
+
+    function _abortTranscriptionInFlight() {
+        _transcriptionJobId = 0;
+        transcriptionState = "idle";
+        transcriptionTriggerKind = "";
+        transcriptionEffectiveProvider = "";
+    }
+
+    function dismissTranscriptionError() {
+        if (transcriptionState === "error") {
+            transcriptionState = "idle";
+            transcriptionTriggerKind = "";
+            transcriptionEffectiveProvider = "";
+            transcriptionLastError = "";
+        }
+    }
+
+    function dismissTranscriptionNotConfigured() {
+        if (transcriptionState === "not-configured") {
+            transcriptionState = "idle";
+            transcriptionTriggerKind = "";
+            transcriptionEffectiveProvider = "";
+        }
+    }
+
+    function openTranscriptionSettings() {
+        // Same call path the SettingsContent in-app dispatcher uses for
+        // `komai://settings/integrations/transcription`. Dismiss the hint
+        // first so it does not linger in the composer after navigation.
+        dismissTranscriptionNotConfigured();
+        MainWindow.showUserSettingsPage(UserSettingsModel.TabIntegrations,
+                                        "transcription");
+    }
+
+    // Inject a transcription result at the cursor.
+    //
+    // Auto-prepends a space when joining a fresh transcript onto existing
+    // non-whitespace content so consecutive dictations and mixed
+    // type-and-dictate flows aren't mashed together. Skipped when the
+    // preceding character is in a CJK code-point range — Japanese,
+    // Chinese, Korean don't typically separate tokens with spaces, so an
+    // automatic space there would just be wrong. The transcribed text
+    // itself is left otherwise untouched.
+    function _insertTranscribedText(text) {
+        if (!text)
+            return;
+        messageInput.forceActiveFocus();
+        const pos = messageInput.cursorPosition;
+        let prefix = "";
+        if (pos > 0 && !/^\s/.test(text)) {
+            const prevChar = messageInput.getText(pos - 1, pos);
+            if (prevChar.length > 0
+                && !/^\s$/.test(prevChar)
+                && !_isCJKCharacter(prevChar)) {
+                prefix = " ";
+            }
+        }
+        messageInput.insert(pos, prefix + text);
+    }
+
+    function _isCJKCharacter(ch) {
+        if (!ch || ch.length === 0)
+            return false;
+        const code = ch.charCodeAt(0);
+        return (code >= 0x3000 && code <= 0x303F)   // CJK Symbols & Punctuation
+            || (code >= 0x3040 && code <= 0x309F)   // Hiragana
+            || (code >= 0x30A0 && code <= 0x30FF)   // Katakana
+            || (code >= 0x3400 && code <= 0x4DBF)   // CJK Unified Ideographs Ext A
+            || (code >= 0x4E00 && code <= 0x9FFF)   // CJK Unified Ideographs
+            || (code >= 0xAC00 && code <= 0xD7AF)   // Hangul Syllables
+            || (code >= 0xF900 && code <= 0xFAFF)   // CJK Compatibility Ideographs
+            || (code >= 0xFF00 && code <= 0xFFEF);  // Halfwidth & Fullwidth Forms
     }
 
     function toggleEmojiPicker() {
@@ -330,9 +610,22 @@ Rectangle {
 
             Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
             KeyNavigation.backtab: attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget())
-            KeyNavigation.tab: inputBar.hasVoiceRecording ? sendButton : messageInput
+            KeyNavigation.tab: transcriptionButton.visible
+                ? transcriptionButton
+                : (inputBar.hasVoiceRecording ? sendButton : messageInput)
             showAllButtons: inputBar.showAllButtons
             composerHasText: messageInput.length > 0 || inputBar.hasUploads
+        }
+        ComposerTranscriptionButton {
+            id: transcriptionButton
+
+            Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
+            KeyNavigation.backtab: voiceButton.visible
+                ? voiceButton
+                : (attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()))
+            KeyNavigation.tab: messageInput
+            showAllButtons: inputBar.showAllButtons
+            inputBar: inputBar
         }
         Loader {
             id: voicePreviewLoader
@@ -345,6 +638,9 @@ Rectangle {
             visible: active
             sourceComponent: ComposerVoicePreview {}
         }
+        // Transcription status banner is mounted by MatrixRoomComposerPane
+        // (sibling of ReplyPopup), not here — keeps the textarea visible
+        // during recording / transcribing / error / not-configured.
         ScrollView {
             id: textInput
 
@@ -532,6 +828,26 @@ Rectangle {
                             popup.close();
                         if (popup.opened && completer.count <= 0)
                             popup.close();
+                        // Long-press Space → voice transcription. Suppress all
+                        // Space events (initial + autoRepeats) while a
+                        // Space-driven gesture is in flight in any non-idle
+                        // state (armed / recording / transcribing / error /
+                        // not-configured). Without this, a not-configured
+                        // hold would still leak a stream of spaces while
+                        // the banner sits there. Button-driven gestures
+                        // leave Space alone.
+                        if ((event.modifiers & ~Qt.KeypadModifier) === 0
+                            && inputBar.transcriptionGestureEligible) {
+                            if (!event.isAutoRepeat
+                                && (inputBar.transcriptionState === "idle"
+                                    || inputBar.transcriptionState === "error")) {
+                                inputBar._armTranscriptionGesture("space");
+                                event.accepted = true;
+                            } else if (inputBar.transcriptionState !== "idle"
+                                && inputBar.transcriptionTriggerKind === "space") {
+                                event.accepted = true;
+                            }
+                        }
                     } else if (event.modifiers == Qt.ControlModifier && inputBar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)) {
                         event.accepted = inputBar.requestSelectionModeOlderChunk();
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_P) {
@@ -545,6 +861,12 @@ Rectangle {
                     } else if (event.key == Qt.Key_Escape && popup.opened) {
                         completer.completerType = "";
                         popup.close();
+                        event.accepted = true;
+                    } else if (event.key == Qt.Key_Escape
+                        && inputBar.transcriptionState !== "idle") {
+                        // Esc during recording / transcription cancels the
+                        // gesture. Discards audio without inserting text.
+                        inputBar._cancelTranscriptionGesture();
                         event.accepted = true;
                     } else if (event.key == Qt.Key_Escape) {
                         if (TimelineManager.matrixTimelineReplyEventId.length > 0) {
@@ -659,6 +981,16 @@ Rectangle {
                         }
                     }
                 }
+                Keys.onReleased: event => {
+                    if (event.key !== Qt.Key_Space || event.isAutoRepeat)
+                        return;
+                    if (inputBar.transcriptionTriggerKind === "space"
+                        && (inputBar.transcriptionState === "armed"
+                            || inputBar.transcriptionState === "recording")) {
+                        inputBar._commitTranscriptionGesture();
+                        event.accepted = true;
+                    }
+                }
                 // Ensure that we get escape key press events first.
                 Keys.onShortcutOverride: event => {
                     if (inputBar.isComposerTabEvent(event)) {
@@ -668,6 +1000,7 @@ Rectangle {
 
                     let escapeHandled = event.key === Qt.Key_Escape
                         && (popup.opened
+                            || inputBar.transcriptionState !== "idle"
                             || TimelineManager.matrixTimelineReplyEventId.length > 0
                             || TimelineManager.matrixTimelineEditEventId.length > 0
                             || TimelineManager.matrixTimelineThreadEventId.length > 0);

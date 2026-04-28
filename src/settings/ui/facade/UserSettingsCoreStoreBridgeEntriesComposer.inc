@@ -7,4 +7,5 @@ X(ComposerInputEmojiPreferredSkinTone,
 X(ComposerInputInlineEmojiPickerEnabled, settings.composerInputInlineEmojiPickerEnabled())
 X(ComposerInputInlineRoomPickerEnabled, settings.composerInputInlineRoomPickerEnabled())
 X(ComposerInputInlineUserPickerEnabled, settings.composerInputInlineUserPickerEnabled())
+X(ComposerInputTranscriptionEnabled, settings.composerInputTranscriptionEnabled())
 X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())

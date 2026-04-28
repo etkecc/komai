@@ -164,11 +164,12 @@ These shortcuts apply in the message composer.
 | `Ctrl+N` | Load the next composer draft/history entry |
 | `Ctrl+R` | Toggle voice recording (start, pause, or resume) |
 | `Ctrl+.` | Open or close the emoji picker |
+| `Space` (long-press) | Hold to record speech for [**voice transcription**](voice-transcription.md); release to insert the transcribed text. Briefer presses still type a literal space. |
 | `Tab` | Open the inline completer, or move within completer results. During voice recording, cycle through composer controls |
 | `Shift+Tab` | Move the other direction within completer results. During voice recording, cycle through composer controls in reverse |
 | `Up` | Move up inside the completer, or enter Selection mode when the caret is already at the start of the top composer line |
 | `Down` | Move down inside the completer |
-| `Escape` | Close the inline completer popup, or pause an active voice recording, or otherwise keep you in the composer |
+| `Escape` | Close the inline completer popup, cancel an active [**voice transcription**](voice-transcription.md), pause an active voice recording, or otherwise keep you in the composer |
 | `Enter` / `Shift+Enter` / `Ctrl+Enter` | Send or insert a newline depending on your configured send-key setting. During voice recording, `Enter` always sends (plus the configured send-key combo) |
 
 Typing note: when the timeline has focus, typing usually moves focus into the composer. On some

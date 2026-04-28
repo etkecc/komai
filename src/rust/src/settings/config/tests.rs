@@ -373,6 +373,8 @@ composer:
       enabled: true
     inline_user_picker:
       enabled: false
+    transcription:
+      enabled: false
   typing:
     send:
       enabled: false
@@ -387,6 +389,7 @@ composer:
     assert_eq!(config.composer.input_inline_emoji_picker_enabled, Some(false));
     assert_eq!(config.composer.input_inline_room_picker_enabled, Some(true));
     assert_eq!(config.composer.input_inline_user_picker_enabled, Some(false));
+    assert_eq!(config.composer.input_transcription_enabled, Some(false));
     assert_eq!(config.composer.typing_send_enabled, Some(false));
 }
 
@@ -561,6 +564,11 @@ fn encodes_generic_config_values() {
         integrations: SettingsConfigIntegrationsSection {
             dbus_api_access: "read_only".to_owned(),
             browser_command: "firefox %s".to_owned(),
+            transcription_provider: "openai_batch".to_owned(),
+            transcription_api_url: "https://api.openai.com/v1".to_owned(),
+            transcription_model: "whisper-1".to_owned(),
+            transcription_language: "en".to_owned(),
+            transcription_prompt: "Komai chat".to_owned(),
         },
         composer: SettingsConfigComposerSection {
             input_markdown_to_html_enabled: false,
@@ -571,6 +579,7 @@ fn encodes_generic_config_values() {
             input_inline_emoji_picker_enabled: false,
             input_inline_room_picker_enabled: true,
             input_inline_user_picker_enabled: false,
+            input_transcription_enabled: false,
             typing_send_enabled: false,
         },
     });
@@ -893,6 +902,10 @@ fn encodes_generic_config_values() {
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "inline_user_picker", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "transcription", "enabled"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(

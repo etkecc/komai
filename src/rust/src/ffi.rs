@@ -8,6 +8,12 @@ pub(crate) use crate::matrix_backend::ffi::*;
 pub(crate) use crate::settings::ffi::*;
 pub(crate) use crate::settings::profile::SettingsProfileHandle;
 pub(crate) use crate::syntax_highlight::{highlight_formatted_code_blocks, highlight_raw_json};
+pub(crate) use crate::transcription::ffi::{
+    transcription_clear_global_api_key, transcription_clear_room_api_key,
+    transcription_load_global_api_key, transcription_load_room_api_key,
+    transcription_resolve_for_room, transcription_run_batch, transcription_save_global_api_key,
+    transcription_save_room_api_key,
+};
 
 pub(crate) fn html_sanitize(html: &str) -> String {
     crate::html_processor::sanitize_html(html)
@@ -135,6 +141,47 @@ mod bridge {
         access_token: String,
         secrets: Vec<SettingsStringMapEntry>,
         had_stale_values: bool,
+    }
+
+    /// Mirror of `transcription::TranscriptionErrorCode`. Includes a
+    /// no-error sentinel `Ok` so callers can branch off a single value
+    /// without the result-success bool.
+    enum TranscriptionErrorCodeFfi {
+        Ok,
+        NotConfigured,
+        Network,
+        Unauthorized,
+        ServerError,
+        InvalidResponse,
+        InvalidAudio,
+        Internal,
+    }
+
+    struct TranscriptionBatchResult {
+        success: bool,
+        text: String,
+        error_code: TranscriptionErrorCodeFfi,
+        error_message: String,
+    }
+
+    /// Effective transcription config for a given room. Used by the UI to
+    /// decide whether long-press Space activates recording or surfaces the
+    /// "needs configuration" hint.
+    ///
+    /// The composer-side master toggle (`composer.input.transcription.enabled`)
+    /// is consulted independently by QML — it is *not* part of this struct.
+    struct TranscriptionResolvedConfig {
+        provider: String,
+        api_url: String,
+        has_api_key: bool,
+        /// Heuristic: is this URL a cloud provider that almost certainly
+        /// needs an api key? (OpenAI cloud, Deepgram, etc.) Local servers
+        /// usually return `false` here even when no key is set.
+        needs_api_key: bool,
+        model: String,
+        language: String,
+        prompt: String,
+        is_ready: bool,
     }
 
     struct SettingsConfigUiSection {
@@ -338,6 +385,16 @@ mod bridge {
     struct SettingsConfigIntegrationsSection {
         dbus_api_access: String,
         browser_command: String,
+        // Non-secret transcription fields. `api_key` is intentionally NOT
+        // here — it lives in the secrets backend, never in `config.yml`.
+        // Storage form: `transcription_provider` is a token string
+        // (e.g. "openai_batch"); the rest are raw strings, empty meaning
+        // "absent / fall back to default".
+        transcription_provider: String,
+        transcription_api_url: String,
+        transcription_model: String,
+        transcription_language: String,
+        transcription_prompt: String,
     }
 
     struct SettingsConfigComposerSection {
@@ -349,6 +406,7 @@ mod bridge {
         input_inline_emoji_picker_enabled: bool,
         input_inline_room_picker_enabled: bool,
         input_inline_user_picker_enabled: bool,
+        input_transcription_enabled: bool,
         typing_send_enabled: bool,
     }
 
@@ -2174,6 +2232,26 @@ mod bridge {
             initial_device_display_name: &str,
             verify_certificates: bool,
         ) -> Result<MatrixLoginResult>;
+
+        // Voice transcription. See `src/rust/src/transcription/`.
+        fn transcription_resolve_for_room(
+            profile_id: &str,
+            room_id: &str,
+        ) -> TranscriptionResolvedConfig;
+        fn transcription_run_batch(
+            profile_id: &str,
+            room_id: &str,
+            audio_path: &str,
+        ) -> TranscriptionBatchResult;
+        fn transcription_load_global_api_key(profile_id: &str) -> SettingsOptionalString;
+        fn transcription_save_global_api_key(profile_id: &str, value: &str);
+        fn transcription_clear_global_api_key(profile_id: &str);
+        fn transcription_load_room_api_key(
+            profile_id: &str,
+            room_id: &str,
+        ) -> SettingsOptionalString;
+        fn transcription_save_room_api_key(profile_id: &str, room_id: &str, value: &str);
+        fn transcription_clear_room_api_key(profile_id: &str, room_id: &str);
     }
 }
 

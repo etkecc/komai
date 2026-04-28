@@ -984,6 +984,92 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
 </context>
 <context>
+    <name>ComposerTranscriptionBanner</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <source>Voice transcription is enabled but not configured.</source>
+        <translation>Голосовое распознавание включено, но не настроено.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Recording &amp; transcribing… Click Stop to finish, Esc to cancel.</source>
+        <translation>Запись и распознавание… Нажми Стоп для завершения, Esc для отмены.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording &amp; transcribing… Release the button to stop.</source>
+        <translation>Запись и распознавание… Отпусти кнопку, чтобы остановить.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording &amp; transcribing… Release Space to stop.</source>
+        <translation>Запись и распознавание… Отпусти Space, чтобы остановить.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Recording… Click Stop to transcribe, Esc to cancel.</source>
+        <translation>Запись… Нажми Стоп для распознавания, Esc для отмены.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording… Release the button to transcribe.</source>
+        <translation>Запись… Отпусти кнопку для распознавания.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording… Release Space to transcribe.</source>
+        <translation>Запись… Отпусти Space для распознавания.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transcribing…</source>
+        <translation>Распознавание…</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Transcription failed: %1.</source>
+        <translation>Ошибка распознавания: %1.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transcription failed.</source>
+        <translation>Ошибка распознавания.</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Stop and transcribe</source>
+        <translation>Остановить и распознать</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open Settings → Integrations → Voice transcription</source>
+        <translation>Открыть Настройки → Интеграции → Голосовое распознавание</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Dismiss</source>
+        <translation>Закрыть</translation>
+    </message>
+</context>
+<context>
+    <name>ComposerTranscriptionButton</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <source>Click to transcribe speech to text (or release if held)</source>
+        <translation>Нажми для распознавания речи в текст (или отпусти, если зажато)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hold or click to transcribe speech to text [long-press Space]</source>
+        <translation>Удержи или нажми для распознавания речи в текст [долгое нажатие Space]</translation>
+    </message>
+</context>
+<context>
     <name>ComposerVoiceButton</name>
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
@@ -3456,12 +3542,12 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Напиши сообщение или нажми Вверх для выбора сообщений.</translation>
     </message>
     <message>
-        <location line="+458"/>
+        <location line="+495"/>
         <source>Stickers</source>
         <translation>Стикеры</translation>
     </message>
@@ -7329,7 +7415,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Параметры ниже не действуют, так как уведомления аккаунта отключены выше.</translation>
     </message>
@@ -8309,6 +8395,119 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>ВКЛ</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <source>Voice transcription</source>
+        <translation>Голосовое распознавание</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>OpenAI cloud</source>
+        <translation>Облако OpenAI</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>API key</source>
+        <translation>Ключ API</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <source>Provider</source>
+        <translation>Провайдер</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI Batch (разовый)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI Realtime (потоковый)</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Hosting</source>
+        <translation>Хостинг</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>Другой (сервер, совместимый с OpenAI)</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>Пример: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Example: sk-…</source>
+        <translation>Пример: sk-…</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Model</source>
+        <translation>Модель</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Leave empty to use a sensible default for the selected Provider. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Оставь пустым, чтобы использовать разумное значение по умолчанию для выбранного провайдера. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Подробнее&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
+        <translation>Оставь пустым для автоопределения сервером. Иначе — код ISO-639-1 (например, en, bg, fr).</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>Пример: Имена: Alice, Bob, Carol. Жаргон: Matrix, Komai, federation.</translation>
+    </message>
+    <message>
+        <location line="-122"/>
+        <source>API base URL</source>
+        <translation>Базовый URL API</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Show/Hide API key</source>
+        <translation>Показать/скрыть ключ API</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>Пример: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>Пример: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Example: en</source>
+        <translation>Пример: en</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Prompt</source>
+        <translation>Промпт</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vocabulary or style hint passed to the transcription model. Helps with names, jargon, or style preferences.</source>
+        <translation>Подсказка по словарю или стилю для модели распознавания. Помогает с именами, жаргоном или стилевыми предпочтениями.</translation>
+    </message>
+    <message>
+        <location line="-17"/>
+        <source>Language</source>
+        <translation>Язык</translation>
     </message>
 </context>
 <context>
@@ -9596,7 +9795,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
         <source>Feedback</source>
         <translation>Обратная связь</translation>
     </message>
@@ -9657,7 +9856,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>Применяется к встроенным аудиоплеерам.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
         <source>Input</source>
         <translation>Ввод</translation>
     </message>
@@ -9680,6 +9879,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Показывать встроенный выбор пользователя при вводе символа @ в поле сообщения.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>Включает распознавание речи в текст. Настрой провайдера распознавания в &lt;a href="komai://settings/integrations/transcription"&gt;Интеграции → Голосовое распознавание&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+3"/>

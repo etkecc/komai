@@ -27,6 +27,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime)
 - 📞 Legacy Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (with custom emojis), with a [built-in media viewer](docs/user-guide/features/media-playback.md) featuring gallery navigation and in-app video playback
+- 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to record speech and have it transcribed into the composer; works with OpenAI cloud or any OpenAI-compatible local server (whisper.cpp, Lemonade, LocalAI)
 - 😀 Richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃) -- see [Emoji Search and Picker](docs/user-guide/features/emojis.md)
 - 💬 Replies, [Discord](https://discord.com/)-style [threads](docs/user-guide/features/threads.md), and message forwarding
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)

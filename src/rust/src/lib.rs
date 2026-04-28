@@ -17,4 +17,5 @@ pub mod serverlist;
 pub mod settings;
 pub mod syntax_highlight;
 pub mod theme;
+pub mod transcription;
 pub(crate) mod ffi;

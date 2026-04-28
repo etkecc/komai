@@ -984,6 +984,92 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>ComposerTranscriptionBanner</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <source>Voice transcription is enabled but not configured.</source>
+        <translation>تحويل الصوت إلى نص مُفعَّل ولكنه غير مُهيَّأ.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Recording &amp; transcribing… Click Stop to finish, Esc to cancel.</source>
+        <translation>جارٍ التسجيل والنسخ… انقر على إيقاف للإنهاء، أو Esc للإلغاء.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording &amp; transcribing… Release the button to stop.</source>
+        <translation>جارٍ التسجيل والنسخ… حرّر الزر للإيقاف.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording &amp; transcribing… Release Space to stop.</source>
+        <translation>جارٍ التسجيل والنسخ… حرّر مفتاح Space للإيقاف.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Recording… Click Stop to transcribe, Esc to cancel.</source>
+        <translation>جارٍ التسجيل… انقر على إيقاف للنسخ، أو Esc للإلغاء.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording… Release the button to transcribe.</source>
+        <translation>جارٍ التسجيل… حرّر الزر للنسخ.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording… Release Space to transcribe.</source>
+        <translation>جارٍ التسجيل… حرّر مفتاح Space للنسخ.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transcribing…</source>
+        <translation>جارٍ النسخ…</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Transcription failed: %1.</source>
+        <translation>فشل النسخ: %1.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transcription failed.</source>
+        <translation>فشل النسخ.</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Stop and transcribe</source>
+        <translation>إيقاف ونسخ</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Settings</source>
+        <translation>الإعدادات</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open Settings → Integrations → Voice transcription</source>
+        <translation>افتح الإعدادات → التكاملات → تحويل الصوت إلى نص</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Dismiss</source>
+        <translation>تجاهل</translation>
+    </message>
+</context>
+<context>
+    <name>ComposerTranscriptionButton</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <source>Click to transcribe speech to text (or release if held)</source>
+        <translation>انقر لتحويل الكلام إلى نص (أو حرّر إذا كنت تضغط)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hold or click to transcribe speech to text [long-press Space]</source>
+        <translation>اضغط مطولاً أو انقر لتحويل الكلام إلى نص [ضغط طويل على Space]</translation>
+    </message>
+</context>
+<context>
     <name>ComposerVoiceButton</name>
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
@@ -3468,12 +3554,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>اكتب رسالة، أو اضغط على السهم لأعلى لتحديد الرسائل.</translation>
     </message>
     <message>
-        <location line="+458"/>
+        <location line="+495"/>
         <source>Stickers</source>
         <translation>ملصقات</translation>
     </message>
@@ -7350,7 +7436,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>الخيارات الموجودة أدناه لا تأثير لها لأن إشعارات الحساب معطلة أعلاه.</translation>
     </message>
@@ -8345,6 +8431,119 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>تشغيل</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <source>Voice transcription</source>
+        <translation>تحويل الصوت إلى نص</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>OpenAI cloud</source>
+        <translation>سحابة OpenAI</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>API key</source>
+        <translation>مفتاح API</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <source>Provider</source>
+        <translation>المزوّد</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>دُفعة OpenAI (مرة واحدة)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI الوقت الفعلي (بث مباشر)</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Hosting</source>
+        <translation>الاستضافة</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>أخرى (خادم متوافق مع OpenAI)</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>مثال: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Example: sk-…</source>
+        <translation>مثال: sk-…</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Model</source>
+        <translation>النموذج</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Leave empty to use a sensible default for the selected Provider. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>اتركه فارغاً لاستخدام القيمة الافتراضية المناسبة للمزوّد المحدد. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;معرفة المزيد&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
+        <translation>اتركه فارغاً للسماح للخادم بالاكتشاف التلقائي. وإلا، فأدخل رمز ISO-639-1 (مثل: en، bg، fr).</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>مثال: الأسماء: Alice، Bob، Carol. المصطلحات: Matrix، Komai، federation.</translation>
+    </message>
+    <message>
+        <location line="-122"/>
+        <source>API base URL</source>
+        <translation>عنوان URL الأساسي للـ API</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Show/Hide API key</source>
+        <translation>إظهار/إخفاء مفتاح API</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>مثال: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>مثال: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Example: en</source>
+        <translation>مثال: en</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Prompt</source>
+        <translation>موجّه</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vocabulary or style hint passed to the transcription model. Helps with names, jargon, or style preferences.</source>
+        <translation>مفردات أو تلميح للأسلوب يُمرَّر إلى نموذج النسخ. يساعد في الأسماء والمصطلحات أو تفضيلات الأسلوب.</translation>
+    </message>
+    <message>
+        <location line="-17"/>
+        <source>Language</source>
+        <translation>اللغة</translation>
     </message>
 </context>
 <context>
@@ -9638,7 +9837,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
         <source>Feedback</source>
         <translation>ملاحظات</translation>
     </message>
@@ -9699,7 +9898,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>يُطبَّق على مشغلات الصوت المضمَّنة.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
         <source>Input</source>
         <translation>الإدخال</translation>
     </message>
@@ -9722,6 +9921,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>إظهار منتقي مستخدمين مضمَّن عند كتابة علامة (@) في حقل إدخال الرسالة.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>يتيح تحويل الكلام إلى نص. هيّئ موفر النسخ في &lt;a href="komai://settings/integrations/transcription"&gt;التكاملات → تحويل الصوت إلى نص&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+3"/>

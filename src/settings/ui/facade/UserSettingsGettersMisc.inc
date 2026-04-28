@@ -29,6 +29,11 @@
     QStringList hiddenSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
+    QString integrationsTranscriptionProvider() const;
+    QString integrationsTranscriptionApiUrl() const;
+    QString integrationsTranscriptionModel() const;
+    QString integrationsTranscriptionLanguage() const;
+    QString integrationsTranscriptionPrompt() const;
     QString sponsoringStatus() const;
     bool desktopSystemTrayFirstClosePrompted() const;
     int windowWidth() const;

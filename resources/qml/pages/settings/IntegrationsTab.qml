@@ -10,6 +10,17 @@ import cc.etke.komai
 SettingsContent {
     tabFilter: UserSettingsModel.TabIntegrations
 
+    // Voice transcription gets its own headerContent slot so the section
+    // sits at the very top of the Integrations tab, above the model-row
+    // sections (D-Bus, Matrix Rooms Search, Browser).
+    headerContent: Component {
+        Loader {
+            Layout.fillWidth: true
+            Layout.preferredHeight: item ? item.implicitHeight : 0
+            source: "IntegrationsTab/TranscriptionSetting.qml"
+        }
+    }
+
     footerContent: Component {
         Loader {
             Layout.fillWidth: true

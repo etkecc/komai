@@ -7,7 +7,8 @@ use std::collections::BTreeMap;
 use super::tokens::{
     ConfigComposerEmojiPreferredGenderToken, ConfigComposerEmojiPreferredSkinToneToken,
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
-    ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
+    ConfigIntegrationsDbusApiAccessToken, ConfigIntegrationsTranscriptionProviderToken,
+    ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListOpeningPolicyToken,
@@ -321,6 +322,33 @@ pub struct ConfigNetwork {
 pub struct ConfigIntegrations {
     pub dbus_api_access: ConfigIntegrationsDbusApiAccessToken,
     pub browser_command: String,
+    pub transcription: ConfigIntegrationsTranscription,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigIntegrationsTranscription {
+    pub provider: Option<ConfigIntegrationsTranscriptionProviderToken>,
+    pub api_url: Option<String>,
+    /// Populated from the secrets backend at load time, never from `config.yml`.
+    /// See `var/plans/composer-voice-transcription.md` § "API key storage".
+    pub api_key: Option<String>,
+    pub model: Option<String>,
+    pub language: Option<String>,
+    pub prompt: Option<String>,
+    pub by_room: BTreeMap<String, ConfigIntegrationsTranscriptionOverrides>,
+}
+
+/// Per-room override of transcription settings. Every field is optional;
+/// unspecified fields fall back to the global value (and ultimately to the
+/// built-in default). `api_key` is intentionally absent — per-room keys live
+/// in the secrets backend keyed by a hash of the room id.
+#[derive(Clone, Debug, Default)]
+pub struct ConfigIntegrationsTranscriptionOverrides {
+    pub provider: Option<ConfigIntegrationsTranscriptionProviderToken>,
+    pub api_url: Option<String>,
+    pub model: Option<String>,
+    pub language: Option<String>,
+    pub prompt: Option<String>,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -333,6 +361,11 @@ pub struct ConfigComposer {
     pub input_inline_emoji_picker_enabled: Option<bool>,
     pub input_inline_room_picker_enabled: Option<bool>,
     pub input_inline_user_picker_enabled: Option<bool>,
+    /// Master toggle for the composer voice-transcription gesture
+    /// (long-press Space). The actual transcription provider config lives
+    /// under `integrations.transcription.*`. See
+    /// `var/plans/composer-voice-transcription.md` § "Config shape".
+    pub input_transcription_enabled: Option<bool>,
     pub typing_send_enabled: Option<bool>,
 }
 

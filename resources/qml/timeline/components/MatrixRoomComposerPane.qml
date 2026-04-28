@@ -55,6 +55,17 @@ ColumnLayout {
         roundTopCorners: true
     }
 
+    Composer.ComposerTranscriptionBanner {
+        Layout.minimumHeight: 0
+        Layout.preferredHeight: composerContainer.visible
+            && layoutVisible
+            && !composerContainer._walkMode ? implicitHeight : 0
+        Layout.maximumHeight: composerContainer.visible
+            && layoutVisible
+            && !composerContainer._walkMode ? implicitHeight : 0
+        inputBar: composerInput
+    }
+
     Rectangle {
         id: composerContainer
 

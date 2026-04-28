@@ -23,6 +23,7 @@
 - 📑 [Room Tabs](features/tabs.md) -- browser-style tabs for juggling multiple conversations, with pinning and closed-tab recovery
 - 🎨 [Themes](features/themes.md) -- built-in and custom themes
 - 💬 [Threads](features/threads.md) -- Discord-style threads, the Threads dialog, and collapsing replies on the main timeline
+- 🎙️ [Voice Transcription](features/voice-transcription.md) -- long-press Space (or click the microphone button) to record speech and have it transcribed into the composer via any OpenAI-compatible API
 
 ## 🛠️ [Operations](operations/README.md)
 

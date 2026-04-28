@@ -84,6 +84,16 @@ UserSettings::composerInputInlineUserPickerEnabled() const
 }
 
 bool
+UserSettings::composerInputTranscriptionEnabled() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::ComposerInputTranscriptionEnabled);
+        value.has_value())
+        return *value;
+    return composerInputTranscriptionEnabled_;
+}
+
+bool
 UserSettings::composerTypingSendEnabled() const
 {
     if (const auto value =

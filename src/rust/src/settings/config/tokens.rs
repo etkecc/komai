@@ -193,3 +193,8 @@ storage_token_enum!(ConfigComposerEmojiPreferredSkinToneToken, NoPreference {
     MediumDark => "medium_dark",
     Dark => "dark",
 });
+
+storage_token_enum!(ConfigIntegrationsTranscriptionProviderToken, OpenaiBatch {
+    OpenaiBatch => "openai_batch",
+    OpenaiRealtime => "openai_realtime",
+});

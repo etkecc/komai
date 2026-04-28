@@ -87,6 +87,7 @@ constexpr auto ComposerInputEmojiPreferredSkinTone   = "composer.input.emoji.pre
 constexpr auto ComposerInputInlineEmojiPickerEnabled = "composer.input.inline_emoji_picker.enabled";
 constexpr auto ComposerInputInlineRoomPickerEnabled  = "composer.input.inline_room_picker.enabled";
 constexpr auto ComposerInputInlineUserPickerEnabled  = "composer.input.inline_user_picker.enabled";
+constexpr auto ComposerInputTranscriptionEnabled     = "composer.input.transcription.enabled";
 constexpr auto ComposerTypingSendEnabled             = "composer.typing.send.enabled";
 constexpr auto DesktopNotificationsEnabled           = "desktop.notifications.enabled";
 constexpr auto DesktopNotificationsAttentionOnIncoming =
@@ -118,6 +119,11 @@ constexpr auto NetworkMrsServerName                  = "network.mrs.server_name"
 constexpr auto NetworkPresenceStatusPolicy           = "network.presence.status_policy";
 constexpr auto IntegrationsDbusApiAccess             = "integrations.dbus.access";
 constexpr auto IntegrationsBrowserCommand            = "integrations.browser.command";
+constexpr auto IntegrationsTranscriptionProvider     = "integrations.transcription.provider";
+constexpr auto IntegrationsTranscriptionApiUrl       = "integrations.transcription.api_url";
+constexpr auto IntegrationsTranscriptionModel        = "integrations.transcription.model";
+constexpr auto IntegrationsTranscriptionLanguage     = "integrations.transcription.language";
+constexpr auto IntegrationsTranscriptionPrompt       = "integrations.transcription.prompt";
 constexpr auto SecretsProvider                       = "secrets.provider";
 
 // state.yml

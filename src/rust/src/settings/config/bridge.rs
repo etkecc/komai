@@ -466,6 +466,31 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["integrations", "transcription", "provider"],
+        Value::String(snapshot.integrations.transcription_provider.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["integrations", "transcription", "api_url"],
+        Value::String(snapshot.integrations.transcription_api_url.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["integrations", "transcription", "model"],
+        Value::String(snapshot.integrations.transcription_model.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["integrations", "transcription", "language"],
+        Value::String(snapshot.integrations.transcription_language.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["integrations", "transcription", "prompt"],
+        Value::String(snapshot.integrations.transcription_prompt.clone()),
+    );
+    yaml::set_value(
+        &mut root,
         &["composer", "input", "markdown_to_html", "enabled"],
         Value::Bool(snapshot.composer.input_markdown_to_html_enabled),
     );
@@ -503,6 +528,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &mut root,
         &["composer", "input", "inline_user_picker", "enabled"],
         Value::Bool(snapshot.composer.input_inline_user_picker_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "transcription", "enabled"],
+        Value::Bool(snapshot.composer.input_transcription_enabled),
     );
     yaml::set_value(
         &mut root,

@@ -30,6 +30,7 @@
     bool composerInputInlineEmojiPickerEnabled() const;
     bool composerInputInlineRoomPickerEnabled() const;
     bool composerInputInlineUserPickerEnabled() const;
+    bool composerInputTranscriptionEnabled() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
     TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;

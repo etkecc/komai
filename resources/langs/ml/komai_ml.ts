@@ -984,6 +984,92 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
 </context>
 <context>
+    <name>ComposerTranscriptionBanner</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <source>Voice transcription is enabled but not configured.</source>
+        <translation>വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാണ് എന്നാൽ കോൺഫിഗർ ചെയ്തിട്ടില്ല.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Recording &amp; transcribing… Click Stop to finish, Esc to cancel.</source>
+        <translation>റെക്കോർഡ് ചെയ്യുന്നു &amp; ട്രാൻസ്ക്രൈബ് ചെയ്യുന്നു… നിർത്താൻ Stop ക്ലിക്ക് ചെയ്യുക, റദ്ദാക്കാൻ Esc.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording &amp; transcribing… Release the button to stop.</source>
+        <translation>റെക്കോർഡ് ചെയ്യുന്നു &amp; ട്രാൻസ്ക്രൈബ് ചെയ്യുന്നു… നിർത്താൻ ബട്ടൺ വിടുക.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording &amp; transcribing… Release Space to stop.</source>
+        <translation>റെക്കോർഡ് ചെയ്യുന്നു &amp; ട്രാൻസ്ക്രൈബ് ചെയ്യുന്നു… നിർത്താൻ Space വിടുക.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Recording… Click Stop to transcribe, Esc to cancel.</source>
+        <translation>റെക്കോർഡ് ചെയ്യുന്നു… ട്രാൻസ്ക്രൈബ് ചെയ്യാൻ Stop ക്ലിക്ക് ചെയ്യുക, റദ്ദാക്കാൻ Esc.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Recording… Release the button to transcribe.</source>
+        <translation>റെക്കോർഡ് ചെയ്യുന്നു… ട്രാൻസ്ക്രൈബ് ചെയ്യാൻ ബട്ടൺ വിടുക.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recording… Release Space to transcribe.</source>
+        <translation>റെക്കോർഡ് ചെയ്യുന്നു… ട്രാൻസ്ക്രൈബ് ചെയ്യാൻ Space വിടുക.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Transcribing…</source>
+        <translation>ട്രാൻസ്ക്രൈബ് ചെയ്യുന്നു…</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Transcription failed: %1.</source>
+        <translation>ട്രാൻസ്ക്രിപ്ഷൻ പരാജയപ്പെട്ടു: %1.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Transcription failed.</source>
+        <translation>ട്രാൻസ്ക്രിപ്ഷൻ പരാജയപ്പെട്ടു.</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Stop and transcribe</source>
+        <translation>നിർത്തി ട്രാൻസ്ക്രൈബ് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Settings</source>
+        <translation>ക്രമീകരണങ്ങൾ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open Settings → Integrations → Voice transcription</source>
+        <translation>ക്രമീകരണങ്ങൾ → ഇന്റഗ്രേഷനുകൾ → വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ തുറക്കുക</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Dismiss</source>
+        <translation>നിരസിക്കുക</translation>
+    </message>
+</context>
+<context>
+    <name>ComposerTranscriptionButton</name>
+    <message>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <source>Click to transcribe speech to text (or release if held)</source>
+        <translation>സ്പീച്ച് ടെക്സ്റ്റ് ആക്കാൻ ക്ലിക്ക് ചെയ്യുക (അല്ലെങ്കിൽ പിടിച്ചിരിക്കുകയാണെങ്കിൽ വിടുക)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hold or click to transcribe speech to text [long-press Space]</source>
+        <translation>സ്പീച്ച് ടെക്സ്റ്റ് ആക്കാൻ അമർത്തിപ്പിടിക്കുക അല്ലെങ്കിൽ ക്ലിക്ക് ചെയ്യുക [ദീർഘ-അമർത്തൽ Space]</translation>
+    </message>
+</context>
+<context>
     <name>ComposerVoiceButton</name>
     <message>
         <location filename="../../qml/composer/ComposerVoiceButton.qml" line="+16"/>
@@ -3452,12 +3538,12 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+508"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ Up അമർത്തുക.</translation>
     </message>
     <message>
-        <location line="+458"/>
+        <location line="+495"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>
@@ -7322,7 +7408,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ മുകളിൽ പ്രവർത്തനരഹിതമാക്കിയതിനാൽ, താഴെയുള്ള ഓപ്ഷനുകൾക്ക് ഒരു ഫലവുമില്ല.</translation>
     </message>
@@ -8297,6 +8383,119 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>ഓൺ</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <source>Voice transcription</source>
+        <translation>വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>OpenAI cloud</source>
+        <translation>OpenAI ക്ലൗഡ്</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>API key</source>
+        <translation>API കീ</translation>
+    </message>
+    <message>
+        <location line="-58"/>
+        <source>Provider</source>
+        <translation>പ്രൊവൈഡർ</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI Batch (ഒറ്റ-ഷോട്ട്)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI Realtime (സ്ട്രീമിംഗ്)</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Hosting</source>
+        <translation>ഹോസ്റ്റിംഗ്</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>മറ്റ് (OpenAI-compatible സെർവർ)</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>ഉദാഹരണം: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Example: sk-…</source>
+        <translation>ഉദാഹരണം: sk-…</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Model</source>
+        <translation>മോഡൽ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Leave empty to use a sensible default for the selected Provider. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>തിരഞ്ഞെടുത്ത പ്രൊവൈഡറിനുള്ള ഉചിതമായ ഡിഫോൾട്ട് ഉപയോഗിക്കാൻ ശൂന്യമായി ഇടുക. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
+        <translation>സെർവർ സ്വയം കണ്ടെത്താൻ ശൂന്യമായി ഇടുക. ഇല്ലെങ്കിൽ, ഒരു ISO-639-1 കോഡ് (ഉദാ. en, bg, fr).</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>ഉദാഹരണം: പേരുകൾ: Alice, Bob, Carol. പ്രത്യേക പദങ്ങൾ: Matrix, Komai, federation.</translation>
+    </message>
+    <message>
+        <location line="-122"/>
+        <source>API base URL</source>
+        <translation>API ബേസ് URL</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>Show/Hide API key</source>
+        <translation>API കീ കാണിക്കുക/മറയ്ക്കുക</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>ഉദാഹരണം: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>ഉദാഹരണം: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Example: en</source>
+        <translation>ഉദാഹരണം: en</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Prompt</source>
+        <translation>പ്രോംപ്റ്റ്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vocabulary or style hint passed to the transcription model. Helps with names, jargon, or style preferences.</source>
+        <translation>ട്രാൻസ്ക്രിപ്ഷൻ മോഡലിലേക്ക് കൈമാറുന്ന പദശേഖരം അല്ലെങ്കിൽ ശൈലി സൂചന. പേരുകൾ, പ്രത്യേക പദങ്ങൾ, അല്ലെങ്കിൽ ശൈലി മുൻഗണനകളിൽ സഹായിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="-17"/>
+        <source>Language</source>
+        <translation>ഭാഷ</translation>
     </message>
 </context>
 <context>
@@ -9582,7 +9781,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+70"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
         <source>Feedback</source>
         <translation>ഫീഡ്‌ബാക്ക്</translation>
     </message>
@@ -9643,7 +9842,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>ഇൻലൈൻ ഓഡിയോ പ്ലേയറുകൾക്ക് ബാധകം.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-66"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
         <source>Input</source>
         <translation>ഇൻപുട്ട്</translation>
     </message>
@@ -9666,6 +9865,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+5"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>സന്ദേശ ഇൻപുട്ടിൽ ആറ്റ് ചിഹ്നം (@) ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു ഇൻലൈൻ ഉപയോക്തൃ പിക്കർ കാണിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>സ്പീച്ച്-ടു-ടെക്സ്റ്റ് പ്രവർത്തനക്ഷമമാക്കുന്നു. ട്രാൻസ്ക്രിപ്ഷൻ പ്രൊവൈഡർ &lt;a href="komai://settings/integrations/transcription"&gt;ഇന്റഗ്രേഷനുകൾ → വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ&lt;/a&gt;-ൽ കോൺഫിഗർ ചെയ്യുക.</translation>
     </message>
     <message>
         <location line="+3"/>

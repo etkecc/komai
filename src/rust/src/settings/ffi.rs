@@ -357,6 +357,37 @@ pub(crate) fn ffi_config_integrations_section(
     ffi::SettingsConfigIntegrationsSection {
         dbus_api_access: config.integrations.dbus_api_access.to_storage_string(),
         browser_command: config.integrations.browser_command.clone(),
+        transcription_provider: config
+            .integrations
+            .transcription
+            .provider
+            .as_ref()
+            .map(|t| t.to_storage_string())
+            .unwrap_or_default(),
+        transcription_api_url: config
+            .integrations
+            .transcription
+            .api_url
+            .clone()
+            .unwrap_or_default(),
+        transcription_model: config
+            .integrations
+            .transcription
+            .model
+            .clone()
+            .unwrap_or_default(),
+        transcription_language: config
+            .integrations
+            .transcription
+            .language
+            .clone()
+            .unwrap_or_default(),
+        transcription_prompt: config
+            .integrations
+            .transcription
+            .prompt
+            .clone()
+            .unwrap_or_default(),
     }
 }
 
@@ -372,6 +403,7 @@ pub(crate) fn ffi_config_composer_section(
         input_inline_emoji_picker_enabled: config.composer.input_inline_emoji_picker_enabled.unwrap_or(defaults::INPUT_INLINE_EMOJI_PICKER_ENABLED),
         input_inline_room_picker_enabled: config.composer.input_inline_room_picker_enabled.unwrap_or(defaults::INPUT_INLINE_ROOM_PICKER_ENABLED),
         input_inline_user_picker_enabled: config.composer.input_inline_user_picker_enabled.unwrap_or(defaults::INPUT_INLINE_USER_PICKER_ENABLED),
+        input_transcription_enabled: config.composer.input_transcription_enabled.unwrap_or(defaults::INPUT_TRANSCRIPTION_ENABLED),
         typing_send_enabled: config.composer.typing_send_enabled.unwrap_or(defaults::TYPING_SEND_ENABLED),
     }
 }
@@ -741,6 +773,11 @@ fn clone_config_integrations_section(
     ffi::SettingsConfigIntegrationsSection {
         dbus_api_access: section.dbus_api_access.clone(),
         browser_command: section.browser_command.clone(),
+        transcription_provider: section.transcription_provider.clone(),
+        transcription_api_url: section.transcription_api_url.clone(),
+        transcription_model: section.transcription_model.clone(),
+        transcription_language: section.transcription_language.clone(),
+        transcription_prompt: section.transcription_prompt.clone(),
     }
 }
 
@@ -756,6 +793,7 @@ fn clone_config_composer_section(
         input_inline_emoji_picker_enabled: section.input_inline_emoji_picker_enabled,
         input_inline_room_picker_enabled: section.input_inline_room_picker_enabled,
         input_inline_user_picker_enabled: section.input_inline_user_picker_enabled,
+        input_transcription_enabled: section.input_transcription_enabled,
         typing_send_enabled: section.typing_send_enabled,
     }
 }

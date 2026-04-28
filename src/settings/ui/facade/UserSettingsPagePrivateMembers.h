@@ -26,6 +26,7 @@ EmojiPreferredSkinTone composerInputEmojiPreferredSkinTone_ = EmojiPreferredSkin
 bool composerInputInlineEmojiPickerEnabled_                 = true;
 bool composerInputInlineRoomPickerEnabled_                  = true;
 bool composerInputInlineUserPickerEnabled_                  = true;
+bool composerInputTranscriptionEnabled_                     = true;
 TimelineMessagesStyle timelineMessagesStyle_                = TimelineMessagesStyle::Bubbles;
 TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning_ =
   TimelineMessagesLayoutPositioning::OpposingBySender;
@@ -127,6 +128,11 @@ bool timelineThreadsCollapseReplies_           = false;
 QMap<QString, bool> timelineThreadsCollapseRepliesByRoom_;
 int integrationsDbusApiAccess_ = 0;
 QString integrationsBrowserCommand_;
+QString integrationsTranscriptionProvider_;
+QString integrationsTranscriptionApiUrl_;
+QString integrationsTranscriptionModel_;
+QString integrationsTranscriptionLanguage_;
+QString integrationsTranscriptionPrompt_;
 QString sponsoringStatus_                   = QStringLiteral("visible");
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;

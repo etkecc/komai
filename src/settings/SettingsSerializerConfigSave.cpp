@@ -225,7 +225,12 @@ stageConfig(const UserSettings &settings,
         {
           .dbus_api_access =
             cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess()).toStdString(),
-          .browser_command = settings.integrationsBrowserCommand().toStdString(),
+          .browser_command        = settings.integrationsBrowserCommand().toStdString(),
+          .transcription_provider = settings.integrationsTranscriptionProvider().toStdString(),
+          .transcription_api_url  = settings.integrationsTranscriptionApiUrl().toStdString(),
+          .transcription_model    = settings.integrationsTranscriptionModel().toStdString(),
+          .transcription_language = settings.integrationsTranscriptionLanguage().toStdString(),
+          .transcription_prompt   = settings.integrationsTranscriptionPrompt().toStdString(),
         },
       .composer =
         {
@@ -240,6 +245,7 @@ stageConfig(const UserSettings &settings,
           .input_inline_emoji_picker_enabled = settings.composerInputInlineEmojiPickerEnabled(),
           .input_inline_room_picker_enabled  = settings.composerInputInlineRoomPickerEnabled(),
           .input_inline_user_picker_enabled  = settings.composerInputInlineUserPickerEnabled(),
+          .input_transcription_enabled       = settings.composerInputTranscriptionEnabled(),
           .typing_send_enabled               = settings.composerTypingSendEnabled(),
         },
     };

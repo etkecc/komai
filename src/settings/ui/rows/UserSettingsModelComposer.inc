@@ -28,6 +28,11 @@
       "Inline user picker",
       QT_TR_NOOP("Show an inline user picker when you type an at sign (@) in the message input."),
       SM::TabComposer, composerInputInlineUserPickerEnabled, setComposerInputInlineUserPickerEnabled, nullptr, ComposerInputInlineUserPickerEnabled, SettingKey::ComposerInputInlineUserPickerEnabled),
+    // ComposerInputTranscriptionEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Voice transcription",
+      QT_TR_NOOP("Enables speech-to-text. Configure the transcription provider in <a href=\"komai://settings/integrations/transcription\">Integrations → Voice transcription</a>."),
+      SM::TabComposer, composerInputTranscriptionEnabled, setComposerInputTranscriptionEnabled, nullptr, ComposerInputTranscriptionEnabled, SettingKey::ComposerInputTranscriptionEnabled),
     // ComposerEmojiSection
     { QT_TR_NOOP("Emoji"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

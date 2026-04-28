@@ -264,6 +264,17 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         .trimmed(),
       IntegrationsDbusAccessNone));
 
+    settings.setIntegrationsTranscriptionProvider(QString::fromStdString(
+      static_cast<std::string>(snapshot.integrations.transcription_provider)));
+    settings.setIntegrationsTranscriptionApiUrl(QString::fromStdString(
+      static_cast<std::string>(snapshot.integrations.transcription_api_url)));
+    settings.setIntegrationsTranscriptionModel(
+      QString::fromStdString(static_cast<std::string>(snapshot.integrations.transcription_model)));
+    settings.setIntegrationsTranscriptionLanguage(QString::fromStdString(
+      static_cast<std::string>(snapshot.integrations.transcription_language)));
+    settings.setIntegrationsTranscriptionPrompt(
+      QString::fromStdString(static_cast<std::string>(snapshot.integrations.transcription_prompt)));
+
     settings.setComposerInputMarkdownToHtmlEnabled(
       snapshot.composer.input_markdown_to_html_enabled);
     settings.setComposerInputSendKey(cfg::sendMessageKeyFromStorage(
@@ -289,6 +300,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       snapshot.composer.input_inline_room_picker_enabled);
     settings.setComposerInputInlineUserPickerEnabled(
       snapshot.composer.input_inline_user_picker_enabled);
+    settings.setComposerInputTranscriptionEnabled(snapshot.composer.input_transcription_enabled);
     settings.setComposerTypingSendEnabled(snapshot.composer.typing_send_enabled);
 }
 

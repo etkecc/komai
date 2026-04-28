@@ -83,4 +83,5 @@ pub const INPUT_MARKDOWN_TO_HTML_ENABLED: bool = true;
 pub const INPUT_INLINE_EMOJI_PICKER_ENABLED: bool = true;
 pub const INPUT_INLINE_ROOM_PICKER_ENABLED: bool = true;
 pub const INPUT_INLINE_USER_PICKER_ENABLED: bool = true;
+pub const INPUT_TRANSCRIPTION_ENABLED: bool = true;
 pub const TYPING_SEND_ENABLED: bool = true;

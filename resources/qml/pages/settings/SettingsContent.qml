@@ -27,6 +27,34 @@ Item {
     property Component headerContent: null
     property Component footerContent: null
 
+    // Map a `komai://settings/<tab>[/<section>]` link to a tab change + scroll.
+    // Adding a new entry here is the only thing required to make a new
+    // settings deeplink work from any help-text link in any settings tab.
+    readonly property var settingsDeeplinkTabs: ({
+        "look-feel": UserSettingsModel.TabLookFeel,
+        "navigation": UserSettingsModel.TabNavigation,
+        "timeline": UserSettingsModel.TabTimeline,
+        "composer": UserSettingsModel.TabComposer,
+        "desktop": UserSettingsModel.TabDesktop,
+        "calls": UserSettingsModel.TabCalls,
+        "network": UserSettingsModel.TabNetwork,
+        "account": UserSettingsModel.TabAccount,
+        "integrations": UserSettingsModel.TabIntegrations,
+        "application-profiles": UserSettingsModel.TabApplicationProfiles,
+        "about": UserSettingsModel.TabAbout
+    })
+
+    function openSettingsDeeplink(link) {
+        // Strip "komai://settings/" prefix and split into <tab>/<section>.
+        var path = link.slice("komai://settings/".length);
+        var parts = path.split("/");
+        var tabName = parts[0];
+        var section = parts.slice(1).join("/");
+        if (!(tabName in settingsDeeplinkTabs))
+            return;
+        MainWindow.showUserSettingsPage(settingsDeeplinkTabs[tabName], section);
+    }
+
     Flickable {
         id: scroll
         anchors.left: parent.left
@@ -49,6 +77,7 @@ Item {
             x: sideMargin
 
             Loader {
+                id: headerLoader
                 Layout.fillWidth: true
                 active: root.headerContent !== null
                 sourceComponent: root.headerContent
@@ -476,6 +505,8 @@ Item {
                                         Komai.openLocalPath(info.mediaCachePath);
                                 } else if (link === "komai://rooms-directory") {
                                     MainWindow.openRoomDirectory();
+                                } else if (link.startsWith("komai://settings/")) {
+                                    root.openSettingsDeeplink(link);
                                 } else {
                                     Qt.openUrlExternally(link);
                                 }
@@ -486,6 +517,7 @@ Item {
             }
 
             Loader {
+                id: footerLoader
                 Layout.fillWidth: true
                 active: root.footerContent !== null
                 sourceComponent: root.footerContent
@@ -519,15 +551,46 @@ Item {
             return;
         var tag = scrollToTagId;
         scrollToTagId = "";
+        var maxY = Math.max(0, scroll.contentHeight - scroll.height);
         for (var i = 0; i < settingsRepeater.count; i++) {
             var item = settingsRepeater.itemAt(i);
             if (!item || !item.model)
                 continue;
             if (item.model.tagId === tag) {
-                var maxY = Math.max(0, scroll.contentHeight - scroll.height);
                 scroll.contentY = Math.min(item.y, maxY);
                 return;
             }
         }
+        // Also walk the header / footer content trees — custom QML pages
+        // (e.g. IntegrationsTab/TranscriptionSetting.qml) expose a `tagId`
+        // property at their root that the deeplink dispatcher can target.
+        var anchor = _findCustomTagAnchor(headerLoader.item, tag);
+        if (!anchor)
+            anchor = _findCustomTagAnchor(footerLoader.item, tag);
+        if (anchor) {
+            var p = anchor.mapToItem(grid, 0, 0);
+            scroll.contentY = Math.min(p.y, maxY);
+        }
+    }
+
+    function _findCustomTagAnchor(node, tag) {
+        if (!node)
+            return null;
+        if (node.tagId !== undefined && node.tagId === tag)
+            return node;
+        var children = node.children || [];
+        for (var i = 0; i < children.length; i++) {
+            // Loader items expose their loaded content via `.item` instead
+            // of as a regular child.
+            if (children[i].item) {
+                var found = _findCustomTagAnchor(children[i].item, tag);
+                if (found)
+                    return found;
+            }
+            var nested = _findCustomTagAnchor(children[i], tag);
+            if (nested)
+                return nested;
+        }
+        return null;
     }
 }

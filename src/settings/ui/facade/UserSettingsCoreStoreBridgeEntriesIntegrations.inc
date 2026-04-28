@@ -1,2 +1,7 @@
 X(IntegrationsDbusApiAccess, settings.integrationsDbusApiAccess())
 X(IntegrationsBrowserCommand, settings.integrationsBrowserCommand().toStdString())
+X(IntegrationsTranscriptionProvider, settings.integrationsTranscriptionProvider().toStdString())
+X(IntegrationsTranscriptionApiUrl, settings.integrationsTranscriptionApiUrl().toStdString())
+X(IntegrationsTranscriptionModel, settings.integrationsTranscriptionModel().toStdString())
+X(IntegrationsTranscriptionLanguage, settings.integrationsTranscriptionLanguage().toStdString())
+X(IntegrationsTranscriptionPrompt, settings.integrationsTranscriptionPrompt().toStdString())

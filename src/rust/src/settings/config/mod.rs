@@ -19,7 +19,8 @@ pub use model::{
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigDesktop,
     ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
     ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
-    ConfigIntegrations, ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
+    ConfigIntegrations, ConfigIntegrationsTranscription, ConfigIntegrationsTranscriptionOverrides,
+    ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
     ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigNavigationTabs, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
     ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineThreads, ConfigTimelineThreadsCollapseReplies,
@@ -31,7 +32,8 @@ pub(crate) use model::CURRENT_CONFIG_SCHEMA_VERSION;
 pub use tokens::{
     ConfigComposerEmojiPreferredGenderToken, ConfigComposerEmojiPreferredSkinToneToken,
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
-    ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
+    ConfigIntegrationsDbusApiAccessToken, ConfigIntegrationsTranscriptionProviderToken,
+    ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListOpeningPolicyToken,
@@ -203,8 +205,33 @@ const COMPOSER_INPUT_INLINE_ROOM_PICKER_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "inline_room_picker", "enabled"];
 const COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "inline_user_picker", "enabled"];
+const COMPOSER_INPUT_TRANSCRIPTION_ENABLED_PATH: [&str; 4] =
+    ["composer", "input", "transcription", "enabled"];
 const COMPOSER_TYPING_SEND_ENABLED_PATH: [&str; 4] =
     ["composer", "typing", "send", "enabled"];
+const INTEGRATIONS_TRANSCRIPTION_PROVIDER_PATH: [&str; 3] =
+    ["integrations", "transcription", "provider"];
+const INTEGRATIONS_TRANSCRIPTION_API_URL_PATH: [&str; 3] =
+    ["integrations", "transcription", "api_url"];
+const INTEGRATIONS_TRANSCRIPTION_MODEL_PATH: [&str; 3] =
+    ["integrations", "transcription", "model"];
+const INTEGRATIONS_TRANSCRIPTION_LANGUAGE_PATH: [&str; 3] =
+    ["integrations", "transcription", "language"];
+const INTEGRATIONS_TRANSCRIPTION_PROMPT_PATH: [&str; 3] =
+    ["integrations", "transcription", "prompt"];
+const INTEGRATIONS_TRANSCRIPTION_BY_ROOM_PATH: [&str; 3] =
+    ["integrations", "transcription", "by_room"];
+
+// Per-room override sub-keys (relative to a room mapping under `by_room`).
+// Note: `api_key` is intentionally absent — api keys live in the secrets
+// backend, never in config.yml. See plan §"API key storage".
+// `enabled` is also intentionally absent — the master toggle lives under
+// `composer.input.transcription.enabled` and has no per-room override.
+const INTEGRATIONS_TRANSCRIPTION_OVERRIDE_PROVIDER_KEY: &str = "provider";
+const INTEGRATIONS_TRANSCRIPTION_OVERRIDE_API_URL_KEY: &str = "api_url";
+const INTEGRATIONS_TRANSCRIPTION_OVERRIDE_MODEL_KEY: &str = "model";
+const INTEGRATIONS_TRANSCRIPTION_OVERRIDE_LANGUAGE_KEY: &str = "language";
+const INTEGRATIONS_TRANSCRIPTION_OVERRIDE_PROMPT_KEY: &str = "prompt";
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -573,6 +600,23 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 &INTEGRATIONS_DBUS_API_ACCESS_PATH,
             )),
             browser_command: parse_string(yaml::value_at_path(root, &INTEGRATIONS_BROWSER_COMMAND_PATH)),
+            transcription: ConfigIntegrationsTranscription {
+                provider: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_PROVIDER_PATH)
+                    .and_then(parse_optional_storage_token),
+                api_url: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_API_URL_PATH)
+                    .and_then(parse_optional_string),
+                api_key: None, // Populated from the secrets backend, never from config.yml.
+                model: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_MODEL_PATH)
+                    .and_then(parse_optional_string),
+                language: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_LANGUAGE_PATH)
+                    .and_then(parse_optional_string),
+                prompt: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_PROMPT_PATH)
+                    .and_then(parse_optional_string),
+                by_room: parse_integrations_transcription_overrides_map(yaml::value_at_path(
+                    root,
+                    &INTEGRATIONS_TRANSCRIPTION_BY_ROOM_PATH,
+                )),
+            },
         },
         composer: ConfigComposer {
             input_markdown_to_html_enabled: yaml::value_at_path(
@@ -609,6 +653,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             input_inline_user_picker_enabled: yaml::value_at_path(
                 root,
                 &COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            input_transcription_enabled: yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_TRANSCRIPTION_ENABLED_PATH,
             )
             .and_then(parse_scalar_bool),
             typing_send_enabled: yaml::value_at_path(root, &COMPOSER_TYPING_SEND_ENABLED_PATH)
@@ -758,6 +807,77 @@ fn parse_bool_map(
             continue;
         };
         result.insert(key.clone(), *value);
+    }
+
+    result
+}
+
+/// Variant of `parse_string` that returns `None` for missing or non-string
+/// values (instead of an empty string), so callers can tell "absent" from
+/// "deliberately blank".
+fn parse_optional_string(value: &serde_yaml_ng::Value) -> Option<String> {
+    match value {
+        serde_yaml_ng::Value::String(value) => Some(value.trim().to_owned()),
+        _ => None,
+    }
+}
+
+/// Variant of `parse_storage_token` that returns `None` when the value is
+/// absent or not a string, so callers can tell "no override set" from
+/// "default chosen". Unrecognised string values fall back to the token's
+/// default, mirroring `parse_storage_token`.
+fn parse_optional_storage_token<T: StorageToken>(value: &serde_yaml_ng::Value) -> Option<T> {
+    let serde_yaml_ng::Value::String(string) = value else {
+        return None;
+    };
+    let trimmed = string.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+    Some(T::from_storage_str(trimmed))
+}
+
+fn parse_integrations_transcription_overrides_map(
+    value: Option<&serde_yaml_ng::Value>,
+) -> std::collections::BTreeMap<String, ConfigIntegrationsTranscriptionOverrides> {
+    let Some(serde_yaml_ng::Value::Mapping(mapping)) = value else {
+        return std::collections::BTreeMap::new();
+    };
+
+    let mut result = std::collections::BTreeMap::new();
+    for (room_id_key, room_value) in mapping {
+        let serde_yaml_ng::Value::String(room_id) = room_id_key else {
+            continue;
+        };
+        let serde_yaml_ng::Value::Mapping(fields) = room_value else {
+            continue;
+        };
+
+        let mut overrides = ConfigIntegrationsTranscriptionOverrides::default();
+        for (field_key, field_value) in fields {
+            let serde_yaml_ng::Value::String(field_name) = field_key else {
+                continue;
+            };
+            match field_name.as_str() {
+                INTEGRATIONS_TRANSCRIPTION_OVERRIDE_PROVIDER_KEY => {
+                    overrides.provider = parse_optional_storage_token(field_value);
+                }
+                INTEGRATIONS_TRANSCRIPTION_OVERRIDE_API_URL_KEY => {
+                    overrides.api_url = parse_optional_string(field_value);
+                }
+                INTEGRATIONS_TRANSCRIPTION_OVERRIDE_MODEL_KEY => {
+                    overrides.model = parse_optional_string(field_value);
+                }
+                INTEGRATIONS_TRANSCRIPTION_OVERRIDE_LANGUAGE_KEY => {
+                    overrides.language = parse_optional_string(field_value);
+                }
+                INTEGRATIONS_TRANSCRIPTION_OVERRIDE_PROMPT_KEY => {
+                    overrides.prompt = parse_optional_string(field_value);
+                }
+                _ => {}
+            }
+        }
+        result.insert(room_id.clone(), overrides);
     }
 
     result

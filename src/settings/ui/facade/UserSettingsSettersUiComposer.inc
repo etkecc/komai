@@ -133,6 +133,16 @@ UserSettings::setComposerInputInlineUserPickerEnabled(bool s)
     save();
 }
 void
+UserSettings::setComposerInputTranscriptionEnabled(bool s)
+{
+    if (composerInputTranscriptionEnabled_ == s)
+        return;
+    composerInputTranscriptionEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputTranscriptionEnabled, s);
+    emit composerInputTranscriptionEnabledChanged(s);
+    save();
+}
+void
 UserSettings::setComposerTypingSendEnabled(bool s)
 {
     if (composerTypingSendEnabled_ == s)

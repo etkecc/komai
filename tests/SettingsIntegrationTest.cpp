@@ -1776,6 +1776,16 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::IntegrationsBrowserCommand));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsTranscriptionProvider));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsTranscriptionApiUrl));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsTranscriptionModel));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsTranscriptionLanguage));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsTranscriptionPrompt));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerInputMarkdownToHtmlEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::ComposerInputSendKey));
     serializerHandledConfigKeys.insert(
@@ -1790,6 +1800,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::ComposerInputInlineRoomPickerEnabled));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerInputInlineUserPickerEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputTranscriptionEnabled));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerTypingSendEnabled));
 

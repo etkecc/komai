@@ -116,6 +116,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool composerInputInlineUserPickerEnabled READ composerInputInlineUserPickerEnabled WRITE
         setComposerInputInlineUserPickerEnabled NOTIFY composerInputInlineUserPickerEnabledChanged)
+    Q_PROPERTY(
+      bool composerInputTranscriptionEnabled READ composerInputTranscriptionEnabled WRITE
+        setComposerInputTranscriptionEnabled NOTIFY composerInputTranscriptionEnabledChanged)
     Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
                  setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
     Q_PROPERTY(TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning READ
@@ -281,6 +284,18 @@ class UserSettings final : public QObject
                  setIntegrationsBrowserCommand NOTIFY integrationsBrowserCommandChanged)
     Q_PROPERTY(int integrationsDbusApiAccess READ integrationsDbusApiAccess WRITE
                  setIntegrationsDbusApiAccess NOTIFY integrationsDbusApiAccessChanged)
+    Q_PROPERTY(
+      QString integrationsTranscriptionProvider READ integrationsTranscriptionProvider WRITE
+        setIntegrationsTranscriptionProvider NOTIFY integrationsTranscriptionProviderChanged)
+    Q_PROPERTY(QString integrationsTranscriptionApiUrl READ integrationsTranscriptionApiUrl WRITE
+                 setIntegrationsTranscriptionApiUrl NOTIFY integrationsTranscriptionApiUrlChanged)
+    Q_PROPERTY(QString integrationsTranscriptionModel READ integrationsTranscriptionModel WRITE
+                 setIntegrationsTranscriptionModel NOTIFY integrationsTranscriptionModelChanged)
+    Q_PROPERTY(
+      QString integrationsTranscriptionLanguage READ integrationsTranscriptionLanguage WRITE
+        setIntegrationsTranscriptionLanguage NOTIFY integrationsTranscriptionLanguageChanged)
+    Q_PROPERTY(QString integrationsTranscriptionPrompt READ integrationsTranscriptionPrompt WRITE
+                 setIntegrationsTranscriptionPrompt NOTIFY integrationsTranscriptionPromptChanged)
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList openTabs READ openTabs WRITE setOpenTabs NOTIFY openTabsChanged)
@@ -555,6 +570,7 @@ public:
     void setComposerInputInlineEmojiPickerEnabled(bool state);
     void setComposerInputInlineRoomPickerEnabled(bool state);
     void setComposerInputInlineUserPickerEnabled(bool state);
+    void setComposerInputTranscriptionEnabled(bool state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesLayoutPositioning(TimelineMessagesLayoutPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
@@ -647,6 +663,11 @@ public:
     Q_INVOKABLE QVariant timelineThreadsCollapseRepliesOverrideForRoom(const QString &roomId) const;
     Q_INVOKABLE bool resolvedTimelineThreadsCollapseReplies(const QString &roomId) const;
     void setIntegrationsBrowserCommand(QString command);
+    void setIntegrationsTranscriptionProvider(QString provider);
+    void setIntegrationsTranscriptionApiUrl(QString url);
+    void setIntegrationsTranscriptionModel(QString model);
+    void setIntegrationsTranscriptionLanguage(QString language);
+    void setIntegrationsTranscriptionPrompt(QString prompt);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
     void setSponsoringStatus(QString status);
@@ -726,6 +747,7 @@ signals:
     void composerInputInlineEmojiPickerEnabledChanged(bool state);
     void composerInputInlineRoomPickerEnabledChanged(bool state);
     void composerInputInlineUserPickerEnabledChanged(bool state);
+    void composerInputTranscriptionEnabledChanged(bool state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesLayoutPositioningChanged(TimelineMessagesLayoutPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);
@@ -810,6 +832,11 @@ signals:
     void composerDraftsByRoomChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
+    void integrationsTranscriptionProviderChanged(QString provider);
+    void integrationsTranscriptionApiUrlChanged(QString url);
+    void integrationsTranscriptionModelChanged(QString model);
+    void integrationsTranscriptionLanguageChanged(QString language);
+    void integrationsTranscriptionPromptChanged(QString prompt);
     void sponsoringStatusChanged(QString sponsoringStatus);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);

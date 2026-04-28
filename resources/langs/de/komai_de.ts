@@ -3538,12 +3538,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Nachricht schreiben oder Aufwärts drücken, um Nachrichten auszuwählen.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>

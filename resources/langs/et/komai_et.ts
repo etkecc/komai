@@ -3538,12 +3538,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Kirjuta sõnum või vajuta Üles, et valida sõnumeid.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Kleepsud</translation>
     </message>

@@ -3538,12 +3538,12 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Schrijf een bericht, of druk op Omhoog om berichten te selecteren.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

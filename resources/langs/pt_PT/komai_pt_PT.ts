@@ -3538,12 +3538,12 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Escreva uma mensagem ou prima Para Cima para selecionar mensagens.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Autocolantes</translation>
     </message>

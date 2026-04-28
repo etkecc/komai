@@ -3534,12 +3534,12 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Viết tin nhắn, hoặc nhấn Lên để chọn tin nhắn.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>
     </message>

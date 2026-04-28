@@ -223,17 +223,15 @@ Rectangle {
     }
 
     function _armTranscriptionGesture(triggerKind) {
+        // Readiness is *not* checked here. A short tap must look indistinguishable
+        // from typing a space, which means we can't surface the not-configured
+        // banner until the long-press threshold actually elapses. Checking up
+        // front would flash the banner on every plain Space press.
         if (transcriptionState !== "idle" && transcriptionState !== "error")
             return;
         transcriptionLastError = "";
         transcriptionTriggerKind = triggerKind;
-        var resolved = _transcriptionResolved();
-        if (!resolved || !resolved.isReady) {
-            transcriptionEffectiveProvider = "";
-            transcriptionState = "not-configured";
-            return;
-        }
-        transcriptionEffectiveProvider = resolved.provider || "";
+        transcriptionEffectiveProvider = "";
         transcriptionState = "armed";
         transcriptionLongPressTimer.restart();
     }
@@ -241,6 +239,13 @@ Rectangle {
     function _beginTranscriptionRecording() {
         if (transcriptionState !== "armed")
             return;
+        var resolved = _transcriptionResolved();
+        if (!resolved || !resolved.isReady) {
+            transcriptionEffectiveProvider = "";
+            transcriptionState = "not-configured";
+            return;
+        }
+        transcriptionEffectiveProvider = resolved.provider || "";
         transcriptionState = "recording";
         TranscriptionAudioCapture.startRecording();
     }
@@ -828,14 +833,15 @@ Rectangle {
                             popup.close();
                         if (popup.opened && completer.count <= 0)
                             popup.close();
-                        // Long-press Space → voice transcription. Suppress all
-                        // Space events (initial + autoRepeats) while a
-                        // Space-driven gesture is in flight in any non-idle
-                        // state (armed / recording / transcribing / error /
-                        // not-configured). Without this, a not-configured
-                        // hold would still leak a stream of spaces while
-                        // the banner sits there. Button-driven gestures
-                        // leave Space alone.
+                        // Long-press Space → voice transcription. Only the
+                        // initial keydown arms the gesture; autoRepeats while
+                        // the gesture (or its sticky banner) is alive get
+                        // swallowed so a held Space past the long-press
+                        // threshold doesn't leak a stream of spaces. Fresh
+                        // Space presses always pass through to Qt's default
+                        // handling — typing a space must keep working even
+                        // while the not-configured / error banner is showing.
+                        // Button-driven gestures leave Space alone.
                         if ((event.modifiers & ~Qt.KeypadModifier) === 0
                             && inputBar.transcriptionGestureEligible) {
                             if (!event.isAutoRepeat
@@ -843,7 +849,8 @@ Rectangle {
                                     || inputBar.transcriptionState === "error")) {
                                 inputBar._armTranscriptionGesture("space");
                                 event.accepted = true;
-                            } else if (inputBar.transcriptionState !== "idle"
+                            } else if (event.isAutoRepeat
+                                && inputBar.transcriptionState !== "idle"
                                 && inputBar.transcriptionTriggerKind === "space") {
                                 event.accepted = true;
                             }

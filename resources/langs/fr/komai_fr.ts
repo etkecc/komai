@@ -3538,12 +3538,12 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Écrivez un message, ou appuyez sur Haut pour sélectionner des messages.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>

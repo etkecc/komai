@@ -3538,12 +3538,12 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Kirjoita viesti tai paina Ylös valitaksesi viestejä.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Tarrat</translation>
     </message>

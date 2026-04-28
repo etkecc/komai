@@ -3538,12 +3538,12 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Scrivi un messaggio, o premi Su per selezionare i messaggi.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>

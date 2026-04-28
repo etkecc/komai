@@ -3538,12 +3538,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>පණිවිඩයක් ලියන්න, හෝ ඉහළ ඔබා පණිවිඩ තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>ස්ටිකර</translation>
     </message>

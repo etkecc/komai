@@ -3534,12 +3534,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>메시지를 입력하거나 위 방향키를 눌러 메시지를 선택하세요.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>스티커</translation>
     </message>

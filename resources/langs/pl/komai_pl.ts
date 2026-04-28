@@ -3542,12 +3542,12 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+804"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Napisz wiadomość lub naciśnij Góra, aby wybrać wiadomości.</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+497"/>
         <source>Stickers</source>
         <translation>Naklejki</translation>
     </message>

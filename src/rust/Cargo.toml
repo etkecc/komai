@@ -59,7 +59,7 @@ matrix-sdk-ui = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "
 resolvematrix = { path = "resolvematrix", default-features = false, features = ["server"] }
 hickory-resolver = { version = "0.26", default-features = false, features = ["tokio", "system-config"] }
 reqwest = { version = "0.13", default-features = false, features = ["rustls", "stream", "multipart"] }
-sha2 = "0.10"
+sha2 = "0.11"
 hyper = { version = "1", features = ["http1", "server"] }
 hyper-util = { version = "0.1", features = ["tokio"] }
 http-body-util = "0.1"

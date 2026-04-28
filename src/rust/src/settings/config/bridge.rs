@@ -509,11 +509,6 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["composer", "typing", "send", "enabled"],
         Value::Bool(snapshot.composer.typing_send_enabled),
     );
-    yaml::set_value(
-        &mut root,
-        &["composer", "extras", "stickers", "enabled"],
-        Value::Bool(snapshot.composer.extras_stickers_enabled),
-    );
 
     yaml::serialize_yaml(&root)
 }

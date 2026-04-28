@@ -74,10 +74,3 @@
       "Show others when I'm typing",
       nullptr,
       SM::TabComposer, composerTypingSendEnabled, setComposerTypingSendEnabled, nullptr, ComposerTypingSendEnabled, SettingKey::ComposerTypingSendEnabled),
-    // ComposerExtrasSection
-    { QT_TR_NOOP("Extras"), nullptr, SM::SectionTitle, SM::TabComposer,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // EnableStickers
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Enable stickers",
-                        nullptr,
-                        SM::TabComposer, composerExtrasStickersEnabled, setComposerExtrasStickersEnabled, nullptr, ComposerExtrasStickersEnabled, SettingKey::ComposerExtrasStickersEnabled),

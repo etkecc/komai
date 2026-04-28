@@ -9679,11 +9679,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>インライン絵文字ピッカーのみ: 利用可能な場合、特定の肌の色バリアントを優先します。別の肌の色を明示的に検索することも可能です。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;詳細はこちら&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>エクストラ</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>アカウント通知</translation>

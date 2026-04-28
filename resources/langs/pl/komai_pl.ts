@@ -9708,11 +9708,6 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
         <translation>Tylko wbudowany wybieracz emoji: preferuj jeden wariant koloru skóry, gdy jest dostępny. Wyszukiwanie innego koloru skóry nadal działa. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Dowiedz się więcej&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Dodatki</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Powiadomienia konta</translation>

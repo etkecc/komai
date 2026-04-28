@@ -9693,11 +9693,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>Inline ඉමොජි තෝරක පමණක්: ලබාගත හැකි විට එක් සමේ-ටෝනයක් විචල්‍යයකට ප්‍රාධාන්‍යය දෙන්න. වෙනත් සමේ-ටෝනයක් සඳහා සෘජුව සෙවීම ඇතත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>අතිරේක</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>ගිණුම් දැනුම්දීම්</translation>

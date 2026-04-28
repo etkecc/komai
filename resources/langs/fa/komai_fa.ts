@@ -9679,11 +9679,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>فقط انتخاب‌کننده شکلک درون‌خطی: در صورت وجود، یک نوع رنگ پوست ترجیح داده می‌شود. جستجوی صریح برای رنگ پوست دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>موارد اضافی</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>اعلان‌های حساب</translation>

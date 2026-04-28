@@ -9707,11 +9707,6 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
         <translation>Samo za ugrađeni birač emoji-ja: preferuj jednu varijantu tena kože kada je dostupna. Eksplicitno traženje drugog tena i dalje funkcioniše. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Dodaci</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Obaveštenja naloga</translation>

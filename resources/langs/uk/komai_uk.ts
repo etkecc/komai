@@ -9707,11 +9707,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>Лише вбудований вибір емодзі: надавати перевагу одному варіанту кольору шкіри, якщо доступно. Явний пошук іншого кольору шкіри все одно працює. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Дізнатися більше&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Додатково</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Сповіщення акаунту</translation>

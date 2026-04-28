@@ -9693,11 +9693,6 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
         <translation>Apenas no seletor de emoji inline: preferir uma variante de tom de pele quando disponível. A busca explícita por outro tom de pele ainda funciona. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Saiba mais&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extras</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notificações da conta</translation>

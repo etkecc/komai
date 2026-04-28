@@ -11,6 +11,7 @@ User-facing capabilities of Komai. Each page covers one feature in depth.
 - ✨ [Message Effects](message-effects.md) -- confetti, sunshine, rain, storms, and other timeline flourishes
 - 🧭 [Room Directory](room-directory.md) -- browse public rooms on your homeserver, custom servers, or globally via Matrix Rooms Search
 - 📑 [Room Tabs](tabs.md) -- browser-style tabs for juggling multiple conversations, with pinning and closed-tab recovery
+- 🩹 [Stickers](stickers.md) -- what's supported today (receiving, displaying, pack management) and what isn't (sending)
 - 🎨 [Themes](themes.md) -- built-in and custom themes
 - 💬 [Threads](threads.md) -- Discord-style threads, the Threads dialog, and collapsing replies on the main timeline
 

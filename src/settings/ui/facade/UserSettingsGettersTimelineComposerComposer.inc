@@ -84,16 +84,6 @@ UserSettings::composerInputInlineUserPickerEnabled() const
 }
 
 bool
-UserSettings::composerExtrasStickersEnabled() const
-{
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerExtrasStickersEnabled);
-        value.has_value())
-        return *value;
-    return composerExtrasStickersEnabled_;
-}
-
-bool
 UserSettings::composerTypingSendEnabled() const
 {
     if (const auto value =

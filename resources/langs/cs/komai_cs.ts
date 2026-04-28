@@ -9707,11 +9707,6 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <translation>Pouze inline výběr emoji: preferovat jednu variantu tónu pleti, je-li dostupná. Explicitní vyhledávání jiného tónu pleti stále funguje. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Zjistit více&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Doplňky</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Oznámení účtu</translation>

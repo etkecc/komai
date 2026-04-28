@@ -70,7 +70,6 @@ enum class SettingId
     ComposerInputInlineRoomPickerEnabled,
     ComposerInputInlineUserPickerEnabled,
     ComposerTypingSendEnabled,
-    ComposerExtrasStickersEnabled,
     NotificationsAccountEnabled,
     CallsLegacyEnabled,
     CallsRelayUseFallbackServer,

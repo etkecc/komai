@@ -9679,11 +9679,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>인라인 이모지 선택기 전용: 가능한 경우 하나의 피부 톤 변형을 우선합니다. 다른 피부 톤을 명시적으로 검색하는 것은 여전히 작동합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>추가 기능</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>계정 알림</translation>

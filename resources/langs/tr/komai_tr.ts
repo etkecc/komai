@@ -9679,11 +9679,6 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
         <translation>Yalnızca satır içi emoji seçici: mevcut olduğunda tek bir ten tonu varyantını tercih eder. Başka bir ten tonu için açıkça arama yapmak yine de çalışır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Ekstralar</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Hesap bildirimleri</translation>

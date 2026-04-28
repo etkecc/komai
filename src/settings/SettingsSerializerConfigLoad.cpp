@@ -290,7 +290,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setComposerInputInlineUserPickerEnabled(
       snapshot.composer.input_inline_user_picker_enabled);
     settings.setComposerTypingSendEnabled(snapshot.composer.typing_send_enabled);
-    settings.setComposerExtrasStickersEnabled(snapshot.composer.extras_stickers_enabled);
 }
 
 } // namespace settings::serializer

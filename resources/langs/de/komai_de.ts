@@ -9693,11 +9693,6 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
         <translation>Nur im eingebetteten Emoji-Picker: Eine Hautton-Variante bevorzugen, wenn verfügbar. Eine explizite Suche nach einem anderen Hautton ist weiterhin möglich. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Mehr erfahren&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extras</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Konto-Benachrichtigungen</translation>

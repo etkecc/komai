@@ -9693,11 +9693,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ ഒരു ത്വക്ക്-ടോൺ വേരിയന്റ് മുൻഗണന നൽകുക. മറ്റ് ത്വക്ക് ടോൺ വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>അധികം</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ</translation>

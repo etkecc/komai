@@ -9693,11 +9693,6 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
         <translation>Només al selector d'emoji en línia: prefereix una variant de to de pell quan n'hi ha. La cerca explícita d'un altre to de pell segueix funcionant. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extres</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notificacions del compte</translation>

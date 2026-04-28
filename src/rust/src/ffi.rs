@@ -350,7 +350,6 @@ mod bridge {
         input_inline_room_picker_enabled: bool,
         input_inline_user_picker_enabled: bool,
         typing_send_enabled: bool,
-        extras_stickers_enabled: bool,
     }
 
     struct SettingsConfigSnapshot {

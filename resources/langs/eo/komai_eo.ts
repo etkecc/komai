@@ -9696,11 +9696,6 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <translation>Nur enlinia emoji-elektilo: preferi unu haŭtotonan varianton kiam disponebla. Eksplicita serĉado por alia haŭtotono ankoraŭ funkcias. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lernu pli&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Ekstraĵoj</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Kontaj sciigoj</translation>

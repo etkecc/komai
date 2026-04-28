@@ -9655,11 +9655,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation type="unfinished"/>

@@ -46,7 +46,3 @@
    SettingScope::Config,
    SettingKey::ComposerTypingSendEnabled,
    false},
-  {SettingId::ComposerExtrasStickersEnabled,
-   SettingScope::Config,
-   SettingKey::ComposerExtrasStickersEnabled,
-   false},

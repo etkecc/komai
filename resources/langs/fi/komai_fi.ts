@@ -9693,11 +9693,6 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <translation>Vain tekstinsisäinen emojivalitsin: suosi yhtä ihonsäyvarianttia jos saatavilla. Toiselle ihonsävylle hakeminen toimii silti. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Lisäominaisuudet</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Tilin ilmoitukset</translation>

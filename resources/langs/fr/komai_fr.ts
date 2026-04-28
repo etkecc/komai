@@ -9693,11 +9693,6 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
         <translation>Sélecteur d'emoji intégré uniquement : préférer une variante de teinte de peau lorsqu'elle est disponible. La recherche explicite d'une autre teinte de peau fonctionne toujours. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;En savoir plus&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extras</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notifications du compte</translation>

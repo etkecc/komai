@@ -9693,11 +9693,6 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
         <translation>Endast inline-emojipicker: föredrar en hudtonsvariant när tillgänglig. Sökning explicit på en annan hudton fungerar fortfarande. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Läs mer&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extra</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Kontoaviseringar</translation>

@@ -376,9 +376,6 @@ composer:
   typing:
     send:
       enabled: false
-  extras:
-    stickers:
-      enabled: true
 "#,
     );
 
@@ -391,7 +388,6 @@ composer:
     assert_eq!(config.composer.input_inline_room_picker_enabled, Some(true));
     assert_eq!(config.composer.input_inline_user_picker_enabled, Some(false));
     assert_eq!(config.composer.typing_send_enabled, Some(false));
-    assert_eq!(config.composer.extras_stickers_enabled, Some(true));
 }
 
 #[test]
@@ -576,7 +572,6 @@ fn encodes_generic_config_values() {
             input_inline_room_picker_enabled: true,
             input_inline_user_picker_enabled: false,
             typing_send_enabled: false,
-            extras_stickers_enabled: true,
         },
     });
 
@@ -903,10 +898,6 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "typing", "send", "enabled"]),
         Some(serde_yaml_ng::Value::Bool(false))
-    ));
-    assert!(matches!(
-        yaml::value_at_path(&root, &["composer", "extras", "stickers", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(true))
     ));
 }
 

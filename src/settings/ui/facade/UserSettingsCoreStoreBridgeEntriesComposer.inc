@@ -8,4 +8,3 @@ X(ComposerInputInlineEmojiPickerEnabled, settings.composerInputInlineEmojiPicker
 X(ComposerInputInlineRoomPickerEnabled, settings.composerInputInlineRoomPickerEnabled())
 X(ComposerInputInlineUserPickerEnabled, settings.composerInputInlineUserPickerEnabled())
 X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())
-X(ComposerExtrasStickersEnabled, settings.composerExtrasStickersEnabled())

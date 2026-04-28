@@ -965,7 +965,7 @@ Rectangle {
             KeyNavigation.tab: emojiButton.visible ? emojiButton : sendButton
             toolTipText: qsTr("Stickers")
             image: ":/icons/icons/ui/sticky-note-solid.svg"
-            visible: showAllButtons && inputBar.allowStickers && Settings.composerExtrasStickersEnabled && !inputBar.hasVoiceRecording
+            visible: showAllButtons && inputBar.allowStickers && !inputBar.hasVoiceRecording
 
             onClicked: {
                 if (!inputBar.inputController || typeof inputBar.inputController.sticker !== "function")

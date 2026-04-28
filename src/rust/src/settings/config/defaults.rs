@@ -84,4 +84,3 @@ pub const INPUT_INLINE_EMOJI_PICKER_ENABLED: bool = true;
 pub const INPUT_INLINE_ROOM_PICKER_ENABLED: bool = true;
 pub const INPUT_INLINE_USER_PICKER_ENABLED: bool = true;
 pub const TYPING_SEND_ENABLED: bool = true;
-pub const EXTRAS_STICKERS_ENABLED: bool = false;

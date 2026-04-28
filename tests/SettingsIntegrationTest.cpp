@@ -1792,8 +1792,6 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::ComposerInputInlineUserPickerEnabled));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerTypingSendEnabled));
-    serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::ComposerExtrasStickersEnabled));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

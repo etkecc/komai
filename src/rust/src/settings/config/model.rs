@@ -334,7 +334,6 @@ pub struct ConfigComposer {
     pub input_inline_room_picker_enabled: Option<bool>,
     pub input_inline_user_picker_enabled: Option<bool>,
     pub typing_send_enabled: Option<bool>,
-    pub extras_stickers_enabled: Option<bool>,
 }
 
 pub struct LoadedConfig {

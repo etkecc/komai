@@ -9749,11 +9749,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>منتقي الإيموجي المضمَّن فقط: تفضيل متغير لون بشرة واحد عند توفره. البحث الصريح عن لون بشرة آخر يظل ممكناً. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;معرفة المزيد&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>إضافات</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>إشعارات الحساب</translation>

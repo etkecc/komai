@@ -9693,11 +9693,6 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <translation>Selector inline de emoji solmen: prefere un variante de ton de pel quande disponibil. Recercament explicit de un altri ton de pel ancora functiona. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Aprender plu&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extras</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notificationes del compte</translation>

@@ -9679,11 +9679,6 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
         <translation>Chỉ bộ chọn emoji nội tuyến: ưu tiên một biến thể màu da khi có sẵn. Tìm kiếm rõ ràng cho màu da khác vẫn hoạt động. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Bổ sung</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Thông báo tài khoản</translation>

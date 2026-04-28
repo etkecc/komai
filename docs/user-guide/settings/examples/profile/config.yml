@@ -104,9 +104,6 @@ composer:
   typing:
     send:
       enabled: true
-  extras:
-    stickers:
-      enabled: false
 
 desktop:
   notifications:

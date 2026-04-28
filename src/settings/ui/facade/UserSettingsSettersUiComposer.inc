@@ -133,16 +133,6 @@ UserSettings::setComposerInputInlineUserPickerEnabled(bool s)
     save();
 }
 void
-UserSettings::setComposerExtrasStickersEnabled(bool s)
-{
-    if (composerExtrasStickersEnabled_ == s)
-        return;
-    composerExtrasStickersEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::ComposerExtrasStickersEnabled, s);
-    emit composerExtrasStickersEnabledChanged(s);
-    save();
-}
-void
 UserSettings::setComposerTypingSendEnabled(bool s)
 {
     if (composerTypingSendEnabled_ == s)

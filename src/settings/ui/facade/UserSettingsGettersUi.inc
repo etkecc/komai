@@ -34,7 +34,6 @@
     TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;
     AvatarSize timelineMessagesLayoutAvatarSize() const;
-    bool composerExtrasStickersEnabled() const;
     bool timelineMessagesLayoutShowOwnAvatar() const;
     QString timelineMessageActionsPinnedReactions() const;
     ShowSenderUsername timelineMessagesSenderUsername() const;

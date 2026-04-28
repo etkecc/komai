@@ -9693,11 +9693,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>Μόνο για τον ενσωματωμένο επιλογέα emoji: προτίμηση μίας παραλλαγής χρώματος δέρματος, όταν είναι διαθέσιμη. Η αναζήτηση για άλλο χρώμα δέρματος εξακολουθεί να λειτουργεί. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Πρόσθετα</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Ειδοποιήσεις λογαριασμού</translation>

@@ -9693,11 +9693,6 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <translation>Alleen inline emoji-kiezer: geef de voorkeur aan één huidtintvariant indien beschikbaar. Expliciet zoeken naar een ander huidtint werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer info&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extra's</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Accountmeldingen</translation>

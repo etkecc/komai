@@ -9693,11 +9693,6 @@ La verifica contrassegna questo dispositivo come attendibile e ti dà accesso ai
         <translation>Solo selettore emoji inline: preferisce una variante di carnagione quando disponibile. La ricerca esplicita di un'altra tonalità funziona comunque. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Scopri di più&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extra</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notifiche account</translation>

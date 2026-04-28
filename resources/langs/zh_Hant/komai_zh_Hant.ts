@@ -9679,11 +9679,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>僅限內嵌表情符號選擇器：在可用時優先顯示單一膚色變體。明確搜尋其他膚色仍然有效。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>額外功能</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>帳號通知</translation>

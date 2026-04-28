@@ -88,7 +88,6 @@ constexpr auto ComposerInputInlineEmojiPickerEnabled = "composer.input.inline_em
 constexpr auto ComposerInputInlineRoomPickerEnabled  = "composer.input.inline_room_picker.enabled";
 constexpr auto ComposerInputInlineUserPickerEnabled  = "composer.input.inline_user_picker.enabled";
 constexpr auto ComposerTypingSendEnabled             = "composer.typing.send.enabled";
-constexpr auto ComposerExtrasStickersEnabled         = "composer.extras.stickers.enabled";
 constexpr auto DesktopNotificationsEnabled           = "desktop.notifications.enabled";
 constexpr auto DesktopNotificationsAttentionOnIncoming =
   "desktop.notifications.attention_on_incoming";

@@ -127,8 +127,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       AvatarSize timelineMessagesLayoutAvatarSize READ timelineMessagesLayoutAvatarSize WRITE
         setTimelineMessagesLayoutAvatarSize NOTIFY timelineMessagesLayoutAvatarSizeChanged)
-    Q_PROPERTY(bool composerExtrasStickersEnabled READ composerExtrasStickersEnabled WRITE
-                 setComposerExtrasStickersEnabled NOTIFY composerExtrasStickersEnabledChanged)
     Q_PROPERTY(
       bool timelineMessagesLayoutShowOwnAvatar READ timelineMessagesLayoutShowOwnAvatar WRITE
         setTimelineMessagesLayoutShowOwnAvatar NOTIFY timelineMessagesLayoutShowOwnAvatarChanged)
@@ -561,7 +559,6 @@ public:
     void setTimelineMessagesLayoutPositioning(TimelineMessagesLayoutPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
     void setTimelineMessagesLayoutAvatarSize(AvatarSize size);
-    void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
     void setTimelineMessagesLayoutMaxWidthPercent(int value);
     void setTimelineMessageActionsPinnedReactions(QString value);
@@ -733,7 +730,6 @@ signals:
     void timelineMessagesLayoutPositioningChanged(TimelineMessagesLayoutPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);
     void timelineMessagesLayoutAvatarSizeChanged(AvatarSize size);
-    void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);
     void timelineMessagesLayoutMaxWidthPercentChanged(int value);
     void timelineMessageActionsPinnedReactionsChanged(const QString &value);

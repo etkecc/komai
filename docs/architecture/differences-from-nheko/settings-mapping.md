@@ -77,7 +77,7 @@ Note:
 | Composer | INPUT | Inline room picker | `settings::core::SettingId::ComposerInputInlineRoomPickerEnabled` | *(new)* | `composer.input.inline_room_picker.enabled` | config.yml | yes |
 | Composer | INPUT | Inline user picker | `settings::core::SettingId::ComposerInputInlineUserPickerEnabled` | *(new)* | `composer.input.inline_user_picker.enabled` | config.yml | yes |
 | Composer | FEEDBACK | Show others when I'm typing | `settings::core::SettingId::ComposerTypingSendEnabled` | `typing_notifications` | `composer.typing.send.enabled` | config.yml | yes |
-| Composer | EXTRAS | Enable stickers | `settings::core::SettingId::ComposerExtrasStickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
+| Composer | -- | Enable stickers | *(removed -- not yet supported in Komai; see [Stickers](../../user-guide/features/stickers.md))* | `enable_stickers` | -- | -- | -- |
 | Timeline | FEEDBACK | Show when others are typing | `settings::core::SettingId::TimelineTypingShowEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Read receipts | `settings::core::SettingId::TimelineReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |
 | Desktop | SYSTEM NOTIFICATIONS | Enable system notifications | `settings::core::SettingId::DesktopNotificationsEnabled` | `desktop_notifications` | `desktop.notifications.enabled` | config.yml | yes |

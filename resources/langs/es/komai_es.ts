@@ -9696,11 +9696,6 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
         <translation>Solo selector de emoji en línea: preferir una variante de tono de piel cuando esté disponible. La búsqueda explícita de otro tono de piel sigue funcionando. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Más información&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extras</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notificaciones de cuenta</translation>

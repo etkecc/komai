@@ -9679,11 +9679,6 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
         <translation>Hanya pemilih emoji inline: utamakan satu varian warna kulit bila tersedia. Pencarian eksplisit untuk warna kulit lain tetap berfungsi. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Pelajari lebih lanjut&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Tambahan</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notifikasi akun</translation>

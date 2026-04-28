@@ -9707,11 +9707,6 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
         <translation>Doar pentru selectorul de emoji inline: preferă o variantă de ton de piele când este disponibilă. Căutarea explicită a altui ton de piele funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Află mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Extra</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notificări de cont</translation>

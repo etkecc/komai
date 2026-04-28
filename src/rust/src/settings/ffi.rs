@@ -373,7 +373,6 @@ pub(crate) fn ffi_config_composer_section(
         input_inline_room_picker_enabled: config.composer.input_inline_room_picker_enabled.unwrap_or(defaults::INPUT_INLINE_ROOM_PICKER_ENABLED),
         input_inline_user_picker_enabled: config.composer.input_inline_user_picker_enabled.unwrap_or(defaults::INPUT_INLINE_USER_PICKER_ENABLED),
         typing_send_enabled: config.composer.typing_send_enabled.unwrap_or(defaults::TYPING_SEND_ENABLED),
-        extras_stickers_enabled: config.composer.extras_stickers_enabled.unwrap_or(defaults::EXTRAS_STICKERS_ENABLED),
     }
 }
 
@@ -758,7 +757,6 @@ fn clone_config_composer_section(
         input_inline_room_picker_enabled: section.input_inline_room_picker_enabled,
         input_inline_user_picker_enabled: section.input_inline_user_picker_enabled,
         typing_send_enabled: section.typing_send_enabled,
-        extras_stickers_enabled: section.extras_stickers_enabled,
     }
 }
 

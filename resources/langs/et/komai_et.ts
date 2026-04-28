@@ -9693,11 +9693,6 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
         <translation>Ainult reasisene emoji valija: eelistab ühte nahatoonivarianti, kui see on saadaval. Teise nahatooni otsene otsimine töötab ikka. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Rohkem teavet&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Lisad</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Konto teavitused</translation>

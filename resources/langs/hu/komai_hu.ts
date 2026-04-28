@@ -9679,11 +9679,6 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
         <translation>Csak a beágyazott emojikiválasztóban: ha elérhető, egyetlen bőrtónusváltozatot részesít előnyben. Másik bőrtónusra való explicit keresés továbbra is működik. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tudj meg többet&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Extras</source>
-        <translation>Kiegészítők</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Fiókértesítések</translation>

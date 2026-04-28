@@ -82,7 +82,8 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - Polished reply popup with proper background, headers, and spacing
 - Polished forward dialog with a confirmation step and a more relevant default set of rooms (excluding "Low Priority" or rooms you haven't interacted in recently)
 - **Voice messages** -- record, pause/resume, preview, and send voice messages directly from the composer (`Ctrl+R` or the mic button)
-- Legacy VoIP call UI and sticker button hidden for a cleaner look
+- Legacy VoIP call UI is hidden for a cleaner look
+- Sticker sending is not currently supported -- Nheko's sticker UI is dated and we'd rather re-imagine it than carry it forward (see [Stickers](features/stickers.md)). Receiving and displaying stickers, and managing image packs (which back both custom emojis and stickers), continues to work
 
 
 ## 📋 Dialogs

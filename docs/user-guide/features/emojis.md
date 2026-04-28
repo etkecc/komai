@@ -4,17 +4,17 @@ Komai has a localized emoji picker with strong search and completion support.
 
 You can [✍️ trigger it](#%EF%B8%8F-how-to-trigger-it) from the composer, [🔎 search](#-search) by common words, localized keywords, and project-specific aliases from [🧾 multiple data sources](#-data-sources), and fine-tune results with [🎛️ emoji preferences](#%EF%B8%8F-emoji-preferences) for gender and skin tone.
 
-Komai also supports [🖼️ custom emojis and stickers](#%EF%B8%8F-custom-emojis-and-stickers) via Matrix image packs.
+Komai also supports [🖼️ custom emojis](#%EF%B8%8F-custom-emojis) via Matrix image packs (the same pack mechanism also stores [stickers](stickers.md)).
 
 ![Emoji picker](../screenshots/emoji-picker.webp)
 
 
 ## ✍️ How to Trigger It
 
-In the message composer, start with a colon, then type your emoji keyword.
+In the message composer, start with a colon, then type your emoji keyword. To narrow results to **custom emojis only** (image-pack images), start with a tilde (`~`) instead.
 
 Komai accepts both the standard ASCII colon `:` and the full-width colon `：` used by some IMEs
-(for example Japanese input).
+(for example Japanese input). The tilde trigger likewise accepts the full-width `～`.
 
 
 ## 🔎 Search
@@ -125,13 +125,15 @@ Behavior:
   - 🧔🏼‍♀️ `woman_medium_light_skin_tone_beard`
 
 
-## 🖼️ Custom Emojis and Stickers
+## 🖼️ Custom Emojis
 
-Beyond standard Unicode emojis, Matrix supports **custom image emojis** and **stickers** via
-[MSC2545 (Image Packs)](https://github.com/matrix-org/matrix-spec-proposals/pull/2545).
+Beyond standard Unicode emojis, Matrix supports **custom image emojis** via
+[MSC2545 (Image Packs)](https://github.com/matrix-org/matrix-spec-proposals/pull/2545). Image packs
+also store [🩹 stickers](stickers.md), which share the same management UI but are sent as a different
+Matrix event type.
 
 Custom emojis are small images (hosted on your homeserver) that can be used inline in messages,
-just like regular emojis. Stickers are larger standalone images sent as their own message.
+just like regular emojis.
 
 ### Where packs come from
 
@@ -143,14 +145,17 @@ You can also globally enable packs from any room you're in, making them availabl
 
 ### Using custom emojis
 
-Custom emojis appear alongside Unicode emojis in the picker and inline completer (`:shortcode`).
-When sent, they are embedded in the message HTML as `<img>` tags with `mxc://` URLs, so other
-Matrix clients that support MSC2545 will render them inline.
+Custom emojis appear alongside Unicode emojis in the picker and the colon (`:shortcode`) inline
+completer. The tilde (`~shortcode`) inline completer narrows results to custom emojis only, which
+is useful when an image-pack name overlaps with a Unicode shortcode. When sent, custom emojis are
+embedded in the message HTML as `<img>` tags with `mxc://` URLs, so other Matrix clients that
+support MSC2545 will render them inline.
 
 ### Managing packs
 
-Open the emoji picker (by clicking the icon from the Composer) and click the settings icon to manage packs: create new ones, add or remove
-images, toggle emoji/sticker usage, and enable packs globally.
+Open the emoji picker (by clicking the icon from the Composer) and click the settings icon to
+manage packs: create new ones, add or remove images, toggle emoji/sticker usage, and enable packs
+globally. The same dialog is also reachable from a room's settings.
 
 
 ## 🧾 Data Sources

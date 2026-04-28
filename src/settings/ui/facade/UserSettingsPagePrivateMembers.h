@@ -32,7 +32,6 @@ TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning_ =
 TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
   TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
 AvatarSize timelineMessagesLayoutAvatarSize_{};
-bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;
 int timelineMessagesLayoutMaxWidthPercent_ = 80;
 QString timelineMessageActionsPinnedReactions_;

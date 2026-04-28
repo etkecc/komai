@@ -205,8 +205,6 @@ const COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "inline_user_picker", "enabled"];
 const COMPOSER_TYPING_SEND_ENABLED_PATH: [&str; 4] =
     ["composer", "typing", "send", "enabled"];
-const COMPOSER_EXTRAS_STICKERS_ENABLED_PATH: [&str; 4] =
-    ["composer", "extras", "stickers", "enabled"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -615,11 +613,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             .and_then(parse_scalar_bool),
             typing_send_enabled: yaml::value_at_path(root, &COMPOSER_TYPING_SEND_ENABLED_PATH)
                 .and_then(parse_scalar_bool),
-            extras_stickers_enabled: yaml::value_at_path(
-                root,
-                &COMPOSER_EXTRAS_STICKERS_ENABLED_PATH,
-            )
-            .and_then(parse_scalar_bool),
         },
     }
 }

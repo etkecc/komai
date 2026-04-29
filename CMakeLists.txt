@@ -178,7 +178,7 @@ endif()
 CPMAddPackage(
     NAME qt6keychain
     GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
-    GIT_TAG 0.15.0
+    GIT_TAG 0.16.0
 )
 
 set(KDSingleApplication_QT6 ON CACHE BOOL INTERNAL)

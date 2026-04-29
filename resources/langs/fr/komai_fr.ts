@@ -5721,6 +5721,11 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Préférences</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
@@ -5730,7 +5735,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <translation>Membres</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Informations sur l'espace</translation>
     </message>
@@ -5828,6 +5833,51 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Configurez la façon dont vous recevez les notifications pour ce salon.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Visibilité des messages</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Événements masqués localement</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Configurer</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Réduire les réponses aux fils</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Défaut global (actuellement : %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Activé</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Désactivé</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Masque les réponses aux fils dans la timeline principale, n'affichant que les messages racines des fils.&lt;br&gt;⚠️ Le suivi des messages non lus par fil n'est pas pris en charge ; vous pourriez manquer des réponses dans des fils plus anciens.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Permissions</translation>
     </message>
@@ -6337,12 +6387,11 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Configurer</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Alias</translation>
     </message>
@@ -6393,12 +6442,12 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Modifier</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Autoriser les invités à rejoindre</translation>
     </message>
@@ -6459,39 +6508,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Appliquer les modifications de visibilité</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Événements masqués localement</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Réduire les réponses des fils</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Paramètre global (actuellement : %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Activé</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Désactivé</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Masque les réponses aux fils dans le fil principal, n'affichant que les messages racines.&lt;br&gt;⚠️ Le suivi des messages non lus par fil n'est pas pris en charge, vous pourriez manquer des réponses dans des fils plus anciens.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Supplémentaire</translation>
     </message>
@@ -9776,8 +9793,8 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Masque les réponses de fil dans la chronologie principale, en affichant uniquement les messages racines des fils. Peut être modifié par salon dans Informations du salon → Paramètres.&lt;br&gt;⚠️ Le suivi des non-lus par fil n'est pas pris en charge ; vous pourriez donc manquer des réponses dans des fils plus anciens.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Masque les réponses aux fils dans la timeline principale, n'affichant que les messages racines des fils. Peut être remplacé par salon dans Infos du salon → Préférences.&lt;br&gt;⚠️ Le suivi des messages non lus par fil n'est pas pris en charge ; vous pourriez manquer des réponses dans des fils plus anciens.</translation>
     </message>
     <message>
         <location line="+3"/>

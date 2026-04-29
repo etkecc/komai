@@ -5727,6 +5727,11 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Podešavanja</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>O</translation>
     </message>
@@ -5736,7 +5741,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <translation>Članovi</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Informacije o prostoru</translation>
     </message>
@@ -5835,6 +5840,51 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Podesi kako primaš obaveštenja za ovu sobu.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Vidljivost poruka</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Lokalno skriveni događaji</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Konfiguriši</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Skupi odgovore na nit</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Globalni podrazumevani (trenutno: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Uključeno</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Isključeno</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Sakriva odgovore na nit iz glavne linije, prikazujući samo korensku poruku niti.&lt;br&gt;⚠️ Praćenje nepročitanih po niti nije podržano, pa možete propustiti odgovore u starijim nitima.</translation>
     </message>
 </context>
 <context>
@@ -6332,7 +6382,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Dozvole</translation>
     </message>
@@ -6344,12 +6394,11 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Podesi</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliasi</translation>
     </message>
@@ -6400,12 +6449,12 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Promeni</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Dozvoli gostima da se pridruže</translation>
     </message>
@@ -6466,39 +6515,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Primeni promene vidljivosti</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Lokalno skriveni događaji</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Skupi odgovore u niti</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Globalni podrazumevani (trenutno: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Uključeno</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Isključeno</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Sakriva odgovore u nitima iz glavnog toka, prikazujući samo početne poruke niti.&lt;br&gt;⚠️ Praćenje nepročitanih po niti nije podržano, pa možete propustiti odgovore u starijim nitima.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Dodatno</translation>
     </message>
@@ -9790,8 +9807,8 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Skriva odgovore na niti sa glavne vremenske linije, prikazujući samo korene poruke niti. Može se podesiti po sobi u Informacije o sobi → Podešavanja.&lt;br&gt;⚠️ Praćenje nepročitanih po niti nije podržano, pa možeš propustiti odgovore u starijim nitima.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Sakriva odgovore na nit iz glavne linije, prikazujući samo korensku poruku niti. Može se zameniti po sobi u Informacije o sobi → Podešavanja.&lt;br&gt;⚠️ Praćenje nepročitanih po niti nije podržano, pa možete propustiti odgovore u starijim nitima.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -5721,6 +5721,11 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Preferències</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Quant a</translation>
     </message>
@@ -5730,7 +5735,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
         <translation>Membres</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Informació de l'espai</translation>
     </message>
@@ -5828,6 +5833,51 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Configura com rebre notificacions d'aquesta sala.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Visibilitat dels missatges</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Esdeveniments ocults localment</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Configura</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Replegar les respostes dels fils</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Per defecte global (ara: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Activat</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Desactivat</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Amaga les respostes dels fils de la línia de temps principal, mostrant només els missatges arrel dels fils.&lt;br&gt;⚠️ El seguiment de no llegits per fil no és compatible; podeu perdre respostes en fils antics.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Permisos</translation>
     </message>
@@ -6337,12 +6387,11 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Configura</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Àlies</translation>
     </message>
@@ -6393,12 +6442,12 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Canvia</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Permet que els visitants s'uneixin</translation>
     </message>
@@ -6459,39 +6508,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Aplica els canvis de visibilitat</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Esdeveniments ocults localment</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Replega les respostes dels fils</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Predeterminat global (actualment: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Activat</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Desactivat</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Amaga les respostes dels fils de la línia de temps principal i mostra només els missatges arrel dels fils.&lt;br&gt;⚠️ El seguiment de no llegits per fil no és compatible, de manera que podries perdre respostes en fils antics.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Addicional</translation>
     </message>
@@ -9776,8 +9793,8 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Amaga les respostes de fils de la línia de temps principal, mostrant només els missatges arrel. Es pot substituir per sala a Info de sala → Configuració.&lt;br&gt;⚠️ El seguiment de no llegits per fil no és compatible; podeu perdre respostes en fils antics.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Amaga les respostes dels fils de la línia de temps principal, mostrant només els missatges arrel dels fils. Es pot substituir per sala a Info de la sala → Preferències.&lt;br&gt;⚠️ El seguiment de no llegits per fil no és compatible; podeu perdre respostes en fils antics.</translation>
     </message>
     <message>
         <location line="+3"/>

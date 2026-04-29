@@ -56,7 +56,7 @@ Config key: `timeline.threads.collapse_replies.global`
 
 ### 🏠 Per-room override
 
-You can override the global setting on a per-room basis from **Room Info → Settings → Collapse thread replies**, which offers three choices:
+You can override the global setting on a per-room basis from **Room Info → Preferences → Collapse thread replies**, which offers three choices:
 
 - **Global Default (currently: On / Off)** -- follow the global setting (this is the default for every room)
 - **On** -- collapse replies in this room regardless of the global setting

@@ -92,7 +92,7 @@
     // TimelineThreadsCollapseRepliesGlobal
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Collapse thread replies",
-      QT_TR_NOOP("Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info \u2192 Settings.<br>\u26A0\uFE0F Per-thread unread tracking is not supported, so you may miss replies in older threads."),
+      QT_TR_NOOP("Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info \u2192 Preferences.<br>\u26A0\uFE0F Per-thread unread tracking is not supported, so you may miss replies in older threads."),
       SM::TabTimeline, timelineThreadsCollapseReplies, setTimelineThreadsCollapseReplies, nullptr, TimelineThreadsCollapseRepliesGlobal, SettingKey::TimelineThreadsCollapseRepliesGlobal),
     // TimelineFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabTimeline,

@@ -5715,6 +5715,11 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Beállítások</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Névjegy</translation>
     </message>
@@ -5724,7 +5729,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <translation>Tagok</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Tér adatai</translation>
     </message>
@@ -5821,6 +5826,51 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Konfigurálja, hogyan kap értesítéseket ebből a szobából.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Üzenetek láthatósága</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Helyileg rejtett események</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Beállítás</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Szálválaszok összecsukása</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Globális alapértelmezett (jelenleg: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Be</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Ki</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Elrejti a szálválaszokat a fő idővonalból, csak a szálgyökér üzeneteket mutatja.&lt;br&gt;⚠️ A szálankénti olvasatlan nyomon követés nem támogatott, ezért lemaradhat a régebbi szálak válaszairól.</translation>
     </message>
 </context>
 <context>
@@ -6318,7 +6368,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Jogosultságok</translation>
     </message>
@@ -6330,12 +6380,11 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Konfigurálás</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliasok</translation>
     </message>
@@ -6386,12 +6435,12 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Módosítás</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Vendégek csatlakozásának engedélyezése</translation>
     </message>
@@ -6452,39 +6501,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Láthatósági változások alkalmazása</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Helyileg rejtett események</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Szálválaszok összecsukása</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Globális alapértelmezett (jelenleg: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Be</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Ki</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Elrejti a szálválaszokat a fő idővonalból, csak a szálkezdő üzeneteket mutatja.&lt;br&gt;⚠️ Az olvasatlan üzenetek szálankénti nyomon követése nem támogatott, így előfordulhat, hogy lemarad a régebbi szálak válaszairól.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Extra</translation>
     </message>
@@ -9762,8 +9779,8 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>A szálválaszokat elrejti a fő idővonalból, csak a szálak gyökérüzeneteit mutatja. Szobánként felülírható a Szoba info → Beállítások menüpontban.&lt;br&gt;⚠️ A szálankénti olvasatlan követés nem támogatott, így régebbi szálakban válaszokat hagyhat ki.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Elrejti a szálválaszokat a fő idővonalból, csak a szálgyökér üzeneteket mutatja. Szobánként felülírható a Szoba adatai → Beállítások menüben.&lt;br&gt;⚠️ A szálankénti olvasatlan nyomon követés nem támogatott, ezért lemaradhat a régebbi szálak válaszairól.</translation>
     </message>
     <message>
         <location line="+3"/>

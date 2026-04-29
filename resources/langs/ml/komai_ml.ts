@@ -5721,6 +5721,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>മുൻഗണനകൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>കുറിച്ച്</translation>
     </message>
@@ -5730,7 +5735,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>അംഗങ്ങൾ</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>സ്പേസ് വിവരങ്ങൾ</translation>
     </message>
@@ -5828,6 +5833,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>ഈ മുറിക്കായി അറിയിപ്പുകൾ എങ്ങനെ ലഭിക്കണമെന്ന് ക്രമീകരിക്കുക.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>സന്ദേശ ദൃശ്യത</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>പ്രാദേശികമായി മറഞ്ഞ ഇവന്റുകൾ</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>ക്രമീകരിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>ത്രെഡ് മറുപടികൾ ചുരുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>ആഗോള ഡിഫോൾട്ട് (നിലവിൽ: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>ഓൺ</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>ഓഫ്</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറച്ചുവെക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു.&lt;br&gt;⚠️ ത്രെഡ്-അനുസരിച്ചുള്ള വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമാകാം.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>അനുമതികൾ</translation>
     </message>
@@ -6337,12 +6387,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>ക്രമീകരിക്കുക</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>അപരനാമങ്ങൾ</translation>
     </message>
@@ -6393,12 +6442,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>മാറ്റുക</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>അതിഥികളെ ചേരാൻ അനുവദിക്കുക</translation>
     </message>
@@ -6459,39 +6508,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>ദൃശ്യത മാറ്റങ്ങൾ പ്രയോഗിക്കുക</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>പ്രാദേശികമായി മറഞ്ഞിരിക്കുന്ന ഇവൻ്റുകൾ</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>ത്രെഡ് മറുപടികൾ ചുരുക്കുക</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>ആഗോള സ്ഥിരക്രമം (നിലവിൽ: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>ഓൺ</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>ഓഫ്</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറയ്ക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു.&lt;br&gt;⚠️ ഓരോ ത്രെഡിനും വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമായേക്കാം.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>അധിക</translation>
     </message>
@@ -9776,8 +9793,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>ത്രെഡ് മൂല സന്ദേശങ്ങൾ മാത്രം കാണിക്കുകയും, ത്രെഡ് മറുപടികൾ പ്രധാന ടൈംലൈനിൽ നിന്ന് മറയ്ക്കുകയും ചെയ്യുന്നു. Room Info → Settings-ൽ ഓരോ മുറിക്കും ഇത് മാറ്റാം.&lt;br&gt;⚠️ ത്രെഡ്-ഓരോന്നും വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണയ്ക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിൽ മറുപടികൾ നഷ്ടമായേക്കാം.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറച്ചുവെക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു. മുറി വിവരം → മുൻഗണനകളിൽ ഓരോ മുറിക്കും ഓവർറൈഡ് ചെയ്യാം.&lt;br&gt;⚠️ ത്രെഡ്-അനുസരിച്ചുള്ള വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമാകാം.</translation>
     </message>
     <message>
         <location line="+3"/>

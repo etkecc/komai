@@ -5715,6 +5715,11 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Preferensi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Tentang</translation>
     </message>
@@ -5724,7 +5729,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <translation>Anggota</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Info ruang</translation>
     </message>
@@ -5821,6 +5826,51 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Konfigurasi cara Anda menerima notifikasi untuk ruangan ini.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Visibilitas pesan</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Peristiwa yang disembunyikan secara lokal</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Atur</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Ciutkan balasan utas</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Default Global (saat ini: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Aktif</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Nonaktif</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Menyembunyikan balasan utas dari linimasa utama, hanya menampilkan pesan akar utas.&lt;br&gt;⚠️ Pelacakan pesan belum dibaca per utas tidak didukung, sehingga Anda mungkin melewatkan balasan di utas yang lebih lama.</translation>
     </message>
 </context>
 <context>
@@ -6318,7 +6368,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Izin</translation>
     </message>
@@ -6330,12 +6380,11 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Konfigurasikan</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Alias</translation>
     </message>
@@ -6386,12 +6435,12 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Ubah</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Perbolehkan tamu untuk bergabung</translation>
     </message>
@@ -6452,39 +6501,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Terapkan perubahan keterlihatan</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Peristiwa yang disembunyikan secara lokal</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Ciutkan balasan utas</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Default Global (saat ini: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Aktif</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Nonaktif</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Menyembunyikan balasan utas dari linimasa utama, hanya menampilkan pesan akar utas.&lt;br&gt;⚠️ Pelacakan belum dibaca per-utas tidak didukung, sehingga Anda mungkin melewatkan balasan di utas lama.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Tambahan</translation>
     </message>
@@ -9762,8 +9779,8 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Menyembunyikan balasan utas dari linimasa utama, hanya menampilkan pesan akar utas. Dapat ditimpa per ruangan di Info Ruangan → Pengaturan.&lt;br&gt;⚠️ Pelacakan pesan belum dibaca per utas tidak didukung, sehingga Anda mungkin melewatkan balasan di utas lama.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Menyembunyikan balasan utas dari linimasa utama, hanya menampilkan pesan akar utas. Dapat diganti per ruangan di Info Ruangan → Preferensi.&lt;br&gt;⚠️ Pelacakan pesan belum dibaca per utas tidak didukung, sehingga Anda mungkin melewatkan balasan di utas yang lebih lama.</translation>
     </message>
     <message>
         <location line="+3"/>

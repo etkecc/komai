@@ -5721,6 +5721,11 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Asetukset</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Tietoja</translation>
     </message>
@@ -5730,7 +5735,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <translation>Jäsenet</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Tilan tiedot</translation>
     </message>
@@ -5828,6 +5833,51 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Määritä, miten saat ilmoituksia tästä huoneesta.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Viestien näkyvyys</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Paikallisesti piilotetut tapahtumat</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Määritä</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Kutista ketjuvastaukset</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Yleinen oletus (tällä hetkellä: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Päällä</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Pois</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Piilottaa ketjuvastaukset pääaikajanalta ja näyttää vain ketjujen juuriviestit.&lt;br&gt;⚠️ Ketjukohtaista lukemattomien viestien seurantaa ei tueta, joten saatat jäädä paitsi vastauksista vanhemmissa ketjuissa.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Oikeudet</translation>
     </message>
@@ -6337,12 +6387,11 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Määritä</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliakset</translation>
     </message>
@@ -6393,12 +6442,12 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Muuta</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Salli vieraiden liittyminen</translation>
     </message>
@@ -6459,39 +6508,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Sovella näkyvyysmuutoksia</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Paikallisesti piilotetut tapahtumat</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Tiivistä ketjuvastaukset</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Yleinen oletus (tällä hetkellä: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Päällä</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Pois</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Piilottaa ketjuvastaukset pääaikajanalta ja näyttää vain ketjun juuriviestit.&lt;br&gt;⚠️ Ketjukohtaista lukemattomuuden seurantaa ei tueta, joten voit jäädä paitsi vastauksista vanhoissa ketjuissa.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Lisä</translation>
     </message>
@@ -9776,8 +9793,8 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Piilottaa ketjuvastaukset pääaikajanalta ja näyttää vain ketjun juuriviestit. Voidaan ohittaa huonekohtaisesti kohdassa Huoneen tiedot → Asetukset.&lt;br&gt;⚠️ Ketjukohtainen lukemattomien seuranta ei ole tuettu, joten voit jäädä paitsi vastauksista vanhemmissa ketjuissa.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Piilottaa ketjuvastaukset pääaikajanalta ja näyttää vain ketjujen juuriviestit. Voidaan ohittaa huonekohtaisesti kohdassa Huoneen tiedot → Asetukset.&lt;br&gt;⚠️ Ketjukohtaista lukemattomien viestien seurantaa ei tueta, joten saatat jäädä paitsi vastauksista vanhemmissa ketjuissa.</translation>
     </message>
     <message>
         <location line="+3"/>

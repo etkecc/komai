@@ -5723,6 +5723,11 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Preferoj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Pri</translation>
     </message>
@@ -5732,7 +5737,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
         <translation>Membroj</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Informoj pri spaco</translation>
     </message>
@@ -5830,6 +5835,51 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Agordu kiel vi ricevas sciigojn por ĉi tiu ĉambro.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Videbleco de mesaĝoj</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Loke kaŝitaj eventoj</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Agordi</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Kunfalti fadenajn respondojn</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Tutmonda Defaŭlto (nuntempe: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Aktiva</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Malaktiva</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Kaŝas fadenajn respondojn de la ĉefa tempolinio, montrante nur fadenajn radikajn mesaĝojn.&lt;br&gt;⚠️ La spurado de nelegitaĵoj laŭ fadeno ne estas subtenata, do vi eble maltrafos respondojn en pli malnovaj fadenoj.</translation>
     </message>
 </context>
 <context>
@@ -6327,7 +6377,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Permesoj</translation>
     </message>
@@ -6339,12 +6389,11 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Agordi</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliasnomoj</translation>
     </message>
@@ -6395,12 +6444,12 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Ŝanĝi</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Permesi al gastoj aliĝi</translation>
     </message>
@@ -6461,39 +6510,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Apliki videblecŝanĝojn</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Loke kaŝitaj eventoj</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Faldi fadenajn respondojn</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Tutmonda defaŭlto (nun: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Ŝaltita</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Malŝaltita</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Kaŝas fadenajn respondojn de la ĉeftemplinjo, montrante nur radikmesaĝojn de fadenoj.&lt;br&gt;⚠️ Spurado de nelegataj mesaĝoj laŭ fadeno ne estas subtenata, do vi povas pretermisi respondojn en pli malnovaj fadenoj.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Ekstra</translation>
     </message>
@@ -9779,8 +9796,8 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Kaŝas fadenajn respondojn de la ĉefa tempolinio, montrante nur fadenajn radikajn mesaĝojn. Eblas anstataŭigi por ĉiu ĉambro en Ĉambra informo → Agordoj.&lt;br&gt;⚠️ La laŭfadena spurado de nelegitaj mesaĝoj ne estas subtenata, do vi povas maltrafi respondojn en pli malnovaj fadenoj.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Kaŝas fadenajn respondojn de la ĉefa tempolinio, montrante nur fadenajn radikajn mesaĝojn. Eblas superregi laŭ ĉambro en Ĉambra Informo → Preferoj.&lt;br&gt;⚠️ La spurado de nelegitaĵoj laŭ fadeno ne estas subtenata, do vi eble maltrafos respondojn en pli malnovaj fadenoj.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -5721,6 +5721,11 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Inställningar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Om</translation>
     </message>
@@ -5730,7 +5735,7 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
         <translation>Medlemmar</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Områdesinformation</translation>
     </message>
@@ -5828,6 +5833,51 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Konfigurera hur du tar emot aviseringar för detta rum.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Meddelandesynlighet</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Lokalt dolda händelser</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Konfigurera</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Dölj trådsvar</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Global standard (just nu: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>På</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Av</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Döljer trådsvar från huvudtidslinjen och visar bara rotmeddelanden i trådar.&lt;br&gt;⚠️ Spårning av olästa meddelanden per tråd stöds inte, så du kan missa svar i äldre trådar.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Behörigheter</translation>
     </message>
@@ -6337,12 +6387,11 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Konfigurera</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Alias</translation>
     </message>
@@ -6393,12 +6442,12 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Ändra</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Tillåt gäster att gå med</translation>
     </message>
@@ -6459,39 +6508,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Tillämpa synlighetsändringar</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Lokalt dolda händelser</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Dölj trådsvar</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Globalt standardvärde (för närvarande: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>På</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Av</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Döljer trådsvar från huvudtidslinjen och visar bara trådstartmeddelanden.&lt;br&gt;⚠️ Spårning av olästa per tråd stöds inte, så du kan missa svar i äldre trådar.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Extra</translation>
     </message>
@@ -9776,8 +9793,8 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Döljer trådssvar från huvudtidslinjen och visar bara trådstartmeddelanden. Kan åsidosättas per rum i Ruminfo → Inställningar.&lt;br&gt;⚠️ Oläst-spårning per tråd stöds inte, vilket kan göra att du missar svar i äldre trådar.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Döljer trådsvar från huvudtidslinjen och visar bara rotmeddelanden i trådar. Kan åsidosättas per rum under Ruminfo → Inställningar.&lt;br&gt;⚠️ Spårning av olästa meddelanden per tråd stöds inte, så du kan missa svar i äldre trådar.</translation>
     </message>
     <message>
         <location line="+3"/>

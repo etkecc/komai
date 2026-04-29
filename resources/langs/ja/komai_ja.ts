@@ -5715,6 +5715,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>設定</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>概要</translation>
     </message>
@@ -5724,7 +5729,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>メンバー</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>スペースの情報</translation>
     </message>
@@ -5821,6 +5826,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>このルームの通知の受け取り方を設定します。</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>メッセージの表示</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>ローカルで非表示のイベント</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>設定する</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>スレッドの返信を折りたたむ</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>グローバルデフォルト（現在: %1）</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>オン</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>オフ</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>メインタイムラインからスレッドの返信を非表示にし、スレッドのルートメッセージのみを表示します。&lt;br&gt;⚠️ スレッドごとの未読追跡はサポートされていないため、古いスレッドの返信を見逃す可能性があります。</translation>
     </message>
 </context>
 <context>
@@ -6318,7 +6368,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>権限</translation>
     </message>
@@ -6330,12 +6380,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>エイリアス</translation>
     </message>
@@ -6386,12 +6435,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>変更</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>ゲストの参加を許可</translation>
     </message>
@@ -6452,39 +6501,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>公開設定の変更を適用</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>ローカルで非表示のイベント</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>スレッドの返信を折りたたむ</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>グローバルデフォルト (現在: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>オン</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>オフ</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>メインタイムラインからスレッドの返信を非表示にし、スレッドのルートメッセージのみを表示します。&lt;br&gt;⚠️ スレッドごとの未読追跡はサポートされていないため、古いスレッドの返信を見逃す可能性があります。</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>その他</translation>
     </message>
@@ -9762,8 +9779,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>スレッドの返信をメインタイムラインから非表示にし、スレッドのルートメッセージのみを表示します。ルーム情報 → 設定でルームごとに上書きできます。&lt;br&gt;⚠️ スレッドごとの未読追跡はサポートされていないため、古いスレッドの返信を見逃す場合があります。</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>メインタイムラインからスレッドの返信を非表示にし、スレッドのルートメッセージのみを表示します。ルーム情報 → 設定で、ルームごとに上書きできます。&lt;br&gt;⚠️ スレッドごとの未読追跡はサポートされていないため、古いスレッドの返信を見逃す可能性があります。</translation>
     </message>
     <message>
         <location line="+3"/>

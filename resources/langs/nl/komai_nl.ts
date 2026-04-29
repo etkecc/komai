@@ -5721,6 +5721,11 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Voorkeuren</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Over</translation>
     </message>
@@ -5730,7 +5735,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <translation>Leden</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Ruimte-info</translation>
     </message>
@@ -5828,6 +5833,51 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Stel in hoe je meldingen ontvangt voor deze kamer.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Berichtzichtbaarheid</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Lokaal verborgen gebeurtenissen</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Configureren</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Threadreacties inklappen</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Globale standaard (momenteel: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Aan</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Uit</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Verbergt threadreacties uit de hoofdtijdlijn en toont alleen de startberichten van threads.&lt;br&gt;⚠️ Ongelezen bijhouden per thread wordt niet ondersteund, waardoor je reacties in oudere threads kunt missen.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Rechten</translation>
     </message>
@@ -6337,12 +6387,11 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Configureren</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliassen</translation>
     </message>
@@ -6393,12 +6442,12 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Wijzigen</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Gasten toestaan deel te nemen</translation>
     </message>
@@ -6459,39 +6508,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Zichtbaarheidswijzigingen toepassen</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Lokaal verborgen gebeurtenissen</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Threadantwoorden samenvouwen</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Globale standaard (momenteel: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Aan</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Uit</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Verbergt threadantwoorden in de hoofdtijdlijn en toont alleen de beginberichten van threads.&lt;br&gt;⚠️ Ongelezen bijhouden per thread wordt niet ondersteund, waardoor je mogelijk antwoorden in oudere threads mist.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Extra</translation>
     </message>
@@ -9776,8 +9793,8 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Verbergt thread-antwoorden uit de hoofdtijdlijn en toont alleen thread-rootberichten. Kan per kamer worden overschreven via Kamerinfo → Instellingen.&lt;br&gt;⚠️ Ongelezen tracking per thread wordt niet ondersteund, waardoor je antwoorden in oudere threads kunt missen.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Verbergt threadreacties uit de hoofdtijdlijn en toont alleen de startberichten van threads. Kan per kamer worden overschreven via Kamerinformatie → Voorkeuren.&lt;br&gt;⚠️ Ongelezen bijhouden per thread wordt niet ondersteund, waardoor je reacties in oudere threads kunt missen.</translation>
     </message>
     <message>
         <location line="+3"/>

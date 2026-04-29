@@ -5727,6 +5727,11 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Předvolby</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
@@ -5736,7 +5741,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
         <translation>Členové</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Informace o prostoru</translation>
     </message>
@@ -5835,6 +5840,51 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Nastavte, jak přijímat oznámení v této místnosti.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Viditelnost zpráv</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Lokálně skryté události</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Nastavit</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Sbalit odpovědi vláken</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Globální výchozí (aktuálně: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Zapnuto</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Vypnuto</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Skryje odpovědi ve vláknech z hlavní časové osy a zobrazuje pouze kořenové zprávy vláken.&lt;br&gt;⚠️ Sledování nepřečtených zpráv po jednotlivých vláknech není podporováno, takže vám mohou uniknout odpovědi ve starších vláknech.</translation>
     </message>
 </context>
 <context>
@@ -6332,7 +6382,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Oprávnění</translation>
     </message>
@@ -6344,12 +6394,11 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Konfigurovat</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliasy</translation>
     </message>
@@ -6400,12 +6449,12 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Změnit</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Povolit hostům připojení</translation>
     </message>
@@ -6466,39 +6515,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Použít změny viditelnosti</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Lokálně skryté události</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Sbalit odpovědi ve vlákně</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Globální výchozí (aktuálně: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Zapnuto</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Vypnuto</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Skryje odpovědi ve vlákně z hlavní časové osy a zobrazí pouze kořenové zprávy vláken.&lt;br&gt;⚠️ Sledování nepřečtených zpráv po vláknech není podporováno, takže vám mohou uniknout odpovědi ve starších vláknech.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Ostatní</translation>
     </message>
@@ -9790,8 +9807,8 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Skryje odpovědi z vláken v hlavní časové ose a zobrazuje pouze kořenové zprávy vláken. Lze přepsat pro každou místnost v Informace o místnosti → Nastavení.&lt;br&gt;⚠️ Sledování nepřečtených zpráv pro jednotlivá vlákna není podporováno, takže můžete přehlédnout odpovědi ve starších vláknech.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Skryje odpovědi ve vláknech z hlavní časové osy a zobrazuje pouze kořenové zprávy vláken. Lze přepsat pro každou místnost v Informace o místnosti → Předvolby.&lt;br&gt;⚠️ Sledování nepřečtených zpráv po jednotlivých vláknech není podporováno, takže vám mohou uniknout odpovědi ve starších vláknech.</translation>
     </message>
     <message>
         <location line="+3"/>

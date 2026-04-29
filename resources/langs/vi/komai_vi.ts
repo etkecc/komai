@@ -5715,6 +5715,11 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Tùy chọn</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Giới thiệu</translation>
     </message>
@@ -5724,7 +5729,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
         <translation>Thành viên</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Thông tin không gian</translation>
     </message>
@@ -5821,6 +5826,51 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Cấu hình cách bạn nhận thông báo cho phòng này.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Khả năng hiển thị tin nhắn</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Sự kiện ẩn cục bộ</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Cấu hình</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Thu gọn phản hồi chủ đề</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Mặc định toàn cục (hiện tại: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Bật</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Tắt</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Ẩn phản hồi chủ đề khỏi dòng thời gian chính, chỉ hiển thị tin nhắn gốc của chủ đề.&lt;br&gt;⚠️ Theo dõi chưa đọc theo từng chủ đề không được hỗ trợ, bạn có thể bỏ lỡ các phản hồi trong chủ đề cũ.</translation>
     </message>
 </context>
 <context>
@@ -6318,7 +6368,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Quyền hạn</translation>
     </message>
@@ -6330,12 +6380,11 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Cấu hình</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Bí danh</translation>
     </message>
@@ -6386,12 +6435,12 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Thay đổi</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Cho phép khách tham gia</translation>
     </message>
@@ -6452,39 +6501,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Áp dụng thay đổi hiển thị</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Sự kiện ẩn cục bộ</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Thu gọn trả lời trong luồng</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Mặc định toàn cục (hiện tại: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Bật</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Tắt</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Ẩn trả lời trong luồng khỏi dòng thời gian chính, chỉ hiển thị tin nhắn gốc của luồng.&lt;br&gt;⚠️ Theo dõi chưa đọc theo từng luồng không được hỗ trợ, bạn có thể bỏ lỡ các trả lời trong luồng cũ.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Thêm</translation>
     </message>
@@ -9762,8 +9779,8 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Ẩn các câu trả lời trong chủ đề khỏi dòng thời gian chính, chỉ hiển thị tin nhắn gốc của chủ đề. Có thể ghi đè cho từng phòng trong Thông tin phòng → Cài đặt.&lt;br&gt;⚠️ Không hỗ trợ theo dõi chưa đọc theo từng chủ đề, vì vậy bạn có thể bỏ lỡ các câu trả lời trong các chủ đề cũ.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Ẩn phản hồi chủ đề khỏi dòng thời gian chính, chỉ hiển thị tin nhắn gốc của chủ đề. Có thể ghi đè theo từng phòng trong Thông tin phòng → Tùy chọn.&lt;br&gt;⚠️ Theo dõi chưa đọc theo từng chủ đề không được hỗ trợ, bạn có thể bỏ lỡ các phản hồi trong chủ đề cũ.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -5727,6 +5727,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Налаштування</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Про</translation>
     </message>
@@ -5736,7 +5741,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Учасники</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Інформація про простір</translation>
     </message>
@@ -5835,6 +5840,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Налаштуйте, як отримувати сповіщення для цієї кімнати.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Видимість повідомлень</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Локально приховані події</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Налаштувати</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Згортати відповіді в гілках</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Глобальне значення за замовчуванням (зараз: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Увімкнено</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Вимкнено</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Приховує відповіді в гілках з основної стрічки, показуючи лише кореневі повідомлення.&lt;br&gt;⚠️ Відстеження непрочитаних повідомлень для кожної гілки не підтримується, тому ви можете пропустити відповіді в старіших гілках.</translation>
     </message>
 </context>
 <context>
@@ -6332,7 +6382,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Дозволи</translation>
     </message>
@@ -6344,12 +6394,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Налаштувати</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Псевдоніми</translation>
     </message>
@@ -6400,12 +6449,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Змінити</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Дозволити гостям приєднуватися</translation>
     </message>
@@ -6466,39 +6515,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Застосувати зміни видимості</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Локально приховані події</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Згорнути відповіді в гілці</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Глобальне значення за замовчуванням (зараз: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Увімкнено</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Вимкнено</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Приховує відповіді в гілках з основної стрічки, показуючи лише кореневі повідомлення гілки.&lt;br&gt;⚠️ Відстеження непрочитаних для кожної гілки не підтримується, тому ви можете пропустити відповіді в старих гілках.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Додатково</translation>
     </message>
@@ -9790,8 +9807,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Приховує відповіді у гілках з основної стрічки подій, показуючи лише кореневі повідомлення. Можна змінити для кожної кімнати в розділі Інформація про кімнату → Налаштування.&lt;br&gt;⚠️ Відстеження непрочитаних окремо для кожної гілки не підтримується, тому ви можете пропустити відповіді у старіших гілках.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Приховує відповіді в гілках з основної стрічки, показуючи лише кореневі повідомлення. Можна змінити для кожної кімнати в Інформація про кімнату → Налаштування.&lt;br&gt;⚠️ Відстеження непрочитаних повідомлень для кожної гілки не підтримується, тому ви можете пропустити відповіді в старіших гілках.</translation>
     </message>
     <message>
         <location line="+3"/>

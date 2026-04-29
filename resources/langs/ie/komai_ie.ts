@@ -5721,6 +5721,11 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Preferentias</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Pri</translation>
     </message>
@@ -5730,7 +5735,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <translation>Membres</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Informacion del Spacie</translation>
     </message>
@@ -5828,6 +5833,51 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Configurar qualmen vu recive notificationes por iste chambre.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Visibilitat de mesages</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Eventos localmen occultats</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Configurar</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Colapsar responces de filament</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Predefinit global (actualmente: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Activat</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Inactivat</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Occulta responces de filament del timeline principal, monstrant solmen mesages radicales del filament.&lt;br&gt;⚠️ Li sequiment de non-legitat per filament ne es supportat, dunque vu posse mancar responces in filaments plu ancian.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Permissiones</translation>
     </message>
@@ -6337,12 +6387,11 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Configurar</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliases</translation>
     </message>
@@ -6393,12 +6442,12 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Cambiar</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Permisser a visitantes de juntar se</translation>
     </message>
@@ -6459,39 +6508,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Aplicar cambiamentos de visibilità</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Eventes celat localmen</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Collapsar responses del filament</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Standard global (actualmen: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Activat</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Desactivat</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Cela li responses de filament del timeline principal, monstrant solmen mesages de radice del filament.&lt;br&gt;⚠️ Li sequiment de non-legit por filament ne es supportat, dunque vu posse perder responses in filamentos ancian.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Extra</translation>
     </message>
@@ -9776,8 +9793,8 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Occulta responsas de filament del linea de temp principal, monstrant solmen mesages radici del filament. Posse esser suprasedut per chambre in Info de Chambre → Parametres.&lt;br&gt;⚠️ Li traciament de non-lectur per filament ne es suportat, do vu posse missar responsas in filaments plu antiqui.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Occulta responces de filament del timeline principal, monstrant solmen mesages radicales del filament. Posse esser annullat per chambre in Informationes de chambre → Preferentias.&lt;br&gt;⚠️ Li sequiment de non-legitat per filament ne es supportat, dunque vu posse mancar responces in filaments plu ancian.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -5721,6 +5721,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>මනාපයන්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>ගැන</translation>
     </message>
@@ -5730,7 +5735,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>සාමාජිකයන්</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>අවකාශ තොරතුරු</translation>
     </message>
@@ -5828,6 +5833,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>මෙම කාමරය සඳහා දැනුම්දීම් ලබාගන්නා ආකාරය සකසන්න.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>පණිවිඩ දෘශ්‍යතාව</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>දේශීයව සඟවන ලද සිදුවීම්</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>වින්‍යාස කරන්න</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>නූල් පිළිතුරු හකුළන්න</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>ගෝලීය පෙරනිමිය (දැනට: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>සක්‍රිය</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>අක්‍රිය</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>ප්‍රධාන කාලරේඛාවෙන් නූල් පිළිතුරු සඟවයි, නූල් මූල පණිවිඩ පමණක් පෙන්වයි.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහු කිරීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මගහැරෙනු ඇත.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>අවසරයන්</translation>
     </message>
@@ -6337,12 +6387,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>වින්‍යාස කරන්න</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>අන්වර්ථ නාම</translation>
     </message>
@@ -6393,12 +6442,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>වෙනස් කරන්න</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>අමුත්තන්ට සම්බන්ධ වීමට ඉඩ දෙන්න</translation>
     </message>
@@ -6459,39 +6508,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>දෘශ්‍යතා වෙනස්කම් යොදන්න</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>දේශීයව සඟවන ලද සිදුවීම්</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>නූල් පිළිතුරු හකුළන්න</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>ගෝලීය පෙරනිමිය (දැනට: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>සක්‍රිය</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>අක්‍රිය</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>නූල් පිළිතුරු ප්‍රධාන ටයිම්ලයිනයෙන් සඟවයි, නූල් මූල පණිවිඩ පමණක් දැක්වෙයි.&lt;br&gt;⚠️ නූල් වෙන් නොකියවූ ලුහුබැඳීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මග හැරිය හැකිය.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>අමතර</translation>
     </message>
@@ -9776,8 +9793,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>ප්‍රධාන timeline එකෙන් නූල් පිළිතුරු සඟවා, නූල් මූල පණිවිඩ පමණක් පෙන්වයි. කාමර තොරතුරු → සැකසීම් හි කාමරය අනුව ඉක්මවා යා හැකිය.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහුබැඳීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මගහැරිය හැකිය.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>ප්‍රධාන කාලරේඛාවෙන් නූල් පිළිතුරු සඟවයි, නූල් මූල පණිවිඩ පමණක් පෙන්වයි. කාමර තොරතුරු → මනාපයන් හිදී කාමරය අනුව ප්‍රතික්ෂේප කළ හැකිය.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහු කිරීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මගහැරෙනු ඇත.</translation>
     </message>
     <message>
         <location line="+3"/>

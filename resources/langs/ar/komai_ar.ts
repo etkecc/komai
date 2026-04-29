@@ -5745,6 +5745,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>التفضيلات</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>حول</translation>
     </message>
@@ -5754,7 +5759,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>الأعضاء</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>معلومات الفضاء</translation>
     </message>
@@ -5856,6 +5861,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>اضبط كيفية تلقّي الإشعارات لهذه الغرفة.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>رؤية الرسائل</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>الأحداث المخفية محليًا</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>تكوين</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>طي ردود السلاسل</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>الافتراضي العام (حاليًا: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>تشغيل</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>إيقاف</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>يخفي ردود السلاسل من الجدول الزمني الرئيسي، ويعرض رسائل جذر السلسلة فقط.&lt;br&gt;⚠️ تتبع الرسائل غير المقروءة لكل سلسلة على حدة غير مدعوم، لذا قد تفوتك الردود في السلاسل القديمة.</translation>
     </message>
 </context>
 <context>
@@ -6353,7 +6403,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>الأذونات</translation>
     </message>
@@ -6365,12 +6415,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>إعداد</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>الأسماء المستعارة</translation>
     </message>
@@ -6421,12 +6470,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>تغيير</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>السماح للضيوف بالانضمام</translation>
     </message>
@@ -6487,39 +6536,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>تطبيق تغييرات الظهور</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>الأحداث المخفية محلياً</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>طي ردود السلاسل</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>الافتراضي العام (حالياً: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>تشغيل</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>إيقاف</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>يخفي ردود السلاسل من الجدول الزمني الرئيسي، ويعرض رسائل جذر السلسلة فقط.&lt;br&gt;⚠️ تتبع الرسائل غير المقروءة لكل سلسلة غير مدعوم، لذا قد تفوتك الردود في السلاسل القديمة.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>إضافي</translation>
     </message>
@@ -9832,8 +9849,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>يُخفي ردود السلاسل من الجدول الزمني الرئيسي، ويعرض رسائل جذر السلسلة فقط. يمكن تجاوز هذا الإعداد لكل غرفة في معلومات الغرفة → الإعدادات.&lt;br&gt;⚠️ تتبع الرسائل غير المقروءة لكل سلسلة غير مدعوم، لذلك قد تفوتك الردود في السلاسل القديمة.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>يخفي ردود السلاسل من الجدول الزمني الرئيسي، ويعرض رسائل جذر السلسلة فقط. يمكن تجاوز هذا الإعداد لكل غرفة من معلومات الغرفة → التفضيلات.&lt;br&gt;⚠️ تتبع الرسائل غير المقروءة لكل سلسلة على حدة غير مدعوم، لذا قد تفوتك الردود في السلاسل القديمة.</translation>
     </message>
     <message>
         <location line="+3"/>

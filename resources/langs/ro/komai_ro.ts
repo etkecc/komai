@@ -5727,6 +5727,11 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Preferințe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Despre</translation>
     </message>
@@ -5736,7 +5741,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
         <translation>Membri</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Informații spațiu</translation>
     </message>
@@ -5835,6 +5840,51 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Configurează cum primești notificările pentru această cameră.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Vizibilitate mesaje</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Evenimente ascunse local</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Configurare</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Restrânge răspunsurile din fir</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Implicit global (în prezent: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Activat</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Dezactivat</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Ascunde răspunsurile din fire din cronologia principală, afișând doar mesajele rădăcină ale firelor.&lt;br&gt;⚠️ Urmărirea mesajelor necitite per fir nu este acceptată, deci este posibil să pierzi răspunsuri din firele mai vechi.</translation>
     </message>
 </context>
 <context>
@@ -6332,7 +6382,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Permisiuni</translation>
     </message>
@@ -6344,12 +6394,11 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Configurare</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Aliasuri</translation>
     </message>
@@ -6400,12 +6449,12 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Modifică</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Permite invitaților să se alăture</translation>
     </message>
@@ -6466,39 +6515,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Aplică modificările de vizibilitate</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Evenimente ascunse local</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Restrânge răspunsurile din fir</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Implicit global (în prezent: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Activat</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Dezactivat</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Ascunde răspunsurile din fire din cronologia principală, afișând doar mesajele-rădăcină ale firelor.&lt;br&gt;⚠️ Urmărirea mesajelor necitite per fir nu este acceptată, deci este posibil să ratezi răspunsuri în firele mai vechi.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Extra</translation>
     </message>
@@ -9790,8 +9807,8 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Ascunde răspunsurile din fire din cronologia principală, afișând doar mesajele rădăcină ale firelor. Poate fi suprascris per cameră în Informații cameră → Setări.&lt;br&gt;⚠️ Urmărirea mesajelor necitite per fir nu este acceptată, deci este posibil să se rateze răspunsuri în fire mai vechi.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Ascunde răspunsurile din fire din cronologia principală, afișând doar mesajele rădăcină ale firelor. Poate fi suprascris per cameră în Informații cameră → Preferințe.&lt;br&gt;⚠️ Urmărirea mesajelor necitite per fir nu este acceptată, deci este posibil să pierzi răspunsuri din firele mai vechi.</translation>
     </message>
     <message>
         <location line="+3"/>

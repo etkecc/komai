@@ -5721,6 +5721,11 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Eelistused</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Teave</translation>
     </message>
@@ -5730,7 +5735,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
         <translation>Liikmed</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Ruumi teave</translation>
     </message>
@@ -5828,6 +5833,51 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Seadista, kuidas selle jututoa teavitusi saada.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Sõnumi nähtavus</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Kohalikult peidetud sündmused</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Seadista</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Ahenda lõimu vastused</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Globaalne vaikesäte (praegu: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Sees</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Väljas</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Peidab lõimu vastused peamisest ajateljest, näidates ainult lõimu juurteated.&lt;br&gt;⚠️ Lõimupõhist lugemata jälgimist ei toetata, seega võite jääda ilma vastustest vanemates lõimudes.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Õigused</translation>
     </message>
@@ -6337,12 +6387,11 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Seadista</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Varjunimed</translation>
     </message>
@@ -6393,12 +6442,12 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Muuda</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Luba külalistel liituda</translation>
     </message>
@@ -6459,39 +6508,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Rakenda nähtavuse muudatused</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Kohalikult peidetud sündmused</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Peida lõime vastused</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Globaalne vaikeväärtus (praegu: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Sees</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Väljas</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Peidab lõime vastused peaajaloost, näidates ainult lõime juurkirjeid.&lt;br&gt;⚠️ Lõimepõhist lugemata jälgimist ei toetata, seega võib vanematel lõimedel vastuseid kahe silma vahele jääda.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Täiendav</translation>
     </message>
@@ -9776,8 +9793,8 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Peidab lõimi vastused põhiajajoonelt, kuvades ainult lõimi algussõnumeid. Saab jututoa kaupa alistada Jututoa teave → Seaded.&lt;br&gt;⚠️ Lõimipõhist lugemata jälgimist ei toetata, seega võid vanematel lõimidel vastused kahe silma vahele jätta.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Peidab lõimu vastused peamisest ajateljest, näidates ainult lõimu juurteated. Saab toa kaupa tühistada jaotises Toa teave → Eelistused.&lt;br&gt;⚠️ Lõimupõhist lugemata jälgimist ei toetata, seega võite jääda ilma vastustest vanemates lõimudes.</translation>
     </message>
     <message>
         <location line="+3"/>

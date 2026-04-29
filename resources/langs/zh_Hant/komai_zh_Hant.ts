@@ -5715,6 +5715,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>偏好設定</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
@@ -5724,7 +5729,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>成員</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>空間資訊</translation>
     </message>
@@ -5821,6 +5826,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>設定你在此聊天室接收通知的方式。</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>訊息可見性</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>本地隱藏的事件</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>設定</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>折疊討論串回覆</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>全域預設（目前：%1）</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>開啟</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>關閉</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>在主時間軸中隱藏討論串回覆，僅顯示討論串根訊息。&lt;br&gt;⚠️ 不支援每個討論串的未讀追蹤，因此您可能會錯過較舊討論串中的回覆。</translation>
     </message>
 </context>
 <context>
@@ -6318,7 +6368,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>權限</translation>
     </message>
@@ -6330,12 +6380,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>別名</translation>
     </message>
@@ -6386,12 +6435,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>變更</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>允許訪客加入</translation>
     </message>
@@ -6452,39 +6501,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>套用可見性變更</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>本機隱藏的事件</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>收合討論串回覆</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>全域預設值（目前：%1）</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>開</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>關</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>在主時間軸隱藏討論串回覆，只顯示討論串根訊息。&lt;br&gt;⚠️ 不支援每個討論串的未讀追蹤，因此你可能會錯過較舊討論串中的回覆。</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>額外</translation>
     </message>
@@ -9762,8 +9779,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>從主時間軸隱藏討論串回覆，僅顯示討論串根訊息。可在聊天室資訊 → 設定中針對各聊天室覆寫。&lt;br&gt;⚠️ 不支援每個討論串的未讀追蹤，您可能會錯過較舊討論串中的回覆。</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>在主時間軸中隱藏討論串回覆，僅顯示討論串根訊息。可在「聊天室資訊 → 偏好設定」中針對各聊天室覆寫。&lt;br&gt;⚠️ 不支援每個討論串的未讀追蹤，因此您可能會錯過較舊討論串中的回覆。</translation>
     </message>
     <message>
         <location line="+3"/>

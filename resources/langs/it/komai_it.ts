@@ -5721,6 +5721,11 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Preferenze</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Informazioni</translation>
     </message>
@@ -5730,7 +5735,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
         <translation>Membri</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Info spazio</translation>
     </message>
@@ -5828,6 +5833,51 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Configura come ricevere le notifiche per questa stanza.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Visibilità messaggi</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Eventi nascosti localmente</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Configura</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Comprimi risposte del thread</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Predefinito globale (attualmente: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Attivo</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Disattivo</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Nasconde le risposte dei thread dalla timeline principale, mostrando solo i messaggi radice del thread.&lt;br&gt;⚠️ Il tracciamento dei messaggi non letti per thread non è supportato, quindi potresti perdere risposte nei thread più vecchi.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Permessi</translation>
     </message>
@@ -6337,12 +6387,11 @@ Si noti che non può essere disabilitata in seguito.</translation>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Configura</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Alias</translation>
     </message>
@@ -6393,12 +6442,12 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Cambia</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Consenti agli ospiti di accedere</translation>
     </message>
@@ -6459,39 +6508,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Applica modifiche alla visibilità</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Eventi nascosti localmente</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Comprimi le risposte ai thread</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Predefinito globale (attuale: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Attivo</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Disattivo</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Nasconde le risposte ai thread dalla timeline principale, mostrando solo i messaggi radice del thread.&lt;br&gt;⚠️ Il conteggio dei non letti per singolo thread non è supportato: potresti perdere le risposte nei thread più vecchi.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Extra</translation>
     </message>
@@ -9776,8 +9793,8 @@ La verifica contrassegna questo dispositivo come attendibile e ti dà accesso ai
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Nasconde le risposte ai thread dalla cronologia principale, mostrando solo i messaggi radice del thread. Può essere sovrascritto per stanza in Informazioni stanza → Impostazioni.&lt;br&gt;⚠️ Il monitoraggio dei non letti per thread non è supportato, quindi potresti perdere le risposte nei thread più vecchi.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Nasconde le risposte dei thread dalla timeline principale, mostrando solo i messaggi radice del thread. Può essere sostituito per stanza in Informazioni stanza → Preferenze.&lt;br&gt;⚠️ Il tracciamento dei messaggi non letti per thread non è supportato, quindi potresti perdere risposte nei thread più vecchi.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -5727,6 +5727,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>О комнате</translation>
     </message>
@@ -5736,7 +5741,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Участники</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Информация о пространстве</translation>
     </message>
@@ -5835,6 +5840,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Настройка получения уведомлений для этой комнаты.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Видимость сообщений</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Локально скрытые события</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Настроить</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Сворачивать ответы тредов</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Глобальное значение по умолчанию (сейчас: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Вкл</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Выкл</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Скрывает ответы тредов из основной ленты, показывая только корневые сообщения тредов.&lt;br&gt;⚠️ Отслеживание непрочитанных сообщений по тредам не поддерживается, поэтому вы можете пропустить ответы в старых тредах.</translation>
     </message>
 </context>
 <context>
@@ -6332,7 +6382,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Разрешения</translation>
     </message>
@@ -6344,12 +6394,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Настроить</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Псевдонимы</translation>
     </message>
@@ -6400,12 +6449,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Изменить</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Разрешить гостям вступать</translation>
     </message>
@@ -6466,39 +6515,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Применить изменения видимости</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Локально скрытые события</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Сворачивать ответы в тредах</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Глобальный по умолчанию (сейчас: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Вкл</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Выкл</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Скрывает ответы в тредах из основной ленты, показывая только корневые сообщения.&lt;br&gt;⚠️ Отслеживание непрочитанных по тредам не поддерживается — можно пропустить ответы в старых тредах.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Дополнительно</translation>
     </message>
@@ -9790,8 +9807,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Скрывает ответы треда из основного таймлайна, показывая только корневые сообщения. Можно переопределить для каждой комнаты в Информации о комнате → Настройки.&lt;br&gt;⚠️ Отслеживание непрочитанных по отдельным тредам не поддерживается — ответы в старых тредах можно пропустить.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Скрывает ответы тредов из основной ленты, показывая только корневые сообщения тредов. Можно переопределить для каждой комнаты в «Информация о комнате» → «Настройки».&lt;br&gt;⚠️ Отслеживание непрочитанных сообщений по тредам не поддерживается, поэтому вы можете пропустить ответы в старых тредах.</translation>
     </message>
     <message>
         <location line="+3"/>

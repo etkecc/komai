@@ -5721,6 +5721,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Προτιμήσεις</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Σχετικά</translation>
     </message>
@@ -5730,7 +5735,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Μέλη</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Πληροφορίες χώρου</translation>
     </message>
@@ -5828,6 +5833,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Ρυθμίστε πώς λαμβάνετε ειδοποιήσεις για αυτό το δωμάτιο.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Ορατότητα μηνυμάτων</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Τοπικά κρυφά συμβάντα</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Ρύθμιση</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Σύμπτυξη απαντήσεων νήματος</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Καθολική προεπιλογή (τρέχουσα: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Ενεργοποιημένο</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Απενεργοποιημένο</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Αποκρύπτει τις απαντήσεις νημάτων από το κύριο χρονολόγιο, εμφανίζοντας μόνο τα αρχικά μηνύματα νήματος.&lt;br&gt;⚠️ Η παρακολούθηση αδιάβαστων ανά νήμα δεν υποστηρίζεται, οπότε ενδέχεται να χάσετε απαντήσεις σε παλαιότερα νήματα.</translation>
     </message>
 </context>
 <context>
@@ -6325,7 +6375,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>Δικαιώματα</translation>
     </message>
@@ -6337,12 +6387,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Ρύθμιση</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Ψευδώνυμα</translation>
     </message>
@@ -6393,12 +6442,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Αλλαγή</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Να επιτρέπεται η συμμετοχή επισκεπτών</translation>
     </message>
@@ -6459,39 +6508,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Εφαρμογή αλλαγών ορατότητας</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Τοπικά κρυφά συμβάντα</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Σύμπτυξη απαντήσεων νήματος</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Καθολική προεπιλογή (τρέχουσα: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Ενεργοποιημένο</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Απενεργοποιημένο</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Αποκρύπτει τις απαντήσεις νημάτων από την κύρια λίστα, εμφανίζοντας μόνο τα αρχικά μηνύματα νήματος.&lt;br&gt;⚠️ Η παρακολούθηση αδιάβαστων ανά νήμα δεν υποστηρίζεται, οπότε ενδέχεται να χάσετε απαντήσεις σε παλαιότερα νήματα.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Επιπλέον</translation>
     </message>
@@ -9776,8 +9793,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Αποκρύπτει τις απαντήσεις νημάτων από το κύριο χρονολόγιο, εμφανίζοντας μόνο τα αρχικά μηνύματα νήματος. Μπορεί να παρακαμφθεί ανά δωμάτιο στις Πληροφορίες δωματίου → Ρυθμίσεις.&lt;br&gt;⚠️ Η παρακολούθηση μη αναγνωσμένων ανά νήμα δεν υποστηρίζεται, οπότε μπορεί να χάσετε απαντήσεις σε παλαιότερα νήματα.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Αποκρύπτει τις απαντήσεις νημάτων από το κύριο χρονολόγιο, εμφανίζοντας μόνο τα αρχικά μηνύματα νήματος. Μπορεί να παρακαμφθεί ανά δωμάτιο στο Πληροφορίες δωματίου → Προτιμήσεις.&lt;br&gt;⚠️ Η παρακολούθηση αδιάβαστων ανά νήμα δεν υποστηρίζεται, οπότε ενδέχεται να χάσετε απαντήσεις σε παλαιότερα νήματα.</translation>
     </message>
     <message>
         <location line="+3"/>

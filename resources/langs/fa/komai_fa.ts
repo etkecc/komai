@@ -5715,6 +5715,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>ترجیحات</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>درباره</translation>
     </message>
@@ -5724,7 +5729,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>اعضا</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>اطلاعات فضا</translation>
     </message>
@@ -5821,6 +5826,51 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>نحوه دریافت اعلان‌ها برای این اتاق را پیکربندی کنید.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>قابلیت مشاهده پیام</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>رویدادهای پنهان‌شده محلی</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>پیکربندی</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>جمع کردن پاسخ‌های رشته</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>پیش‌فرض سراسری (در حال حاضر: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>روشن</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>خاموش</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>پاسخ‌های رشته را از جدول زمانی اصلی پنهان می‌کند و فقط پیام‌های ریشه رشته را نشان می‌دهد.&lt;br&gt;⚠️ ردیابی خوانده‌نشده‌های هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌هایی در رشته‌های قدیمی‌تر را از دست بدهید.</translation>
     </message>
 </context>
 <context>
@@ -6318,7 +6368,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>مجوزها</translation>
     </message>
@@ -6330,12 +6380,11 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>پیکربندی</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>نام‌های مستعار</translation>
     </message>
@@ -6386,12 +6435,12 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>تغییر</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>اجازه پیوستن مهمان‌ها</translation>
     </message>
@@ -6452,39 +6501,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>اعمال تغییرات نمایش</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>رویدادهای پنهان‌شده محلی</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>جمع کردن پاسخ‌های رشته</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>پیش‌فرض کلی (در حال حاضر: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>روشن</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>خاموش</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>پاسخ‌های رشته را از خط زمانی اصلی پنهان می‌کند و فقط پیام‌های اصلی رشته را نمایش می‌دهد.&lt;br&gt;⚠️ ردیابی خوانده‌نشده‌ها به ازای هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌های رشته‌های قدیمی را از دست بدهید.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>اضافی</translation>
     </message>
@@ -9762,8 +9779,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>پاسخ‌های رشته را از خط زمانی اصلی پنهان می‌کند و فقط پیام‌های ریشه رشته را نشان می‌دهد. می‌توان برای هر اتاق در اطلاعات اتاق ← تنظیمات تغییر داد.&lt;br&gt;⚠️ ردیابی پیام‌های خوانده‌نشده به ازای هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌ها در رشته‌های قدیمی‌تر را از دست بدهید.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>پاسخ‌های رشته را از جدول زمانی اصلی پنهان می‌کند و فقط پیام‌های ریشه رشته را نشان می‌دهد. می‌توان به‌ازای هر اتاق در اطلاعات اتاق → ترجیحات بازنویسی کرد.&lt;br&gt;⚠️ ردیابی خوانده‌نشده‌های هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌هایی در رشته‌های قدیمی‌تر را از دست بدهید.</translation>
     </message>
     <message>
         <location line="+3"/>

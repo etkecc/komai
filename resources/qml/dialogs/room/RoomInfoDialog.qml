@@ -42,8 +42,9 @@ Components.OverlayDialog {
     }
     property var navModel: {
         const tabs = [
-            { text: qsTr("Settings"), icon: ":/icons/icons/ui/toggles.svg", tab: "settings" },
+            { text: qsTr("Settings"), icon: ":/icons/icons/ui/settings.svg", tab: "settings" },
             { text: qsTr("Notifications"), icon: ":/icons/icons/ui/alert.svg", tab: "notifications" },
+            { text: qsTr("Preferences"), icon: ":/icons/icons/ui/toggles.svg", tab: "preferences" },
             { text: qsTr("About"), icon: ":/icons/icons/ui/options-circle.svg", tab: "about" }
         ];
         if (membersTabAvailable) {
@@ -60,6 +61,7 @@ Components.OverlayDialog {
         switch (tab) {
         case "settings":
         case "members":
+        case "preferences":
         case "notifications":
         case "about":
             return tab;
@@ -255,6 +257,8 @@ Components.OverlayDialog {
                             return "tabs/RoomInfoSettingsTab.qml";
                         case "members":
                             return "tabs/RoomInfoMembersTab.qml";
+                        case "preferences":
+                            return "tabs/RoomInfoPreferencesTab.qml";
                         case "notifications":
                             return "tabs/RoomInfoNotificationsTab.qml";
                         case "about":

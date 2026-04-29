@@ -5715,6 +5715,11 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     </message>
     <message>
         <location line="+1"/>
+        <source>Preferences</source>
+        <translation>Tercihler</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About</source>
         <translation>Hakkında</translation>
     </message>
@@ -5724,7 +5729,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
         <translation>Üyeler</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Space Info</source>
         <translation>Alan Bilgisi</translation>
     </message>
@@ -5821,6 +5826,51 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
         <location line="+11"/>
         <source>Configure how you receive notifications for this room.</source>
         <translation>Bu oda için bildirimleri nasıl alacağınızı yapılandırın.</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoPreferencesTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <source>Message visibility</source>
+        <translation>Mesaj görünürlüğü</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Locally hidden events</source>
+        <translation>Yerel olarak gizlenen olaylar</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Configure</source>
+        <translation>Yapılandır</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Collapse thread replies</source>
+        <translation>Konu yanıtlarını daralt</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation>Genel Varsayılan (şu an: %1)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation>Açık</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation>Kapalı</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Konu yanıtlarını ana zaman tünelinden gizler, yalnızca konu kök mesajlarını gösterir.&lt;br&gt;⚠️ Konu başına okunmamış takibi desteklenmediğinden, eski konulardaki yanıtları kaçırabilirsiniz.</translation>
     </message>
 </context>
 <context>
@@ -6318,7 +6368,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomSettingsDetailsGrid</name>
     <message>
-        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+24"/>
+        <location filename="../../qml/dialogs/room/components/RoomSettingsDetailsGrid.qml" line="+23"/>
         <source>Permissions</source>
         <translation>İzinler</translation>
     </message>
@@ -6330,12 +6380,11 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location line="+445"/>
         <source>Configure</source>
         <translation>Yapılandır</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-9"/>
         <source>Aliases</source>
         <translation>Takma Adlar</translation>
     </message>
@@ -6386,12 +6435,12 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
     <message>
         <location line="+14"/>
-        <location line="+361"/>
+        <location line="+253"/>
         <source>Change</source>
         <translation>Değiştir</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-226"/>
         <source>Allow guests to join</source>
         <translation>Misafirlerin katılmasına izin ver</translation>
     </message>
@@ -6452,39 +6501,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Görünürlük değişikliklerini uygula</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Locally hidden events</source>
-        <translation>Yerel olarak gizlenen olaylar</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <source>Collapse thread replies</source>
-        <translation>Konu yanıtlarını daralt</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Global Default (currently: %1)</source>
-        <translation>Genel Varsayılan (şu an: %1)</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+1"/>
-        <source>On</source>
-        <translation>Açık</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <location line="+2"/>
-        <source>Off</source>
-        <translation>Kapalı</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Konu yanıtlarını ana zaman tünelinden gizler, yalnızca konu kök mesajlarını gösterir.&lt;br&gt;⚠️ Konu başına okunmamış takibi desteklenmediğinden, eski konulardaki yanıtları kaçırabilirsiniz.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+9"/>
         <source>Extra</source>
         <translation>Ekstra</translation>
     </message>
@@ -9762,8 +9779,8 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     </message>
     <message>
         <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Konu yanıtlarını ana zaman çizelgesinden gizler; yalnızca konu kök mesajlarını gösterir. Oda Bilgisi → Ayarlar bölümünde oda bazında geçersiz kılınabilir.&lt;br&gt;⚠️ Konu başına okunmamış takibi desteklenmez; bu nedenle eski konulardaki yanıtları kaçırabilirsiniz.</translation>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Konu yanıtlarını ana zaman tünelinden gizler, yalnızca konu kök mesajlarını gösterir. Oda Bilgisi → Tercihler bölümünden oda bazında geçersiz kılınabilir.&lt;br&gt;⚠️ Konu başına okunmamış takibi desteklenmediğinden, eski konulardaki yanıtları kaçırabilirsiniz.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -23,6 +23,7 @@
 pub mod batch;
 pub mod config;
 pub(crate) mod ffi;
+pub mod realtime;
 pub mod secrets;
 
 pub use config::{ResolvedTranscriptionConfig, TranscriptionProvider, resolve_for_room};

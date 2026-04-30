@@ -3538,12 +3538,12 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Scrivi un messaggio, o premi Su per selezionare i messaggi.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>
@@ -8533,6 +8533,19 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>ON</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Il microfono non supporta PCM16 mono alla frequenza richiesta dall'API in tempo reale.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Impossibile avviare l'acquisizione dal microfono per la trascrizione in tempo reale.</translation>
     </message>
 </context>
 <context>

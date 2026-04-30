@@ -3542,12 +3542,12 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Napiši poruku ili pritisni Gore za odabir poruka.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Nalepnice</translation>
     </message>
@@ -8545,6 +8545,19 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>UKLJUČENO</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Mikrofon ne podržava PCM16 mono pri brzini koju očekuje API u realnom vremenu.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Pokretanje snimanja mikrofona za transkripciju u realnom vremenu nije uspelo.</translation>
     </message>
 </context>
 <context>

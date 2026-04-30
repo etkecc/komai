@@ -3534,12 +3534,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Tulis pesan, atau tekan Atas untuk memilih pesan.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Stiker</translation>
     </message>
@@ -8521,6 +8521,19 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>AKTIF</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Mikrofon tidak mendukung PCM16 mono pada laju yang diharapkan API real-time.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Gagal memulai pengambilan mikrofon untuk transkripsi real-time.</translation>
     </message>
 </context>
 <context>

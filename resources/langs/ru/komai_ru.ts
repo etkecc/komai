@@ -3542,12 +3542,12 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Напиши сообщение или нажми Вверх для выбора сообщений.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Стикеры</translation>
     </message>
@@ -8545,6 +8545,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>ВКЛ</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Микрофон не поддерживает PCM16 mono с частотой дискретизации, которую ожидает API реального времени.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Не удалось запустить захват звука с микрофона для транскрипции в реальном времени.</translation>
     </message>
 </context>
 <context>

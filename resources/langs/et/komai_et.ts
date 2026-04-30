@@ -3538,12 +3538,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Kirjuta sõnum või vajuta Üles, et valida sõnumeid.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Kleepsud</translation>
     </message>
@@ -8533,6 +8533,19 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>SEES</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Mikrofon ei toeta PCM16 mono sagedust, mida reaalajas API ootab.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Reaalajas transkriptsiooni mikrofoni salvestuse käivitamine ebaõnnestus.</translation>
     </message>
 </context>
 <context>

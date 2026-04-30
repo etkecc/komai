@@ -15,6 +15,7 @@ use std::time::Duration;
 
 use reqwest::multipart;
 use serde::Deserialize;
+use tracing::{info, warn};
 
 use super::{ResolvedTranscriptionConfig, TranscriptionError};
 
@@ -57,18 +58,37 @@ pub async fn transcribe_file(
     audio_path: &Path,
     cfg: &ResolvedTranscriptionConfig,
 ) -> Result<String, TranscriptionError> {
+    info!(
+        target: "net",
+        api_url = %cfg.api_url,
+        model = %cfg.model,
+        language = %cfg.language,
+        prompt_len = cfg.prompt.len(),
+        has_api_key = cfg.api_key.as_deref().is_some_and(|s| !s.is_empty()),
+        audio_path = %audio_path.display(),
+        "starting batch transcription"
+    );
+
     if cfg.api_url.trim().is_empty() {
+        warn!(target: "net", "api_url is empty; aborting");
         return Err(TranscriptionError::not_configured(
             "transcription api_url is not configured",
         ));
     }
     if cfg.model.trim().is_empty() {
+        warn!(target: "net", "model is empty; aborting");
         return Err(TranscriptionError::not_configured(
             "transcription model is not configured",
         ));
     }
 
     let metadata = tokio::fs::metadata(audio_path).await.map_err(|e| {
+        warn!(
+            target: "net",
+            audio_path = %audio_path.display(),
+            error = %e,
+            "could not stat audio file"
+        );
         TranscriptionError::invalid_audio(format!(
             "could not read audio file {}: {}",
             audio_path.display(),
@@ -76,12 +96,29 @@ pub async fn transcribe_file(
         ))
     })?;
     let size = metadata.len();
+    info!(
+        target: "net",
+        size_bytes = size,
+        "audio file ready to upload"
+    );
     if size < MIN_AUDIO_BYTES {
+        warn!(
+            target: "net",
+            size_bytes = size,
+            min_bytes = MIN_AUDIO_BYTES,
+            "audio too short, aborting"
+        );
         return Err(TranscriptionError::invalid_audio(
             "recording too short — try holding Space a bit longer",
         ));
     }
     if size > MAX_AUDIO_BYTES {
+        warn!(
+            target: "net",
+            size_bytes = size,
+            max_bytes = MAX_AUDIO_BYTES,
+            "audio too long, aborting"
+        );
         return Err(TranscriptionError::invalid_audio(format!(
             "recording too long ({} bytes; cap is {} bytes)",
             size, MAX_AUDIO_BYTES,
@@ -123,6 +160,11 @@ pub async fn transcribe_file(
     }
 
     let endpoint = build_endpoint(&cfg.api_url);
+    info!(
+        target: "net",
+        endpoint = %endpoint,
+        "POST /audio/transcriptions"
+    );
 
     let client = reqwest::Client::builder()
         .timeout(REQUEST_TIMEOUT)
@@ -139,21 +181,38 @@ pub async fn transcribe_file(
         // into a single `Error`. The `is_*` helpers let us pick a slightly
         // more specific code, but for the user a single "network" bucket
         // is fine.
+        warn!(
+            target: "net",
+            endpoint = %endpoint,
+            error = %e,
+            "network request failed"
+        );
         TranscriptionError::network(format!("request to {endpoint} failed: {e}"))
     })?;
 
     let status = response.status();
+    info!(
+        target: "net",
+        status = %status,
+        "received response"
+    );
     if !status.is_success() {
         let body = response.text().await.unwrap_or_default();
         let detail = parse_error_message(&body).unwrap_or_else(|| {
             if body.is_empty() {
                 format!("HTTP {status}")
             } else {
-                let mut snippet = body;
+                let mut snippet = body.clone();
                 snippet.truncate(256);
                 format!("HTTP {status}: {snippet}")
             }
         });
+        warn!(
+            target: "net",
+            status = %status,
+            detail = %detail,
+            "server returned non-success status"
+        );
         return Err(if status == reqwest::StatusCode::UNAUTHORIZED
             || status == reqwest::StatusCode::FORBIDDEN
         {
@@ -164,17 +223,33 @@ pub async fn transcribe_file(
     }
 
     let body = response.text().await.map_err(|e| {
+        warn!(
+            target: "net",
+            error = %e,
+            "could not read response body"
+        );
         TranscriptionError::network(format!("could not read response body: {e}"))
     })?;
 
     let parsed: BatchResponse = serde_json::from_str(&body).map_err(|e| {
         let mut snippet = body.clone();
         snippet.truncate(256);
+        warn!(
+            target: "net",
+            error = %e,
+            body_snippet = %snippet,
+            "could not parse server response as JSON"
+        );
         TranscriptionError::invalid_response(format!(
             "could not parse server response as JSON: {e}; got: {snippet}"
         ))
     })?;
 
+    info!(
+        target: "net",
+        text_len = parsed.text.len(),
+        "batch transcription complete"
+    );
     Ok(parsed.text)
 }
 

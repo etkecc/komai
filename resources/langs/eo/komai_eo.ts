@@ -3538,12 +3538,12 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Skribu mesaĝon, aŭ premu Supren por elekti mesaĝojn.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Glumarkoj</translation>
     </message>
@@ -8536,6 +8536,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>JES</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>La mikrofono ne subtenas PCM16 mono je la rapideco, kiun atendas la realtema API.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Malsukcesis komenci mikrofonkapturon por realtema transskribo.</translation>
     </message>
 </context>
 <context>

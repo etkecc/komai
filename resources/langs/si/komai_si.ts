@@ -3538,12 +3538,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>පණිවිඩයක් ලියන්න, හෝ ඉහළ ඔබා පණිවිඩ තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>ස්ටිකර</translation>
     </message>
@@ -8533,6 +8533,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>සක්‍රිය</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>realtime API අපේක්ෂා කරන ශ්‍රේණියෙන් PCM16 mono සඳහා මයික්‍රොෆෝනය සහය නොදක්වයි.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>තත්‍කාලීන ලිප්‍යන්තරණය සඳහා මයික්‍රොෆෝන ග්‍රහණය ආරම්භ කිරීමට අසමත් විය.</translation>
     </message>
 </context>
 <context>

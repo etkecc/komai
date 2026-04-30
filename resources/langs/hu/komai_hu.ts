@@ -3534,12 +3534,12 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Írjon üzenetet, vagy nyomja meg a Fel billentyűt az üzenetek kiválasztásához.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Matricák</translation>
     </message>
@@ -8521,6 +8521,19 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>BE</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>A mikrofon nem támogatja a PCM16 mono formátumot a valós idejű API által elvárt frekvencián.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Nem sikerült elindítani a mikrofon rögzítését a valós idejű átíráshoz.</translation>
     </message>
 </context>
 <context>

@@ -11,7 +11,10 @@ pub(crate) use crate::syntax_highlight::{highlight_formatted_code_blocks, highli
 pub(crate) use crate::transcription::ffi::{
     transcription_clear_global_api_key, transcription_clear_room_api_key,
     transcription_load_global_api_key, transcription_load_room_api_key,
-    transcription_resolve_for_room, transcription_run_batch, transcription_save_global_api_key,
+    transcription_realtime_cancel, transcription_realtime_commit,
+    transcription_realtime_drain_events, transcription_realtime_push_audio,
+    transcription_realtime_sample_rate_hz, transcription_resolve_for_room,
+    transcription_run_batch, transcription_run_realtime, transcription_save_global_api_key,
     transcription_save_room_api_key,
 };
 
@@ -161,6 +164,52 @@ mod bridge {
         success: bool,
         text: String,
         error_code: TranscriptionErrorCodeFfi,
+        error_message: String,
+    }
+
+    /// Outcome of starting a realtime session. `job_id == 0` means the
+    /// session could not even be started (typically because the config is
+    /// not ready) and the C++ side should surface the error immediately
+    /// without setting up a poll loop.
+    struct TranscriptionRealtimeStartResult {
+        job_id: i64,
+        accepted: bool,
+        error_code: TranscriptionErrorCodeFfi,
+        error_message: String,
+    }
+
+    /// Discriminator for [`TranscriptionRealtimeEvent`]. The C++ side
+    /// branches on this when draining the event queue.
+    enum TranscriptionRealtimeEventKindFfi {
+        /// Incremental tentative text for the current utterance. For
+        /// `gpt-4o-(mini-)transcribe` deltas are append-only per turn; for
+        /// `whisper-1` the first delta carries the full final text in one
+        /// shot.
+        Delta,
+        /// Polished final transcript for ONE utterance. With server VAD
+        /// active, multiple `Completed` events can land in a single
+        /// session (one per VAD-detected segment). Composer replaces the
+        /// current tentative range with the polished text and prepares a
+        /// fresh range for any subsequent deltas — it does NOT use this
+        /// event to decide the session has ended (see `Closed`).
+        Completed,
+        /// Session ended in failure. Composer surfaces the error in the
+        /// banner. No further events follow this for the same job id.
+        Failed,
+        /// Session ended cleanly. Always the last event of a successful
+        /// session. Composer uses this to clear any leftover tentative
+        /// range and reset state to idle.
+        Closed,
+    }
+
+    struct TranscriptionRealtimeEvent {
+        kind: TranscriptionRealtimeEventKindFfi,
+        /// Holds the delta text (kind = Delta) or the final transcript
+        /// (kind = Completed). Empty for Failed.
+        text: String,
+        /// Only meaningful when kind = Failed.
+        error_code: TranscriptionErrorCodeFfi,
+        /// Only meaningful when kind = Failed.
         error_message: String,
     }
 
@@ -2274,6 +2323,26 @@ mod bridge {
         ) -> SettingsOptionalString;
         fn transcription_save_room_api_key(profile_id: &str, room_id: &str, value: &str);
         fn transcription_clear_room_api_key(profile_id: &str, room_id: &str);
+
+        // Realtime / streaming transcription. The session lives in a
+        // background tokio task; the C++ side drives it by pushing PCM16
+        // chunks, then calling commit on user release (or cancel on Esc),
+        // and polls `drain_events` on a Qt timer to surface deltas /
+        // completed / failures into the composer banner.
+        //
+        // The audio format is fixed: little-endian PCM16, mono, at the
+        // sample rate returned by `transcription_realtime_sample_rate_hz`.
+        // The C++ side is responsible for resampling its mic capture to
+        // that rate.
+        fn transcription_realtime_sample_rate_hz() -> u32;
+        fn transcription_run_realtime(
+            profile_id: &str,
+            room_id: &str,
+        ) -> TranscriptionRealtimeStartResult;
+        fn transcription_realtime_push_audio(job_id: i64, pcm16_bytes: &[u8]);
+        fn transcription_realtime_commit(job_id: i64);
+        fn transcription_realtime_cancel(job_id: i64);
+        fn transcription_realtime_drain_events(job_id: i64) -> Vec<TranscriptionRealtimeEvent>;
     }
 }
 

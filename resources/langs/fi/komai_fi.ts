@@ -3538,12 +3538,12 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Kirjoita viesti tai paina Ylös valitaksesi viestejä.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Tarrat</translation>
     </message>
@@ -8533,6 +8533,19 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>PÄÄLLÄ</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Mikrofoni ei tue PCM16 mono -muotoa reaaliaikaisen API:n odottamalla näytteenottotaajuudella.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Mikrofonin sieppauksen käynnistäminen reaaliaikaista transkriptiota varten epäonnistui.</translation>
     </message>
 </context>
 <context>

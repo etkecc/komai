@@ -3534,12 +3534,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>یک پیام بنویسید، یا کلید بالا را فشار دهید تا پیام‌ها انتخاب شوند.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>استیکرها</translation>
     </message>
@@ -8521,6 +8521,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>روشن</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>میکروفون از PCM16 مونو با نرخ مورد انتظار API بلادرنگ پشتیبانی نمی‌کند.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>راه‌اندازی ضبط میکروفون برای رونویسی بلادرنگ با شکست مواجه شد.</translation>
     </message>
 </context>
 <context>

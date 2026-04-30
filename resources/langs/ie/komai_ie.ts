@@ -3538,12 +3538,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Scriber un mesage, o presser Up por selecter mesages.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>
@@ -8533,6 +8533,19 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>ACTIV</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Le microfon ne supporta PCM16 mono al frequentie que la API in temp real expecta.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Fallat iniciar la captura del microfon por transcription in temp real.</translation>
     </message>
 </context>
 <context>

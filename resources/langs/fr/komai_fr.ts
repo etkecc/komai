@@ -3538,12 +3538,12 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Écrivez un message, ou appuyez sur Haut pour sélectionner des messages.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>
@@ -8533,6 +8533,19 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>ACTIVÉ</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Le microphone ne prend pas en charge le PCM16 mono à la fréquence attendue par l'API en temps réel.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Échec du démarrage de la capture du microphone pour la transcription en temps réel.</translation>
     </message>
 </context>
 <context>

@@ -3538,12 +3538,12 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Skriv ett meddelande eller tryck Upp för att markera meddelanden.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>
@@ -8533,6 +8533,19 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>PÅ</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Mikrofonen stöder inte PCM16 mono vid den samplingsfrekvens som realtids-API:t förväntar sig.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Kunde inte starta mikrofoninspelning för realtidstranskription.</translation>
     </message>
 </context>
 <context>

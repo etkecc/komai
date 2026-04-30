@@ -3538,12 +3538,12 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Escreva uma mensagem ou prima Para Cima para selecionar mensagens.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Autocolantes</translation>
     </message>
@@ -8533,6 +8533,19 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>LIGADO</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>O microfone não suporta PCM16 mono à taxa esperada pela API em tempo real.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Falha ao iniciar a captura do microfone para transcrição em tempo real.</translation>
     </message>
 </context>
 <context>

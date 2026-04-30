@@ -3538,12 +3538,12 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ Up അമർത്തുക.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>
@@ -8533,6 +8533,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+37"/>
         <source>ON</source>
         <translation>ഓൺ</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>തത്സമയ API പ്രതീക്ഷിക്കുന്ന നിരക്കിൽ PCM16 മോണോ മൈക്രോഫോൺ പിന്തുണയ്ക്കുന്നില്ല.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>തത്സമയ ട്രാൻസ്ക്രിപ്ഷനായി മൈക്രോഫോൺ ക്യാപ്‌ചർ ആരംഭിക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
 </context>
 <context>

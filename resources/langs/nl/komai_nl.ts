@@ -3538,12 +3538,12 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Schrijf een bericht, of druk op Omhoog om berichten te selecteren.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>
@@ -8533,6 +8533,19 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>AAN</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Microfoon ondersteunt PCM16 mono niet op de samplefrequentie die de realtime API verwacht.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Microfoonopname voor realtime transcriptie kon niet worden gestart.</translation>
     </message>
 </context>
 <context>

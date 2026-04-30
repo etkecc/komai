@@ -3534,12 +3534,12 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Viết tin nhắn, hoặc nhấn Lên để chọn tin nhắn.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>
     </message>
@@ -5918,7 +5918,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     <message>
         <location line="-450"/>
         <source>Hosting &amp; API URL</source>
-        <translation type="unfinished"/>
+        <translation>Hosting &amp; URL API</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -8521,6 +8521,19 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>BẬT</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Microphone không hỗ trợ PCM16 mono ở tốc độ mà API thời gian thực yêu cầu.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Không thể khởi động thu âm microphone cho phiên âm thời gian thực.</translation>
     </message>
 </context>
 <context>

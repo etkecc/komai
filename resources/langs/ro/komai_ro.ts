@@ -3542,12 +3542,12 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Scrie un mesaj sau apasă Sus pentru a selecta mesaje.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>
@@ -8545,6 +8545,19 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>PORNIT</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Microfonul nu acceptă PCM16 mono la rata cerută de API-ul în timp real.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Nu s-a putut porni capturarea microfonului pentru transcriere în timp real.</translation>
     </message>
 </context>
 <context>

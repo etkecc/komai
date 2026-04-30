@@ -80,11 +80,37 @@ Rectangle {
     property string transcriptionEffectiveProvider: ""
     property string transcriptionLastError: ""
     property int _transcriptionJobId: 0
+    // Realtime job id from `Transcription.runRealtimeAsync`. Distinct
+    // type (qint64 in C++) but harmless to store as a JS number here as
+    // long as we only compare/pass through. 0 means "no realtime session".
+    property var _transcriptionRealtimeJobId: 0
+    // Tentative range bookkeeping for realtime mode. While the user is
+    // speaking, deltas land in `[tentativeStart, tentativeStart + tentativeLength)`
+    // styled muted/italic. On each `completed`, the tentative range is
+    // replaced with the polished utterance (in normal style) and
+    // `tentativeStart` advances past it so subsequent deltas land
+    // after — see `_consolidateTranscriptionTentative`. -1 / 0 when no
+    // tentative range is alive.
+    property int _transcriptionTentativeStart: -1
+    property int _transcriptionTentativeLength: 0
+    // Position where ALL realtime-inserted text begins (origin of the
+    // current session). Unlike `tentativeStart` this DOES NOT advance
+    // when an utterance is consolidated — it pins the start of the
+    // session's contribution, so Esc/cancel can wipe everything that
+    // was dictated in one shot. -1 when no session is active.
+    property int _transcriptionRealtimeOriginStart: -1
+    // Accumulator for the current realtime turn's tentative text. We use
+    // the accumulator (rather than reading the live editor contents) so
+    // user typing inside the tentative range — should it happen — does
+    // not corrupt our delta book-keeping.
+    property string _transcriptionTentativeText: ""
     // Position where the provisional space landed when arming a Space
     // gesture. Captured at keydown so we can pull it back if the long-press
     // threshold elapses into recording, even if the cursor moved while
     // Space was held. -1 when no Space gesture is in flight.
     property int _transcriptionGestureSpacePos: -1
+    readonly property bool _transcriptionIsRealtime:
+        transcriptionEffectiveProvider === "openai_realtime"
     readonly property bool transcriptionGestureEligible:
         Settings.composerInputTranscriptionEnabled === true
         && composerEnabled
@@ -135,6 +161,64 @@ Rectangle {
                 : errorCode;
             TranscriptionAudioCapture.discardRecording();
         }
+
+        function onRealtimeDelta(jobId, delta) {
+            if (jobId !== inputBar._transcriptionRealtimeJobId)
+                return;
+            if (!delta || delta.length === 0)
+                return;
+            inputBar._appendTranscriptionTentative(delta);
+        }
+        function onRealtimeCompleted(jobId, transcript) {
+            // Server VAD can fire `completed` mid-session (one per
+            // detected utterance). Treat each as "consolidate the
+            // current tentative range into final text and start a fresh
+            // tentative range for any subsequent deltas". The session
+            // itself ends on `realtimeClosed`, not here.
+            if (jobId !== inputBar._transcriptionRealtimeJobId)
+                return;
+            inputBar._consolidateTranscriptionTentative(transcript || "");
+        }
+        function onRealtimeClosed(jobId) {
+            if (jobId !== inputBar._transcriptionRealtimeJobId)
+                return;
+            inputBar._transcriptionRealtimeJobId = 0;
+            // Anything still tentative at close time never got
+            // consolidated by a `completed` (e.g., the session timed out
+            // post-commit). Drop the styling — there's no polished form
+            // coming for it — but keep the text in the buffer so the
+            // user doesn't lose what they dictated.
+            inputBar._demoteTentativeToFinal();
+            inputBar._transcriptionRealtimeOriginStart = -1;
+            if (TranscriptionAudioCapture.streaming)
+                TranscriptionAudioCapture.stopStreaming();
+            inputBar.transcriptionState = "idle";
+            inputBar.transcriptionTriggerKind = "";
+            inputBar.transcriptionEffectiveProvider = "";
+            inputBar.transcriptionLastError = "";
+        }
+        function onRealtimeFailed(jobId, errorCode, errorMessage) {
+            if (jobId !== 0 && jobId !== inputBar._transcriptionRealtimeJobId)
+                return;
+            // jobId === 0 means the session could not even be started
+            // (e.g. config not ready). Surface as a regular failure.
+            if (jobId !== 0)
+                inputBar._transcriptionRealtimeJobId = 0;
+            // Wipe everything realtime added — we have no polished form
+            // to fall back to, and surfacing half-finalised italicised
+            // bits next to an error banner would be confusing.
+            inputBar._removeAllRealtimeText();
+            // If the streaming source is still feeding the (now-dead)
+            // session, stop it so we don't keep the mic hot.
+            if (TranscriptionAudioCapture.streaming)
+                TranscriptionAudioCapture.stopStreaming();
+            inputBar.transcriptionState = "error";
+            inputBar.transcriptionTriggerKind = "";
+            inputBar.transcriptionEffectiveProvider = "";
+            inputBar.transcriptionLastError = errorMessage && errorMessage.length > 0
+                ? errorMessage
+                : errorCode;
+        }
     }
 
     Connections {
@@ -151,6 +235,11 @@ Rectangle {
             }
             inputBar._transcriptionJobId =
                 Transcription.runBatchAsync(inputBar.room.roomId, filePath);
+        }
+        function onPcmChunkReady(bytes) {
+            if (inputBar._transcriptionRealtimeJobId === 0)
+                return;
+            Transcription.pushRealtimeAudio(inputBar._transcriptionRealtimeJobId, bytes);
         }
         function onErrorOccurred(message) {
             if (inputBar.transcriptionState === "idle")
@@ -268,7 +357,10 @@ Rectangle {
                                 _transcriptionGestureSpacePos + 1);
         }
         _transcriptionGestureSpacePos = -1;
-        TranscriptionAudioCapture.startRecording();
+        if (_transcriptionIsRealtime)
+            _startRealtimeCapture();
+        else
+            TranscriptionAudioCapture.startRecording();
     }
 
     function _beginTranscriptionInToggleMode() {
@@ -291,7 +383,35 @@ Rectangle {
         }
         transcriptionEffectiveProvider = resolved.provider || "";
         transcriptionState = "recording";
-        TranscriptionAudioCapture.startRecording();
+        if (_transcriptionIsRealtime)
+            _startRealtimeCapture();
+        else
+            TranscriptionAudioCapture.startRecording();
+    }
+
+    function _startRealtimeCapture() {
+        // Realtime path: open the WebSocket session first (synchronous —
+        // returns 0 on a config-readiness failure that we already
+        // pre-checked, so this should normally succeed) and only flip on
+        // the streaming mic source if the session was accepted. The
+        // tentative range is anchored at the current cursor position so
+        // deltas land in-place even if the user pre-typed content.
+        if (!room || !room.roomId) {
+            _abortTranscriptionInFlight();
+            return;
+        }
+        var jobId = Transcription.runRealtimeAsync(room.roomId);
+        if (!jobId || jobId === 0) {
+            // `realtimeFailed(0, …)` was emitted synchronously and has
+            // already moved us to the `error` state; nothing more to do.
+            return;
+        }
+        _transcriptionRealtimeJobId = jobId;
+        _transcriptionRealtimeOriginStart = messageInput.cursorPosition;
+        _transcriptionTentativeStart = messageInput.cursorPosition;
+        _transcriptionTentativeLength = 0;
+        _transcriptionTentativeText = "";
+        TranscriptionAudioCapture.startStreaming();
     }
 
     function _commitTranscriptionGesture() {
@@ -302,7 +422,9 @@ Rectangle {
         //    start recording (caller decides whether to do this).
         //  - any + not-configured: dismiss the hint. For "space" the user
         //    effectively typed a space and Qt already inserted it.
-        //  - any + recording: stop recorder and wait for the file to flush.
+        //  - any + recording (batch): stop recorder, wait for file flush.
+        //  - any + recording (realtime): stop the streaming mic, send
+        //    `commit` to the server, wait for the polished `completed`.
         if (transcriptionState === "armed" || transcriptionState === "not-configured") {
             transcriptionLongPressTimer.stop();
             transcriptionState = "idle";
@@ -312,6 +434,14 @@ Rectangle {
             return;
         }
         if (transcriptionState === "recording") {
+            if (_transcriptionIsRealtime) {
+                transcriptionState = "transcribing";
+                if (TranscriptionAudioCapture.streaming)
+                    TranscriptionAudioCapture.stopStreaming();
+                if (_transcriptionRealtimeJobId !== 0)
+                    Transcription.commitRealtime(_transcriptionRealtimeJobId);
+                return;
+            }
             transcriptionState = "transcribing";
             TranscriptionAudioCapture.stopRecording();
         }
@@ -321,8 +451,15 @@ Rectangle {
         if (transcriptionState === "idle")
             return;
         transcriptionLongPressTimer.stop();
+        if (_transcriptionRealtimeJobId !== 0) {
+            Transcription.cancelRealtime(_transcriptionRealtimeJobId);
+            _transcriptionRealtimeJobId = 0;
+        }
+        if (TranscriptionAudioCapture.streaming)
+            TranscriptionAudioCapture.stopStreaming();
         if (transcriptionState === "recording" || transcriptionState === "transcribing")
             TranscriptionAudioCapture.discardRecording();
+        _removeAllRealtimeText();
         _transcriptionJobId = 0;
         transcriptionState = "idle";
         transcriptionTriggerKind = "";
@@ -334,6 +471,13 @@ Rectangle {
     }
 
     function _abortTranscriptionInFlight() {
+        if (_transcriptionRealtimeJobId !== 0) {
+            Transcription.cancelRealtime(_transcriptionRealtimeJobId);
+            _transcriptionRealtimeJobId = 0;
+        }
+        if (TranscriptionAudioCapture.streaming)
+            TranscriptionAudioCapture.stopStreaming();
+        _removeAllRealtimeText();
         _transcriptionJobId = 0;
         transcriptionState = "idle";
         transcriptionTriggerKind = "";
@@ -391,6 +535,176 @@ Rectangle {
             }
         }
         messageInput.insert(pos, prefix + text);
+    }
+
+    // Realtime "tentative range" book-keeping ----------------------------
+    //
+    // While a realtime session is live, deltas accumulate inside a range
+    // `[tentativeStart, tentativeStart + tentativeLength)`. On `completed`,
+    // the range is replaced by the polished transcript using the same
+    // auto-space-when-joining heuristic batch mode uses. On Esc / cancel
+    // the range is removed entirely.
+    //
+    // (Inline italic/muted styling for the tentative range would require
+    // switching messageInput to RichText mode, which conflicts with
+    // markdown handling. The composer banner — "Recording & transcribing…"
+    // — already signals to the user that the in-place text is provisional.
+    // Inline styling can land as a follow-up if desired.)
+
+    function _appendTranscriptionTentative(delta) {
+        if (!delta || delta.length === 0)
+            return;
+        if (_transcriptionTentativeStart < 0)
+            return;
+        var insertPos = _transcriptionTentativeStart + _transcriptionTentativeLength;
+        if (insertPos < 0)
+            insertPos = 0;
+        if (insertPos > messageInput.length)
+            insertPos = messageInput.length;
+        // Auto-prepend a space the first time we land tentative text into
+        // a non-whitespace context, mirroring `_insertTranscribedText`'s
+        // batch heuristic so realtime and batch insertion feel the same.
+        var prefix = "";
+        if (_transcriptionTentativeLength === 0
+            && insertPos > 0
+            && !/^\s/.test(delta)) {
+            var prevChar = messageInput.getText(insertPos - 1, insertPos);
+            if (prevChar.length > 0
+                && !/^\s$/.test(prevChar)
+                && !_isCJKCharacter(prevChar)) {
+                prefix = " ";
+            }
+        }
+        var combined = prefix + delta;
+        messageInput.insert(insertPos, combined);
+        // Pull any auto-space *into* the tentative range so a cancel
+        // takes it back out cleanly.
+        _transcriptionTentativeLength += combined.length;
+        _transcriptionTentativeText += combined;
+        // Mark the whole tentative range italic + muted via the underlying
+        // QTextDocument. Re-applied on every delta because Qt's TextEdit
+        // can fan out the format at the boundary; mergeCharFormat is
+        // cheap and idempotent.
+        Transcription.applyTentativeFormat(messageInput.textDocument,
+                                           _transcriptionTentativeStart,
+                                           _transcriptionTentativeLength);
+    }
+
+    // Mid-session consolidation: replace the current tentative range
+    // with the polished `finalText` (in normal style), then anchor a
+    // fresh empty tentative range right after it for the next utterance.
+    // Used when server VAD emits a `completed` while the user is still
+    // holding Space — multiple utterances accumulate cleanly across the
+    // same gesture.
+    function _consolidateTranscriptionTentative(finalText) {
+        if (_transcriptionTentativeStart < 0) {
+            // No active tentative range — drop the polished text in at
+            // the current cursor position (same auto-space heuristic as
+            // batch). This is the path for "completed arrived without
+            // preceding deltas", e.g. extremely short utterances.
+            if (finalText && finalText.length > 0) {
+                var cursorBefore = messageInput.cursorPosition;
+                _insertTranscribedText(finalText);
+                _transcriptionTentativeStart = messageInput.cursorPosition;
+                _transcriptionTentativeLength = 0;
+                _transcriptionTentativeText = "";
+                // cursorBefore unused; _insertTranscribedText already
+                // moved the cursor to the end of the inserted text,
+                // which is where new deltas should land.
+                void cursorBefore;
+            }
+            return;
+        }
+        var start = _transcriptionTentativeStart;
+        var end = Math.min(messageInput.length, start + _transcriptionTentativeLength);
+        if (end > start)
+            messageInput.remove(start, end);
+        _transcriptionTentativeLength = 0;
+        _transcriptionTentativeText = "";
+        // Insert polished text at the previous tentative-start position.
+        // Apply the same auto-space-when-joining heuristic batch mode
+        // uses: VAD-split utterances arrive WITHOUT leading whitespace
+        // and the previous utterance ends in punctuation, so without
+        // this you get "pizza.And just" mashed together.
+        if (finalText && finalText.length > 0) {
+            var prefix = "";
+            if (start > 0 && !/^\s/.test(finalText)) {
+                var prevChar = messageInput.getText(start - 1, start);
+                if (prevChar.length > 0
+                    && !/^\s$/.test(prevChar)
+                    && !_isCJKCharacter(prevChar)) {
+                    prefix = " ";
+                }
+            }
+            var combined = prefix + finalText;
+            messageInput.insert(start, combined);
+            _transcriptionTentativeStart = start + combined.length;
+        } else {
+            _transcriptionTentativeStart = start;
+        }
+        messageInput.cursorPosition = _transcriptionTentativeStart;
+    }
+
+    // Drop the italic/muted styling on whatever tentative text is still
+    // sitting in the buffer at session-close time. Keeps the text — the
+    // user dictated it; we just have no polished form to swap in. Used
+    // by `onRealtimeClosed` for the rare "session ended without a final
+    // completed" case (e.g. post-commit timeout).
+    function _demoteTentativeToFinal() {
+        if (_transcriptionTentativeStart < 0 || _transcriptionTentativeLength <= 0) {
+            _transcriptionTentativeStart = -1;
+            _transcriptionTentativeLength = 0;
+            _transcriptionTentativeText = "";
+            return;
+        }
+        Transcription.clearTextFormat(messageInput.textDocument,
+                                      _transcriptionTentativeStart,
+                                      _transcriptionTentativeLength);
+        messageInput.cursorPosition =
+            _transcriptionTentativeStart + _transcriptionTentativeLength;
+        _transcriptionTentativeStart = -1;
+        _transcriptionTentativeLength = 0;
+        _transcriptionTentativeText = "";
+    }
+
+    function _removeTranscriptionTentative() {
+        if (_transcriptionTentativeStart < 0) {
+            _transcriptionTentativeLength = 0;
+            _transcriptionTentativeText = "";
+            return;
+        }
+        var start = _transcriptionTentativeStart;
+        var end = Math.min(messageInput.length, start + _transcriptionTentativeLength);
+        if (end > start)
+            messageInput.remove(start, end);
+        _transcriptionTentativeStart = -1;
+        _transcriptionTentativeLength = 0;
+        _transcriptionTentativeText = "";
+    }
+
+    // Wipe the entire realtime contribution to the buffer — both
+    // already-consolidated final utterances AND the live tentative
+    // range. Used by Esc / cancel so an aborted dictation doesn't leave
+    // half a session's worth of text behind.
+    function _removeAllRealtimeText() {
+        if (_transcriptionRealtimeOriginStart < 0) {
+            // Either no realtime session was active, or this is the
+            // batch path; fall back to just clearing the tentative
+            // range.
+            _removeTranscriptionTentative();
+            return;
+        }
+        var start = _transcriptionRealtimeOriginStart;
+        var end = _transcriptionTentativeStart >= 0
+            ? _transcriptionTentativeStart + _transcriptionTentativeLength
+            : start;
+        end = Math.min(messageInput.length, Math.max(start, end));
+        if (end > start)
+            messageInput.remove(start, end);
+        _transcriptionRealtimeOriginStart = -1;
+        _transcriptionTentativeStart = -1;
+        _transcriptionTentativeLength = 0;
+        _transcriptionTentativeText = "";
     }
 
     function _isCJKCharacter(ch) {
@@ -826,6 +1140,15 @@ Rectangle {
                 bottomPadding: Komai.composerTextAreaPadding
                 color: palette.text
                 enabled: inputBar.composerEnabled
+                // Lock typing while a realtime session is mid-flight so
+                // user keystrokes don't shift the tentative range out
+                // from under us. Esc still cancels (handled separately
+                // via Keys.onShortcutOverride), and Space release still
+                // commits because the gesture state machine intercepts
+                // before readOnly applies.
+                readOnly: inputBar._transcriptionIsRealtime
+                    && (inputBar.transcriptionState === "recording"
+                        || inputBar.transcriptionState === "transcribing")
                 focus: true
                 leftPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 padding: 0
@@ -914,6 +1237,15 @@ Rectangle {
                     } else if (event.matches(StandardKey.SelectAll) && popup.opened) {
                         completer.completerType = "";
                         popup.close();
+                    } else if ((event.key == Qt.Key_Enter || event.key == Qt.Key_Return)
+                               && inputBar._transcriptionIsRealtime
+                               && (inputBar.transcriptionState === "recording"
+                                   || inputBar.transcriptionState === "transcribing")) {
+                        // Don't let Enter send a half-transcribed message
+                        // while a realtime session is mid-flight. The user
+                        // can finish the gesture (release Space / click
+                        // Stop) and then send.
+                        event.accepted = true;
                     } else if (event.key == Qt.Key_Enter || event.key == Qt.Key_Return) {
                         // If popup is open and user has selected a completion, insert it.
                         if (popup.opened &&

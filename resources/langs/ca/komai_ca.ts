@@ -3538,12 +3538,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Escriu un missatge, o prem Amunt per seleccionar missatges.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>
@@ -8533,6 +8533,19 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>ACTIVAT</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>El micròfon no admet PCM16 mono a la taxa que espera l'API en temps real.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>No s'ha pogut iniciar la captura del micròfon per a la transcripció en temps real.</translation>
     </message>
 </context>
 <context>

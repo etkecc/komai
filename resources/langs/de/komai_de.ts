@@ -3538,12 +3538,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Nachricht schreiben oder Aufwärts drücken, um Nachrichten auszuwählen.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>
@@ -8533,6 +8533,19 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>AN</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Das Mikrofon unterstützt kein PCM16-Mono mit der Rate, die die Echtzeit-API erwartet.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Mikrofon-Aufnahme für die Echtzeit-Transkription konnte nicht gestartet werden.</translation>
     </message>
 </context>
 <context>

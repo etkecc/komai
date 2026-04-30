@@ -3542,12 +3542,12 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Napište zprávu nebo stiskněte Nahoru pro výběr zpráv.</translation>
     </message>
     <message>
-        <location line="+498"/>
+        <location line="+507"/>
         <source>Stickers</source>
         <translation>Samolepky</translation>
     </message>
@@ -8545,6 +8545,19 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <location line="+37"/>
         <source>ON</source>
         <translation>ZAP</translation>
+    </message>
+</context>
+<context>
+    <name>TranscriptionAudioCapture</name>
+    <message>
+        <location filename="../../../src/voip/TranscriptionAudioCapture.cpp" line="+208"/>
+        <source>Microphone does not support PCM16 mono at the rate the realtime API expects.</source>
+        <translation>Mikrofon nepodporuje PCM16 mono na vzorkovací frekvenci, kterou vyžaduje API v reálném čase.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to start microphone capture for realtime transcription.</source>
+        <translation>Nepodařilo se spustit záznam mikrofonu pro přepis v reálném čase.</translation>
     </message>
 </context>
 <context>

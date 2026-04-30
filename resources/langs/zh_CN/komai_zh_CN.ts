@@ -5831,7 +5831,31 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoPreferencesTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
+        <location line="+227"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI实时（流式）</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+225"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI批处理（单次）</translation>
+    </message>
+    <message>
+        <location line="-219"/>
+        <location line="+321"/>
+        <source>OpenAI cloud</source>
+        <translation>OpenAI云端</translation>
+    </message>
+    <message>
+        <location line="-320"/>
+        <location line="+321"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>其他（OpenAI兼容服务器）</translation>
+    </message>
+    <message>
+        <location line="-305"/>
         <source>Message visibility</source>
         <translation>消息可见性</translation>
     </message>
@@ -5871,6 +5895,115 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>隐藏主时间线中的话题回复，仅显示话题根消息。&lt;br&gt;⚠️ 不支持按话题追踪未读消息，你可能会错过旧话题中的回复。</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Voice transcription</source>
+        <translation>语音转录</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Provider</source>
+        <translation>服务商</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <location line="+89"/>
+        <location line="+251"/>
+        <location line="+84"/>
+        <location line="+82"/>
+        <source>Inherited: %1</source>
+        <translation>继承：%1</translation>
+    </message>
+    <message>
+        <location line="-450"/>
+        <source>Hosting &amp; API URL</source>
+        <translation>托管和API地址</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Inherited: %1 — %2</source>
+        <translation>继承：%1 — %2</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>示例：http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>API key</source>
+        <translation>API密钥</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Inherited: a global API key is configured.</source>
+        <translation>继承：已配置全局API密钥。</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inherited: no global API key configured.</source>
+        <translation>继承：未配置全局API密钥。</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Example: sk-…</source>
+        <translation>示例：sk-…</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Show/Hide API key</source>
+        <translation>显示/隐藏API密钥</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Model</source>
+        <translation>模型</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: provider default</source>
+        <translation>继承：服务商默认值</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>示例：gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>示例：whisper-1</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Language</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: autodetect</source>
+        <translation>继承：自动检测</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Example: en (leave empty to autodetect)</source>
+        <translation>示例：en（留空以自动检测）</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Prompt</source>
+        <translation>提示词</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: no prompt</source>
+        <translation>继承：无提示词</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>示例：姓名：Alice、Bob、Carol。术语：Matrix、Komai、federation。</translation>
     </message>
 </context>
 <context>
@@ -8398,7 +8531,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>语音转录</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 云</translation>
     </message>
@@ -8413,7 +8546,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>提供商</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-6"/>
+        <source>Most of these settings can be overridden per room in Room Info → Preferences.</source>
+        <translation>大多数设置可在聊天室信息→偏好设置中按聊天室覆盖。</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 批处理（一次性）</translation>
     </message>

@@ -388,6 +388,47 @@ pub(crate) fn ffi_config_integrations_section(
             .prompt
             .clone()
             .unwrap_or_default(),
+        transcription_by_room: config
+            .integrations
+            .transcription
+            .by_room
+            .iter()
+            .map(|(room_id, overrides)| {
+                let (has_provider, provider) = match &overrides.provider {
+                    Some(token) => (true, token.to_storage_string()),
+                    None => (false, String::new()),
+                };
+                let (has_api_url, api_url) = match &overrides.api_url {
+                    Some(value) => (true, value.clone()),
+                    None => (false, String::new()),
+                };
+                let (has_model, model) = match &overrides.model {
+                    Some(value) => (true, value.clone()),
+                    None => (false, String::new()),
+                };
+                let (has_language, language) = match &overrides.language {
+                    Some(value) => (true, value.clone()),
+                    None => (false, String::new()),
+                };
+                let (has_prompt, prompt) = match &overrides.prompt {
+                    Some(value) => (true, value.clone()),
+                    None => (false, String::new()),
+                };
+                ffi::SettingsConfigTranscriptionByRoomEntry {
+                    key: room_id.clone(),
+                    has_provider,
+                    provider,
+                    has_api_url,
+                    api_url,
+                    has_model,
+                    model,
+                    has_language,
+                    language,
+                    has_prompt,
+                    prompt,
+                }
+            })
+            .collect(),
     }
 }
 
@@ -778,6 +819,23 @@ fn clone_config_integrations_section(
         transcription_model: section.transcription_model.clone(),
         transcription_language: section.transcription_language.clone(),
         transcription_prompt: section.transcription_prompt.clone(),
+        transcription_by_room: section
+            .transcription_by_room
+            .iter()
+            .map(|entry| ffi::SettingsConfigTranscriptionByRoomEntry {
+                key: entry.key.clone(),
+                has_provider: entry.has_provider,
+                provider: entry.provider.clone(),
+                has_api_url: entry.has_api_url,
+                api_url: entry.api_url.clone(),
+                has_model: entry.has_model,
+                model: entry.model.clone(),
+                has_language: entry.has_language,
+                language: entry.language.clone(),
+                has_prompt: entry.has_prompt,
+                prompt: entry.prompt.clone(),
+            })
+            .collect(),
     }
 }
 

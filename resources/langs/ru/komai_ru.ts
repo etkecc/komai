@@ -5845,7 +5845,31 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoPreferencesTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
+        <location line="+227"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI Realtime (потоковый)</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+225"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI Batch (одиночный)</translation>
+    </message>
+    <message>
+        <location line="-219"/>
+        <location line="+321"/>
+        <source>OpenAI cloud</source>
+        <translation>Облако OpenAI</translation>
+    </message>
+    <message>
+        <location line="-320"/>
+        <location line="+321"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>Другое (сервер, совместимый с OpenAI)</translation>
+    </message>
+    <message>
+        <location line="-305"/>
         <source>Message visibility</source>
         <translation>Видимость сообщений</translation>
     </message>
@@ -5885,6 +5909,115 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Скрывает ответы тредов из основной ленты, показывая только корневые сообщения тредов.&lt;br&gt;⚠️ Отслеживание непрочитанных сообщений по тредам не поддерживается, поэтому вы можете пропустить ответы в старых тредах.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Voice transcription</source>
+        <translation>Транскрипция голоса</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Provider</source>
+        <translation>Провайдер</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <location line="+89"/>
+        <location line="+251"/>
+        <location line="+84"/>
+        <location line="+82"/>
+        <source>Inherited: %1</source>
+        <translation>Унаследовано: %1</translation>
+    </message>
+    <message>
+        <location line="-450"/>
+        <source>Hosting &amp; API URL</source>
+        <translation>Хостинг и API URL</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Inherited: %1 — %2</source>
+        <translation>Унаследовано: %1 — %2</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>Пример: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>API key</source>
+        <translation>API-ключ</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Inherited: a global API key is configured.</source>
+        <translation>Унаследовано: глобальный API-ключ настроен.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inherited: no global API key configured.</source>
+        <translation>Унаследовано: глобальный API-ключ не настроен.</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Example: sk-…</source>
+        <translation>Пример: sk-…</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Show/Hide API key</source>
+        <translation>Показать/скрыть API-ключ</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Model</source>
+        <translation>Модель</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: provider default</source>
+        <translation>Унаследовано: умолчание провайдера</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>Пример: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>Пример: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Language</source>
+        <translation>Язык</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: autodetect</source>
+        <translation>Унаследовано: автоопределение</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Example: en (leave empty to autodetect)</source>
+        <translation>Пример: en (оставьте пустым для автоопределения)</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Prompt</source>
+        <translation>Промпт</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: no prompt</source>
+        <translation>Унаследовано: без промпта</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>Пример: Имена: Alice, Bob, Carol. Жаргон: Matrix, Komai, federation.</translation>
     </message>
 </context>
 <context>
@@ -8422,7 +8555,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Голосовое распознавание</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>OpenAI cloud</source>
         <translation>Облако OpenAI</translation>
     </message>
@@ -8437,7 +8570,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Провайдер</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-6"/>
+        <source>Most of these settings can be overridden per room in Room Info → Preferences.</source>
+        <translation>Большинство этих настроек можно переопределить для каждой комнаты в разделе Информация о комнате → Настройки.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (разовый)</translation>
     </message>

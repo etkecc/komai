@@ -491,6 +491,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["integrations", "transcription", "by_room"],
+        tree::transcription_by_room_map(&snapshot.integrations.transcription_by_room),
+    );
+    yaml::set_value(
+        &mut root,
         &["composer", "input", "markdown_to_html", "enabled"],
         Value::Bool(snapshot.composer.input_markdown_to_html_enabled),
     );

@@ -5838,7 +5838,31 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoPreferencesTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
+        <location line="+227"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI Realtime (ධාරා)</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+225"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI Batch (එක-ගැසීම)</translation>
+    </message>
+    <message>
+        <location line="-219"/>
+        <location line="+321"/>
+        <source>OpenAI cloud</source>
+        <translation>OpenAI වලාකුළ</translation>
+    </message>
+    <message>
+        <location line="-320"/>
+        <location line="+321"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>අනෙකුත් (OpenAI-අනුකූල සේවාදායකය)</translation>
+    </message>
+    <message>
+        <location line="-305"/>
         <source>Message visibility</source>
         <translation>පණිවිඩ දෘශ්‍යතාව</translation>
     </message>
@@ -5878,6 +5902,115 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>ප්‍රධාන කාලරේඛාවෙන් නූල් පිළිතුරු සඟවයි, නූල් මූල පණිවිඩ පමණක් පෙන්වයි.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහු කිරීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මගහැරෙනු ඇත.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Voice transcription</source>
+        <translation>හඬ පිටපත් කිරීම</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Provider</source>
+        <translation>සැපයුම්කරු</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <location line="+89"/>
+        <location line="+251"/>
+        <location line="+84"/>
+        <location line="+82"/>
+        <source>Inherited: %1</source>
+        <translation>උරුම: %1</translation>
+    </message>
+    <message>
+        <location line="-450"/>
+        <source>Hosting &amp; API URL</source>
+        <translation>සත්කාරකත්වය &amp; API URL</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Inherited: %1 — %2</source>
+        <translation>උරුම: %1 — %2</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>උදාහරණය: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>API key</source>
+        <translation>API යතුර</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Inherited: a global API key is configured.</source>
+        <translation>උරුම: ගෝලීය API යතුරක් සකසා ඇත.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inherited: no global API key configured.</source>
+        <translation>උරුම: ගෝලීය API යතුරක් සකසා නොමැත.</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Example: sk-…</source>
+        <translation>උදාහරණය: sk-…</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Show/Hide API key</source>
+        <translation>API යතුර පෙන්වන්න/සඟවන්න</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Model</source>
+        <translation>ආකෘතිය</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: provider default</source>
+        <translation>උරුම: සැපයුම්කරු පෙරනිමිය</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>උදාහරණය: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>උදාහරණය: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Language</source>
+        <translation>භාෂාව</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: autodetect</source>
+        <translation>උරුම: ස්වයංක්‍රීය හඳුනාගැනීම</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Example: en (leave empty to autodetect)</source>
+        <translation>උදාහරණය: en (ස්වයංක්‍රීයව හඳුනාගැනීමට හිස්ව තබන්න)</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Prompt</source>
+        <translation>ප්‍රොම්ප්ට්</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: no prompt</source>
+        <translation>උරුම: ප්‍රොම්ප්ට් නොමැත</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>උදාහරණය: නම්: Alice, Bob, Carol. විශේෂ වචන: Matrix, Komai, federation.</translation>
     </message>
 </context>
 <context>
@@ -8410,7 +8543,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>හඬ පිටපත් කිරීම</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI වලාකුළ</translation>
     </message>
@@ -8425,7 +8558,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>සේවා සපයන්නා</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-6"/>
+        <source>Most of these settings can be overridden per room in Room Info → Preferences.</source>
+        <translation>මෙම සැකසුම් බොහොමයක් කාමර තොරතුරු → මනාපයන් හි කාමරය අනුව වෙනස් කළ හැකිය.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (එකවර)</translation>
     </message>

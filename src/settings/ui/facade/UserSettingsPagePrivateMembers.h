@@ -133,6 +133,12 @@ QString integrationsTranscriptionApiUrl_;
 QString integrationsTranscriptionModel_;
 QString integrationsTranscriptionLanguage_;
 QString integrationsTranscriptionPrompt_;
+// Per-room overrides for the 5 non-secret transcription fields. The
+// outer key is the raw Matrix room id. The inner map only contains
+// field names that have an override set ("provider", "api_url",
+// "model", "language", "prompt"); absent inner keys inherit the
+// corresponding global value.
+QMap<QString, QMap<QString, QString>> integrationsTranscriptionOverridesByRoom_;
 QString sponsoringStatus_                   = QStringLiteral("visible");
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;

@@ -5831,7 +5831,31 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoPreferencesTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
+        <location line="+227"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI 실시간 (스트리밍)</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+225"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI 배치 (일회성)</translation>
+    </message>
+    <message>
+        <location line="-219"/>
+        <location line="+321"/>
+        <source>OpenAI cloud</source>
+        <translation>OpenAI 클라우드</translation>
+    </message>
+    <message>
+        <location line="-320"/>
+        <location line="+321"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>기타 (OpenAI 호환 서버)</translation>
+    </message>
+    <message>
+        <location line="-305"/>
         <source>Message visibility</source>
         <translation>메시지 표시 여부</translation>
     </message>
@@ -5871,6 +5895,115 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>메인 타임라인에서 스레드 답글을 숨기고 스레드 루트 메시지만 표시합니다.&lt;br&gt;⚠️ 스레드별 읽지 않음 추적은 지원되지 않으므로, 오래된 스레드의 답글을 놓칠 수 있습니다.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Voice transcription</source>
+        <translation>음성 텍스트 변환</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Provider</source>
+        <translation>제공자</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <location line="+89"/>
+        <location line="+251"/>
+        <location line="+84"/>
+        <location line="+82"/>
+        <source>Inherited: %1</source>
+        <translation>상속됨: %1</translation>
+    </message>
+    <message>
+        <location line="-450"/>
+        <source>Hosting &amp; API URL</source>
+        <translation>호스팅 &amp; API URL</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Inherited: %1 — %2</source>
+        <translation>상속됨: %1 — %2</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>예시: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>API key</source>
+        <translation>API 키</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Inherited: a global API key is configured.</source>
+        <translation>상속됨: 전역 API 키가 구성되어 있습니다.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inherited: no global API key configured.</source>
+        <translation>상속됨: 전역 API 키가 구성되어 있지 않습니다.</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Example: sk-…</source>
+        <translation>예시: sk-…</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Show/Hide API key</source>
+        <translation>API 키 표시/숨기기</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Model</source>
+        <translation>모델</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: provider default</source>
+        <translation>상속됨: 제공자 기본값</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>예시: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>예시: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Language</source>
+        <translation>언어</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: autodetect</source>
+        <translation>상속됨: 자동 감지</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Example: en (leave empty to autodetect)</source>
+        <translation>예시: en (자동 감지하려면 비워 두세요)</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Prompt</source>
+        <translation>프롬프트</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: no prompt</source>
+        <translation>상속됨: 프롬프트 없음</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>예시: 이름: Alice, Bob, Carol. 전문 용어: Matrix, Komai, federation.</translation>
     </message>
 </context>
 <context>
@@ -8398,7 +8531,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>음성 받아쓰기</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 클라우드</translation>
     </message>
@@ -8413,7 +8546,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>제공자</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-6"/>
+        <source>Most of these settings can be overridden per room in Room Info → Preferences.</source>
+        <translation>이 설정의 대부분은 방 정보 → 기본 설정에서 방별로 재정의할 수 있습니다.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 배치 (일회성)</translation>
     </message>

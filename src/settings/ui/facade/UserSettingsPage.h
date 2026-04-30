@@ -662,6 +662,26 @@ public:
     Q_INVOKABLE void removeTimelineThreadsCollapseRepliesForRoom(const QString &roomId);
     Q_INVOKABLE QVariant timelineThreadsCollapseRepliesOverrideForRoom(const QString &roomId) const;
     Q_INVOKABLE bool resolvedTimelineThreadsCollapseReplies(const QString &roomId) const;
+
+    // Per-room transcription overrides. The value type is intentionally a
+    // 5-string-fields-per-room shape (unlike the per-room-bool collapse
+    // replies pattern), so we expose the QML side through a sparse
+    // QVariantMap getter and per-field setters/clearers. Field names match
+    // the YAML schema: "provider", "api_url", "model", "language", "prompt".
+    // `provider` carries a token string ("openai_batch" / "openai_realtime").
+    // Keys absent from the returned map mean "inherit the global value".
+    Q_INVOKABLE QVariantMap integrationsTranscriptionOverridesForRoom(const QString &roomId) const;
+    Q_INVOKABLE bool hasIntegrationsTranscriptionOverrideForRoom(const QString &roomId,
+                                                                 const QString &fieldName) const;
+    Q_INVOKABLE void setIntegrationsTranscriptionOverrideForRoom(const QString &roomId,
+                                                                 const QString &fieldName,
+                                                                 const QString &value);
+    Q_INVOKABLE void
+    clearIntegrationsTranscriptionOverrideForRoom(const QString &roomId, const QString &fieldName);
+    Q_INVOKABLE void clearIntegrationsTranscriptionOverridesForRoom(const QString &roomId);
+    QMap<QString, QMap<QString, QString>> integrationsTranscriptionOverridesByRoom() const;
+    void setIntegrationsTranscriptionOverridesByRoom(
+      const QMap<QString, QMap<QString, QString>> &byRoom);
     void setIntegrationsBrowserCommand(QString command);
     void setIntegrationsTranscriptionProvider(QString provider);
     void setIntegrationsTranscriptionApiUrl(QString url);
@@ -837,6 +857,7 @@ signals:
     void integrationsTranscriptionModelChanged(QString model);
     void integrationsTranscriptionLanguageChanged(QString language);
     void integrationsTranscriptionPromptChanged(QString prompt);
+    void integrationsTranscriptionOverridesByRoomChanged();
     void sponsoringStatusChanged(QString sponsoringStatus);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);

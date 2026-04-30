@@ -5838,7 +5838,31 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoPreferencesTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+33"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
+        <location line="+227"/>
+        <source>OpenAI Realtime (streaming)</source>
+        <translation>OpenAI റിയൽടൈം (സ്ട്രീമിംഗ്)</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+225"/>
+        <source>OpenAI Batch (one-shot)</source>
+        <translation>OpenAI ബാച്ച് (ഒറ്റ-ഷോട്ട്)</translation>
+    </message>
+    <message>
+        <location line="-219"/>
+        <location line="+321"/>
+        <source>OpenAI cloud</source>
+        <translation>OpenAI ക്ലൗഡ്</translation>
+    </message>
+    <message>
+        <location line="-320"/>
+        <location line="+321"/>
+        <source>Other (OpenAI-compatible server)</source>
+        <translation>മറ്റുള്ളവ (OpenAI-compatible സെർവർ)</translation>
+    </message>
+    <message>
+        <location line="-305"/>
         <source>Message visibility</source>
         <translation>സന്ദേശ ദൃശ്യത</translation>
     </message>
@@ -5878,6 +5902,115 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+23"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറച്ചുവെക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു.&lt;br&gt;⚠️ ത്രെഡ്-അനുസരിച്ചുള്ള വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമാകാം.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Voice transcription</source>
+        <translation>ശബ്ദ ട്രാൻസ്ക്രിപ്ഷൻ</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Provider</source>
+        <translation>പ്രൊവൈഡർ</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <location line="+89"/>
+        <location line="+251"/>
+        <location line="+84"/>
+        <location line="+82"/>
+        <source>Inherited: %1</source>
+        <translation>ഇൻഹെറിറ്റ് ചെയ്തത്: %1</translation>
+    </message>
+    <message>
+        <location line="-450"/>
+        <source>Hosting &amp; API URL</source>
+        <translation>ഹോസ്റ്റിംഗ് &amp; API URL</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Inherited: %1 — %2</source>
+        <translation>ഇൻഹെറിറ്റ് ചെയ്തത്: %1 — %2</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>Example: http://localhost:8080/v1</source>
+        <translation>ഉദാഹരണം: http://localhost:8080/v1</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>API key</source>
+        <translation>API കീ</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Inherited: a global API key is configured.</source>
+        <translation>ഇൻഹെറിറ്റ് ചെയ്തത്: ഒരു ഗ്ലോബൽ API കീ കോൺഫിഗർ ചെയ്തിട്ടുണ്ട്.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inherited: no global API key configured.</source>
+        <translation>ഇൻഹെറിറ്റ് ചെയ്തത്: ഗ്ലോബൽ API കീ കോൺഫിഗർ ചെയ്തിട്ടില്ല.</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Example: sk-…</source>
+        <translation>ഉദാഹരണം: sk-…</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Show/Hide API key</source>
+        <translation>API കീ കാണിക്കുക/മറയ്ക്കുക</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Model</source>
+        <translation>മോഡൽ</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: provider default</source>
+        <translation>ഇൻഹെറിറ്റ് ചെയ്തത്: പ്രൊവൈഡർ ഡിഫോൾട്ട്</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: gpt-4o-mini-transcribe</source>
+        <translation>ഉദാഹരണം: gpt-4o-mini-transcribe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Example: whisper-1</source>
+        <translation>ഉദാഹരണം: whisper-1</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Language</source>
+        <translation>ഭാഷ</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: autodetect</source>
+        <translation>ഇൻഹെറിറ്റ് ചെയ്തത്: സ്വയം കണ്ടെത്തൽ</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Example: en (leave empty to autodetect)</source>
+        <translation>ഉദാഹരണം: en (സ്വയം കണ്ടെത്തലിന് ശൂന്യമാക്കുക)</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Prompt</source>
+        <translation>പ്രോംപ്റ്റ്</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Inherited: no prompt</source>
+        <translation>ഇൻഹെറിറ്റ് ചെയ്തത്: പ്രോംപ്റ്റ് ഇല്ല</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
+        <translation>ഉദാഹരണം: പേരുകൾ: Alice, Bob, Carol. ജാർഗൺ: Matrix, Komai, federation.</translation>
     </message>
 </context>
 <context>
@@ -8410,7 +8543,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI ക്ലൗഡ്</translation>
     </message>
@@ -8425,7 +8558,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>പ്രൊവൈഡർ</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-6"/>
+        <source>Most of these settings can be overridden per room in Room Info → Preferences.</source>
+        <translation>ഈ ക്രമീകരണങ്ങളിൽ മിക്കതും Room Info → Preferences-ൽ ഓരോ മുറിക്കും മാറ്റിമറിക്കാം.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ഒറ്റ-ഷോട്ട്)</translation>
     </message>

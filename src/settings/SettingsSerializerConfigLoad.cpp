@@ -275,6 +275,38 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setIntegrationsTranscriptionPrompt(
       QString::fromStdString(static_cast<std::string>(snapshot.integrations.transcription_prompt)));
 
+    {
+        QMap<QString, QMap<QString, QString>> byRoom;
+        for (const auto &entry : snapshot.integrations.transcription_by_room) {
+            QMap<QString, QString> fields;
+            if (entry.has_provider) {
+                fields.insert(QStringLiteral("provider"),
+                              QString::fromStdString(static_cast<std::string>(entry.provider)));
+            }
+            if (entry.has_api_url) {
+                fields.insert(QStringLiteral("api_url"),
+                              QString::fromStdString(static_cast<std::string>(entry.api_url)));
+            }
+            if (entry.has_model) {
+                fields.insert(QStringLiteral("model"),
+                              QString::fromStdString(static_cast<std::string>(entry.model)));
+            }
+            if (entry.has_language) {
+                fields.insert(QStringLiteral("language"),
+                              QString::fromStdString(static_cast<std::string>(entry.language)));
+            }
+            if (entry.has_prompt) {
+                fields.insert(QStringLiteral("prompt"),
+                              QString::fromStdString(static_cast<std::string>(entry.prompt)));
+            }
+            if (fields.isEmpty())
+                continue;
+            byRoom.insert(QString::fromStdString(static_cast<std::string>(entry.key)),
+                          std::move(fields));
+        }
+        settings.setIntegrationsTranscriptionOverridesByRoom(byRoom);
+    }
+
     settings.setComposerInputMarkdownToHtmlEnabled(
       snapshot.composer.input_markdown_to_html_enabled);
     settings.setComposerInputSendKey(cfg::sendMessageKeyFromStorage(

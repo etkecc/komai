@@ -395,6 +395,28 @@ mod bridge {
         transcription_model: String,
         transcription_language: String,
         transcription_prompt: String,
+        // Per-room transcription overrides. Each entry's `has_*` flag
+        // distinguishes "field overridden to empty" (e.g. `language: ""`
+        // = autodetect) from "field not overridden / inherit global". An
+        // entry with no `has_*` set is dropped from the YAML round-trip.
+        transcription_by_room: Vec<SettingsConfigTranscriptionByRoomEntry>,
+    }
+
+    /// Per-room transcription override snapshot entry. `key` is the raw
+    /// Matrix room id. Each field is gated by `has_*` so the round-trip
+    /// can preserve "set to empty" vs "not set".
+    struct SettingsConfigTranscriptionByRoomEntry {
+        key: String,
+        has_provider: bool,
+        provider: String,
+        has_api_url: bool,
+        api_url: String,
+        has_model: bool,
+        model: String,
+        has_language: bool,
+        language: String,
+        has_prompt: bool,
+        prompt: String,
     }
 
     struct SettingsConfigComposerSection {

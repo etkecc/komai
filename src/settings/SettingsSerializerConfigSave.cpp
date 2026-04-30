@@ -231,6 +231,7 @@ stageConfig(const UserSettings &settings,
           .transcription_model    = settings.integrationsTranscriptionModel().toStdString(),
           .transcription_language = settings.integrationsTranscriptionLanguage().toStdString(),
           .transcription_prompt   = settings.integrationsTranscriptionPrompt().toStdString(),
+          .transcription_by_room  = {},
         },
       .composer =
         {
@@ -264,6 +265,36 @@ stageConfig(const UserSettings &settings,
             rustValues.push_back(value.toStdString());
         snapshot.timeline.hidden_events.by_room.push_back(
           {.key = it.key().toStdString(), .values = std::move(rustValues)});
+    }
+
+    {
+        const auto byRoom = settings.integrationsTranscriptionOverridesByRoom();
+        for (auto roomIt = byRoom.constBegin(); roomIt != byRoom.constEnd(); ++roomIt) {
+            const auto &fields = roomIt.value();
+            ::komai::rust::SettingsConfigTranscriptionByRoomEntry entry{
+              .key = roomIt.key().toStdString(),
+            };
+            const auto setIfPresent =
+              [&fields](const QString &name, bool &flag, ::rust::String &value) {
+                  const auto it = fields.find(name);
+                  if (it == fields.end())
+                      return;
+                  flag  = true;
+                  value = it.value().toStdString();
+              };
+            setIfPresent(QStringLiteral("provider"), entry.has_provider, entry.provider);
+            setIfPresent(QStringLiteral("api_url"), entry.has_api_url, entry.api_url);
+            setIfPresent(QStringLiteral("model"), entry.has_model, entry.model);
+            setIfPresent(QStringLiteral("language"), entry.has_language, entry.language);
+            setIfPresent(QStringLiteral("prompt"), entry.has_prompt, entry.prompt);
+            // Drop rooms that ended up with no overrides — they would
+            // otherwise emit an empty mapping in YAML.
+            if (!entry.has_provider && !entry.has_api_url && !entry.has_model &&
+                !entry.has_language && !entry.has_prompt) {
+                continue;
+            }
+            snapshot.integrations.transcription_by_room.push_back(std::move(entry));
+        }
     }
 
     ::komai::rust::settings_profile_replace_config_snapshot(profileHandle, snapshot);

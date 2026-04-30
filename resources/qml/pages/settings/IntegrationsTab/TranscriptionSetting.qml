@@ -58,6 +58,7 @@ Item {
             Layout.topMargin: Komai.paddingMedium
             Layout.bottomMargin: Komai.paddingSmall
             label: qsTr("Voice transcription")
+            helperText: qsTr("Most of these settings can be overridden per room in Room Info → Preferences.")
         }
 
         // Provider --------------------------------------------------------

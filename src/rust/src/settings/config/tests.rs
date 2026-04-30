@@ -28,7 +28,8 @@ use crate::ffi::{
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
     SettingsConfigTimelineSection, SettingsConfigTimelineThreadsSection,
-    SettingsConfigTimelineTypingSection, SettingsConfigUiSection,
+    SettingsConfigTimelineTypingSection, SettingsConfigTranscriptionByRoomEntry,
+    SettingsConfigUiSection,
     SettingsStringListMapEntry,
 };
 use crate::settings::yaml;
@@ -569,6 +570,7 @@ fn encodes_generic_config_values() {
             transcription_model: "whisper-1".to_owned(),
             transcription_language: "en".to_owned(),
             transcription_prompt: "Komai chat".to_owned(),
+            transcription_by_room: vec![],
         },
         composer: SettingsConfigComposerSection {
             input_markdown_to_html_enabled: false,
@@ -1036,4 +1038,437 @@ fn loaded_snapshot_normalizes_non_map_root() {
     assert_eq!(loaded.migrated_version, 1);
     assert!(loaded.should_write_back);
     assert_eq!(loaded.config.ui.theme.slug, "");
+}
+
+#[test]
+fn parses_integrations_transcription_by_room_partial_overrides() {
+    let config = parse_config_text(
+        r#"
+integrations:
+  transcription:
+    by_room:
+      "!example:matrix.org":
+        model: gpt-4o-mini-transcribe
+      "!other:matrix.org":
+        api_url: "http://localhost:8080/v1"
+        language: ""
+"#,
+    );
+
+    let example = config
+        .integrations
+        .transcription
+        .by_room
+        .get("!example:matrix.org")
+        .expect("entry for !example:matrix.org present");
+    assert_eq!(example.model.as_deref(), Some("gpt-4o-mini-transcribe"));
+    assert!(example.provider.is_none());
+    assert!(example.api_url.is_none());
+    assert!(example.language.is_none());
+    assert!(example.prompt.is_none());
+
+    let other = config
+        .integrations
+        .transcription
+        .by_room
+        .get("!other:matrix.org")
+        .expect("entry for !other:matrix.org present");
+    assert_eq!(other.api_url.as_deref(), Some("http://localhost:8080/v1"));
+    // Empty-string language is a meaningful override (autodetect).
+    assert_eq!(other.language.as_deref(), Some(""));
+    assert!(other.model.is_none());
+}
+
+#[test]
+fn encode_config_yaml_round_trips_partial_transcription_overrides() {
+    let snapshot = SettingsConfigSnapshot {
+        ui: SettingsConfigUiSection {
+            scale_factor: 1.0,
+            theme_slug: String::new(),
+            font_size_pt: 11.0,
+            font_family: String::new(),
+            font_emoji_family: String::new(),
+            motion_animations_enabled: true,
+            input_mode: "text".to_owned(),
+            input_touch_swipe_gestures_enabled: true,
+            layout_density: "regular".to_owned(),
+            avatars_circular: true,
+            scrollbar_policy: "when_needed".to_owned(),
+            default_avatar_style: "boring_avatars_bauhaus".to_owned(),
+        },
+        navigation: SettingsConfigNavigationSection {
+            room_list: SettingsConfigNavigationRoomListSection {
+                show_last_message_time: true,
+                last_message_preview: "long".to_owned(),
+                show_unread_indicators: true,
+                sort: "default".to_owned(),
+                opening_policy: "open_in_new_tab".to_owned(),
+            },
+            communities: SettingsConfigNavigationCommunitiesSection {
+                show_unread_indicators: true,
+                filter_favourites: true,
+                filter_people: true,
+                filter_bots: true,
+                filter_groups: true,
+                filter_server_notices: true,
+                filter_low_priority: true,
+            },
+            tabs: SettingsConfigNavigationTabsSection {
+                show_pin_button: "auto".to_owned(),
+                pinned_tab_label: "avatar_only".to_owned(),
+                tab_label: "avatar_and_label".to_owned(),
+                preferred_width_px: 0,
+                minimum_width_px: 0,
+                max_recently_closed_timelines: 0,
+            },
+        },
+        timeline: SettingsConfigTimelineSection {
+            messages: SettingsConfigTimelineMessagesSection {
+                style: "bubbles".to_owned(),
+                layout_positioning: "opposing_by_sender".to_owned(),
+                user_color_coding_policy: "adaptive_by_room_size".to_owned(),
+                layout_avatar_size: "regular".to_owned(),
+                layout_show_own_avatar: true,
+                layout_max_width_percent: 70,
+                sender_username: "only_in_large_rooms".to_owned(),
+                emoji_only_enlarge: true,
+                hover_highlight: true,
+            },
+            formatted: SettingsConfigTimelineFormattedSection {
+                code_syntax_highlighting: true,
+            },
+            typing: SettingsConfigTimelineTypingSection { show_enabled: true },
+            read_receipts: SettingsConfigTimelineReadReceiptsSection { enabled: true },
+            message_actions: SettingsConfigTimelineMessageActionsSection {
+                activation_policy: "actions_button".to_owned(),
+                pinned_reactions: "👍".to_owned(),
+            },
+            media: SettingsConfigTimelineMediaSection {
+                effects_enabled: true,
+                animate_on_hover: true,
+                image_display: "always".to_owned(),
+                open_images_external: false,
+                open_videos_external: false,
+                autoplay_gif_videos: true,
+                open_audio_external: false,
+                default_audio_playback_speed: 1.0,
+            },
+            hidden_events: SettingsConfigTimelineHiddenEventsSection {
+                global: vec![],
+                by_room: vec![],
+            },
+            threads: SettingsConfigTimelineThreadsSection {
+                collapse_replies_global: false,
+                collapse_replies_by_room: vec![],
+            },
+        },
+        secrets: SettingsConfigSecretsSection {
+            provider: "secret_service".to_owned(),
+        },
+        desktop: SettingsConfigDesktopSection {
+            notifications: SettingsConfigDesktopNotificationsSection {
+                enabled: true,
+                attention_on_incoming: true,
+                message_content_policy: "whenever_available".to_owned(),
+            },
+            attention: SettingsConfigDesktopAttentionSection {
+                window_title: SettingsConfigDesktopAttentionWindowTitleSection {
+                    enabled: true,
+                },
+                app_badge: SettingsConfigDesktopAttentionAppBadgeSection { enabled: true },
+            },
+            system_tray: SettingsConfigDesktopSystemTraySection {
+                enabled: false,
+                autostart: false,
+            },
+            window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection {
+                enabled: false,
+                delay_seconds: 0,
+            },
+        },
+        calls: crate::ffi::SettingsConfigCallsSection {
+            legacy: crate::ffi::SettingsConfigCallsLegacySection { enabled: false },
+            relay: crate::ffi::SettingsConfigCallsRelaySection {
+                use_fallback_server: true,
+            },
+            devices: crate::ffi::SettingsConfigCallsDevicesSection {
+                microphone: String::new(),
+                camera: String::new(),
+                camera_resolution: String::new(),
+                camera_frame_rate: String::new(),
+            },
+            audio: crate::ffi::SettingsConfigCallsAudioSection {
+                ringtone: String::new(),
+            },
+            screenshare: crate::ffi::SettingsConfigCallsScreenshareSection {
+                frame_rate: 0,
+                picture_in_picture: true,
+                include_remote_video: true,
+                show_cursor: true,
+            },
+        },
+        network: SettingsConfigNetworkSection {
+            encryption: SettingsConfigNetworkEncryptionSection {
+                only_verified_users: false,
+                share_with_trusted: true,
+                key_backup: true,
+            },
+            presence_status_policy: "automatic_presence".to_owned(),
+            tls_enable_certificate_validation: true,
+            mrs_enabled: true,
+            mrs_server_name: String::new(),
+            http3_enabled: false,
+        },
+        integrations: SettingsConfigIntegrationsSection {
+            dbus_api_access: "none".to_owned(),
+            browser_command: String::new(),
+            transcription_provider: "openai_batch".to_owned(),
+            transcription_api_url: "https://api.openai.com/v1".to_owned(),
+            transcription_model: "whisper-1".to_owned(),
+            transcription_language: String::new(),
+            transcription_prompt: String::new(),
+            transcription_by_room: vec![
+                SettingsConfigTranscriptionByRoomEntry {
+                    key: "!example:matrix.org".to_owned(),
+                    has_provider: false,
+                    provider: String::new(),
+                    has_api_url: false,
+                    api_url: String::new(),
+                    has_model: true,
+                    model: "gpt-4o-mini-transcribe".to_owned(),
+                    has_language: false,
+                    language: String::new(),
+                    has_prompt: false,
+                    prompt: String::new(),
+                },
+                SettingsConfigTranscriptionByRoomEntry {
+                    key: "!other:matrix.org".to_owned(),
+                    has_provider: true,
+                    provider: "openai_realtime".to_owned(),
+                    has_api_url: true,
+                    api_url: "http://localhost:8080/v1".to_owned(),
+                    has_model: false,
+                    model: String::new(),
+                    has_language: true,
+                    language: String::new(),
+                    has_prompt: false,
+                    prompt: String::new(),
+                },
+                SettingsConfigTranscriptionByRoomEntry {
+                    key: "!empty:matrix.org".to_owned(),
+                    has_provider: false,
+                    provider: String::new(),
+                    has_api_url: false,
+                    api_url: String::new(),
+                    has_model: false,
+                    model: String::new(),
+                    has_language: false,
+                    language: String::new(),
+                    has_prompt: false,
+                    prompt: String::new(),
+                },
+            ],
+        },
+        composer: SettingsConfigComposerSection {
+            input_markdown_to_html_enabled: true,
+            input_send_key: "enter".to_owned(),
+            input_auto_replace_emoji: "always".to_owned(),
+            input_emoji_preferred_gender: "no_preference".to_owned(),
+            input_emoji_preferred_skin_tone: "no_preference".to_owned(),
+            input_inline_emoji_picker_enabled: true,
+            input_inline_room_picker_enabled: true,
+            input_inline_user_picker_enabled: true,
+            input_transcription_enabled: true,
+            typing_send_enabled: true,
+        },
+    };
+
+    let yaml = encode_config_yaml(&snapshot);
+    let parsed = parse_config_text(&yaml);
+
+    let example = parsed
+        .integrations
+        .transcription
+        .by_room
+        .get("!example:matrix.org")
+        .expect("partial override survives round-trip");
+    assert_eq!(example.model.as_deref(), Some("gpt-4o-mini-transcribe"));
+    assert!(example.provider.is_none());
+    assert!(example.api_url.is_none());
+    assert!(example.language.is_none());
+    assert!(example.prompt.is_none());
+
+    let other = parsed
+        .integrations
+        .transcription
+        .by_room
+        .get("!other:matrix.org")
+        .expect("entry with mixed overrides survives round-trip");
+    assert!(other.provider.is_some());
+    assert_eq!(other.api_url.as_deref(), Some("http://localhost:8080/v1"));
+    assert_eq!(other.language.as_deref(), Some(""));
+    assert!(other.model.is_none());
+    assert!(other.prompt.is_none());
+
+    // Rooms with no overrides at all are dropped from the YAML output.
+    assert!(parsed
+        .integrations
+        .transcription
+        .by_room
+        .get("!empty:matrix.org")
+        .is_none());
+}
+
+#[test]
+fn encode_config_yaml_preserves_globals_when_by_room_empty() {
+    // Mimics a "user has globals configured, no per-room overrides yet" state.
+    let snapshot = SettingsConfigSnapshot {
+        ui: SettingsConfigUiSection {
+            scale_factor: 1.0,
+            theme_slug: String::new(),
+            font_size_pt: 11.0,
+            font_family: String::new(),
+            font_emoji_family: String::new(),
+            motion_animations_enabled: true,
+            input_mode: "text".to_owned(),
+            input_touch_swipe_gestures_enabled: true,
+            layout_density: "regular".to_owned(),
+            avatars_circular: true,
+            scrollbar_policy: "when_needed".to_owned(),
+            default_avatar_style: "boring_avatars_bauhaus".to_owned(),
+        },
+        navigation: SettingsConfigNavigationSection {
+            room_list: SettingsConfigNavigationRoomListSection {
+                show_last_message_time: true,
+                last_message_preview: "long".to_owned(),
+                show_unread_indicators: true,
+                sort: "default".to_owned(),
+                opening_policy: "open_in_new_tab".to_owned(),
+            },
+            communities: SettingsConfigNavigationCommunitiesSection {
+                show_unread_indicators: true,
+                filter_favourites: true,
+                filter_people: true,
+                filter_bots: true,
+                filter_groups: true,
+                filter_server_notices: true,
+                filter_low_priority: true,
+            },
+            tabs: SettingsConfigNavigationTabsSection {
+                show_pin_button: "auto".to_owned(),
+                pinned_tab_label: "avatar_only".to_owned(),
+                tab_label: "avatar_and_label".to_owned(),
+                preferred_width_px: 0,
+                minimum_width_px: 0,
+                max_recently_closed_timelines: 0,
+            },
+        },
+        timeline: SettingsConfigTimelineSection {
+            messages: SettingsConfigTimelineMessagesSection {
+                style: "bubbles".to_owned(),
+                layout_positioning: "opposing_by_sender".to_owned(),
+                user_color_coding_policy: "adaptive_by_room_size".to_owned(),
+                layout_avatar_size: "regular".to_owned(),
+                layout_show_own_avatar: true,
+                layout_max_width_percent: 70,
+                sender_username: "only_in_large_rooms".to_owned(),
+                emoji_only_enlarge: true,
+                hover_highlight: true,
+            },
+            formatted: SettingsConfigTimelineFormattedSection { code_syntax_highlighting: true },
+            typing: SettingsConfigTimelineTypingSection { show_enabled: true },
+            read_receipts: SettingsConfigTimelineReadReceiptsSection { enabled: true },
+            message_actions: SettingsConfigTimelineMessageActionsSection {
+                activation_policy: "actions_button".to_owned(),
+                pinned_reactions: "👍".to_owned(),
+            },
+            media: SettingsConfigTimelineMediaSection {
+                effects_enabled: true,
+                animate_on_hover: true,
+                image_display: "always".to_owned(),
+                open_images_external: false,
+                open_videos_external: false,
+                autoplay_gif_videos: true,
+                open_audio_external: false,
+                default_audio_playback_speed: 1.0,
+            },
+            hidden_events: SettingsConfigTimelineHiddenEventsSection { global: vec![], by_room: vec![] },
+            threads: SettingsConfigTimelineThreadsSection { collapse_replies_global: false, collapse_replies_by_room: vec![] },
+        },
+        secrets: SettingsConfigSecretsSection { provider: "secret_service".to_owned() },
+        desktop: SettingsConfigDesktopSection {
+            notifications: SettingsConfigDesktopNotificationsSection {
+                enabled: true, attention_on_incoming: true,
+                message_content_policy: "whenever_available".to_owned(),
+            },
+            attention: SettingsConfigDesktopAttentionSection {
+                window_title: SettingsConfigDesktopAttentionWindowTitleSection { enabled: true },
+                app_badge: SettingsConfigDesktopAttentionAppBadgeSection { enabled: true },
+            },
+            system_tray: SettingsConfigDesktopSystemTraySection { enabled: false, autostart: false },
+            window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection { enabled: false, delay_seconds: 0 },
+        },
+        calls: crate::ffi::SettingsConfigCallsSection {
+            legacy: crate::ffi::SettingsConfigCallsLegacySection { enabled: false },
+            relay: crate::ffi::SettingsConfigCallsRelaySection { use_fallback_server: true },
+            devices: crate::ffi::SettingsConfigCallsDevicesSection {
+                microphone: String::new(), camera: String::new(),
+                camera_resolution: String::new(), camera_frame_rate: String::new(),
+            },
+            audio: crate::ffi::SettingsConfigCallsAudioSection { ringtone: String::new() },
+            screenshare: crate::ffi::SettingsConfigCallsScreenshareSection {
+                frame_rate: 0, picture_in_picture: true, include_remote_video: true, show_cursor: true,
+            },
+        },
+        network: SettingsConfigNetworkSection {
+            encryption: SettingsConfigNetworkEncryptionSection {
+                only_verified_users: false, share_with_trusted: true, key_backup: true,
+            },
+            presence_status_policy: "automatic_presence".to_owned(),
+            tls_enable_certificate_validation: true,
+            mrs_enabled: true,
+            mrs_server_name: String::new(),
+            http3_enabled: false,
+        },
+        integrations: SettingsConfigIntegrationsSection {
+            dbus_api_access: "none".to_owned(),
+            browser_command: String::new(),
+            transcription_provider: "openai_batch".to_owned(),
+            transcription_api_url: "https://api.openai.com/v1".to_owned(),
+            transcription_model: "".to_owned(),
+            transcription_language: "".to_owned(),
+            transcription_prompt: "".to_owned(),
+            transcription_by_room: vec![],
+        },
+        composer: SettingsConfigComposerSection {
+            input_markdown_to_html_enabled: true,
+            input_send_key: "enter".to_owned(),
+            input_auto_replace_emoji: "always".to_owned(),
+            input_emoji_preferred_gender: "no_preference".to_owned(),
+            input_emoji_preferred_skin_tone: "no_preference".to_owned(),
+            input_inline_emoji_picker_enabled: true,
+            input_inline_room_picker_enabled: true,
+            input_inline_user_picker_enabled: true,
+            input_transcription_enabled: true,
+            typing_send_enabled: true,
+        },
+    };
+
+    let yaml = encode_config_yaml(&snapshot);
+    let parsed = parse_config_text(&yaml);
+    assert_eq!(
+        parsed.integrations.transcription.api_url.as_deref(),
+        Some("https://api.openai.com/v1"),
+        "api_url should round-trip when there are no per-room overrides;\nencoded YAML:\n{yaml}"
+    );
+    assert_eq!(
+        parsed
+            .integrations
+            .transcription
+            .provider
+            .as_ref()
+            .map(|t| t.to_storage_string())
+            .as_deref(),
+        Some("openai_batch")
+    );
 }

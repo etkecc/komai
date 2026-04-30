@@ -600,11 +600,20 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 &INTEGRATIONS_DBUS_API_ACCESS_PATH,
             )),
             browser_command: parse_string(yaml::value_at_path(root, &INTEGRATIONS_BROWSER_COMMAND_PATH)),
+            // For a fresh profile (no transcription keys in YAML), default
+            // `provider` and `api_url` to OpenAI cloud so the resolver lands
+            // in a "ready, just needs an api_key" state instead of "not
+            // configured". An explicitly-set empty string (Some("")) — e.g.
+            // after the user picks Hosting → Other and clears the URL — is
+            // preserved as-is so the resolver correctly reports "not ready"
+            // until they enter a custom URL.
             transcription: ConfigIntegrationsTranscription {
                 provider: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_PROVIDER_PATH)
-                    .and_then(parse_optional_storage_token),
+                    .and_then(parse_optional_storage_token)
+                    .or(Some(ConfigIntegrationsTranscriptionProviderToken::OpenaiBatch)),
                 api_url: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_API_URL_PATH)
-                    .and_then(parse_optional_string),
+                    .and_then(parse_optional_string)
+                    .or_else(|| Some("https://api.openai.com/v1".to_owned())),
                 api_key: None, // Populated from the secrets backend, never from config.yml.
                 model: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_MODEL_PATH)
                     .and_then(parse_optional_string),

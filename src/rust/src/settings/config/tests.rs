@@ -1041,6 +1041,57 @@ fn loaded_snapshot_normalizes_non_map_root() {
 }
 
 #[test]
+fn fresh_profile_lands_on_openai_batch_cloud_defaults() {
+    // Brand new profile: nothing under integrations.transcription.* in YAML.
+    // The parser should fill in conventional defaults so a user with just an
+    // API key in the keychain reaches an `is_ready` resolver state.
+    let config = parse_config_text("");
+
+    assert_eq!(
+        config
+            .integrations
+            .transcription
+            .provider
+            .as_ref()
+            .map(|t| t.to_storage_string())
+            .as_deref(),
+        Some("openai_batch")
+    );
+    assert_eq!(
+        config.integrations.transcription.api_url.as_deref(),
+        Some("https://api.openai.com/v1")
+    );
+}
+
+#[test]
+fn explicitly_empty_api_url_is_preserved() {
+    // After the user picks Hosting → Other, `setHostingType` clears the URL
+    // by writing an empty string. That state must survive the round-trip
+    // (resolver should report "not ready" until they type a custom URL),
+    // not silently snap back to OpenAI cloud.
+    let config = parse_config_text(
+        r#"
+integrations:
+  transcription:
+    provider: openai_batch
+    api_url: ''
+"#,
+    );
+
+    assert_eq!(
+        config
+            .integrations
+            .transcription
+            .provider
+            .as_ref()
+            .map(|t| t.to_storage_string())
+            .as_deref(),
+        Some("openai_batch")
+    );
+    assert_eq!(config.integrations.transcription.api_url.as_deref(), Some(""));
+}
+
+#[test]
 fn parses_integrations_transcription_by_room_partial_overrides() {
     let config = parse_config_text(
         r#"

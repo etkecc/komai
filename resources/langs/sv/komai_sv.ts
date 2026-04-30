@@ -1864,7 +1864,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Kunde inte markera rum som läst: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Inställningar...</translation>
+        <translation>Inställningar...</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Konfigurera hur du tar emot aviseringar för det här rummet och hur indikatorer för "oläst" fungerar.</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Markera som läst</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Bilagor</translation>
+        <translation>Bilagor</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Bästa möjliga borttagning av metadata (EXIF, IPTC, XMP) från vissa bildformat för att skydda din integritet. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Läs mer&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

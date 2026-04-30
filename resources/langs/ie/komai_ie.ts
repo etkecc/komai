@@ -1864,7 +1864,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Fallat de marcar la chambre como lectat: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Parametres…</translation>
+        <translation>Configurationes…</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Configurar quam vu recive notificationes por ti chambre e quam li indicatores de "non-lectat" functiona.</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Marcar como lectat</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Attachamentos</translation>
+        <translation>Annexes</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Suppression al meglior possibil de metadat (EXIF, IPTC, XMP) de cert formates de imagine por proteger vun privatie. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Aprender plu&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

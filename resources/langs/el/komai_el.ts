@@ -1864,7 +1864,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Αποτυχία σήμανσης δωματίου ως αναγνωσμένο: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Ρυθμίσεις…</translation>
+        <translation>Ρυθμίσεις…</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Ρυθμίζει τον τρόπο παραλαβής ειδοποιήσεων για αυτό το δωμάτιο και τον τρόπο λειτουργίας των ενδείξεων "μη αναγνωσμένων".</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Σήμανση ως αναγνωσμένο</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Συνημμένα</translation>
+        <translation>Συνημμένα</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Αφαίρεση μεταδεδομένων (EXIF, IPTC, XMP) από ορισμένες μορφές εικόνας, κατά το δυνατόν, για την προστασία της ιδιωτικότητάς σας. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -1864,7 +1864,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>No s'ha pogut marcar la sala com a llegida: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Configuració…</translation>
+        <translation>Configuració…</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Configura com reps les notificacions d'aquesta sala i com funcionen els indicadors de "no llegit".</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Marca com a llegit</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Adjunts</translation>
+        <translation>Fitxers adjunts</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Eliminació parcial de metadades (EXIF, IPTC, XMP) d'alguns formats d'imatge per protegir la teva privadesa. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -1863,7 +1863,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>標記聊天室為已讀失敗：%1</translation>
     </message>
 </context>
 <context>
@@ -3571,7 +3571,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">設定...</translation>
+        <translation>設定...</translation>
     </message>
 </context>
 <context>
@@ -5835,7 +5835,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>設定你接收此聊天室通知的方式，以及「未讀」指示器的運作方式。</translation>
     </message>
 </context>
 <context>
@@ -6230,7 +6230,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>標記為已讀</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10048,12 +10048,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">附件</translation>
+        <translation>附件</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>盡力從部分圖片格式中移除中繼資料（EXIF、IPTC、XMP），以保護你的隱私。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+4"/>

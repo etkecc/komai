@@ -1863,7 +1863,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Không thể đánh dấu phòng là đã đọc: %1</translation>
     </message>
 </context>
 <context>
@@ -3571,7 +3571,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Cài đặt…</translation>
+        <translation>Cài đặt…</translation>
     </message>
 </context>
 <context>
@@ -5835,7 +5835,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Cấu hình cách bạn nhận thông báo cho phòng này và cách các chỉ báo "chưa đọc" hoạt động.</translation>
     </message>
 </context>
 <context>
@@ -6230,7 +6230,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Đánh dấu là đã đọc</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10048,12 +10048,12 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Tệp đính kèm</translation>
+        <translation>Tệp đính kèm</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Cố gắng xóa siêu dữ liệu (EXIF, IPTC, XMP) khỏi một số định dạng hình ảnh để bảo vệ quyền riêng tư của bạn. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

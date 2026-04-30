@@ -1865,7 +1865,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Greška pri označavanju sobe kao pročitane: %1</translation>
     </message>
 </context>
 <context>
@@ -3579,7 +3579,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Podešavanja…</translation>
+        <translation>Podešavanja…</translation>
     </message>
 </context>
 <context>
@@ -5849,7 +5849,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Podesite kako primate obaveštenja za ovu sobu i kako rade indikatori "nepročitano".</translation>
     </message>
 </context>
 <context>
@@ -6244,7 +6244,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Označi kao pročitano</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10076,7 +10076,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Prilozi</translation>
+        <translation>Prilozi</translation>
     </message>
     <message>
         <location line="+5"/>

@@ -1865,7 +1865,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut marca camera ca citită: %1</translation>
     </message>
 </context>
 <context>
@@ -3579,7 +3579,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Setări…</translation>
+        <translation>Setări…</translation>
     </message>
 </context>
 <context>
@@ -5849,7 +5849,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Configurează modul în care primești notificări pentru această cameră și cum funcționează indicatorii "necitit".</translation>
     </message>
 </context>
 <context>
@@ -6244,7 +6244,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Marchează ca citit</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10076,12 +10076,12 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Atașamente</translation>
+        <translation>Atașamente</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Eliminare în măsura posibilului a metadatelor (EXIF, IPTC, XMP) din unele formate de imagine pentru a-ți proteja confidențialitatea. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Află mai mult&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

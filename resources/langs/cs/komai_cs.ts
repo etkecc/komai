@@ -1865,7 +1865,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Nepodařilo se označit místnost jako přečtenou: %1</translation>
     </message>
 </context>
 <context>
@@ -3579,7 +3579,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Nastavení…</translation>
+        <translation>Nastavení…</translation>
     </message>
 </context>
 <context>
@@ -5849,7 +5849,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Nastavte, jak přijímat oznámení pro tuto místnost a jak fungují indikátory "nepřečtených" zpráv.</translation>
     </message>
 </context>
 <context>
@@ -6244,7 +6244,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Označit jako přečtené</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10076,12 +10076,12 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Přílohy</translation>
+        <translation>Přílohy</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Pokus o odstranění metadat (EXIF, IPTC, XMP) z některých formátů obrázků za účelem ochrany vašeho soukromí. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Zjistit více&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -1865,7 +1865,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Не удалось пометить комнату как прочитанную: %1</translation>
     </message>
 </context>
 <context>
@@ -3579,7 +3579,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Настройки…</translation>
+        <translation>Настройки…</translation>
     </message>
 </context>
 <context>
@@ -5849,7 +5849,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Настройте, как получать уведомления для этой комнаты и как работают индикаторы «непрочитанного».</translation>
     </message>
 </context>
 <context>
@@ -6244,7 +6244,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Пометить как прочитанное</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10076,12 +10076,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Вложения</translation>
+        <translation>Вложения</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>По возможности удаляет метаданные (EXIF, IPTC, XMP) из некоторых форматов изображений для защиты твоей конфиденциальности. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Узнать больше&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

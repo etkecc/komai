@@ -1864,7 +1864,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Mislukt om kamer als gelezen te markeren: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Instellingen…</translation>
+        <translation>Instellingen…</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Stel in hoe je meldingen ontvangt voor deze kamer en hoe "ongelezen" indicatoren werken.</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Markeren als gelezen</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Bijlagen</translation>
+        <translation>Bijlagen</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Verwijdering van metadata (EXIF, IPTC, XMP) naar beste vermogen uit sommige afbeeldingsformaten om je privacy te beschermen. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Meer informatie&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

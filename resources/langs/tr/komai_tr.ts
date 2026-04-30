@@ -1863,7 +1863,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Oda okundu olarak işaretlenemedi: %1</translation>
     </message>
 </context>
 <context>
@@ -3571,7 +3571,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Ayarlar…</translation>
+        <translation>Ayarlar...</translation>
     </message>
 </context>
 <context>
@@ -5835,7 +5835,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Bu oda için bildirimleri nasıl alacağınızı ve "okunmamış" göstergelerinin nasıl çalışacağını yapılandırın.</translation>
     </message>
 </context>
 <context>
@@ -6230,7 +6230,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Okundu olarak işaretle</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10048,12 +10048,12 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Ekler</translation>
+        <translation>Ekler</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Gizliliğinizi korumak amacıyla bazı görsel biçimlerinden meta verilerin (EXIF, IPTC, XMP) mümkün olduğunca kaldırılması. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

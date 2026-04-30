@@ -1864,7 +1864,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Raum konnte nicht als gelesen markiert werden: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Einstellungen …</translation>
+        <translation>Einstellungen …</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Konfiguriere, wie du Benachrichtigungen für diesen Raum erhältst und wie die "ungelesen"-Indikatoren funktionieren.</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Als gelesen markieren</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Anhänge</translation>
+        <translation>Anhänge</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Bestmögliches Entfernen von Metadaten (EXIF, IPTC, XMP) aus einigen Bildformaten zum Schutz deiner Privatsphäre. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Mehr erfahren&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

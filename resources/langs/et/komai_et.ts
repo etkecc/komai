@@ -1864,7 +1864,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Jututoa lugetuks märkimine ebaõnnestus: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Seaded…</translation>
+        <translation>Seaded…</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Seadista, kuidas saada selle jututoa teatisi ning kuidas toimivad "lugemata" indikaatorid.</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Märgi loetuks</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Manused</translation>
+        <translation>Manused</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Privaatsuse kaitsmiseks eemaldatakse parimal võimalikul viisil metaandmed (EXIF, IPTC, XMP) mõnest pildivormingust. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Lisateave&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

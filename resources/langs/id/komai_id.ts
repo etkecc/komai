@@ -1863,7 +1863,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Gagal menandai ruangan sebagai telah dibaca: %1</translation>
     </message>
 </context>
 <context>
@@ -3571,7 +3571,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Pengaturan…</translation>
+        <translation>Pengaturan…</translation>
     </message>
 </context>
 <context>
@@ -5835,7 +5835,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Konfigurasikan cara menerima notifikasi untuk ruangan ini dan cara kerja indikator "belum dibaca".</translation>
     </message>
 </context>
 <context>
@@ -6230,7 +6230,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Tandai sebagai telah dibaca</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10048,12 +10048,12 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Lampiran</translation>
+        <translation>Lampiran</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Penghapusan metadata (EXIF, IPTC, XMP) semaksimal mungkin dari beberapa format gambar untuk melindungi privasi Anda. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Pelajari lebih lanjut&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

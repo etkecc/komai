@@ -1863,7 +1863,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>방을 읽음으로 표시하지 못했습니다: %1</translation>
     </message>
 </context>
 <context>
@@ -3571,7 +3571,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">설정…</translation>
+        <translation>설정…</translation>
     </message>
 </context>
 <context>
@@ -5835,7 +5835,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>이 방의 알림 수신 방법과 "읽지 않음" 표시 작동 방식을 설정합니다.</translation>
     </message>
 </context>
 <context>
@@ -6230,7 +6230,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>읽음으로 표시</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10048,12 +10048,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">첨부 파일</translation>
+        <translation>첨부 파일</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>개인 정보 보호를 위해 일부 이미지 형식에서 메타데이터(EXIF, IPTC, XMP)를 최선을 다해 제거합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

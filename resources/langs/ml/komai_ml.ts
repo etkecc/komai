@@ -1864,7 +1864,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>മുറി വായിച്ചതായി അടയാളപ്പെടുത്തൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">ക്രമീകരണങ്ങൾ…</translation>
+        <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ അറിയിപ്പുകൾ എങ്ങനെ ലഭിക്കണം, "വായിക്കാത്ത" സൂചകങ്ങൾ എങ്ങനെ പ്രവർത്തിക്കണം എന്ന് ക്രമീകരിക്കുക.</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>വായിച്ചതായി അടയാളപ്പെടുത്തുക</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">അറ്റാച്ച്‌മെന്റുകൾ</translation>
+        <translation>അറ്റാച്ച്മെന്റുകൾ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>നിങ്ങളുടെ സ്വകാര്യത സംരക്ഷിക്കാൻ ചില ഇമേജ് ഫോർമാറ്റുകളിൽ നിന്ന് മെറ്റാഡാറ്റ (EXIF, IPTC, XMP) നീക്കം ചെയ്യാൻ ശ്രമിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

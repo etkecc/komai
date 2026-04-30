@@ -1864,7 +1864,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
-        <translation type="unfinished"/>
+        <translation>Huoneen merkitseminen luetuksi epäonnistui: %1</translation>
     </message>
 </context>
 <context>
@@ -3575,7 +3575,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation type="unfinished">Asetukset…</translation>
+        <translation>Asetukset…</translation>
     </message>
 </context>
 <context>
@@ -5842,7 +5842,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     <message>
         <location line="+11"/>
         <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
-        <translation type="unfinished"/>
+        <translation>Määritä, miten saat ilmoitukset tästä huoneesta ja miten "lukemattomat" ilmaisimet toimivat.</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6237,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+6"/>
         <source>Mark as read</source>
-        <translation type="unfinished"/>
+        <translation>Merkitse luetuksi</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -10062,12 +10062,12 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation type="unfinished">Liitteet</translation>
+        <translation>Liitteet</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Parhaansa mukaan poistetaan metatiedot (EXIF, IPTC, XMP) joistakin kuvaformaateista yksityisyytesi suojaamiseksi. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

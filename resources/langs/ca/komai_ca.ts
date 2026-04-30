@@ -1051,7 +1051,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Obre Paràmetres → Integracions → Transcripció de veu</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Descarta</translation>
     </message>

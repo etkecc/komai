@@ -1051,7 +1051,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>සැකසුම් → ඒකාබද්ධතා → හඬ පිටපත් කිරීම විවෘත කරන්න</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>ඉවත් කරන්න</translation>
     </message>

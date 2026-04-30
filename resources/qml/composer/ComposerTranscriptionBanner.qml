@@ -218,14 +218,17 @@ Rectangle {
             }
         }
 
-        // Dismiss button — close the banner. Only meaningful for the
-        // states the user can choose to walk away from. During an active
-        // recording, "dismiss" cancels the gesture (same as Esc).
+        // Dismiss button — close the banner. Always present so the user
+        // can recover from any non-idle state, including a stuck
+        // "Transcribing…" wait. We can't actually cancel the in-flight
+        // Rust job, but `_cancelTranscriptionGesture` zeros the tracked
+        // jobId, so when the late `batchFinished` / `batchFailed` signal
+        // arrives the result is silently dropped. During recording,
+        // dismiss is equivalent to Esc.
         ImageButton {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: root.headerIconSize
             Layout.preferredWidth: root.headerIconSize
-            visible: root.transcriptionState !== "transcribing"
             hoverEnabled: true
             image: ":/icons/icons/ui/dismiss.svg"
             toolTipText: qsTr("Dismiss")

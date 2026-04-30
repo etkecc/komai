@@ -1051,7 +1051,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Abrir Definições → Integrações → Transcrição de voz</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Dispensar</translation>
     </message>

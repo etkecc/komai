@@ -1051,7 +1051,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Deschide Setări → Integrări → Transcriere vocală</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Respinge</translation>
     </message>

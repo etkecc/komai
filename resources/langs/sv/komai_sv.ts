@@ -1051,7 +1051,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Öppna Inställningar → Integrationer → Rösttranskribering</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Stäng</translation>
     </message>

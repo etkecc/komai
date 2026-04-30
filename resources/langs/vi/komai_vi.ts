@@ -1051,7 +1051,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Mở Cài đặt → Tích hợp → Chuyển giọng nói thành văn bản</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Bỏ qua</translation>
     </message>

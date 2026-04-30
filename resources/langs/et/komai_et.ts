@@ -1051,7 +1051,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Ava Seaded → Integratsioonid → Hääle transkriptsioon</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Sulge</translation>
     </message>

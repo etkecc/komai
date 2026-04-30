@@ -1051,7 +1051,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Instellingen openen → Integraties → Spraaktranscriptie</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Sluiten</translation>
     </message>

@@ -1051,7 +1051,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Ouvrir Paramètres → Intégrations → Transcription vocale</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Ignorer</translation>
     </message>

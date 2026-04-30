@@ -1051,7 +1051,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Otwórz Ustawienia → Integracje → Transkrypcja głosu</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Odrzuć</translation>
     </message>

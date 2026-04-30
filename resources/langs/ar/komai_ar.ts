@@ -1051,7 +1051,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>افتح الإعدادات → التكاملات → تحويل الصوت إلى نص</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>تجاهل</translation>
     </message>

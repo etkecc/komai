@@ -1051,7 +1051,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>打开设置 → 集成 → 语音转录</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>关闭</translation>
     </message>

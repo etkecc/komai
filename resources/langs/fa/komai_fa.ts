@@ -1051,7 +1051,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>باز کردن تنظیمات ← یکپارچه‌سازی‌ها ← تبدیل گفتار به متن</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>رد کردن</translation>
     </message>

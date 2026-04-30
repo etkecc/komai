@@ -1051,7 +1051,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>설정 → 통합 → 음성 받아쓰기 열기</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>닫기</translation>
     </message>

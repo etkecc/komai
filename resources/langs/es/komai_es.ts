@@ -1052,7 +1052,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Abrir Ajustes → Integraciones → Transcripción de voz</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Descartar</translation>
     </message>

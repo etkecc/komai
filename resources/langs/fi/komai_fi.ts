@@ -1051,7 +1051,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Avaa Asetukset → Integraatiot → Puheentekstitys</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Sulje</translation>
     </message>

@@ -1051,7 +1051,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Buka Pengaturan → Integrasi → Transkripsi suara</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Abaikan</translation>
     </message>

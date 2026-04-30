@@ -1051,7 +1051,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ക്രമീകരണങ്ങൾ → ഇന്റഗ്രേഷനുകൾ → വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ തുറക്കുക</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>നിരസിക്കുക</translation>
     </message>

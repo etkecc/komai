@@ -1051,7 +1051,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Aprir Parametres → Integrationes → Transcription vocal</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Dismisser</translation>
     </message>

@@ -1051,7 +1051,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Otvori Podešavanja → Integracije → Glasovni prepis</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Odbaci</translation>
     </message>

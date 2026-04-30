@@ -1051,7 +1051,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Megnyitás: Beállítások → Integrációk → Hangátirat</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Bezárás</translation>
     </message>

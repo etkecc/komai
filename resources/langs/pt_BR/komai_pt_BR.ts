@@ -1051,7 +1051,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Abrir Configurações → Integrações → Transcrição de voz</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Dispensar</translation>
     </message>

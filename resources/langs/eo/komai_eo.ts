@@ -1051,7 +1051,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Malfermi Agordojn → Integraĵoj → Voĉa transskribo</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Fermi</translation>
     </message>

@@ -1051,7 +1051,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Открыть Настройки → Интеграции → Голосовое распознавание</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Dismiss</source>
         <translation>Закрыть</translation>
     </message>

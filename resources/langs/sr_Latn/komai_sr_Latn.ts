@@ -10081,7 +10081,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     <message>
         <location line="+5"/>
         <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Uklanjanje metapodataka (EXIF, IPTC, XMP) iz nekih formata slika radi zaštite privatnosti, koliko je to moguće. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

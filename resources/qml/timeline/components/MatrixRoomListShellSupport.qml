@@ -117,6 +117,37 @@ QtObject {
         timelineList.contentY = timelineList.originY + normalized * range;
         timelineList.returnToBounds();
         support.updateLastScroll();
+
+        // Track unpinned state during a scrollbar thumb drag.  Mirrors
+        // handleWheelRotation: without this, keepPinnedToBottom stays
+        // true (its initial value) and the next contentHeight change
+        // (e.g. an offscreen delegate finishing layout) snaps the view
+        // back to the bottom mid-drag.
+        if (!timelineList.isNearLiveEdge()) {
+            timelineList.keepPinnedToBottom = false;
+            timelineList.userUnpinned = true;
+            if (rootItem.initialBottomPinPending)
+                rootItem.initialBottomPinPending = false;
+            if (rootItem.initialTimelineBufferPending)
+                rootItem.initialTimelineBufferPending = false;
+            if (rootItem.deferredInitialBufferTopUpPending)
+                rootItem.deferredInitialBufferTopUpPending = false;
+            rootItem.deferredBufferCheckQueued = false;
+        }
+    }
+
+    function handleScrollbarReleased() {
+        if (!timelineList)
+            return;
+
+        // Mirror wheelSettleTimer / handleMovementEnded: when the user
+        // finishes a thumb drag at the live edge, treat it as a deliberate
+        // return and re-pin so subsequent new messages auto-scroll.
+        if (timelineList.isNearLiveEdge()) {
+            timelineList.keepPinnedToBottom = true;
+            timelineList.userUnpinned = false;
+        }
+        support.updateStableThumbSize();
     }
 
     function handleWheelRotation(rotation) {
@@ -210,6 +241,7 @@ QtObject {
         }
 
         if (!timelineList.moving && !timelineList.flicking && !timelineList.dragging
+                && !scrollbar.pressed
                 && !timelineList.userUnpinned) {
             if (timelineList.keepPinnedToBottom || rootItem.initialBottomPinPending) {
                 timelineList.positionViewAtBeginning();
@@ -270,6 +302,7 @@ QtObject {
 
         const forceScroll = timelineList.previousCount === 0 && !timelineList.visibleIndicesValid;
         if (!timelineList.userUnpinned
+                && !scrollbar.pressed
                 && (forceScroll || timelineList.keepPinnedToBottom || rootItem.initialBottomPinPending)) {
             timelineList.positionViewAtBeginning();
             support.updateBottomPin();

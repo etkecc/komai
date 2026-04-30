@@ -415,10 +415,12 @@ ColumnLayout {
                     // bogus first change.
                     property real positionOnPress: -1
                     onPressedChanged: {
-                        if (pressed)
+                        if (pressed) {
                             positionOnPress = position;
-                        else
+                        } else {
                             positionOnPress = -1;
+                            listShellSupport.handleScrollbarReleased();
+                        }
                     }
                 }
 

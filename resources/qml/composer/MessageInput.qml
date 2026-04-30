@@ -80,6 +80,11 @@ Rectangle {
     property string transcriptionEffectiveProvider: ""
     property string transcriptionLastError: ""
     property int _transcriptionJobId: 0
+    // Position where the provisional space landed when arming a Space
+    // gesture. Captured at keydown so we can pull it back if the long-press
+    // threshold elapses into recording, even if the cursor moved while
+    // Space was held. -1 when no Space gesture is in flight.
+    property int _transcriptionGestureSpacePos: -1
     readonly property bool transcriptionGestureEligible:
         Settings.composerInputTranscriptionEnabled === true
         && composerEnabled
@@ -243,10 +248,26 @@ Rectangle {
         if (!resolved || !resolved.isReady) {
             transcriptionEffectiveProvider = "";
             transcriptionState = "not-configured";
+            // Provisional space stays — user effectively typed it and
+            // we're showing a banner, not recording.
+            _transcriptionGestureSpacePos = -1;
             return;
         }
         transcriptionEffectiveProvider = resolved.provider || "";
         transcriptionState = "recording";
+        // Long-press confirmed — pull back the provisional space that Qt
+        // inserted at keydown. Defensive: only remove if it's still a
+        // space at the captured position (text could have been cleared
+        // by Send, mutated by Backspace, etc.).
+        if (transcriptionTriggerKind === "space"
+            && _transcriptionGestureSpacePos >= 0
+            && _transcriptionGestureSpacePos < messageInput.length
+            && messageInput.getText(_transcriptionGestureSpacePos,
+                                    _transcriptionGestureSpacePos + 1) === " ") {
+            messageInput.remove(_transcriptionGestureSpacePos,
+                                _transcriptionGestureSpacePos + 1);
+        }
+        _transcriptionGestureSpacePos = -1;
         TranscriptionAudioCapture.startRecording();
     }
 
@@ -275,20 +296,19 @@ Rectangle {
 
     function _commitTranscriptionGesture() {
         // Generic release/commit. Behavior depends on trigger kind:
-        //  - "space" + armed: short tap, type one literal space.
+        //  - "space" + armed: short tap. Qt already inserted the space at
+        //    keydown; nothing to do here besides clearing state.
         //  - "button-hold" + armed: short tap, promote to toggle mode and
         //    start recording (caller decides whether to do this).
-        //  - any + not-configured: dismiss the hint; "space" types one
-        //    literal space because the user did press it.
+        //  - any + not-configured: dismiss the hint. For "space" the user
+        //    effectively typed a space and Qt already inserted it.
         //  - any + recording: stop recorder and wait for the file to flush.
         if (transcriptionState === "armed" || transcriptionState === "not-configured") {
             transcriptionLongPressTimer.stop();
-            const kind = transcriptionTriggerKind;
             transcriptionState = "idle";
             transcriptionTriggerKind = "";
             transcriptionEffectiveProvider = "";
-            if (kind === "space")
-                messageInput.insert(messageInput.cursorPosition, " ");
+            _transcriptionGestureSpacePos = -1;
             return;
         }
         if (transcriptionState === "recording") {
@@ -308,6 +328,9 @@ Rectangle {
         transcriptionTriggerKind = "";
         transcriptionEffectiveProvider = "";
         transcriptionLastError = "";
+        // Cancellation kills the gesture, not the user's typing — leave
+        // the provisional space (if any) in the buffer.
+        _transcriptionGestureSpacePos = -1;
     }
 
     function _abortTranscriptionInFlight() {
@@ -315,6 +338,7 @@ Rectangle {
         transcriptionState = "idle";
         transcriptionTriggerKind = "";
         transcriptionEffectiveProvider = "";
+        _transcriptionGestureSpacePos = -1;
     }
 
     function dismissTranscriptionError() {
@@ -833,22 +857,23 @@ Rectangle {
                             popup.close();
                         if (popup.opened && completer.count <= 0)
                             popup.close();
-                        // Long-press Space → voice transcription. Only the
-                        // initial keydown arms the gesture; autoRepeats while
-                        // the gesture (or its sticky banner) is alive get
-                        // swallowed so a held Space past the long-press
-                        // threshold doesn't leak a stream of spaces. Fresh
-                        // Space presses always pass through to Qt's default
-                        // handling — typing a space must keep working even
-                        // while the not-configured / error banner is showing.
+                        // Long-press Space → voice transcription. Initial
+                        // keydown arms the gesture and captures the cursor
+                        // position so we can pull the space back if the
+                        // long-press threshold elapses into recording. The
+                        // event is *not* accepted — Qt inserts the space
+                        // immediately, keeping typing WYSIWYG. Autorepeats
+                        // while the gesture (or its sticky banner) is alive
+                        // get swallowed so a held Space past the long-press
+                        // threshold doesn't leak a stream of spaces.
                         // Button-driven gestures leave Space alone.
                         if ((event.modifiers & ~Qt.KeypadModifier) === 0
                             && inputBar.transcriptionGestureEligible) {
                             if (!event.isAutoRepeat
                                 && (inputBar.transcriptionState === "idle"
                                     || inputBar.transcriptionState === "error")) {
+                                inputBar._transcriptionGestureSpacePos = messageInput.cursorPosition;
                                 inputBar._armTranscriptionGesture("space");
-                                event.accepted = true;
                             } else if (event.isAutoRepeat
                                 && inputBar.transcriptionState !== "idle"
                                 && inputBar.transcriptionTriggerKind === "space") {

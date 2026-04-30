@@ -3542,12 +3542,12 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+809"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+833"/>
         <source>Write a message, or press Up to select messages.</source>
         <translation>Napište zprávu nebo stiskněte Nahoru pro výběr zpráv.</translation>
     </message>
     <message>
-        <location line="+497"/>
+        <location line="+498"/>
         <source>Stickers</source>
         <translation>Samolepky</translation>
     </message>

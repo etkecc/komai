@@ -6,7 +6,10 @@ use std::path::Path;
 
 use matrix_sdk::AuthSession;
 use matrix_sdk::store::RoomLoadSettings;
-use matrix_sdk::{Client, ClientBuildError, encryption::EncryptionSettings};
+use matrix_sdk::{
+    Client, ClientBuildError,
+    encryption::{BackupDownloadStrategy, EncryptionSettings},
+};
 use rand::RngExt;
 
 use crate::ffi;
@@ -62,7 +65,20 @@ pub async fn build_client(
         .with_encryption_settings(EncryptionSettings {
             auto_enable_cross_signing: true,
             auto_enable_backups: true,
-            ..Default::default()
+            // Lazily fetch individual room keys from server-side key backup when
+            // we encounter a UTD via /sync. Without this, recovery() imports
+            // cross-signing and the backup decryption key but no room keys are
+            // downloaded, so historical encrypted messages stay UTD even after
+            // the user pastes a valid recovery key.
+            //
+            // We deliberately don't use BackupDownloadStrategy::OneShot, which
+            // would download the entire backup in a single un-paginated request
+            // as soon as recover() runs. matrix-sdk's own comment on that path
+            // notes it "doesn't work for any sizeable account" (huge JSON
+            // response, decrypt-everything up front).
+            // AfterDecryptionFailure is what matrix-sdk-ffi (Element X) uses by
+            // default and is the recommended setting for full clients.
+            backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
         })
         .sqlite_store_with_cache_path(
             Path::new(&paths.state_store_root),

@@ -1861,6 +1861,11 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <source>Failed to remove room tag: %1</source>
         <translation>Échec de la suppression de l'étiquette du salon : %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6195,7 +6200,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Entrez le tag que vous souhaitez utiliser :</translation>
     </message>
@@ -6220,12 +6225,17 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Ouvrir dans une nouvelle fenêtre</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Copier le lien de ce salon</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Étiqueter le salon comme :</translation>
     </message>
@@ -6255,7 +6265,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Paramètres du salon</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Quitter le salon</translation>
     </message>

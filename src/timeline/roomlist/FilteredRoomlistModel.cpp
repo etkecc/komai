@@ -579,6 +579,51 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
 }
 
 void
+FilteredRoomlistModel::markAsRead(const QString &roomid)
+{
+    const auto roomId = roomid.trimmed();
+    if (roomId.isEmpty())
+        return;
+
+    const auto preview = roomlistmodel->getRoomPreviewById(roomId);
+    if (!preview.isMatrixSummary() || preview.isInvite() || preview.isSpace()) {
+        // Spaces have no read state; invites can't carry read receipts.
+        return;
+    }
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        komai::logging::ui()->warn(
+          "Refusing to mark matrix-sdk room '{}' as read without an active backend handle",
+          roomId.toStdString());
+        return;
+    }
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok =
+            komai::MatrixBackendRuntimeService::markRoomAsRead(context, handleId, roomId, &error);
+          return std::make_pair(ok, error);
+      },
+      [roomId](FilteredRoomlistModel *, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (ok)
+              return;
+
+          komai::logging::ui()->warn("Failed to mark matrix-sdk room '{}' as read: {}",
+                                     roomId.toStdString(),
+                                     error.toStdString());
+          if (auto *mainWindow = MainWindow::instance()) {
+              mainWindow->showNotification(tr("Failed to mark room as read: %1").arg(error));
+          }
+      });
+}
+
+void
 FilteredRoomlistModel::copyLink(QString roomid)
 {
     const auto link = QStringLiteral("https://matrix.to/#/%1").arg(roomid);

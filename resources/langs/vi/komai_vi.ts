@@ -1860,6 +1860,11 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <source>Failed to remove room tag: %1</source>
         <translation>Không thể xóa thẻ phòng: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6188,7 +6193,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Nhập thẻ bạn muốn sử dụng:</translation>
     </message>
@@ -6213,12 +6218,17 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Mở trong cửa sổ mới</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Sao chép liên kết phòng</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Gắn thẻ phòng là:</translation>
     </message>
@@ -6248,7 +6258,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Cài đặt phòng</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Rời khỏi phòng</translation>
     </message>

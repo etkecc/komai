@@ -1861,6 +1861,11 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <source>Failed to remove room tag: %1</source>
         <translation>Misslyckades med att ta bort rumstagg: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6195,7 +6200,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Ange etiketten du vill använda:</translation>
     </message>
@@ -6220,12 +6225,17 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Öppna i nytt fönster</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Kopiera rumslänk</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Tagga rum som:</translation>
     </message>
@@ -6255,7 +6265,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Rumsinställningar</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Lämna rum</translation>
     </message>

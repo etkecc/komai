@@ -1861,6 +1861,11 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <source>Failed to remove room tag: %1</source>
         <translation>Impossibile rimuovere l'etichetta dalla stanza: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6195,7 +6200,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Inserisci il tag da utilizzare:</translation>
     </message>
@@ -6220,12 +6225,17 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Apri in una nuova finestra</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Copia link stanza</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Etichetta stanza come:</translation>
     </message>
@@ -6255,7 +6265,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Impostazioni stanza</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Esci dalla stanza</translation>
     </message>

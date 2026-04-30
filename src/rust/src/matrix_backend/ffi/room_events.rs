@@ -335,6 +335,18 @@ pub(crate) fn matrix_mark_room_event_as_read(
     )
 }
 
+pub(crate) fn matrix_mark_room_as_read(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_mark_room_as_read",
+        matrix_backend::runtime::mark_room_as_read(handle_id, room_id),
+    )
+}
+
 pub(crate) fn matrix_report_room_event(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

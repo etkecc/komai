@@ -2145,6 +2145,11 @@ mod bridge {
             room_id: &str,
             event_id: &str,
         ) -> Result<()>;
+        fn matrix_mark_room_as_read(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<()>;
         fn matrix_report_room_event(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

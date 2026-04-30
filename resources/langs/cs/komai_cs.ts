@@ -1862,6 +1862,11 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <source>Failed to remove room tag: %1</source>
         <translation>Nepodařilo se odebrat štítek místnosti: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6202,7 +6207,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Zadej štítek, který chceš použít:</translation>
     </message>
@@ -6227,12 +6232,17 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Otevřít v novém okně</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Kopírovat odkaz na místnost</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Označit místnost jako:</translation>
     </message>
@@ -6262,7 +6272,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Nastavení místnosti</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Opustit místnost</translation>
     </message>

@@ -347,6 +347,7 @@ public slots:
     void declineInvite(QString roomid) { roomlistmodel->declineInvite(roomid); }
     void leave(QString roomid, QString reason = "") { roomlistmodel->leave(roomid, reason); }
     void toggleTag(const QString &roomid, const QString &tag, bool on);
+    void markAsRead(const QString &roomid);
     void copyLink(QString roomid);
     void setCurrentRoom(QString roomid) { roomlistmodel->setCurrentRoom(std::move(roomid)); }
     void resetCurrentRoom() { roomlistmodel->resetCurrentRoom(); }

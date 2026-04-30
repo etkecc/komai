@@ -1861,6 +1861,11 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <source>Failed to remove room tag: %1</source>
         <translation>Falliment al remover etiquette del chambre: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6195,7 +6200,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Entrar li etiquette que vu vole usar:</translation>
     </message>
@@ -6220,12 +6225,17 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Aperter in nov fenestre</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Copiar ligament de chambre</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Etiquettar chambre quam:</translation>
     </message>
@@ -6255,7 +6265,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Ajustations de chambre</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Departer de chambre</translation>
     </message>

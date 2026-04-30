@@ -1862,6 +1862,11 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <source>Failed to remove room tag: %1</source>
         <translation>No se pudo eliminar la etiqueta de sala: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6198,7 +6203,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Introduce la etiqueta que quieres usar:</translation>
     </message>
@@ -6223,12 +6228,17 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Abrir en nueva ventana</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Copiar enlace de la sala</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Etiquetar sala como:</translation>
     </message>
@@ -6258,7 +6268,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Configuración de la sala</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Salir de la sala</translation>
     </message>

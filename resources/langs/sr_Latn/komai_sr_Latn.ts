@@ -1862,6 +1862,11 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <source>Failed to remove room tag: %1</source>
         <translation>Uklanjanje oznake sobe nije uspelo: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6202,7 +6207,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Unesite oznaku koju želite da koristite:</translation>
     </message>
@@ -6227,12 +6232,17 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Otvori u novom prozoru</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Kopiraj link sobe</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Označi sobu kao:</translation>
     </message>
@@ -6262,7 +6272,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Podešavanja sobe</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Napusti sobu</translation>
     </message>

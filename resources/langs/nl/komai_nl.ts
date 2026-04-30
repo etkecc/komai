@@ -1861,6 +1861,11 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <source>Failed to remove room tag: %1</source>
         <translation>Kan kamertag niet verwijderen: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6195,7 +6200,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Voer de tag in die je wilt gebruiken:</translation>
     </message>
@@ -6220,12 +6225,17 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Openen in nieuw venster</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Kamerlink kopiëren</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Kamer taggen als:</translation>
     </message>
@@ -6255,7 +6265,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Kamerinstellingen</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Kamer verlaten</translation>
     </message>

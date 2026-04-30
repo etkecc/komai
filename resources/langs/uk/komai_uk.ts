@@ -1862,6 +1862,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Failed to remove room tag: %1</source>
         <translation>Не вдалося видалити тег кімнати: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6202,7 +6207,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Введіть тег, який хочете використати:</translation>
     </message>
@@ -6227,12 +6232,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Відкрити у новому вікні</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Копіювати посилання на кімнату</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Позначити кімнату як:</translation>
     </message>
@@ -6262,7 +6272,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Налаштування кімнати</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Покинути кімнату</translation>
     </message>

@@ -1861,6 +1861,11 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <source>Failed to remove room tag: %1</source>
         <translation>Malsukcesis forigi ĉambran etikedon: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6197,7 +6202,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Entajpu la etikedon kiun vi volas uzi:</translation>
     </message>
@@ -6222,12 +6227,17 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Malfermi en nova fenestro</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Kopii ĉambran ligilon</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Etikedi ĉambron kiel:</translation>
     </message>
@@ -6257,7 +6267,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Ĉambraj agordoj</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Forlasi ĉambron</translation>
     </message>

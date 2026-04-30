@@ -25,6 +25,7 @@ use matrix_sdk::{
     },
 };
 use image::GenericImageView;
+use matrix_sdk_base::latest_event::LatestEventValue as BaseLatestEventValue;
 use mime::Mime;
 use serde_json::{Map as JsonMap, Value as JsonValue};
 use std::{fs, path::Path};
@@ -818,6 +819,21 @@ pub async fn mark_room_event_as_read(
     }
 
     Ok(())
+}
+
+pub async fn mark_room_as_read(handle_id: u64, room_id: &str) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    // UFCS to the synchronous matrix_sdk_base inherent (mirrors the call in
+    // runtime_room_list.rs); avoids dispatching to the async UI extension trait.
+    let latest_event: BaseLatestEventValue = matrix_sdk_base::Room::latest_event(&room);
+    let event_id = latest_event.event_id().map(|id| id.to_string()).ok_or_else(|| {
+        format!(
+            "matrix-sdk room {} has no known latest event to anchor a read receipt on",
+            room_id.trim()
+        )
+    })?;
+
+    mark_room_event_as_read(handle_id, room_id, &event_id).await
 }
 
 pub async fn report_room_event(

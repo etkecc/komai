@@ -1861,6 +1861,11 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <source>Failed to remove room tag: %1</source>
         <translation>Jututoa sildi eemaldamine ebaõnnestus: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6195,7 +6200,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Sisesta soovitud silt:</translation>
     </message>
@@ -6220,12 +6225,17 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Ava uues aknas</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Kopeeri jututoa link</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Jututoa silt:</translation>
     </message>
@@ -6255,7 +6265,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Jututoa seadistused</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Lahku jututoast</translation>
     </message>

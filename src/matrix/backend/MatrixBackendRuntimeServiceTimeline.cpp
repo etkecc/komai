@@ -525,6 +525,28 @@ MatrixBackendRuntimeService::markRoomEventAsRead(matrix_backend::BlockingCallCon
 }
 
 bool
+MatrixBackendRuntimeService::markRoomAsRead(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &roomId,
+                                            QString *errorOut)
+{
+    try {
+        matrix_backend::invokeBlockingCall(
+          "matrix_mark_room_as_read",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, context]() {
+              ::komai::rust::matrix_mark_room_as_read(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::reportRoomEvent(matrix_backend::BlockingCallContext context,
                                              uint64_t handleId,
                                              const QString &roomId,

@@ -1855,6 +1855,11 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <source>Failed to remove room tag: %1</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6165,7 +6170,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation type="unfinished">Enter the tag you want to use:</translation>
     </message>
@@ -6190,12 +6195,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation type="unfinished">Copy room link</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation type="unfinished">Tag room as:</translation>
     </message>
@@ -6225,7 +6235,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished">Room settings</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation type="unfinished">Leave room</translation>
     </message>

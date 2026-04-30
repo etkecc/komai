@@ -1861,6 +1861,11 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <source>Failed to remove room tag: %1</source>
         <translation>No s'ha pogut eliminar l'etiqueta de la sala: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6195,7 +6200,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Introdueix l'etiqueta que vols usar:</translation>
     </message>
@@ -6220,12 +6225,17 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Obre en una finestra nova</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Copia l'enllaç de la sala</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Etiqueta la sala com:</translation>
     </message>
@@ -6255,7 +6265,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Configuració de la sala</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Surt de la sala</translation>
     </message>

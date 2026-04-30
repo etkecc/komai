@@ -1862,6 +1862,11 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <source>Failed to remove room tag: %1</source>
         <translation>Nie udało się usunąć tagu pokoju: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6203,7 +6208,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>Wprowadź tag, którego chcesz użyć:</translation>
     </message>
@@ -6228,12 +6233,17 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Otwórz w nowym oknie</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>Kopiuj link do pokoju</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>Oznacz pokój jako:</translation>
     </message>
@@ -6263,7 +6273,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Ustawienia pokoju</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>Opuść pokój</translation>
     </message>

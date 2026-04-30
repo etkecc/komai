@@ -1860,6 +1860,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Failed to remove room tag: %1</source>
         <translation>移除聊天室標籤失敗：%1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6188,7 +6193,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>輸入你想使用的標籤：</translation>
     </message>
@@ -6213,12 +6218,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>在新視窗中開啟</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>複製聊天室連結</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>將聊天室標記為：</translation>
     </message>
@@ -6248,7 +6258,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>聊天室設定</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>離開聊天室</translation>
     </message>

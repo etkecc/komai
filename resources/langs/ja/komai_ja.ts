@@ -1860,6 +1860,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Failed to remove room tag: %1</source>
         <translation>ルームタグの削除に失敗しました: %1</translation>
     </message>
+    <message>
+        <location line="+45"/>
+        <source>Failed to mark room as read: %1</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ForwardCompleter</name>
@@ -6188,7 +6193,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
         <source>Enter the tag you want to use:</source>
         <translation>使用するタグを入力:</translation>
     </message>
@@ -6213,12 +6218,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>新しいウィンドウで開く</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Copy room link</source>
         <translation>ルームのリンクをコピー</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+6"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Tag room as:</source>
         <translation>ルームにタグを設定:</translation>
     </message>
@@ -6248,7 +6258,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>ルームの設定</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Leave room</source>
         <translation>ルームを退出</translation>
     </message>

@@ -153,9 +153,10 @@ pub use timeline::{
     set_active_room_timeline_initial_page_size, stop_room_timeline,
 };
 pub use timeline_messaging::{
-    cancel_local_echo, mark_room_event_as_read, redact_room_event, report_room_event,
-    retry_local_echo, send_room_attachment, send_room_edit_message, send_room_message,
-    send_room_message_like_event_json, send_room_reply_message, toggle_room_reaction,
+    cancel_local_echo, mark_room_as_read, mark_room_event_as_read, redact_room_event,
+    report_room_event, retry_local_echo, send_room_attachment, send_room_edit_message,
+    send_room_message, send_room_message_like_event_json, send_room_reply_message,
+    toggle_room_reaction,
 };
 pub use timeline_events::{
     fetch_active_room_event_content_for_forwarding, fetch_active_room_raw_event_dialog_data,

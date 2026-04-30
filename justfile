@@ -247,23 +247,25 @@ translations-canonicalize *args:
 translations-claude-translate-lang lang *args:
 	python3 {{ justfile_directory() }}/bin/translations/translate.py translate {{ lang }} {{ args }}
 
-# Auto-translates unfinished strings for all languages using Claude CLI
-translations-claude-translate-all *args: _ensure_just_temp_directory
+# Auto-translates unfinished strings for all languages using Claude CLI.
+# Processes `parallelism` languages concurrently (default: 5).
+translations-claude-translate-all parallelism="5" *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
+	langs=()
 	for d in {{ justfile_directory() }}/resources/langs/*/; do
 		lang=$(basename "$d")
-		if [[ "$lang" == "en" ]]; then
-			continue
-		fi
-		if [[ ! -f "$d/komai_${lang}.ts" ]]; then
-			continue
-		fi
-		echo "=== Translating: $lang ==="
-		just --justfile {{ justfile() }} translations-claude-translate-lang "$lang" {{ args }} || {
-			echo "ERROR: Translation failed for $lang, continuing..."
-		}
+		[[ "$lang" == "en" ]] && continue
+		[[ -f "$d/komai_${lang}.ts" ]] || continue
+		langs+=("$lang")
 	done
+	printf '%s\n' "${langs[@]}" \
+		| xargs -P "{{ parallelism }}" -I _LANG_ bash -c '
+			lang=_LANG_
+			{ just --justfile "{{ justfile() }}" translations-claude-translate-lang "$lang" "$@" 2>&1 \
+				|| echo "ERROR: Translation failed for $lang, continuing..."; } \
+				| sed "s|^|[$lang] |"
+		' _ {{ args }}
 
 # Checks Markdown links for local path validity
 docs-check-links:

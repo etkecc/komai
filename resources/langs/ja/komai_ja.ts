@@ -5829,8 +5829,8 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>このルームの通知の受け取り方を設定します。</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -5829,8 +5829,8 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Bu oda için bildirimleri nasıl alacağınızı yapılandırın.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

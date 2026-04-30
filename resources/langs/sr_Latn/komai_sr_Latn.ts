@@ -5843,8 +5843,8 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Podesi kako primaš obaveštenja za ovu sobu.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -49,6 +49,16 @@ While you are hovering the room list, dragging the scrollbar, or have the room l
 
 When updates are being held back, a small pause indicator appears near the bottom of the list. Hovering it shows: *"Live updates are paused while you interact with the room list."* The list catches up automatically as soon as you move away.
 
+## Per-Room Notification Mode
+
+Each room has a notification mode you can change from **Room Info > Notifications**: **All messages** (default), **Mentions only**, or **Muted**. The mode controls both push notifications *and* how the room appears in this list:
+
+- **All messages** -- the room shows as unread (bold name, count badge, row highlight) on any new message-like event.
+- **Mentions only** -- the room only shows as unread when you are mentioned or one of your keywords matches; other messages are received silently.
+- **Muted** -- the room never shows as unread in this list, regardless of activity. Receipts and the timeline still update if you open the room.
+
+The setting takes effect live; you don't need to restart Komai or reopen the room.
+
 ## Settings
 
 Most of these live under **Settings > Look & Feel > Room List** (or via the gear icon on the room list itself).

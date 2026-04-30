@@ -5836,8 +5836,8 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Seadista, kuidas selle jututoa teavitusi saada.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

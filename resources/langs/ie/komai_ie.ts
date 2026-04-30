@@ -5836,8 +5836,8 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Configurar qualmen vu recive notificationes por iste chambre.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

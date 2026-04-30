@@ -5839,8 +5839,8 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Configura cómo recibir notificaciones de esta sala.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

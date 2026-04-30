@@ -81,7 +81,7 @@ Item {
                     }
 
                     Label {
-                        text: qsTr("Configure how you receive notifications for this room.")
+                        text: qsTr("Configure how you receive notifications for this room and how \"unread\" indicators work.")
                         color: notifRowHover.hovered ? palette.brightText : palette.buttonText
                         font.pointSize: Settings.uiFontSizePt
                         Layout.fillWidth: true

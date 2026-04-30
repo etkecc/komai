@@ -5836,8 +5836,8 @@ Os backups de chave no servidor não são removidos automaticamente.</translatio
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Configure como você recebe notificações desta sala.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

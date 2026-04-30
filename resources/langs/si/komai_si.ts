@@ -5836,8 +5836,8 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>මෙම කාමරය සඳහා දැනුම්දීම් ලබාගන්නා ආකාරය සකසන්න.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

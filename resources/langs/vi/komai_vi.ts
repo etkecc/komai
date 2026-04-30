@@ -5829,8 +5829,8 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Cấu hình cách bạn nhận thông báo cho phòng này.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

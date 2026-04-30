@@ -5836,8 +5836,8 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Configura come ricevere le notifiche per questa stanza.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

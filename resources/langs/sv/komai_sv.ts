@@ -5836,8 +5836,8 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Konfigurera hur du tar emot aviseringar för detta rum.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

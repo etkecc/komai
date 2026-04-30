@@ -8,6 +8,7 @@ use super::*;
 use super::event_summary::summarize_sync_timeline_event;
 use matrix_sdk::{
     deserialized_responses::SyncOrStrippedState,
+    notification_settings::{NotificationSettings, RoomNotificationMode},
     ruma::{
         events::{
             AnySyncTimelineEvent, SyncStateEvent, ignored_user_list::IgnoredUserListEventContent,
@@ -18,6 +19,7 @@ use matrix_sdk::{
     },
 };
 use matrix_sdk_base::latest_event::LatestEventValue as BaseLatestEventValue;
+use tokio::sync::broadcast::error::RecvError as BroadcastRecvError;
 
 pub fn start_sync(handle_id: u64) -> Result<(), String> {
     let (client, room_list_snapshot) = {
@@ -152,6 +154,11 @@ async fn run_sync_loop(
     let mut entries_stream = Box::pin(entries_stream);
     let mut ignored_user_list_changes = Some(Box::pin(client.subscribe_to_ignore_user_list_changes()));
 
+    // Held for the lifetime of the loop so its `PushRulesEvent` handler stays
+    // registered and we don't churn handlers on each per-room mode lookup.
+    let notification_settings = client.notification_settings().await;
+    let mut notification_settings_changes = notification_settings.subscribe_to_changes();
+
     let mut current_values = Vector::<RoomListItem>::new();
     let mut initial_sync_ready_notified = false;
     let mut sync_connected = true;
@@ -181,7 +188,11 @@ async fn run_sync_loop(
                         )
                         .await;
 
-                        let snapshot = build_room_list_snapshot(&current_values).await;
+                        let snapshot = build_room_list_snapshot(
+                            &current_values,
+                            &notification_settings,
+                        )
+                        .await;
                         let room_count = snapshot.len();
                         let ffi_snapshot = snapshot
                             .iter()
@@ -312,6 +323,50 @@ async fn run_sync_loop(
                 }
             }
 
+            notification_change = notification_settings_changes.recv() => {
+                // Push rules changed locally or via another session — rebuild
+                // so unread badges reflect new modes without waiting for the
+                // next event in each room.
+                match notification_change {
+                    Ok(()) | Err(BroadcastRecvError::Lagged(_)) => {
+                        if !current_values.is_empty() {
+                            let snapshot = build_room_list_snapshot(
+                                &current_values,
+                                &notification_settings,
+                            )
+                            .await;
+                            let room_count = snapshot.len();
+                            let ffi_snapshot = snapshot
+                                .iter()
+                                .cloned()
+                                .map(crate::matrix_backend::ffi::into_ffi_matrix_room_summary)
+                                .collect();
+                            *room_list_snapshot
+                                .lock()
+                                .expect("poisoned matrix room-list snapshot mutex") = snapshot;
+                            crate::ffi::matrix_notify_room_list_snapshot_updated(
+                                handle_id,
+                                ffi_snapshot,
+                            );
+                            tracing::debug!(
+                                handle_id,
+                                room_count,
+                                "Rebuilt matrix-sdk room-list snapshot after notification settings change"
+                            );
+                        }
+                    }
+                    Err(BroadcastRecvError::Closed) => {
+                        // Should not happen while we hold `notification_settings`;
+                        // resubscribe to avoid a tight loop on a closed receiver.
+                        tracing::warn!(
+                            handle_id,
+                            "Notification-settings change stream closed unexpectedly"
+                        );
+                        notification_settings_changes = notification_settings.subscribe_to_changes();
+                    }
+                }
+            }
+
             _ = tokio::time::sleep(Duration::from_millis(200)) => {
                 if stop_requested.load(Ordering::Relaxed) {
                     break;
@@ -395,10 +450,13 @@ fn is_auth_failure(error_message: &str) -> bool {
         || lower.contains("unknown token")
 }
 
-async fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {
+async fn build_room_list_snapshot(
+    values: &Vector<RoomListItem>,
+    notification_settings: &NotificationSettings,
+) -> Vec<MatrixRoomSummary> {
     let mut snapshot = Vec::with_capacity(values.len());
     for room in values.iter() {
-        snapshot.push(room_list_item_to_summary(room).await);
+        snapshot.push(room_list_item_to_summary(room, notification_settings).await);
     }
 
     // Enrich parent_space_room_ids by reading m.space.child state events from
@@ -763,7 +821,10 @@ async fn fetch_room_tags(room: &RoomListItem) -> Vec<String> {
     tag_ids
 }
 
-async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
+async fn room_list_item_to_summary(
+    room: &RoomListItem,
+    notification_settings: &NotificationSettings,
+) -> MatrixRoomSummary {
     let room_state = room.state();
     let hero_candidates = room_hero_candidates(room);
     let classification = classify_room(room, &hero_candidates);
@@ -893,9 +954,36 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         is_encrypted: room.encryption_state().is_encrypted(),
         is_public: matches!(room.join_rule(), Some(JoinRule::Public)),
         member_count: room.active_members_count(),
-        unread_message_count: room.num_unread_messages(),
+        // Mute → 0; MentionsOnly → mention count (badge/bold/dot all read
+        // `unread_message_count`); AllMessages/None → raw matrix-sdk count.
+        unread_message_count: apply_notification_mode_to_unread(
+            room.num_unread_messages(),
+            room.num_unread_mentions(),
+            user_defined_mode_for(notification_settings, room).await,
+        ),
         notification_count: room.num_unread_notifications(),
         highlight_count: room.num_unread_mentions(),
         timestamp,
+    }
+}
+
+async fn user_defined_mode_for(
+    notification_settings: &NotificationSettings,
+    room: &RoomListItem,
+) -> Option<RoomNotificationMode> {
+    notification_settings
+        .get_user_defined_room_notification_mode(room.room_id())
+        .await
+}
+
+fn apply_notification_mode_to_unread(
+    unread_messages: u64,
+    unread_mentions: u64,
+    user_defined_mode: Option<RoomNotificationMode>,
+) -> u64 {
+    match user_defined_mode {
+        Some(RoomNotificationMode::Mute) => 0,
+        Some(RoomNotificationMode::MentionsAndKeywordsOnly) => unread_mentions,
+        Some(RoomNotificationMode::AllMessages) | None => unread_messages,
     }
 }

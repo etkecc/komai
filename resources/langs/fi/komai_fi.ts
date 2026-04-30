@@ -5836,8 +5836,8 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Määritä, miten saat ilmoituksia tästä huoneesta.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

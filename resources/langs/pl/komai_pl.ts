@@ -5844,8 +5844,8 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Skonfiguruj sposób otrzymywania powiadomień dla tego pokoju.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -5838,8 +5838,8 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Agordu kiel vi ricevas sciigojn por ĉi tiu ĉambro.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

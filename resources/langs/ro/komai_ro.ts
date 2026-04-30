@@ -5843,8 +5843,8 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Configurează cum primești notificările pentru această cameră.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -5836,8 +5836,8 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Konfiguriere, wie du Benachrichtigungen für diesen Raum erhältst.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

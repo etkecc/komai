@@ -5836,8 +5836,8 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Configura com rebre notificacions d'aquesta sala.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

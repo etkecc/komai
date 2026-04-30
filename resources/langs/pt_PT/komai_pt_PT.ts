@@ -5836,8 +5836,8 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     </message>
     <message>
         <location line="+11"/>
-        <source>Configure how you receive notifications for this room.</source>
-        <translation>Configure como recebe notificações para esta sala.</translation>
+        <source>Configure how you receive notifications for this room and how "unread" indicators work.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

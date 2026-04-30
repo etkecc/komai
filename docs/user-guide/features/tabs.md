@@ -1,6 +1,6 @@
 # 📑 Room Tabs
 
-Tabs let you keep multiple rooms open at once and switch between them, just like a web browser. Unusual among Matrix clients, most of which force you to pick a single active room at a time.
+Tabs let you keep multiple rooms open at once and switch between them, just like a web browser. Unusual among Matrix clients, most of which force you to pick a single active room from the [room list](room-list.md) at a time.
 
 ![Room tabs](../screenshots/tabs.webp)
 
@@ -94,7 +94,7 @@ Tab behavior is configurable under **Settings → Navigation**:
 
 ## 💡 Tips
 
-- **`Ctrl+Click` a room** in the sidebar to open it in a new tab without leaving the current one
+- **`Ctrl+Click` a room** in the [room list](room-list.md) sidebar to open it in a new tab without leaving the current one
 - **Tabs persist across restarts** — open and pinned tabs are restored on the next launch
 - **Shrink tabs to icons** by setting tab labels to avatar-only in Settings, fitting many more tabs in the bar
 - **Cascading close** — `Ctrl+W` + `Ctrl+Shift+T` make a quick "peek, close, undo" workflow when you just want to glance at another room

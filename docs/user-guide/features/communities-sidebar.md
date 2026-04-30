@@ -1,6 +1,6 @@
 # Communities Sidebar
 
-The communities sidebar is a panel on the left side of Komai that lets you quickly filter your room list by category. Each filter can be configured in **Settings > Navigation**.
+The communities sidebar is a panel on the left side of Komai that lets you quickly filter your [room list](room-list.md) by category. Each filter can be configured in **Settings > Navigation**.
 
 ![Communities sidebar](../screenshots/communities-sidebar.webp)
 

@@ -3572,6 +3572,11 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <source>Attach more files or send the upload</source>
         <translation>Adjunta més fitxers o envia la pujada</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Configuració…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

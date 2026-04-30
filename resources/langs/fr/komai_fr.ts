@@ -3572,6 +3572,11 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <source>Attach more files or send the upload</source>
         <translation>Joindre d'autres fichiers ou envoyer le téléversement</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Paramètres…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

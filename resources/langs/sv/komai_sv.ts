@@ -3572,6 +3572,11 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <source>Attach more files or send the upload</source>
         <translation>Bifoga fler filer eller skicka uppladdningen</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Inställningar...</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

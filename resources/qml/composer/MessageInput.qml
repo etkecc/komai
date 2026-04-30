@@ -1766,4 +1766,30 @@ Rectangle {
         text: qsTr("Attach more files or send the upload")
         visible: inputBar.hasUploads && !inputBar.hasVoiceRecording
     }
+
+    // Right-click on empty composer space shows the settings shortcut.
+    // The textarea keeps its native cut/copy/paste menu, and buttons consume
+    // the right-click on press so the handler only fires on bare areas.
+    TapHandler {
+        acceptedButtons: Qt.RightButton
+        onTapped: composerSettingsMenu.popup()
+    }
+
+    Menu {
+        id: composerSettingsMenu
+
+        Component.onCompleted: {
+            if (composerSettingsMenu.popupType != undefined)
+                composerSettingsMenu.popupType = 2;
+        }
+
+        MenuItem {
+            text: qsTr("Settings...") // Keep short: Qt may clip/elide longer menu item text
+            icon.source: "qrc:/icons/icons/ui/settings.svg"
+
+            onTriggered: MainWindow.showUserSettingsPage(
+                UserSettingsModel.TabNavigation,
+                "navigation-room-list-section")
+        }
+    }
 }

@@ -3572,6 +3572,11 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <source>Attach more files or send the upload</source>
         <translation>Weitere Dateien anhängen oder Upload senden</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Einstellungen …</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

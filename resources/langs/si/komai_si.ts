@@ -3572,6 +3572,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Attach more files or send the upload</source>
         <translation>තවත් ගොනු අමුණන්න හෝ උඩුගත කිරීම යවන්න</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">සැකසීම්…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

@@ -3572,6 +3572,11 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <source>Attach more files or send the upload</source>
         <translation>Allega altri file o invia il caricamento</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Impostazioni…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

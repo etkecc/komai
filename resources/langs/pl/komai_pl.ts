@@ -3576,6 +3576,11 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <source>Attach more files or send the upload</source>
         <translation>Dołącz więcej plików lub wyślij przesyłanie</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Ustawienia…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

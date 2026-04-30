@@ -3568,6 +3568,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Attach more files or send the upload</source>
         <translation>ファイルを追加するか、アップロードを送信</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">設定...</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

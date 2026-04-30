@@ -3568,6 +3568,11 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <source>Attach more files or send the upload</source>
         <translation>További fájlok csatolása vagy a feltöltés elküldése</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Beállítások...</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

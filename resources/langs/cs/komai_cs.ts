@@ -3576,6 +3576,11 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <source>Attach more files or send the upload</source>
         <translation>Přidat další soubory nebo odeslat nahrávku</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Nastavení…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

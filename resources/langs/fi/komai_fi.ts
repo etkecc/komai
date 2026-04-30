@@ -3572,6 +3572,11 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <source>Attach more files or send the upload</source>
         <translation>Liitä lisää tiedostoja tai lähetä lataus</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Asetukset…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

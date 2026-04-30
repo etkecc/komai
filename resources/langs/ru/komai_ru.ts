@@ -3576,6 +3576,11 @@ If the problem persists, you can log out and sign in again, but this will delete
         <source>Attach more files or send the upload</source>
         <translation>Прикрепить ещё файлы или отправить загрузку</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Настройки…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

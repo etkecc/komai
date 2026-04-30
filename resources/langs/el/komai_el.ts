@@ -3572,6 +3572,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Attach more files or send the upload</source>
         <translation>Επισύναψη περισσότερων αρχείων ή αποστολή</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Ρυθμίσεις…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

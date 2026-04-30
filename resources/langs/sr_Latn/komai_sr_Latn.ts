@@ -3576,6 +3576,11 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <source>Attach more files or send the upload</source>
         <translation>Dodaj još fajlova ili pošalji otpremu</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Podešavanja…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

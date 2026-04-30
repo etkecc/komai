@@ -3575,6 +3575,11 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <source>Attach more files or send the upload</source>
         <translation>Adjuntar más archivos o enviar la subida</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Configuración...</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

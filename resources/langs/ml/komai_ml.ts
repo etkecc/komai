@@ -3572,6 +3572,11 @@ If the problem persists, you can log out and sign in again, but this will delete
         <source>Attach more files or send the upload</source>
         <translation>കൂടുതൽ ഫയലുകൾ അറ്റാച്ച് ചെയ്യുക അല്ലെങ്കിൽ അപ്‌ലോഡ് അയക്കുക</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">ക്രമീകരണങ്ങൾ…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

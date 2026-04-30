@@ -3588,6 +3588,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Attach more files or send the upload</source>
         <translation>أرفق ملفات إضافية أو أرسل المرفقات</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">الإعدادات...</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

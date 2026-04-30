@@ -3572,6 +3572,11 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <source>Attach more files or send the upload</source>
         <translation>Anexar mais ficheiros ou enviar o upload</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Definições...</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

@@ -3568,6 +3568,11 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <source>Attach more files or send the upload</source>
         <translation>Lampirkan lebih banyak file atau kirim unggahan</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Pengaturan…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

@@ -3572,6 +3572,11 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <source>Attach more files or send the upload</source>
         <translation>Anexar mais arquivos ou enviar o upload</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Configurações…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

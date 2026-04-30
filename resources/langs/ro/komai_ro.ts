@@ -3576,6 +3576,11 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <source>Attach more files or send the upload</source>
         <translation>Atașează mai multe fișiere sau trimite încărcarea</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Setări…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

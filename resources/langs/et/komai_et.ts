@@ -3572,6 +3572,11 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <source>Attach more files or send the upload</source>
         <translation>Lisa rohkem faile või saada üleslaadimine</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Seaded…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

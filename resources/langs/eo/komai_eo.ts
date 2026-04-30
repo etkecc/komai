@@ -3572,6 +3572,11 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <source>Attach more files or send the upload</source>
         <translation>Aldoni pliajn dosierojn aŭ sendi la alŝutaĵon</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Agordoj…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

@@ -3566,6 +3566,11 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <source>Attach more files or send the upload</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

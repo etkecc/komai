@@ -3572,6 +3572,11 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <source>Attach more files or send the upload</source>
         <translation>Adjunter plus archivos o transmitter li cargament</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Parametres…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

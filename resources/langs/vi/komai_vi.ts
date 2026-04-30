@@ -3568,6 +3568,11 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <source>Attach more files or send the upload</source>
         <translation>Đính kèm thêm tệp hoặc gửi tệp đã tải lên</translation>
     </message>
+    <message>
+        <location line="+21"/>
+        <source>Settings...</source>
+        <translation type="unfinished">Cài đặt…</translation>
+    </message>
 </context>
 <context>
     <name>MessageInputWarning</name>

@@ -40,7 +40,12 @@ fn image_info_from_json(info_json: &str) -> Result<Option<Box<ImageInfo>>, Strin
     }
 }
 
-pub async fn upload_media(handle_id: u64, file_path: &str, mime_type: &str) -> Result<String, String> {
+pub async fn upload_media(
+    handle_id: u64,
+    file_path: &str,
+    mime_type: &str,
+    strip_image_metadata: bool,
+) -> Result<String, String> {
     let client = client_for_handle(handle_id)?;
     let file_path = file_path.trim();
     if file_path.is_empty() {
@@ -53,6 +58,11 @@ pub async fn upload_media(handle_id: u64, file_path: &str, mime_type: &str) -> R
         .map_err(|e| format!("invalid media mime type '{mime_type}': {e}"))?;
     let data = fs::read(file_path)
         .map_err(|e| format!("failed to read media file '{file_path}': {e}"))?;
+    let data = if strip_image_metadata {
+        crate::matrix_backend::image_metadata::strip_image_metadata(data, &mime)
+    } else {
+        data
+    };
 
     tracing::info!(
         handle_id,

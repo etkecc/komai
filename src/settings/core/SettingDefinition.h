@@ -75,6 +75,7 @@ enum class SettingId
     ComposerInputInlineRoomPickerEnabled,
     ComposerInputInlineUserPickerEnabled,
     ComposerInputTranscriptionEnabled,
+    ComposerAttachmentsStripImageMetadata,
     ComposerTypingSendEnabled,
     NotificationsAccountEnabled,
     CallsLegacyEnabled,

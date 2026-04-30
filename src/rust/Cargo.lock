@@ -1866,6 +1866,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "img-parts"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "19734e3c43b2a850f5889c077056e47c874095f2d87e853c7c41214ae67375f0"
+dependencies = [
+ "bytes",
+ "crc32fast",
+ "miniz_oxide",
+]
+
+[[package]]
 name = "impartial-ord"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2101,6 +2112,7 @@ version = "0.0.0"
 dependencies = [
  "base64",
  "blurhash",
+ "bytes",
  "cxx",
  "cxx-build",
  "futures-util",
@@ -2109,6 +2121,7 @@ dependencies = [
  "hyper",
  "hyper-util",
  "image",
+ "img-parts",
  "linkify",
  "matrix-sdk",
  "matrix-sdk-base",

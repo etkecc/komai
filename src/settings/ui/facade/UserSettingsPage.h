@@ -119,6 +119,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool composerInputTranscriptionEnabled READ composerInputTranscriptionEnabled WRITE
         setComposerInputTranscriptionEnabled NOTIFY composerInputTranscriptionEnabledChanged)
+    Q_PROPERTY(bool composerAttachmentsStripImageMetadata READ composerAttachmentsStripImageMetadata
+                 WRITE setComposerAttachmentsStripImageMetadata NOTIFY
+                   composerAttachmentsStripImageMetadataChanged)
     Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
                  setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
     Q_PROPERTY(TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning READ
@@ -571,6 +574,7 @@ public:
     void setComposerInputInlineRoomPickerEnabled(bool state);
     void setComposerInputInlineUserPickerEnabled(bool state);
     void setComposerInputTranscriptionEnabled(bool state);
+    void setComposerAttachmentsStripImageMetadata(bool state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesLayoutPositioning(TimelineMessagesLayoutPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
@@ -768,6 +772,7 @@ signals:
     void composerInputInlineRoomPickerEnabledChanged(bool state);
     void composerInputInlineUserPickerEnabledChanged(bool state);
     void composerInputTranscriptionEnabledChanged(bool state);
+    void composerAttachmentsStripImageMetadataChanged(bool state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesLayoutPositioningChanged(TimelineMessagesLayoutPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);

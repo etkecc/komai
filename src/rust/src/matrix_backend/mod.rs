@@ -5,6 +5,7 @@
 pub mod auth;
 pub mod bootstrap;
 pub(crate) mod ffi;
+pub mod image_metadata;
 pub mod registration;
 pub mod runtime;
 pub mod session_persistence;

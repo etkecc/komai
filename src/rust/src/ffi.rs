@@ -478,6 +478,7 @@ mod bridge {
         input_inline_room_picker_enabled: bool,
         input_inline_user_picker_enabled: bool,
         input_transcription_enabled: bool,
+        attachments_strip_image_metadata: bool,
         typing_send_enabled: bool,
     }
 
@@ -2238,12 +2239,14 @@ mod bridge {
             duration_ms: u64,
             is_voice: bool,
             waveform: &[f32],
+            strip_image_metadata: bool,
         ) -> Result<()>;
         fn matrix_upload_media(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
             file_path: &str,
             mime_type: &str,
+            strip_image_metadata: bool,
         ) -> Result<String>;
         fn matrix_send_room_image(
             context: MatrixFfiBlockingContext,

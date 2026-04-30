@@ -541,6 +541,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["composer", "attachments", "strip_image_metadata"],
+        Value::Bool(snapshot.composer.attachments_strip_image_metadata),
+    );
+    yaml::set_value(
+        &mut root,
         &["composer", "typing", "send", "enabled"],
         Value::Bool(snapshot.composer.typing_send_enabled),
     );

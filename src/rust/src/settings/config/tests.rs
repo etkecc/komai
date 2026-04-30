@@ -376,6 +376,8 @@ composer:
       enabled: false
     transcription:
       enabled: false
+  attachments:
+    strip_image_metadata: false
   typing:
     send:
       enabled: false
@@ -391,6 +393,7 @@ composer:
     assert_eq!(config.composer.input_inline_room_picker_enabled, Some(true));
     assert_eq!(config.composer.input_inline_user_picker_enabled, Some(false));
     assert_eq!(config.composer.input_transcription_enabled, Some(false));
+    assert_eq!(config.composer.attachments_strip_image_metadata, Some(false));
     assert_eq!(config.composer.typing_send_enabled, Some(false));
 }
 
@@ -582,6 +585,7 @@ fn encodes_generic_config_values() {
             input_inline_room_picker_enabled: true,
             input_inline_user_picker_enabled: false,
             input_transcription_enabled: false,
+            attachments_strip_image_metadata: false,
             typing_send_enabled: false,
         },
     });
@@ -1330,6 +1334,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
             input_inline_room_picker_enabled: true,
             input_inline_user_picker_enabled: true,
             input_transcription_enabled: true,
+            attachments_strip_image_metadata: true,
             typing_send_enabled: true,
         },
     };
@@ -1501,6 +1506,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             input_inline_room_picker_enabled: true,
             input_inline_user_picker_enabled: true,
             input_transcription_enabled: true,
+            attachments_strip_image_metadata: true,
             typing_send_enabled: true,
         },
     };

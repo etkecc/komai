@@ -247,6 +247,7 @@ stageConfig(const UserSettings &settings,
           .input_inline_room_picker_enabled  = settings.composerInputInlineRoomPickerEnabled(),
           .input_inline_user_picker_enabled  = settings.composerInputInlineUserPickerEnabled(),
           .input_transcription_enabled       = settings.composerInputTranscriptionEnabled(),
+          .attachments_strip_image_metadata  = settings.composerAttachmentsStripImageMetadata(),
           .typing_send_enabled               = settings.composerTypingSendEnabled(),
         },
     };

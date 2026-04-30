@@ -333,6 +333,8 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setComposerInputInlineUserPickerEnabled(
       snapshot.composer.input_inline_user_picker_enabled);
     settings.setComposerInputTranscriptionEnabled(snapshot.composer.input_transcription_enabled);
+    settings.setComposerAttachmentsStripImageMetadata(
+      snapshot.composer.attachments_strip_image_metadata);
     settings.setComposerTypingSendEnabled(snapshot.composer.typing_send_enabled);
 }
 

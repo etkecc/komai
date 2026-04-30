@@ -7553,7 +7553,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SingleImagePackModel</name>
     <message>
-        <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
+        <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+55"/>
         <source>Account Pack</source>
         <translation type="unfinished">Account Pack</translation>
     </message>
@@ -7582,12 +7582,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+130"/>
         <location line="+50"/>
         <location line="+36"/>
-        <location line="+65"/>
+        <location line="+68"/>
         <source>Matrix backend is not ready yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-256"/>
         <source>Failed to update image-pack global enablement.</source>
         <translation type="unfinished"/>
     </message>
@@ -7603,7 +7603,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+27"/>
-        <location line="+62"/>
+        <location line="+65"/>
         <source>Only local image files are supported here.</source>
         <translation type="unfinished"/>
     </message>
@@ -7613,7 +7613,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+67"/>
         <source>Failed to upload the pack overview image.</source>
         <translation type="unfinished"/>
     </message>
@@ -8259,7 +8259,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+362"/>
+        <location line="+366"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation type="unfinished"/>
     </message>
@@ -9926,7 +9926,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
         <source>Feedback</source>
         <translation type="unfinished"/>
     </message>
@@ -9987,7 +9987,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
         <source>Input</source>
         <translation type="unfinished"/>
     </message>
@@ -10018,6 +10018,16 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+3"/>
+        <source>Attachments</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Emoji</source>
         <translation type="unfinished">Emoji</translation>
     </message>

@@ -28,6 +28,7 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                                                 uint64_t durationMs,
                                                 bool isVoice,
                                                 const QList<float> &waveform,
+                                                bool stripImageMetadata,
                                                 QString *errorOut)
 {
     try {
@@ -45,6 +46,7 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
            durationMs,
            isVoice,
            waveform,
+           stripImageMetadata,
            context]() {
               const auto waveformSlice = ::rust::Slice<const float>(
                 waveform.constData(), static_cast<size_t>(waveform.size()));
@@ -60,7 +62,8 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                 mimeType.toStdString(),
                 durationMs,
                 isVoice,
-                waveformSlice);
+                waveformSlice,
+                stripImageMetadata);
           });
         return true;
     } catch (const std::exception &e) {
@@ -75,16 +78,18 @@ MatrixBackendRuntimeService::uploadMedia(matrix_backend::BlockingCallContext con
                                          uint64_t handleId,
                                          const QString &filePath,
                                          const QString &mimeType,
+                                         bool stripImageMetadata,
                                          QString *errorOut)
 {
     try {
-        return matrix::normalizeMxcUri(QString::fromStdString(std::string(
-          invokeRuntimeWorkerCall("matrix_upload_media", [context, handleId, filePath, mimeType]() {
+        return matrix::normalizeMxcUri(QString::fromStdString(std::string(invokeRuntimeWorkerCall(
+          "matrix_upload_media", [context, handleId, filePath, mimeType, stripImageMetadata]() {
               return ::komai::rust::matrix_upload_media(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 filePath.toStdString(),
-                mimeType.toStdString());
+                mimeType.toStdString(),
+                stripImageMetadata);
           }))));
     } catch (const std::exception &e) {
         if (errorOut)

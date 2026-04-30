@@ -94,6 +94,16 @@ UserSettings::composerInputTranscriptionEnabled() const
 }
 
 bool
+UserSettings::composerAttachmentsStripImageMetadata() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::ComposerAttachmentsStripImageMetadata);
+        value.has_value())
+        return *value;
+    return composerAttachmentsStripImageMetadata_;
+}
+
+bool
 UserSettings::composerTypingSendEnabled() const
 {
     if (const auto value =

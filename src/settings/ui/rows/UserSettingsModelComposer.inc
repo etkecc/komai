@@ -33,6 +33,15 @@
       "Voice transcription",
       QT_TR_NOOP("Enables speech-to-text. Configure the transcription provider in <a href=\"komai://settings/integrations/transcription\">Integrations → Voice transcription</a>."),
       SM::TabComposer, composerInputTranscriptionEnabled, setComposerInputTranscriptionEnabled, nullptr, ComposerInputTranscriptionEnabled, SettingKey::ComposerInputTranscriptionEnabled),
+    // ComposerAttachmentsSection
+    { QT_TR_NOOP("Attachments"), nullptr, SM::SectionTitle, SM::TabComposer,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // ComposerAttachmentsStripImageMetadata
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Strip image metadata before upload",
+      QT_TR_NOOP(
+        "Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md\">Learn more</a>."),
+      SM::TabComposer, composerAttachmentsStripImageMetadata, setComposerAttachmentsStripImageMetadata, nullptr, ComposerAttachmentsStripImageMetadata, SettingKey::ComposerAttachmentsStripImageMetadata),
     // ComposerEmojiSection
     { QT_TR_NOOP("Emoji"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

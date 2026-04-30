@@ -766,13 +766,15 @@ public:
                                    uint64_t durationMs          = 0,
                                    bool isVoice                 = false,
                                    const QList<float> &waveform = {},
+                                   bool stripImageMetadata      = true,
                                    QString *errorOut            = nullptr);
 
     static std::optional<QString> uploadMedia(matrix_backend::BlockingCallContext context,
                                               uint64_t handleId,
                                               const QString &filePath,
                                               const QString &mimeType,
-                                              QString *errorOut = nullptr);
+                                              bool stripImageMetadata = true,
+                                              QString *errorOut       = nullptr);
 
     static bool sendRoomImage(matrix_backend::BlockingCallContext context,
                               uint64_t handleId,

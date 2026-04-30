@@ -31,6 +31,7 @@
     bool composerInputInlineRoomPickerEnabled() const;
     bool composerInputInlineUserPickerEnabled() const;
     bool composerInputTranscriptionEnabled() const;
+    bool composerAttachmentsStripImageMetadata() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
     TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;

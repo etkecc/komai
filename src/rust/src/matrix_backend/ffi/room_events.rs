@@ -507,6 +507,7 @@ pub(crate) fn matrix_fetch_room_redaction_permissions(
     })
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(crate) fn matrix_send_room_attachment(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
@@ -520,6 +521,7 @@ pub(crate) fn matrix_send_room_attachment(
     duration_ms: u64,
     is_voice: bool,
     waveform: &[f32],
+    strip_image_metadata: bool,
 ) -> Result<(), String> {
     ffi_block_on(
         context,
@@ -536,6 +538,7 @@ pub(crate) fn matrix_send_room_attachment(
             duration_ms,
             is_voice,
             waveform,
+            strip_image_metadata,
         ),
     )
 }
@@ -545,11 +548,12 @@ pub(crate) fn matrix_upload_media(
     handle_id: u64,
     file_path: &str,
     mime_type: &str,
+    strip_image_metadata: bool,
 ) -> Result<String, String> {
     ffi_block_on(
         context,
         "matrix_upload_media",
-        matrix_backend::runtime::upload_media(handle_id, file_path, mime_type),
+        matrix_backend::runtime::upload_media(handle_id, file_path, mime_type, strip_image_metadata),
     )
 }
 

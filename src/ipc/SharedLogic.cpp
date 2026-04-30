@@ -830,18 +830,21 @@ mediaUpload(const QString &filePath,
       effectiveMimeTypeForFile(fileInfo.absoluteFilePath(), contentType);
     const auto effectiveFilePath = fileInfo.absoluteFilePath();
     const auto fileSize          = static_cast<uint64_t>(fileInfo.size());
+    const bool stripImageMetadata =
+      UserSettings::instance()->composerAttachmentsStripImageMetadata();
 
     runIpcTask(
       [handleId = *handleId,
        effectiveFilePath,
        effectiveFilename,
        effectiveContentType,
-       fileSize]() {
+       fileSize,
+       stripImageMetadata]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           AsyncUploadResult result;
           QString error;
           const auto mxcUri = komai::MatrixBackendRuntimeService::uploadMedia(
-            context, handleId, effectiveFilePath, effectiveContentType, &error);
+            context, handleId, effectiveFilePath, effectiveContentType, stripImageMetadata, &error);
           if (!mxcUri.has_value()) {
               result.error =
                 error.isEmpty() ? QStringLiteral("failed to upload matrix media") : error;
@@ -908,13 +911,16 @@ sendImageFromFile(const QString &roomIdOrAlias,
     }
 
     const auto trimmedBody = body.trimmed();
+    const bool stripImageMetadata =
+      UserSettings::instance()->composerAttachmentsStripImageMetadata();
     runIpcTask(
       [handleId = *handleId,
        roomId,
        effectiveFilePath,
        effectiveFilename,
        trimmedBody,
-       mimeType]() {
+       mimeType,
+       stripImageMetadata]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
           QString error;
@@ -930,6 +936,7 @@ sendImageFromFile(const QString &roomIdOrAlias,
                                                                                  0,
                                                                                  false,
                                                                                  {},
+                                                                                 stripImageMetadata,
                                                                                  &error);
           if (ok) {
               result.eventId = QStringLiteral("queued");

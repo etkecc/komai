@@ -14,6 +14,7 @@
 #include "chat/ChatPage.h"
 #include "imagepacks/ImagePackListModel.h"
 #include "logging/Logging.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineEventTypes.h"
 #include "ui/MainWindow.h"
@@ -487,9 +488,12 @@ SingleImagePackModel::addStickers(QList<QUrl> files)
         paths.push_back(path);
     }
 
+    const bool stripImageMetadata =
+      UserSettings::instance()->composerAttachmentsStripImageMetadata();
+
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, paths]() {
+      [handleId, paths, stripImageMetadata]() {
           ImagePackBatchUploadResult result;
           const auto context = komai::matrix_backend::blockingCallContext();
 
@@ -504,7 +508,7 @@ SingleImagePackModel::addStickers(QList<QUrl> files)
               QFileInfo fileInfo(path);
               QString uploadError;
               const auto mxcUri = komai::MatrixBackendRuntimeService::uploadMedia(
-                context, handleId, path, *mimeType, &uploadError);
+                context, handleId, path, *mimeType, stripImageMetadata, &uploadError);
               if (!mxcUri.has_value()) {
                   result.error =
                     uploadError.isEmpty()
@@ -547,9 +551,12 @@ SingleImagePackModel::setAvatar(QUrl file)
         return;
     }
 
+    const bool stripImageMetadata =
+      UserSettings::instance()->composerAttachmentsStripImageMetadata();
+
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, path]() {
+      [handleId, path, stripImageMetadata]() {
           ImagePackMutationResult result;
           QString mimeError;
           const auto mimeType = detectUploadMimeType(path, &mimeError);
@@ -560,7 +567,7 @@ SingleImagePackModel::setAvatar(QUrl file)
 
           const auto context = komai::matrix_backend::blockingCallContext();
           auto mxcUri        = komai::MatrixBackendRuntimeService::uploadMedia(
-            context, handleId, path, *mimeType, &result.error);
+            context, handleId, path, *mimeType, stripImageMetadata, &result.error);
           if (!mxcUri.has_value())
               return result;
 

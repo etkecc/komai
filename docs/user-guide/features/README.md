@@ -3,6 +3,7 @@
 User-facing capabilities of Komai. Each page covers one feature in depth.
 
 - 👥 [Application Profiles](application-profiles.md) -- profile switcher, create/launch/delete workflows
+- 📎 [Attachments](attachments.md) -- sending files, images, and audio; client-side metadata stripping
 - 🤖 [Automations](automations/README.md) -- MCP, CLI, and D-Bus surfaces for scripts, desktop tools, and AI hosts
 - 🏘️ [Communities Sidebar](communities-sidebar.md) -- filter your Matrix rooms by various builtin filters and Matrix Spaces
 - 😀 [Emoji Search and Picker](emojis.md) -- localized emoji discovery, aliases, and trigger behavior

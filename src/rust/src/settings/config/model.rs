@@ -366,6 +366,7 @@ pub struct ConfigComposer {
     /// under `integrations.transcription.*`. See
     /// `var/plans/composer-voice-transcription.md` § "Config shape".
     pub input_transcription_enabled: Option<bool>,
+    pub attachments_strip_image_metadata: Option<bool>,
     pub typing_send_enabled: Option<bool>,
 }
 

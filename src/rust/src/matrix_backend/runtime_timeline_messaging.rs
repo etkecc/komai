@@ -348,6 +348,7 @@ pub async fn send_room_edit_message(
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 pub async fn send_room_attachment(
     handle_id: u64,
     room_id: &str,
@@ -360,6 +361,7 @@ pub async fn send_room_attachment(
     duration_ms: u64,
     is_voice: bool,
     waveform: &[f32],
+    strip_image_metadata: bool,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let file_path = file_path.trim();
@@ -373,6 +375,11 @@ pub async fn send_room_attachment(
         .map_err(|e| format!("invalid attachment mime type '{mime_type}': {e}"))?;
     let data = fs::read(file_path)
         .map_err(|e| format!("failed to read attachment file '{file_path}': {e}"))?;
+    let data = if strip_image_metadata {
+        crate::matrix_backend::image_metadata::strip_image_metadata(data, &mime)
+    } else {
+        data
+    };
     let fallback_filename = Path::new(file_path)
         .file_name()
         .and_then(|name| name.to_str())

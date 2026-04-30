@@ -207,6 +207,8 @@ const COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "inline_user_picker", "enabled"];
 const COMPOSER_INPUT_TRANSCRIPTION_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "transcription", "enabled"];
+const COMPOSER_ATTACHMENTS_STRIP_IMAGE_METADATA_PATH: [&str; 3] =
+    ["composer", "attachments", "strip_image_metadata"];
 const COMPOSER_TYPING_SEND_ENABLED_PATH: [&str; 4] =
     ["composer", "typing", "send", "enabled"];
 const INTEGRATIONS_TRANSCRIPTION_PROVIDER_PATH: [&str; 3] =
@@ -667,6 +669,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             input_transcription_enabled: yaml::value_at_path(
                 root,
                 &COMPOSER_INPUT_TRANSCRIPTION_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            attachments_strip_image_metadata: yaml::value_at_path(
+                root,
+                &COMPOSER_ATTACHMENTS_STRIP_IMAGE_METADATA_PATH,
             )
             .and_then(parse_scalar_bool),
             typing_send_enabled: yaml::value_at_path(root, &COMPOSER_TYPING_SEND_ENABLED_PATH)

@@ -2978,7 +2978,10 @@ TimelineViewManager::startNextPendingMatrixAttachment()
     matrixAttachmentUploadInFlight_ = true;
     emit matrixTimelineStateChanged();
 
-    std::thread([this, attachment]() {
+    const bool stripImageMetadata =
+      UserSettings::instance()->composerAttachmentsStripImageMetadata();
+
+    std::thread([this, attachment, stripImageMetadata]() {
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         const bool ok =
@@ -2994,6 +2997,7 @@ TimelineViewManager::startNextPendingMatrixAttachment()
                                                                  attachment.durationMs,
                                                                  attachment.isVoice,
                                                                  attachment.waveform,
+                                                                 stripImageMetadata,
                                                                  &error);
 
         QMetaObject::invokeMethod(

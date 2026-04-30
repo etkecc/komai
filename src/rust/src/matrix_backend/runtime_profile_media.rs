@@ -248,6 +248,10 @@ pub async fn upload_own_avatar(
         .map_err(|e| format!("invalid avatar mime type '{mime_type}': {e}"))?;
     let data = fs::read(file_path)
         .map_err(|e| format!("failed to read avatar file '{file_path}': {e}"))?;
+    // Avatars always go through metadata stripping — they're publicly visible
+    // to every member of every room you're in, so there's no scenario where a
+    // user would benefit from leaking GPS / camera metadata via their avatar.
+    let data = crate::matrix_backend::image_metadata::strip_image_metadata(data, &mime);
 
     tracing::info!(
         handle_id,
@@ -291,6 +295,9 @@ pub async fn upload_own_room_avatar(
         .map_err(|e| format!("invalid avatar mime type '{mime_type}': {e}"))?;
     let data = fs::read(file_path)
         .map_err(|e| format!("failed to read avatar file '{file_path}': {e}"))?;
+    // See `upload_own_avatar` — same rationale: room-specific avatars are
+    // public to every member of that room, so always strip metadata.
+    let data = crate::matrix_backend::image_metadata::strip_image_metadata(data, &mime);
 
     tracing::info!(
         handle_id,

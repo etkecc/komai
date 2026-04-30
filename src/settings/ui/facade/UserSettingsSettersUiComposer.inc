@@ -143,6 +143,16 @@ UserSettings::setComposerInputTranscriptionEnabled(bool s)
     save();
 }
 void
+UserSettings::setComposerAttachmentsStripImageMetadata(bool s)
+{
+    if (composerAttachmentsStripImageMetadata_ == s)
+        return;
+    composerAttachmentsStripImageMetadata_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerAttachmentsStripImageMetadata, s);
+    emit composerAttachmentsStripImageMetadataChanged(s);
+    save();
+}
+void
 UserSettings::setComposerTypingSendEnabled(bool s)
 {
     if (composerTypingSendEnabled_ == s)

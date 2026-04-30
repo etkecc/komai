@@ -7584,7 +7584,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>SingleImagePackModel</name>
     <message>
-        <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
+        <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+55"/>
         <source>Account Pack</source>
         <translation>Tilin paketti</translation>
     </message>
@@ -7613,12 +7613,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+130"/>
         <location line="+50"/>
         <location line="+36"/>
-        <location line="+65"/>
+        <location line="+68"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix-tausta ei ole vielä valmis.</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-256"/>
         <source>Failed to update image-pack global enablement.</source>
         <translation>Kuvakokoelman yleisen aktivoinnin päivittäminen epäonnistui.</translation>
     </message>
@@ -7634,7 +7634,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location line="+62"/>
+        <location line="+65"/>
         <source>Only local image files are supported here.</source>
         <translation>Vain paikalliset kuvatiedostot ovat tuettuja tässä.</translation>
     </message>
@@ -7644,7 +7644,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>'%1' lähettäminen epäonnistui.</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+67"/>
         <source>Failed to upload the pack overview image.</source>
         <translation>Paketin yleiskuvan lähettäminen epäonnistui.</translation>
     </message>
@@ -8292,7 +8292,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Tallenna liite</translation>
     </message>
     <message>
-        <location line="+362"/>
+        <location line="+366"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Liitteen '%1' lähettäminen epäonnistui: %2</translation>
     </message>
@@ -9964,7 +9964,7 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
         <source>Feedback</source>
         <translation>Palaute</translation>
     </message>
@@ -10025,7 +10025,7 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <translation>Sovelletaan upotetuihin äänentoistoihin.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
         <source>Input</source>
         <translation>Syöte</translation>
     </message>
@@ -10056,6 +10056,16 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
     </message>
     <message>
         <location line="+3"/>
+        <source>Attachments</source>
+        <translation type="unfinished">Liitteet</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Emoji</source>
         <translation>Emoji</translation>
     </message>

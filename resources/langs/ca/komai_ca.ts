@@ -7584,7 +7584,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>SingleImagePackModel</name>
     <message>
-        <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
+        <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+55"/>
         <source>Account Pack</source>
         <translation>Paquet del compte</translation>
     </message>
@@ -7613,12 +7613,12 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <location line="+130"/>
         <location line="+50"/>
         <location line="+36"/>
-        <location line="+65"/>
+        <location line="+68"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>El backend de Matrix encara no està a punt.</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-256"/>
         <source>Failed to update image-pack global enablement.</source>
         <translation>No s'ha pogut actualitzar l'activació global del paquet d'imatges.</translation>
     </message>
@@ -7634,7 +7634,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location line="+62"/>
+        <location line="+65"/>
         <source>Only local image files are supported here.</source>
         <translation>Aquí només s'admeten fitxers d'imatge locals.</translation>
     </message>
@@ -7644,7 +7644,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No s'ha pogut pujar '%1'.</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+67"/>
         <source>Failed to upload the pack overview image.</source>
         <translation>No s'ha pogut pujar la imatge de vista general del paquet.</translation>
     </message>
@@ -8292,7 +8292,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Desa l'adjunt</translation>
     </message>
     <message>
-        <location line="+362"/>
+        <location line="+366"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>No s'ha pogut enviar l'adjunt '%1': %2</translation>
     </message>
@@ -9964,7 +9964,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+75"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
         <source>Feedback</source>
         <translation>Comentaris</translation>
     </message>
@@ -10025,7 +10025,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
         <translation>S'aplica als reproductors d'àudio en línia.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-71"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
         <source>Input</source>
         <translation>Entrada</translation>
     </message>
@@ -10056,6 +10056,16 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     </message>
     <message>
         <location line="+3"/>
+        <source>Attachments</source>
+        <translation type="unfinished">Adjunts</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Emoji</source>
         <translation>Emoji</translation>
     </message>

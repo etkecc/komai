@@ -8568,7 +8568,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Glasovni prepis</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI oblak</translation>
     </message>
@@ -8578,7 +8578,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>API ključ</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Provajder</translation>
     </message>
@@ -8588,7 +8588,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Većina ovih podešavanja može se nadjačati po sobi u Informacije o sobi → Podešavanja.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (jednokratni)</translation>
     </message>
@@ -8643,7 +8643,12 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Osnovna URL adresa API-ja</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Streaming (malo više u realnom vremenu, ali i dalje ne reč po reč) obično nije jednako dobro podržan na svim API serverima i ima tendenciju da košta više. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Saznaj više&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Prikaži/sakrij API ključ</translation>
     </message>

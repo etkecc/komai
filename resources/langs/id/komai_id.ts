@@ -8544,7 +8544,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Transkripsi suara</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
@@ -8554,7 +8554,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Kunci API</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Penyedia</translation>
     </message>
@@ -8564,7 +8564,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Sebagian besar pengaturan ini dapat diganti per ruangan di Info Ruangan → Preferensi.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (sekali jalan)</translation>
     </message>
@@ -8619,7 +8619,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>URL dasar API</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Streaming (sedikit lebih real-time, tetapi masih belum kata per kata) biasanya tidak didukung sebaik itu di berbagai server API dan cenderung lebih mahal. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Pelajari selengkapnya&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Tampilkan/Sembunyikan kunci API</translation>
     </message>

@@ -65,6 +65,7 @@ Item {
         TranscriptionSettingRow {
             Layout.fillWidth: true
             label: qsTr("Provider")
+            description: qsTr("Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers\">Learn more</a>.")
 
             SegmentedButton {
                 width: parent.width

@@ -8544,7 +8544,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Chuyển giọng nói thành văn bản</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>Đám mây OpenAI</translation>
     </message>
@@ -8554,7 +8554,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Khóa API</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Nhà cung cấp</translation>
     </message>
@@ -8564,7 +8564,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Hầu hết các cài đặt này có thể được ghi đè theo từng phòng trong Thông tin phòng → Tùy chọn.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (một lần)</translation>
     </message>
@@ -8619,7 +8619,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>URL cơ sở API</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Streaming (thời gian thực hơn một chút, nhưng vẫn không phải từng từ một) thường không được hỗ trợ tốt trên các máy chủ API và thường tốn kém hơn. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Hiện/Ẩn khóa API</translation>
     </message>

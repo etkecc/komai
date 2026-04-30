@@ -8544,7 +8544,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>音声文字変換</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI クラウド</translation>
     </message>
@@ -8554,7 +8554,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>APIキー</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>プロバイダー</translation>
     </message>
@@ -8564,7 +8564,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>これらの設定のほとんどは、ルーム情報 → 設定でルームごとに上書きできます。</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI バッチ（ワンショット）</translation>
     </message>
@@ -8619,7 +8619,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>APIベースURL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ストリーミング（よりリアルタイムに近いですが、単語ごとではありません）は、APIサーバー全体でのサポートが十分でないことが多く、コストも高くなる傾向があります。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;詳細はこちら&lt;/a&gt;。</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>APIキーの表示/非表示</translation>
     </message>

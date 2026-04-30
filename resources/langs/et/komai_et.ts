@@ -8556,7 +8556,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Hääle transkriptsioon</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI pilv</translation>
     </message>
@@ -8566,7 +8566,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>API võti</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Pakkuja</translation>
     </message>
@@ -8576,7 +8576,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Enamikku neist seadetest saab jututoa kaupa alistada jaotises Jututoa teave → Eelistused.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ühekordne)</translation>
     </message>
@@ -8631,7 +8631,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>API baas-URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Streaming (natuke rohkem reaalajas, kuid siiski mitte sõna-sõnalt) ei ole tavaliselt API serverite vahel nii hästi toetatud ning kipub rohkem maksma. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Loe lisaks&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Näita/peida API võti</translation>
     </message>

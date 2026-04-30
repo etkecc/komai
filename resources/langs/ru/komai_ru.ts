@@ -8568,7 +8568,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Голосовое распознавание</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>Облако OpenAI</translation>
     </message>
@@ -8578,7 +8578,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Ключ API</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Провайдер</translation>
     </message>
@@ -8588,7 +8588,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Большинство этих настроек можно переопределить для каждой комнаты в разделе Информация о комнате → Настройки.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (разовый)</translation>
     </message>
@@ -8643,7 +8643,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Базовый URL API</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Потоковый режим (немного ближе к реальному времени, но всё ещё не пословный) обычно хуже поддерживается API-серверами и, как правило, стоит дороже. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Подробнее&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Показать/скрыть ключ API</translation>
     </message>

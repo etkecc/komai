@@ -8556,7 +8556,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>හඬ පිටපත් කිරීම</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI වලාකුළ</translation>
     </message>
@@ -8566,7 +8566,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API යතුර</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>සේවා සපයන්නා</translation>
     </message>
@@ -8576,7 +8576,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>මෙම සැකසුම් බොහොමයක් කාමර තොරතුරු → මනාපයන් හි කාමරය අනුව වෙනස් කළ හැකිය.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (එකවර)</translation>
     </message>
@@ -8631,7 +8631,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API මූල URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ස්ට්‍රීමිං (තරමක් වැඩි සජීවී, නමුත් තවමත් වචනෙන් වචනය නොවේ) API සේවාදායකයන් හරහා සාමාන්‍යයෙන් හොඳින් සහාය නොකෙරෙන අතර, වැඩි වියදමක් ද දරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;වැඩිදුර දැනගන්න&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>API යතුර පෙන්වන්න/සඟවන්න</translation>
     </message>

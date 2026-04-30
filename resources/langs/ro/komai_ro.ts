@@ -8568,7 +8568,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Transcriere vocală</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
@@ -8578,7 +8578,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Cheie API</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Furnizor</translation>
     </message>
@@ -8588,7 +8588,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Cele mai multe dintre aceste setări pot fi suprascrise per cameră în Info cameră → Preferințe.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (o singură rulare)</translation>
     </message>
@@ -8643,7 +8643,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>URL de bază API</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Streaming-ul (puțin mai aproape de timp real, dar totuși nu cuvânt cu cuvânt) nu este, de obicei, la fel de bine susținut de serverele API și tinde să coste mai mult. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Află mai multe&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Afișează/Ascunde cheia API</translation>
     </message>

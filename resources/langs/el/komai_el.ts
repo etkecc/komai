@@ -8556,7 +8556,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Μεταγραφή φωνής</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
@@ -8566,7 +8566,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Κλειδί API</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Πάροχος</translation>
     </message>
@@ -8576,7 +8576,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Οι περισσότερες από αυτές τις ρυθμίσεις μπορούν να παρακαμφθούν ανά δωμάτιο στις Πληροφορίες δωματίου → Προτιμήσεις.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (one-shot)</translation>
     </message>
@@ -8631,7 +8631,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Βασικό URL API</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Η ροή (λίγο πιο σε πραγματικό χρόνο, αλλά ακόμα όχι λέξη-προς-λέξη) συνήθως δεν υποστηρίζεται τόσο καλά από τους διακομιστές API και τείνει να κοστίζει περισσότερο. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Εμφάνιση/Απόκρυψη κλειδιού API</translation>
     </message>

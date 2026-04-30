@@ -85,6 +85,13 @@ Override Model when you want something different:
 Bumping the default in a future Komai release transparently upgrades anyone who left the field blank — that's why the YAML stores `model: ''` instead of writing a model id at install time.
 
 
+## 🤔 Batch or streaming?
+
+Batch is the safer default: it works with every OpenAI-compatible server, costs less per minute, and shows the full transcript shortly after you release `Space`.
+
+Streaming's appeal is live feedback during longer dictations. For a typical short chat message gesture you barely notice the difference, because the server only transcribes after detecting a silence gap, and a brief hold-to-talk rarely contains one. Streaming is *not* word-by-word: it's phrase-by-phrase, gated by server-side VAD silence detection. It's also more expensive (uses `gpt-4o-mini-transcribe` rather than `whisper-1`) and not every OpenAI-compatible server exposes the realtime WebSocket endpoint.
+
+
 ## 🌐 Compatible providers
 
 ### Cloud (batch + realtime)

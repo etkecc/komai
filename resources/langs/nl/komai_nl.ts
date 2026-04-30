@@ -8556,7 +8556,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Spraaktranscriptie</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI-cloud</translation>
     </message>
@@ -8566,7 +8566,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>API-sleutel</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Aanbieder</translation>
     </message>
@@ -8576,7 +8576,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>De meeste van deze instellingen kunnen per kamer worden overschreven in Kamerinformatie → Voorkeuren.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (eenmalig)</translation>
     </message>
@@ -8631,7 +8631,12 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>API-basis-URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Streaming (een beetje meer realtime, maar nog steeds niet woord-voor-woord) wordt doorgaans minder goed ondersteund door API-servers en neigt ertoe meer te kosten. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Meer informatie&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>API-sleutel tonen/verbergen</translation>
     </message>

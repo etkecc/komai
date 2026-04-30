@@ -8604,7 +8604,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>تحويل الصوت إلى نص</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>سحابة OpenAI</translation>
     </message>
@@ -8614,7 +8614,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>مفتاح API</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>المزوّد</translation>
     </message>
@@ -8624,7 +8624,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>يمكن تجاوز معظم هذه الإعدادات لكل غرفة في معلومات الغرفة → التفضيلات.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>دُفعة OpenAI (مرة واحدة)</translation>
     </message>
@@ -8679,7 +8679,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>عنوان URL الأساسي للـ API</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>البث (أكثر آنيةً قليلاً، لكن لا يزال ليس كلمةً بكلمة) لا يحظى عمومًا بدعم جيد عبر خوادم API وعادةً ما يكون أكثر تكلفةً. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;اعرف المزيد&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>إظهار/إخفاء مفتاح API</translation>
     </message>

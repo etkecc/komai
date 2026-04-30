@@ -8544,7 +8544,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>语音转录</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 云</translation>
     </message>
@@ -8554,7 +8554,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API 密钥</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>提供商</translation>
     </message>
@@ -8564,7 +8564,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>大多数设置可在聊天室信息→偏好设置中按聊天室覆盖。</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 批处理（一次性）</translation>
     </message>
@@ -8619,7 +8619,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API 基础 URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>流式传输（稍微更接近实时，但仍非逐字转录）通常在各 API 服务器上支持程度较低，且费用往往更高。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;了解更多&lt;/a&gt;。</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>显示/隐藏 API 密钥</translation>
     </message>

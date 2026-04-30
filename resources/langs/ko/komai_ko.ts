@@ -8544,7 +8544,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>음성 받아쓰기</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 클라우드</translation>
     </message>
@@ -8554,7 +8554,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API 키</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>제공자</translation>
     </message>
@@ -8564,7 +8564,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>이 설정의 대부분은 방 정보 → 기본 설정에서 방별로 재정의할 수 있습니다.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 배치 (일회성)</translation>
     </message>
@@ -8619,7 +8619,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API 기본 URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>스트리밍(약간 더 실시간에 가깝지만 단어 단위는 아님)은 일반적으로 API 서버에서 지원이 제한적이며 비용이 더 많이 드는 경향이 있습니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;자세히 알아보기&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>API 키 표시/숨기기</translation>
     </message>

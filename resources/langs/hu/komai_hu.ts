@@ -8544,7 +8544,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Hangátirat</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI felhő</translation>
     </message>
@@ -8554,7 +8554,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>API kulcs</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Szolgáltató</translation>
     </message>
@@ -8564,7 +8564,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>A legtöbb beállítás szobánként felülírható a Szoba adatai → Beállítások menüpontban.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (egyszeri)</translation>
     </message>
@@ -8619,7 +8619,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>API alap URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>A streaming (kicsit valósidejűbb, de még mindig nem szó szerinti) általában nincs olyan jól támogatva az API-kiszolgálókon, és többe is szokott kerülni. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Tudjon meg többet&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>API kulcs megjelenítése/elrejtése</translation>
     </message>

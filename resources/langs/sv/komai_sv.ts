@@ -8556,7 +8556,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Rösttranskribering</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI-molnet</translation>
     </message>
@@ -8566,7 +8566,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>API-nyckel</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>Leverantör</translation>
     </message>
@@ -8576,7 +8576,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>De flesta av dessa inställningar kan åsidosättas per rum i Rumsinformation → Inställningar.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (engångs)</translation>
     </message>
@@ -8631,7 +8631,12 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>API-bas-URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Strömning (lite mer i realtid, men fortfarande inte ord för ord) stöds vanligtvis inte lika bra av API-servrar och tenderar att kosta mer. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Läs mer&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>Visa/dölj API-nyckel</translation>
     </message>

@@ -8556,7 +8556,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI ക്ലൗഡ്</translation>
     </message>
@@ -8566,7 +8566,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API കീ</translation>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>Provider</source>
         <translation>പ്രൊവൈഡർ</translation>
     </message>
@@ -8576,7 +8576,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഈ ക്രമീകരണങ്ങളിൽ മിക്കതും Room Info → Preferences-ൽ ഓരോ മുറിക്കും മാറ്റിമറിക്കാം.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ഒറ്റ-ഷോട്ട്)</translation>
     </message>
@@ -8631,7 +8631,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API ബേസ് URL</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-37"/>
+        <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>സ്ട്രീമിങ് (കൂടുതൽ തത്സമയം, എന്നാൽ ഇപ്പോഴും വാക്ക്-ബൈ-വാക്ക് അല്ല) സാധാരണയായി API സെർവറുകളിൽ ഇത്ര നന്നായി പ്രവർത്തിക്കുന്നില്ല, കൂടാതെ കൂടുതൽ ചെലവ് ആകും. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Show/Hide API key</source>
         <translation>API കീ കാണിക്കുക/മറയ്ക്കുക</translation>
     </message>

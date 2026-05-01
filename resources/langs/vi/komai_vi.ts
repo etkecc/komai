@@ -822,15 +822,22 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
         <source>Settings...</source>
         <translation>Cài đặt…</translation>
     </message>
 </context>
 <context>
     <name>CommunitiesListItemDelegate</name>
+    <message numerus="yes">
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <source>%n unread message(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+        </translation>
+    </message>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
+        <location line="+88"/>
         <source>Expand</source>
         <translation>Mở rộng</translation>
     </message>

@@ -49,6 +49,16 @@ ItemDelegate {
     leftInset: 0
     rightInset: 0
 
+    Accessible.role: Accessible.ListItem
+    Accessible.name: model.displayName || ""
+    Accessible.checkable: true
+    Accessible.checked: Communities.currentFilterId === model.id
+    Accessible.description: {
+        if (model.unreadMessages > 0)
+            return qsTr("%n unread message(s)", "", model.unreadMessages);
+        return "";
+    }
+
     background: Rectangle {
         color: communityItem.backgroundColor
 
@@ -170,6 +180,7 @@ ItemDelegate {
                     return "";
             }
             Layout.preferredWidth: depthAvatarSize
+            Accessible.ignored: true
 
             NotificationBubble {
                 anchors.bottom: avatar.bottom
@@ -181,6 +192,7 @@ ItemDelegate {
                 hasLoudNotification: model.hasLoudNotification
                 mayBeVisible: collapsed && !model.unreadIndicatorsHidden && Settings.navigationCommunitiesShowUnreadIndicators
                 unreadCount: model.unreadMessages
+                Accessible.ignored: true
             }
         }
         ElidedLabel {
@@ -192,6 +204,7 @@ ItemDelegate {
             fullText: model.displayName
             textFormat: Text.PlainText
             visible: !collapsed
+            Accessible.ignored: true
         }
         Item {
             Layout.fillWidth: true
@@ -205,6 +218,7 @@ ItemDelegate {
             hasLoudNotification: model.hasLoudNotification
             mayBeVisible: !collapsed && !model.unreadIndicatorsHidden && Settings.navigationCommunitiesShowUnreadIndicators
             unreadCount: model.unreadMessages
+            Accessible.ignored: true
         }
     }
     Rectangle {
@@ -216,5 +230,6 @@ ItemDelegate {
         visible: model.unreadMessages > 0 && Settings.navigationCommunitiesShowUnreadIndicators && !model.unreadIndicatorsHidden
         width: 6
         radius: 3
+        Accessible.ignored: true
     }
 }

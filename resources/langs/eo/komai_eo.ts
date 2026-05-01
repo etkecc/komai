@@ -822,15 +822,23 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
         <source>Settings...</source>
         <translation>Agordoj…</translation>
     </message>
 </context>
 <context>
     <name>CommunitiesListItemDelegate</name>
+    <message numerus="yes">
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <source>%n unread message(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+        </translation>
+    </message>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
+        <location line="+88"/>
         <source>Expand</source>
         <translation>Etendi</translation>
     </message>

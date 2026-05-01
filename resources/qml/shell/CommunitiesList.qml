@@ -295,6 +295,11 @@ Page {
             height: Komai.navigationRowHeight
             color: isHovered ? palette.dark : palette.alternateBase
 
+            Accessible.role: Accessible.Button
+            Accessible.name: displayName.length > 0 ? displayName : mxid
+            Accessible.description: displayName.length > 0 ? mxid : ""
+            Accessible.onPressAction: MainWindow.showUserSettingsPage()
+
             HoverHandler {
                 id: hoverHandler
             }
@@ -350,6 +355,7 @@ Page {
                         fullText: userSettingsItem.mxid
                         textFormat: Text.PlainText
                         font.pixelSize: userSettingsItem.showSecondRow ? Komai.fontPixelSize * 0.9 : Komai.fontPixelSize
+                        Accessible.ignored: true
                     }
 
                     ElidedLabel {
@@ -360,6 +366,7 @@ Page {
                         textFormat: Text.PlainText
                         font.pixelSize: Komai.fontPixelSize * 0.9
                         visible: userSettingsItem.showSecondRow
+                        Accessible.ignored: true
                     }
                 }
             }

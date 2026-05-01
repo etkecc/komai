@@ -822,15 +822,23 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
         <source>Settings...</source>
         <translation>Configurações…</translation>
     </message>
 </context>
 <context>
     <name>CommunitiesListItemDelegate</name>
+    <message numerus="yes">
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <source>%n unread message(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+        </translation>
+    </message>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
+        <location line="+88"/>
         <source>Expand</source>
         <translation>Expandir</translation>
     </message>

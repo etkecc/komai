@@ -822,15 +822,22 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+534"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
         <source>Settings...</source>
         <translation>Ayarlar…</translation>
     </message>
 </context>
 <context>
     <name>CommunitiesListItemDelegate</name>
+    <message numerus="yes">
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <source>%n unread message(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+        </translation>
+    </message>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+136"/>
+        <location line="+88"/>
         <source>Expand</source>
         <translation>Genişlet</translation>
     </message>

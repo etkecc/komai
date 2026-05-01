@@ -10971,7 +10971,7 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Bienvenido a Komai</translation>
     </message>

@@ -11024,7 +11024,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>مرحباً بك في Komai</translation>
     </message>

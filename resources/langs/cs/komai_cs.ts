@@ -10982,7 +10982,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Vítejte v Komai</translation>
     </message>

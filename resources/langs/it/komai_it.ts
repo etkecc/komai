@@ -10968,7 +10968,7 @@ La verifica contrassegna questo dispositivo come attendibile e ti dà accesso ai
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Benvenuto in Komai</translation>
     </message>

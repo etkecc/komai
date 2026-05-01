@@ -10968,7 +10968,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Welkom bij Komai</translation>
     </message>

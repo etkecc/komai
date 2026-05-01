@@ -10968,7 +10968,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Välkommen till Komai</translation>
     </message>

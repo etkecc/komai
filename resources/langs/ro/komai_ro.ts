@@ -10982,7 +10982,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Bun venit la Komai</translation>
     </message>

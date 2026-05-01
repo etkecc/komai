@@ -13,7 +13,11 @@ import "welcome" as Welcome
 
 Rectangle {
     id: root
-    property int maxExpansion: 760
+    // Wide enough for the 1.5×-font tagline to fit on one line in most
+    // languages. Some translations (e.g. Bulgarian, Brazilian Portuguese)
+    // are still long enough to wrap, but the wrap is much shallower than at
+    // the previous 760 limit.
+    property int maxExpansion: 880
 
     readonly property string matrixUrl: "https://matrix.org/"
     readonly property string komaiMeaningUrl: "https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84"

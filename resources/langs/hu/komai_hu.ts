@@ -10954,7 +10954,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Üdvözöl a Komai</translation>
     </message>

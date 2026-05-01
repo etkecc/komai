@@ -10968,7 +10968,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Benvingut a Komai</translation>
     </message>

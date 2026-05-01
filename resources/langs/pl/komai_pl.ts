@@ -10983,7 +10983,7 @@ Weryfikacja oznacza to urządzenie jako zaufane i daje ci dostęp do zaszyfrowan
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Witaj w Komai</translation>
     </message>

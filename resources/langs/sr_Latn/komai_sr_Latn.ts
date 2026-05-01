@@ -10982,7 +10982,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Dobrodošli u Komai</translation>
     </message>

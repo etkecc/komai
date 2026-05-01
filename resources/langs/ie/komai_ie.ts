@@ -10968,7 +10968,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Benvenite a Komai</translation>
     </message>

@@ -10954,7 +10954,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Chào mừng đến với Komai</translation>
     </message>

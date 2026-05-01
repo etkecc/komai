@@ -10954,7 +10954,7 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
         <source>Welcome to Komai</source>
         <translation>Selamat datang di Komai</translation>
     </message>

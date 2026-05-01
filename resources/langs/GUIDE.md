@@ -22,7 +22,16 @@ Komai is a desktop Matrix chat client (fork of nheko). It's a Qt/QML application
    - "Redact" means **delete a message** in Matrix (not "censor" or "edit"). Use the language's common term for deleting/removing a message.
    - If your language already has strings for these terms in this file (non-unfinished entries), match them. Consistency with the existing translation beats a nominally better alternative.
 
-7. **Keyboard shortcuts**: the tokens `Ctrl+…`, `Alt+…`, `Shift+…`, `Meta+…`, `Cmd+…`, and key names inside them (`K`, `F4`, `Enter`, etc.) must be kept **verbatim**. Shortcuts often appear *inside* a larger string (e.g., `"Record a voice message [Ctrl+R]"`): translate everything except the shortcut token itself.
+7. **Keyboard shortcuts and key names**: distinguish four sub-cases — getting this wrong is one of the most visible AI-translation failure modes.
+   - **Modifier combos** (`Ctrl+R`, `Shift+G`, `Alt+F4`, `Meta+…`, `Cmd+…`): keep the entire token verbatim, including the key letter.
+   - **Bare keycap labels** (`Space`, `Enter`, `Return`, `Esc`, `Escape`, `Tab`, `Backspace`, `Delete`, `Home`, `End`, `Page Up`/`Page Down`, `F1`–`F12`): keep verbatim — these match what's printed on the key on most keyboards. **Do not translate `Space` as the noun "space" / "area" / "outer space"** (e.g. Russian "Пространство", Polish "Przestrzeń", Greek "Χώρος", Chinese "空间" are all wrong here). If your language has a well-established native term that's actually printed on local keyboards (e.g. German `Leertaste`, Polish `Spacja`, Czech `mezerník`), that's also acceptable — but never the abstract-noun translation.
+   - **Direction key references** (`Up`, `Down`, `Left`, `Right` when used to mean an arrow key): the arrow keys do not have these words printed on them — they have arrow glyphs. Translate to the Unicode arrow (`↑` `↓` `←` `→`) or to your language's word for the direction. **Never leave bare `Up` / `Down` in the middle of a translated sentence** — users won't know what `Up` is.
+   - **Descriptive verbs around a key label** (`long-press`, `double-click`, `hold`, `press`): always translate. The bracket convention `[long-press Space]` does not freeze the prose verb — it just marks the keycap inside.
+
+   Worked examples:
+   - `"Record a voice message [Ctrl+R]"` → translate everything except `Ctrl+R`.
+   - `"Hold or click to transcribe speech to text [long-press Space]"` → translate the prose **and** `long-press`; keep `Space`. ✅ German: `[Space lange drücken]`. ❌ `[long-press Space]` left literal.
+   - `"Write a message, or press ↑ to select messages."` → keep `↑` verbatim, translate the rest. (If a source string still says `Up` or `Down` in prose, prefer `↑` / `↓` over leaving the English word.)
 
 8. **Qt mnemonic accelerators**: Qt uses `&` to mark a menu/button keyboard accelerator.
    - `&File` means "F" is the mnemonic key. Keep exactly one `&` immediately before a letter suitable for your language, ideally one that matches the English letter when the target language has it. If no sensible accelerator exists, you may drop the `&` — but prefer to keep one.

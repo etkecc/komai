@@ -3563,8 +3563,8 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Napište zprávu nebo stiskněte Nahoru pro výběr zpráv.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Napiš zprávu nebo stiskni ↑ pro výběr zpráv.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5906,12 +5906,12 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="+16"/>
         <source>Configure</source>
-        <translation>Nastavit</translation>
+        <translation>Konfigurovat</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Sbalit odpovědi vláken</translation>
+        <translation>Sbalit odpovědi ve vlákně</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5938,7 +5938,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="+22"/>
         <source>Voice transcription</source>
-        <translation>Hlasový přepis</translation>
+        <translation>Přepis hlasu</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6042,7 +6042,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Příklad: Jména: Alice, Bob, Carol. Žargon: Matrix, Komai, federation.</translation>
+        <translation>Příklad: Jména: Alice, Bob, Carol. Žargon: Matrix, Komai, federace.</translation>
     </message>
 </context>
 <context>
@@ -6959,11 +6959,6 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6974,11 +6969,6 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Dolů</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7033,9 +7023,10 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Výběr</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Prostor</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>mezerník</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7048,8 +7039,9 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Akce</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7173,8 +7165,9 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Opustit režim výběru a vrátit se do editoru</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8605,7 +8598,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message>
         <location line="+34"/>
         <source>API key</source>
-        <translation>Klíč API</translation>
+        <translation>API klíč</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -8680,7 +8673,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message>
         <location line="+105"/>
         <source>Show/Hide API key</source>
-        <translation>Zobrazit/Skrýt klíč API</translation>
+        <translation>Zobrazit/Skrýt API klíč</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -9631,7 +9624,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Potvrzení přečtení</translation>
+        <translation>Potvrzení o přečtení</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10258,7 +10251,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Serverová oznámení</translation>
+        <translation>Oznámení serveru</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11081,12 +11074,12 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation>👍🏻 Světlý</translation>
+        <translation>👍🏻 Světlá</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Středně světlý</translation>
+        <translation>👍🏼 Středně světlá</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11096,12 +11089,12 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Středně tmavý</translation>
+        <translation>👍🏾 Středně tmavá</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation>👍🏿 Tmavý</translation>
+        <translation>👍🏿 Tmavá</translation>
     </message>
 </context>
 <context>

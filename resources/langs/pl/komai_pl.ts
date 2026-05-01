@@ -3563,8 +3563,8 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Napisz wiadomość lub naciśnij Góra, aby wybrać wiadomości.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Napisz wiadomość lub naciśnij ↑, aby wybrać wiadomości.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5939,7 +5939,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+22"/>
         <source>Voice transcription</source>
-        <translation>Transkrypcja głosowa</translation>
+        <translation>Transkrypcja głosu</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -5993,7 +5993,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+26"/>
         <source>Show/Hide API key</source>
-        <translation>Pokaż/ukryj klucz API</translation>
+        <translation>Pokaż/Ukryj klucz API</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6043,7 +6043,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Przykład: Imiona: Alice, Bob, Carol. Żargon: Matrix, Komai, federation.</translation>
+        <translation>Przykład: Imiona: Alice, Bob, Carol. Żargon: Matrix, Komai, federacja.</translation>
     </message>
 </context>
 <context>
@@ -6960,11 +6960,6 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6975,11 +6970,6 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Dół</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7034,9 +7024,10 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Zaznaczenie</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Przestrzeń</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Spacja</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7049,8 +7040,9 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Akcje</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7174,8 +7166,9 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Wyjdź z trybu zaznaczania i wróć do edytora</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8636,7 +8629,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <message>
         <location line="+6"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Inny (serwer zgodny z OpenAI)</translation>
+        <translation>Inny (serwer kompatybilny z OpenAI)</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -8701,7 +8694,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <message>
         <location line="+10"/>
         <source>Prompt</source>
-        <translation>Prompt</translation>
+        <translation>Polecenie</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9611,7 +9604,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Zwiń odpowiedzi w wątkach</translation>
+        <translation>Zwijanie odpowiedzi w wątkach</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9632,7 +9625,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Potwierdzenia odczytania</translation>
+        <translation>Potwierdzenia odczytu</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10229,7 +10222,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Osoby</translation>
+        <translation>Ludzie</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10259,7 +10252,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Server Notices</translation>
+        <translation>Ogłoszenia Serwera</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10559,7 +10552,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Zamknij do zasobnika</translation>
+        <translation>Minimalizuj do zasobnika</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10739,7 +10732,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Serwer domowy</translation>
+        <translation>Homeserver</translation>
     </message>
     <message>
         <location line="+4"/>

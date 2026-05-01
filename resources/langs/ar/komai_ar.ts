@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>تصغير إلى الحاوية</translation>
+        <translation>الإغلاق إلى صينية النظام</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3575,8 +3575,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>اكتب رسالة، أو اضغط على السهم لأعلى لتحديد الرسائل.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>اكتب رسالةً، أو اضغط ↑ لتحديد الرسائل.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -3606,7 +3606,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation>الإعدادات…</translation>
+        <translation>الإعدادات...</translation>
     </message>
 </context>
 <context>
@@ -5927,7 +5927,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+16"/>
         <source>Configure</source>
-        <translation>تكوين</translation>
+        <translation>إعداد</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6655,7 +6655,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation>ظهور الرسائل</translation>
+        <translation>رؤية الرسائل</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6938,7 +6938,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+5"/>
         <source>Show mouse cursor</source>
-        <translation>إظهار مؤشر الماوس</translation>
+        <translation>إظهار مؤشر الفأرة</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -6980,11 +6980,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>أعلى</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6995,11 +6990,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7054,9 +7044,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>التحديد</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>فضاء</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7069,8 +7060,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>الإجراءات</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7194,8 +7186,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>الخروج من وضع التحديد والعودة إلى المحرر</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8631,7 +8624,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>تحويل الصوت إلى نص</translation>
+        <translation>النسخ الصوتي</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -8646,7 +8639,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="-59"/>
         <source>Provider</source>
-        <translation>المزوّد</translation>
+        <translation>المزوِّد</translation>
     </message>
     <message>
         <location line="-6"/>
@@ -8656,12 +8649,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>دُفعة OpenAI (مرة واحدة)</translation>
+        <translation>OpenAI Batch (مرة واحدة)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI الوقت الفعلي (بث مباشر)</translation>
+        <translation>OpenAI Realtime (بث مباشر)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8736,7 +8729,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+10"/>
         <source>Prompt</source>
-        <translation>موجّه</translation>
+        <translation>التوجيه</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9556,7 +9549,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>معاينة المحادثة</translation>
+        <translation>معاينة الجدول الزمني</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9652,7 +9645,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>طي ردود السلسلة</translation>
+        <translation>طي ردود السلاسل</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10042,7 +10035,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
-        <translation>إدخال</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10790,7 +10783,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation>جهاز</translation>
+        <translation>الجهاز</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -10815,7 +10808,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation>المستخدمون المتجاهلون</translation>
+        <translation>المستخدمون المتجاهَلون</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -11073,7 +11066,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
         <source>Theme</source>
-        <translation>المظهر</translation>
+        <translation>السمة</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -11128,7 +11121,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 متوسط فاتح</translation>
+        <translation>👍🏼 فاتح متوسط</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11138,7 +11131,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 متوسط داكن</translation>
+        <translation>👍🏾 داكن متوسط</translation>
     </message>
     <message>
         <location line="+1"/>

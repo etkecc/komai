@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>縮小至系統匣</translation>
+        <translation>最小化至系統列</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -900,7 +900,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-94"/>
         <source>Favourites</source>
-        <translation>最愛</translation>
+        <translation>我的最愛</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3555,8 +3555,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>輸入訊息，或按向上鍵選擇訊息。</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>輸入訊息，或按 ↑ 選取訊息。</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4688,7 +4688,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
         <source>Reactions</source>
-        <translation>回應</translation>
+        <translation>反應</translation>
     </message>
 </context>
 <context>
@@ -6018,7 +6018,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>提示詞</translation>
+        <translation>提示</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6945,11 +6945,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,9 +7009,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>選取</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>空間</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>空白鍵</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7034,8 +7025,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>操作</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>退出選取模式並返回輸入框</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7312,7 +7305,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>暫不設定</translation>
+        <translation>暫不</translation>
     </message>
 </context>
 <context>
@@ -8641,7 +8634,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>範例：姓名：Alice、Bob、Carol。術語：Matrix、Komai、federation。</translation>
+        <translation>範例：名稱：Alice、Bob、Carol。術語：Matrix、Komai、federation。</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -9582,7 +9575,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>摺疊討論串回覆</translation>
+        <translation>折疊討論串回覆</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9603,7 +9596,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>已讀回條</translation>
+        <translation>已讀回執</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10200,7 +10193,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>人員</translation>
+        <translation>人物</translation>
     </message>
     <message>
         <location line="+1"/>

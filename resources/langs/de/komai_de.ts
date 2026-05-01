@@ -767,7 +767,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>In den Infobereich minimieren</translation>
+        <translation>In Tray schließen</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -811,7 +811,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Ungelesene Indikatoren anzeigen</translation>
+        <translation>Ungelesen-Indikatoren anzeigen</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -910,7 +910,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Serverbenachrichtigungen</translation>
+        <translation>Server Notices</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Nachricht schreiben oder Aufwärts drücken, um Nachrichten auszuwählen.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Schreib eine Nachricht oder drücke ↑, um Nachrichten auszuwählen.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5884,7 +5884,7 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
         <location line="-320"/>
         <location line="+321"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Anderer (OpenAI-kompatibler Server)</translation>
+        <translation>Andere (OpenAI-kompatibler Server)</translation>
     </message>
     <message>
         <location line="-305"/>
@@ -6952,11 +6952,6 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Aufwärts</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Unten</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Auswahl</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Space</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Aktionen</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Eingabe</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Auswahlmodus verlassen und zum Schreibfeld zurückkehren</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8588,7 +8581,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI-Cloud</translation>
+        <translation>OpenAI Cloud</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8653,7 +8646,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Beispiel: Namen: Alice, Bob, Carol. Jargon: Matrix, Komai, Federation.</translation>
+        <translation>Beispiel: Namen: Alice, Bob, Carol. Fachbegriffe: Matrix, Komai, federation.</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -9500,7 +9493,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Zeitleistenvorschau</translation>
+        <translation>Timeline-Vorschau</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9986,7 +9979,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
-        <translation>Enter</translation>
+        <translation>Eingabe</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10214,7 +10207,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Personen</translation>
+        <translation>Leute</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11072,7 +11065,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Mittelhell</translation>
+        <translation>👍🏼 Mittel-hell</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,7 +11075,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Mitteldunkel</translation>
+        <translation>👍🏾 Mittel-dunkel</translation>
     </message>
     <message>
         <location line="+1"/>

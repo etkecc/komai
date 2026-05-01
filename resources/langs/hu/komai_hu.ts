@@ -910,7 +910,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Szerver értesítések</translation>
+        <translation>Kiszolgálói értesítések</translation>
     </message>
 </context>
 <context>
@@ -3555,8 +3555,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Írjon üzenetet, vagy nyomja meg a Fel billentyűt az üzenetek kiválasztásához.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Írj üzenetet, vagy nyomj ↑-t az üzenetek kijelöléséhez.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5958,7 +5958,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location line="+52"/>
         <source>API key</source>
-        <translation>API-kulcs</translation>
+        <translation>API kulcs</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -5978,7 +5978,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location line="+26"/>
         <source>Show/Hide API key</source>
-        <translation>API-kulcs megjelenítése/elrejtése</translation>
+        <translation>API kulcs megjelenítése/elrejtése</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6544,7 +6544,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <location line="+12"/>
         <location line="+36"/>
         <source>Configure</source>
-        <translation>Konfigurálás</translation>
+        <translation>Beállítás</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -6945,11 +6945,6 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Fel</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Le</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,9 +7009,10 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Kijelölés</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Tér</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Szóköz</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7034,8 +7025,9 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Műveletek</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Kilépés a Kijelölési módból és visszatérés a szerkesztőhöz</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7530,7 +7523,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>Idővonal előnézet</translation>
+        <translation>Idősor-előnézet</translation>
     </message>
 </context>
 <context>
@@ -8571,7 +8564,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>Hangátirat</translation>
+        <translation>Hangtranszkripció</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -8616,12 +8609,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+19"/>
         <source>Example: http://localhost:8080/v1</source>
-        <translation>Például: http://localhost:8080/v1</translation>
+        <translation>Példa: http://localhost:8080/v1</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Example: sk-…</source>
-        <translation>Például: sk-…</translation>
+        <translation>Példa: sk-…</translation>
     </message>
     <message>
         <location line="+41"/>
@@ -8641,7 +8634,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Például: Nevek: Alice, Bob, Carol. Zsargon: Matrix, Komai, federation.</translation>
+        <translation>Példa: Nevek: Alice, Bob, Carol. Szakkifejezések: Matrix, Komai, federation.</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -8661,12 +8654,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+20"/>
         <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Például: gpt-4o-mini-transcribe</translation>
+        <translation>Példa: gpt-4o-mini-transcribe</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Example: whisper-1</source>
-        <translation>Például: whisper-1</translation>
+        <translation>Példa: whisper-1</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -10200,7 +10193,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Személyek</translation>
+        <translation>Emberek</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10375,7 +10368,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+3"/>
         <source>Voice transcription</source>
-        <translation>Hangátírás</translation>
+        <translation>Hangtranszkripció</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10530,7 +10523,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Tálcára zárás</translation>
+        <translation>Bezárás a tálcára</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10685,7 +10678,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+3"/>
         <source>Server</source>
-        <translation>Kiszolgáló</translation>
+        <translation>Szerver</translation>
     </message>
     <message>
         <location line="+1"/>

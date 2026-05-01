@@ -67,7 +67,7 @@
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>Servidor de origem</translation>
+        <translation>Homeserver</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -905,12 +905,12 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation>Prioridade baixa</translation>
+        <translation>Baixa Prioridade</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Avisos do servidor</translation>
+        <translation>Avisos do Servidor</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Escreva uma mensagem ou prima Para Cima para selecionar mensagens.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Escreva uma mensagem ou prima ↑ para selecionar mensagens.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5872,7 +5872,7 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (única vez)</translation>
+        <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
         <location line="-219"/>
@@ -6035,7 +6035,7 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Exemplo: Nomes: Alice, Bob, Carol. Jargão: Matrix, Komai, federação.</translation>
+        <translation>Exemplo: Nomes: Alice, Bob, Carol. Jargão: Matrix, Komai, federation.</translation>
     </message>
 </context>
 <context>
@@ -6952,11 +6952,6 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Cima</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
         <translation>Seleção</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Espaço</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
         <translation>Ações</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
         <translation>Sair do modo de Seleção e voltar ao compositor</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7537,7 +7530,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>Pré-visualização da linha do tempo</translation>
+        <translation>Pré-visualização da linha de tempo</translation>
     </message>
 </context>
 <context>
@@ -8588,7 +8581,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI cloud</translation>
+        <translation>Nuvem OpenAI</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -9596,7 +9589,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Recolher respostas do tópico</translation>
+        <translation>Recolher respostas de tópico</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10544,7 +10537,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Fechar para o tabuleiro</translation>
+        <translation>Fechar para a bandeja do sistema</translation>
     </message>
     <message>
         <location line="+1"/>

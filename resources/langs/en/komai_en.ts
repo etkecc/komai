@@ -3553,7 +3553,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
+        <source>Write a message, or press ↑ to select messages.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6922,11 +6922,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation type="unfinished"/>
     </message>
@@ -6937,11 +6932,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation type="unfinished"/>
     </message>
@@ -6996,8 +6986,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -7011,8 +7002,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -7136,8 +7128,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation type="unfinished"/>
     </message>
     <message>

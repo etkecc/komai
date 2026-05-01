@@ -767,7 +767,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>Thu vào khay hệ thống</translation>
+        <translation>Thu nhỏ xuống khay hệ thống</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3555,8 +3555,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Viết tin nhắn, hoặc nhấn Lên để chọn tin nhắn.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Viết tin nhắn, hoặc nhấn ↑ để chọn tin nhắn.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -6903,7 +6903,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+5"/>
         <source>Show mouse cursor</source>
-        <translation>Hiện con trỏ chuột</translation>
+        <translation>Hiển thị con trỏ chuột</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -6945,11 +6945,6 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Xuống</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,9 +7009,10 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Chọn</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Không gian</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7034,8 +7025,9 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Hành động</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Thoát chế độ Chọn và quay lại trình soạn thảo</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7312,7 +7305,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>Chưa phải lúc này</translation>
+        <translation>Không phải lúc này</translation>
     </message>
 </context>
 <context>
@@ -8571,7 +8564,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>Chuyển giọng nói thành văn bản</translation>
+        <translation>Phiên âm giọng nói</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -9582,7 +9575,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Thu gọn trả lời luồng</translation>
+        <translation>Thu gọn phản hồi chủ đề</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9603,7 +9596,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Biên nhận đọc</translation>
+        <translation>Xác nhận đã đọc</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9614,7 +9607,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation>Thao tác</translation>
+        <translation>Hành động</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -10044,7 +10037,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+3"/>
         <source>Theme</source>
-        <translation>Giao diện</translation>
+        <translation>Chủ đề</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10200,7 +10193,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Mọi người</translation>
+        <translation>Con người</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10730,7 +10723,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation>Token truy cập</translation>
+        <translation>Mã truy cập</translation>
     </message>
     <message>
         <location line="+1"/>

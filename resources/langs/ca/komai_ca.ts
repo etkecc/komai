@@ -67,7 +67,7 @@
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>Servidor inicial</translation>
+        <translation>Servidor d'inici</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -811,7 +811,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Mostra indicadors de no llegits</translation>
+        <translation>Mostra els indicadors de no llegit</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1043,7 +1043,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+17"/>
         <source>Settings</source>
-        <translation>Paràmetres</translation>
+        <translation>Configuració</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3559,8 +3559,8 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Escriu un missatge, o prem Amunt per seleccionar missatges.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Escriu un missatge, o prem ↑ per seleccionar missatges.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5372,7 +5372,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location line="+52"/>
         <source>Language</source>
-        <translation>Llengua</translation>
+        <translation>Idioma</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -5884,7 +5884,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
         <location line="-320"/>
         <location line="+321"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Altres (servidor compatible amb OpenAI)</translation>
+        <translation>Altre (servidor compatible amb OpenAI)</translation>
     </message>
     <message>
         <location line="-305"/>
@@ -5904,7 +5904,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Replegar les respostes dels fils</translation>
+        <translation>Col·lapsa les respostes del fil</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -6025,7 +6025,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>Prompt</translation>
+        <translation>Indicació</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6952,11 +6952,6 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Avall</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Selecció</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Espai</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Accions</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Surt del mode de selecció i torna al compositor</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7537,7 +7530,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>Previsualització de la línia de temps</translation>
+        <translation>Previsualització de la cronologia</translation>
     </message>
 </context>
 <context>
@@ -8588,12 +8581,12 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI al núvol</translation>
+        <translation>Núvol d'OpenAI</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>API key</source>
-        <translation>Clau de l'API</translation>
+        <translation>Clau d'API</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -8608,12 +8601,12 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI per lots (un sol cop)</translation>
+        <translation>OpenAI Batch (un sol cop)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI en temps real (en flux)</translation>
+        <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8668,7 +8661,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+105"/>
         <source>Show/Hide API key</source>
-        <translation>Mostra/Amaga la clau de l'API</translation>
+        <translation>Mostra/Amaga la clau d'API</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -9986,7 +9979,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
-        <translation>Retorn</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10022,12 +10015,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location line="+9"/>
         <source>👍🏻 Light</source>
-        <translation>👍🏻 Clara</translation>
+        <translation>👍🏻 Clar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Mitjana clara</translation>
+        <translation>👍🏼 Clar-mitjà</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10037,12 +10030,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Mitjana fosca</translation>
+        <translation>👍🏾 Fosc-mitjà</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation>👍🏿 Fosca</translation>
+        <translation>👍🏿 Fosc</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
@@ -10204,7 +10197,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location line="+14"/>
         <source>Favourites</source>
-        <translation>Preferits</translation>
+        <translation>Favorits</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11077,7 +11070,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation>👍🏽 Mitjà</translation>
+        <translation>👍🏽 Mitjana</translation>
     </message>
     <message>
         <location line="+1"/>

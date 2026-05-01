@@ -1153,7 +1153,7 @@ Rectangle {
                 leftPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 padding: 0
                 font.pointSize: Settings.uiFontSizePt
-                placeholderText: inputBar.hasUploads ? "" : qsTr("Write a message, or press Up to select messages.")
+                placeholderText: inputBar.hasUploads ? "" : qsTr("Write a message, or press ↑ to select messages.")
                 placeholderTextColor: palette.buttonText
                 selectByMouse: true
                 topPadding: Komai.composerTextAreaPadding

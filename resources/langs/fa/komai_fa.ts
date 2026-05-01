@@ -67,7 +67,7 @@
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>سرور خانگی</translation>
+        <translation>سرور خانه</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -3555,8 +3555,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>یک پیام بنویسید، یا کلید بالا را فشار دهید تا پیام‌ها انتخاب شوند.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>پیامی بنویسید، یا ↑ را فشار دهید تا پیام‌ها را انتخاب کنید.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5924,7 +5924,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+22"/>
         <source>Voice transcription</source>
-        <translation>رونوشت صوتی</translation>
+        <translation>تبدیل گفتار به متن</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -5978,7 +5978,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+26"/>
         <source>Show/Hide API key</source>
-        <translation>نمایش/پنهان‌کردن کلید API</translation>
+        <translation>نمایش/مخفی کردن کلید API</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6018,7 +6018,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>پرامپت</translation>
+        <translation>راهنما</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6028,7 +6028,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>مثال: نام‌ها: Alice، Bob، Carol. اصطلاحات: Matrix، Komai، federation.</translation>
+        <translation>مثال: نام‌ها: Alice, Bob, Carol. اصطلاحات: Matrix, Komai, federation.</translation>
     </message>
 </context>
 <context>
@@ -6945,11 +6945,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>پایین</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,9 +7009,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>انتخاب</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>فضا</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7034,8 +7025,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>اقدامات</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>خروج از حالت انتخاب و بازگشت به ویرایشگر</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7530,7 +7523,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+32"/>
         <source>Timeline preview</source>
-        <translation>پیش‌نمایش خط زمانی</translation>
+        <translation>پیش‌نمایش جدول زمانی</translation>
     </message>
 </context>
 <context>
@@ -8596,12 +8589,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI دسته‌ای (یکباره)</translation>
+        <translation>OpenAI Batch (یک‌باره)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI بلادرنگ (جریانی)</translation>
+        <translation>OpenAI Realtime (جریانی)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -9603,7 +9596,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>رسیدهای خواندن</translation>
+        <translation>تأییدیه‌های خواندن</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10013,7 +10006,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 نیمه‌روشن</translation>
+        <translation>👍🏼 روشن متوسط</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10023,7 +10016,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 نیمه‌تیره</translation>
+        <translation>👍🏾 تیره متوسط</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10190,7 +10183,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+14"/>
         <source>Favourites</source>
-        <translation>موردعلاقه‌ها</translation>
+        <translation>علاقه‌مندی‌ها</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10375,7 +10368,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Voice transcription</source>
-        <translation>رونویسی صوتی</translation>
+        <translation>تبدیل گفتار به متن</translation>
     </message>
     <message>
         <location line="+1"/>

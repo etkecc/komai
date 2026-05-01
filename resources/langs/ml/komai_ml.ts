@@ -67,7 +67,7 @@
     <message>
         <location line="+37"/>
         <source>Homeserver</source>
-        <translation>ഹോംസർവർ</translation>
+        <translation>ഹോംസെർവർ</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -3559,8 +3559,8 @@ If the problem persists, you can log out and sign in again, but this will delete
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ Up അമർത്തുക.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ ↑ അമർത്തുക.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5866,13 +5866,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
         <location line="+227"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI റിയൽടൈം (സ്ട്രീമിംഗ്)</translation>
+        <translation>OpenAI Realtime (സ്ട്രീമിംഗ്)</translation>
     </message>
     <message>
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI ബാച്ച് (ഒറ്റ-ഷോട്ട്)</translation>
+        <translation>OpenAI Batch (ഒറ്റ-ഷോട്ട്)</translation>
     </message>
     <message>
         <location line="-219"/>
@@ -6952,11 +6952,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>തിരഞ്ഞെടുക്കൽ</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>സ്പേസ്</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>സെലക്ഷൻ മോഡ് ഉപേക്ഷിച്ച് കംപോസറിലേക്ക് മടങ്ങുക</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8583,7 +8576,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ</translation>
+        <translation>ശബ്ദ ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -8623,7 +8616,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+6"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>മറ്റ് (OpenAI-compatible സെർവർ)</translation>
+        <translation>മറ്റുള്ളവ (OpenAI-compatible സെർവർ)</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -8653,7 +8646,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>ഉദാഹരണം: പേരുകൾ: Alice, Bob, Carol. പ്രത്യേക പദങ്ങൾ: Matrix, Komai, federation.</translation>
+        <translation>ഉദാഹരണം: പേരുകൾ: Alice, Bob, Carol. ജാർഗൺ: Matrix, Komai, federation.</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -8763,7 +8756,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
         <source>Attachments</source>
-        <translation>അറ്റാച്ച്‌മെന്റുകൾ</translation>
+        <translation>അറ്റാച്ച്മെന്റുകൾ</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -10244,7 +10237,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>സർവർ നോട്ടീസുകൾ</translation>
+        <translation>സെർവർ അറിയിപ്പുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10699,7 +10692,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+3"/>
         <source>Server</source>
-        <translation>സർവർ</translation>
+        <translation>സെർവർ</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11067,27 +11060,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation>👍🏻 ലൈറ്റ്</translation>
+        <translation>👍🏻 ഇളം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 മീഡിയം-ലൈറ്റ്</translation>
+        <translation>👍🏼 ഇളം-ഇടത്തരം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation>👍🏽 മീഡിയം</translation>
+        <translation>👍🏽 ഇടത്തരം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 മീഡിയം-ഡാർക്ക്</translation>
+        <translation>👍🏾 ഇടത്തരം-ഇരുണ്ട</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation>👍🏿 ഡാർക്ക്</translation>
+        <translation>👍🏿 ഇരുണ്ട</translation>
     </message>
 </context>
 <context>

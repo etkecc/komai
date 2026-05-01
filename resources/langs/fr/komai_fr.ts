@@ -767,7 +767,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>Réduire dans la zone de notification</translation>
+        <translation>Réduire dans la barre système</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -811,7 +811,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Afficher les indicateurs non lus</translation>
+        <translation>Afficher les indicateurs de non-lu</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -910,7 +910,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Notifications du serveur</translation>
+        <translation>Avis du serveur</translation>
     </message>
 </context>
 <context>
@@ -1066,7 +1066,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+1"/>
         <source>Hold or click to transcribe speech to text [long-press Space]</source>
-        <translation>Maintenir ou cliquer pour transcrire la parole en texte [long-press Space]</translation>
+        <translation>Maintenir ou cliquer pour transcrire la parole en texte [appui long sur Espace]</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Écrivez un message, ou appuyez sur Haut pour sélectionner des messages.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Écrivez un message, ou appuyez sur ↑ pour sélectionner des messages.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5878,7 +5878,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <location line="-219"/>
         <location line="+321"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI cloud</translation>
+        <translation>Cloud OpenAI</translation>
     </message>
     <message>
         <location line="-320"/>
@@ -6025,7 +6025,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>Prompt</translation>
+        <translation>Invite</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6952,11 +6952,6 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Haut</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Bas</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Sélection</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Espace</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Actions</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Entrée</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Quitter le mode Sélection et revenir au compositeur</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Échap</translation>
     </message>
     <message>
@@ -9596,7 +9589,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Réduire les réponses du fil</translation>
+        <translation>Réduire les réponses aux fils</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9617,7 +9610,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Confirmations de lecture</translation>
+        <translation>Accusés de lecture</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9869,7 +9862,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+2"/>
         <source>All Files (*)</source>
-        <translation>Tous les fichiers (*)</translation>
+        <translation>Tous les types de fichiers (*)</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
@@ -10027,7 +10020,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Moyen-clair</translation>
+        <translation>👍🏼 Moyen clair</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10037,7 +10030,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Moyen-foncé</translation>
+        <translation>👍🏾 Moyen foncé</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10719,7 +10712,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Identifiant utilisateur</translation>
+        <translation>ID d'utilisateur</translation>
     </message>
     <message>
         <location line="+4"/>

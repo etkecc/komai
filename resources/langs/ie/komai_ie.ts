@@ -900,17 +900,17 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="-94"/>
         <source>Favourites</source>
-        <translation>Favorits</translation>
+        <translation>Favorites</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation>Priorité Bass</translation>
+        <translation>Prioritá basse</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Notificationes de Servidor</translation>
+        <translation>Avisos del Servidor</translation>
     </message>
 </context>
 <context>
@@ -1066,7 +1066,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+1"/>
         <source>Hold or click to transcribe speech to text [long-press Space]</source>
-        <translation>Tener o clicar por transcriber parla a text [long-press Space]</translation>
+        <translation>Tener o clicar por transcriber voce a texto [presar longe Space]</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Scriber un mesage, o presser Up por selecter mesages.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Scriver un mesage, o presar ↑ por seleter mesages.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -3590,7 +3590,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation>Configurationes…</translation>
+        <translation>Parametres…</translation>
     </message>
 </context>
 <context>
@@ -4694,7 +4694,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     <message>
         <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
         <source>Reactions</source>
-        <translation>Reactiones</translation>
+        <translation>Reacciones</translation>
     </message>
 </context>
 <context>
@@ -5872,19 +5872,19 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (un tir)</translation>
+        <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
         <location line="-219"/>
         <location line="+321"/>
         <source>OpenAI cloud</source>
-        <translation>nuve OpenAI</translation>
+        <translation>OpenAI cloud</translation>
     </message>
     <message>
         <location line="-320"/>
         <location line="+321"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Altre (servidor compatible con OpenAI)</translation>
+        <translation>Altre (servidor compatibil con OpenAI)</translation>
     </message>
     <message>
         <location line="-305"/>
@@ -5936,7 +5936,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+27"/>
         <source>Provider</source>
-        <translation>Provider</translation>
+        <translation>Furnitor</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -6025,7 +6025,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>Prompte</translation>
+        <translation>Prompt</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6627,7 +6627,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation>Visibilità de mesages</translation>
+        <translation>Visibilitat de mesages</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6952,11 +6952,6 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Avallu</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Selection</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Spacie</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Actiones</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Sortir del mode de selection e retornar al compositor</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7319,7 +7312,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>Nu non</translation>
+        <translation>Ne nu</translation>
     </message>
 </context>
 <context>
@@ -8593,7 +8586,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+34"/>
         <source>API key</source>
-        <translation>Clave del API</translation>
+        <translation>Clave API</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -8613,7 +8606,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI Realtime (streaming)</translation>
+        <translation>OpenAI Realtime (fluxe)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8668,7 +8661,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+105"/>
         <source>Show/Hide API key</source>
-        <translation>Monstrar/Celar clave del API</translation>
+        <translation>Monstrar/Celar clave API</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -9500,7 +9493,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Prevision del timeline</translation>
+        <translation>Prevision de timeline</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9596,7 +9589,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Collapsar li responsas de filament</translation>
+        <translation>Colapsar responces de filament</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9617,7 +9610,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Confirmations de lectura</translation>
+        <translation>Confirmation de lecture</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9764,7 +9757,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>Bureau</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9869,7 +9862,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+2"/>
         <source>All Files (*)</source>
-        <translation>Omni Ficheros (*)</translation>
+        <translation>Omni Files (*)</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
@@ -10184,7 +10177,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Montrar indicatores de non-legit</translation>
+        <translation>Monstrar indicatores de non-lect</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10194,7 +10187,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>All rooms</source>
-        <translation>Omni salles</translation>
+        <translation>Omni chambres</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10389,7 +10382,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>Voice transcription</source>
-        <translation>Transcription de voce</translation>
+        <translation>Transcription vocal</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10399,7 +10392,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation>Attachaments</translation>
+        <translation>Attachamentos</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -10664,7 +10657,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+4"/>
         <source>Show mouse cursor</source>
-        <translation>Montrar li cursor del mouse</translation>
+        <translation>Monstrar cursor del muse</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
@@ -10714,7 +10707,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation>Conte</translation>
+        <translation>Conto</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -10744,7 +10737,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation>Token de accesse</translation>
+        <translation>Token de acces</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10774,7 +10767,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation>Nome</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location line="+4"/>

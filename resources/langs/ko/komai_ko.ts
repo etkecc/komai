@@ -3555,8 +3555,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>메시지를 입력하거나 위 방향키를 눌러 메시지를 선택하세요.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>메시지를 작성하거나, ↑를 눌러 메시지를 선택하세요.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5882,7 +5882,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="-305"/>
         <source>Message visibility</source>
-        <translation>메시지 표시 여부</translation>
+        <translation>메시지 공개 설정</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -6945,11 +6945,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>아래</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,8 +7009,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>선택</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>스페이스</translation>
     </message>
     <message>
@@ -7034,8 +7025,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>작업</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>선택 모드를 종료하고 작성기로 돌아가기</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8571,7 +8564,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>음성 받아쓰기</translation>
+        <translation>음성 텍스트 변환</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -10170,7 +10163,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>읽지 않음 표시기 표시</translation>
+        <translation>읽지 않음 표시 보기</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10230,7 +10223,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>서버 공지사항</translation>
+        <translation>서버 공지</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10385,7 +10378,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Attachments</source>
-        <translation>첨부파일</translation>
+        <translation>첨부 파일</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -10745,7 +10738,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation>차단된 사용자</translation>
+        <translation>무시된 사용자</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -11058,7 +11051,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 중간-밝은 피부</translation>
+        <translation>👍🏼 중간 밝은 피부</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11068,7 +11061,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 중간-어두운 피부</translation>
+        <translation>👍🏾 중간 어두운 피부</translation>
     </message>
     <message>
         <location line="+1"/>

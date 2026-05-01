@@ -767,7 +767,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>Minimizar para a bandeja</translation>
+        <translation>Fechar para a bandeja</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -811,7 +811,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Mostrar indicadores de não lidos</translation>
+        <translation>Mostrar indicadores de não lidas</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -910,7 +910,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Avisos do servidor</translation>
+        <translation>Avisos do Servidor</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Escreva uma mensagem ou pressione ↑ para selecionar mensagens.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Digite uma mensagem, ou pressione ↑ para selecionar mensagens.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5965,7 +5965,7 @@ Os backups de chave no servidor não são removidos automaticamente.</translatio
     <message>
         <location line="+52"/>
         <source>API key</source>
-        <translation>Chave de API</translation>
+        <translation>Chave da API</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -5985,7 +5985,7 @@ Os backups de chave no servidor não são removidos automaticamente.</translatio
     <message>
         <location line="+26"/>
         <source>Show/Hide API key</source>
-        <translation>Mostrar/Ocultar chave de API</translation>
+        <translation>Mostrar/Ocultar chave da API</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6952,11 +6952,6 @@ Observe que ela não pode ser desativada depois.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Observe que ela não pode ser desativada depois.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Baixo</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Seleção</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Espaço</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Ações</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Sair do modo de Seleção e voltar ao compositor</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -9596,7 +9589,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Recolher respostas do tópico</translation>
+        <translation>Recolher respostas de tópicos</translation>
     </message>
     <message>
         <location line="+1"/>

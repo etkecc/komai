@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>Скрий в системната лента</translation>
+        <translation>Затваряне в трея</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1066,7 +1066,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+1"/>
         <source>Hold or click to transcribe speech to text [long-press Space]</source>
-        <translation>Задръж или натисни за транскрибиране на реч в текст [long-press Space]</translation>
+        <translation>Задръж или натисни за транскрибиране на реч в текст [дълго задържане на Space]</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Напиши съобщение или натисни Up, за да избереш съобщения.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Напиши съобщение или натисни ↑, за да избереш съобщения.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5498,7 +5498,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>Верифицирана</translation>
+        <translation>Верифициран</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5556,7 +5556,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation>Верифицирана</translation>
+        <translation>Верифициран</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5904,7 +5904,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Свий отговорите в тредовете</translation>
+        <translation>Свиване на отговорите в тред</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -6952,11 +6952,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,9 +7016,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Избор</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Пространство</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7041,8 +7032,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Действия</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Излез от режим на избиране и се върни към редактора</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -9617,7 +9610,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Разписки за прочитане</translation>
+        <translation>Потвърждения за прочитане</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10184,7 +10177,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Показва индикаторите за непрочетени</translation>
+        <translation>Покажи индикаторите за непрочетено</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10664,7 +10657,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Show mouse cursor</source>
-        <translation>Показва курсора на мишката</translation>
+        <translation>Покажи курсора на мишката</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
@@ -10774,7 +10767,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation>Наименование</translation>
+        <translation>Име</translation>
     </message>
     <message>
         <location line="+4"/>

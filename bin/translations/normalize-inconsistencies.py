@@ -71,8 +71,12 @@ def normalize_lang(ts_path: str, lang: str, dry_run: bool) -> list[tuple[str, st
     tree = ET.parse(ts_path)
     root = tree.getroot()
 
-    # source -> [(context, translation_elem, current_text)]
-    source_translations: dict[str, list[tuple[str, ET.Element, str]]] = defaultdict(list)
+    # (source, extracomment) -> [(context, translation_elem, current_text)]
+    # Entries with an <extracomment> are explicitly disambiguated by the
+    # developers (e.g., a bare keycap label vs. the same word as a noun).
+    # Group them separately so canonicalisation never collapses across the
+    # disambiguation boundary.
+    source_translations: dict[tuple[str, str], list[tuple[str, ET.Element, str]]] = defaultdict(list)
     for ctx in root.findall("context"):
         cname = ctx.findtext("name", "")
         for msg in ctx.findall("message"):
@@ -83,12 +87,13 @@ def normalize_lang(ts_path: str, lang: str, dry_run: bool) -> list[tuple[str, st
             tr = (t.text or "").strip()
             if not (source and tr):
                 continue
-            source_translations[source].append((cname, t, tr))
+            extra = (msg.findtext("extracomment", "") or "").strip()
+            source_translations[(source, extra)].append((cname, t, tr))
 
     prefs = GUIDE_PREFS.get(lang, [])
     changed: list[tuple[str, str, str, str]] = []
 
-    for source, entries in source_translations.items():
+    for (source, _extra), entries in source_translations.items():
         translations = [e[2] for e in entries]
         if len(set(translations)) <= 1:
             continue

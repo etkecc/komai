@@ -25,13 +25,13 @@ Components.OverlayDialog {
             "items": [
                 {
                     "warningKey": "move-up",
-                    "shortcuts": [qsTr("Up"), qsTr("K")],
+                    "shortcuts": ["↑", qsTr("K")],
                     "label": qsTr("Move to older messages"),
                     "icon": ":/icons/icons/ui/chevron-up.svg"
                 },
                 {
                     "warningKey": "move-down",
-                    "shortcuts": [qsTr("Down"), qsTr("J")],
+                    "shortcuts": ["↓", qsTr("J")],
                     "label": qsTr("Move to newer messages"),
                     "icon": ":/icons/icons/ui/chevron-down.svg"
                 },
@@ -66,6 +66,7 @@ Components.OverlayDialog {
             "items": [
                 {
                     "warningKey": "toggle-selection",
+                    //: Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".
                     "shortcuts": [qsTr("Space")],
                     "label": qsTr("Toggle selection for the focused message"),
                     "icon": ":/icons/icons/ui/select-all-on.svg"
@@ -77,6 +78,7 @@ Components.OverlayDialog {
             "items": [
                 {
                     "warningKey": "open-actions",
+                    //: Keyboard-key label (Enter / Return key).
                     "shortcuts": [qsTr("Enter")],
                     "label": qsTr("Open inline actions for the selected or focused message"),
                     "icon": ":/icons/icons/ui/textbox-more.svg"
@@ -154,6 +156,7 @@ Components.OverlayDialog {
                 },
                 {
                     "warningKey": "escape",
+                    //: Keyboard-key label (Escape / Esc key).
                     "shortcuts": [qsTr("Escape")],
                     "label": qsTr("Close actions, clear selection, or exit Selection mode"),
                     "icon": ":/icons/icons/ui/dismiss.svg"

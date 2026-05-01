@@ -767,7 +767,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>Naar systeemvak</translation>
+        <translation>Minimaliseren naar systeemvak</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -910,7 +910,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Serverberichten</translation>
+        <translation>Server Notices</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Schrijf een bericht, of druk op Omhoog om berichten te selecteren.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Schrijf een bericht, of druk op ↑ om berichten te selecteren.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5884,7 +5884,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <location line="-320"/>
         <location line="+321"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Overige (OpenAI-compatibele server)</translation>
+        <translation>Overig (OpenAI-compatibele server)</translation>
     </message>
     <message>
         <location line="-305"/>
@@ -5904,7 +5904,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Threadreacties inklappen</translation>
+        <translation>Threadantwoorden samenvouwen</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5936,7 +5936,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <message>
         <location line="+27"/>
         <source>Provider</source>
-        <translation>Provider</translation>
+        <translation>Aanbieder</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -6952,11 +6952,6 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Omhoog</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Omlaag</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,9 +7016,10 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Selectie</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Ruimte</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Spatie</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7041,8 +7032,9 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Acties</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Selectiemodus afsluiten en terugkeren naar de composer</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7392,7 +7385,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Avatarvoorvertoning</translation>
+        <translation>Avatarvoorbeeld</translation>
     </message>
 </context>
 <context>
@@ -8588,7 +8581,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location line="+32"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI-cloud</translation>
+        <translation>OpenAI cloud</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -9500,7 +9493,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Tijdlijnvoorvertoning</translation>
+        <translation>Tijdlijnpreview</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10027,7 +10020,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Middellicht</translation>
+        <translation>👍🏼 Medium-licht</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10037,7 +10030,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Middeldonker</translation>
+        <translation>👍🏾 Medium-donker</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10184,7 +10177,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Ongelezen indicatoren weergeven</translation>
+        <translation>Ongelezen indicatoren tonen</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10214,7 +10207,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Personen</translation>
+        <translation>Mensen</translation>
     </message>
     <message>
         <location line="+1"/>

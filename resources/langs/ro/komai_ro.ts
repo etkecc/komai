@@ -3563,8 +3563,8 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Scrie un mesaj sau apasă Sus pentru a selecta mesaje.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5992,7 +5992,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     <message>
         <location line="+26"/>
         <source>Show/Hide API key</source>
-        <translation>Arată/Ascunde cheia API</translation>
+        <translation>Afișează/Ascunde cheia API</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6959,11 +6959,6 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Sus</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6974,11 +6969,6 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Jos</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7033,8 +7023,9 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Selecție</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Spațiu</translation>
     </message>
     <message>
@@ -7048,8 +7039,9 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Acțiuni</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7173,8 +7165,9 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Ieși din modul Selecție și revino la compozitor</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8620,7 +8613,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (o singură rulare)</translation>
+        <translation>OpenAI Batch (o singură cerere)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10198,7 +10191,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Afișează indicatori de necitit</translation>
+        <translation>Afișează indicatoare necitite</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10258,7 +10251,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Server Notices</translation>
+        <translation>Notificări de server</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10558,7 +10551,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Închide în tavă</translation>
+        <translation>Minimizare în tavă</translation>
     </message>
     <message>
         <location line="+1"/>

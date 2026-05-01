@@ -3563,8 +3563,8 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Napiši poruku ili pritisni Gore za odabir poruka.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Napiši poruku, ili pritisni ↑ da izabereš poruke.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5879,7 +5879,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (jednokratno)</translation>
+        <translation>OpenAI Batch (jednokratni)</translation>
     </message>
     <message>
         <location line="-219"/>
@@ -5891,7 +5891,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <location line="-320"/>
         <location line="+321"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Ostalo (server kompatibilan sa OpenAI)</translation>
+        <translation>Ostalo (OpenAI-kompatibilni server)</translation>
     </message>
     <message>
         <location line="-305"/>
@@ -6558,7 +6558,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <location line="+12"/>
         <location line="+36"/>
         <source>Configure</source>
-        <translation>Podesi</translation>
+        <translation>Konfiguriši</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -6959,11 +6959,6 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6974,11 +6969,6 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Dole</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7033,9 +7023,10 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Selekcija</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Prostor</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7048,8 +7039,9 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Akcije</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7173,8 +7165,9 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Izađi iz režima selekcije i vrati se u polje za pisanje</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8595,12 +8588,12 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>Glasovni prepis</translation>
+        <translation>Glasovna transkripcija</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI oblak</translation>
+        <translation>OpenAI cloud</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8680,7 +8673,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+105"/>
         <source>Show/Hide API key</source>
-        <translation>Prikaži/sakrij API ključ</translation>
+        <translation>Prikaži/Sakrij API ključ</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -8700,7 +8693,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+10"/>
         <source>Prompt</source>
-        <translation>Upit</translation>
+        <translation>Prompt</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9610,7 +9603,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Skupi odgovore niti</translation>
+        <translation>Skupi odgovore na nit</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10228,7 +10221,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Osobe</translation>
+        <translation>Ljudi</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10403,7 +10396,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+3"/>
         <source>Voice transcription</source>
-        <translation>Transkripcija glasa</translation>
+        <translation>Glasovna transkripcija</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10733,7 +10726,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Korisnički ID</translation>
+        <translation>ID korisnika</translation>
     </message>
     <message>
         <location line="+4"/>

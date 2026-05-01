@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Εμφάνιση ενδείξεων μη αναγνωσμένων</translation>
+        <translation>Εμφάνιση δεικτών αδιάβαστων</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3559,8 +3559,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Γράψτε ένα μήνυμα ή πατήστε Up για επιλογή μηνυμάτων.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Γράψτε ένα μήνυμα ή πατήστε ↑ για να επιλέξετε μηνύματα.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -6952,11 +6952,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,9 +7016,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Επιλογή</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Χώρος</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7041,8 +7032,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Ενέργειες</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Έξοδος από τη Λειτουργία Επιλογής και επιστροφή στον συντάκτη</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8688,7 +8681,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+10"/>
         <source>Prompt</source>
-        <translation>Προτροπή</translation>
+        <translation>Prompt</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9500,7 +9493,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Προεπισκόπηση χρονολογίου</translation>
+        <translation>Προεπισκόπηση ροής μηνυμάτων</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10158,7 +10151,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>Προεπισκόπηση άβαταρ</translation>
+        <translation>Προεπισκόπηση avatar</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10214,7 +10207,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Άτομα</translation>
+        <translation>Άνθρωποι</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10244,7 +10237,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Ειδοποιήσεις διακομιστή</translation>
+        <translation>Ειδοποιήσεις Διακομιστή</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10254,7 +10247,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation>Χαμηλή προτεραιότητα</translation>
+        <translation>Χαμηλή Προτεραιότητα</translation>
     </message>
     <message>
         <location line="+1"/>

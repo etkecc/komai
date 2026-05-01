@@ -3555,8 +3555,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>メッセージを入力するか、↑キーでメッセージを選択。</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>メッセージを入力、または↑を押してメッセージを選択。</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5892,7 +5892,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+16"/>
         <source>Configure</source>
-        <translation>設定する</translation>
+        <translation>設定</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -5953,7 +5953,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+58"/>
         <source>Example: http://localhost:8080/v1</source>
-        <translation>例：http://localhost:8080/v1</translation>
+        <translation>例: http://localhost:8080/v1</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -5973,7 +5973,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+25"/>
         <source>Example: sk-…</source>
-        <translation>例：sk-…</translation>
+        <translation>例: sk-…</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -5993,12 +5993,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+22"/>
         <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>例：gpt-4o-mini-transcribe</translation>
+        <translation>例: gpt-4o-mini-transcribe</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Example: whisper-1</source>
-        <translation>例：whisper-1</translation>
+        <translation>例: whisper-1</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -6028,7 +6028,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>例：名前：Alice、Bob、Carol。専門用語：Matrix、Komai、federation。</translation>
+        <translation>例: 名前: Alice, Bob, Carol。専門用語: Matrix, Komai, federation。</translation>
     </message>
 </context>
 <context>
@@ -6620,7 +6620,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation>メッセージの表示範囲</translation>
+        <translation>メッセージの表示</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6945,11 +6945,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>↑</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,8 +7009,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>選択</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>スペース</translation>
     </message>
     <message>
@@ -7034,8 +7025,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>アクション</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>選択モードを終了してコンポーザーに戻る</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7312,7 +7305,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>後で</translation>
+        <translation>今はしない</translation>
     </message>
 </context>
 <context>
@@ -8571,7 +8564,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>音声文字変換</translation>
+        <translation>音声文字起こし</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -9582,7 +9575,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>スレッド返信を折りたたむ</translation>
+        <translation>スレッドの返信を折りたたむ</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9603,7 +9596,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>既読通知</translation>
+        <translation>既読確認</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10200,7 +10193,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>ユーザー</translation>
+        <translation>人々</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10530,7 +10523,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>トレイに格納して閉じる</translation>
+        <translation>トレイに最小化</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10705,7 +10698,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>ユーザー ID</translation>
+        <translation>ユーザーID</translation>
     </message>
     <message>
         <location line="+4"/>

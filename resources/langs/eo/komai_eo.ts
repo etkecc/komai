@@ -811,7 +811,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Montri nelegitajn indikilojn</translation>
+        <translation>Montri nelegitajn indikatorojn</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3559,8 +3559,8 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Skribu mesaĝon, aŭ premu Supren por elekti mesaĝojn.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Skribu mesaĝon, aŭ premu ↑ por elekti mesaĝojn.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5874,13 +5874,13 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (unufoja)</translation>
+        <translation>OpenAI Batch (unu-foja)</translation>
     </message>
     <message>
         <location line="-219"/>
         <location line="+321"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI-nubo</translation>
+        <translation>OpenAI nubo</translation>
     </message>
     <message>
         <location line="-320"/>
@@ -5906,7 +5906,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Kunfalti fadenajn respondojn</translation>
+        <translation>Faldi fadenajn respondojn</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -6027,7 +6027,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>Prompt</translation>
+        <translation>Instigilo</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6954,11 +6954,6 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6969,11 +6964,6 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7028,8 +7018,9 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Selektado</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Spaco</translation>
     </message>
     <message>
@@ -7043,8 +7034,9 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Agoj</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7168,8 +7160,9 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Eliri el Elekta reĝimo kaj reveni al la redaktilo</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8626,7 +8619,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+6"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Alia (OpenAI-kongrua servilo)</translation>
+        <translation>Alia (OpenAI-kompatiebla servilo)</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -8656,7 +8649,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Ekzemplo: Nomoj: Alice, Bob, Carol. Ĵargono: Matrix, Komai, federacio.</translation>
+        <translation>Ekzemplo: Nomoj: Alice, Bob, Carol. Jargono: Matrix, Komai, federation.</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -8766,7 +8759,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
         <source>Attachments</source>
-        <translation>Aldonoj</translation>
+        <translation>Aldonaĵoj</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -9503,7 +9496,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Tempolinia antaŭrigardo</translation>
+        <translation>Antaŭrigardo de tempolinio</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9620,7 +9613,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Lego-kvitancoj</translation>
+        <translation>Kvitancoj</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10161,7 +10154,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>Avatara antaŭrigardo</translation>
+        <translation>Antaŭrigardo de avataro</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10207,7 +10200,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+14"/>
         <source>Favourites</source>
-        <translation>Favoritoj</translation>
+        <translation>Elstaraj</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10247,7 +10240,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Servilaj Atentigoj</translation>
+        <translation>Avizoj de servilo</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10547,7 +10540,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Fermi al sistemareo</translation>
+        <translation>Fermi al sistama tavolo</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10667,7 +10660,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+4"/>
         <source>Show mouse cursor</source>
-        <translation>Montri musmontraĵon</translation>
+        <translation>Montri musan kursoron</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
@@ -10722,12 +10715,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Uzanto-identigilo</translation>
+        <translation>Uzanta ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Hejmaservilo</translation>
+        <translation>Hejma servilo</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10762,7 +10755,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation>Ignoritaj uzantoj</translation>
+        <translation>Ignorataj uzantoj</translation>
     </message>
     <message>
         <location line="+12"/>

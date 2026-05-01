@@ -870,7 +870,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Bots</source>
-        <translation>රොබෝ</translation>
+        <translation>බොට්</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -900,7 +900,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-94"/>
         <source>Favourites</source>
-        <translation>ප්‍රියතමයන්</translation>
+        <translation>ප්‍රියතම</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1043,7 +1043,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+17"/>
         <source>Settings</source>
-        <translation>සැකසුම්</translation>
+        <translation>සැකසීම්</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3559,8 +3559,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>පණිවිඩයක් ලියන්න, හෝ ඉහළ ඔබා පණිවිඩ තෝරන්න.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>පණිවිඩයක් ලියන්න, හෝ පණිවිඩ තේරීමට ↑ ඔබන්න.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5960,7 +5960,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+58"/>
         <source>Example: http://localhost:8080/v1</source>
-        <translation>උදාහරණය: http://localhost:8080/v1</translation>
+        <translation>උදාහරණ: http://localhost:8080/v1</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -5980,7 +5980,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+25"/>
         <source>Example: sk-…</source>
-        <translation>උදාහරණය: sk-…</translation>
+        <translation>උදාහරණ: sk-…</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -6000,12 +6000,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+22"/>
         <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>උදාහරණය: gpt-4o-mini-transcribe</translation>
+        <translation>උදාහරණ: gpt-4o-mini-transcribe</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Example: whisper-1</source>
-        <translation>උදාහරණය: whisper-1</translation>
+        <translation>උදාහරණ: whisper-1</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -6025,7 +6025,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>ප්‍රොම්ප්ට්</translation>
+        <translation>ප්‍රේරකය</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6035,7 +6035,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>උදාහරණය: නම්: Alice, Bob, Carol. විශේෂ වචන: Matrix, Komai, federation.</translation>
+        <translation>උදාහරණ: නම්: Alice, Bob, Carol. වෘත්තීය වචන: Matrix, Komai, federation.</translation>
     </message>
 </context>
 <context>
@@ -6952,11 +6952,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>පහළ</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,9 +7016,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>තේරීම</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>අවකාශය</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7041,8 +7032,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>ක්‍රියා</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>තේරීම් ආකාරයෙන් පිටවී රචකය වෙත ආපසු යන්න</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8598,7 +8591,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="-59"/>
         <source>Provider</source>
-        <translation>සේවා සපයන්නා</translation>
+        <translation>සැපයුම්කරු</translation>
     </message>
     <message>
         <location line="-6"/>
@@ -8608,12 +8601,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (එකවර)</translation>
+        <translation>OpenAI Batch (එක-ගැසීම)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI Realtime (ස්ට්‍රීමිං)</translation>
+        <translation>OpenAI Realtime (ධාරා)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8623,7 +8616,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+6"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>වෙනත් (OpenAI-අනුකූල සේවාදායකයක්)</translation>
+        <translation>අනෙකුත් (OpenAI-අනුකූල සේවාදායකය)</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -9500,7 +9493,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>කාලරේඛා පෙරදසුන</translation>
+        <translation>Timeline පෙරදර්ශනය</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9617,7 +9610,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>කියවීම් රිසිට්</translation>
+        <translation>කියවීමේ රිසිත්</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9628,7 +9621,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
         <source>Actions</source>
-        <translation>ක්‍රියාමාර්ග</translation>
+        <translation>ක්‍රියා</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -10022,12 +10015,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+9"/>
         <source>👍🏻 Light</source>
-        <translation>👍🏻 ළා</translation>
+        <translation>👍🏻 ලා</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 මධ්‍යම-ළා</translation>
+        <translation>👍🏼 මධ්‍යම-ලා</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10037,12 +10030,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 මධ්‍යම-තද</translation>
+        <translation>👍🏾 මධ්‍යම-අඳුරු</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation>👍🏿 තද</translation>
+        <translation>👍🏿 අඳුරු</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
@@ -10158,7 +10151,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>අවතාර පෙරදසුන</translation>
+        <translation>Avatar පෙරදර්ශනය</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10214,7 +10207,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>ජනයා</translation>
+        <translation>පුද්ගලයන්</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10544,7 +10537,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>ට්‍රේ වෙත වසන්න</translation>
+        <translation>ට්‍රේ එකට වසන්න</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10664,7 +10657,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Show mouse cursor</source>
-        <translation>මූශික කර්සරය පෙන්වන්න</translation>
+        <translation>මවුස් කර්සරය පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
@@ -10719,12 +10712,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>පරිශීලක හැඳුනුම්පත</translation>
+        <translation>පරිශීලක ID</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>හෝම්සර්වර්</translation>
+        <translation>නිවාස සේවාදායකය</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10759,7 +10752,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation>නොතකන ලද පරිශීලකයින්</translation>
+        <translation>නොසලකා හරිනු ලැබූ පරිශීලකයන්</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -10842,7 +10835,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Desktop</source>
-        <translation>වැඩතල</translation>
+        <translation>ඩෙස්ක්ටොප්</translation>
     </message>
     <message>
         <location line="+2"/>

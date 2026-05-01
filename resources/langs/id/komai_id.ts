@@ -3555,8 +3555,8 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Tulis pesan, atau tekan Atas untuk memilih pesan.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Tulis pesan, atau tekan ↑ untuk memilih pesan.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5882,7 +5882,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     <message>
         <location line="-305"/>
         <source>Message visibility</source>
-        <translation>Visibilitas pesan</translation>
+        <translation>Keterlihatan pesan</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -6544,7 +6544,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <location line="+12"/>
         <location line="+36"/>
         <source>Configure</source>
-        <translation>Konfigurasikan</translation>
+        <translation>Atur</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -6945,11 +6945,6 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Atas</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Bawah</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,9 +7009,10 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Seleksi</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Ruang</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7034,8 +7025,9 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Tindakan</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Keluar dari mode Pilihan dan kembali ke komposer</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7312,7 +7305,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation>Nanti saja</translation>
+        <translation>Tidak sekarang</translation>
     </message>
 </context>
 <context>
@@ -8596,7 +8589,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (sekali jalan)</translation>
+        <translation>OpenAI Batch (satu kali)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9603,7 +9596,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Tanda terima baca</translation>
+        <translation>Laporan dibaca</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10230,7 +10223,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Server Notices</translation>
+        <translation>Pemberitahuan Server</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10240,7 +10233,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation>Prioritas rendah</translation>
+        <translation>Prioritas Rendah</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11053,12 +11046,12 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation>👍🏻 Terang</translation>
+        <translation>👍🏻 Cerah</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Sedang-terang</translation>
+        <translation>👍🏼 Sedang cerah</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11068,7 +11061,7 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Sedang-gelap</translation>
+        <translation>👍🏾 Sedang gelap</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -108,7 +108,7 @@
     <message>
         <location line="-445"/>
         <source>Access token</source>
-        <translation>Pääsytunnus</translation>
+        <translation>Käyttöoikeustunnus</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -811,7 +811,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Näytä lukemattomien ilmaistimet</translation>
+        <translation>Näytä lukemattomat indikaattorit</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -905,7 +905,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation>Matala tärkeysjärjestys</translation>
+        <translation>Matala prioriteetti</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3559,8 +3559,8 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Kirjoita viesti tai paina Ylös valitaksesi viestejä.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Kirjoita viesti tai paina ↑ valitaksesi viestejä.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5931,7 +5931,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     <message>
         <location line="+22"/>
         <source>Voice transcription</source>
-        <translation>Äänitranskriptio</translation>
+        <translation>Puheen litterointi</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6627,7 +6627,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation>Viestin näkyvyys</translation>
+        <translation>Viestien näkyvyys</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6952,11 +6952,6 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Ylös</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Alas</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,9 +7016,10 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Valinta</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Tila</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Välilyönti</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7041,8 +7032,9 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Toiminnot</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Poistu valintatilasta ja palaa kirjoituskenttään</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7392,7 +7385,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Avatarin esikatselu</translation>
+        <translation>Avatar-esikatselu</translation>
     </message>
 </context>
 <context>
@@ -8583,12 +8576,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>Puheentekstitys</translation>
+        <translation>Puheen litterointi</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI-pilvi</translation>
+        <translation>OpenAI pilvi</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -8608,7 +8601,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (kertasuoritus)</translation>
+        <translation>OpenAI Batch (kertakäyttö)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8653,7 +8646,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Esimerkki: Nimet: Alice, Bob, Carol. Termit: Matrix, Komai, federation.</translation>
+        <translation>Esimerkki: Nimet: Alice, Bob, Carol. Ammattitermit: Matrix, Komai, federation.</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -9617,7 +9610,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Lukukuittaukset</translation>
+        <translation>Lukukuitit</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9869,7 +9862,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+2"/>
         <source>All Files (*)</source>
-        <translation>Kaikki tiedostot (*)</translation>
+        <translation>Kaikki Tiedostot (*)</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
@@ -10214,7 +10207,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>Henkilöt</translation>
+        <translation>Ihmiset</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10244,7 +10237,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Palvelintiedotteet</translation>
+        <translation>Palvelimen ilmoitukset</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10544,7 +10537,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Sulje ilmoitusalueelle</translation>
+        <translation>Sulje ilmaisinalueelle</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10664,7 +10657,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+4"/>
         <source>Show mouse cursor</source>
-        <translation>Näytä hiiren osoitin</translation>
+        <translation>Näytä hiiren kursori</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>

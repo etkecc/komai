@@ -905,12 +905,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation>Vähetähtis</translation>
+        <translation>Madal prioriteet</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Serveriteated</translation>
+        <translation>Serveri teated</translation>
     </message>
 </context>
 <context>
@@ -3559,8 +3559,8 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Kirjuta sõnum või vajuta Üles, et valida sõnumeid.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Kirjuta sõnum või vajuta ↑, et valida sõnumeid.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4694,7 +4694,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location filename="../../qml/dialogs/timeline/ReactionDetailsDialog.qml" line="+24"/>
         <source>Reactions</source>
-        <translation>Reaktsioonid</translation>
+        <translation>Reageerimised</translation>
     </message>
 </context>
 <context>
@@ -5866,13 +5866,13 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
         <location line="+227"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI reaalajas (voogedastus)</translation>
+        <translation>OpenAI Realtime (voogedastus)</translation>
     </message>
     <message>
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI partii (ühekordne)</translation>
+        <translation>OpenAI Batch (ühekordne)</translation>
     </message>
     <message>
         <location line="-219"/>
@@ -5904,7 +5904,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Ahenda lõimu vastused</translation>
+        <translation>Ahenda lõimivastused</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5931,12 +5931,12 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <message>
         <location line="+22"/>
         <source>Voice transcription</source>
-        <translation>Kõne transkriptsioon</translation>
+        <translation>Hääle transkriptsioon</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Provider</source>
-        <translation>Teenusepakkuja</translation>
+        <translation>Pakkuja</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -6627,7 +6627,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+9"/>
         <source>Message visibility</source>
-        <translation>Sõnumite nähtavus</translation>
+        <translation>Sõnumi nähtavus</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6952,11 +6952,6 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Alla</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,9 +7016,10 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Valimine</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Ruum</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Space</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7041,8 +7032,9 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Toimingud</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Välju valikurežiimist ja naase koostajale</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8653,7 +8646,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Näide: Nimed: Alice, Bob, Carol. Žargoon: Matrix, Komai, federation.</translation>
+        <translation>Näide: Nimed: Alice, Bob, Carol. Eriterminid: Matrix, Komai, federation.</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -9617,7 +9610,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Lugemiskinnitused</translation>
+        <translation>Loetud kviitungid</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10184,7 +10177,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Näita lugemata indikaatoreid</translation>
+        <translation>Kuva lugemata indikaatorid</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10664,7 +10657,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     <message>
         <location line="+4"/>
         <source>Show mouse cursor</source>
-        <translation>Näita hiirekursorit</translation>
+        <translation>Näita hiire kursorit</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
@@ -10744,7 +10737,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation>Pääsuluba</translation>
+        <translation>Juurdepääsuluba</translation>
     </message>
     <message>
         <location line="+1"/>

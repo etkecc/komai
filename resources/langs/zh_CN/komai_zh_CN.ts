@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>最小化到托盘</translation>
+        <translation>关闭到托盘</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -811,7 +811,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>显示未读标记</translation>
+        <translation>显示未读指示器</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3555,8 +3555,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>输入消息，或按向上键选择消息。</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>输入消息，或按 ↑ 选择消息。</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -3586,7 +3586,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation>设置……</translation>
+        <translation>设置...</translation>
     </message>
 </context>
 <context>
@@ -4302,7 +4302,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+2"/>
         <source>Reactions</source>
-        <translation>回应</translation>
+        <translation>反应</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5859,19 +5859,19 @@ Previous server-side key backups are not removed automatically.</source>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
         <location line="+227"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI实时（流式）</translation>
+        <translation>OpenAI 实时（流式）</translation>
     </message>
     <message>
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI批处理（单次）</translation>
+        <translation>OpenAI 批处理（一次性）</translation>
     </message>
     <message>
         <location line="-219"/>
         <location line="+321"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI云端</translation>
+        <translation>OpenAI 云</translation>
     </message>
     <message>
         <location line="-320"/>
@@ -5929,7 +5929,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+27"/>
         <source>Provider</source>
-        <translation>服务商</translation>
+        <translation>提供商</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -5958,7 +5958,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+52"/>
         <source>API key</source>
-        <translation>API密钥</translation>
+        <translation>API 密钥</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -5978,7 +5978,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+26"/>
         <source>Show/Hide API key</source>
-        <translation>显示/隐藏API密钥</translation>
+        <translation>显示/隐藏 API 密钥</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6945,11 +6945,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,9 +7009,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>空间</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>空格</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7034,8 +7025,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>操作</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>退出选择模式并返回编辑器</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8611,7 +8604,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+6"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>其他（兼容 OpenAI 的服务器）</translation>
+        <translation>其他（OpenAI兼容服务器）</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -9972,7 +9965,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
-        <translation>回车</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10013,7 +10006,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 中浅色</translation>
+        <translation>👍🏼 中浅肤色</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10023,7 +10016,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 中深色</translation>
+        <translation>👍🏾 中深肤色</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10190,7 +10183,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+14"/>
         <source>Favourites</source>
-        <translation>收藏夹</translation>
+        <translation>收藏</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10200,7 +10193,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>People</source>
-        <translation>人员</translation>
+        <translation>人物</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10375,7 +10368,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Voice transcription</source>
-        <translation>语音转文字</translation>
+        <translation>语音转录</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10700,12 +10693,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation>账号</translation>
+        <translation>账户</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>用户ID</translation>
+        <translation>用户 ID</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -11063,7 +11056,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation>👍🏽 中等肤色</translation>
+        <translation>👍🏽 中等</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11073,7 +11066,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation>👍🏿 深色肤色</translation>
+        <translation>👍🏿 深色</translation>
     </message>
 </context>
 <context>

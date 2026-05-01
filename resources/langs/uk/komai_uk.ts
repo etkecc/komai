@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>Згорнути до трею</translation>
+        <translation>Закрити у трей</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3563,8 +3563,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Напишіть повідомлення або натисніть вгору, щоб вибрати повідомлення.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Напишіть повідомлення або натисніть ↑, щоб вибрати повідомлення.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -3594,7 +3594,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation>Налаштування…</translation>
+        <translation>Налаштування...</translation>
     </message>
 </context>
 <context>
@@ -5943,7 +5943,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+27"/>
         <source>Provider</source>
-        <translation>Провайдер</translation>
+        <translation>Постачальник</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -6959,11 +6959,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6974,11 +6969,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7033,9 +7023,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Виділення</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Простір</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Пробіл</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7048,8 +7039,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Дії</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7173,8 +7165,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Вийти з режиму виділення та повернутися до редактора</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8595,7 +8588,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>Транскрипція мовлення</translation>
+        <translation>Голосова транскрипція</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -8605,7 +8598,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+34"/>
         <source>API key</source>
-        <translation>Ключ API</translation>
+        <translation>API-ключ</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -8620,7 +8613,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (разовий)</translation>
+        <translation>OpenAI Batch (одноразовий)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8680,7 +8673,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+105"/>
         <source>Show/Hide API key</source>
-        <translation>Показати/Приховати ключ API</translation>
+        <translation>Показати/Приховати API-ключ</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -9514,7 +9507,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Попередній перегляд стрічки</translation>
+        <translation>Перегляд стрічки повідомлень</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9610,7 +9603,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Згортати відповіді гілки</translation>
+        <translation>Згортати відповіді в гілках</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9631,7 +9624,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Підтвердження прочитання</translation>
+        <translation>Прочитати квитанції</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9883,7 +9876,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+2"/>
         <source>All Files (*)</source>
-        <translation>Всі файли (*)</translation>
+        <translation>Усі файли (*)</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
@@ -10172,7 +10165,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>Попередній перегляд аватара</translation>
+        <translation>Перегляд аватара</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10198,7 +10191,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Показувати індикатори непрочитаного</translation>
+        <translation>Показувати індикатори непрочитаних</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10218,7 +10211,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+14"/>
         <source>Favourites</source>
-        <translation>Улюблені</translation>
+        <translation>Вибране</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10258,7 +10251,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Сповіщення сервера</translation>
+        <translation>Повідомлення сервера</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10678,7 +10671,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Show mouse cursor</source>
-        <translation>Показувати курсор миші</translation>
+        <translation>Показати курсор миші</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
@@ -10788,7 +10781,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation>Назва</translation>
+        <translation>Ім'я</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10856,7 +10849,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Desktop</source>
-        <translation>Робочий стіл</translation>
+        <translation>Комп'ютер</translation>
     </message>
     <message>
         <location line="+2"/>

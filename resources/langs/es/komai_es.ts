@@ -768,7 +768,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+9"/>
         <source>Close to tray</source>
-        <translation>Minimizar a la bandeja del sistema</translation>
+        <translation>Cerrar en la bandeja del sistema</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3562,8 +3562,8 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Escribe un mensaje o pulsa Arriba para seleccionar mensajes.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Escribe un mensaje o pulsa ↑ para seleccionar mensajes.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -3593,7 +3593,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation>Ajustes...</translation>
+        <translation>Configuración...</translation>
     </message>
 </context>
 <context>
@@ -5875,13 +5875,13 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
         <location line="-226"/>
         <location line="+225"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (única vez)</translation>
+        <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
         <location line="-219"/>
         <location line="+321"/>
         <source>OpenAI cloud</source>
-        <translation>OpenAI en la nube</translation>
+        <translation>Nube de OpenAI</translation>
     </message>
     <message>
         <location line="-320"/>
@@ -6028,7 +6028,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     <message>
         <location line="+30"/>
         <source>Prompt</source>
-        <translation>Instrucción</translation>
+        <translation>Indicación</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6038,7 +6038,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     <message>
         <location line="+22"/>
         <source>Example: Names: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</source>
-        <translation>Ejemplo: Nombres: Alice, Bob, Carol. Jerga: Matrix, Komai, federation.</translation>
+        <translation>Ejemplo: Nombres: Alice, Bob, Carol. Jerga: Matrix, Komai, federación.</translation>
     </message>
 </context>
 <context>
@@ -6955,11 +6955,6 @@ Ten en cuenta que no se puede desactivar después.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6970,11 +6965,6 @@ Ten en cuenta que no se puede desactivar después.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7029,8 +7019,9 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Selección</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Espacio</translation>
     </message>
     <message>
@@ -7044,8 +7035,9 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Acciones</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7169,8 +7161,9 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Salir del modo Selección y volver al compositor</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7395,7 +7388,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Vista previa del avatar</translation>
+        <translation>Vista previa de avatar</translation>
     </message>
 </context>
 <context>
@@ -9599,7 +9592,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+3"/>
         <source>Collapse thread replies</source>
-        <translation>Contraer respuestas del hilo</translation>
+        <translation>Contraer respuestas de hilo</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9989,7 +9982,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
-        <translation>Intro</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10187,7 +10180,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Mostrar indicadores de no leídos</translation>
+        <translation>Mostrar indicadores de mensajes no leídos</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10727,7 +10720,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Servidor de inicio</translation>
+        <translation>Servidor base</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -11075,7 +11068,7 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Medio-claro</translation>
+        <translation>👍🏼 Medio claro</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11085,7 +11078,7 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Medio-oscuro</translation>
+        <translation>👍🏾 Medio oscuro</translation>
     </message>
     <message>
         <location line="+1"/>

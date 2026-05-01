@@ -811,7 +811,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Visa olästa indikatorer</translation>
+        <translation>Visa oläst-indikatorer</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -870,7 +870,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+2"/>
         <source>Bots</source>
-        <translation>Bottar</translation>
+        <translation>Botar</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3559,8 +3559,8 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Skriv ett meddelande eller tryck Upp för att markera meddelanden.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Skriv ett meddelande, eller tryck ↑ för att markera meddelanden.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -6952,11 +6952,6 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Upp</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Ned</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,9 +7016,10 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Urval</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Område</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Mellanslag</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7041,8 +7032,9 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Åtgärder</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Avsluta markeringsläget och återgå till skrivfältet</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -7392,7 +7385,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+51"/>
         <source>Avatar preview</source>
-        <translation>Förhandsgranskning av avatar</translation>
+        <translation>Avatarförhandsgranskning</translation>
     </message>
 </context>
 <context>
@@ -8613,7 +8606,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>OpenAI Realtime (streaming)</source>
-        <translation>OpenAI Realtime (strömning)</translation>
+        <translation>OpenAI Realtime (direktuppspelning)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -9500,7 +9493,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+3"/>
         <source>Timeline preview</source>
-        <translation>Tidslinjens förhandsgranskning</translation>
+        <translation>Förhandsgranskning av tidslinje</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10027,12 +10020,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Mellanljus</translation>
+        <translation>👍🏼 Mellanjust</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation>👍🏽 Mellan</translation>
+        <translation>👍🏽 Medium</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10389,7 +10382,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+3"/>
         <source>Voice transcription</source>
-        <translation>Rösttranskription</translation>
+        <translation>Rösttranskribering</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10544,7 +10537,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Stäng till systemfältet</translation>
+        <translation>Minimera till systemfältet</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,7 +11075,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Mellenmörk</translation>
+        <translation>👍🏾 Medelmörk</translation>
     </message>
     <message>
         <location line="+1"/>

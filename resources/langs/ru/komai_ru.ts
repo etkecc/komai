@@ -3563,8 +3563,8 @@ If the problem persists, you can log out and sign in again, but this will delete
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Напиши сообщение или нажми Вверх для выбора сообщений.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Напиши сообщение или нажми ↑, чтобы выбрать сообщения.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5911,7 +5911,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Сворачивать ответы тредов</translation>
+        <translation>Сворачивать ответы в треде</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5938,7 +5938,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+22"/>
         <source>Voice transcription</source>
-        <translation>Транскрипция голоса</translation>
+        <translation>Голосовая транскрипция</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6959,11 +6959,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Вверх</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6974,11 +6969,6 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7033,9 +7023,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Выбор</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Пространство</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Пробел</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7048,8 +7039,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Действия</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7173,8 +7165,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Выйти из режима выделения и вернуться к редактору</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8595,7 +8588,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>Голосовое распознавание</translation>
+        <translation>Голосовая транскрипция</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -8605,7 +8598,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+34"/>
         <source>API key</source>
-        <translation>Ключ API</translation>
+        <translation>API-ключ</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -8620,7 +8613,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>OpenAI Batch (one-shot)</source>
-        <translation>OpenAI Batch (разовый)</translation>
+        <translation>OpenAI Batch (одиночный)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8635,7 +8628,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+6"/>
         <source>Other (OpenAI-compatible server)</source>
-        <translation>Другой (сервер, совместимый с OpenAI)</translation>
+        <translation>Другое (сервер, совместимый с OpenAI)</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -8680,7 +8673,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+105"/>
         <source>Show/Hide API key</source>
-        <translation>Показать/скрыть ключ API</translation>
+        <translation>Показать/скрыть API-ключ</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -10051,7 +10044,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Тёмно-средний</translation>
+        <translation>👍🏾 Средне-тёмный</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10218,7 +10211,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+14"/>
         <source>Favourites</source>
-        <translation>Избранные</translation>
+        <translation>Избранное</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10258,7 +10251,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Уведомления сервера</translation>
+        <translation>Оповещения сервера</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10558,7 +10551,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Сворачивать в трей</translation>
+        <translation>Свернуть в трей</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10788,7 +10781,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation>Название</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -11086,7 +11079,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Средне-светлый</translation>
+        <translation>👍🏼 Светло-средний</translation>
     </message>
     <message>
         <location line="+1"/>

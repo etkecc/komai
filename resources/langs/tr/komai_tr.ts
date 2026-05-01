@@ -108,7 +108,7 @@
     <message>
         <location line="-445"/>
         <source>Access token</source>
-        <translation>Erişim belirteci</translation>
+        <translation>Erişim anahtarı</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -910,7 +910,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Sunucu Bildirileri</translation>
+        <translation>Server Notices</translation>
     </message>
 </context>
 <context>
@@ -3555,8 +3555,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Bir mesaj yazın veya mesajları seçmek için Yukarı tuşuna basın.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Bir mesaj yazın ya da mesajları seçmek için ↑ tuşuna basın.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -3586,7 +3586,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+21"/>
         <source>Settings...</source>
-        <translation>Ayarlar...</translation>
+        <translation>Ayarlar…</translation>
     </message>
 </context>
 <context>
@@ -5978,7 +5978,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     <message>
         <location line="+26"/>
         <source>Show/Hide API key</source>
-        <translation>API anahtarını göster/gizle</translation>
+        <translation>API anahtarını Göster/Gizle</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -6945,11 +6945,6 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Up</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6960,11 +6955,6 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Aşağı</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7019,9 +7009,10 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Seçim</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
-        <translation>Uzay</translation>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
+        <translation>Boşluk</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7034,8 +7025,9 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Eylemler</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7159,8 +7151,9 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Seçim modundan çık ve düzenleyiciye dön</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -8571,7 +8564,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
         <source>Voice transcription</source>
-        <translation>Ses yazıya dönüştürme</translation>
+        <translation>Ses transkripsiyonu</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -9603,7 +9596,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Okundu bilgisi</translation>
+        <translation>Okundu bildirimleri</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10144,7 +10137,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location line="+3"/>
         <source>Avatar preview</source>
-        <translation>Avatar önizlemesi</translation>
+        <translation>Avatar önizleme</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10170,7 +10163,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+4"/>
         <location line="+92"/>
         <source>Show unread indicators</source>
-        <translation>Okunmamış göstergelerini göster</translation>
+        <translation>Okunmamış göstergeleri göster</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -10530,7 +10523,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Tepsiye kapat</translation>
+        <translation>Sistem tepsisine kapat</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10705,12 +10698,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation>Kullanıcı Kimliği</translation>
+        <translation>Kullanıcı kimliği</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation>Ev sunucusu</translation>
+        <translation>Ana sunucu</translation>
     </message>
     <message>
         <location line="+4"/>

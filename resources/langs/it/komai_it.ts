@@ -811,7 +811,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+14"/>
         <source>Show unread indicators</source>
-        <translation>Mostra indicatori non letti</translation>
+        <translation>Mostra indicatori messaggi non letti</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3559,8 +3559,8 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <name>MessageInput</name>
     <message>
         <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
-        <source>Write a message, or press Up to select messages.</source>
-        <translation>Scrivi un messaggio, o premi Su per selezionare i messaggi.</translation>
+        <source>Write a message, or press ↑ to select messages.</source>
+        <translation>Scrivi un messaggio, o premi ↑ per selezionare i messaggi.</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -5889,7 +5889,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="-305"/>
         <source>Message visibility</source>
-        <translation>Visibilità messaggi</translation>
+        <translation>Visibilità dei messaggi</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -5904,7 +5904,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="+27"/>
         <source>Collapse thread replies</source>
-        <translation>Comprimi risposte del thread</translation>
+        <translation>Comprimi le risposte al thread</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -6952,11 +6952,6 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Up</source>
-        <translation>Su</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>K</source>
         <translation>K</translation>
     </message>
@@ -6967,11 +6962,6 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Down</source>
-        <translation>Down</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>J</source>
         <translation>J</translation>
     </message>
@@ -7026,8 +7016,9 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Selezione</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Space</source>
+        <extracomment>Keyboard-key label (the spacebar). Use whatever is printed on the key in the target locale; do not translate as "outer space" / "area".</extracomment>
         <translation>Spazio</translation>
     </message>
     <message>
@@ -7041,8 +7032,9 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Azioni</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Enter</source>
+        <extracomment>Keyboard-key label (Enter / Return key).</extracomment>
         <translation>Enter</translation>
     </message>
     <message>
@@ -7166,8 +7158,9 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Esci dalla modalità selezione e torna al compositore</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Escape</source>
+        <extracomment>Keyboard-key label (Escape / Esc key).</extracomment>
         <translation>Escape</translation>
     </message>
     <message>
@@ -9617,7 +9610,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+4"/>
         <source>Read receipts</source>
-        <translation>Ricevute di lettura</translation>
+        <translation>Conferme di lettura</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9986,7 +9979,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
-        <translation>Invio</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10244,7 +10237,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+10"/>
         <source>Server Notices</source>
-        <translation>Server Notices</translation>
+        <translation>Avvisi del server</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10254,7 +10247,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+10"/>
         <source>Low Priority</source>
-        <translation>Bassa priorità</translation>
+        <translation>Bassa Priorità</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10544,7 +10537,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+3"/>
         <source>Close to tray</source>
-        <translation>Riduci al vassoio</translation>
+        <translation>Chiudi nel vassoio</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11067,27 +11060,27 @@ La verifica contrassegna questo dispositivo come attendibile e ti dà accesso ai
     <message>
         <location line="+1"/>
         <source>👍🏻 Light</source>
-        <translation>👍🏻 Chiaro</translation>
+        <translation>👍🏻 Chiara</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Medio-chiaro</translation>
+        <translation>👍🏼 Medio-chiara</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏽 Medium</source>
-        <translation>👍🏽 Medio</translation>
+        <translation>👍🏽 Media</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Medio-scuro</translation>
+        <translation>👍🏾 Medio-scura</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
-        <translation>👍🏿 Scuro</translation>
+        <translation>👍🏿 Scura</translation>
     </message>
 </context>
 <context>

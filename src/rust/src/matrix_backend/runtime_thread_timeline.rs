@@ -635,6 +635,23 @@ fn publish_merged_snapshot(
     // reactions the SDK already aggregated. Keeping SDK senders preserves
     // those.
     if !relations_data.annotations.is_empty() {
+        // Warn when /relations returned a reaction whose parent event isn't
+        // in the merged snapshot — that's a silent-failure mode where the
+        // chip would never render despite a successful fetch (e.g. a parent
+        // that fell outside the 50-event /relations cap, or any future
+        // mismatch in how parent_event_id is keyed vs. how we build items).
+        for (parent_id, by_key) in &relations_data.annotations {
+            if !sdk_items.iter().any(|i| &i.event_id == parent_id) {
+                let keys: Vec<&str> = by_key.keys().map(|s| s.as_str()).collect();
+                tracing::warn!(
+                    parent_event_id = parent_id.as_str(),
+                    keys = ?keys,
+                    snapshot_size = sdk_items.len(),
+                    "Thread reaction bucket has no matching snapshot item"
+                );
+            }
+        }
+
         for item in &mut sdk_items {
             if item.event_id.is_empty() {
                 continue;

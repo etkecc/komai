@@ -77,7 +77,8 @@ See 📄 [Documentation](docs/README.md) for the full list of guides, including 
 
 ## 🤝 Contributing
 
-See [Development](docs/maintainers/development.md).
+- 👨‍💻 [Development](docs/maintainers/development.md) — building, testing, and code contributions
+- 🌐 [Translations](docs/maintainers/translations.md) — improving translations or fixing awkward wording
 
 
 ## 🆘 Support

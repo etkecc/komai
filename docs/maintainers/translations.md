@@ -1,10 +1,6 @@
 # 🌐 Translations
 
-Komai inherits many human-made translations from nheko — but some languages had no translations at all, and others had very low coverage. Both result in a poor experience for non-English speakers.
-
-To address this, Komai uses AI-assisted translation to fill in the gaps. We believe that properly-guided AI can produce good-enough translations, which can later be improved by human contributors if and when necessary. Having complete (even if imperfect) translations is far better than having none.
-
-The pipeline is provider-neutral in principle; the current backend is the [Claude CLI](https://docs.anthropic.com/en/docs/claude-cli), wired up via `call_claude()` in [`bin/translations/translate.py`](../../bin/translations/translate.py). Swap that one function to use a different LLM.
+Komai inherits human-made translations from nheko, then uses AI to fill the gaps. A complete-but-imperfect translation beats no translation at all — but AI output is a starting point, not the final word. Human review and tweaks are genuinely valuable, and we'd love your help.
 
 
 ## 🌍 Available translations
@@ -49,7 +45,30 @@ Users pick from this list in-app under **Settings → Look & Feel → Appearance
 | 🇺🇦 | Ukrainian | Українська | [`resources/langs/uk/`](../../resources/langs/uk/) |
 | 🇻🇳 | Vietnamese | Tiếng Việt | [`resources/langs/vi/`](../../resources/langs/vi/) |
 
-Want to improve a translation, or add a new language? See the rest of this document for the workflow, and feel free to open a pull request — even small fixes are welcome.
+## 🙋 Contributing fixes
+
+**Spotted a translation that's wrong, awkward, or just off?** Please open a pull request.
+
+No signup for translation platforms, no CLA, no gatekeeping — just edit the file and send a PR. Even one-line tweaks are welcome. If you'd rather describe the issue than fix it yourself, a [GitHub issue](https://github.com/etkecc/komai/issues) is fine too.
+
+The two files you might want to touch:
+
+- The translations themselves: `resources/langs/<lang>/komai_<lang>.ts`
+- The per-language style guide that steers the AI: `resources/langs/<lang>/GUIDE.md` — improvements here help every future re-run, not just the strings you fix today
+
+### Things to watch for
+
+AI gets the literal meaning right most of the time, but tends to miss what a native speaker would catch:
+
+- **Gender mismatches** in languages that gender verbs or adjectives by speaker/addressee
+- **Unnatural phrasing** — grammatically correct, but nobody would actually say it that way
+- **Length problems** — translations that overflow buttons, tabs, tooltips, or other tight UI
+- **Inconsistent register** — formal and casual mixed within one screen, or shifting tone between related strings
+- **Style drift** — different translations of the same term across the app (`translations-canonicalize` helps, but only picks among existing variants)
+- **Diacritics and script mixing** — easy to miss in long files
+- **Thin per-language `GUIDE.md`** — when the guide is underspecified, the model has to guess
+
+Adding a new language or maintaining one end-to-end? The AI pipeline and tooling are documented below.
 
 
 ## 📂 Directory structure
@@ -92,7 +111,7 @@ just translations-normalize --lang de  # single language
 
 ## 🤖 AI-powered translation
 
-The translation pipeline lives in [`bin/translations/translate.py`](../../bin/translations/translate.py).
+The translation pipeline lives in [`bin/translations/translate.py`](../../bin/translations/translate.py). It's provider-neutral in principle; the current backend is the [Claude CLI](https://docs.anthropic.com/en/docs/claude-cli), wired up via `call_claude()`. Swap that one function to use a different LLM.
 
 ### ⚙️ How it works
 

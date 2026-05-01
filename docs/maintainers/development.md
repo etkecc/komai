@@ -1,4 +1,4 @@
-# 🛠️ Development
+# 👨‍💻 Development
 
 This guide covers day-to-day development on Komai.
 

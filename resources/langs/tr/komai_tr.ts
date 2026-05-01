@@ -9412,6 +9412,11 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatar boyutu Gizli olarak ayarlandığından gönderen kullanıcı adları her zaman gösterilir.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Sistemi kullan</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9753,8 +9758,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -9764,7 +9768,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
         <translation>Daha fazla tema mı istiyorsunuz? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;'den içe aktarın veya &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kendinizinkini oluşturun&lt;/a&gt; (yeniden başlatma gerektirir).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Yazı tipleri</translation>
     </message>
@@ -9809,17 +9813,22 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
         <translation>Uygulamada kaydırma çubuklarının ne zaman gösterileceğini kontrol eder.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Düzen</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Görünüm</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Boşlukları, simge boyutlarını ve liste satır yüksekliklerini etkiler.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Dil [yeniden başlatma gerekli]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatarlar</translation>
     </message>

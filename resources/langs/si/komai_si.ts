@@ -9426,6 +9426,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ අවතාර ප්‍රමාණය සඟවා ඇති ලෙස සකසා ඇති නිසා, යවන්නාගේ පරිශීලක නම් සෑමවිටම පෙන්වේ.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>පද්ධතිය භාවිතා කරන්න</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>තේමාව</translation>
     </message>
@@ -9778,7 +9782,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>තවත් තේමා අවශ්‍යද? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; වෙතින් ආනයනය කරන්න හෝ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;ඔබේම සාදන්න&lt;/a&gt; (නැවත ආරම්භ කිරීම අවශ්‍ය).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>අකුරු</translation>
     </message>
@@ -9823,17 +9827,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>යෙදුම පුරා scrollbars දිස්වන්නේ කවදාද යන්න පාලනය කරයි.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>සැකැස්ම</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>පෙනුම</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>ඉඩ, නිරූපක ප්‍රමාණ සහ ලැයිස්තු පේළි උස කෙරෙහි බලපායි.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>භාෂාව [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>

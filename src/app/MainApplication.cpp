@@ -378,6 +378,9 @@ app::runMainApplication(int argc, char *argv[])
     if (QLocale().language() == QLocale::C)
         QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedKingdom));
 
+    if (const auto requestedLanguage = settings.lock()->uiLanguage(); !requestedLanguage.isEmpty())
+        QLocale::setDefault(QLocale(requestedLanguage));
+
     QTranslator qtTranslator;
     if (qtTranslator.load(QLocale(),
                           QStringLiteral("qtbase"),

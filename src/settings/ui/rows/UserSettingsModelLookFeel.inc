@@ -1,7 +1,7 @@
     // ── Look & Feel Tab ─────────────────────────────────────────────────────
 
-    // LookFeelThemeSection
-    { QT_TR_NOOP("Theme"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    // LookFeelAppearanceSection
+    { QT_TR_NOOP("Appearance"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Theme
     { QT_TR_NOOP("Theme"),
@@ -14,6 +14,26 @@
       lookFeelThemeValues,
       nullptr,
       CORE_CONFIG_ID(UiThemeSlug, SettingKey::UiThemeSlug) },
+    // Density
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
+      "Density",
+      QT_TR_NOOP("Affects spacing, icon sizes, and list row heights."),
+      SM::TabLookFeel,
+      uiLayoutDensity,
+      setUiLayoutDensity,
+      UserSettings::Density,
+      lookFeelDensityValues,
+      nullptr,
+      UiLayoutDensity,
+      SettingKey::UiLayoutDensity),
+    // Language
+    { QT_TR_NOOP("Language [restart required]"), nullptr, SM::SearchableOptions, SM::TabLookFeel,
+      lookFeelLanguageValue,
+      setLookFeelLanguageValue,
+      {}, {}, {},
+      lookFeelLanguageValues,
+      nullptr,
+      CORE_CONFIG_ID(UiLanguage, SettingKey::UiLanguage) },
     // LookFeelFontsSection
     { QT_TR_NOOP("Fonts"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -94,21 +114,6 @@
       nullptr,
       UiScrollbarPolicy,
       SettingKey::UiScrollbarPolicy),
-    // LookFeelLayoutSection
-    { QT_TR_NOOP("Layout"), nullptr, SM::SectionTitle, SM::TabLookFeel,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // Density
-    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
-      "Density",
-      QT_TR_NOOP("Affects spacing, icon sizes, and list row heights."),
-      SM::TabLookFeel,
-      uiLayoutDensity,
-      setUiLayoutDensity,
-      UserSettings::Density,
-      lookFeelDensityValues,
-      nullptr,
-      UiLayoutDensity,
-      SettingKey::UiLayoutDensity),
     // LookFeelAvatarsSection
     { QT_TR_NOOP("Avatars"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

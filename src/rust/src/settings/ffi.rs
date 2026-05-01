@@ -160,6 +160,7 @@ pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::S
         avatars_circular: config.ui.avatars.circular.unwrap_or(defaults::AVATARS_CIRCULAR),
         scrollbar_policy: config.ui.scrollbar_policy.to_storage_string(),
         default_avatar_style: config.ui.avatars.default_avatar_style.to_storage_string(),
+        language: config.ui.language.clone(),
     }
 }
 
@@ -631,6 +632,7 @@ fn clone_config_ui_section(section: &ffi::SettingsConfigUiSection) -> ffi::Setti
         avatars_circular: section.avatars_circular,
         scrollbar_policy: section.scrollbar_policy.clone(),
         default_avatar_style: section.default_avatar_style.clone(),
+        language: section.language.clone(),
     }
 }
 

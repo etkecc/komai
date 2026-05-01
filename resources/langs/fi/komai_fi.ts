@@ -9426,6 +9426,11 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatarin koko on asetettu Piilotetuksi, joten lähettäjien käyttäjänimet näytetään aina.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Käytä järjestelmää</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -9778,7 +9782,7 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <translation>Tarvitsetko lisää teemoja? Tuo &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallerysta&lt;/a&gt; tai &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;luo oma&lt;/a&gt; (vaatii uudelleenkäynnistyksen).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Fontit</translation>
     </message>
@@ -9823,17 +9827,22 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <translation>Hallitsee, milloin vierityspalkit näytetään sovelluksessa.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Asettelu</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Ulkoasu</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Vaikuttaa välistykseen, kuvakekokoon ja luettelorivin korkeuteen.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Kieli [uudelleenkäynnistys vaaditaan]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatarit</translation>
     </message>

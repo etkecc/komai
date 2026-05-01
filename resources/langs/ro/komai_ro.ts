@@ -9440,6 +9440,11 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Dimensiunea avatarului este setată la Ascuns, deci numele de utilizator ale expeditorilor sunt întotdeauna afișate.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Utilizare sistem</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9781,8 +9786,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Temă</translation>
     </message>
@@ -9792,7 +9796,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
         <translation>Ai nevoie de mai multe teme? Importă din &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; sau &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;creează-ți propriile&lt;/a&gt; (necesită repornire).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Fonturi</translation>
     </message>
@@ -9837,17 +9841,22 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
         <translation>Controlează când sunt afișate barele de derulare în aplicație.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
+        <location line="-104"/>
+        <source>Appearance</source>
         <translation>Aspect</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Afectează spațierea, dimensiunile pictogramelor și înălțimile rândurilor din liste.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Limbă [repornire necesară]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avataruri</translation>
     </message>

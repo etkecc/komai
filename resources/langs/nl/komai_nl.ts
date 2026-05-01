@@ -9426,6 +9426,11 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatargrootte is ingesteld op Verborgen, waardoor gebruikersnamen van verzenders altijd worden weergegeven.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Systeem gebruiken</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Thema</translation>
     </message>
@@ -9778,7 +9782,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <translation>Meer thema's nodig? Importeer uit &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; of &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;maak je eigen&lt;/a&gt; (herstart vereist).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Lettertypen</translation>
     </message>
@@ -9823,17 +9827,22 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <translation>Bepaalt wanneer schuifbalken worden weergegeven in de app.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Indeling</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Uiterlijk</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Beïnvloedt de spatiëring, pictogramgroottes en rijhoogten van lijsten.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Taal [herstart vereist]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>

@@ -59,6 +59,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setUiLayoutDensity(cfg::densityFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.ui.layout_density)).trimmed(),
       UserSettings::Density::Spacious));
+    settings.setUiLanguage(QString::fromStdString(static_cast<std::string>(snapshot.ui.language)));
 
     settings.setNavigationRoomListShowLastMessageTime(
       snapshot.navigation.room_list.show_last_message_time);

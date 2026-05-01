@@ -9412,6 +9412,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ 아바타 크기가 숨김으로 설정되어 있으므로 보낸 사람 이름이 항상 표시됩니다.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>시스템 사용</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9753,8 +9758,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>테마</translation>
     </message>
@@ -9764,7 +9768,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>더 많은 테마가 필요하신가요? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;에서 가져오거나 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;직접 만드세요&lt;/a&gt; (재시작 필요).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>글꼴</translation>
     </message>
@@ -9809,17 +9813,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>앱 전체에서 스크롤바를 표시할 때를 제어합니다.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>레이아웃</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>모양</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>간격, 아이콘 크기, 목록 행 높이에 영향을 줍니다.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>언어 [재시작 필요]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>아바타</translation>
     </message>

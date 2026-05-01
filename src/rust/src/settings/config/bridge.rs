@@ -78,6 +78,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["ui", "scrollbar_policy"],
         Value::String(snapshot.ui.scrollbar_policy.clone()),
     );
+    yaml::set_value(
+        &mut root,
+        &["ui", "language"],
+        Value::String(snapshot.ui.language.clone()),
+    );
 
     yaml::set_value(
         &mut root,

@@ -246,6 +246,7 @@ mod bridge {
         avatars_circular: bool,
         scrollbar_policy: String,
         default_avatar_style: String,
+        language: String,
     }
 
     struct SettingsConfigNavigationRoomListSection {

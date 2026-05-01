@@ -87,6 +87,7 @@ double uiScaleFactor_ = 1.0;
 double uiFontSizePt_  = settings::core::definitions::kDefaultFontSizePt;
 QString uiFontFamily_;
 QString uiFontEmojiFamily_;
+QString uiLanguage_;
 Presence networkPresenceStatusPolicy_;
 ShowImage timelineMediaImageDisplay_;
 QString callsAudioRingtone_;

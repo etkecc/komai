@@ -5,5 +5,6 @@
     QString uiFontFamily() const;
     QString uiFontEmojiFamily() const;
     QString uiFontEmojiFamilyStorageValue() const;
+    QString uiLanguage() const;
     Presence networkPresenceStatusPolicy() const;
     ShowImage timelineMediaImageDisplay() const;

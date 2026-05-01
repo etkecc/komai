@@ -9440,6 +9440,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Розмір аватара встановлено як «Прихований», тому імена відправників завжди відображаються.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Системний</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9781,8 +9786,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Тема</translation>
     </message>
@@ -9792,7 +9796,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>Потрібно більше тем? Імпортуйте з &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; або &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;створіть власну&lt;/a&gt; (потрібен перезапуск).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Шрифти</translation>
     </message>
@@ -9837,17 +9841,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>Контролює відображення смуг прокручування у застосунку.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Макет</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Зовнішній вигляд</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Впливає на відступи, розміри значків та висоту рядків списку.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Мова [необхідний перезапуск]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Аватари</translation>
     </message>

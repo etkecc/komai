@@ -9426,6 +9426,11 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatargröße ist auf Versteckt gesetzt, daher werden Absendernamen immer angezeigt.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>System verwenden</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Design</translation>
     </message>
@@ -9778,7 +9782,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
         <translation>Mehr Themes? Aus der &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; importieren oder &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;eigene erstellen&lt;/a&gt; (Neustart erforderlich).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Schriftarten</translation>
     </message>
@@ -9823,17 +9827,22 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
         <translation>Steuert, wann Scrollleisten in der App angezeigt werden.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Layout</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Erscheinungsbild</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Beeinflusst Abstände, Symbolgrößen und Zeilenhöhen.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Sprache [Neustart erforderlich]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatare</translation>
     </message>

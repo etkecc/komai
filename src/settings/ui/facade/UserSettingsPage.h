@@ -221,6 +221,7 @@ class UserSettings final : public QObject
       QString uiFontFamily READ uiFontFamily WRITE setUiFontFamily NOTIFY uiFontFamilyChanged)
     Q_PROPERTY(QString uiFontEmojiFamily READ uiFontEmojiFamily WRITE setUiFontEmojiFamily NOTIFY
                  uiFontEmojiFamilyChanged)
+    Q_PROPERTY(QString uiLanguage READ uiLanguage WRITE setUiLanguage NOTIFY uiLanguageChanged)
     Q_PROPERTY(Presence networkPresenceStatusPolicy READ networkPresenceStatusPolicy WRITE
                  setNetworkPresenceStatusPolicy NOTIFY networkPresenceStatusPolicyChanged)
     Q_PROPERTY(ShowImage timelineMediaImageDisplay READ timelineMediaImageDisplay WRITE
@@ -558,6 +559,7 @@ public:
     void setUiFontSizePt(double size);
     void setUiFontFamily(QString family);
     void setUiFontEmojiFamily(QString family);
+    void setUiLanguage(QString code);
     void setNavigationCommunitiesFilterFavourites(bool state);
     void setNavigationCommunitiesFilterPeople(bool state);
     void setNavigationCommunitiesFilterBots(bool state);
@@ -817,6 +819,7 @@ signals:
     void uiFontSizePtChanged(double state);
     void uiFontFamilyChanged(QString state);
     void uiFontEmojiFamilyChanged(QString state);
+    void uiLanguageChanged(QString state);
     void networkPresenceStatusPolicyChanged(Presence state);
     void timelineMediaImageDisplayChanged(ShowImage state);
     void callsAudioRingtoneChanged(QString callsAudioRingtone);

@@ -30,6 +30,7 @@ enum class SettingId
     UiAvatarsCircular,
     UiAvatarsDefaultAvatarStyle,
     UiLayoutDensity,
+    UiLanguage,
     NavigationRoomListShowLastMessageTime,
     NavigationRoomListLastMessagePreview,
     NavigationRoomListShowUnreadIndicators,

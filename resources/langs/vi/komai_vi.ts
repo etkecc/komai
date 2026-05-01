@@ -9412,6 +9412,11 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Kích thước ảnh đại diện được đặt thành Ẩn, nên tên người gửi luôn được hiển thị.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Dùng hệ thống</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9753,8 +9758,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Chủ đề</translation>
     </message>
@@ -9764,7 +9768,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
         <translation>Cần thêm chủ đề? Nhập từ &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; hoặc &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;tạo chủ đề của riêng bạn&lt;/a&gt; (cần khởi động lại).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Phông chữ</translation>
     </message>
@@ -9809,17 +9813,22 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
         <translation>Kiểm soát thời điểm hiển thị thanh cuộn trong toàn ứng dụng.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Bố cục</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Giao diện</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Ảnh hưởng đến khoảng cách, kích thước biểu tượng và chiều cao hàng danh sách.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Ngôn ngữ [cần khởi động lại]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Ảnh đại diện</translation>
     </message>

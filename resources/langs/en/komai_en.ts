@@ -9389,6 +9389,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9729,8 +9734,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation type="unfinished">Theme</translation>
     </message>
@@ -9740,7 +9744,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation type="unfinished"/>
     </message>
@@ -9785,17 +9789,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
+        <location line="-104"/>
+        <source>Appearance</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation type="unfinished"/>
     </message>

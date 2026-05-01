@@ -47,6 +47,7 @@ pub struct ConfigUi {
     pub layout: ConfigUiLayout,
     pub avatars: ConfigUiAvatars,
     pub scrollbar_policy: ConfigUiScrollbarPolicyToken,
+    pub language: String,
 }
 
 #[derive(Clone, Debug, Default)]

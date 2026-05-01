@@ -60,6 +60,7 @@ const UI_LAYOUT_DENSITY_PATH: [&str; 3] = ["ui", "layout", "density"];
 const UI_AVATARS_CIRCULAR_PATH: [&str; 3] = ["ui", "avatars", "circular"];
 const UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH: [&str; 3] = ["ui", "avatars", "default_avatar_style"];
 const UI_SCROLLBAR_POLICY_PATH: [&str; 2] = ["ui", "scrollbar_policy"];
+const UI_LANGUAGE_PATH: [&str; 2] = ["ui", "language"];
 const NAVIGATION_ROOM_LIST_SHOW_LAST_MESSAGE_TIME_PATH: [&str; 3] =
     ["navigation", "room_list", "show_last_message_timestamp"];
 const NAVIGATION_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH: [&str; 3] =
@@ -280,6 +281,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 ),
             },
             scrollbar_policy: parse_storage_token(yaml::value_at_path(root, &UI_SCROLLBAR_POLICY_PATH)),
+            language: parse_string(yaml::value_at_path(root, &UI_LANGUAGE_PATH)),
         },
         navigation: ConfigNavigation {
             room_list: ConfigNavigationRoomList {

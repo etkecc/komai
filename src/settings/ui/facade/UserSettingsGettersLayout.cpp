@@ -45,6 +45,14 @@ UserSettings::uiFontEmojiFamilyStorageValue() const
         return QString::fromStdString(*value);
     return uiFontEmojiFamily_;
 }
+QString
+UserSettings::uiLanguage() const
+{
+    if (const auto value = coreStore_.valueAs<std::string>(settings::core::SettingId::UiLanguage);
+        value.has_value())
+        return QString::fromStdString(*value);
+    return uiLanguage_;
+}
 UserSettings::Presence
 UserSettings::networkPresenceStatusPolicy() const
 {

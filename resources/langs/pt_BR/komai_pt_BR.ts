@@ -9426,6 +9426,11 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ O tamanho do avatar está definido como Oculto, portanto os nomes de usuário dos remetentes são sempre exibidos.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Usar sistema</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -9778,7 +9782,7 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
         <translation>Precisa de mais temas? Importe da &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ou &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;crie o seu próprio&lt;/a&gt; (reinicialização necessária).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Fontes</translation>
     </message>
@@ -9823,17 +9827,22 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
         <translation>Controla quando as barras de rolagem são exibidas no aplicativo.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Layout</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Aparência</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Afeta o espaçamento, os tamanhos dos ícones e as alturas das linhas da lista.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Idioma [reinicialização necessária]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatares</translation>
     </message>

@@ -9426,6 +9426,11 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatari suurus on seatud Peidetud, mistõttu kuvatakse alati saatja kasutajanimi.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Kasuta süsteemi</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -9778,7 +9782,7 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
         <translation>Kas vajad rohkem teemasid? Impordi &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;'st või &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;loo oma&lt;/a&gt; (taaskäivitus on vajalik).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Fondid</translation>
     </message>
@@ -9823,17 +9827,22 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
         <translation>Juhib, millal kuvatakse kerimisribasid kogu rakenduses.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Paigutus</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Välimus</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Mõjutab vahet, ikoonide suurust ja loendi ridade kõrgust.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Keel [taaskäivitamine vajalik]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatarid</translation>
     </message>

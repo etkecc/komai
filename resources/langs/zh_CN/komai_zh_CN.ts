@@ -9412,6 +9412,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ 头像大小已设置为隐藏，因此始终显示发件人用户名。</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>使用系统</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9753,8 +9758,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
@@ -9764,7 +9768,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>需要更多主题？从 &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; 导入或&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;创建自己的主题&lt;/a&gt;（需重启）。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>字体</translation>
     </message>
@@ -9809,17 +9813,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>控制滚动条在应用程序中的显示时机。</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>布局</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>外观</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>影响间距、图标大小和列表行高。</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>语言 [需要重启]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>头像</translation>
     </message>

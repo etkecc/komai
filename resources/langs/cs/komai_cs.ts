@@ -9440,6 +9440,11 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Velikost avataru je nastavena na Skrytý, proto jsou jména odesílatelů vždy zobrazena.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Použít systémové</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9781,8 +9786,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Motiv</translation>
     </message>
@@ -9792,7 +9796,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <translation>Potřebujete více témat? Importujte z &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; nebo &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;vytvořte vlastní&lt;/a&gt; (vyžaduje restart).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Písma</translation>
     </message>
@@ -9837,17 +9841,22 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <translation>Určuje, kdy se zobrazují posuvníky v celé aplikaci.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Rozvržení</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Vzhled</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Ovlivňuje mezery, velikosti ikon a výšky řádků v seznamu.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Jazyk [nutný restart]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatary</translation>
     </message>

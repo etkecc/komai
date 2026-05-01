@@ -9426,6 +9426,11 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ അവതാർ വലിപ്പം മറഞ്ഞിരിക്കുന്നതായി സജ്ജമാക്കിയതിനാൽ, അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ എല്ലായ്‌പ്പോഴും കാണിക്കും.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>സിസ്റ്റം ഉപയോഗിക്കുക</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>തീം</translation>
     </message>
@@ -9778,7 +9782,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>കൂടുതൽ തീമുകൾ വേണോ? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക അല്ലെങ്കിൽ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;നിങ്ങളുടേത് സൃഷ്ടിക്കുക&lt;/a&gt; (പുനരാരംഭം ആവശ്യമാണ്).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>ഫോണ്ടുകൾ</translation>
     </message>
@@ -9823,17 +9827,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>ആപ്പ് മുഴുവൻ സ്‌ക്രോൾബാറുകൾ എപ്പോൾ കാണിക്കണമെന്ന് നിയന്ത്രിക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>ലേഔട്ട്</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>രൂപഭാവം</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>സ്‌പേസിംഗ്, ഐക്കൺ വലുപ്പം, ലിസ്റ്റ് വരി ഉയരം എന്നിവ ബാധിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>ഭാഷ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>അവതാറുകൾ</translation>
     </message>

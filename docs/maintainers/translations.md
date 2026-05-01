@@ -11,6 +11,8 @@ The pipeline is provider-neutral in principle; the current backend is the [Claud
 
 Komai currently ships translations for the following 33 languages (plus English as the source). Click a row to jump to that language's translation files. Flags indicate broad regions only — they're a navigational aid, not a claim that a language belongs to any one country.
 
+Users pick from this list in-app under **Settings → Look & Feel → Appearance → Language**. The default is *Use system*, which falls back to the host locale (`LANG`/`QLocale`). Picking an explicit language stores `ui.language` in `config.yml` and requires a restart to take effect.
+
 | Flag | Language | Native name | Files |
 |------|----------|-------------|-------|
 | 🌐 | Arabic | العربية | [`resources/langs/ar/`](../../resources/langs/ar/) |

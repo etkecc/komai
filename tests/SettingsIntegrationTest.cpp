@@ -1634,6 +1634,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiThemeSlug));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontFamily));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontEmojiFamily));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiLanguage));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontSizePt));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiMotionAnimationsEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiInputMode));

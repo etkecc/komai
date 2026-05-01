@@ -160,3 +160,5 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 ## 🌐 Translations
 
 AI-assisted translation fills in gaps left by nheko's incomplete human translations, covering 30+ languages. See [Translations](../maintainers/translations.md) for details.
+
+Users can override the system locale via **Settings → Look & Feel → Appearance → Language** (default: *Use system*). A restart is required for the change to take effect.

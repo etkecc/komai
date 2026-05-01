@@ -430,6 +430,7 @@ fn encodes_generic_config_values() {
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),
             default_avatar_style: "boring_avatars_bauhaus".to_owned(),
+            language: String::new(),
         },
         navigation: SettingsConfigNavigationSection {
             room_list: SettingsConfigNavigationRoomListSection {
@@ -1150,6 +1151,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),
             default_avatar_style: "boring_avatars_bauhaus".to_owned(),
+            language: String::new(),
         },
         navigation: SettingsConfigNavigationSection {
             room_list: SettingsConfigNavigationRoomListSection {
@@ -1392,6 +1394,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),
             default_avatar_style: "boring_avatars_bauhaus".to_owned(),
+            language: String::new(),
         },
         navigation: SettingsConfigNavigationSection {
             room_list: SettingsConfigNavigationRoomListSection {

@@ -9440,6 +9440,11 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Veličina avatara je podešena na Skriveno, pa se korisnička imena pošiljaoca uvek prikazuju.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Koristi sistemski</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9781,8 +9786,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -9792,7 +9796,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
         <translation>Trebaš više tema? Uvezi iz &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ili &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kreiraj sopstvenu&lt;/a&gt; (potreban je restart).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Fontovi</translation>
     </message>
@@ -9837,17 +9841,22 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
         <translation>Kontroliše kada se klizači prikazuju u aplikaciji.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Raspored</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Izgled</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Utiče na razmake, veličine ikona i visine redova lista.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Jezik [potreban restart]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatari</translation>
     </message>

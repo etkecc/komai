@@ -27,6 +27,9 @@ ui:
   scrollbar_policy: when_needed
   scale:
     factor: 1.0
+  # Empty means "Use system" (host locale via LANG/QLocale).
+  # Set to a shipped code (e.g. de, fr, pt_BR, zh_CN) to override.
+  language: ""
 
 navigation:
   room_list:

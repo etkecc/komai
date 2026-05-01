@@ -9426,6 +9426,11 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatarstorleken är inställd på Dold, så avsändarens användarnamn visas alltid.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Använd system</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -9778,7 +9782,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
         <translation>Behöver du fler teman? Importera från &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; eller &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;skapa egna&lt;/a&gt; (omstart krävs).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Teckensnitt</translation>
     </message>
@@ -9823,17 +9827,22 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
         <translation>Styr när rullningslister visas i appen.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Layout</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Utseende</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Påverkar avstånd, ikonstorlekar och listradshöjder.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Språk [omstart krävs]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatarer</translation>
     </message>

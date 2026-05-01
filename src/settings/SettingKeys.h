@@ -25,6 +25,7 @@ constexpr auto UiInputTouchSwipeGesturesEnabled = "ui.input.touch.swipe_gestures
 constexpr auto UiAvatarsCircular                = "ui.avatars.circular";
 constexpr auto UiAvatarsDefaultAvatarStyle      = "ui.avatars.default_avatar_style";
 constexpr auto UiLayoutDensity                  = "ui.layout.density";
+constexpr auto UiLanguage                       = "ui.language";
 constexpr auto NavigationRoomListShowLastMessageTime =
   "navigation.room_list.show_last_message_timestamp";
 constexpr auto NavigationRoomListLastMessagePreview = "navigation.room_list.last_message_preview";

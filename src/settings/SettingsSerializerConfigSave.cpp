@@ -37,6 +37,7 @@ stageConfig(const UserSettings &settings,
           .avatars_circular     = settings.uiAvatarsCircular(),
           .scrollbar_policy     = {},
           .default_avatar_style = {},
+          .language             = settings.uiLanguage().toStdString(),
         },
       .navigation =
         {

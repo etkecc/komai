@@ -9412,6 +9412,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ اندازه تصویر نمایه روی 'پنهان' تنظیم شده است، بنابراین نام‌های کاربری فرستنده همیشه نمایش داده می‌شوند.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>استفاده از سیستم</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9753,8 +9758,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>پوسته</translation>
     </message>
@@ -9764,7 +9768,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>به تم‌های بیشتری نیاز دارید؟ از &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; وارد کنید یا &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;خودتان بسازید&lt;/a&gt; (نیاز به راه‌اندازی مجدد).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>قلم‌ها</translation>
     </message>
@@ -9809,17 +9813,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>کنترل می‌کند که نوارهای اسکرول در کل برنامه چه زمانی نمایش داده شوند.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>چیدمان</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>ظاهر</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>بر فاصله‌گذاری، اندازه آیکون‌ها و ارتفاع ردیف‌های فهرست تأثیر می‌گذارد.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>زبان [نیاز به راه‌اندازی مجدد]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>آواتارها</translation>
     </message>

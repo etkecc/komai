@@ -9426,6 +9426,11 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ La mida de l'avatar s'ha establert en "Ocult", de manera que els noms d'usuari del remitent sempre es mostren.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Usa el sistema</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9767,8 +9772,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -9778,7 +9782,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
         <translation>Necessiteu més temes? Importeu des de la &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Galeria Tinted&lt;/a&gt; o &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;creeu el vostre propi&lt;/a&gt; (cal reiniciar).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Tipus de lletra</translation>
     </message>
@@ -9823,17 +9827,22 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
         <translation>Controla quan es mostren les barres de desplaçament a tota l'aplicació.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Disposició</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Aparença</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Afecta l'espaiat, la mida de les icones i l'alçada de les files de la llista.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Idioma [cal reiniciar]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>

@@ -9412,6 +9412,11 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Az avatárméret Rejtett értékre van állítva, ezért a küldők felhasználónevei mindig láthatók.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Rendszer használata</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9753,8 +9758,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Téma</translation>
     </message>
@@ -9764,7 +9768,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
         <translation>Több témára van szüksége? Importáljon a &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ból, vagy &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;hozzon létre sajátot&lt;/a&gt; (újraindítás szükséges).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Betűtípusok</translation>
     </message>
@@ -9809,17 +9813,22 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
         <translation>Szabályozza, mikor jelenjenek meg a görgetősávok az alkalmazásban.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Elrendezés</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Megjelenés</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Befolyásolja a térközt, az ikonméretet és a listasorok magasságát.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Nyelv [újraindítás szükséges]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avatárok</translation>
     </message>

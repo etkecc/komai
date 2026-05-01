@@ -34,3 +34,4 @@
    true,
    0,
    2},
+  {SettingId::UiLanguage, SettingScope::Config, SettingKey::UiLanguage, true},

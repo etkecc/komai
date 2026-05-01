@@ -75,6 +75,17 @@ UserSettings::setUiFontEmojiFamily(QString family)
 }
 
 void
+UserSettings::setUiLanguage(QString code)
+{
+    if (code == uiLanguage_)
+        return;
+    uiLanguage_ = code;
+    (void)coreStore_.set(settings::core::SettingId::UiLanguage, code.toStdString());
+    emit uiLanguageChanged(code);
+    save();
+}
+
+void
 UserSettings::setNetworkPresenceStatusPolicy(Presence s)
 {
     if (networkPresenceStatusPolicy_ == s)

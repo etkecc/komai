@@ -9429,6 +9429,11 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatara grandeco estas agordita al Kaŝita, do sendantaj uzantnomoj estas ĉiam montrataj.</translation>
     </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <source>Use system</source>
+        <translation>Uzi sistemon</translation>
+    </message>
 </context>
 <context>
     <name>UserSettingsPage</name>
@@ -9770,8 +9775,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
 <context>
     <name>settings::ui</name>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
-        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
         <source>Theme</source>
         <translation>Temo</translation>
     </message>
@@ -9781,7 +9785,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <translation>Bezonas pliajn temojn? Importu de &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; aŭ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kreu vian propran&lt;/a&gt; (restartigo bezonata).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+30"/>
         <source>Fonts</source>
         <translation>Tiparoj</translation>
     </message>
@@ -9826,17 +9830,22 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <translation>Kontrolas kiam rulstrioj estas montrataj tra la aplikaĵo.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Layout</source>
-        <translation>Aranĝo</translation>
+        <location line="-104"/>
+        <source>Appearance</source>
+        <translation>Aspekto</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+16"/>
         <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation>Influas la interpacon, grandecojn de piktogramoj kaj altecojn de listaj vicoj.</translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Lingvo [restartigo bezonata]</translation>
+    </message>
+    <message>
+        <location line="+88"/>
         <source>Avatars</source>
         <translation>Avataraĵoj</translation>
     </message>

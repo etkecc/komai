@@ -9405,31 +9405,1416 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
         <translation>Donker</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>Versleuteling</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>Versleutelde berichten alleen naar geverifieerde gebruikers sturen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>Vereist dat een gebruiker geverifieerd is om versleutelde berichten naar hen te sturen. Dit verbetert de veiligheid, maar maakt E2EE omslachtiger.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>Sleutels delen met geverifieerde gebruikers en apparaten</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>Beantwoordt sleutelverzoeken van andere gebruikers automatisch als ze geverifieerd zijn, zelfs als dat apparaat anders geen toegang tot die sleutels zou mogen hebben.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>Online sleutelback-up inschakelen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>Download berichtversleutelingssleutels van de versleutelde online sleutelback-up en upload ernaar.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>Aanwezigheid</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>Statusbeleid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Beheert je &lt;a href="%1"&gt;Aanwezigheid&lt;/a&gt;-status op het Matrix-netwerk.
 Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>Statusbericht</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>Transport</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>TLS-certificaten valideren</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>Ongeldige of niet-vertrouwde servercertificaten weigeren.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>HTTP/3 inschakelen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>Gebruik HTTP/3 voor Matrix-serververbindingen indien beschikbaar.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Speelt kleine videoclips (onder %1 MB of %2 s) inline af, gedempt en herhaald. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Meer informatie&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>Weergave</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>Tijdlijnvoorvertoning</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>Stijl</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>Horizontale plaatsing</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>Kies of berichten aan één kant blijven of tegenover elkaar worden geplaatst op basis van afzender.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>Maximale berichtbreedte (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>Percentage van de beschikbare tijdlijnbreedte dat één bericht kan innemen.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>Kleurcodering afzender/bericht</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>Kies hoe afzenderkleuren worden toegewezen in de tijdlijn en ballonachtergronden.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>Gebruikersnaam afzender boven berichten weergeven</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Bepaal wanneer gebruikersnamen van afzenders boven berichten worden weergegeven. In bellenweergave is je eigen gebruikersnaam altijd verborgen. In kleinere kamers zijn avatars en belkleuren vaak voldoende context.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>Avatargrootte</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>Avatar weergeven naast eigen berichtballonnen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>Als de bellenlayout is ingeschakeld, wordt je avatar naast je eigen berichten weergegeven. Dit verbetert de links/rechts-symmetrie en maakt auteurschap gemakkelijker te scannen.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>Berichten met alleen emoji's vergroten</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>Bericht markeren bij aanwijzen</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>Syntaxmarkering voor opgemaakte codeblokken</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>Pas taalspecifieke syntaxiskleuring toe op codeblokken in opgemaakte (HTML) tijdlijnberichten.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>Berichteffecten weergeven</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Sommige berichten, vooral berichten met emoji's zoals 🎊, ☀️ of 🌦️, kunnen een fraaier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;tijdlijneffect&lt;/a&gt; weergeven.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>Threadantwoorden samenvouwen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Verbergt threadantwoorden uit de hoofdtijdlijn en toont alleen rootberichten van threads. Kan per kamer worden overschreven via Kamerainfo → Voorkeuren.&lt;br&gt;⚠️ Ongelezen bijhouden per thread wordt niet ondersteund, waardoor je antwoorden in oudere threads kunt missen.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>Feedback</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>Weergeven wanneer anderen aan het typen zijn</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>Leesbevestigingen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>Weergeven of je berichten zijn gelezen. Als je homeserver geen leesbevestigingen ondersteunt, worden kamers mogelijk niet als gelezen gemarkeerd.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>Acties</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>Activeringsbeleid voor acties</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>Kies hoe berichtacties worden geopend.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>Vastgezette reacties</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>Kommagescheiden lijst van reacties vastgezet op de actiebalk. Resterende plaatsen worden gevuld met je meestgebruikte reacties per kamer.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>Afbeeldingsbeheer</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>Geanimeerde afbeeldingen alleen afspelen bij hover</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>Afbeeldingen automatisch weergeven</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>Openen in een externe viewer</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>Versleutelde afbeeldingen worden ontsleuteld &lt;a href="komai://media-cache"&gt;gecached&lt;/a&gt; op schijf (periodiek automatisch gewist).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>Videoverwerking</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>Openen in een externe speler</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Streamt indien mogelijk; versleutelde of niet-doorzoekbare video's worden &lt;a href="komai://media-cache"&gt;gecachet&lt;/a&gt; op schijf (periodiek automatisch gewist).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>Inline automatisch afspelen van GIF-video's</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>Audioverwerking</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Streamt indien mogelijk; versleutelde of niet-doorzoekbare audio wordt &lt;a href="komai://media-cache"&gt;gecachet&lt;/a&gt; op schijf (periodiek automatisch gewist).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>Standaard afspeelsnelheid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>Toegepast op inline audiospelers.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatargrootte is ingesteld op Verborgen, waardoor gebruikersnamen van verzenders altijd worden weergegeven.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>Systeem gebruiken</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>Nooit</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>Alleen in onversleutelde kamers</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>Indien beschikbaar</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>Systeemfont</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>Systeememojifont</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>Bureaublad</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>Aanraak</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>Indien nodig</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>Altijd</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>Letterinitiaal</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>Gebruikerspictogram</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>Ruimtelijk</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>Compact</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>Dicht</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>Geen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>Alleen-lezen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>Lezen &amp; schrijven</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>Altijd online</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>Altijd niet beschikbaar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>Altijd offline</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>Automatisch</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>Selecteer een bestand</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>Alle bestanden (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>Ongelezen eerst, dan recent</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>Ongelezen eerst, dan A-Z</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>Recente activiteit</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>Alfabetisch</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>Actief tabblad hergebruiken</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>Nieuw tabblad openen</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>Avatar en label</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>Alleen avatar</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>Normaal</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>Klein</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>Verborgen</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>Alleen in grote kamers (&gt; 16 leden)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>Gewoon</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>Ballonnen</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>Tegenovergesteld per afzender</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>Alles links uitgelijnd</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>Alles rechts uitgelijnd</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>Adaptief (per lid in kleine kamers)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>Ik vs. anderen</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>Alleen in privékamers</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>Bij aanwijzen van bericht</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>Bij klikken op knop</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>Alleen aan het einde van berichten</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>Geen voorkeur</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 Man</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 Vrouw</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 Licht</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 Middellicht</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 Medium</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 Middeldonker</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 Donker</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>Standaard</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>Weergave</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>Thema</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Meer thema's nodig? Importeer van &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; of &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;maak je eigen&lt;/a&gt; (herstart vereist).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>Dichtheid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>Beïnvloedt de afstand, pictogramgrootten en rijhoogten in lijsten.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Taal [herstart vereist]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>Lettertypen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>Lettertypefamilie</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>Lettergrootte</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>De meeste UI-elementen passen zich direct aan. Sommige labels worden mogelijk pas bijgewerkt na het herstarten van de app.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>Emoji-lettertypefamilie</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>Schaalfactor [herstart vereist]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>Gedrag</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>UI-animaties inschakelen</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>Interactiemodus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>Bureaublad gebruikt muis-eerst-gedrag. Aanraakmodus geeft de voorkeur aan veeg- en aanraakinteracties.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>Veeggebaren inschakelen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>Schakel gebaren in, zoals vegen tussen kamerlijst en tijdlijn, en een bericht vegen om te antwoorden.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>Zichtbaarheid schuifbalk</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>Bepaalt wanneer schuifbalken in de app worden weergegeven.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>Avatars</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>Avatarvoorbeeld</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>Ronde avatars gebruiken</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>Standaard avatarstijl</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>Weergegeven voor gebruikers en kamers zonder aangepaste avatar.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>Gemeenschapszijbalk</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>Ongelezen indicatoren weergeven</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>Toon ongelezen nadruk (telbadges, rijmarkering en markering aan linkerrand) op community- en tagfilters.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>Alle kamers</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>Toont al je kamers in één weergave. Kamers die behoren tot filters die hieronder als uitgesloten zijn gemarkeerd, worden verborgen in deze lijst.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>Favorieten</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Kamers getagd met &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via de Matrix kamertagging-API.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>Personen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Directe chats met echte mensen, exclusief gebruikers die door heuristieken als bots &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;worden herkend&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>Bots</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Directe chats waarbij de gesprekspartner als bot of brugserviceaccount &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;herkend&lt;/a&gt; wordt.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>Groepen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>Kamers met meerdere deelnemers die geen directe chats zijn (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; en andere).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>Server Notices</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>Kamers getagd met &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; door de homeserver voor administratieve berichten. Zie de &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt;-module in de Matrix-specificatie.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>Lage prioriteit</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Kamers getagd met &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via de Matrix kamertagging-API.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>Kamerlijst</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>Toon ongelezen nadruk (telbadges, vetgedrukte kamernaam, springende avatar, rijmarkering en markering aan linkerrand) naast kamers.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>Tijdstempel laatste bericht weergeven</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>Voorvertoning laatste bericht weergeven</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>Voegt een voorbeeld van het laatste bericht toe aan kamerlijstitems. Wordt weergegeven op een eigen regel in de Ruimtelijke en Compacte weergave, en inline naast de kamernaam in de Dichte weergave.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>Sortering</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>Openingsbeleid kamerlijst</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>Of het klikken op een kamer het actieve tabblad hergebruikt of een nieuw opent. Kamers met een bestaand tabblad activeren dat altijd.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>Tabbladbalk</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>Vastzetknop weergeven</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>Label vastgezet tabblad</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>Label normaal tabblad</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>Voorkeursbreedte tabblad</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>Minimale tabbreedte</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>Max. onlangs gesloten voorgerenderde tijdlijnen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>Onlangs gesloten vooraf gerenderde tijdlijnen maken direct wisselen van kamer mogelijk, maar verhogen het CPU- en RAM-gebruik. Open tabbladen worden altijd vooraf gerenderd. Stel in op 0 om alleen open tabbladen te bewaren.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>Invoer</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>Verzendtoets</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>Kies welke Enter-toetscombinatie berichten verzendt.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>Markdown automatisch converteren naar HTML</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>Bepaalt of &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt;-syntaxis automatisch wordt omgezet naar een &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt;-bericht met Markdown platte-tekst als terugval.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>Inline kamerkiezer</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>Toon een inline kamerkiezer wanneer je een hekje (#) typt in het berichtinvoerveld.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>Inline gebruikerskiezer</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>Toon een inline gebruikerskiezer wanneer je een apenstaartje (@) typt in het berichtinvoerveld.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>Spraaktranscriptie</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>Schakelt spraak-naar-tekst in. Configureer de transcriptieprovider via &lt;a href="komai://settings/integrations/transcription"&gt;Integraties → Spraaktranscriptie&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>Bijlagen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>Afbeeldingsmetadata verwijderen voor upload</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Verwijdert naar best vermogen metadata (EXIF, IPTC, XMP) uit sommige afbeeldingsformaten om je privacy te beschermen. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Meer informatie&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>Emoji</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>Emoticons automatisch vervangen door emoji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>Vervangt tekstemoticons zoals :) :D :P automatisch door hun emoji-equivalenten bij het verzenden van een bericht. Kies of je ze overal of alleen aan het einde vervangt.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>Inline emoji-kiezer</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>Toon een inline emoji-kiezer wanneer je een dubbele punt (:) typt in het berichtinvoerveld.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>Voorkeursgender</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan door Unicode gedefinieerde gendervarianten (man/vrouw) indien beschikbaar. Expliciet zoeken naar het andere geslacht werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer informatie&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>Voorkeurshuidskleur</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan één huidtoonvariant indien beschikbaar. Expliciet zoeken naar een andere huidtoon werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer informatie&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>Aan anderen tonen wanneer ik aan het typen ben</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>Accountmeldingen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>Meldingen inschakelen voor dit account</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>Beheert de meldingsschakelaar op accountniveau op de homeserver. Uitschakelen om meldingen op al je clients/apparaten te dempen.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>Systeemmeldingen</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>Systeemmeldingen inschakelen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>Meldingen over ontvangen berichten wanneer de client niet gefocust is. Dit heeft alleen effect wanneer accountmeldingen hierboven zijn ingeschakeld.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>Berichtinhoud in meldingen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>Kies hoeveel berichttekst in meldingen wordt opgenomen.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>App-venster/taakbalk laten knipperen bij binnenkomende berichten</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>Toon een aandachtsmelding wanneer een bericht wordt ontvangen (bijvoorbeeld activiteit van het taakbalkpictogram).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>Aandachtsindicatoren</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>Aandachtstelling weergeven in venstertitel</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>Voeg het aantal kamers dat aandacht vereist toe aan de Komai-venstertitel.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>Aandachtstelling weergeven op app-pictogram/taakbalkbadge</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Toon het aantal kamers dat aandacht nodig heeft op de app/taakbalkbadge. Op Linux hebben niet-standaardprofielen een eigen desktoplauncher nodig voor betrouwbare app-badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Meer informatie&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>Systeemvak</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>Minimaliseren naar systeemvak</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>De applicatie op de achtergrond laten draaien na het sluiten van het clientvenster.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>Starten in systeemvak</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>Start de applicatie op de achtergrond zonder het venster te tonen.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>Venstervervaging</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>Vervagen bij focusverlies</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>Vervagingsvertraging (seconden)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>Stel in hoe lang na het verliezen van focus het vervagen begint. Stel 0 in om direct te vervagen. Maximum is 3600 seconden (1 uur).</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>Algemeen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>Verouderde gesprekken inschakelen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>Staat toe dat verouderde (pre-MatrixRTC) gesprekken worden geaccepteerd en gestart.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>turn.matrix.org als reserverelais gebruiken</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>Gebruik turn.matrix.org als reserverelais-/STUN-server als je homeserver er geen biedt.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>Apparaten</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>Microfoon</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>Camera</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>Cameraresolutie</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>Cameraframerate</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>Beltoon</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>Scherm delen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>Framesnelheid scherm delen</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>Doelframes per seconde voor scherm delen. Lagere waarden gebruiken minder CPU en bandbreedte.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>Camera picture-in-picture opnemen</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>Camera van deelnemer weergeven tijdens scherm delen</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>Muiscursor weergeven</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>D-Bus-toegang</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>Kies hoeveel &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus-toegang&lt;/a&gt; Komai blootstelt aan lokale aanroepers.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>Matrix Rooms Search</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>Ingeschakeld</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>Indien ingeschakeld, voegt &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;-ondersteuning toe aan het dialoogvenster &lt;a href="komai://rooms-directory"&gt;Openbare kamers verkennen&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>Server</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>Elke instantie van &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; is geschikt, maar &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is een grote populaire instantie beheerd door &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>Browser</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>Account</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>Gebruikers-ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>Homeserver</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>Profiel bewerken</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>Apparaat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>Apparaat-ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>Toegangstoken</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>Je toegangstoken geeft volledige toegang tot je account. Deel het met niemand.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>Gebruikers</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>Genegeerde gebruikers</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>Uitloggen</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>Applicatie</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>Naam</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>Platform</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>Gemaakt door</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>Licentie</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>Erkenningen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>Fork-basis</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>Pictogrammenset (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>Pictogrammenset (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>Standaard avatars (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9767,683 +11152,6 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>Thema</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Meer thema's nodig? Importeer uit &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; of &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;maak je eigen&lt;/a&gt; (herstart vereist).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>Lettertypen</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>Lettertypefamilie</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>De meeste UI-elementen worden live vergroot of verkleind. Sommige labels worden mogelijk pas bijgewerkt na het herstarten van de app.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>Emoji-lettertypefamilie</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>Gedrag</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>Interactiemodus</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Desktop gebruikt muisgericht gedrag. Aanraakmodus geeft de voorkeur aan veeg- en aanraakinteracties.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Gebaren inschakelen zoals vegen tussen Kamerlijst en tijdlijn, en een bericht wegvegen om te antwoorden.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>Bepaalt wanneer schuifbalken worden weergegeven in de app.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>Uiterlijk</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>Beïnvloedt de spatiëring, pictogramgroottes en rijhoogten van lijsten.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Taal [herstart vereist]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>Avatars</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>Avatarvoorvertoning</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>Getoond voor gebruikers en kamers zonder aangepaste avatar.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>Gemeenschapszijbalk</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>Toon ongelezen nadruk (tellingsbadges, rijmarkering en linkerrandmarkering) op gemeenschaps- en tagfilters.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>Alle kamers</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>Toont al je kamers in één weergave. Kamers in filters die hieronder als uitgesloten zijn gemarkeerd, worden uit deze lijst verborgen.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Kamers getagd met &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via de Matrix room tagging API.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Directe berichten met echte mensen, exclusief gebruikers die &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;gedetecteerd&lt;/a&gt; worden als bots via heuristieken.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Directe berichten waarbij de gesprekspartner &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;gedetecteerd&lt;/a&gt; wordt als een bot of bridge-serviceaccount.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>Kamers met meerdere deelnemers die geen directe berichten zijn (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; en andere).</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>Kamers getagd met &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; door de homeserver voor beheermeldingen. Zie de module &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; in de Matrix-specificatie.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Kamers getagd met &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via de Matrix room tagging API.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>Kamerlijst</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>Toon ongelezen nadruk (tellingsbadges, vette kamernaam, avatar-bounce, rijmarkering en linkerrandmarkering) naast kamers.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>Voegt een voorvertoning van het laatste bericht toe aan kameritems. Weergegeven op een eigen regel in de Ruim- en Compact-weergave, en inline naast de kamernaam in Dicht.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>Of het klikken op een kamer het actieve tabblad hergebruikt of een nieuw opent. Kamers met een bestaand tabblad activeren dat in alle gevallen.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>Tabbladbalk</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>Recentelijk gesloten voorgerenderde tijdlijnen maken direct wisselen van kamers mogelijk, maar verhogen het CPU- en RAM-gebruik. Open tabbladen worden altijd voorgerenderd. Stel in op 0 om alleen open tabbladen te bewaren.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>Weergave</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>Tijdlijnpreview</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Kies of berichten aan één kant blijven of tegenover elkaar worden geplaatst op basis van de afzender.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>Maximale berichtbreedte (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>Percentage van de beschikbare tijdlijnbreedte dat één bericht kan innemen.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>Kies hoe afzenderkleuren worden toegewezen in de tijdlijn en bellenachtergronden.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Bepaal wanneer gebruikersnamen van afzenders boven berichten worden weergegeven. In bellenweergave is je eigen gebruikersnaam altijd verborgen. In kleinere kamers zijn avatars en belkleuren vaak voldoende context.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>Wanneer de bellayout is ingeschakeld, toon je avatar naast je eigen berichten. Dit verbetert de links/rechts-symmetrie en maakt auteurschap gemakkelijker te herkennen.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>Pas taalbewuste syntaxismarkering toe op codeblokken in opgemaakte (HTML) tijdlijnberichten.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Sommige berichten, vooral die met emoji's zoals 🎊, ☀️ of 🌦️, kunnen een fraaier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;tijdlijneffect&lt;/a&gt; tonen.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Verbergt threadreacties uit de hoofdtijdlijn en toont alleen de startberichten van threads. Kan per kamer worden overschreven via Kamerinformatie → Voorkeuren.&lt;br&gt;⚠️ Ongelezen bijhouden per thread wordt niet ondersteund, waardoor je reacties in oudere threads kunt missen.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>Feedback</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Toon of je berichten gelezen zijn. Als je homeserver geen leesbevestigingen ondersteunt, worden kamers mogelijk niet als gelezen gemarkeerd.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>Acties</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>Kies hoe berichtacties worden geopend.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>Door komma's gescheiden lijst van reacties vastgezet aan de actiebalk. Resterende plaatsen worden gevuld met je meestgebruikte reacties per kamer.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>Afbeeldingsbeheer</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>Versleutelde afbeeldingen worden ontsleuteld &lt;a href="komai://media-cache"&gt;gecached&lt;/a&gt; op schijf (periodiek automatisch opgeschoond).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>Video-afhandeling</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Streamt indien mogelijk; versleutelde of niet-doorzoekbare video's worden op schijf &lt;a href="komai://media-cache"&gt;gecached&lt;/a&gt; (periodiek automatisch verwijderd).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>Audioverwerking</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Streamt indien mogelijk; versleuteld of niet-doorzoekbaar geluid wordt op schijf &lt;a href="komai://media-cache"&gt;gecached&lt;/a&gt; (periodiek automatisch verwijderd).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>Van toepassing op ingebedde audiospelers.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>Invoer</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>Kies welke Enter-toetscombinatie berichten verzendt.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>Bepaalt of &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt;-syntaxis automatisch wordt omgezet naar een &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt;-bericht met Markdown als platte-tekstfallback.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>Toon een inline kamerkiezer wanneer je een hekje (#) in het berichtinvoerveld typt.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>Toon een inline gebruikerskiezer wanneer je een apenstaartje (@) in het berichtinvoerveld typt.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>Schakelt spraak-naar-tekst in. Configureer de transcriptieaanbieder in &lt;a href="komai://settings/integrations/transcription"&gt;Integraties → Spraaktranscriptie&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>Bijlagen</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Verwijdering van metadata (EXIF, IPTC, XMP) naar beste vermogen uit sommige afbeeldingsformaten om je privacy te beschermen. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Meer informatie&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>Vervang tekstemoticons zoals :) :D :P automatisch door hun emoji-equivalenten bij het verzenden van een bericht. Kies of je overal vervangt of alleen aan het einde.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>Toon een inline emoji-kiezer wanneer je een dubbele punt (:) in het berichtinvoerveld typt.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan Unicode-gedefinieerde geslachtsvarianten (man/vrouw) indien beschikbaar. Expliciet zoeken naar het andere geslacht werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer info&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Alleen inline emoji-kiezer: geef de voorkeur aan één huidtintvariant indien beschikbaar. Expliciet zoeken naar een ander huidtint werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer info&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>Accountmeldingen</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>Meldingen inschakelen voor dit account</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>Bepaalt je Matrix-meldingsschakelaar op accountniveau op de homeserver. Uitschakelen dempt meldingen voor al je clients/apparaten.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>Systeemmeldingen</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>Meldingen tonen voor ontvangen berichten wanneer de client niet gefocust is. Dit heeft alleen effect als accountmeldingen hierboven zijn ingeschakeld.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>Kies hoeveel berichttekst in meldingen wordt opgenomen.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>Toon een attentiemelding wanneer een bericht ontvangen wordt (bijvoorbeeld activiteit van het taakbalkpictogram).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>Aandachtsindicatoren</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>Voeg het aantal kamers dat aandacht vereist toe aan de Komai-venstertitel.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Toon het aantal kamers dat aandacht vereist op het app-/taakbalkbadge. Op Linux hebben niet-standaard profielen een eigen bureaubladlauncher nodig voor betrouwbare app-badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Meer informatie&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>Systeemvak</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>De applicatie op de achtergrond actief houden na het sluiten van het clientvenster.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Start de applicatie op de achtergrond zonder het clientvenster te tonen.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>Venstervervaging</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>Stel in hoelang na focusverlies het vervagen begint. Stel 0 in om onmiddellijk te vervagen. Maximum is 3600 seconden (1 uur).</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>Algemeen</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>Maakt het mogelijk om verouderde (pre-MatrixRTC) gesprekken te accepteren en te starten.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>Gebruik turn.matrix.org als noodrelais-/STUN-server wanneer je homeserver er geen levert.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Apparaten</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>Microfoon</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>Camera</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>Cameraresolutie</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>Camera-framesnelheid</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>Beltoon</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>Scherm delen</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>Doelframes per seconde voor scherm delen. Lagere waarden gebruiken minder CPU en bandbreedte.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>D-Bus-toegang</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>Kies hoeveel &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus-toegang&lt;/a&gt; Komai beschikbaar stelt voor lokale aanroepers.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>Zoeken in Matrix-kamers</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>Wanneer ingeschakeld, voegt &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;-ondersteuning toe aan het dialoogvenster &lt;a href="komai://rooms-directory"&gt;Openbare kamers verkennen&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>Elke instantie van &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; volstaat, maar &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is een grote populaire instantie beheerd door &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>Browser</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>Versleuteling</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>Vereist dat een gebruiker geverifieerd is voor het sturen van versleutelde berichten. Dit verbetert de veiligheid, maar maakt E2EE omslachtiger.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>Beantwoordt automatisch sleutelverzoeken van andere gebruikers als ze geverifieerd zijn, zelfs als dat apparaat anders geen toegang tot die sleutels zou hebben.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>Versleutelingssleutels voor berichten downloaden van en uploaden naar de versleutelde online sleutelback-up.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>Aanwezigheid</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>Statusbeleid</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Beheert je &lt;a href="%1"&gt;Aanwezigheid&lt;/a&gt;-status op het Matrix-netwerk.
-Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>Statusbericht</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>Transport</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>Ongeldige of niet-vertrouwde servercertificaten weigeren.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>Gebruik HTTP/3 voor Matrix-serververbindingen indien beschikbaar.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>Account</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>Gebruikers-ID</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>Homeserver</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>Profiel bewerken</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>Apparaat</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>Apparaat-ID</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>Toegangstoken</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>Je toegangstoken geeft volledige toegang tot je account. Deel het met niemand.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>Gebruikers</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>Genegeerde gebruikers</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>Uitloggen</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>Applicatie</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>Naam</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>Platform</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>Gemaakt door</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>Licentie</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>Dankbetuigingen</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>Fork-basis</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>Pictogrammenset (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>Pictogrammenset (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>Standaardavatars (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

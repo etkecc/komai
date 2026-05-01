@@ -9419,31 +9419,1416 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
         <translation>Tmavý</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>Šifrování</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>Odesílat šifrované zprávy pouze ověřeným uživatelům</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>Vyžaduje, aby byl uživatel ověřen pro zasílání šifrovaných zpráv. Zlepšuje to bezpečnost, ale E2EE je tak náročnější.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>Sdílet klíče s ověřenými uživateli a zařízeními</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>Automaticky odpovídá na žádosti o klíče od ostatních uživatelů, pokud jsou ověřeni, a to i tehdy, kdy by toto zařízení jinak k těmto klíčům přístup mít nemělo.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>Povolit online zálohu klíčů</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>Stahovat šifrovací klíče zpráv ze zálohy a nahrávat je do šifrované online zálohy klíčů.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>Přítomnost</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>Zásady stavu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ovládá tvůj stav &lt;a href="%1"&gt;Přítomnosti&lt;/a&gt; v síti Matrix.
 Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>Stavová zpráva</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>Přenos</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>Ověřovat certifikáty TLS</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>Odmítnout neplatné nebo nedůvěryhodné certifikáty serveru.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>Povolit HTTP/3</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>Použít HTTP/3 pro připojení k serverům Matrix, pokud je dostupné.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Přehrává krátká videa (do %1 MB nebo %2 s) přímo ve zprávě, ztlumená a ve smyčce. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Více informací&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>Prezentace</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>Náhled časové osy</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>Styl</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>Vodorovné zarovnání</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>Zvolte, zda zprávy zůstanou na jedné straně, nebo budou umístěny naproti sobě podle odesílatele.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>Maximální šířka zprávy (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>Procento dostupné šířky časové osy, které může zabrat jedna zpráva.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>Barevné kódování odesílatele/zprávy</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>Zvolte způsob přiřazení barev odesílatele v časové ose a pozadích bublin.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>Zobrazit jméno odesílatele nad zprávami</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Určuje, kdy se nad zprávami zobrazují jména odesílatelů. V bublinovém režimu je vlastní jméno vždy skryto. V menších místnostech avatary a barvy bublin často poskytují dostatečný kontext.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>Velikost avataru</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>Zobrazit avatar vedle vlastních bublin zpráv</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>Pokud je povoleno rozložení s bublinami, zobrazit avatar vedle vlastních zpráv. Zlepšuje symetrii vlevo/vpravo a usnadňuje rozpoznání autora.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>Zvětšit zprávy obsahující pouze emoji</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>Zvýraznit zprávu při přejetí kurzorem</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>Zvýraznit syntaxi formátovaných bloků kódu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>Použít jazykově přizpůsobené zvýraznění syntaxe na bloky kódu v naformátovaných (HTML) zprávách časové osy.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>Zobrazit efekty zpráv</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Některé zprávy, zejména ty s emoji jako 🎊, ☀️ nebo 🌦️, mohou zobrazit efektnější &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;efekt časové osy&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>Sbalit odpovědi ve vlákně</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Skrývá odpovědi ve vláknech z hlavní časové osy a zobrazuje pouze kořenové zprávy vlákna. Lze přepsat pro každou místnost v Informacích o místnosti → Předvolby.&lt;br&gt;⚠️ Sledování nepřečtených zpráv po jednotlivých vláknech není podporováno, takže můžete přijít o odpovědi ve starších vláknech.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>Zpětná vazba</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>Zobrazovat, když ostatní píší</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>Potvrzení přečtení</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>Zobrazit, zda byly vaše zprávy přečteny. Pokud váš domovský server nepodporuje potvrzení přečtení, místnosti nemusí být označeny jako přečtené.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>Akce</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>Zásady aktivace akcí</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>Zvolte způsob otevírání akcí zprávy.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>Připnuté reakce</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>Čárkami oddělený seznam reakcí připnutých na panelu akcí. Zbývající místa jsou vyplněna nejčastěji používanými reakcemi v každé místnosti.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>Správa obrázků</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>Přehrávat animované obrázky pouze při najetí myší</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>Zobrazovat obrázky automaticky</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>Otevřít v externím prohlížeči</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>Šifrované obrázky jsou &lt;a href="komai://media-cache"&gt;ukládány do mezipaměti&lt;/a&gt; dešifrované na disku (automaticky mazány periodicky).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>Zpracování videí</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>Otevřít v externím přehrávači</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Streamuje, pokud je to možné; šifrovaná nebo neposunovatelná videa jsou &lt;a href="komai://media-cache"&gt;uložena&lt;/a&gt; na disku (automaticky mazána periodicky).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>Automatické přehrávání vložených GIF videí</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>Zpracování zvuku</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Streamuje, pokud je to možné; šifrované nebo neposunovatelné zvuky jsou &lt;a href="komai://media-cache"&gt;uloženy&lt;/a&gt; na disku (automaticky mazány periodicky).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>Výchozí rychlost přehrávání</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>Platí pro přehrávače zvuku vložené do textu.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Velikost avataru je nastavena na Skrytý, proto jsou jména odesílatelů vždy zobrazena.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>Použít systémové</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>Nikdy</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>Pouze v nešifrovaných místnostech</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>Kdykoli je dostupné</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>Systémový font</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>Systémový font emoji</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>Plocha</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>Dotyk</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>Podle potřeby</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>Vždy</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>Iniciála</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>Ikona uživatele</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>Prostorné</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>Kompaktní</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>Husté</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>Žádné</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>Pouze pro čtení</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>Čtení a zápis</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>Vždy online</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>Vždy nedostupný</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>Vždy offline</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>Automaticky</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>Vybrat soubor</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>Všechny soubory (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>Nepřečtené nejdříve, pak nejnovější</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>Nepřečtené nejdříve, pak A–Z</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>Nedávná aktivita</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>Abecedně</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>Znovu použít aktivní záložku</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>Otevřít novou záložku</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>Avatar a popisek</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>Pouze avatar</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>Normální</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>Malý</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>Skryto</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>Pouze ve velkých místnostech (&gt; 16 členů)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>Prostý</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>Bubliny</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>Naproti dle odesílatele</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>Vše zarovnáno doleva</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>Vše zarovnáno doprava</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>Adaptivní (pro každého člena v malých místnostech)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>Já vs ostatní</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>Pouze v soukromých místnostech</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>Při přejetí kurzorem na zprávu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>Po kliknutí na tlačítko</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>Pouze na konci zpráv</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>Bez předvolby</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 Muž</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 Žena</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 Světlá</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 Středně světlá</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 Střední</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 Středně tmavá</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 Tmavá</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>Výchozí</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>Vzhled</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>Motiv</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Potřebujete více motivů? Importujte z &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; nebo si &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;vytvořte vlastní&lt;/a&gt; (nutné restartování).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>Hustota</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>Ovlivňuje mezery, velikosti ikon a výšky řádků v seznamu.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Jazyk [nutné restartování]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>Písma</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>Rodina písma</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>Velikost písma</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>Většina prvků rozhraní se přizpůsobí živě. Některé popisky se mohou aktualizovat až po restartování aplikace.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>Rodina písma pro emoji</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>Faktor škálování [vyžaduje restart]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>Chování</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>Povolit animace rozhraní</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>Režim interakce</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>Plocha využívá chování zaměřené na myš. Dotykový režim upřednostňuje gesta přejetí a dotykové interakce.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>Povolit gesta přejetí</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>Povolit gesta, jako je přejetí mezi seznamem místností a časovou osou nebo přejetí zprávy pro odpověď.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>Viditelnost posuvníku</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>Řídí, kdy jsou v aplikaci zobrazovány posuvníky.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>Avatary</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>Náhled avataru</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>Použít kruhové avatary</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>Výchozí styl avataru</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>Zobrazeno pro uživatele a místnosti bez vlastního avataru.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>Postranní panel komunit</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>Zobrazit indikátory nepřečtených</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>Zobrazit zdůraznění nepřečtených (počítadla, zvýraznění řádku a levý okrajový indikátor) na filtrech komunity a štítků.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>Všechny místnosti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>Zobrazuje všechny vaše místnosti v jednom přehledu. Místnosti patřící do filtrů označených níže jako vyloučené budou ze seznamu skryty.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>Oblíbené</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Místnosti označené přes rozhraní API pro značení místností Matrix jako &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>Lidé</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Přímé chaty se skutečnými lidmi, bez uživatelů &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detekovaných&lt;/a&gt; jako boti pomocí heuristiky.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>Boti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Přímé chaty, kde je účastník konverzace &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detekován&lt;/a&gt; jako bot nebo servisní účet mostu.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>Skupiny</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>Místnosti s více účastníky, které nejsou přímými chaty (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; a další).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>Serverová oznámení</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>Místnosti označené domovským serverem jako &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; pro administrativní zprávy. Viz modul &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; ve specifikaci Matrix.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>Nízká priorita</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Místnosti označené přes rozhraní API pro značení místností Matrix jako &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>Seznam místností</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>Zobrazit zdůraznění nepřečtených (počítadla, tučný název místnosti, animace avataru, zvýraznění řádku a levý okrajový indikátor) u místností.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>Zobrazit čas poslední zprávy</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>Zobrazit náhled poslední zprávy</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>Přidá náhled poslední zprávy k položkám seznamu místností. V rozložení Prostorné a Kompaktní se zobrazí na vlastním řádku, v Hustém vedle názvu místnosti.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>Řazení</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>Pravidlo otevírání seznamu místností</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>Zda kliknutí na místnost znovu použije aktivní kartu nebo otevře novou. Místnosti s existující kartou ji vždy aktivují.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>Lišta karet</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>Zobrazit tlačítko připnutí</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>Popisek připnuté záložky</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>Popisek normální záložky</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>Preferovaná šířka záložky</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>Minimální šířka karty</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>Max. předvykreslených časových os naposledy zavřených karet</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>Nedávno zavřené předrenderované časové osy umožňují okamžité přepínání místností, ale zvyšují využití procesoru a RAM. Otevřené záložky jsou vždy předrenderované. Nastavte 0 pro zachování pouze otevřených záložek.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>Vstup</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>Klávesa odeslání</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>Zvolte, která kombinace klávesy Enter odešle zprávy.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>Automaticky převést Markdown do HTML</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>Řídí, zda je syntaxe &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; automaticky převáděna na zprávu &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; se záložním textem ve formátu Markdown.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>Vložený výběr místnosti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>Zobrazit výběr místnosti při psaní mřížky (#) v poli zprávy.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>Vložený výběr uživatele</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>Zobrazit výběr uživatele při psaní zavináče (@) v poli zprávy.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>Přepis hlasu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>Povoluje převod řeči na text. Poskytovatele přepisu nakonfigurujte v &lt;a href="komai://settings/integrations/transcription"&gt;Integrace → Přepis hlasu&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>Přílohy</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>Odstranit metadata obrázku před nahráním</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Odstraňování metadat (EXIF, IPTC, XMP) z některých formátů obrázků pro ochranu vašeho soukromí (na základě nejlepšího úsilí). &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Zjistit více&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>Emoji</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>Automaticky nahradit emotikony emoji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>Při odesílání zprávy automaticky nahrazuje textové emotikony jako :) :D :P jejich ekvivalenty emoji. Zvolte, zda nahrazovat všude, nebo pouze na konci.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>Vložený výběr emoji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>Zobrazit výběr emoji při psaní dvojtečky (:) v poli zprávy.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>Preferované pohlaví</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Pouze vložený výběr emoji: upřednostňovat pohlavní varianty definované v Unicode (muž/žena), pokud jsou dostupné. Explicitní hledání druhého pohlaví stále funguje. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Zjistit více&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>Preferovaný odstín pleti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Pouze vložený výběr emoji: upřednostňovat jednu variantu tónu pleti, pokud je dostupná. Explicitní hledání jiného tónu pleti stále funguje. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Zjistit více&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>Zobrazovat ostatním, že píši</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>Oznámení účtu</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>Povolit oznámení pro tento účet</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>Řídí přepínač oznámení na úrovni vašeho Matrix účtu na domovském serveru. Vypnutím ztlumíte oznámení ve všech svých klientech/zařízeních.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>Systémová oznámení</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>Povolit systémová oznámení</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>Upozorňovat na přijaté zprávy, když klient nemá fokus. Účinné pouze při povolených oznámeních účtu výše.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>Obsah zprávy v oznámeních</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>Zvolte, kolik textu zprávy zahrnout do oznámení.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>Blikat oknem aplikace/panelem úloh při příchozích zprávách</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>Zobrazit upozornění při přijetí zprávy (například aktivita ikony na hlavním panelu).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>Indikátory pozornosti</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>Zobrazit počet upozornění v názvu okna</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>Připojí počet místností vyžadujících pozornost k názvu okna Komai.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>Zobrazit počet upozornění na ikoně aplikace/odznaku panelu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Zobrazit počet místností vyžadujících pozornost na odznaku aplikace/hlavního panelu. Na Linuxu potřebují nepředvolené profily vlastní spouštěč na ploše pro spolehlivé odznaky aplikace. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Zjistit více&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>Systémová lišta</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>Zavřít do lišty</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>Ponechat aplikaci spuštěnou na pozadí po zavření okna klienta.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>Spustit na liště</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>Spustit aplikaci na pozadí bez zobrazení okna klienta.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>Rozostření okna</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>Rozostření při ztrátě fokusu</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>Zpoždění rozostření (sekundy)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>Nastavte, jak dlouho po ztrátě fokusu začne rozostření. Nastavte 0 pro okamžité rozostření. Maximum je 3600 sekund (1 hodina).</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>Obecné</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>Povolit starší hovory</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>Umožňuje přijímat a zahajovat starší hovory (před MatrixRTC).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>Použít turn.matrix.org jako záložní relay</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>Použít turn.matrix.org jako záložní relay/STUN server, pokud váš domovský server žádný neposkytuje.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>Zařízení</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>Mikrofon</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>Kamera</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>Rozlišení kamery</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>Snímková frekvence kamery</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>Vyzváněcí tón</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>Sdílení obrazovky</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>Snímková frekvence sdílení obrazovky</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>Cílový počet snímků za sekundu pro sdílení obrazovky. Nižší hodnoty spotřebovávají méně CPU a přenosové kapacity.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>Zahrnout obraz kamery v obraze</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>Zobrazit kameru účastníka při sdílení obrazovky</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>Zobrazit kurzor myši</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>Přístup D-Bus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>Zvolte, kolik &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;přístupu D-Bus&lt;/a&gt; Komai zpřístupní místním volajícím.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>Vyhledávání místností Matrix</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>Povoleno</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>Po aktivaci přidá podporu &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; do dialogu &lt;a href="komai://rooms-directory"&gt;Procházet veřejné místnosti&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>Server</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>Poslouží libovolná instance &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;, ale &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; je velká populární instance provozovaná &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>Prohlížeč</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>Účet</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>ID uživatele</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>Domovský server</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>Upravit profil</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>Zařízení</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>ID zařízení</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>Přístupový token</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>Váš přístupový token poskytuje plný přístup k vašemu účtu. Nesdílejte ho s nikým.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>Uživatelé</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>Ignorovaní uživatelé</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>Odhlásit se</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>Aplikace</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>Název</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>Platforma</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>Vytvořeno</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>Licence</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>Poděkování</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>Základ forku</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>Sada ikon (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>Sada ikon (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>Výchozí avatary (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9781,683 +11166,6 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>Motiv</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Potřebujete více témat? Importujte z &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; nebo &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;vytvořte vlastní&lt;/a&gt; (vyžaduje restart).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>Písma</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>Rodina fontů</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Většina prvků rozhraní mění velikost okamžitě. Některé popisky se mohou aktualizovat až po restartu aplikace.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>Rodina fontů pro emoji</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>Chování</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>Režim interakce</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Desktopový režim upřednostňuje ovládání myší. Dotykový režim upřednostňuje gesta přejetím a dotykové interakce.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Povolit gesta, jako je přejetí prstem mezi Seznamem místností a časovou osou nebo přejetí zprávy pro odpověď.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>Určuje, kdy se zobrazují posuvníky v celé aplikaci.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>Vzhled</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>Ovlivňuje mezery, velikosti ikon a výšky řádků v seznamu.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Jazyk [nutný restart]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>Avatary</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>Náhled avataru</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>Zobrazeno pro uživatele a místnosti bez vlastního avataru.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>Postranní panel komunit</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>Zobrazí zdůraznění nepřečtených (počítadla, zvýraznění řádku a levý okrajový indikátor) u filtrů komunity a tagů.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>Všechny místnosti</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>Zobrazuje všechny místnosti v jednom pohledu. Místnosti patřící do filtrů označených níže jako vyloučené budou z tohoto seznamu skryty.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Místnosti označené tagem &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; prostřednictvím Matrix API pro označování místností.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Přímé chaty se skutečnými lidmi, s výjimkou uživatelů &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;rozpoznaných&lt;/a&gt; jako boti pomocí heuristiky.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Přímé chaty, kde byl partner v konverzaci &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;rozpoznán&lt;/a&gt; jako bot nebo servisní účet mostu.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>Místnosti s více účastníky, které nejsou přímými chaty (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; a další).</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>Místnosti označené &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; domácím serverem pro administrativní zprávy. Viz modul &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; ve specifikaci Matrix.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Místnosti označené tagem &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; prostřednictvím Matrix API pro označování místností.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>Seznam místností</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>Zobrazí zdůraznění nepřečtených (počítadla, tučný název místnosti, odskok avataru, zvýraznění řádku a levý okrajový indikátor) u místností.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>Přidá náhled poslední zprávy k položkám seznamu místností. V rozložení Prostorné a Kompaktní se zobrazuje na vlastním řádku, v Husté vedle názvu místnosti.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>Určuje, zda kliknutí na místnost znovu použije aktivní kartu nebo otevře novou. Místnosti s existující kartou ji vždy aktivují.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>Lišta karet</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>Nedávno zavřené předrenderované časové osy umožňují okamžité přepínání místností, ale zvyšují spotřebu CPU a RAM. Otevřené záložky jsou vždy předrenderovány. Nastavte 0, chcete-li ponechat pouze otevřené záložky.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>Zobrazení</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>Náhled časové osy</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Vyberte, zda zprávy zůstanou na jedné straně, nebo jsou rozmístěny na protilehlých stranách podle odesílatele.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>Maximální šířka zprávy (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>Procento dostupné šířky časové osy, které může zabírat jedna zpráva.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>Vyberte, jak jsou přiřazovány barvy odesílatele na časové ose a pozadích bublin.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Určuje, kdy se nad zprávami zobrazují jména odesílatelů. V bublinovém režimu je vlastní jméno vždy skryto. V menších místnostech avatary a barvy bublin často poskytují dostatečný kontext.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>Při zapnutém bublinovém rozložení se vedle vlastních zpráv zobrazí avatar. To zlepšuje symetrii vlevo/vpravo a usnadňuje rozpoznání autora.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>Aplikuje jazykové zvýrazňování syntaxe na bloky kódu ve formátovaných (HTML) zprávách časové osy.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Některé zprávy, zejména ty s emoji jako 🎊, ☀️ nebo 🌦️, mohou zobrazit efektnější &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;efekt časové osy&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Skryje odpovědi ve vláknech z hlavní časové osy a zobrazuje pouze kořenové zprávy vláken. Lze přepsat pro každou místnost v Informace o místnosti → Předvolby.&lt;br&gt;⚠️ Sledování nepřečtených zpráv po jednotlivých vláknech není podporováno, takže vám mohou uniknout odpovědi ve starších vláknech.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>Zpětná vazba</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Zobrazuje, zda byly tvoje zprávy přečteny. Pokud tvůj domácí server nepodporuje potvrzení přečtení, místnosti nemusí být označeny jako přečtené.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>Akce</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>Vyberte, jak se otevírají akce zpráv.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>Čárkami oddělený seznam reakcí připnutých na panel akcí. Zbývající sloty jsou vyplněny vašimi nejpoužívanějšími reakcemi v dané místnosti.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>Zpracování obrázků</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>Šifrované obrázky jsou &lt;a href="komai://media-cache"&gt;ukládány do mezipaměti&lt;/a&gt; dešifrované na disku (automaticky periodicky mazány).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>Zpracování videa</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Streamuje, pokud je to možné; šifrovaná nebo neposouvatelná videa jsou &lt;a href="komai://media-cache"&gt;uložena v mezipaměti&lt;/a&gt; na disku (automaticky mazána pravidelně).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>Zpracování zvuku</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Streamuje, pokud je to možné; šifrované nebo neposouvatelné audio je &lt;a href="komai://media-cache"&gt;uloženo v mezipaměti&lt;/a&gt; na disku (automaticky mazáno pravidelně).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>Platí pro inline přehrávače zvuku.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>Vstup</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>Vyberte, která kombinace klávesy Enter odesílá zprávy.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>Určuje, zda je syntaxe &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; automaticky převáděna pro vytvoření zprávy &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; s Markdown zálohou ve formátu prostého textu.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>Zobrazí výběr místnosti při zadání křížku (#) do pole pro zprávu.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>Zobrazí výběr uživatele při zadání zavináče (@) do pole pro zprávu.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>Zapíná převod řeči na text. Nakonfigurujte poskytovatele přepisu v &lt;a href="komai://settings/integrations/transcription"&gt;Integrace → Přepis hlasu&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>Přílohy</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Pokus o odstranění metadat (EXIF, IPTC, XMP) z některých formátů obrázků za účelem ochrany vašeho soukromí. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Zjistit více&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>Automaticky nahrazuje textové emotikony jako :) :D :P jejich ekvivalenty emoji při odeslání zprávy. Vyberte, zda nahrazovat všude, nebo pouze na konci.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>Zobrazí výběr emoji při zadání dvojtečky (:) do pole pro zprávu.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Pouze inline výběr emoji: preferovat pohlavní varianty definované v Unicode (muž/žena), jsou-li dostupné. Explicitní vyhledávání druhého pohlaví stále funguje. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Zjistit více&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Pouze inline výběr emoji: preferovat jednu variantu tónu pleti, je-li dostupná. Explicitní vyhledávání jiného tónu pleti stále funguje. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Zjistit více&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>Oznámení účtu</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>Povolit oznámení pro tento účet</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>Určuje přepínač oznámení na úrovni účtu Matrix na domácím serveru. Vypnutím ztlumíte oznámení ve všech klientech/zařízeních.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>Systémová oznámení</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>Upozornit na přijaté zprávy, pokud klient není právě aktivní. Platí pouze tehdy, jsou-li výše povolena oznámení pro účet.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>Vyberte, kolik textu zprávy zahrnout do oznámení.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>Zobrazí upozornění při přijetí zprávy (například aktivita ikony na hlavním panelu).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>Indikátory pozornosti</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>Přidá počet místností vyžadujících pozornost do názvu okna Komai.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Zobrazí počet místností vyžadujících pozornost na odznaku aplikace/hlavního panelu. Na Linuxu potřebují nevýchozí profily vlastní spouštěč pro spolehlivé odznaky aplikace. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Více informací&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>Systémová lišta</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>Nechat aplikaci běžet na pozadí po zavření okna klienta.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Spustit aplikaci na pozadí bez zobrazení okna klienta.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>Rozmazání okna</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>Prodleva od ztráty fokusu po začátek rozmazávání. Hodnota 0 způsobí okamžité rozmazání. Maximum je 3600 sekund (1 hodina).</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>Obecné</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>Umožňuje přijímání a iniciování starších hovorů (před MatrixRTC).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>Použít turn.matrix.org jako záložní relay/STUN server, pokud domácí server žádný neposkytuje.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Zařízení</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>Mikrofon</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>Kamera</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>Rozlišení kamery</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>Snímková frekvence kamery</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>Vyzváněcí tón</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>Sdílení obrazovky</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>Cílový počet snímků za sekundu pro sdílení obrazovky. Nižší hodnoty spotřebují méně CPU a šířky pásma.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>Přístup D-Bus</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>Vyberte, kolik &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;přístupu D-Bus&lt;/a&gt; Komai zpřístupňuje místním volajícím.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>Vyhledávání místností Matrix</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>Po povolení přidá podporu &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; do dialogu &lt;a href="komai://rooms-directory"&gt;Prozkoumat veřejné místnosti&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>Poslouží jakákoli instance &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;, ale &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; je velká oblíbená instance provozovaná &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>Prohlížeč</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>Šifrování</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>Vyžaduje, aby byl uživatel ověřen, abyste mu mohli zasílat šifrované zprávy. Zvyšuje bezpečnost, ale E2EE se stává náročnějším.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>Automaticky odpovídá na žádosti o klíče od jiných uživatelů, pokud jsou ověřeni, i když by jinak toto zařízení k těmto klíčům přístup mít nemělo.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>Stahovat šifrovací klíče zpráv ze šifrované online zálohy klíčů a nahrávat je do ní.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>Přítomnost</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>Zásada stavu</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Ovládá tvůj stav &lt;a href="%1"&gt;Přítomnosti&lt;/a&gt; v síti Matrix.
-Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>Stavová zpráva</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>Transport</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>Odmítat neplatné nebo nedůvěryhodné serverové certifikáty.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>Použít HTTP/3 pro připojení k serveru Matrix, pokud je dostupné.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>Účet</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>ID uživatele</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>Domovský server</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>Upravit profil</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>Zařízení</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>ID zařízení</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>Přístupový token</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>Tvůj přístupový token umožňuje plný přístup k tvému účtu. Nesdílej ho s nikým.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>Uživatelé</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>Ignorovaní uživatelé</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>Odhlásit se</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>Aplikace</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>Název</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>Platforma</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>Vytvořeno</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>Licence</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>Poděkování</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>Základ forku</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>Sada ikon (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>Sada ikon (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>Výchozí avatary (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

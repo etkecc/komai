@@ -9405,31 +9405,1416 @@ Saad eiramise hiljem tühistada selle kasutaja profiili kaudu või Seaded → Ko
         <translation>Tume</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>Krüptimine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>Saada krüptitud sõnumeid ainult verifitseeritud kasutajatele</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>Nõuab kasutaja verifitseerimist, et saata neile krüptitud sõnumeid. See parandab turvalisust, kuid muudab E2EE tülikamaks.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>Jaga võtmeid verifitseeritud kasutajate ja seadmetega</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>Vastab automaatselt teiste kasutajate võtmetaotlustele, kui nad on verifitseeritud, isegi kui sellel seadmel ei oleks muidu nendele võtmetele ligipääsu.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>Luba veebipõhine võtmevarukoopia</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>Laadi sõnumite krüptimisvõtmed alla krüptitud veebipõhisest võtmevarukoopiast ja lae sinna üles.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>Kohalolek</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>Olekupoliitika</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Juhib teie &lt;a href="%1"&gt;Kohalolu&lt;/a&gt; olekut Matrix-võrgus.
 Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust).</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>Olekusõnum</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>Transport</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>Kontrolli TLS-sertifikaate</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>Keeldu kehtetutest või ebausaldusväärsetest serverisertifikaatidest.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>Luba HTTP/3</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>Kasutab Matrix-serveriühendusteks HTTP/3, kui see on saadaval.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Esitab väikeseid videolõike (%1 MB või %2 s piirides) tekstisiseselt, vaigistatud ja korduvalt. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Lisateave&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>Esitlus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>Ajaskaala eelvaade</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>Stiil</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>Horisontaalne paigutus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>Määrab, kas sõnumid jäävad ühele küljele või on saatja järgi üksteise vastas.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>Maksimaalne sõnumi laius (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>Protsent kasutatavast ajaskaala laiusest, mida üksik sõnum võib hõivata.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>Saatja/sõnumi värvikodeering</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>Määrab, kuidas saatja värvid ajaloos ja mulli taustadel määratakse.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>Näita saatja kasutajanime sõnumite kohal</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Juhib, millal kuvatakse saatja kasutajanimedid sõnumite kohal. Mullirežiimis on teie enda kasutajanimi alati peidetud. Väiksemates jututubades on avatarid ja mullide värvid sageli piisav kontekst.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>Avatari suurus</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>Näita avataari oma sõnumimulli kõrval</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>Mullikujunduse lubamisel kuvatakse oma avatar enda sõnumite kõrval. See parandab vasak/parempoolset sümmeetriat ja lihtsustab autori tuvastamist.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>Suurenda ainult emojidest koosnevaid sõnumeid</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>Tõsta sõnum esile hiirekursoriga üle liikudes</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>Koodiplokkide süntaksi esiletõstmine</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>Rakendab keeleteadlikku süntaksiesiletõstmist vormindatud (HTML) ajaloo sõnumite koodiplokidele.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>Näita sõnumiefekte</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Mõned sõnumid, eriti need, mis sisaldavad emojisid nagu 🎊, ☀️ või 🌦️, võivad kuvada efektsemat &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;ajaskaalaefekti&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>Ahenda lõimivastused</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Peidab lõime vastused peamiselt ajajoonelt, kuvades ainult lõime juursõnumeid. Saab alistada jututoa kaupa jaotises Jututoateave → Eelistused.&lt;br&gt;⚠️ Lõimepõhist lugemata sõnumite jälgimist ei toetata, seega võite vanematesse lõimede vastused kahe silma vahele jätta.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>Tagasiside</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>Näita, kui teised kirjutavad</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>Lugemiskinnitused</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>Näita, kas sinu sõnumeid loeti. Kui sinu koduserver ei toeta lugemiskinnitusi, ei pruugi jututoad olla märgitud loetuks.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>Toimingud</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>Toimingute aktiveerimispoliitika</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>Määrab, kuidas sõnumitoiminguid avatakse.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>Kinnitatud reaktsioonid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>Komaga eraldatud loend toiminguribale kinnitatud reaktsioonidest. Ülejäänud kohad täidetakse teie enim kasutatud reaktsioonidega jututoa kohta.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>Piltide käsitlemine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>Esita animeeritud pilte ainult hõljumisel</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>Näita pilte automaatselt</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>Ava välises vaatajas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>Krüptitud pildid on kettale dekrüpteeritult &lt;a href="komai://media-cache"&gt;vahemällu&lt;/a&gt; salvestatud (perioodiliselt automaatselt puhastatud).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>Video käsitlemine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>Ava välises mängijas</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Voogedastab võimaluse korral; krüptitud või mitteotsitavad videod &lt;a href="komai://media-cache"&gt;salvestatakse&lt;/a&gt; kettale (perioodiliselt automaatselt puhastatakse).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>GIF-videote automaatesitus rea sees</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>Heli käsitlemine</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Voogedastab võimaluse korral; krüptitud või mitteotsitav heli &lt;a href="komai://media-cache"&gt;salvestatakse&lt;/a&gt; kettale (perioodiliselt automaatselt puhastatakse).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>Vaikimisi taasesituse kiirus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>Rakendatakse reasisestele helimängijatele.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Avatari suurus on seatud Peidetud, mistõttu kuvatakse alati saatja kasutajanimi.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>Kasuta süsteemi</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>Mitte kunagi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>Ainult krüptimata jututubades</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>Alati, kui saadaval</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>Süsteemi font</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>Süsteemi emoji-font</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>Töölaud</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>Puute</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>Vajaduse korral</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>Alati</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>Tähtinitsiaal</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>Kasutajaikon</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>Avar</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>Kompaktne</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>Tihe</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>Puudub</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>Ainult lugemine</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>Loe ja kirjuta</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>Alati võrgus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>Alati kättesaamatu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>Alati võrguühenduseta</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>Automaatne</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>Vali fail</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>Kõik failid (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>Lugemata ees, siis viimased</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>Lugemata ees, siis A-Z</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>Hiljutine tegevus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>Tähestikuline</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>Kasuta aktiivset vahekaarti uuesti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>Ava uus vahekaart</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>Avatar ja silt</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>Ainult avatar</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>Tavaline</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>Väike</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>Peidetud</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>Ainult suurtes jututubades (&gt; 16 liiget)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>Lihtne</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>Mullid</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>Vastaskülgedel saatja järgi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>Kõik vasakule joondatud</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>Kõik paremale joondatud</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>Kohanduv (liikme kohta väikestes jututubades)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>Mina vs teised</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>Ainult privaatsetes jututubades</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>Sõnumi kohal hõljudes</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>Nupuvajutusega</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>Ainult sõnumite lõpus</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>Eelistus puudub</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 Mees</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 Naine</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 Hele</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 Keskmiselt hele</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 Keskmine</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 Keskmiselt tume</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 Tume</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>Vaikimisi</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>Välimus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>Teema</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Vajad rohkem teemasid? Impordi &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;st või &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;loo oma&lt;/a&gt; (taaskäivitamine vajalik).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>Tihedus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>Mõjutab vahesid, ikoonide suurust ja loendi ridade kõrgust.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Keel [taaskäivitamine vajalik]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>Fondid</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>Fondiperekond</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>Fondi suurus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>Enamik kasutajaliidese elemente muudavad suurust reaalajas. Mõned sildid võivad uueneda alles pärast rakenduse taaskäivitamist.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>Emoji fondiperekond</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>Skaleerimistegur [taaskäivitamine vajalik]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>Käitumine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>Luba kasutajaliidese animatsioonid</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>Interaktsiooni režiim</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>Töölaud kasutab esmalt hiire käitumist. Puuterežiim eelistab libistamis- ja puuteinteraktsioone.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>Luba libistamisžestid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>Luba žestid, nagu libistamine jututubade nimekirja ja ajajoone vahel ning sõnumile libistamine vastamiseks.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>Kerimisriba nähtavus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>Juhib, millal kerimisribad rakenduses kuvatakse.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>Avatarid</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>Avatari eelvaade</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>Kasuta ümmargusi avataare</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>Vaikimisi avatari stiil</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>Kuvatakse kasutajatele ja jututubadele, millel puudub kohandatud avatar.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>Kogukondade külgriba</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>Näita lugemata indikaatoreid</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>Näita lugemata rõhutust (arvu märgid, rea esiletõst ja vasak-ääre märkija) kogukonna- ja märgendifiltrites.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>Kõik jututoad</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>Kuvab kõik sinu jututoad ühes vaates. Allpool välistatuna märgistatud filtritele kuuluvad jututoad on sellest nimekirjast peidetud.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>Lemmikud</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Jututoad, millele on märgistatud &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; Matrix jututoa märgistamise API kaudu.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>Inimesed</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Otsesõnumid päris inimestega, välja arvatud kasutajad, keda heuristika on &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;tuvastanud&lt;/a&gt; robotitena.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>Botid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Otsesõnumid, kus vestluspartner on &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;tuvastatud&lt;/a&gt; roboti või silla teenusekontona.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>Grupid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>Mitme osalejaga jututoad, mis ei ole otsesõnumid (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; ja teised).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>Serveri teated</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>Jututoad, millele koduserver on märgistanud &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; haldussõnumite jaoks. Vaata &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; moodulit Matrix spetsifikatsioonis.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>Madal prioriteet</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Jututoad, millele on märgistatud &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; Matrix jututoa märgistamise API kaudu.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>Jututubade nimekiri</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>Näita lugemata rõhutust (arvu märgid, paks jututoa nimi, avatari põrkamine, rea esiletõst ja vasak-ääre märkija) jututubade kõrval.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>Näita viimase sõnumi ajatemplit</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>Näita viimase sõnumi eelvaadet</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>Lisab jututubade loendisse viimase sõnumi eelvaate. Kuvatakse eraldi real Avara ja Kompaktse paigutuse korral ning jututoa nime kõrval Tiheda paigutuse korral.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>Sortimine</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>Jututubade nimekirja avamise reegel</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>Määrab, kas jututoal klõpsamine kasutab aktiivset vaheleht uuesti või avab uue. Jututoal, millel on juba vaheleht, aktiveeritakse see igal juhul.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>Vahelehtede riba</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>Näita kinnitamisnuppu</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>Kinnitatud vahekaardi silt</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>Tavalise vahekaardi silt</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>Eelistatud vahekaardi laius</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>Minimaalne vahekaardi laius</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>Maksimaalne arv hiljuti suletud eelrenderdatud ajajooni</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>Hiljuti suletud eelrenderdatud ajaskaalad võimaldavad kohest jututoa vahetamist, kuid suurendavad protsessori ja RAM-i kasutust. Avatud vahekaardid renderdatakse alati eelnevalt. Seadke 0, et säilitada ainult avatud vahekaardid.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>Sisend</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>Saatmisklahv</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>Määrab, milline Enter-klahvi kombinatsioon saadab sõnumeid.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>Teisenda Markdown automaatselt HTML-iks</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>Juhib, kas &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt;-süntaks teisendatakse automaatselt &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt;-sõnumiks Markdowni lihtteksti varumeetodiga.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>Rea sees jututoa valija</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>Näita reasisest jututoa valijat, kui sisestad sõnumisisendisse trellmärgi (#).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>Rea sees kasutaja valija</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>Näita reasisest kasutaja valijat, kui sisestad sõnumisisendisse @-märgi.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>Hääle transkriptsioon</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>Lubab kõnest tekstiks muutmise. Seadista transkriptsiooni pakkuja jaotises &lt;a href="komai://settings/integrations/transcription"&gt;Integratsioonid → Hääle transkriptsioon&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>Manused</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>Eemalda üleslaadimise eel pildi metaandmed</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Parima võimaliku pingutusega metaandmete (EXIF, IPTC, XMP) eemaldamine mõnest pildivormingust privaatsuse kaitsmiseks. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Lisateave&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>Emoji</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>Asenda emotikonid automaatselt emojidega</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>Asendab sõnumi saatmisel automaatselt tekstiemotikonid (nt :) :D :P) nende emoji vastetega. Võimalus valida, kas asendada kõikjal või ainult lõpus.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>Rea sees emoji valija</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>Näita reasisest emoji valijat, kui sisestad sõnumisisendisse kooloni (:).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>Eelistatud sugu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Ainult rea sees emoji valija: eelistada Unicode'is määratletud soo variante (mees/naine), kui need on saadaval. Teise soo otsimine töötab endiselt. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lisateave&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>Eelistatud nahavärvus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Ainult rea sees emoji valija: eelistada ühte nahavärvi varianti, kui see on saadaval. Teise nahavärvi otsimine töötab endiselt. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lisateave&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>Näita teistele, kui kirjutan</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>Konto teavitused</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>Luba selle konto teavitused</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>Juhib Matrix konto teavituste lülitit koduserveris. Lülita välja, et vaigistada teavitused kõigis klientides/seadmetes.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>Süsteemiteavitused</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>Luba süsteemiteavitused</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>Teavita saabunud sõnumitest, kui klient ei ole praegu fookuses. See jõustub ainult siis, kui konto teavitused on ülalpool lubatud.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>Sõnumi sisu teavitustes</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>Määrab, kui palju sõnumiteksti teavitustesse lisatakse.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>Vilguta rakenduse akent/tegumiriba sissetulevate sõnumite korral</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>Näita tähelepanuhoiatust sõnumi saamisel (näiteks tegumiriba ikooni tegevus).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>Tähelepanuindikaatorid</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>Näita tähelepanuarvu akna pealkirjas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>Lisab tähelepanu vajavate jututubade arvu Komai akna pealkirjale.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>Näita tähelepanuarvu rakenduse ikoonil/tegumiriba märgil</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Näita tähelepanu vajavate jututubade arvu rakenduse/tegumiriba märgil. Linuxis vajavad mittevaikimisi profiilid usaldusväärse rakenduse märgi jaoks oma töölaua käivitajat. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Lisateave&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>Süsteemisalv</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>Sulge salve</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>Hoia rakendus taustal töötamas pärast kliendi akna sulgemist.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>Käivita salves</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>Käivitab rakenduse taustal ilma klientakent näitamata.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>Akna hägustus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>Hägusta fookuse kaotamisel</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>Hägustamise viivitus (sekundit)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>Määra, kui kaua pärast fookuse kaotamist oodatakse enne udustamise algust. Seadke 0 koheseks udustamiseks. Maksimaalne väärtus on 3600 sekundit (1 tund).</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>Üldine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>Luba vanad kõned</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>Võimaldab vanemaid (pre-MatrixRTC) kõnesid vastu võtta ja alustada.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>Kasuta turn.matrix.org-i varurelééna</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>Kasutab turn.matrix.org-i varurelée/STUN-serverina, kui koduserver seda ei paku.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>Seadmed</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>Mikrofon</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>Kaamera</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>Kaamera eraldusvõime</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>Kaamera kaadrisagedus</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>Helinatoon</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>Ekraanijagamine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>Ekraanijagamise kaadrisagedus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>Ekraani jagamise sihtkaadrisagedus. Madalamad väärtused kasutavad vähem protsessorit ja ribalaiust.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>Kaasa kaamera pilt-pildis</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>Näita osaleja kaamerat ekraanijagamise ajal</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>Näita hiirekursorit</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>D-Bus juurdepääs</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>Määrab, kui palju &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus juurdepääsu&lt;/a&gt; Komai kohalikele helistajatele pakub.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>Matrix jututubade otsing</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>Lubatud</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>Lubamisel lisab &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; toe &lt;a href="komai://rooms-directory"&gt;Avalike jututubade sirvimise&lt;/a&gt; dialoogile.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>Server</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>Sobib iga &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; eksemplar, kuid &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; on suur ja populaarne eksemplar, mida haldab &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>Brauser</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>Konto</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>Kasutaja ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>Koduserver</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>Muuda profiili</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>Seade</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>Seadme ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>Pääsuluba</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>Juurdepääsuluba annab täieliku ligipääsu kontole. Ärge jagage seda kellegagi.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>Kasutajad</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>Ignoreeritud kasutajad</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>Logi välja</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>Rakendus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>Nimi</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>Platvorm</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>Loonud</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>Litsents</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>Tänuavaldused</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>Haru alus</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>Ikoonikogum (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>Ikoonikogum (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>Vaikimisi avatarid (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9767,683 +11152,6 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>Teema</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Kas vajad rohkem teemasid? Impordi &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;'st või &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;loo oma&lt;/a&gt; (taaskäivitus on vajalik).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>Fondid</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>Fondiperekond</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Enamik kasutajaliidese elemente muudab suurust reaalajas. Mõned sildid uuenevad alles pärast rakenduse taaskäivitust.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>Emoji fondiperekond</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>Käitumine</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>Interaktsioonirežiim</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Töölaud kasutab hiirekeskset käitumist. Puuterežiim eelistab pühkimis- ja puuteinteraktsioone.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Luba žestid, nagu libistamine Jututubade nimekirja ja ajajoone vahel ning sõnumi libistamine vastamiseks.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>Juhib, millal kuvatakse kerimisribasid kogu rakenduses.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>Välimus</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>Mõjutab vahet, ikoonide suurust ja loendi ridade kõrgust.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Keel [taaskäivitamine vajalik]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>Avatarid</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>Avatari eelvaade</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>Kuvatakse kasutajatele ja jututubadele, millel pole kohandatud avatari.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>Kogukondade külgriba</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>Näita lugemata rõhutust (arvu märkised, rea esiletõst ja vasaku serva märgis) kogukonna- ja siltfiltrites.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>Kõik jututoad</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>Näitab kõiki sinu jututubasid ühes vaates. Jututoad, mis kuuluvad allpool välistatuks märgitud filtritesse, peidetakse sellest loendist.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Jututoad, mis on märgistatud &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; kaudu Matrix jututoa märgistamise API-ga.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Otsesõnumite vestlused päris inimestega, välja arvatud kasutajad, keda heuristika &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;tuvastab&lt;/a&gt; botidena.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Otsesõnumite vestlused, kus vestluspartner on &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;tuvastatud&lt;/a&gt; boti või sillateenuse kontona.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>Mitme osalejaga jututoad, mis pole otsesõnumite vestlused (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; ja muud).</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>Jututoad, mis on koduserveri poolt haldussõnumite jaoks märgistatud &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt;-ga. Vaata Matrix'i spetsifikatsiooni &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; moodulit.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Jututoad, mis on märgistatud &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; kaudu Matrix jututoa märgistamise API-ga.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>Jututubade nimekiri</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>Näita lugemata rõhutust (arvu märkised, poolpaks jututoa nimi, avatari põrge, rea esiletõst ja vasaku serva märgis) jututubade kõrval.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>Lisab jututubade loendisse viimase sõnumi eelvaate. Spacious ja Compact paigutuses kuvatakse eraldi real, Dense paigutuses jututoa nime kõrval.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>Kas jututoa klõpsamine kasutab aktiivse vahelehe uuesti või avab uue. Olemasoleva vahelehega jututoad aktiveeritakse alati.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>Vahelehtede riba</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>Hiljuti suletud eelrenderdatud ajajooned võimaldavad kohest jututoa vahetamist, kuid suurendavad protsessori ja RAM-i kasutust. Avatud vahekaardid on alati eelrenderdatud. Seadista 0-ks, et hoida ainult avatud vahekaarte.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>Esitlus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>Ajaskaala eelvaade</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Valige, kas sõnumid jäävad ühele küljele või paigutatakse saatja järgi vastasküljele.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>Sõnumi maksimaalne laius (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>Protsent saadaolevast ajajoone laiusest, mida üks sõnum võib hõivata.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>Valige, kuidas saatja värve ajajoones ja mullitaustades määratakse.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Juhib, millal kuvatakse saatja kasutajanimedid sõnumite kohal. Mullirežiimis on teie enda kasutajanimi alati peidetud. Väiksemates jututubades on avatarid ja mullide värvid sageli piisav kontekst.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>Kui mullide paigutus on lubatud, kuva oma avatar enda sõnumite kõrval. See parandab vasak-parema sümmeetriat ja muudab autorsuse tuvastamise lihtsamaks.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>Rakendab keeleteadlikku süntaksiesiletõstmist vormindatud (HTML) ajajoone sõnumites leiduvatele koodiplokkidele.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Mõned sõnumid, eriti need, mis sisaldavad emodžisid nagu 🎊, ☀️ või 🌦️, võivad kuvada uhkema &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;ajaskaala efekti&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Peidab lõimu vastused peamisest ajateljest, näidates ainult lõimu juurteated. Saab toa kaupa tühistada jaotises Toa teave → Eelistused.&lt;br&gt;⚠️ Lõimupõhist lugemata jälgimist ei toetata, seega võite jääda ilma vastustest vanemates lõimudes.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>Tagasiside</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Näita, kas sinu sõnumid on loetud. Kui koduserver ei toeta lugemiskinnitusi, ei pruugi jututoad olla märgitud loetuks.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>Toimingud</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>Valige, kuidas sõnumitoiminguid avatakse.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>Komaga eraldatud reaktsioonide loend, mis on kinnitatud tegevusribale. Ülejäänud kohad täidetakse teie enim kasutatud reaktsioonidega jututoa kaupa.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>Piltide käsitlemine</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>Krüptitud pildid &lt;a href="komai://media-cache"&gt;puhverdatakse&lt;/a&gt; dekrüpteeritult kettale (perioodiliselt automaatselt puhastatakse).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>Video käsitlemine</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Võimalusel voogedastus; krüptitud või mittekeritatavad videod on &lt;a href="komai://media-cache"&gt;vahemälus&lt;/a&gt; kettal (perioodiliselt automaatselt puhastatav).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>Heli käsitlemine</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Võimalusel voogedastus; krüptitud või mittekeritatav heli on &lt;a href="komai://media-cache"&gt;vahemälus&lt;/a&gt; kettal (perioodiliselt automaatselt puhastatav).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>Rakendatakse reasisestele helipleijeritele.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>Sisend</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>Valige, milline Enter-klahvi kombinatsioon saadab sõnumeid.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>Juhib, kas &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; süntaks teisendatakse automaatselt &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; sõnumiks koos Markdown lihtteksti varuvariandiga.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>Näita tekstisisest jututoa valijat, kui kirjutad sõnumiväljas trellismärki (#).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>Näita tekstisisest kasutajavalijat, kui kirjutad sõnumiväljas @-märki.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>Võimaldab kõne tekstiks teisendamist. Transkriptsioonipakkuja saab seadistada jaotises &lt;a href="komai://settings/integrations/transcription"&gt;Integratsioonid → Hääle transkriptsioon&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>Manused</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Privaatsuse kaitsmiseks eemaldatakse parimal võimalikul viisil metaandmed (EXIF, IPTC, XMP) mõnest pildivormingust. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Lisateave&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>Asendab sõnumi saatmisel automaatselt teksti emotikonid nagu :) :D :P nende emoji vastetega. Valige, kas asendada kõikjal või ainult lõpus.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>Näita tekstisisest emojivalijat, kui kirjutad sõnumiväljas koolonit (:).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Ainult reasisene emoji valija: eelistab Unicode'i määratud soovariante (mees/naine), kui need on saadaval. Teise soo otsene otsimine töötab ikka. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Rohkem teavet&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Ainult reasisene emoji valija: eelistab ühte nahatoonivarianti, kui see on saadaval. Teise nahatooni otsene otsimine töötab ikka. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Rohkem teavet&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>Konto teavitused</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>Luba teated selle konto jaoks</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>Juhib teie Matrix-konto taseme teavituste lülitit koduserveril. Lülitage välja, et vaigistada teavitused kõigis teie klientides/seadmetes.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>Süsteemiteavitused</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>Teavita saadud sõnumitest, kui klient pole parajasti fookuses. Jõustub ainult siis, kui konto teated on ülal lubatud.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>Valige, kui palju sõnumiteksti teavitustesse kaasata.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>Näita tähelepanuhoiatust sõnumi saamisel (näiteks tegumiriba ikooni aktiivsus).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>Tähelepanuindikaatorid</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>Lisab tähelepanu vajavate jututubade arvu Komai akna pealkirjale.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Näita tähelepanu vajavate jututubade arvu rakenduse/tegumiriba märkisel. Linuxis vajavad mitte-vaikimisi profiilid usaldusväärsete rakendusemärkiste jaoks omaette töölaua käivitajat. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Lisateave&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>Süsteemisalv</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>Hoia rakendus pärast kliendi akna sulgemist taustal töös.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Käivita rakendus taustal ilma kliendi akent kuvamata.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>Akna hägustamine</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>Määra, kui kaua pärast fookuse kaotamist hägustamine algab. Kohese hägustamise jaoks määra 0. Maksimaalne väärtus on 3600 sekundit (1 tund).</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>Üldine</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>Võimaldab vastu võtta ja algatada pärandkõnesid (enne MatrixRTC-d).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>Kasuta turn.matrix.org-i varulise relee/STUN serverina, kui koduserver seda ei paku.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Seadmed</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>Mikrofon</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>Kaamera</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>Kaamera eraldusvõime</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>Kaamera kaadrisagedus</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>Helistoon</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>Ekraani jagamine</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>Sihtkaadrisagedus ekraani jagamiseks. Madalamad väärtused kasutavad vähem protsessorit ja ribalaiust.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>D-Bus juurdepääs</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>Valige, kui palju &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus juurdepääsu&lt;/a&gt; Komai kohalikele kutsujatele pakub.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>Matrix'i jututubade otsing</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>Kui lubatud, lisab &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; toe &lt;a href="komai://rooms-directory"&gt;Avalike jututubade avastamise&lt;/a&gt; dialoogile.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>Sobib iga &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; eksemplar, kuid &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; on suur populaarne eksemplar, mida haldab &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>Brauser</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>Krüptimine</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>Nõuab kasutaja verifitseerimist krüptitud sõnumite saatmiseks. See parandab turvalisust, kuid muudab E2EE kasutuse tülikamaks.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>Vastab automaatselt teiste kasutajate võtmepäringutele, kui nad on verifitseeritud, isegi kui sellel seadmel ei tohiks muidu nendele võtmetele ligipääsu olla.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>Laadi sõnumite krüptimisvõtmed krüptitud veebipõhisest võtmekoopiast alla ja lae sinna üles.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>Kohalolek</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>Olekupoliitika</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Juhib teie &lt;a href="%1"&gt;Kohalolu&lt;/a&gt; olekut Matrix-võrgus.
-Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust).</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>Olekusõnum</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>Transport</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>Lükka tagasi kehtetud või ebausaldusväärsed serveri sertifikaadid.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>Kasuta HTTP/3-t Matrix serveriühenduste jaoks, kui see on saadaval.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>Konto</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>Kasutaja ID</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>Koduserver</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>Muuda profiili</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>Seade</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>Seadme ID</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>Juurdepääsuluba</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>Sinu juurdepääsuluba annab täieliku juurdepääsu sinu kontole. Ära jaga seda kellegi teisega.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>Kasutajad</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>Ignoreeritud kasutajad</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>Logi välja</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>Rakendus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>Nimi</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>Platvorm</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>Loodud</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>Litsents</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>Tänuavaldused</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>Hargi alus</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>Ikoonikomplekt (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>Ikoonikomplekt (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>Vaikimisi avatarid (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

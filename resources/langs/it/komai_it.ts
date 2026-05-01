@@ -9405,31 +9405,1416 @@ Puoi smettere di ignorarlo in seguito tramite il profilo dell'utente o in Impost
         <translation>Scuro</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>Crittografia</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>Invia messaggi crittati solo agli utenti verificati</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>Richiede che un utente sia verificato per inviargli messaggi crittati. Questo migliora la sicurezza, ma rende E2EE più laborioso.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>Condividi le chiavi con utenti e dispositivi verificati</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>Risponde automaticamente alle richieste di chiavi da altri utenti verificati, anche se il dispositivo non dovrebbe avere accesso a quelle chiavi.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>Abilita backup online delle chiavi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>Scarica e carica le chiavi di crittografia dei messaggi nel backup online delle chiavi crittato.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>Presenza</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>Politica di stato</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controlla il tuo stato di &lt;a href="%1"&gt;Presenza&lt;/a&gt; sulla rete Matrix.
 Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>Messaggio di stato</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>Trasporto</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>Valida i certificati TLS</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>Rifiuta i certificati del server non validi o non attendibili.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>Abilita HTTP/3</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>Usa HTTP/3 per le connessioni al server Matrix quando disponibile.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Riproduce brevi clip video (sotto %1 MB o %2 s) inline, senza audio e in loop. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Scopri di più&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>Presentazione</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>Anteprima della timeline</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>Stile</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>Posizionamento orizzontale</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>Scegli se i messaggi rimangono su un lato o vengono posizionati su lati opposti in base al mittente.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>Larghezza massima messaggio (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>Percentuale della larghezza disponibile della timeline che un singolo messaggio può occupare.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>Codifica colore mittente/messaggio</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>Scegli come vengono assegnati i colori del mittente nella timeline e negli sfondi delle bolle.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>Mostra il nome utente del mittente sopra i messaggi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Controlla quando i nomi utente dei mittenti vengono mostrati sopra i messaggi. In modalità bolla, il proprio nome utente è sempre nascosto. Nelle stanze più piccole, gli avatar e i colori delle bolle sono spesso contesto sufficiente.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>Dimensione avatar</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>Mostra avatar accanto ai fumetti dei propri messaggi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>Se il layout a bolle è attivo, mostra il tuo avatar accanto ai tuoi messaggi. Migliora la simmetria sinistra/destra e facilita l'identificazione dell'autore.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>Ingrandisci messaggi con sole emoji</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>Evidenzia messaggio al passaggio del mouse</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>Evidenziazione della sintassi nei blocchi di codice formattato</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>Applica l'evidenziazione della sintassi contestuale ai blocchi di codice nei messaggi formattati (HTML) della timeline.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>Mostra effetti dei messaggi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Alcuni messaggi, specialmente quelli con emoji come 🎊, ☀️ o 🌦️, possono mostrare un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;effetto timeline&lt;/a&gt; più elaborato.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>Comprimi le risposte al thread</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Nasconde le risposte ai thread dalla timeline principale, mostrando solo i messaggi radice. Può essere sovrascritto per stanza in Info stanza → Preferenze.&lt;br&gt;⚠️ Il tracciamento dei non letti per thread non è supportato, quindi potresti perdere risposte in thread più vecchi.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>Feedback</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>Mostra quando gli altri stanno scrivendo</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>Ricevute di lettura</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>Mostra se i tuoi messaggi sono stati letti. Se il tuo homeserver non supporta le ricevute di lettura, le stanze potrebbero non essere contrassegnate come lette.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>Azioni</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>Politica di attivazione azioni</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>Scegli come vengono aperte le azioni sui messaggi.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>Reazioni bloccate</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>Elenco di reazioni separate da virgola fissate alla barra delle azioni. Gli slot rimanenti vengono riempiti con le reazioni più usate per stanza.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>Gestione immagini</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>Riproduci immagini animate solo al passaggio del mouse</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>Mostra immagini automaticamente</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>Apri in un visualizzatore esterno</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>Le immagini crittate sono &lt;a href="komai://media-cache"&gt;memorizzate&lt;/a&gt; decrittate su disco (eliminate automaticamente in modo periodico).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>Gestione video</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>Apri in un player esterno</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Riproduzione in streaming quando possibile; i video crittati o non riposizionabili vengono &lt;a href="komai://media-cache"&gt;memorizzati&lt;/a&gt; su disco (eliminati automaticamente periodicamente).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>Riproduzione automatica inline di video GIF</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>Gestione audio</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Riproduzione in streaming quando possibile; l'audio crittato o non riposizionabile viene &lt;a href="komai://media-cache"&gt;memorizzato&lt;/a&gt; su disco (eliminato automaticamente periodicamente).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>Velocità di riproduzione predefinita</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>Applicato ai lettori audio in linea.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ La dimensione degli avatar è impostata su Nascosto, quindi i nomi utente del mittente vengono sempre visualizzati.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>Usa sistema</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>Mai</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>Solo nelle stanze non crittate</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>Quando disponibile</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>Font di sistema</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>Font emoji di sistema</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>Desktop</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>Tocco</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>Quando necessario</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>Sempre</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>Iniziale</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>Icona utente</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>Spaziosa</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>Compatto</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>Denso</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>Nessuno</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>Solo lettura</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>Lettura &amp; scrittura</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>Sempre online</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>Sempre non disponibile</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>Sempre offline</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>Automatico</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>Seleziona un file</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>Tutti i file (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>Non letti prima, poi i più recenti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>Non letti prima, poi A-Z</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>Attività recente</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>Alfabetico</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>Riutilizza la scheda attiva</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>Apri nuova scheda</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>Avatar ed etichetta</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>Solo avatar</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>Normale</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>Piccolo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>Nascosto</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>Solo nelle stanze grandi (&gt; 16 membri)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>Semplice</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>Bolle</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>Contrapposto per mittente</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>Tutto allineato a sinistra</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>Tutto allineato a destra</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>Adattivo (per membro nelle stanze piccole)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>Io vs altri</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>Solo nelle stanze private</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>Al passaggio del mouse sul messaggio</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>Al clic del pulsante</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Invio</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>Solo alla fine dei messaggi</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>Nessuna preferenza</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 Uomo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 Donna</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 Chiara</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 Medio-chiara</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 Media</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 Medio-scura</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 Scura</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>Predefinito</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>Aspetto</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>Tema</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Servono altri temi? Importa dalla &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; o &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;crea il tuo&lt;/a&gt; (riavvio richiesto).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>Densità</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>Influisce sulla spaziatura, le dimensioni delle icone e le altezze delle righe.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Lingua [riavvio richiesto]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>Caratteri</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>Famiglia di caratteri</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>Dimensione carattere</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>La maggior parte degli elementi UI si ridimensiona in tempo reale. Alcune etichette potrebbero aggiornarsi solo dopo il riavvio dell'app.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>Famiglia di caratteri emoji</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>Fattore di scala [riavvio richiesto]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>Comportamento</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>Abilita animazioni UI</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>Modalità di interazione</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>La modalità Desktop usa interazioni con il mouse. La modalità Touch privilegia gesti di scorrimento e tocco.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>Abilita gesti di scorrimento</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>Abilita gesti come lo scorrimento tra l'elenco stanze e la timeline, e lo scorrimento di un messaggio per rispondere.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>Visibilità della barra di scorrimento</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>Controlla quando vengono mostrate le barre di scorrimento nell'app.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>Avatar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>Anteprima avatar</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>Usa avatar circolari</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>Stile avatar predefinito</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>Visualizzato per utenti e stanze senza avatar personalizzato.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>Barra laterale comunità</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>Mostra indicatori messaggi non letti</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>Mostra enfasi messaggi non letti (badge di conteggio, evidenziazione riga e indicatore sul bordo sinistro) sui filtri di comunità e tag.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>Tutte le stanze</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>Mostra tutte le tue stanze in un'unica vista. Le stanze appartenenti ai filtri contrassegnati come esclusi di seguito saranno nascoste da questo elenco.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>Preferiti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Stanze contrassegnate con &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; tramite l'API di tagging delle stanze di Matrix.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>Persone</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Chat dirette con persone reali, escludendo utenti &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;rilevati&lt;/a&gt; come bot tramite euristica.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>Bot</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Chat dirette in cui l'interlocutore è &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;rilevato&lt;/a&gt; come bot o account di servizio bridge.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>Gruppi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>Stanze con più partecipanti che non sono chat dirette (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; e altre).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>Server Notices</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>Stanze contrassegnate con &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; dall'homeserver per messaggi amministrativi. Vedi il modulo &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; nelle specifiche di Matrix.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>Bassa priorità</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Stanze contrassegnate con &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; tramite l'API di tagging delle stanze di Matrix.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>Elenco stanze</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>Mostra enfasi messaggi non letti (badge di conteggio, nome stanza in grassetto, animazione avatar, evidenziazione riga e indicatore sul bordo sinistro) accanto alle stanze.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>Mostra data/ora dell'ultimo messaggio</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>Mostra anteprima dell'ultimo messaggio</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>Aggiunge un'anteprima dell'ultimo messaggio alle voci dell'elenco stanze. Mostrata su una riga separata nei layout Spazioso e Compatto, e in linea accanto al nome della stanza in Denso.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>Ordinamento</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>Politica di apertura dell'elenco stanze</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>Se fare clic su una stanza riutilizza la scheda attiva o ne apre una nuova. Le stanze con una scheda esistente la attivano in ogni caso.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>Barra delle schede</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>Mostra pulsante blocca</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>Etichetta scheda bloccata</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>Etichetta scheda normale</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>Larghezza preferita della scheda</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>Larghezza minima scheda</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>Massimo numero di timeline pre-renderizzate chiuse di recente</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>Le timeline pre-renderizzate chiuse di recente consentono di passare istantaneamente da una stanza all'altra, ma aumentano l'uso di CPU e RAM. Le schede aperte sono sempre pre-renderizzate. Imposta 0 per mantenere solo le schede aperte.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>Input</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>Tasto di invio</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>Scegli quale combinazione del tasto Invio invia i messaggi.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>Converti automaticamente Markdown in HTML</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>Controlla se la sintassi &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; viene convertita automaticamente per produrre un messaggio &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; con fallback in testo normale Markdown.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>Selettore stanza inline</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>Mostra un selettore di stanze inline quando si digita il cancelletto (#) nell'input del messaggio.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>Selettore utente inline</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>Mostra un selettore di utenti inline quando si digita la chiocciola (@) nell'input del messaggio.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>Trascrizione vocale</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>Abilita il riconoscimento vocale. Configura il provider di trascrizione in &lt;a href="komai://settings/integrations/transcription"&gt;Integrazioni → Trascrizione vocale&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>Allegati</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>Rimuovi i metadati dell'immagine prima del caricamento</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Rimozione best-effort dei metadati (EXIF, IPTC, XMP) da alcuni formati immagine per proteggere la tua privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Ulteriori informazioni&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>Emoji</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>Sostituisci automaticamente le emoticon con emoji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>Sostituisce automaticamente le emoticon testuali come :) :D :P con i corrispondenti emoji all'invio di un messaggio. Scegli se sostituire ovunque o solo alla fine.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>Selettore emoji inline</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>Mostra un selettore di emoji inline quando si digitano i due punti (:) nell'input del messaggio.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>Genere preferito</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Solo selettore emoji inline: preferisci le varianti di genere definite da Unicode (uomo/donna) quando disponibili. La ricerca esplicita dell'altro genere funziona comunque. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Ulteriori informazioni&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>Tonalità della pelle preferita</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Solo selettore emoji inline: preferisci una variante di tono della pelle quando disponibile. La ricerca esplicita di un altro tono della pelle funziona comunque. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Ulteriori informazioni&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>Mostra agli altri quando sto scrivendo</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>Notifiche account</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>Abilita notifiche per questo account</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>Controlla il selettore delle notifiche a livello di account Matrix sul server. Disattiva per silenziare le notifiche su tutti i tuoi client/dispositivi.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>Notifiche di sistema</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>Abilita notifiche di sistema</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>Notifica i messaggi ricevuti quando il client non è attivo. Ha effetto solo se le notifiche dell'account sono abilitate in alto.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>Contenuto messaggio nelle notifiche</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>Scegli quanta parte del testo del messaggio includere nelle notifiche.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>Lampeggia la finestra/taskbar per i messaggi in arrivo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>Mostra un avviso di attenzione quando viene ricevuto un messaggio (ad esempio, attività dell'icona nella barra delle applicazioni).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>Indicatori di attenzione</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>Mostra il conteggio attenzione nel titolo della finestra</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>Aggiunge il numero di stanze che richiedono attenzione al titolo della finestra di Komai.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>Mostra il conteggio attenzione nel badge dell'icona/barra delle applicazioni</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Mostra il numero di stanze che richiedono attenzione nel badge dell'app/barra delle applicazioni. Su Linux, i profili non predefiniti necessitano di un proprio launcher desktop per badge affidabili. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Scopri di più&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>Area di notifica</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>Riduci al vassoio</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>Mantieni l'applicazione in esecuzione in background dopo la chiusura della finestra.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>Avvia in area di notifica</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>Avvia l'applicazione in background senza mostrare la finestra del client.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>Sfocatura finestra</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>Sfoca alla perdita del focus</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>Ritardo sfocatura (secondi)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>Imposta quanto tempo dopo la perdita del focus inizia la sfocatura. Imposta 0 per sfocare immediatamente. Il massimo è 3600 secondi (1 ora).</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>Generale</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>Abilita chiamate legacy</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>Consente di accettare e avviare chiamate legacy (pre-MatrixRTC).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>Usa turn.matrix.org come relay di riserva</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>Usa turn.matrix.org come server relay/STUN di riserva quando il tuo homeserver non ne fornisce uno.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>Dispositivi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>Microfono</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>Fotocamera</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>Risoluzione fotocamera</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>Frequenza fotogrammi fotocamera</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>Suoneria</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>Condivisione schermo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>Frequenza fotogrammi condivisione schermo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>Fotogrammi al secondo target per la condivisione dello schermo. Valori più bassi consumano meno CPU e larghezza di banda.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>Includi picture-in-picture della fotocamera</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>Mostra la camera del partecipante durante la condivisione dello schermo</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>Mostra cursore del mouse</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>Accesso D-Bus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>Scegli quanto &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;accesso D-Bus&lt;/a&gt; Komai espone ai chiamanti locali.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>Ricerca stanze Matrix</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>Abilitato</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>Se abilitato, aggiunge il supporto a &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; nella finestra &lt;a href="komai://rooms-directory"&gt;Esplora stanze pubbliche&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>Server</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>Qualsiasi istanza di &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; va bene, ma &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; è un'istanza popolare e di grandi dimensioni gestita da &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>Browser</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>Account</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>ID utente</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>Homeserver</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>Modifica profilo</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>Dispositivo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>ID dispositivo</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>Token di accesso</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>Il token di accesso consente l'accesso completo al tuo account. Non condividerlo con nessuno.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>Utenti</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>Utenti ignorati</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>Disconnetti</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>Applicazione</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>Piattaforma</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>Creato da</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>Licenza</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>Ringraziamenti</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>Base del fork</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>Set di icone (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>Set di icone (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>Avatar predefiniti (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9767,683 +11152,6 @@ La verifica contrassegna questo dispositivo come attendibile e ti dà accesso ai
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>Tema</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Vuoi altri temi? Importali da &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; o &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;creane uno personalizzato&lt;/a&gt; (riavvio richiesto).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>Font</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>Famiglia di font</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>La maggior parte degli elementi dell'interfaccia si ridimensiona in tempo reale. Alcune etichette potrebbero aggiornarsi solo dopo il riavvio dell'app.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>Famiglia di font emoji</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>Comportamento</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>Modalità di interazione</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>La modalità desktop privilegia l'interazione tramite mouse. La modalità touch privilegia le interazioni tramite scorrimento e tocco.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Abilita i gesti come scorrere tra l'elenco stanze e la cronologia, e scorrere un messaggio per rispondere.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>Controlla quando vengono mostrate le barre di scorrimento nell'app.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>Aspetto</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>Influisce sulla spaziatura, le dimensioni delle icone e l'altezza delle righe degli elenchi.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Lingua [riavvio richiesto]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>Avatar</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>Anteprima avatar</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>Mostrato per utenti e stanze privi di avatar personalizzato.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>Barra laterale comunità</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>Mostra enfasi non letti (badge conteggio, evidenziazione riga e indicatore bordo sinistro) sui filtri comunità e tag.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>Tutte le stanze</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>Mostra tutte le tue stanze in un'unica vista. Le stanze appartenenti ai filtri contrassegnati come esclusi saranno nascoste da questa lista.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Stanze contrassegnate con &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; tramite l'API di tagging stanze Matrix.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Chat dirette con persone reali, escludendo gli utenti &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;rilevati&lt;/a&gt; come bot dall'euristica.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Chat dirette in cui il partner di conversazione viene &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;rilevato&lt;/a&gt; come bot o account di servizio bridge.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>Stanze con più partecipanti che non sono chat dirette (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; e altre).</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>Stanze contrassegnate &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; dall'homeserver per messaggi amministrativi. Vedi il modulo &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; nelle specifiche Matrix.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Stanze contrassegnate con &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; tramite l'API di tagging stanze Matrix.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>Lista stanze</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>Mostra enfasi non letti (badge conteggio, nome stanza in grassetto, rimbalzo avatar, evidenziazione riga e indicatore bordo sinistro) accanto alle stanze.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>Aggiunge un'anteprima dell'ultimo messaggio alle voci dell'elenco stanze. Mostrata su riga separata nei layout Spazioso e Compatto, e inline accanto al nome della stanza nel layout Denso.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>Determina se fare clic su una stanza riutilizza la scheda attiva o ne apre una nuova. Le stanze con una scheda esistente la attivano in tutti i casi.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>Barra delle schede</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>Le timeline pre-renderizzate chiuse di recente consentono il cambio istantaneo di stanza ma aumentano l'utilizzo di CPU e RAM. Le schede aperte sono sempre pre-renderizzate. Impostare 0 per mantenere solo le schede aperte.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>Presentazione</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>Anteprima della timeline</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Scegli se i messaggi rimangono su un lato o sono posizionati su lati opposti in base al mittente.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>Larghezza massima del messaggio (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>Percentuale della larghezza disponibile della timeline che un singolo messaggio può occupare.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>Scegli come vengono assegnati i colori dei mittenti nella cronologia e negli sfondi delle bolle.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Controlla quando i nomi utente dei mittenti vengono mostrati sopra i messaggi. In modalità bolla, il proprio nome utente è sempre nascosto. Nelle stanze più piccole, gli avatar e i colori delle bolle sono spesso contesto sufficiente.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>Se il layout a fumetti è attivo, mostra il proprio avatar accanto ai propri messaggi. Migliora la simmetria sinistra/destra e rende più facile identificare l'autore.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>Applica l'evidenziazione della sintassi ai blocchi di codice nei messaggi in formato HTML.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Alcuni messaggi, specialmente quelli con emoji come 🎊, ☀️ o 🌦️, possono mostrare un &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;effetto timeline&lt;/a&gt; più elaborato.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Nasconde le risposte dei thread dalla timeline principale, mostrando solo i messaggi radice del thread. Può essere sostituito per stanza in Informazioni stanza → Preferenze.&lt;br&gt;⚠️ Il tracciamento dei messaggi non letti per thread non è supportato, quindi potresti perdere risposte nei thread più vecchi.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>Feedback</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Mostra se i tuoi messaggi sono stati letti. Se il tuo homeserver non supporta le conferme di lettura, le stanze potrebbero non essere contrassegnate come lette.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>Azioni</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>Scegli come vengono aperte le azioni sui messaggi.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>Elenco di reazioni separate da virgola fissate nella barra delle azioni. Gli spazi rimanenti vengono riempiti con le reazioni più usate per stanza.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>Gestione delle immagini</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>Le immagini crittate vengono &lt;a href="komai://media-cache"&gt;memorizzate in cache&lt;/a&gt; in forma decrittata su disco (eliminate automaticamente a intervalli regolari).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>Gestione video</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Trasmette in streaming quando possibile; i video crittati o non scorrevoli vengono &lt;a href="komai://media-cache"&gt;memorizzati nella cache&lt;/a&gt; su disco (eliminati automaticamente periodicamente).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>Gestione audio</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Trasmette in streaming quando possibile; l'audio crittato o non scorrevole viene &lt;a href="komai://media-cache"&gt;memorizzato nella cache&lt;/a&gt; su disco (eliminato automaticamente periodicamente).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>Applicato ai lettori audio inline.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>Input</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>Scegli quale combinazione del tasto Invio invia i messaggi.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>Controlla se la sintassi &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; viene convertita automaticamente per produrre un messaggio &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; con fallback in testo normale Markdown.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>Mostra un selettore stanze inline quando digiti il cancelletto (#) nel campo del messaggio.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>Mostra un selettore utenti inline quando digiti la chiocciola (@) nel campo del messaggio.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>Abilita la trascrizione da voce a testo. Configura il provider di trascrizione in &lt;a href="komai://settings/integrations/transcription"&gt;Integrazioni → Trascrizione vocale&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>Allegati</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Rimozione best-effort dei metadati (EXIF, IPTC, XMP) da alcuni formati di immagine per proteggere la tua privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Scopri di più&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>Sostituisce automaticamente le emoticon testuali come :) :D :P con i corrispondenti emoji all'invio di un messaggio. Scegli se sostituire ovunque o solo alla fine.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>Mostra un selettore emoji inline quando digiti i due punti (:) nel campo del messaggio.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Solo selettore emoji inline: preferisce le varianti di genere definite da Unicode (uomo/donna) quando disponibili. La ricerca esplicita dell'altro genere funziona comunque. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Scopri di più&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Solo selettore emoji inline: preferisce una variante di carnagione quando disponibile. La ricerca esplicita di un'altra tonalità funziona comunque. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Scopri di più&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>Notifiche account</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>Abilita le notifiche per questo account</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>Controlla l'interruttore delle notifiche a livello di account Matrix sull'homeserver. Disattiva per silenziare le notifiche su tutti i client/dispositivi.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>Notifiche di sistema</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>Notifica i messaggi ricevuti quando il client non è in primo piano. Ha effetto solo se le notifiche account sono abilitate sopra.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>Scegli quanta parte del testo del messaggio includere nelle notifiche.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>Mostra un avviso di attenzione alla ricezione di un messaggio (ad esempio, attività dell'icona nella barra delle applicazioni).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>Indicatori di attenzione</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>Aggiunge il numero di stanze che richiedono attenzione al titolo della finestra di Komai.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Mostra il numero di stanze che richiedono attenzione nel badge app/barra delle applicazioni. Su Linux, i profili non predefiniti necessitano di un launcher desktop dedicato per badge app affidabili. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Scopri di più&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>Vassoio di sistema</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>Mantieni l'applicazione in esecuzione in background dopo la chiusura della finestra del client.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Avvia l'applicazione in background senza mostrare la finestra del client.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>Sfocatura finestra</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>Imposta il ritardo dopo la perdita del focus prima che inizi la sfocatura. Impostare 0 per sfocare immediatamente. Il massimo è 3600 secondi (1 ora).</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>Generale</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>Consente di accettare e avviare chiamate legacy (pre-MatrixRTC).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>Usa turn.matrix.org come server relay/STUN di riserva quando l'homeserver non ne fornisce uno.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Dispositivi</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>Microfono</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>Fotocamera</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>Risoluzione fotocamera</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>Frequenza fotogrammi fotocamera</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>Suoneria</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>Condivisione schermo</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>Fotogrammi al secondo target per la condivisione dello schermo. Valori più bassi richiedono meno CPU e banda.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>Accesso D-Bus</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>Seleziona il livello di &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;accesso D-Bus&lt;/a&gt; esposto da Komai ai chiamanti locali.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>Ricerca stanze Matrix</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>Se attivo, aggiunge il supporto a &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; nella finestra &lt;a href="komai://rooms-directory"&gt;Esplora stanze pubbliche&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>Qualsiasi istanza di &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; va bene, ma &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; è un'istanza grande e popolare gestita da &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>Browser</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>Crittografia</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>Richiede che un utente sia verificato per inviargli messaggi crittati. Migliora la sicurezza ma rende l'E2EE più macchinoso.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>Risponde automaticamente alle richieste di chiavi da altri utenti verificati, anche se quel dispositivo non dovrebbe avere accesso a quelle chiavi in altri casi.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>Scarica le chiavi di crittografia dei messaggi da e carica nel backup online crittografato delle chiavi.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>Presenza</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>Policy di stato</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Controlla il tuo stato di &lt;a href="%1"&gt;Presenza&lt;/a&gt; sulla rete Matrix.
-Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>Messaggio di stato</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>Trasporto</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>Rifiuta certificati server non validi o non attendibili.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>Usa HTTP/3 per le connessioni al server Matrix quando disponibile.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>Account</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>ID utente</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>Homeserver</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>Modifica profilo</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>Dispositivo</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>ID dispositivo</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>Token di accesso</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>Il token di accesso fornisce accesso completo all'account. Non condividerlo con nessuno.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>Utenti</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>Utenti ignorati</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>Disconnetti</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>Applicazione</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>Nome</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>Piattaforma</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>Creato da</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>Licenza</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>Ringraziamenti</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>Base del fork</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>Set di icone (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>Set di icone (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>Avatar predefiniti (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

@@ -5,7 +5,7 @@
 
 #define SIMPLE_OPTIONS_ENUM_SETTING_CORE(                                                          \
   name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, core_def)                   \
-    {QT_TR_NOOP(name),                                                                             \
+    {name,                                                                             \
      desc,                                                                                         \
      SM::Options,                                                                                  \
      tab,                                                                                          \
@@ -32,7 +32,7 @@
 
 #define SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(                                                     \
   name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, id, key)                    \
-    {QT_TR_NOOP(name),                                                                             \
+    {name,                                                                             \
      desc,                                                                                         \
      SM::Options,                                                                                  \
      tab,                                                                                          \
@@ -47,7 +47,7 @@
 
 #define SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(                                                   \
   name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, id, key)                    \
-    {QT_TR_NOOP(name),                                                                             \
+    {name,                                                                             \
      desc,                                                                                         \
      SM::SegmentedOptions,                                                                         \
      tab,                                                                                          \
@@ -62,7 +62,7 @@
 
 #define SIMPLE_OPTIONS_INT_SETTING_CORE(                                                           \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, core_def)        \
-    {QT_TR_NOOP(name),                                                                             \
+    {name,                                                                             \
      desc,                                                                                         \
      SM::Integer,                                                                                  \
      tab,                                                                                          \
@@ -91,7 +91,7 @@
 
 #define SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(                                                      \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, id, key)         \
-    {QT_TR_NOOP(name),                                                                             \
+    {name,                                                                             \
      desc,                                                                                         \
      SM::Integer,                                                                                  \
      tab,                                                                                          \

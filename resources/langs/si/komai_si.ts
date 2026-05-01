@@ -9405,31 +9405,1416 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>අඳුරු</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>සංකේතනය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>තහවුරු කළ පරිශීලකයන්ට පමණක් සංකේතිත පණිවිඩ යවන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>සංකේතිත පණිවිඩ යැවීමට පරිශීලකයා තහවුරු කළ යුතුය. මෙය ආරක්ෂාව වැඩි දියුණු කරයි, නමුත් E2EE වඩාත් කරදරකාරී කරයි.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>තහවුරු කළ පරිශීලකයන් සහ උපකරණ සමඟ යතුරු බෙදාගන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>වෙනත් ආකාරයකින් එම උපකරණයට ඒ යතුරු වෙත ප්‍රවේශය නොතිබිය යුතු වුවද, තහවුරු කළ වෙනත් පරිශීලකයන්ගෙන් යතුරු ඉල්ලීම්වලට ස්වයංක්‍රීයව පිළිතුරු දෙයි.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>මාර්ගගත යතුරු උපස්ථ සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>සංකේතිත මාර්ගගත යතුරු උපස්ථ සේවාවෙන් පණිවිඩ සංකේතන යතුරු බාගත කර, එයට උඩුගත කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>සාන්නිධ්‍යය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>තත්ත්ව ප්‍රතිපත්තිය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ජාලයේ ඔබේ &lt;a href="%1"&gt;Presence&lt;/a&gt; තත්ත්වය පාලනය කරයි.
 ස්වයංක්‍රීය ක්‍රමය 'සබැඳි' හෝ 'නොලැබේ' (මිනිත්තු 5ක නිෂ්ක්‍රීයතාවෙන් පසු) වේ.</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>තත්ත්ව පණිවිඩය</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>ප්‍රවාහනය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>TLS සහතික සත්‍යාපනය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>අවලංගු හෝ විශ්වාස නොකළ සේවාදායක සහතික ප්‍රතික්ෂේප කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>HTTP/3 සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>ලබා ගත හැකි විට Matrix සේවාදායක සම්බන්ධතා සඳහා HTTP/3 භාවිත කරන්න.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>කුඩා වීඩියෝ ක්ලිප් (%1 MB හෝ %2 s ට අඩු) inline ලෙස, නිශ්ශබ්දව සහ ලූප් කර ධාවනය කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>ඉදිරිපත් කිරීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>කාලරේඛා පෙරදසුන</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>විලාසය</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>තිරස් පිහිටීම</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>පණිවිඩ එක් පැත්තකම රඳා සිටිනවාද නැතිනම් යවන්නාට අනුව ප්‍රතිවිරුද්ධ පැත්තවල සිටිනවාද යන්න තෝරන්න.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>පණිවිඩ උපරිම පළල (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>තනි පණිවිඩයකට භාවිත කළ හැකි timeline පළලේ ප්‍රතිශතය.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>යවන්නා/පණිවිඩ වර්ණ කේතනය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>කාල රේඛාව සහ බලූන් පසුබිම්වල යවන්නාගේ වර්ණ පවරන ආකාරය තෝරන්න.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>පණිවිඩ ඉහළ යවන්නාගේ පරිශීලක නාමය පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නම් පෙන්වන විට පාලනය කරන්න. බුබුලු ප්‍රකාරයේදී, ඔබේ පරිශීලක නම සෑමවිටම සඟවා ඇත. කුඩා කාමරවලදී, අවතාර සහ බුබුලු වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>අවතාර ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>ස්වකීය පණිවිඩ බුබුළු අසල avatar පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>බොබ්බල සැකැස්ම සක්‍රීය කළ විට, ඔබගේ පණිවිඩ අසල ඔබගේ අවතාරය පෙන්වන්න. මෙය වම/දකුණ සමමිතිය වැඩිදියුණු කර කතෘත්වය ස්කෑන් කිරීම පහසු කරයි.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>ඉමෝජි-පමණක් පණිවිඩ විශාල කරන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>මවුසය ගෙනයාමේදී පණිවිඩය ඉස්මතු කරන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>හැඩගැස්වූ කේත වලාකුළු සඳහා වාක්‍ය සං‍කේතන ඉස්මතු කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>හැඩතල ගන්වන ලද (HTML) ටයිම්ලයින් පණිවිඩවල ඇති කේත කොටස් සඳහා භාෂා-දැනුවත් syntax highlighting යොදන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>පණිවිඩ බලපෑම් පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>සමහර පණිවිඩ, විශේෂයෙන් 🎊, ☀️, හෝ 🌦️ වැනි emoji සහිත ඒවා, වඩා සංකීර්ණ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline බලපෑමක්&lt;/a&gt; පෙන්විය හැකිය.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>නූල් පිළිතුරු හකුළන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>ප්‍රධාන කාලරේඛාවෙන් නූල් පිළිතුරු සඟවා, නූල් මූල පණිවිඩ පමණක් දක්වයි. කාමර තොරතුරු → මනාපයන් හිදී කාමරයෙන් කාමරයට ඉක්මවා යා හැකිය.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහුබැඳීම සහාය නොදක්වයි, එබැවින් පැරණි නූල්වල පිළිතුරු මග හැරිය හැකිය.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>ප්‍රතිපෝෂණය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>අනෙක් අය ටයිප් කරන විට පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>කියවීම් රිසිට්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>ඔබේ පණිවිඩ කියවූ දැයි පෙන්වන්න. ඔබේ homeserver කියවීමේ රිසිට්පත් සහාය නොකරන්නේ නම්, කාමර කියවූ ලෙස සලකුණු නොවිය හැකිය.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>ක්‍රියාමාර්ග</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>ක්‍රියාමාර්ග සක්‍රිය කිරීමේ ප්‍රතිපත්තිය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>පණිවිඩ ක්‍රියා විවෘත කරන ආකාරය තෝරන්න.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>Pin කළ ප්‍රතික්‍රියා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>ක්‍රියා තීරුවට අමුණා ඇති ප්‍රතිචාරවල කොමා-වෙන් කළ ලැයිස්තුවකි. ඉතිරි ස්ථාන ඔබේ එක් එක් කාමරයේ වඩාත් භාවිත ප්‍රතිචාරයෙන් පිරවේ.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>රූප හැසිරවීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>Hover කිරීමේදී පමණක් සජීවී රූප ධාවනය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>රූප ස්වයංක්‍රීයව පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>බාහිර viewer එකක විවෘත කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>සංකේතිත රූප තැටිය මත විකේතනය කර &lt;a href="komai://media-cache"&gt;හැඹිලි ගබඩා&lt;/a&gt; කෙරේ (ස්වයංක්‍රීයව කාලාන්තරයකට වරක් ඉවත් කෙරේ).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>වීඩියෝ හැසිරවීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>බාහිර ධාවකයක විවෘත කරන්න</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>හැකි විට ප්‍රවාහ කරයි; සංකේතිත හෝ සොයා ගත නොහැකි වීඩියෝ තැටියේ &lt;a href="komai://media-cache"&gt;හැඹිළිගත&lt;/a&gt; වේ (කාලානුකූලව ස්වයංක්‍රීයව ඉවත් කෙරේ).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>GIF වීඩියෝ ස්වයංක්‍රීය ධාවනය</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>ශ්‍රව්‍ය හැසිරවීම</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>හැකි විට ප්‍රවාහ කරයි; සංකේතිත හෝ සොයා ගත නොහැකි ශ්‍රව්‍ය තැටියේ &lt;a href="komai://media-cache"&gt;හැඹිළිගත&lt;/a&gt; වේ (කාලානුකූලව ස්වයංක්‍රීයව ඉවත් කෙරේ).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>පෙරනිමි ධාවන වේගය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>ඇතුළත් ශ්‍රව්‍ය ධාවකයන්ට යෙදේ.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ අවතාර ප්‍රමාණය සඟවා ඇති ලෙස සකසා ඇති නිසා, යවන්නාගේ පරිශීලක නම් සෑමවිටම පෙන්වේ.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>පද්ධතිය භාවිතා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>කිසිවිටක</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>සංකේතනය නොකළ කාමරවල පමණක්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>ලබා ගත හැකි ඕනෑම විටෙක</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>පද්ධති අකුරු</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>පද්ධති emoji අකුරු</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>ඩෙස්ක්ටොප්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>ස්පර්ශ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>අවශ්‍ය විට</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>සෑම විටම</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>ආරම්භක අකුර</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>පරිශීලක නිරූපකය</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>විශාල</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>සංයුක්ත</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>ඝන</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>කිසිවක් නැත</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>කියවීමට පමණක්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>කියවීම &amp; ලිවීම</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>සෑම විටම සබැඳී</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>සෑම විටම නොලැබෙන</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>සෑම විටම නොබැඳී</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>ස්වයංක්‍රීය</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>ගොනුවක් තෝරන්න</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>සියලු ගොනු (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>නොකියවූ මුලින්, ඉන්පසු මෑත</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>නොකියවූ මුලින්, ඉන්පසු A-Z</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>මෑත ක්‍රියාකාරකම්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>අකාරාදී</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>ක්‍රියාකාරී ටැබය නැවත භාවිත කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>නව tab එකක් විවෘත කරන්න</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>අවතාරය සහ ලේබලය</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>අවතාරය පමණි</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>සාමාන්‍ය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>කුඩා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>සඟවන ලද</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>විශාල කාමරවල පමණක් (&gt; සාමාජිකයන් 16)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>සරල</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>බුබුළු</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>යවන්නා අනුව ප්‍රතිවිරුද්ධව</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>සියල්ල වමට පෙළගැස්සූ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>සියල්ල දකුණට පෙළගැස්සූ</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>අනුවර්තී (කුඩා කාමරවල සාමාජිකයා අනුව)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>මා හා අනෙක් අය</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>පෞද්ගලික කාමරවල පමණක්</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>පණිවිඩය මත රිංගීමේදී</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>බොත්තම ක්ලික් කිරීමේදී</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>පණිවිඩවල අවසානයේ පමණක්</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>කිසිදු මනාපයක් නැත</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 පුරුෂ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 ස්ත්‍රී</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 ළා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 මධ්‍යම-ළා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 මධ්‍යම</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 මධ්‍යම-තද</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 තද</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>පෙරනිමි</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>පෙනුම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>තේමාව</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>තවත් තේමා අවශ්‍යද? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; වෙතින් ආයාත කරන්න හෝ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;ඔබේම සාදන්න&lt;/a&gt; (නැවත ආරම්භ කිරීම අවශ්‍යයි).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>ඝනත්වය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>පරතරය, නිරූපක ප්‍රමාණ සහ ලැයිස්තු පේළි උස් කෙරෙහි බලපායි.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>භාෂාව [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>අකුරු</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>අකුරු පවුල</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>අකුරු ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>බොහෝ UI මූලද්‍රව්‍ය සජීවීව ප්‍රතිප්‍රමාණ වෙති. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසුව පමණක් යාවත්කාලීන විය හැකිය.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>ඉමෝජි අකුරු පවුල</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>පරිමාණ සාධකය [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>හැසිරීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>UI සජීවීකරණ සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>අන්තර්ක්‍රියා ආකාරය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>ඩෙස්ක්ටොප් මාදිලිය මූසිකය-ප්‍රථම හැසිරීම භාවිතා කරයි. ස්පර්ශ මාදිලිය ස්වයිප් සහ ස්පර්ශ අන්තර්ක්‍රියා සඳහා ප්‍රමුඛත්වය දෙයි.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>ස්වයිප් අභිනයන් සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>කාමර ලැයිස්තුව සහ කාලරේඛාව අතර ස්වයිප් කිරීම සහ පිළිතුරු දීමට පණිවිඩයක් ස්වයිප් කිරීම වැනි අභිනයන් සක්‍රිය කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>අනුචලන තීරුවේ දෘශ්‍යතාව</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>යෙදුම පුරා අනුචලන තීරු පෙන්වන්නේ කවදාද යන්න පාලනය කරයි.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>අවතාර</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>අවතාර පෙරදසුන</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>වෘත්තාකාර අවතාර භාවිත කරන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>පෙරනිමි අවතාර විලාසය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>අභිරුචි avatar නොමැති පරිශීලකයන් සහ කාමර සඳහා පෙන්වේ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>ප්‍රජා අතුරු තීරුව</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>නොකියවූ දර්ශක පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>ප්‍රජා සහ ටැග් පෙරහන් මත නොකියවූ අවධාරණය (ගණන් badge, පේළි highlight, සහ වම් කෙළවර සලකුණ) පෙන්වන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>සියලු කාමර</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>ඔබේ සියලු කාමර එක දසුනකින් පෙන්වේ. පහතින් බැහැරව ලෙස සලකුණු කළ පෙරහන්වලට අයත් කාමර මෙම ලැයිස්තුවෙන් සඟවනු ලැබේ.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>ප්‍රියතම</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Matrix කාමර ටැගිං API හරහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; ලෙස ටැග් කළ කාමර.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>ජනයා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>හේතු-නිගමන මඟින් බොට් ලෙස &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;හඳුනා ගෙන&lt;/a&gt; ඇති පරිශීලකයන් හැර, සැබෑ පුද්ගලයන් සමඟ ඍජු කතාබහ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>බොට්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>සංවාද හවුල්කරු බොට් හෝ බ්‍රිජ් සේවා ගිනුමක් ලෙස &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;හඳුනා ගෙන&lt;/a&gt; ඇති ඍජු කතාබහ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>කණ්ඩායම්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>සෘජු කතා නොවන බහු-සහභාගිකයන් කාමර (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; සහ අනෙකුත්).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>සේවාදායක දැනුම්දීම්</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>homeserver විසින් පරිපාලන පණිවිඩ සඳහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; ලෙස ටැග් කළ කාමර. Matrix විශේෂිකාවේ &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; මොඩියුලය බලන්න.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>අඩු ප්‍රමුඛතාව</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Matrix කාමර ටැගිං API හරහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; ලෙස ටැග් කළ කාමර.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>කාමර ලැයිස්තුව</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>කාමර අසල නොකියවූ අවධාරණය (ගණන් badge, bold කාමර නාමය, avatar bounce, පේළි highlight, සහ වම් කෙළවර සලකුණ) පෙන්වන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>අවසාන පණිවිඩ කාල-ලකුණ පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>අවසාන පණිවිඩ පෙරදසුන පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>කාමර ලැයිස්තු ඇතුළත් කිරීම් සඳහා අවසාන පණිවිඩ පෙරදර්ශනයක් එකතු කරයි. Spacious සහ Compact පිළිවෙලන්හිදී ස්වකීය රේඛාවකින් දර්ශනය වන අතර Dense හිදී කාමර නාමයට යාබදව ඇතුළත් කෙරේ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>වර්ග කිරීම</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>කාමර ලැයිස්තු විවෘත කිරීමේ ප්‍රතිපත්තිය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>කාමරයක් ක්ලික් කිරීමෙන් ක්‍රියාකාරී ටැබය නැවත භාවිත කරයිද නැතහොත් නව ටැබයක් විවෘත කරයිද යන්න. දැනට ටැබයක් ඇති කාමර සියලු අවස්ථාවලදී ඒ ටැබය සක්‍රීය කරයි.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>ටැබ් තීරය</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>pin බොත්තම පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>Pin කළ tab ලේබලය</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>සාමාන්‍ය ටැබ් ලේබලය</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>කැමති tab පළල</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>ටැබ් අවම පළල</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>මෑතකදී වසා දැමූ පූර්ව-විදර්ශිත කාල රේඛා උපරිමය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>මෑතකදී වසා දැමූ pre-rendered timeline ක්ෂණික කාමර මාරු කිරීම සක්‍රීය කරයි, නමුත් CPU සහ RAM භාවිතය වැඩිවේ. විවෘත tab සැමවිටම pre-rendered වේ. විවෘත tab පමණක් තබා ගැනීමට 0 ලෙස සකසන්න.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>ආදානය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>යැවීමේ යතුර</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>පණිවිඩ යවන Enter යතුරු සංයෝජනය තෝරන්න.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>Markdown ස්වයංක්‍රීයව HTML බවට පරිවර්තනය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>&lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; සින්ටැක්ස් Markdown සරල-පාඨ ආශ්‍රිත සහිත &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; පණිවිඩයක් නිෂ්පාදනය කිරීමට ස්වයංක්‍රීයව පරිවර්තනය කරනවාද යන්න පාලනය කරයි.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>කාමර තෝරන්නා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>පණිවිඩ ආදානයේ hash (#) ලකුණ ටයිප් කළ විට inline කාමර තේරුම්කාරකයක් පෙන්වන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>පරිශීලක තෝරන්නා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>පණිවිඩ ආදානයේ at ලකුණ (@) ටයිප් කළ විට inline පරිශීලක තේරුම්කාරකයක් පෙන්වන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>හඬ පිටපත් කිරීම</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>කථා-සිට-පෙළ සක්‍රිය කරයි. &lt;a href="komai://settings/integrations/transcription"&gt;ඒකාබද්ධකිරීම් → හඬ ලිඛිතකරණය&lt;/a&gt; හි ලිඛිතකරණ සපයන්නා වින්‍යාස කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>ඇමුණුම්</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>උඩුගත කිරීමට පෙර රූප මෙටාදත්ත ඉවත් කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ඔබගේ පෞද්ගලිකත්වය ආරක්ෂා කිරීම සඳහා සමහර රූප ආකෘතිවලින් metadata (EXIF, IPTC, XMP) ඉවත් කිරීම හැකිතාක් සිදු කෙරේ. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;වැඩිදුර දැනගන්න&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>ඉමෝජි</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>ඉමොටිකොන් ස්වයංක්‍රීයව emoji සමඟ ප්‍රතිස්ථාපනය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>පණිවිඩයක් යැවීමේදී :) :D :P වැනි පෙළ ඉමොටිකොන් ස්වයංක්‍රීයව ඒවාට අනුරූප emoji සමඟ ප්‍රතිස්ථාපනය කරන්න. සෑම තැනකම හෝ අවසානයේ පමණක් ප්‍රතිස්ථාපනය කළ යුතු දැයි තෝරන්න.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>ඉමොජි තෝරන්නා</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>පණිවිඩ ආදානයේ කොලෝනයක් (:) ටයිප් කළ විට inline emoji තේරුම්කාරකයක් පෙන්වන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>කැමති ලිංගය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ඉමොජි තෝරන්නා පමණකි: ලබාගත හැකිවිට Unicode-නිර්වචිත ස්ත්‍රී/පුරුෂ ප්‍රභේද (man/woman) කැමති කරන්න. අනෙක් ස්ත්‍රී/පුරුෂ භාවය සඳහා සෙවීම තවමත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;තවත් ඉගෙනන්න&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>කැමති සම් වර්ණය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ඉමොජි තෝරන්නා පමණකි: ලබාගත හැකිවිට එක් සම ස්වර ප්‍රභේදයක් කැමති කරන්න. වෙනත් සම ස්වරයක් සඳහා සෙවීම තවමත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;තවත් ඉගෙනන්න&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>ටයිප් කරන විට අනෙක් අයට පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>ගිණුම් දැනුම්දීම්</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>මෙම ගිනුම සඳහා දැනුම්දීම් සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>ගෘහ සේවාදායකයේ ඔබේ Matrix ගිණුම් මට්ටමේ දැනුම් දීම් ස්විචය පාලනය කරයි. ඔබගේ සියලු ගනුදෙනුකරුවන්/උපකරණ හරහා දැනුම් දීම් නිශ්ශබ්ද කිරීමට ක්‍රියාවිරහිත කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>පද්ධති දැනුම්දීම්</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>පද්ධති දැනුම්දීම් සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>සේවාදායකය දැනට සක්‍රිය නොවූ විට ලැබුණු පණිවිඩ ගැන දැනුම් දෙන්න. ඉහත ගිණුම් දැනුම්දීම් සක්‍රිය කළ විට පමණක් මෙය බලාත්මක වේ.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>දැනුම්දීම්වල පණිවිඩ අන්තර්ගතය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>දැනුම් දීම්වල ඇතුළත් කළ යුතු පණිවිඩ පාඨ ප්‍රමාණය තෝරන්න.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>ලැබෙන පණිවිඩ සඳහා යෙදුම් කවුළුව/කාර්ය තීරුව බැබළවන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>පණිවිඩයක් ලැබෙන විට අවධාන ඇඟවීමක් පෙන්වන්න (උදාහරණයක් ලෙස, කාර්ය තීරු නිරූපක ක්‍රියාකාරකම).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>අවධාන දර්ශක</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>කවුළු මාතෘකාවේ අවධානය ගණන පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>අවධානය අවශ්‍ය කාමර ගණන Komai කවුළු මාතෘකාවට එකතු කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>යෙදුම් නිරූපකය/taskbar badge හි අවධානය ගණන පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>යෙදුම්/taskbar badge හි අවධානය අවශ්‍ය කාමර ගණන පෙන්වන්න. Linux හිදී, විශ්වාසදායක යෙදුම් badge සඳහා පෙරනිමි නොවන profile වලට ඔවුන්ගේම desktop launcher අවශ්‍ය වේ. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;තවත් දැනගන්න&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>පද්ධති ට්‍රේ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>ට්‍රේ වෙත වසන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>සේවාදායක කවුළුව වසා දැමූ පසු යෙදුම පසුබිමේ ක්‍රියාත්මකව තබා ගන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>ට්‍රේ එකෙන් ආරම්භ කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>සේවාදායක කවුළුව නොපෙන්වා යෙදුම පසුබිමේ ආරම්භ කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>කවුළු බොඳ කිරීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>අවධානය නැති වූ විට බොඳ කිරීම</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>බොඳ කිරීමේ ප්‍රමාදය (තත්පර)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>අවධානය නැතිවීමෙන් පසු බ්ලර් ආරම්භ වීමට ගතවන කාලය සකසන්න. වහාම බ්ලර් කිරීමට 0 සකසන්න. උපරිමය තත්පර 3600 (පැය 1) කි.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>සාමාන්‍ය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>පැරණි ඇමතුම් සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>legacy (MatrixRTC-ට පූර්ව) ඇමතුම් පිළිගැනීමට සහ ආරම්භ කිරීමට ඉඩ සලසයි.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>turn.matrix.org ආදේශ රිලේ ලෙස භාවිත කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>ඔබගේ ගෘහ සේවාදායකයා එකක් සපයා නොදෙන විට turn.matrix.org ආදේශ රිලේ/STUN සේවාදායකයා ලෙස භාවිත කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>උපකරණ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>මයික්‍රෆෝනය</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>කැමරාව</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>කැමරා විභේදනය</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>කැමරා රාමු අනුපාතය</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>රිංටෝනය</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>තිරය බෙදාගැනීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>තිරය බෙදාගැනීමේ රාමු අනුපාතය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>තිර බෙදාගැනීම සඳහා ඉලක්ක ෆ්‍රේම් ගණන (ප්‍රතිතත්පරයකට). අඩු අගයන් CPU සහ බෑන්ඩ්විත් අඩුවෙන් භාවිත කරයි.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>කැමරා picture-in-picture ඇතුළත් කරන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>තිරය බෙදාගැනීමේදී සහභාගිකාරකයාගේ කැමරාව පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>මූශික කර්සරය පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>D-Bus ප්‍රවේශය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>Komai දේශීය ඇමතුම්කරුවන්ට කොපමණ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ප්‍රවේශය&lt;/a&gt; ලබා දෙනවාද යන්න තෝරන්න.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>Matrix කාමර සෙවීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>සක්‍රිය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>සක්‍රීය කළ විට, &lt;a href="komai://rooms-directory"&gt;පොදු කාමර ගවේෂණය&lt;/a&gt; සංවාද කොටුවට &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; සහාය එකතු කරයි.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>සේවාදායකය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; හි ඕනෑම instance එකක් ක්‍රියාත්මක වනු ඇත, නමුත් &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; යනු &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; විසින් ක්‍රියාත්මක කරන ජනප්‍රිය විශාල instance එකකි.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>බ්‍රවුසරය</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>ගිණුම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>පරිශීලක හැඳුනුම්පත</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>හෝම්සර්වර්</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>පැතිකඩ සංස්කරණය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>උපකරණය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>උපකරණ හැඳුනුම</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>ප්‍රවේශ ටෝකනය</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>ඔබගේ ප්‍රවේශ ටෝකනය ඔබගේ ගිණුමට සම්පූර්ණ ප්‍රවේශය ලබා දෙයි. කිසිවෙකු සමඟ එය බෙදා නොගන්න.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>පරිශීලකයන්</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>නොතකන ලද පරිශීලකයින්</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>ඉවත් වන්න</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>යෙදුම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>නම</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>වේදිකාව</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>නිර්මාණය කළේ</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>බලපත්‍රය</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>ස්තූතිය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>ෆෝර්ක් පදනම</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>අයිකන් කට්ටලය (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>අයිකන් කට්ටලය (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>පෙරනිමි අවතාර (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9767,683 +11152,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>තේමාව</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>තවත් තේමා අවශ්‍යද? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; වෙතින් ආනයනය කරන්න හෝ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;ඔබේම සාදන්න&lt;/a&gt; (නැවත ආරම්භ කිරීම අවශ්‍ය).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>අකුරු</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>අකුරු පවුල</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>UI මූලද්‍රව්‍ය බොහොමයක් සෘජුවම ප්‍රමාණය වෙනස් කෙරේ. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසුව පමණක් යාවත්කාලීන විය හැකිය.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>ඉමොජි අකුරු පවුල</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>හැසිරීම</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>අන්තර්ක්‍රිය ප්‍රකාරය</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Desktop මූසිකය-ප්‍රථම හැසිරීම භාවිතා කරයි. Touch ප්‍රකාරය ස්වයිප් සහ ස්පර්ශ අන්තර්ක්‍රියා කෙරේ ප්‍රාධාන්‍යය ලබා දෙයි.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>කාමර ලැයිස්තුව සහ Timeline අතර ස්වයිප් කිරීම, සහ පිළිතුරු දීමට පණිවිඩයක් ස්වයිප් කිරීම වැනි අභිනයන් සක්‍රිය කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>යෙදුම පුරා scrollbars දිස්වන්නේ කවදාද යන්න පාලනය කරයි.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>පෙනුම</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>ඉඩ, නිරූපක ප්‍රමාණ සහ ලැයිස්තු පේළි උස කෙරෙහි බලපායි.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>භාෂාව [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>Avatars</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>Avatar පෙරදර්ශනය</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>අභිරුචි avatar නොමැති පරිශීලකයන් සහ කාමර සඳහා පෙන්වනු ලැබේ.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>ප්‍රජා sidebar</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>ප්‍රජා සහ ටැග් පෙරීම් මත නොකියවූ අවධාරණය (ගණන් badge, row highlight, සහ වම් දාර marker) පෙන්වන්න.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>සියලු කාමර</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>ඔබේ සියලු කාමර එක දසුනක පෙන්වයි. පහතින් බැහැරකළ ලෙස සලකුණු කළ පෙරීම්වලට අයත් කාමර මෙම ලැයිස්තුවෙන් සඟවනු ලැබේ.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Matrix room tagging API හරහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; ලෙස ලේබල් කළ කාමර.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>හෙයූරිස්ටික් මගින් bot ලෙස &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;හඳුනා ගත්&lt;/a&gt; පරිශීලකයන් හැර, සැබෑ මිනිසුන් සමඟ සෘජු කතාබස්.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>සංවාද හවුල්කරු bot හෝ bridge සේවා ගිණුමක් ලෙස &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;හඳුනා ගත්&lt;/a&gt; සෘජු කතාබස්.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>සෘජු කතාබස් නොවන (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; සහ අනෙකුත්) බහු-සහභාගිකාර කාමර.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>homeserver විසින් පරිපාලන පණිවිඩ සඳහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; ලෙස ලේබල් කළ කාමර. Matrix spec හි &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module බලන්න.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Matrix room tagging API හරහා &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; ලෙස ලේබල් කළ කාමර.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>කාමර ලැයිස්තුව</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>කාමර අසල නොකියවූ අවධාරණය (ගණන් badge, තද කාමර නාමය, avatar bounce, row highlight, සහ වම් දාර marker) පෙන්වන්න.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>කාමර ලැයිස්තු ඇතුළත් කිරීම්වලට අවසන් පණිවිඩ පෙරදර්ශනයක් එකතු කරයි. Spacious සහ Compact සැකසුම්වල ස්වකීය රේඛාවක දැක්වේ, Dense සැකසුමේ කාමර නාමය අසල inline ලෙස දැක්වේ.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>කාමරයක් ක්ලික් කිරීම ක්‍රියාකාරී ටැබ් නැවත භාවිත කරයිද නැතිනම් නව ටැබ් එකක් විවෘත කරයිද. දැනට ටැබ් ඇති කාමරවල ටැබ් සෑම අවස්ථාවකම සක්‍රිය කෙරේ.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>ටැබ් බාර්</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>මෑතකදී වසා දැමූ පෙර-විදහා ගත් timelines ක්ෂණික කාමර මාරුව සක්‍රිය කරයි, නමුත් CPU සහ RAM භාවිතය වැඩි කරයි. විවෘත ටැබ් සෑමවිටම පෙර-විදහා ගනී. විවෘත ටැබ් පමණක් රඳවා ගැනීමට 0 ලෙස සකසන්න.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>ඉදිරිපත් කිරීම</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>Timeline පෙරදර්ශනය</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>පණිවිඩ එක් පැත්තකම සිටිනවාද නැතහොත් යවන්නා අනුව එකිනෙකට ප්‍රතිවිරුද්ධව ස්ථානගත කෙරේදැයි තෝරන්න.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>උපරිම පණිවිඩ පළල (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>තනි පණිවිඩයකට ලබාගත හැකි timeline පළලෙහි ප්‍රතිශතය.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>Timeline සහ bubble පසුබිම්වල යවන්නාගේ වර්ණ පවරනු ලබන ආකාරය තෝරන්න.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නම් පෙන්වන විට පාලනය කරන්න. බුබුලු ප්‍රකාරයේදී, ඔබේ පරිශීලක නම සෑමවිටම සඟවා ඇත. කුඩා කාමරවලදී, අවතාර සහ බුබුලු වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>bubble layout සක්‍රිය කළ විට, ඔබේ ස්වකීය පණිවිඩ අසල ඔබේ avatar පෙන්වන්න. මෙය වම/දකුණ සමමිතිය වැඩිදියුණු කරන අතර රචකත්වය ස්කෑන් කිරීම පහසු කරයි.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>හැඩතල ගන්වන ලද (HTML) timeline පණිවිඩවල ඇති කේත කොටස්වලට භාෂා-දැනුවත් syntax highlighting යොදන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>සමහර පණිවිඩ, විශේෂයෙන් 🎊, ☀️, හෝ 🌦️ වැනි emoji සහිත ඒවා, වඩාත් ආකර්ෂණීය &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt; දැක්විය හැකිය.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>ප්‍රධාන කාලරේඛාවෙන් නූල් පිළිතුරු සඟවයි, නූල් මූල පණිවිඩ පමණක් පෙන්වයි. කාමර තොරතුරු → මනාපයන් හිදී කාමරය අනුව ප්‍රතික්ෂේප කළ හැකිය.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහු කිරීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මගහැරෙනු ඇත.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>ප්‍රතිපෝෂණය</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>ඔබේ පණිවිඩ කියවූදැයි පෙන්වන්න. ඔබේ homeserver කියවීම් රිසිට්පත් සහාය නොදක්වන්නේ නම්, කාමර කියවූ ලෙස සලකුණු නොකළ හැකිය.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>ක්‍රියා</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>පණිවිඩ ක්‍රියා විවෘත කරන ආකාරය තෝරන්න.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>ක්‍රියා තීරුවට සවිකළ reactions කොමා-වෙන් කළ ලැයිස්තුව. ඉතිරි ස්ලොට් කාමරය අනුව ඔබ වැඩිපුරම භාවිතා කළ reactions මගින් පිරවේ.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>රූප හැසිරවීම</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>සංකේතිත රූප තැටිය මත විකේතිතව &lt;a href="komai://media-cache"&gt;හැඹිලිගත&lt;/a&gt; වේ (ස්වයංක්‍රීයව නිතිපතා ඉවත් කෙරේ).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>වීඩියෝ හැසිරවීම</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>හැකි විට stream කරයි; සංකේතිත හෝ seekable නොවන වීඩියෝ disk හි &lt;a href="komai://media-cache"&gt;cache&lt;/a&gt; කෙරේ (ස්වයංක්‍රීයව කාලීනව ඉවත් කෙරේ).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>ශ්‍රව්‍ය හසුරුවීම</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>හැකි විට stream කරයි; සංකේතිත හෝ seekable නොවන ශ්‍රව්‍ය disk හි &lt;a href="komai://media-cache"&gt;cache&lt;/a&gt; කෙරේ (ස්වයංක්‍රීයව කාලීනව ඉවත් කෙරේ).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>Inline ශ්‍රව්‍ය ධාවකවලට යොදනු ලැබේ.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>ආදානය</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>පණිවිඩ යවන Enter යතුරු සංයෝජනය තෝරන්න.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>&lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax ස්වයංක්‍රීයව Markdown plain-text fallback සහිත &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; පණිවිඩයක් නිපදවීමට පරිවර්තනය කෙරේදැයි පාලනය කරයි.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>පණිවිඩ ආදාන ක්ෂේත්‍රයේ හෑෂ් ලකුණ (#) ටයිප් කරන විට inline කාමර picker එකක් පෙන්වන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>පණිවිඩ ආදාන ක්ෂේත්‍රයේ at ලකුණ (@) ටයිප් කරන විට inline පරිශීලක picker එකක් පෙන්වන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>කථාව-සිට-පෙළ සක්‍රිය කරයි. &lt;a href="komai://settings/integrations/transcription"&gt;ඒකාබද්ධතා → හඬ පිටපත් කිරීම&lt;/a&gt; හි පිටපත් සේවා සපයන්නා වින්‍යාස කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>ඇමුණුම්</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ඔබේ පෞද්ගලිකත්වය ආරක්ෂා කිරීම සඳහා සමහර රූප ආකෘති වලින් metadata (EXIF, IPTC, XMP) ඉවත් කිරීමේ හොඳම ප්‍රයත්නය. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>ඉමොජි</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>පණිවිඩයක් යවන විට :) :D :P වැනි පෙළ emoticons ස්වයංක්‍රීයව ඒවාට සමාන emoji සමඟ ප්‍රතිස්ථාපනය කරන්න. සෑම තැනකම හෝ අවසානයේ පමණක් ප්‍රතිස්ථාපනය කළ යුතු දැයි තෝරන්න.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>පණිවිඩ ආදාන ක්ෂේත්‍රයේ ද්විකොලනයක් (:) ටයිප් කරන විට inline emoji picker එකක් පෙන්වන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Inline ඉමොජි තෝරක පමණක්: ලබාගත හැකි විට Unicode-නිර්වචිත ස්ත්‍රී/පුරුෂ විචල්‍යයන් (පිරිමි/ගැහැනු) කෙරේ ප්‍රාධාන්‍යය දෙන්න. අනෙක් ලිංගය සඳහා සෘජුව සෙවීම ඇතත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Inline ඉමොජි තෝරක පමණක්: ලබාගත හැකි විට එක් සමේ-ටෝනයක් විචල්‍යයකට ප්‍රාධාන්‍යය දෙන්න. වෙනත් සමේ-ටෝනයක් සඳහා සෘජුව සෙවීම ඇතත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>ගිණුම් දැනුම්දීම්</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>මෙම ගිණුම සඳහා දැනුම්දීම් සක්‍රිය කරන්න</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>හෝම්සර්වරයේ ඔබේ Matrix ගිණුම් මට්ටමේ දැනුම්දීම් ස්විචය පාලනය කරයි. ඔබේ සියලු clients/උපකරණ හරහා දැනුම්දීම් නිශ්ශබ්ද කිරීමට ක්‍රියා විරහිත කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>පද්ධති දැනුම්දීම්</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>සේවාදායකය දැනට අවධානය යොමු නොකළ විට ලැබුණු පණිවිඩ ගැන දැනුම් දෙන්න. ඉහත ගිණුම් දැනුම්දීම් සක්‍රිය කළ විට පමණක් මෙය ක්‍රියාත්මක වේ.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>දැනුම්දීම්වලට ඇතුළත් කළ යුතු පණිවිඩ පෙළ ප්‍රමාණය තෝරන්න.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>පණිවිඩයක් ලැබෙන විට අවධාන ඇඟවීමක් පෙන්වන්න (නිදසුනක් ලෙස, taskbar නිරූපක ක්‍රියාකාරිත්වය).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>අවධාන දර්ශක</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>අවධානය අවශ්‍ය කාමරවල ගණන Komai කවුළු මාතෘකාවට එකතු කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>app/taskbar badge හි අවධානය අවශ්‍ය කාමර ගණන පෙන්වන්න. Linux හිදී, default නොවන profiles සඳහා විශ්වාසදායක app badge ලබා ගැනීමට ස්වකීය desktop launcher අවශ්‍ය වේ. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;තවත් දැනගන්න&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>පද්ධති ට්‍රේ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>සේවාදායක කවුළුව වසා දැමූ පසු යෙදුම පසුබිමේ ක්‍රියාත්මකව තබා ගන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>client කවුළුව පෙන්නුම් නොකර පසුබිමේ application ආරම්භ කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>කවුළු blur</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>අවධානය නැතිවූ පසු blur ආරම්භ වීමට කෙතරම් කාලයකට පෙරෙන්ද යන්න සකසන්න. ක්ෂණිකව blur කිරීමට 0 සකසන්න. උපරිම 3600 තත්පර (පැය 1) කි.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>සාමාන්‍ය</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>Legacy (MatrixRTC-ට පෙර) ඇමතුම් පිළිගැනීමට සහ ආරම්භ කිරීමට ඉඩ සලසයි.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>ඔබේ homeserver relay/STUN සේවාදායකයක් සපයන්නේ නැති විට turn.matrix.org fallback relay/STUN සේවාදායකයක් ලෙස භාවිත කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>උපකරණ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>මයික්‍රෝෆෝනය</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>කැමරාව</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>කැමරා විභේදනය</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>කැමරා රාමු අනුපාතය</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>රිංටෝනය</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>තිරය බෙදාගැනීම</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>තිරය බෙදාගැනීම සඳහා ඉලක්ක frames per second. අඩු අගයන් CPU සහ bandwidth අඩුවෙන් භාවිත කරයි.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>D-Bus ප්‍රවේශය</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>Komai දේශීය ඇමතුම්කරුවන්ට ලබා දෙන &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ප්‍රවේශ&lt;/a&gt; ප්‍රමාණය තෝරන්න.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>Matrix කාමර සෙවීම</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>සක්‍රිය කළ විට, &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; සංවාදයට &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; සහාය එක් කරයි.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; ඕනෑම instance එකක් ක්‍රියා කරනු ඇත, නමුත් &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; යනු &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; විසින් පවත්වාගෙන යනු ලබන විශාල ජනප්‍රිය instance එකකි.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>බ්‍රව්සරය</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>සංකේතනය</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>ඔවුන්ට සංකේතිත පණිවිඩ යැවීමට පරිශීලකයෙකු තහවුරු කළ බව අවශ්‍ය කරයි. මෙය ආරක්ෂාව වැඩිදියුණු කරයි, නමුත් E2EE වඩාත් කරදරකාරී කරයි.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>තහවුරු කළ වෙනත් පරිශීලකයින්ගේ යතුරු ඉල්ලීම්වලට, එම උපකරණයට සාමාන්‍යයෙන් ප්‍රවේශය නොමැති වුවද, ස්වයංක්‍රීයව ප්‍රතිචාර දක්වයි.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>සංකේතිත සබැඳි යතුරු උපස්ථයෙන් පණිවිඩ සංකේතන යතුරු බාගත කර එවෙත උඩුගත කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>සිටිම</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>තත්ව ප්‍රතිපත්තිය</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Matrix ජාලයේ ඔබේ &lt;a href="%1"&gt;Presence&lt;/a&gt; තත්ත්වය පාලනය කරයි.
-ස්වයංක්‍රීය ක්‍රමය 'සබැඳි' හෝ 'නොලැබේ' (මිනිත්තු 5ක නිෂ්ක්‍රීයතාවෙන් පසු) වේ.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>තත්ව පණිවිඩය</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>ප්‍රවාහනය</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>අවලංගු හෝ විශ්වාස නොකරන සේවාදායක සහතිකා ප්‍රතික්ෂේප කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>ලබා ගත හැකි විට Matrix සේවාදායක සම්බන්ධතා සඳහා HTTP/3 භාවිත කරන්න.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>ගිණුම</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>පරිශීලක ID</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>නිවාස සේවාදායකය</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>පැතිකඩ සංස්කරණය කරන්න</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>උපකරණය</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>උපකරණ හැඳුනුම්පත</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>ප්‍රවේශ ටෝකනය</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>ඔබේ access token ඔබේ ගිණුමට සම්පූර්ණ ප්‍රවේශය ලබා දෙයි. එය කිසිවෙකු සමඟ බෙදා නොගන්න.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>පරිශීලකයන්</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>නොසලකා හරිනු ලැබූ පරිශීලකයන්</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>පිටවීම</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>යෙදුම</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>නම</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>වේදිකාව</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>නිර්මාණය කළේ</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>බලපත්‍රය</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>ස්තූතිය</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>Fork පදනම</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>අයිකන් කට්ටලය (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>අයිකන් කට්ටලය (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>පෙරනිමි avatars (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

@@ -101,6 +101,8 @@ def main() -> int:
         cmd = [
             LUPDATE,
             "-locations", "relative",
+            "-extensions",
+            "java,jui,ui,c,c++,cc,cpp,cxx,ch,h,h++,hh,hpp,hxx,inc,js,mjs,qs,qml,qrc",
             "-no-obsolete",
             os.path.join(tmp, "src"),
             os.path.join(tmp_resources, "qml"),

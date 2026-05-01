@@ -9405,31 +9405,1416 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>Σκοτεινό</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>Κρυπτογράφηση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>Αποστολή κρυπτογραφημένων μηνυμάτων μόνο σε επαληθευμένους χρήστες</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>Απαιτεί ο χρήστης να είναι επαληθευμένος για την αποστολή κρυπτογραφημένων μηνυμάτων. Αυτό βελτιώνει την ασφάλεια αλλά καθιστά την E2EE πιο κουραστική.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>Κοινή χρήση κλειδιών με επαληθευμένους χρήστες και συσκευές</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>Απαντά αυτόματα σε αιτήματα κλειδιών από άλλους χρήστες εάν είναι επαληθευμένοι, ακόμα κι αν η συσκευή δεν θα είχε κανονικά πρόσβαση σε αυτά τα κλειδιά.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>Ενεργοποίηση διαδικτυακού αντιγράφου ασφαλείας κλειδιών</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>Λήψη και αποστολή κλειδιών κρυπτογράφησης μηνυμάτων από/στο κρυπτογραφημένο διαδικτυακό αντίγραφο ασφαλείας κλειδιών.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>Παρουσία</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>Πολιτική κατάστασης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ελέγχει την κατάσταση &lt;a href="%1"&gt;Παρουσίας&lt;/a&gt; σας στο δίκτυο Matrix.
 Το Αυτόματο είναι είτε 'online' είτε 'unavailable' (μετά από 5 λεπτά αδράνειας).</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>Μήνυμα κατάστασης</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>Μεταφορά</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>Επικύρωση πιστοποιητικών TLS</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>Απόρριψη μη έγκυρων ή μη αξιόπιστων πιστοποιητικών διακομιστή.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>Ενεργοποίηση HTTP/3</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>Χρήση HTTP/3 για συνδέσεις με διακομιστή Matrix όταν είναι διαθέσιμο.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Αναπαράγει μικρά βίντεο (κάτω από %1 MB ή %2 s) ενσωματωμένα, χωρίς ήχο και σε επανάληψη. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>Παρουσίαση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>Προεπισκόπηση χρονολογίου</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>Στυλ</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>Οριζόντια τοποθέτηση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>Επιλέξτε αν τα μηνύματα παραμένουν σε μία πλευρά ή τοποθετούνται αντίθετα ανά αποστολέα.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>Μέγιστο πλάτος μηνύματος (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>Ποσοστό του διαθέσιμου πλάτους της λίστας μηνυμάτων που μπορεί να καταλαμβάνει ένα μόνο μήνυμα.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>Χρωματική κωδικοποίηση αποστολέα/μηνύματος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>Επιλέξτε πώς αντιστοιχίζονται τα χρώματα αποστολέα στη χρονολογία και στα φόντα φυσαλίδων.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>Εμφάνιση ονόματος χρήστη αποστολέα πάνω από τα μηνύματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Έλεγχος πότε εμφανίζονται τα ονόματα χρηστών αποστολέων πάνω από τα μηνύματα. Στη λειτουργία φυσαλίδας, το δικό σας όνομα χρήστη είναι πάντα κρυφό. Σε μικρότερα δωμάτια, τα avatar και τα χρώματα φυσαλίδων συχνά παρέχουν αρκετό πλαίσιο.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>Μέγεθος άβαταρ</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>Εμφάνιση avatar δίπλα στις δικές σας φυσαλίδες μηνυμάτων</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>Όταν είναι ενεργοποιημένη η διάταξη φυσαλίδων, εμφανίζεται το avatar σας δίπλα στα δικά σας μηνύματα. Αυτό βελτιώνει τη συμμετρία αριστερά/δεξιά και διευκολύνει τον εντοπισμό αποστολέα.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>Μεγέθυνση μηνυμάτων αποκλειστικά με emoji</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>Επισήμανση μηνύματος κατά την τοποθέτηση δείκτη</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>Επισήμανση σύνταξης μορφοποιημένων μπλοκ κώδικα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>Εφαρμόζει επισήμανση σύνταξης με αναγνώριση γλώσσας σε μπλοκ κώδικα μορφοποιημένων (HTML) μηνυμάτων χρονολογίου.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>Εμφάνιση εφέ μηνυμάτων</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>Ορισμένα μηνύματα, ειδικά αυτά με emoji όπως 🎊, ☀️ ή 🌦️, μπορούν να εμφανίσουν ένα πιο εντυπωσιακό &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;εφέ λίστας μηνυμάτων&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>Σύμπτυξη απαντήσεων νήματος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>Αποκρύπτει τις απαντήσεις νημάτων από το κύριο χρονολόγιο, εμφανίζοντας μόνο τα ριζικά μηνύματα νημάτων. Μπορεί να παρακαμφθεί ανά δωμάτιο στις Πληροφορίες Δωματίου → Προτιμήσεις.&lt;br&gt;⚠️ Η παρακολούθηση αδιάβαστων ανά νήμα δεν υποστηρίζεται, οπότε ενδέχεται να χάσετε απαντήσεις σε παλαιότερα νήματα.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>Ανάδραση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>Εμφάνιση όταν πληκτρολογούν άλλοι</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>Αποδείξεις ανάγνωσης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>Εμφάνιση αν τα μηνύματά σας έχουν διαβαστεί. Αν ο διακομιστής σας δεν υποστηρίζει αποδείξεις ανάγνωσης, τα δωμάτια μπορεί να μην επισημαίνονται ως διαβασμένα.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>Ενέργειες</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>Πολιτική ενεργοποίησης ενεργειών</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>Επιλέξτε πώς ανοίγουν οι ενέργειες μηνύματος.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>Καρφιτσωμένες αντιδράσεις</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>Λίστα αντιδράσεων διαχωρισμένη με κόμμα, καρφιτσωμένη στη γραμμή ενεργειών. Οι υπόλοιπες θέσεις συμπληρώνονται με τις πιο συχνά χρησιμοποιούμενες αντιδράσεις σας ανά δωμάτιο.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>Διαχείριση εικόνων</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>Αναπαραγωγή κινούμενων εικόνων μόνο κατά την τοποθέτηση του δείκτη</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>Αυτόματη εμφάνιση εικόνων</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>Άνοιγμα σε εξωτερικό πρόγραμμα προβολής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>Οι κρυπτογραφημένες εικόνες αποθηκεύονται &lt;a href="komai://media-cache"&gt;στη μνήμη cache&lt;/a&gt; αποκρυπτογραφημένες στον δίσκο (διαγράφονται αυτόματα περιοδικά).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>Διαχείριση βίντεο</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>Άνοιγμα σε εξωτερικό πρόγραμμα αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Μεταδίδεται σε ροή όταν είναι δυνατό· κρυπτογραφημένα ή μη αναζητήσιμα βίντεο &lt;a href="komai://media-cache"&gt;αποθηκεύονται&lt;/a&gt; στο δίσκο (εκκαθαρίζονται αυτόματα περιοδικά).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>Αυτόματη αναπαραγωγή ενσωματωμένων GIF βίντεο</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>Διαχείριση ήχου</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>Μεταδίδεται σε ροή όταν είναι δυνατό· κρυπτογραφημένος ή μη αναζητήσιμος ήχος &lt;a href="komai://media-cache"&gt;αποθηκεύεται&lt;/a&gt; στο δίσκο (εκκαθαρίζεται αυτόματα περιοδικά).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>Προεπιλεγμένη ταχύτητα αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>Εφαρμόζεται στους ενσωματωμένους αναπαραγωγείς ήχου.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ Το μέγεθος avatar έχει οριστεί σε Κρυφό, επομένως τα ονόματα χρηστών αποστολέων εμφανίζονται πάντα.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>Χρήση συστήματος</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>Ποτέ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>Μόνο σε μη κρυπτογραφημένα δωμάτια</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>Όποτε είναι διαθέσιμο</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>Γραμματοσειρά συστήματος</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>Γραμματοσειρά emoji συστήματος</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>Επιφάνεια εργασίας</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>Αφή</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>Όταν χρειάζεται</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>Πάντα</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>Αρχικό γράμμα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>Εικονίδιο χρήστη</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>Ευρύχωρο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>Συμπαγές</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>Πυκνό</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>Κανένα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>Μόνο ανάγνωση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>Ανάγνωση &amp; εγγραφή</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>Πάντα σε σύνδεση</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>Πάντα μη διαθέσιμο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>Πάντα εκτός σύνδεσης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>Αυτόματο</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>Επιλογή αρχείου</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>Όλα τα αρχεία (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>Αδιάβαστα πρώτα, μετά πρόσφατα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>Αδιάβαστα πρώτα, μετά αλφαβητικά</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>Πρόσφατη δραστηριότητα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>Αλφαβητική</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>Επαναχρησιμοποίηση ενεργής καρτέλας</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>Άνοιγμα νέας καρτέλας</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>Άβαταρ και ετικέτα</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>Μόνο άβαταρ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>Κανονικό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>Μικρό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>Κρυφό</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>Μόνο σε μεγάλα δωμάτια (&gt; 16 μέλη)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>Απλό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>Φυσαλίδες</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>Αντίθετα ανά αποστολέα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>Όλα αριστερά ευθυγραμμισμένα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>Όλα δεξιά ευθυγραμμισμένα</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>Προσαρμοστικό (ανά μέλος σε μικρά δωμάτια)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>Εγώ έναντι άλλων</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>Μόνο σε ιδιωτικά δωμάτια</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>Κατά την τοποθέτηση δείκτη στο μήνυμα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>Κατά το κλικ στο κουμπί</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>Μόνο στο τέλος των μηνυμάτων</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>Χωρίς προτίμηση</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 Άντρας</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 Γυναίκα</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 Ανοιχτό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 Μεσαίο-ανοιχτό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 Μεσαίο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 Μεσαίο-σκούρο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 Σκούρο</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>Προεπιλογή</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>Εμφάνιση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>Θέμα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>Θέλετε περισσότερα θέματα; Εισαγάγετε από την &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ή &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;δημιουργήστε το δικό σας&lt;/a&gt; (απαιτείται επανεκκίνηση).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>Πυκνότητα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>Επηρεάζει την απόσταση, τα μεγέθη εικονιδίων και τα ύψη γραμμών λίστας.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>Γλώσσα [απαιτείται επανεκκίνηση]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>Γραμματοσειρές</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>Οικογένεια γραμματοσειράς</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>Μέγεθος γραμματοσειράς</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>Τα περισσότερα στοιχεία διεπαφής αλλάζουν μέγεθος σε πραγματικό χρόνο. Ορισμένες ετικέτες ενδέχεται να ενημερωθούν μόνο μετά την επανεκκίνηση της εφαρμογής.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>Οικογένεια γραμματοσειράς emoji</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>Συντελεστής κλίμακας [απαιτείται επανεκκίνηση]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>Συμπεριφορά</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>Ενεργοποίηση κινούμενων γραφικών διεπαφής</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>Λειτουργία αλληλεπίδρασης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>Η επιφάνεια εργασίας χρησιμοποιεί συμπεριφορά με προτεραιότητα ποντικιού. Η λειτουργία αφής ευνοεί αλληλεπιδράσεις σάρωσης και αφής.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>Ενεργοποίηση χειρονομιών σάρωσης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>Ενεργοποίηση χειρονομιών όπως σάρωση μεταξύ Λίστας Δωματίων και Χρονολογίου, και σάρωση μηνύματος για απάντηση.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>Ορατότητα γραμμής κύλισης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>Ελέγχει πότε εμφανίζονται οι γραμμές κύλισης στην εφαρμογή.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>Άβαταρ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>Προεπισκόπηση άβαταρ</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>Χρήση κυκλικών avatar</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>Προεπιλεγμένο στυλ άβαταρ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>Εμφανίζεται για χρήστες και δωμάτια χωρίς προσαρμοσμένο avatar.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>Πλαϊνή μπάρα κοινοτήτων</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>Εμφάνιση δεικτών αδιάβαστων</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>Εμφάνιση έμφασης αδιάβαστων (σήματα μέτρησης, επισήμανση γραμμής και αριστερός δείκτης) στα φίλτρα κοινότητας και ετικετών.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>Όλα τα δωμάτια</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>Εμφανίζει όλα τα δωμάτιά σας σε μία προβολή. Τα δωμάτια που ανήκουν σε φίλτρα επισημασμένα ως εξαιρούμενα παρακάτω θα αποκρύπτονται από αυτή τη λίστα.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>Αγαπημένα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Δωμάτια με ετικέτα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; μέσω του API ετικετών δωματίων Matrix.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>Άτομα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>Άμεσες συνομιλίες με πραγματικά άτομα, εξαιρουμένων χρηστών που &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;εντοπίζονται&lt;/a&gt; ως bots με ευρετικές μεθόδους.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>Bots</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>Άμεσες συνομιλίες όπου ο συνομιλητής &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;εντοπίζεται&lt;/a&gt; ως bot ή λογαριασμός υπηρεσίας γέφυρας.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>Ομάδες</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>Δωμάτια με πολλούς συμμετέχοντες που δεν είναι άμεσες συνομιλίες (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; και άλλα).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>Ειδοποιήσεις διακομιστή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>Δωμάτια με ετικέτα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; από τον διακομιστή για διαχειριστικά μηνύματα. Δείτε το άρθρωμα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Ειδοποιήσεις διακομιστή&lt;/a&gt; στην προδιαγραφή Matrix.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>Χαμηλή προτεραιότητα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Δωμάτια με ετικέτα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; μέσω του API ετικετών δωματίων Matrix.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>Λίστα δωματίων</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>Εμφάνιση έμφασης αδιάβαστων (σήματα μέτρησης, έντονο όνομα δωματίου, κίνηση avatar, επισήμανση γραμμής και αριστερός δείκτης) δίπλα στα δωμάτια.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>Εμφάνιση χρονικής σήμανσης τελευταίου μηνύματος</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>Εμφάνιση προεπισκόπησης τελευταίου μηνύματος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>Προσθέτει προεπισκόπηση τελευταίου μηνύματος στις καταχωρήσεις της λίστας δωματίων. Εμφανίζεται σε ξεχωριστή γραμμή στις διατάξεις Ευρύχωρο και Συμπαγές, και ενσωματωμένο δίπλα στο όνομα του δωματίου στο Πυκνό.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>Ταξινόμηση</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>Πολιτική ανοίγματος λίστας δωματίων</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>Καθορίζει εάν το κλικ σε δωμάτιο επαναχρησιμοποιεί την ενεργή καρτέλα ή ανοίγει νέα. Τα δωμάτια με υπάρχουσα καρτέλα την ενεργοποιούν σε κάθε περίπτωση.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>Γραμμή καρτελών</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>Εμφάνιση κουμπιού καρφιτσώματος</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>Ετικέτα καρφιτσωμένης καρτέλας</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>Ετικέτα κανονικής καρτέλας</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>Προτιμώμενο πλάτος καρτέλας</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>Ελάχιστο πλάτος καρτέλας</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>Μέγιστα προαποδοθέντα χρονολόγια πρόσφατα κλεισμένων</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>Οι πρόσφατα κλειστές προαποδοθείσες λίστες μηνυμάτων επιτρέπουν άμεση εναλλαγή δωματίων αλλά αυξάνουν τη χρήση CPU και RAM. Οι ανοιχτές καρτέλες είναι πάντα προαποδοθείσες. Ορίστε σε 0 για να διατηρείτε μόνο τις ανοιχτές καρτέλες.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>Εισαγωγή</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>Πλήκτρο αποστολής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>Επιλέξτε ποιον συνδυασμό πλήκτρου Enter αποστέλλει μηνύματα.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>Αυτόματη μετατροπή Markdown σε HTML</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>Ελέγχει αν η σύνταξη &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; μετατρέπεται αυτόματα ώστε να παραχθεί ένα μήνυμα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; με εναλλακτικό απλό κείμενο Markdown.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>Ενσωματωμένος επιλογέας δωματίου</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>Εμφάνιση επιλογέα δωματίου κατά την πληκτρολόγηση δίεσης (#) στο πεδίο μηνύματος.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>Ενσωματωμένος επιλογέας χρήστη</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>Εμφάνιση επιλογέα χρήστη κατά την πληκτρολόγηση του συμβόλου @ στο πεδίο μηνύματος.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>Μεταγραφή φωνής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>Ενεργοποιεί τη μετατροπή ομιλίας σε κείμενο. Διαμορφώστε τον πάροχο μεταγραφής στις &lt;a href="komai://settings/integrations/transcription"&gt;Ενσωματώσεις → Μεταγραφή φωνής&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>Συνημμένα</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>Αφαίρεση μεταδεδομένων εικόνας πριν την αποστολή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Αφαίρεση μεταδεδομένων (EXIF, IPTC, XMP) κατά το δυνατόν από ορισμένες μορφές εικόνας, για προστασία της ιδιωτικότητάς σας. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>Emoji</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>Αυτόματη αντικατάσταση emoticon με emoji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>Αυτόματη αντικατάσταση κειμενικών emoticon όπως :) :D :P με τα αντίστοιχα emoji κατά την αποστολή μηνύματος. Επιλέξτε αν θα αντικαθίστανται παντού ή μόνο στο τέλος.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>Ενσωματωμένος επιλογέας emoji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>Εμφάνιση επιλογέα emoji κατά την πληκτρολόγηση άνω και κάτω τελείας (:) στο πεδίο μηνύματος.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>Προτιμώμενο φύλο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Μόνο για τον ενσωματωμένο επιλογέα emoji: προτίμηση παραλλαγών φύλου που ορίζει το Unicode (άνδρας/γυναίκα) όταν είναι διαθέσιμες. Η ρητή αναζήτηση για το άλλο φύλο εξακολουθεί να λειτουργεί. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>Προτιμώμενη χροιά δέρματος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Μόνο για τον ενσωματωμένο επιλογέα emoji: προτίμηση μίας παραλλαγής χροιάς δέρματος όταν είναι διαθέσιμη. Η ρητή αναζήτηση για άλλη χροιά δέρματος εξακολουθεί να λειτουργεί. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>Εμφάνιση στους άλλους όταν πληκτρολογώ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>Ειδοποιήσεις λογαριασμού</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>Ενεργοποίηση ειδοποιήσεων για αυτόν τον λογαριασμό</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>Ελέγχει τον διακόπτη ειδοποιήσεων επιπέδου λογαριασμού Matrix στον homeserver. Απενεργοποιήστε για σίγαση ειδοποιήσεων σε όλους τους πελάτες/συσκευές σας.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>Ειδοποιήσεις συστήματος</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>Ενεργοποίηση ειδοποιήσεων συστήματος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>Ειδοποίηση για ληφθέντα μηνύματα όταν ο πελάτης δεν είναι εστιασμένος. Αυτό ισχύει μόνο όταν οι ειδοποιήσεις λογαριασμού είναι ενεργοποιημένες παραπάνω.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>Περιεχόμενο μηνύματος στις ειδοποιήσεις</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>Επιλέξτε πόσο κείμενο μηνύματος να συμπεριλαμβάνεται στις ειδοποιήσεις.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>Αναλαμπή παραθύρου/γραμμής εργασιών για εισερχόμενα μηνύματα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>Εμφάνιση ειδοποίησης προσοχής κατά τη λήψη μηνύματος (για παράδειγμα, δραστηριότητα εικονιδίου γραμμής εργασιών).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>Ενδείξεις προσοχής</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>Εμφάνιση αριθμού προσοχής στον τίτλο παραθύρου</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>Προσθέτει τον αριθμό δωματίων που χρειάζονται προσοχή στον τίτλο παραθύρου του Komai.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>Εμφάνιση αριθμού προσοχής στο σήμα εικονιδίου εφαρμογής/γραμμής εργασιών</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Εμφάνιση του αριθμού δωματίων που χρειάζονται προσοχή στο σήμα εφαρμογής/γραμμής εργασιών. Στο Linux, τα μη προεπιλεγμένα προφίλ χρειάζονται τη δική τους εκκίνηση επιφάνειας εργασίας για αξιόπιστα σήματα εφαρμογών. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>Tray συστήματος</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>Κλείσιμο στο δίσκο συστήματος</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>Διατήρηση της εφαρμογής ενεργής στο παρασκήνιο μετά το κλείσιμο του παραθύρου πελάτη.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>Εκκίνηση στο tray</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>Εκκίνηση της εφαρμογής στο παρασκήνιο χωρίς εμφάνιση του παραθύρου.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>Θόλωση παραθύρου</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>Θόλωμα κατά απώλεια εστίασης</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>Καθυστέρηση θολώματος (δευτερόλεπτα)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>Ορίστε πόσο χρόνο μετά την απώλεια εστίασης ξεκινά η θόλωση. Ορίστε 0 για άμεση θόλωση. Το μέγιστο είναι 3600 δευτερόλεπτα (1 ώρα).</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>Γενικά</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>Ενεργοποίηση κλασικών κλήσεων</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>Επιτρέπει αποδοχή και εκκίνηση παλαιών κλήσεων (προ-MatrixRTC).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>Χρήση του turn.matrix.org ως εφεδρικό relay</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>Χρήση του turn.matrix.org ως εφεδρικός διακομιστής relay/STUN όταν ο διακομιστής σας δεν παρέχει έναν.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>Συσκευές</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>Μικρόφωνο</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>Κάμερα</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>Ανάλυση κάμερας</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>Ρυθμός καρέ κάμερας</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>Ήχος κλήσης</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>Κοινή χρήση οθόνης</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>Ρυθμός καρέ κοινής χρήσης οθόνης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>Στόχος καρέ ανά δευτερόλεπτο για κοινή χρήση οθόνης. Χαμηλότερες τιμές χρησιμοποιούν λιγότερο CPU και εύρος ζώνης.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>Συμπερίληψη κάμερας picture-in-picture</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>Εμφάνιση κάμερας συμμετέχοντος κατά την κοινή χρήση οθόνης</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>Εμφάνιση δείκτη ποντικιού</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>Πρόσβαση D-Bus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>Επιλέξτε πόση &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;πρόσβαση D-Bus&lt;/a&gt; εκθέτει το Komai στους τοπικούς καλούντες.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>Αναζήτηση δωματίων Matrix</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>Ενεργοποιημένο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>Όταν είναι ενεργοποιημένο, προσθέτει υποστήριξη &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; στο παράθυρο &lt;a href="komai://rooms-directory"&gt;Εξερεύνηση Δημόσιων Δωματίων&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>Διακομιστής</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>Οποιοδήποτε στιγμιότυπο του &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; είναι αποδεκτό, αλλά το &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; είναι ένα μεγάλο δημοφιλές στιγμιότυπο που διαχειρίζεται το &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>Πρόγραμμα περιήγησης</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>Λογαριασμός</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>Αναγνωριστικό χρήστη</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>Homeserver</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>Επεξεργασία προφίλ</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>Συσκευή</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>Αναγνωριστικό συσκευής</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>Διακριτικό πρόσβασης</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>Το διακριτικό πρόσβασής σας παρέχει πλήρη πρόσβαση στο λογαριασμό σας. Μην το μοιραστείτε με κανέναν.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>Χρήστες</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>Αγνοημένοι χρήστες</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>Αποσύνδεση</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>Εφαρμογή</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>Όνομα</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>Πλατφόρμα</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>Δημιουργήθηκε από</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>Άδεια χρήσης</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>Ευχαριστίες</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>Βάση fork</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>Σύνολο εικονιδίων (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>Σύνολο εικονιδίων (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>Προεπιλεγμένα άβαταρ (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9767,683 +11152,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>Θέμα</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>Χρειάζεστε περισσότερα θέματα; Εισαγάγετε από &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ή &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;δημιουργήστε το δικό σας&lt;/a&gt; (απαιτείται επανεκκίνηση).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>Γραμματοσειρές</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>Οικογένεια γραμματοσειράς</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Τα περισσότερα στοιχεία διεπαφής αλλάζουν μέγεθος εν ζωή. Ορισμένες ετικέτες ενδέχεται να ενημερωθούν μόνο μετά την επανεκκίνηση της εφαρμογής.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>Οικογένεια γραμματοσειράς Emoji</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>Συμπεριφορά</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>Λειτουργία αλληλεπίδρασης</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Η επιφάνεια εργασίας χρησιμοποιεί συμπεριφορά με προτεραιότητα ποντικιού. Η λειτουργία αφής προτιμά αλληλεπιδράσεις ολίσθησης και αφής.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Ενεργοποίηση χειρονομιών όπως σύρσιμο μεταξύ λίστας δωματίων και χρονολογίου, και σύρσιμο μηνύματος για απάντηση.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>Ελέγχει πότε εμφανίζονται οι γραμμές κύλισης σε ολόκληρη την εφαρμογή.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>Εμφάνιση</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>Επηρεάζει την απόσταση, τα μεγέθη εικονιδίων και τα ύψη γραμμών λίστας.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Γλώσσα [απαιτείται επανεκκίνηση]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>Avatar</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>Προεπισκόπηση avatar</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>Εμφανίζεται για χρήστες και δωμάτια χωρίς προσαρμοσμένο avatar.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>Πλαϊνή μπάρα κοινοτήτων</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>Εμφάνιση έμφασης αδιάβαστων (αριθμητικά badges, επισήμανση γραμμής και αριστερός δείκτης) σε φίλτρα κοινότητας και ετικετών.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>Όλα τα δωμάτια</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>Εμφανίζει όλα τα δωμάτιά σας σε μία προβολή. Τα δωμάτια που ανήκουν σε φίλτρα επισημασμένα ως εξαιρούμενα παρακάτω θα αποκρύπτονται από αυτή τη λίστα.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Δωμάτια με ετικέτα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; μέσω του API ετικετών δωματίων Matrix.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>Άμεσες συνομιλίες με πραγματικούς ανθρώπους, εξαιρουμένων των χρηστών που &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;εντοπίζονται&lt;/a&gt; ως bot από ευρετικούς αλγορίθμους.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>Άμεσες συνομιλίες όπου ο συνομιλητής &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;εντοπίζεται&lt;/a&gt; ως bot ή λογαριασμός υπηρεσίας γέφυρας.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>Δωμάτια με πολλούς συμμετέχοντες που δεν είναι άμεσες συνομιλίες (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; και άλλα).</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>Δωμάτια με ετικέτα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; από τον homeserver για διαχειριστικά μηνύματα. Δείτε την ενότητα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; στην προδιαγραφή Matrix.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Δωμάτια με ετικέτα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; μέσω του API ετικετών δωματίων Matrix.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>Λίστα δωματίων</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>Εμφάνιση έμφασης αδιάβαστων (αριθμητικά badges, έντονο όνομα δωματίου, αναπήδηση avatar, επισήμανση γραμμής και αριστερός δείκτης) δίπλα στα δωμάτια.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>Προσθέτει προεπισκόπηση τελευταίου μηνύματος στις καταχωρίσεις λίστας δωματίων. Εμφανίζεται σε ξεχωριστή γραμμή στις διατάξεις Ευρύχωρο και Συμπαγές, και ενσωματωμένα δίπλα στο όνομα δωματίου στο Πυκνό.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>Καθορίζει αν το κλικ σε ένα δωμάτιο επαναχρησιμοποιεί την ενεργή καρτέλα ή ανοίγει νέα. Τα δωμάτια με υπάρχουσα καρτέλα την ενεργοποιούν σε κάθε περίπτωση.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>Γραμμή καρτελών</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>Τα πρόσφατα κλειστά προ-αποδιδόμενα χρονολόγια επιτρέπουν άμεση εναλλαγή δωματίων αλλά αυξάνουν τη χρήση CPU και RAM. Οι ανοιχτές καρτέλες αποδίδονται πάντα εκ των προτέρων. Ορίστε σε 0 για να διατηρείτε μόνο τις ανοιχτές καρτέλες.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>Παρουσίαση</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>Προεπισκόπηση ροής μηνυμάτων</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Επιλέξτε εάν τα μηνύματα παραμένουν στη μία πλευρά ή τοποθετούνται αντίθετα ανά αποστολέα.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>Μέγιστο πλάτος μηνύματος (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>Ποσοστό του διαθέσιμου πλάτους χρονολογίου που μπορεί να καταλαμβάνει ένα μεμονωμένο μήνυμα.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>Επιλέξτε τον τρόπο ανάθεσης χρωμάτων αποστολέα στο χρονολόγιο και στα φόντα φυσαλίδων.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>Έλεγχος πότε εμφανίζονται τα ονόματα χρηστών αποστολέων πάνω από τα μηνύματα. Στη λειτουργία φυσαλίδας, το δικό σας όνομα χρήστη είναι πάντα κρυφό. Σε μικρότερα δωμάτια, τα avatar και τα χρώματα φυσαλίδων συχνά παρέχουν αρκετό πλαίσιο.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>Όταν η διάταξη φυσαλίδων είναι ενεργοποιημένη, εμφανίζεται το avatar σας δίπλα στα δικά σας μηνύματα. Αυτό βελτιώνει τη συμμετρία αριστερά/δεξιά και διευκολύνει την αναγνώριση του συντάκτη.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>Εφαρμογή επισήμανσης σύνταξης ανά γλώσσα σε μπλοκ κώδικα μορφοποιημένων (HTML) μηνυμάτων χρονολογίου.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>Ορισμένα μηνύματα, ιδιαίτερα αυτά με emoji όπως 🎊, ☀️ ή 🌦️, μπορούν να εμφανίσουν ένα πιο εντυπωσιακό &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;εφέ χρονολογίου&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>Αποκρύπτει τις απαντήσεις νημάτων από το κύριο χρονολόγιο, εμφανίζοντας μόνο τα αρχικά μηνύματα νήματος. Μπορεί να παρακαμφθεί ανά δωμάτιο στο Πληροφορίες δωματίου → Προτιμήσεις.&lt;br&gt;⚠️ Η παρακολούθηση αδιάβαστων ανά νήμα δεν υποστηρίζεται, οπότε ενδέχεται να χάσετε απαντήσεις σε παλαιότερα νήματα.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>Σχόλια</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Εμφάνιση αν τα μηνύματά σας διαβάστηκαν. Αν ο διακομιστής σας δεν υποστηρίζει αποδείξεις ανάγνωσης, τα δωμάτια ενδέχεται να μην επισημαίνονται ως διαβασμένα.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>Ενέργειες</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>Επιλέξτε τον τρόπο ανοίγματος ενεργειών μηνύματος.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>Λίστα αντιδράσεων διαχωρισμένη με κόμμα, καρφιτσωμένη στη γραμμή ενεργειών. Οι υπόλοιπες θέσεις συμπληρώνονται με τις πιο συχνά χρησιμοποιούμενες αντιδράσεις ανά δωμάτιο.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>Διαχείριση εικόνων</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>Οι κρυπτογραφημένες εικόνες &lt;a href="komai://media-cache"&gt;αποθηκεύονται στην κρυφή μνήμη&lt;/a&gt; αποκρυπτογραφημένες στον δίσκο (διαγράφονται αυτόματα περιοδικά).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>Διαχείριση βίντεο</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Μεταδίδονται ζωντανά όπου είναι δυνατό· κρυπτογραφημένα ή μη αναζητήσιμα βίντεο &lt;a href="komai://media-cache"&gt;αποθηκεύονται&lt;/a&gt; στον δίσκο (εκκαθαρίζονται αυτόματα περιοδικά).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>Διαχείριση ήχου</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>Μεταδίδεται ζωντανά όπου είναι δυνατό· κρυπτογραφημένος ή μη αναζητήσιμος ήχος &lt;a href="komai://media-cache"&gt;αποθηκεύεται&lt;/a&gt; στον δίσκο (εκκαθαρίζεται αυτόματα περιοδικά).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>Εφαρμόζεται σε ενσωματωμένους αναπαραγωγείς ήχου.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>Εισαγωγή</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>Επιλέξτε τον συνδυασμό πλήκτρου Enter για αποστολή μηνυμάτων.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>Ελέγχει εάν η σύνταξη &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; μετατρέπεται αυτόματα σε μήνυμα &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; με εναλλακτικό απλό κείμενο Markdown.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>Εμφάνιση ενσωματωμένου επιλογέα δωματίου όταν πληκτρολογείτε # στο πεδίο μηνύματος.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>Εμφάνιση ενσωματωμένου επιλογέα χρήστη όταν πληκτρολογείτε @ στο πεδίο μηνύματος.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>Ενεργοποιεί μεταγραφή ομιλίας σε κείμενο. Ρυθμίστε τον πάροχο μεταγραφής στις &lt;a href="komai://settings/integrations/transcription"&gt;Ενσωματώσεις → Μεταγραφή φωνής&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>Συνημμένα</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Αφαίρεση μεταδεδομένων (EXIF, IPTC, XMP) από ορισμένες μορφές εικόνας, κατά το δυνατόν, για την προστασία της ιδιωτικότητάς σας. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>Emoji</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>Αυτόματη αντικατάσταση κειμενικών emoticons όπως :) :D :P με τα αντίστοιχα emoji κατά την αποστολή μηνύματος. Επιλέξτε αντικατάσταση παντού ή μόνο στο τέλος.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>Εμφάνιση ενσωματωμένου επιλογέα emoji κατά την πληκτρολόγηση άνω-κάτω τελείας (:) στο πεδίο μηνύματος.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Μόνο για τον ενσωματωμένο επιλογέα emoji: προτίμηση παραλλαγών φύλου (άνδρας/γυναίκα) που ορίζονται από το Unicode, όταν είναι διαθέσιμες. Η αναζήτηση για το άλλο φύλο εξακολουθεί να λειτουργεί. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Μόνο για τον ενσωματωμένο επιλογέα emoji: προτίμηση μίας παραλλαγής χρώματος δέρματος, όταν είναι διαθέσιμη. Η αναζήτηση για άλλο χρώμα δέρματος εξακολουθεί να λειτουργεί. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>Ειδοποιήσεις λογαριασμού</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>Ενεργοποίηση ειδοποιήσεων για αυτόν τον λογαριασμό</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>Ελέγχει τον διακόπτη ειδοποιήσεων επιπέδου λογαριασμού Matrix στον διακομιστή. Απενεργοποιήστε για σίγαση ειδοποιήσεων σε όλους τους πελάτες/συσκευές σας.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>Ειδοποιήσεις συστήματος</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>Ειδοποίηση για ληφθέντα μηνύματα όταν ο πελάτης δεν είναι σε εστίαση. Ισχύει μόνο όταν οι ειδοποιήσεις λογαριασμού είναι ενεργοποιημένες παραπάνω.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>Επιλέξτε πόσο κείμενο μηνύματος να συμπεριλαμβάνεται στις ειδοποιήσεις.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>Εμφάνιση ειδοποίησης προσοχής κατά τη λήψη μηνύματος (π.χ. δραστηριότητα εικονιδίου γραμμής εργασιών).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>Ενδείκτες προσοχής</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>Προσθήκη του αριθμού δωματίων που χρειάζονται προσοχή στον τίτλο παραθύρου του Komai.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>Εμφάνιση του αριθμού δωματίων που χρειάζονται προσοχή στο badge εφαρμογής/γραμμής εργασιών. Στο Linux, τα μη προεπιλεγμένα προφίλ χρειάζονται το δικό τους εκκινητή επιφάνειας εργασίας για αξιόπιστα app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>Γραμμή συστήματος</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>Διατήρηση της εφαρμογής σε λειτουργία στο παρασκήνιο μετά το κλείσιμο του παραθύρου του πελάτη.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Εκκίνηση της εφαρμογής στο παρασκήνιο χωρίς εμφάνιση του παραθύρου του πελάτη.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>Θόλωση παραθύρου</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>Ορισμός χρόνου μετά την απώλεια εστίασης πριν ξεκινήσει η θόλωση. Ορίστε 0 για άμεση θόλωση. Μέγιστο 3600 δευτερόλεπτα (1 ώρα).</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>Γενικά</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>Επιτρέπει την αποδοχή και εκκίνηση κλήσεων παλαιού τύπου (πριν από το MatrixRTC).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>Χρήση του turn.matrix.org ως εναλλακτικός διακομιστής relay/STUN όταν ο διακομιστής σας δεν παρέχει κάποιον.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Συσκευές</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>Μικρόφωνο</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>Κάμερα</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>Ανάλυση κάμερας</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>Ρυθμός καρέ κάμερας</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>Ήχος κλήσης</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>Κοινή χρήση οθόνης</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>Στόχος καρέ ανά δευτερόλεπτο για κοινή χρήση οθόνης. Χαμηλότερες τιμές καταναλώνουν λιγότερο CPU και εύρος ζώνης.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>Πρόσβαση D-Bus</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>Επιλέξτε πόση &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;πρόσβαση D-Bus&lt;/a&gt; εκθέτει το Komai σε τοπικούς καλούντες.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>Αναζήτηση δωματίων Matrix</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>Όταν είναι ενεργοποιημένο, προσθέτει υποστήριξη &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; στο παράθυρο &lt;a href="komai://rooms-directory"&gt;Εξερεύνηση Δημόσιων Δωματίων&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>Οποιοδήποτε στιγμιότυπο του &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; είναι αποδεκτό, αλλά το &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; είναι ένα μεγάλο και δημοφιλές στιγμιότυπο που διαχειρίζεται η &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>Πρόγραμμα περιήγησης</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>Κρυπτογράφηση</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>Απαιτείται επαλήθευση χρήστη για αποστολή κρυπτογραφημένων μηνυμάτων. Βελτιώνει την ασφάλεια αλλά καθιστά το E2EE πιο κουραστικό.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>Αυτόματη απάντηση σε αιτήματα κλειδιών από άλλους χρήστες εάν είναι επαληθευμένοι, ακόμα και αν η συσκευή δεν θα έπρεπε κανονικά να έχει πρόσβαση σε αυτά τα κλειδιά.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>Λήψη κλειδιών κρυπτογράφησης μηνυμάτων από και αποστολή στο κρυπτογραφημένο διαδικτυακό αντίγραφο ασφαλείας κλειδιών.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>Παρουσία</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>Πολιτική κατάστασης</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Ελέγχει την κατάσταση &lt;a href="%1"&gt;Παρουσίας&lt;/a&gt; σας στο δίκτυο Matrix.
-Το Αυτόματο είναι είτε 'online' είτε 'unavailable' (μετά από 5 λεπτά αδράνειας).</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>Μήνυμα κατάστασης</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>Μεταφορά</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>Απόρριψη μη έγκυρων ή μη αξιόπιστων πιστοποιητικών διακομιστή.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>Χρήση HTTP/3 για συνδέσεις με διακομιστές Matrix όταν είναι διαθέσιμο.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>Λογαριασμός</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>Αναγνωριστικό χρήστη</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>Homeserver</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>Επεξεργασία προφίλ</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>Συσκευή</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>Αναγνωριστικό συσκευής</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>Διακριτικό πρόσβασης</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>Το διακριτικό πρόσβασής σας παρέχει πλήρη πρόσβαση στον λογαριασμό σας. Μην το μοιράζεστε με κανέναν.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>Χρήστες</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>Αγνοημένοι χρήστες</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>Αποσύνδεση</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>Εφαρμογή</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>Όνομα</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>Πλατφόρμα</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>Δημιουργήθηκε από</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>Άδεια</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>Αναγνωρίσεις</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>Βάση fork</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>Σετ εικονιδίων (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>Σετ εικονιδίων (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>Προεπιλεγμένα avatar (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

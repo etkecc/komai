@@ -27,14 +27,6 @@
 
 namespace settings::ui {
 
-// Translation anchors for strings emitted by runtime callbacks in
-// SettingDescriptorCallbacks*.inc. lupdate's bundled scan misses
-// QCoreApplication::translate() calls in those .inc files, so we mark
-// them here in a .cpp to make sure they land in komai_*.ts.
-[[maybe_unused]] static const char *const kRuntimeTranslationAnchors[] = {
-  QT_TRANSLATE_NOOP("UserSettingsModel", "Use system"),
-};
-
 #define I UserSettings::instance()
 #define SM UserSettingsModel
 

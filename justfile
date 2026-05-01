@@ -229,6 +229,7 @@ translations-update: _ensure_just_temp_directory
 	done
 	/usr/lib/qt6/bin/lupdate \
 		-locations relative \
+		-extensions java,jui,ui,c,c++,cc,cpp,cxx,ch,h,h++,hh,hpp,hxx,inc,js,mjs,qs,qml,qrc \
 		{{ justfile_directory() }}/src/ \
 		{{ justfile_directory() }}/resources/qml/ \
 		-ts "${ts_files[@]}" \

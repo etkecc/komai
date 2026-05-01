@@ -9391,31 +9391,1416 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>تیره</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>رمزگذاری</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>ارسال پیام‌های رمزگذاری‌شده فقط به کاربران تأییدشده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>برای ارسال پیام‌های رمزگذاری‌شده به کاربر، نیاز است که تأیید شده باشد. این امنیت را بهبود می‌بخشد اما E2EE را دشوارتر می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>اشتراک‌گذاری کلیدها با کاربران و دستگاه‌های تأییدشده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>به‌طور خودکار به درخواست‌های کلید از سایر کاربران پاسخ می‌دهد، در صورتی که تأییدشده باشند، حتی اگر آن دستگاه در غیر این صورت نباید به آن کلیدها دسترسی داشته باشد.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>فعال کردن پشتیبان‌گیری کلید آنلاین</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>دانلود کلیدهای رمزگذاری پیام از پشتیبان‌گیری کلید آنلاین رمزگذاری‌شده و بارگذاری به آن.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>حضور</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>سیاست وضعیت</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>وضعیت &lt;a href="%1"&gt;حضور&lt;/a&gt; شما در شبکه Matrix را کنترل می‌کند.
 خودکار یا 'آنلاین' یا 'غیرقابل دسترس' (پس از 5 دقیقه عدم فعالیت) است.</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>پیام وضعیت</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>انتقال</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>اعتبارسنجی گواهی‌نامه‌های TLS</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>رد کردن گواهینامه‌های سرور نامعتبر یا غیرقابل‌اعتماد.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>فعال کردن HTTP/3</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>از HTTP/3 برای اتصالات سرور Matrix در صورت در دسترس بودن استفاده می‌شود.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>کلیپ‌های ویدیویی کوچک (زیر %1 مگابایت یا %2 ثانیه) را به‌صورت درون‌خطی، بی‌صدا و حلقه‌ای پخش می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>نمایش</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>پیش‌نمایش جدول زمانی</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>سبک</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>موقعیت‌یابی افقی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>انتخاب کنید که پیام‌ها در یک طرف بمانند یا بر اساس فرستنده روبه‌روی هم قرار گیرند.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>حداکثر عرض پیام (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>درصد عرض در دسترس جدول زمانی که یک پیام می‌تواند اشغال کند.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>رنگ‌بندی فرستنده/پیام</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>نحوه تخصیص رنگ‌های فرستنده در جدول زمانی و پس‌زمینه حباب‌ها را انتخاب کنید.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>نمایش نام کاربری فرستنده بالای پیام‌ها</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>کنترل کنید که نام کاربری فرستنده چه زمانی بالای پیام‌ها نمایش داده شود. در حالت حباب، نام کاربری خودتان همیشه پنهان است. در اتاق‌های کوچک‌تر، آواتارها و رنگ‌های حباب معمولاً زمینه کافی هستند.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>اندازه آواتار</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>نمایش آواتار کنار حباب‌های پیام خودم</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>هنگامی که چیدمان حبابی فعال است، آواتار شما در کنار پیام‌های خودتان نمایش داده می‌شود. این تقارن چپ/راست را بهبود می‌بخشد و تشخیص نویسنده را آسان‌تر می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>بزرگ‌نمایی پیام‌های تنها ایموجی</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>برجسته کردن پیام هنگام هاور</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>برجسته‌سازی نحوی بلوک‌های کد قالب‌بندی‌شده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>برجسته‌سازی نحوی آگاه از زبان را برای بلوک‌های کد در پیام‌های قالب‌بندی‌شده (HTML) جدول زمانی اعمال کنید.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>نمایش جلوه‌های پیام</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>برخی پیام‌ها، به‌ویژه آن‌هایی که دارای ایموجی‌هایی مانند 🎊، ☀️ یا 🌦️ هستند، می‌توانند &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;جلوه خط زمانی&lt;/a&gt; جذاب‌تری نمایش دهند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>جمع کردن پاسخ‌های رشته</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>پاسخ‌های رشته را از خط زمانی اصلی پنهان می‌کند و فقط پیام‌های ریشه‌ی رشته را نشان می‌دهد. می‌توان در اطلاعات اتاق → تنظیمات برای هر اتاق تغییر داد.&lt;br&gt;⚠️ ردیابی خوانده‌نشده به ازای هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌های رشته‌های قدیمی‌تر را از دست بدهید.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>بازخورد</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>نمایش هنگامی که دیگران در حال تایپ هستند</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>رسیدهای خواندن</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>نمایش اینکه پیام‌هایتان خوانده شده‌اند یا نه. اگر سرور خانگی شما از رسیدهای خواندن پشتیبانی نکند، اتاق‌ها ممکن است به عنوان خوانده‌شده علامت‌گذاری نشوند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>اقدامات</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>سیاست فعال‌سازی اقدامات</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>نحوه باز شدن اقدامات پیام را انتخاب کنید.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>واکنش‌های سنجاق‌شده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>فهرست واکنش‌های ثابت‌شده در نوار اقدام، جداشده با ویرگول. شکاف‌های باقی‌مانده با پرکاربردترین واکنش‌های شما در هر اتاق پر می‌شوند.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>مدیریت تصاویر</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>پخش تصاویر متحرک فقط هنگام نگه‌داشتن ماوس</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>نمایش خودکار تصاویر</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>باز کردن در نمایشگر خارجی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>تصاویر رمزگذاری‌شده به‌صورت رمزگشایی‌شده روی دیسک &lt;a href="komai://media-cache"&gt;کش&lt;/a&gt; می‌شوند (به‌طور دوره‌ای به‌صورت خودکار پاک می‌شوند).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>مدیریت ویدیو</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>باز کردن در پخش‌کننده خارجی</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>در صورت امکان پخش می‌شود؛ ویدیوهای رمزگذاری‌شده یا غیرقابل جستجو روی دیسک &lt;a href="komai://media-cache"&gt;ذخیره‌سازی می‌شوند&lt;/a&gt; (به‌طور دوره‌ای پاک‌سازی خودکار).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>پخش خودکار درون‌خطی ویدیوهای GIF</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>مدیریت صدا</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>در صورت امکان پخش می‌شود؛ صدای رمزگذاری‌شده یا غیرقابل جستجو روی دیسک &lt;a href="komai://media-cache"&gt;ذخیره‌سازی می‌شود&lt;/a&gt; (به‌طور دوره‌ای پاک‌سازی خودکار).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>سرعت پخش پیش‌فرض</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>برای پخش‌کننده‌های صوتی درون‌خطی اعمال می‌شود.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ اندازه تصویر نمایه روی 'پنهان' تنظیم شده است، بنابراین نام‌های کاربری فرستنده همیشه نمایش داده می‌شوند.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>استفاده از سیستم</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>هرگز</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>فقط در اتاق‌های رمزگذاری‌نشده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>هرگاه در دسترس باشد</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>فونت سیستم</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>فونت ایموجی سیستم</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>دسکتاپ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>لمسی</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>در صورت نیاز</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>همیشه</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>حرف اول</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>آیکون کاربر</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>فراخ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>فشرده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>متراکم</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>هیچ‌کدام</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>فقط‌خواندنی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>خواندن و نوشتن</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>همیشه آنلاین</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>همیشه ناموجود</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>همیشه آفلاین</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>خودکار</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>انتخاب یک فایل</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>همه فایل‌ها (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>خوانده‌نشده اول، سپس جدیدترین</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>خوانده‌نشده اول، سپس الف تا ی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>فعالیت اخیر</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>الفبایی</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>استفاده مجدد از برگه فعال</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>باز کردن برگه جدید</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>آواتار و برچسب</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>فقط آواتار</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>معمولی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>کوچک</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>پنهان</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>فقط در اتاق‌های بزرگ (&gt; 16 عضو)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>ساده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>حباب‌ها</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>متقابل بر اساس فرستنده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>همه چپ‌چین</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>همه راست‌چین</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>تطبیقی (به ازای هر عضو در اتاق‌های کوچک)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>من در مقابل دیگران</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>فقط در اتاق‌های خصوصی</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>هنگام هاور روی پیام</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>با کلیک دکمه</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>فقط در انتهای پیام‌ها</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>بدون ترجیح</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 مرد</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 زن</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 روشن</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 نیمه‌روشن</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 متوسط</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 نیمه‌تیره</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 تیره</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>پیش‌فرض</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>ظاهر</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>پوسته</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>به تم‌های بیشتری نیاز دارید؟ از &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; وارد کنید یا &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;تم خود را بسازید&lt;/a&gt; (راه‌اندازی مجدد لازم است).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>تراکم</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>بر فاصله‌گذاری، اندازه آیکون‌ها و ارتفاع ردیف‌های فهرست تأثیر می‌گذارد.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>زبان [راه‌اندازی مجدد لازم است]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>فونت‌ها</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>خانواده‌ی فونت</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>اندازه‌ی فونت</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>بیشتر عناصر رابط کاربری به‌صورت زنده تغییر اندازه می‌دهند. برخی برچسب‌ها ممکن است فقط پس از راه‌اندازی مجدد برنامه به‌روز شوند.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>خانواده‌ی فونت ایموجی</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>ضریب مقیاس [راه‌اندازی مجدد لازم است]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>رفتار</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>فعال کردن انیمیشن‌های رابط کاربری</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>حالت تعامل</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>دسکتاپ رفتار اولویت‌دار ماوس دارد. حالت لمسی تعاملات کشیدن و لمس را ترجیح می‌دهد.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>فعال کردن حرکات کشیدن</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>فعال کردن حرکات مانند کشیدن بین لیست اتاق و خط زمانی، و کشیدن پیام برای پاسخ دادن.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>نمایش نوار پیمایش</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>کنترل می‌کند که نوارهای پیمایش در طول برنامه چه زمانی نمایش داده شوند.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>آواتارها</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>پیش‌نمایش آواتار</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>استفاده از آواتارهای دایره‌ای</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>سبک پیش‌فرض آواتار</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>برای کاربران و اتاق‌هایی که آواتار سفارشی ندارند نمایش داده می‌شود.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>نوار کناری جوامع</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>نمایش نشانگرهای خوانده‌نشده</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>نمایش تأکید پیام‌های خوانده‌نشده (نشان‌های تعداد، برجسته‌سازی ردیف و نشانگر لبه چپ) روی فیلترهای جامعه و برچسب.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>همه اتاق‌ها</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>همه اتاق‌های شما را در یک نما نمایش می‌دهد. اتاق‌های متعلق به فیلترهایی که در زیر به عنوان مستثنی علامت‌گذاری شده‌اند، از این فهرست پنهان خواهند شد.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>موردعلاقه‌ها</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>اتاق‌هایی که از طریق API برچسب‌گذاری اتاق Matrix با &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; برچسب‌گذاری شده‌اند.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>افراد</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>چت‌های مستقیم با افراد واقعی، به‌جز کاربرانی که با اکتشاف به‌عنوان ربات &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;شناسایی‌شده‌اند&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>ربات‌ها</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>چت‌های مستقیمی که طرف مقابل به‌عنوان ربات یا حساب سرویس پل &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;شناسایی‌شده&lt;/a&gt; است.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>گروه‌ها</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>اتاق‌های چند نفره‌ای که چت مستقیم نیستند (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; و غیره).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>اعلان‌های سرور</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>اتاق‌هایی که توسط سرور خانگی برای پیام‌های مدیریتی با &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; برچسب‌گذاری شده‌اند. ماژول &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;اعلان‌های سرور&lt;/a&gt; را در مشخصات Matrix مشاهده کنید.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>اولویت پایین</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>اتاق‌هایی که از طریق API برچسب‌گذاری اتاق Matrix با &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; برچسب‌گذاری شده‌اند.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>فهرست اتاق‌ها</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>نمایش تأکید پیام‌های خوانده‌نشده (نشان‌های تعداد، نام اتاق پررنگ، پرش آواتار، برجسته‌سازی ردیف و نشانگر لبه چپ) کنار اتاق‌ها.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>نمایش زمان آخرین پیام</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>نمایش پیش‌نمایش آخرین پیام</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>پیش‌نمایش آخرین پیام را به ورودی‌های فهرست اتاق اضافه می‌کند. در چیدمان‌های فراخ و فشرده در خط جداگانه‌ای نمایش داده می‌شود و در حالت متراکم در کنار نام اتاق.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>مرتب‌سازی</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>سیاست باز کردن فهرست اتاق‌ها</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>اینکه کلیک روی اتاق از زبانه فعال مجدداً استفاده کند یا زبانه جدیدی باز کند. اتاق‌هایی با زبانه موجود در همه موارد آن را فعال می‌کنند.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>نوار زبانه</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>نمایش دکمه سنجاق</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>برچسب برگه سنجاق‌شده</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>برچسب برگه معمولی</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>عرض ترجیحی برگه</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>حداقل عرض تب</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>حداکثر خطوط زمانی پیش‌رندرشده‌ی اخیراً بسته‌شده</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>جدول‌های زمانی از پیش رندرشده که اخیراً بسته شده‌اند، تغییر سریع اتاق را ممکن می‌کنند اما مصرف CPU و RAM را افزایش می‌دهند. برگه‌های باز همیشه از پیش رندر می‌شوند. برای نگه‌داشتن فقط برگه‌های باز، به 0 تنظیم کنید.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>ورودی</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>کلید ارسال</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>انتخاب کنید کدام ترکیب کلید Enter پیام‌ها را ارسال می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>تبدیل خودکار Markdown به HTML</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>کنترل می‌کند که آیا نحو &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; به‌طور خودکار تبدیل می‌شود تا یک پیام &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; با پشتیبان متن ساده Markdown ایجاد کند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>انتخاب‌کننده‌ی درون‌خطی اتاق</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>نمایش انتخاب‌کننده اتاق درخطی هنگام تایپ هشتگ (#) در ورودی پیام.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>انتخاب‌کننده‌ی درون‌خطی کاربر</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>نمایش انتخاب‌کننده کاربر درخطی هنگام تایپ علامت @ در ورودی پیام.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>رونویسی صوتی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>تبدیل گفتار به متن را فعال می‌کند. ارائه‌دهنده‌ی رونویسی را در &lt;a href="komai://settings/integrations/transcription"&gt;یکپارچه‌سازی‌ها → رونویسی صدا&lt;/a&gt; تنظیم کنید.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>پیوست‌ها</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>حذف متادیتای تصویر قبل از بارگذاری</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>حذف متادیتا (EXIF، IPTC، XMP) از برخی فرمت‌های تصویری تا حد امکان برای حفاظت از حریم خصوصی شما. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>ایموجی</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>جایگزینی خودکار شکلک‌ها با ایموجی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>هنگام ارسال پیام، شکلک‌های متنی مانند :) :D :P را به‌طور خودکار با معادل ایموجی‌شان جایگزین کنید. انتخاب کنید که در همه جا یا فقط در انتها جایگزین شوند.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>انتخاب‌کننده‌ی درون‌خطی ایموجی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>نمایش انتخاب‌کننده شکلک درخطی هنگام تایپ دو نقطه (:) در ورودی پیام.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>جنسیت ترجیحی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>فقط انتخاب‌کننده‌ی درون‌خطی ایموجی: ترجیح به نوع جنسیتی تعریف‌شده‌ی یونیکد (مرد/زن) در صورت وجود. جستجوی صریح برای جنسیت دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>رنگ پوست ترجیحی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>فقط انتخاب‌کننده‌ی درون‌خطی ایموجی: ترجیح به یک نوع رنگ پوست در صورت وجود. جستجوی صریح برای رنگ پوست دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>نمایش به دیگران هنگام تایپ کردن</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>اعلان‌های حساب کاربری</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>فعال کردن اعلان‌ها برای این حساب</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>کلید اعلان در سطح حساب Matrix شما را در سرور خانگی کنترل می‌کند. برای بی‌صدا کردن اعلان‌ها در تمام کلاینت‌ها/دستگاه‌های خود خاموش کنید.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>اعلان‌های سیستم</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>فعال کردن اعلان‌های سیستم</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>هنگامی که کلاینت در حال حاضر در کانون توجه نیست، درباره‌ی پیام‌های دریافتی اعلان دهید. این تنظیم فقط زمانی اثر دارد که اعلان‌های حساب در بالا فعال باشند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>محتوای پیام در اعلان‌ها</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>میزان متن پیام برای درج در اعلان‌ها را انتخاب کنید.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>چشمک زدن پنجره‌ی برنامه/نوار وظیفه هنگام دریافت پیام</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>نمایش هشدار توجه هنگام دریافت پیام (برای مثال، فعالیت نماد نوار وظیفه).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>نشانگرهای توجه</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>نمایش تعداد موارد نیازمند توجه در عنوان پنجره</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>تعداد اتاق‌های نیازمند توجه را به عنوان پنجره Komai اضافه می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>نمایش تعداد موارد نیازمند توجه روی نشان برنامه/نوار وظیفه</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>تعداد اتاق‌هایی که نیاز به توجه دارند را در نشان برنامه/نوار وظیفه نمایش می‌دهد. در Linux، پروفایل‌های غیر پیش‌فرض برای نمایش قابل‌اطمینان نشان‌های برنامه به راه‌انداز دسکتاپ مستقل خود نیاز دارند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>سینی سیستم</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>بستن در سینی سیستم</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>برنامه را پس از بستن پنجره‌ی کلاینت در پس‌زمینه در حال اجرا نگه دارید.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>شروع در سینی سیستم</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>برنامه را در پس‌زمینه بدون نمایش پنجره راه‌اندازی می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>تاری پنجره</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>محو شدن هنگام از دست دادن فوکوس</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>تأخیر محو شدن (ثانیه)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>تنظیم مدت زمانی که پس از از دست دادن تمرکز، محو شدن شروع می‌شود. برای محو فوری 0 تنظیم کنید. حداکثر 3600 ثانیه (1 ساعت) است.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>عمومی</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>فعال کردن تماس‌های قدیمی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>اجازه می‌دهد تماس‌های قدیمی (پیش از MatrixRTC) پذیرفته و آغاز شوند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>استفاده از turn.matrix.org به عنوان رله پشتیبان</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>از turn.matrix.org به عنوان رله/سرور STUN پشتیبان هنگامی که هوم‌سرور شما یکی ارائه نمی‌دهد استفاده می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>دستگاه‌ها</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>میکروفون</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>دوربین</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>وضوح دوربین</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>نرخ فریم دوربین</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>زنگ تماس</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>اشتراک‌گذاری صفحه</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>نرخ فریم اشتراک‌گذاری صفحه</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>فریم‌های هدف در ثانیه برای اشتراک‌گذاری صفحه. مقادیر پایین‌تر از CPU و پهنای باند کمتری استفاده می‌کنند.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>شامل کردن تصویر-در-تصویر دوربین</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>نمایش دوربین شرکت‌کننده هنگام اشتراک‌گذاری صفحه</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>نمایش مکان‌نما</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>دسترسی D-Bus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>میزان &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;دسترسی D-Bus&lt;/a&gt; که Komai برای تماس‌گیرندگان محلی در معرض قرار می‌دهد را انتخاب کنید.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>جستجوی اتاق‌های Matrix</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>فعال</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>هنگامی که فعال است، پشتیبانی از &lt;a href="https://github.com/etkecc/mrs"&gt;جستجوی اتاق‌های Matrix&lt;/a&gt; را به گفتگوی &lt;a href="komai://rooms-directory"&gt;کاوش اتاق‌های عمومی&lt;/a&gt; اضافه می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>سرور</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>هر نمونه‌ای از &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; مناسب است، اما &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; یک نمونه بزرگ و محبوب است که توسط &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; اداره می‌شود.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>مرورگر</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>حساب کاربری</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>شناسه کاربر</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>سرور خانه</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>ویرایش پروفایل</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>دستگاه</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>شناسه‌ی دستگاه</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>توکن دسترسی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>توکن دسترسی شما به حساب کاربری‌تان دسترسی کامل می‌دهد. آن را با کسی به اشتراک نگذارید.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>کاربران</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>کاربران نادیده‌گرفته‌شده</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>خروج</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>برنامه</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>نام</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>پلتفرم</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>ساخته‌شده توسط</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>مجوز</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>سپاسگزاری‌ها</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>پایه‌ی فورک</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>مجموعه‌ی آیکون (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>مجموعه‌ی آیکون (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>آواتارهای پیش‌فرض (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9753,683 +11138,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>پوسته</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>به تم‌های بیشتری نیاز دارید؟ از &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; وارد کنید یا &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;خودتان بسازید&lt;/a&gt; (نیاز به راه‌اندازی مجدد).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>قلم‌ها</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>خانواده قلم</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>بیشتر عناصر رابط کاربری به‌صورت زنده تغییر اندازه می‌دهند. برخی برچسب‌ها ممکن است فقط پس از راه‌اندازی مجدد برنامه به‌روزرسانی شوند.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>خانواده قلم شکلک</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>رفتار</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>حالت تعامل</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>دسکتاپ از رفتار با اولویت موس استفاده می‌کند. حالت لمسی به تعاملات کشیدن و لمس اولویت می‌دهد.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>فعال‌سازی ژست‌هایی مانند کشیدن انگشت بین فهرست اتاق و خط زمانی، و کشیدن پیام برای پاسخ دادن.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>کنترل می‌کند که نوارهای اسکرول در کل برنامه چه زمانی نمایش داده شوند.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>ظاهر</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>بر فاصله‌گذاری، اندازه آیکون‌ها و ارتفاع ردیف‌های فهرست تأثیر می‌گذارد.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>زبان [نیاز به راه‌اندازی مجدد]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>آواتارها</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>پیش‌نمایش آواتار</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>برای کاربران و اتاق‌هایی که آواتار سفارشی ندارند نمایش داده می‌شود.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>نوار کناری جوامع</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>تأکید پیام‌های خوانده‌نشده (نشان‌های تعداد، برجسته‌سازی ردیف و نشانگر لبه چپ) روی فیلترهای جامعه و برچسب نمایش داده شود.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>همه اتاق‌ها</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>تمام اتاق‌های شما را در یک نما نشان می‌دهد. اتاق‌هایی که به فیلترهای علامت‌گذاری‌شده به‌عنوان مستثنی در زیر تعلق دارند از این فهرست پنهان خواهند شد.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>اتاق‌هایی که از طریق API برچسب‌گذاری اتاق Matrix با &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; برچسب‌گذاری شده‌اند.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>چت‌های مستقیم با افراد واقعی، به استثنای کاربرانی که توسط الگوریتم‌های اکتشافی به عنوان ربات &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;شناسایی&lt;/a&gt; شده‌اند.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>چت‌های مستقیمی که طرف مکالمه به عنوان ربات یا حساب سرویس پل &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;تشخیص داده شده&lt;/a&gt; است.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>اتاق‌های چند نفره که چت مستقیم نیستند (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; و سایرین).</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>اتاق‌هایی که توسط سرور خانگی برای پیام‌های اداری با برچسب &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; مشخص شده‌اند. ماژول &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; را در مشخصات Matrix ببینید.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>اتاق‌هایی که از طریق API برچسب‌گذاری اتاق Matrix با &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; برچسب‌گذاری شده‌اند.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>فهرست اتاق‌ها</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>تأکید پیام‌های خوانده‌نشده (نشان‌های تعداد، نام اتاق پررنگ، حرکت آواتار، برجسته‌سازی ردیف و نشانگر لبه چپ) در کنار اتاق‌ها نمایش داده شود.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>پیش‌نمایش آخرین پیام را به آیتم‌های فهرست اتاق اضافه می‌کند. در چیدمان‌های گشاده و فشرده در خط جداگانه‌ای نمایش داده می‌شود و در حالت متراکم کنار نام اتاق قرار می‌گیرد.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>آیا با کلیک روی یک اتاق، زبانه فعال دوباره استفاده می‌شود یا یک زبانه جدید باز می‌شود. اتاق‌هایی که زبانه موجود دارند، در همه حالات آن زبانه فعال می‌شود.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>نوار زبانه</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>خط‌های زمانی از پیش رندرشده اخیراً بسته‌شده، تغییر فوری اتاق را ممکن می‌سازند اما مصرف CPU و RAM را افزایش می‌دهند. تب‌های باز همیشه از پیش رندر می‌شوند. برای نگه‌داشتن فقط تب‌های باز، روی ۰ تنظیم کنید.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>نمایش</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>پیش‌نمایش خط زمانی</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>انتخاب کنید که پیام‌ها در یک طرف بمانند یا بر اساس فرستنده در طرف‌های مخالف قرار گیرند.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>حداکثر عرض پیام (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>درصدی از عرض موجود خط زمانی که یک پیام می‌تواند اشغال کند.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>نحوه تخصیص رنگ‌های فرستنده در خط زمانی و پس‌زمینه‌های حباب را انتخاب کنید.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>کنترل کنید که نام کاربری فرستنده چه زمانی بالای پیام‌ها نمایش داده شود. در حالت حباب، نام کاربری خودتان همیشه پنهان است. در اتاق‌های کوچک‌تر، آواتارها و رنگ‌های حباب معمولاً زمینه کافی هستند.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>هنگامی که چیدمان حبابی فعال است، آواتار شما در کنار پیام‌های خودتان نمایش داده شود. این تقارن چپ/راست را بهبود می‌بخشد و شناسایی نویسنده را آسان‌تر می‌کند.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>برجسته‌سازی نحوی آگاه از زبان را برای بلوک‌های کد در پیام‌های قالب‌بندی‌شده (HTML) خط زمانی اعمال می‌کند.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>برخی پیام‌ها، به‌ویژه آن‌هایی که شامل ایموجی‌هایی مانند 🎊، ☀️ یا 🌦️ هستند، می‌توانند &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;جلوه خط زمانی&lt;/a&gt; زیباتری نشان دهند.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>پاسخ‌های رشته را از جدول زمانی اصلی پنهان می‌کند و فقط پیام‌های ریشه رشته را نشان می‌دهد. می‌توان به‌ازای هر اتاق در اطلاعات اتاق → ترجیحات بازنویسی کرد.&lt;br&gt;⚠️ ردیابی خوانده‌نشده‌های هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌هایی در رشته‌های قدیمی‌تر را از دست بدهید.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>بازخورد</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>نمایش اینکه آیا پیام‌های شما خوانده شده‌اند. اگر هوم‌سرور شما از رسیدهای خوانده‌شدن پشتیبانی نکند، اتاق‌ها ممکن است به‌عنوان خوانده‌شده علامت‌گذاری نشوند.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>اقدامات</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>نحوه باز شدن اقدامات پیام را انتخاب کنید.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>فهرست واکنش‌های جداشده با ویرگول که به نوار اقدام سنجاق شده‌اند. جایگاه‌های باقی‌مانده با پرکاربردترین واکنش‌های شما در هر اتاق پر می‌شوند.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>مدیریت تصاویر</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>تصاویر رمزگذاری‌شده در حالت رمزگشایی‌شده روی دیسک &lt;a href="komai://media-cache"&gt;ذخیره می‌شوند&lt;/a&gt; (به‌طور دوره‌ای به‌صورت خودکار پاک می‌شوند).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>مدیریت ویدیو</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>در صورت امکان پخش می‌شود؛ ویدیوهای رمزگذاری‌شده یا غیرقابل‌پیمایش روی دیسک &lt;a href="komai://media-cache"&gt;ذخیره‌سازی می‌شوند&lt;/a&gt; (به‌صورت دوره‌ای به‌طور خودکار پاک می‌شوند).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>مدیریت صدا</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>در صورت امکان پخش می‌شود؛ صدای رمزگذاری‌شده یا غیرقابل‌پیمایش روی دیسک &lt;a href="komai://media-cache"&gt;ذخیره‌سازی می‌شود&lt;/a&gt; (به‌صورت دوره‌ای به‌طور خودکار پاک می‌شود).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>برای پخش‌کننده‌های صوتی درون‌خطی اعمال می‌شود.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>ورودی</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>ترکیب کلید Enter برای ارسال پیام را انتخاب کنید.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>کنترل می‌کند که آیا نحو &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; به‌طور خودکار برای تولید پیام &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; با پشتیبان متن ساده Markdown تبدیل شود.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>هنگام تایپ علامت # در ورودی پیام، انتخاب‌گر اتاق درون‌خطی نمایش داده شود.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>هنگام تایپ @ در ورودی پیام، انتخاب‌گر کاربر درون‌خطی نمایش داده شود.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>تبدیل گفتار به متن را فعال می‌کند. ارائه‌دهنده تبدیل را در &lt;a href="komai://settings/integrations/transcription"&gt;یکپارچه‌سازی‌ها ← تبدیل گفتار به متن&lt;/a&gt; پیکربندی کنید.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>پیوست‌ها</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>حذف تا حد امکان ابرداده (EXIF، IPTC، XMP) از برخی فرمت‌های تصویری برای حفاظت از حریم خصوصی شما. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>ایموجی</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>هنگام ارسال پیام، شکلک‌های متنی مانند :) :D :P را به‌طور خودکار با معادل‌های ایموجی جایگزین می‌کند. انتخاب کنید که همه جا یا فقط در انتها جایگزین شود.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>هنگام تایپ دونقطه (:) در ورودی پیام، انتخاب‌گر ایموجی درون‌خطی نمایش داده شود.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>فقط انتخاب‌کننده شکلک درون‌خطی: در صورت وجود، نوع جنسیتی تعریف‌شده توسط Unicode (مرد/زن) ترجیح داده می‌شود. جستجوی صریح برای جنسیت دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>فقط انتخاب‌کننده شکلک درون‌خطی: در صورت وجود، یک نوع رنگ پوست ترجیح داده می‌شود. جستجوی صریح برای رنگ پوست دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>اعلان‌های حساب</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>فعال‌سازی اعلان‌ها برای این حساب</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>کلید اعلان در سطح حساب Matrix شما را روی هوم‌سرور کنترل می‌کند. برای بی‌صدا کردن اعلان‌ها در همه کلاینت‌ها/دستگاه‌ها خاموش کنید.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>اعلان‌های سیستم</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>اعلان برای پیام‌های دریافتی هنگامی که کلاینت در حال حاضر در پیش‌زمینه نیست. این فقط زمانی اعمال می‌شود که اعلان‌های حساب در بالا فعال باشند.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>میزان متن پیام برای درج در اعلان‌ها را انتخاب کنید.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>هنگام دریافت پیام، هشدار توجه نمایش داده شود (برای مثال، فعالیت آیکون نوار وظیفه).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>نشانگرهای توجه</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>تعداد اتاق‌های نیازمند توجه را به عنوان پنجره Komai اضافه می‌کند.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>تعداد اتاق‌هایی که نیاز به توجه دارند را در نشان برنامه/نوار وظیفه نمایش دهد. در لینوکس، پروفایل‌های غیر پیش‌فرض برای نشان‌های قابل‌اعتماد به راه‌انداز دسکتاپ مختص خود نیاز دارند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>سینی سیستم</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>نگه‌داشتن برنامه در پس‌زمینه پس از بستن پنجره کلاینت.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>برنامه را بدون نمایش پنجره کلاینت در پس‌زمینه اجرا کنید.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>تاری پنجره</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>تعیین کنید چه مدت پس از از دست دادن فوکوس، تاری شروع شود. برای تاری فوری 0 را تنظیم کنید. حداکثر 3600 ثانیه (1 ساعت) است.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>عمومی</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>امکان پذیرش و شروع تماس‌های قدیمی (پیش از MatrixRTC) را فراهم می‌کند.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>از turn.matrix.org به‌عنوان رله/سرور STUN پشتیبان هنگامی که هوم‌سرور شما یکی ارائه نمی‌دهد استفاده شود.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>دستگاه‌ها</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>میکروفون</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>دوربین</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>وضوح دوربین</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>نرخ فریم دوربین</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>زنگ تماس</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>اشتراک‌گذاری صفحه</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>فریم در ثانیه هدف برای اشتراک‌گذاری صفحه‌نمایش. مقادیر پایین‌تر از CPU و پهنای باند کمتری استفاده می‌کنند.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>دسترسی D-Bus</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>میزان &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;دسترسی D-Bus&lt;/a&gt; که Komai برای فراخوانندگان محلی نمایان می‌کند را انتخاب کنید.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>جستجوی اتاق‌های Matrix</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>هنگامی که فعال است، پشتیبانی از &lt;a href="https://github.com/etkecc/mrs"&gt;جستجوی اتاق‌های Matrix&lt;/a&gt; را به گفتگوی &lt;a href="komai://rooms-directory"&gt;کشف اتاق‌های عمومی&lt;/a&gt; اضافه می‌کند.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>هر نمونه‌ای از &lt;a href="https://github.com/etkecc/mrs"&gt;جستجوی اتاق‌های Matrix&lt;/a&gt; مناسب است، اما &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; یک نمونه بزرگ و محبوب است که توسط &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; اداره می‌شود.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>مرورگر</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>رمزگذاری</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>برای ارسال پیام رمزگذاری‌شده به کاربر، تأیید آن الزامی است. این امنیت را بهبود می‌بخشد اما استفاده از E2EE را دشوارتر می‌کند.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>به درخواست‌های کلید از کاربران دیگر به‌طور خودکار پاسخ می‌دهد، در صورتی که تأییدشده باشند، حتی اگر آن دستگاه در غیر این صورت نباید به آن کلیدها دسترسی داشته باشد.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>دانلود کلیدهای رمزگذاری پیام از پشتیبان‌گیری آنلاین رمزگذاری‌شده و بارگذاری به آن.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>حضور</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>سیاست وضعیت</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>وضعیت &lt;a href="%1"&gt;حضور&lt;/a&gt; شما در شبکه Matrix را کنترل می‌کند.
-خودکار یا 'آنلاین' یا 'غیرقابل دسترس' (پس از 5 دقیقه عدم فعالیت) است.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>پیام وضعیت</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>انتقال</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>رد گواهی‌نامه‌های سرور نامعتبر یا غیرقابل اعتماد.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>در صورت در دسترس بودن، از HTTP/3 برای اتصالات سرور Matrix استفاده شود.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>حساب کاربری</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>شناسه کاربر</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>سرور خانگی</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>ویرایش پروفایل</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>دستگاه</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>شناسه دستگاه</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>توکن دسترسی</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>توکن دسترسی شما دسترسی کامل به حساب شما را فراهم می‌کند. آن را با کسی به اشتراک نگذارید.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>کاربران</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>کاربران نادیده‌گرفته‌شده</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>خروج</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>برنامه</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>نام</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>پلتفرم</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>ایجاد شده توسط</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>مجوز</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>قدردانی‌ها</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>پایه فورک</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>مجموعه آیکون (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>مجموعه آیکون (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>آواتارهای پیش‌فرض (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

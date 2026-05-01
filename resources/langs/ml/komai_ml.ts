@@ -9405,31 +9405,1416 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>ഇരുണ്ട</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
+        <source>Encryption</source>
+        <translation>എൻക്രിപ്ഷൻ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send encrypted messages to verified users only</source>
+        <translation>പരിശോധിച്ച ഉപയോക്താക്കൾക്ക് മാത്രം എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ അയയ്ക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
+        <translation>അവർക്ക് എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ അയയ്ക്കാൻ ഉപയോക്താവ് പരിശോധിച്ചിരിക്കണം. ഇത് സുരക്ഷ മെച്ചപ്പെടുത്തുന്നു, എന്നാൽ E2EE കൂടുതൽ ക്ലേശകരമാക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Share keys with verified users and devices</source>
+        <translation>പരിശോധിച്ച ഉപയോക്താക്കളുമായും ഉപകരണങ്ങളുമായും കീകൾ പങ്കിടുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
+        <translation>മറ്റ് ഉപയോക്താക്കൾ പരിശോധിക്കപ്പെട്ടവരാണെങ്കിൽ, ആ ഉപകരണത്തിന് കീകളിലേക്ക് ആക്സസ് ഉണ്ടാകരുത് എന്നിരുന്നാൽ പോലും, അവരിൽ നിന്നുള്ള കീ അഭ്യർഥനകൾക്ക് സ്വതവേ മറുപടി നൽകുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable online key backup</source>
+        <translation>ഓൺലൈൻ കീ ബാക്കപ്പ് പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
+        <translation>സന്ദേശ എൻക്രിപ്ഷൻ കീകൾ എൻക്രിപ്റ്റഡ് ഓൺലൈൻ കീ ബാക്കപ്പിൽ നിന്ന് ഡൗൺലോഡ് ചെയ്ത് അതിലേക്ക് അപ്‌ലോഡ് ചെയ്യുക.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Presence</source>
+        <translation>സാന്നിധ്യം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Status policy</source>
+        <translation>സ്റ്റാറ്റസ് നയം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;Presence&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
 Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailable' ആണ് (5 മിനിറ്റ് നിഷ്‌ക്രിയത്വത്തിനുശേഷം).</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+9"/>
+        <source>Status message</source>
+        <translation>സ്റ്റാറ്റസ് സന്ദേശം</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Transport</source>
+        <translation>ട്രാൻസ്പോർട്ട്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Validate TLS certificates</source>
+        <translation>TLS സർട്ടിഫിക്കറ്റുകൾ പരിശോധിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Reject invalid or untrusted server certificates.</source>
+        <translation>അസാധുവായ അല്ലെങ്കിൽ വിശ്വസനീയമല്ലാത്ത സർവർ സർട്ടിഫിക്കറ്റുകൾ നിരസിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable HTTP/3</source>
+        <translation>HTTP/3 പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use HTTP/3 for Matrix server connections when available.</source>
+        <translation>ലഭ്യമാകുമ്പോൾ Matrix സർവ്വർ കണക്ഷനുകൾക്ക് HTTP/3 ഉപയോഗിക്കുക.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+16"/>
         <source>Plays small video clips (under %1 MB or %2 s) inline, muted and looped. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;Learn more&lt;/a&gt;.</source>
         <translation>ചെറിയ വീഡിയോ ക്ലിപ്പുകൾ (%1 MB-ൽ കുറവ് അല്ലെങ്കിൽ %2 സെക്കൻഡ്) ഇൻലൈനിൽ, മ്യൂട്ട് ചെയ്ത് ലൂപ്പ് ചെയ്ത് പ്ലേ ചെയ്യുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/media-playback.md#%EF%B8%8F-inline-gif-video-playback"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Presentation</source>
+        <translation>അവതരണം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Timeline preview</source>
+        <translation>ടൈംലൈൻ പ്രിവ്യൂ</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Style</source>
+        <translation>ശൈലി</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Horizontal positioning</source>
+        <translation>തിരശ്ചീന സ്ഥാനനിർണ്ണയം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
+        <translation>സന്ദേശങ്ങൾ ഒരു വശത്ത് നിൽക്കണോ അല്ലെങ്കിൽ അയക്കുന്നവർ അനുസരിച്ച് വിപരീത വശങ്ങളിൽ ക്രമീകരിക്കണോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Maximum message width (%)</source>
+        <translation>പരമാവധി സന്ദേശ വീതി (%)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Percentage of available timeline width that a single message can occupy.</source>
+        <translation>ഒരൊറ്റ സന്ദേശം ഉൾക്കൊള്ളാൻ കഴിയുന്ന ടൈംലൈൻ വീതിയുടെ ശതമാനം.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sender/message color coding</source>
+        <translation>അയയ്ക്കുന്നയാൾ/സന്ദേശം വർണ കോഡിംഗ്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
+        <translation>ടൈംലൈനിലും ബബിൾ പശ്ചാത്തലങ്ങളിലും അയക്കുന്നവരുടെ നിറങ്ങൾ എങ്ങനെ നൽകണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show sender username above messages</source>
+        <translation>സന്ദേശങ്ങൾക്ക് മുകളിൽ അയയ്ക്കുന്നയാളുടെ ഉപയോക്തൃനാമം കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ സന്ദേശങ്ങൾക്ക് മുകളിൽ എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബ്ബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബ്ബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Avatar size</source>
+        <translation>അവതാർ വലിപ്പം</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Show avatar next to own message bubbles</source>
+        <translation>സ്വന്തം സന്ദേശ ബബിളുകൾക്ക് അടുത്ത് അവതാർ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation>ബബിൾ ലേഔട്ട് പ്രവർത്തനക്ഷമമാകുമ്പോൾ, നിങ്ങളുടെ സ്വന്തം സന്ദേശങ്ങൾക്ക് അടുത്ത് നിങ്ങളുടെ അവതാർ കാണിക്കുക. ഇത് ഇടത്/വലത് സമമിതി മെച്ചപ്പെടുത്തുകയും രചയിതൃത്വം എളുപ്പത്തിൽ തിരിച്ചറിയാൻ സഹായിക്കുകയും ചെയ്യുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Enlarge emoji-only messages</source>
+        <translation>ഇമോജി മാത്രമുള്ള സന്ദേശങ്ങൾ വലുതാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Highlight message on hover</source>
+        <translation>ഹോവർ ചെയ്യുമ്പോൾ സന്ദേശം ഹൈലൈറ്റ് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Syntax highlight formatted code blocks</source>
+        <translation>ഫോർമാറ്റ് ചെയ്ത കോഡ് ബ്ലോക്കുകൾ സിന്റാക്സ് ഹൈലൈറ്റ് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
+        <translation>ഫോർമാറ്റ് ചെയ്ത (HTML) ടൈംലൈൻ സന്ദേശങ്ങളിൽ കാണുന്ന കോഡ് ബ്ലോക്കുകൾക്ക് ഭാഷ-ബോധ്യ സിന്റാക്സ് ഹൈലൈറ്റിംഗ് ബാധകമാക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show message effects</source>
+        <translation>സന്ദേശ ഇഫക്ടുകൾ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation>ചില സന്ദേശങ്ങൾ, പ്രത്യേകിച്ച് 🎊, ☀️, അല്ലെങ്കിൽ 🌦️ പോലുള്ള ഇമോജികൾ ഉള്ളവ, കൂടുതൽ ആകർഷണീയമായ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;ടൈംലൈൻ ഇഫക്ട്&lt;/a&gt; കാണിക്കും.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Collapse thread replies</source>
+        <translation>ത്രെഡ് മറുപടികൾ ചുരുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation>ത്രെഡ് മറുപടികൾ പ്രധാന ടൈംലൈനിൽ നിന്ന് മറയ്ക്കുകയും ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുകയും ചെയ്യുന്നു. Room Info → Preferences-ൽ ഓരോ മുറിക്കും ഇത് അനുകൂലിക്കാം.&lt;br&gt;⚠️ ത്രെഡ്-അടിസ്ഥാനത്തിലുള്ള വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണയ്ക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നിങ്ങൾക്ക് നഷ്ടമാകാം.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <source>Feedback</source>
+        <translation>ഫീഡ്ബാക്ക്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show when others are typing</source>
+        <translation>മറ്റുള്ളവർ ടൈപ്പ് ചെയ്യുമ്പോൾ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Read receipts</source>
+        <translation>വായന രസീതുകൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <translation>നിങ്ങളുടെ സന്ദേശങ്ങൾ വായിച്ചോ എന്ന് കാണിക്കുക. നിങ്ങളുടെ ഹോംസർവർ റീഡ് രസീതുകൾ പിന്തുണയ്ക്കുന്നില്ലെങ്കിൽ, മുറികൾ വായിച്ചതായി അടയാളപ്പെടുത്തിയേക്കില്ല.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
+        <source>Actions</source>
+        <translation>പ്രവർത്തനങ്ങൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Actions activation policy</source>
+        <translation>പ്രവർത്തന സജീവമാക്കൽ നയം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how message actions are opened.</source>
+        <translation>സന്ദേശ പ്രവർത്തനങ്ങൾ എങ്ങനെ തുറക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pinned reactions</source>
+        <translation>പിൻ ചെയ്ത പ്രതികരണങ്ങൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
+        <translation>ആക്ഷൻ ബാറിൽ പിൻ ചെയ്ത പ്രതിക്രിയകളുടെ കോമ-വേർതിരിച്ച ലിസ്റ്റ്. ശേഷിക്കുന്ന സ്ലോട്ടുകൾ ഓരോ മുറിയിലും ഏറ്റവും കൂടുതൽ ഉപയോഗിക്കുന്ന പ്രതിക്രിയകൾ കൊണ്ട് നിറയ്ക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Images handling</source>
+        <translation>ചിത്രങ്ങൾ കൈകാര്യം ചെയ്യൽ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Play animated images only on hover</source>
+        <translation>ഹോവർ ചെയ്യുമ്പോൾ മാത്രം ആനിമേറ്റഡ് ചിത്രങ്ങൾ പ്ലേ ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show images automatically</source>
+        <translation>ചിത്രങ്ങൾ സ്വയം കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open in an external viewer</source>
+        <translation>ഒരു ബാഹ്യ വ്യൂവറിൽ തുറക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
+        <translation>എൻക്രിപ്റ്റഡ് ചിത്രങ്ങൾ ഡിസ്കിൽ ഡീക്രിപ്റ്റ് ചെയ്ത് &lt;a href="komai://media-cache"&gt;കാഷ് ചെയ്യുന്നു&lt;/a&gt; (ആനുകാലികമായി സ്വയം ഇല്ലാതാക്കുന്നു).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Video handling</source>
+        <translation>വീഡിയോ കൈകാര്യം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location line="+11"/>
+        <source>Open in an external player</source>
+        <translation>ഒരു ബാഹ്യ പ്ലേയറിൽ തുറക്കുക</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>സാദ്ധ്യമാകുമ്പോൾ സ്ട്രീം ചെയ്യുന്നു; എൻക്രിപ്റ്റഡ് അല്ലെങ്കിൽ സീക്ക് ചെയ്യാൻ കഴിയാത്ത വീഡിയോകൾ ഡിസ്കിൽ &lt;a href="komai://media-cache"&gt;ക്യാഷ്&lt;/a&gt; ചെയ്യപ്പെടുന്നു (ആനുകാലികമായി സ്വയം ശുദ്ധീകരിക്കപ്പെടും).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline auto-play of GIF videos</source>
+        <translation>GIF വീഡിയോകളുടെ ഇൻലൈൻ ഓട്ടോ-പ്ലേ</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Audio handling</source>
+        <translation>ഓഡിയോ കൈകാര്യം</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
+        <translation>സാദ്ധ്യമാകുമ്പോൾ സ്ട്രീം ചെയ്യുന്നു; എൻക്രിപ്റ്റഡ് അല്ലെങ്കിൽ സീക്ക് ചെയ്യാൻ കഴിയാത്ത ഓഡിയോ ഡിസ്കിൽ &lt;a href="komai://media-cache"&gt;ക്യാഷ്&lt;/a&gt; ചെയ്യപ്പെടുന്നു (ആനുകാലികമായി സ്വയം ശുദ്ധീകരിക്കപ്പെടും).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default playback speed</source>
+        <translation>ഡിഫോൾട്ട് പ്ലേബാക്ക് വേഗത</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Applied to inline audio players.</source>
+        <translation>ഇൻലൈൻ ഓഡിയോ പ്ലേയറുകളിൽ ബാധകം.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+11"/>
         <source>⚠ Avatar size is set to Hidden, so sender usernames are always shown.</source>
         <translation>⚠ അവതാർ വലിപ്പം മറഞ്ഞിരിക്കുന്നതായി സജ്ജമാക്കിയതിനാൽ, അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ എല്ലായ്‌പ്പോഴും കാണിക്കും.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
         <source>Use system</source>
         <translation>സിസ്റ്റം ഉപയോഗിക്കുക</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
+        <location line="+29"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <source>Never</source>
+        <translation>ഒരിക്കലും</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <source>Only in unencrypted rooms</source>
+        <translation>എൻക്രിപ്റ്റ് ചെയ്യാത്ത മുറികളിൽ മാത്രം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whenever available</source>
+        <translation>ലഭ്യമാകുമ്പോഴെല്ലാം</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
+        <location line="+21"/>
+        <source>System font</source>
+        <translation>സിസ്റ്റം ഫോണ്ട്</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <location line="+21"/>
+        <source>System emoji font</source>
+        <translation>സിസ്റ്റം ഇമോജി ഫോണ്ട്</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
+        <source>Desktop</source>
+        <translation>ഡെസ്ക്ടോപ്പ്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Touch</source>
+        <translation>ടച്ച്</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <source>When needed</source>
+        <translation>ആവശ്യമാകുമ്പോൾ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
+        <location line="+30"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
+        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <source>Always</source>
+        <translation>എപ്പോഴും</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Boring Avatars: Bauhaus</source>
+        <translation>Boring Avatars: Bauhaus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Beam</source>
+        <translation>Boring Avatars: Beam</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Boring Avatars: Marble</source>
+        <translation>Boring Avatars: Marble</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Letter initial</source>
+        <translation>ആദ്യ അക്ഷരം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>User icon</source>
+        <translation>ഉപയോക്തൃ ഐക്കൺ</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Spacious</source>
+        <translation>വിശാലം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Compact</source>
+        <translation>ഒതുക്കമുള്ള</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dense</source>
+        <translation>ഇടതൂർന്ന</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <source>None</source>
+        <translation>ഒന്നുമില്ല</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read-only</source>
+        <translation>വായന മാത്രം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Read &amp; write</source>
+        <translation>വായന &amp; എഴുത്ത്</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <source>Always online</source>
+        <translation>എപ്പോഴും ഓൺലൈൻ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always unavailable</source>
+        <translation>എപ്പോഴും ലഭ്യമല്ല</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Always offline</source>
+        <translation>എപ്പോഴും ഓഫ്‌ലൈൻ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatic</source>
+        <translation>ഓട്ടോമാറ്റിക്</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksCallsRingtone.inc" line="+38"/>
+        <source>Select a file</source>
+        <translation>ഒരു ഫയൽ തിരഞ്ഞെടുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>All Files (*)</source>
+        <translation>എല്ലാ ഫയലുകളും (*)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <source>Unread first, then recent</source>
+        <translation>വായിക്കാത്തവ ആദ്യം, പിന്നെ സമീപകാലത്തേത്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unread first, then A-Z</source>
+        <translation>വായിക്കാത്തവ ആദ്യം, പിന്നെ A-Z</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recent activity</source>
+        <translation>സമീപകാല പ്രവർത്തനം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Alphabetical</source>
+        <translation>അക്ഷരക്രമം</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Reuse active tab</source>
+        <translation>സജീവ ടാബ് പുനരുപയോഗിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open new tab</source>
+        <translation>പുതിയ ടാബ് തുറക്കുക</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation>അവതാറും ലേബലും</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <location line="+9"/>
+        <source>Avatar only</source>
+        <translation>അവതാർ മാത്രം</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <source>Regular</source>
+        <translation>സാധാരണ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Small</source>
+        <translation>ചെറുത്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hidden</source>
+        <translation>മറഞ്ഞ</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation>വലിയ മുറികളിൽ മാത്രം (&gt; 16 അംഗങ്ങൾ)</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Plain</source>
+        <translation>സാദാ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Bubbles</source>
+        <translation>ബബ്ബിളുകൾ</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Opposing by sender</source>
+        <translation>അയക്കുന്നവർ അനുസരിച്ച് എതിർ വശത്ത്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All left-aligned</source>
+        <translation>എല്ലാം ഇടത്ത് ക്രമീകൃതം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All right-aligned</source>
+        <translation>എല്ലാം വലത്ത് ക്രമീകൃതം</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Adaptive (per-member in small rooms)</source>
+        <translation>അഡാപ്റ്റീവ് (ചെറിയ മുറികളിൽ അംഗം-തോറും)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Me vs others</source>
+        <translation>ഞാൻ vs മറ്റുള്ളവർ</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only in private rooms</source>
+        <translation>സ്വകാര്യ മുറികളിൽ മാത്രം</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>On message hover</source>
+        <translation>സന്ദേശം ഹോവർ ചെയ്യുമ്പോൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>On button click</source>
+        <translation>ബട്ടൺ ക്ലിക്കിൽ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <source>Enter</source>
+        <translation>Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation>Shift+Enter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Only at the end of messages</source>
+        <translation>സന്ദേശങ്ങളുടെ അവസാനത്തിൽ മാത്രം</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+10"/>
+        <source>No preference</source>
+        <translation>മുൻഗണനയില്ല</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>👨 Man</source>
+        <translation>👨 പുരുഷൻ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Woman</source>
+        <translation>👩 സ്ത്രീ</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 ഇളം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 ഇളം-ഇടത്തരം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 ഇടത്തരം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 ഇടത്തരം-ഇരുണ്ട</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 ഇരുണ്ട</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc" line="+11"/>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>ഡിഫോൾട്ട്</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+4"/>
+        <source>Appearance</source>
+        <translation>രൂപഭംഗി</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Theme</source>
+        <translation>തീം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
+        <translation>കൂടുതൽ തീമുകൾ വേണോ? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; യിൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക അല്ലെങ്കിൽ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;സ്വന്തമായി ഉണ്ടാക്കുക&lt;/a&gt; (പുനരാരംഭം ആവശ്യമാണ്).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Density</source>
+        <translation>സാന്ദ്രത</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
+        <translation>അകലം, ഐക്കൺ വലുപ്പം, ലിസ്റ്റ് വരി ഉയരം എന്നിവ ബാധിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Language [restart required]</source>
+        <translation>ഭാഷ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Fonts</source>
+        <translation>ഫോണ്ടുകൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Font family</source>
+        <translation>ഫോണ്ട് ഫാമിലി</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Font size</source>
+        <translation>ഫോണ്ട് വലുപ്പം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം വലുപ്പം മാറ്റുന്നു. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനുശേഷം മാത്രം അപ്ഡേറ്റ് ആകും.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Emoji font family</source>
+        <translation>ഇമോജി ഫോന്റ് ഫാമിലി</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale factor [restart required]</source>
+        <translation>സ്കെയിൽ ഫാക്ടർ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Behavior</source>
+        <translation>സ്വഭാവം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable UI animations</source>
+        <translation>UI ആനിമേഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Interaction mode</source>
+        <translation>ഇന്ററാക്ഷൻ മോഡ്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
+        <translation>ഡെസ്ക്ടോപ്പ് മൗസ്-ഫസ്റ്റ് സ്വഭാവം ഉപയോഗിക്കുന്നു. ടച്ച് മോഡ് സ്വൈപ്പ്, ടച്ച് ഇന്ററാക്ഷനുകൾ അനുകൂലിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Enable swipe gestures</source>
+        <translation>സ്വൈപ്പ് ജെസ്ചറുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
+        <translation>മുറി ലിസ്റ്റും ടൈംലൈനും തമ്മിൽ സ്വൈപ്പ് ചെയ്യൽ, മറുപടി നൽകാൻ സന്ദേശം സ്വൈപ്പ് ചെയ്യൽ തുടങ്ങിയ ജെസ്ചറുകൾ പ്രവർത്തനക്ഷമമാക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Scrollbar visibility</source>
+        <translation>സ്ക്രോൾബാർ ദൃശ്യത</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls when scrollbars are shown across the app.</source>
+        <translation>ആപ്പ് മുഴുവൻ സ്ക്രോൾബാറുകൾ എപ്പോൾ കാണിക്കണമെന്ന് നിയന്ത്രിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Avatars</source>
+        <translation>അവതാറുകൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Avatar preview</source>
+        <translation>അവതാർ പ്രിവ്യൂ</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Use circular avatars</source>
+        <translation>വൃത്താകൃതിയിലുള്ള അവതാറുകൾ ഉപയോഗിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatar style</source>
+        <translation>ഡിഫോൾട്ട് അവതാർ ശൈലി</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shown for users and rooms that have no custom avatar.</source>
+        <translation>ഇഷ്‌ടാനുസൃത അവതാർ ഇല്ലാത്ത ഉപയോക്താക്കൾക്കും മുറികൾക്കും കാണിക്കും.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Communities sidebar</source>
+        <translation>കമ്മ്യൂണിറ്റി സൈഡ്ബാർ</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <location line="+92"/>
+        <source>Show unread indicators</source>
+        <translation>വായിക്കാത്ത സൂചകങ്ങൾ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="-91"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation>കമ്മ്യൂണിറ്റി, ടാഗ് ഫിൽട്ടറുകളിൽ വായിക്കാത്ത ഊന്നൽ (എണ്ണ ബാഡ്ജുകൾ, വരി ഹൈലൈറ്റ്, ഇടതുവശ അടയാളം) കാണിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>All rooms</source>
+        <translation>എല്ലാ മുറികളും</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
+        <translation>നിങ്ങളുടെ എല്ലാ മുറികളും ഒരു കാഴ്ചയിൽ കാണിക്കുന്നു. ചുവടെ ഒഴിവാക്കിയതായി അടയാളപ്പെടുത്തിയ ഫിൽട്ടറുകളിൽ ഉൾപ്പെടുന്ന മുറികൾ ഈ ലിസ്റ്റിൽ നിന്ന് മറഞ്ഞിരിക്കും.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Favourites</source>
+        <translation>പ്രിയപ്പെട്ടവ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Matrix മുറി ടാഗിംഗ് API വഴി &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>People</source>
+        <translation>ആളുകൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
+        <translation>ഹ്യൂറിസ്റ്റിക്സ് ഉപയോഗിച്ച് ബോട്ടുകളായി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;തിരിച്ചറിഞ്ഞ&lt;/a&gt; ഉപയോക്താക്കളെ ഒഴിവാക്കി, യഥാർഥ ആളുകളുമായുള്ള നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Bots</source>
+        <translation>ബോട്ടുകൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
+        <translation>സംഭാഷണ പങ്കാളി ബോട്ട് അല്ലെങ്കിൽ ബ്രിഡ്ജ് സേവന അക്കൗണ്ടായി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;തിരിച്ചറിഞ്ഞ&lt;/a&gt; നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Groups</source>
+        <translation>ഗ്രൂപ്പുകൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
+        <translation>നേരിട്ടുള്ള ചാറ്റുകൾ അല്ലാത്ത ഒന്നിലധികം പങ്കാളികളുള്ള മുറികൾ (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; മറ്റും).</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Server Notices</source>
+        <translation>സർവർ നോട്ടീസുകൾ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
+        <translation>ഭരണ സന്ദേശങ്ങൾക്കായി ഹോംസർവർ &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; എന്ന് ടാഗ് ചെയ്ത മുറികൾ. Matrix സ്പെക്കിലെ &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; മൊഡ്യൂൾ കാണുക.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Low Priority</source>
+        <translation>കുറഞ്ഞ മുൻഗണന</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
+        <translation>Matrix മുറി ടാഗിംഗ് API വഴി &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room list</source>
+        <translation>മുറി പട്ടിക</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
+        <translation>മുറികൾക്ക് അടുത്ത് വായിക്കാത്ത ഊന്നൽ (എണ്ണ ബാഡ്ജുകൾ, ബോൾഡ് മുറിപ്പേര്, അവതാർ ബൗൺസ്, വരി ഹൈലൈറ്റ്, ഇടതുവശ അടയാളം) കാണിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show last message timestamp</source>
+        <translation>അവസാന സന്ദേശ സമയമുദ്ര കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show last message preview</source>
+        <translation>അവസാന സന്ദേശ പ്രിവ്യൂ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation>മുറി ലിസ്റ്റ് എൻട്രികളിൽ അവസാന-സന്ദേശ പ്രിവ്യൂ ചേർക്കുന്നു. Spacious, Compact ലേഔട്ടുകളിൽ സ്വന്തം വരിയിൽ കാണിക്കുന്നു, Dense-ൽ മുറിയുടെ പേരിനൊപ്പം ഇൻലൈനായി.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sorting</source>
+        <translation>ക്രമീകരണം</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Room list opening policy</source>
+        <translation>മുറി പട്ടിക തുറക്കൽ നയം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation>ഒരു മുറി ക്ലിക്ക് ചെയ്യുന്നത് സജീവ ടാബ് പുനരുപയോഗിക്കുന്നുണ്ടോ അതോ പുതിയ ഒന്ന് തുറക്കുന്നുണ്ടോ. നിലവിലുള്ള ടാബ് ഉള്ള മുറികൾ എല്ലാ സന്ദർഭങ്ങളിലും അത് സജീവമാക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation>ടാബ് ബാർ</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show pin button</source>
+        <translation>പിൻ ബട്ടൺ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pinned tab label</source>
+        <translation>പിൻ ചെയ്ത ടാബ് ലേബൽ</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Regular tab label</source>
+        <translation>സാധാരണ ടാബ് ലേബൽ</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Preferred tab width</source>
+        <translation>ഇഷ്ടപ്പെട്ട ടാബ് വീതി</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Minimum tab width</source>
+        <translation>ഏറ്റവും കുറഞ്ഞ ടാബ് വീതി</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Max recently-closed pre-rendered timelines</source>
+        <translation>അടുത്തിടെ അടച്ച പ്രീ-റെൻഡേർ ടൈംലൈനുകളുടെ പരമാവധി</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
+        <translation>അടുത്തിടെ അടച്ച പ്രീ-റെൻഡർ ടൈംലൈനുകൾ തൽക്ഷണ മുറി മാറ്റം സാധ്യമാക്കുന്നു, എന്നാൽ CPU, RAM ഉപയോഗം വർദ്ധിക്കും. തുറന്ന ടാബുകൾ എല്ലായ്‌പ്പോഴും പ്രീ-റെൻഡർ ചെയ്യപ്പെടും. തുറന്ന ടാബുകൾ മാത്രം സൂക്ഷിക്കാൻ 0 ആക്കുക.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <source>Input</source>
+        <translation>ഇൻപുട്ട്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Send key</source>
+        <translation>അയയ്ക്കൽ കീ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose which Enter key combination sends messages.</source>
+        <translation>ഏത് Enter കീ സംയോജനം സന്ദേശങ്ങൾ അയക്കുന്നുവെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Auto-convert Markdown to HTML</source>
+        <translation>Markdown സ്വതവേ HTML ആക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
+        <translation>&lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; സിന്റാക്സ് Markdown plain-text ഫോൾബാക്കോടൊപ്പം &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; സന്ദേശമായി സ്വയം പരിവർത്തനം ചെയ്യണോ എന്ന് നിയന്ത്രിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline room picker</source>
+        <translation>ഇൻലൈൻ റൂം പിക്കർ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
+        <translation>സന്ദേശ ഇൻപുട്ടിൽ ഹാഷ് (#) ടൈപ്പ് ചെയ്യുമ്പോൾ ഇൻലൈൻ മുറി പിക്കർ കാണിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Inline user picker</source>
+        <translation>ഇൻലൈൻ ഉപയോക്തൃ പിക്കർ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
+        <translation>സന്ദേശ ഇൻപുട്ടിൽ @ ചിഹ്നം ടൈപ്പ് ചെയ്യുമ്പോൾ ഇൻലൈൻ ഉപയോക്തൃ പിക്കർ കാണിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Voice transcription</source>
+        <translation>ശബ്ദ ട്രാൻസ്ക്രിപ്ഷൻ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
+        <translation>സ്പീച്ച്-ടു-ടെക്സ്റ്റ് പ്രവർത്തനക്ഷമമാക്കുന്നു. ട്രാൻസ്ക്രിപ്ഷൻ പ്രൊവൈഡർ &lt;a href="komai://settings/integrations/transcription"&gt;ഇന്റഗ്രേഷനുകൾ → വോയ്‌സ് ട്രാൻസ്ക്രിപ്ഷൻ&lt;/a&gt;-ൽ ക്രമീകരിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Attachments</source>
+        <translation>അറ്റാച്ച്മെന്റുകൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Strip image metadata before upload</source>
+        <translation>അപ്‌ലോഡ് ചെയ്യുന്നതിന് മുൻപ് ചിത്ര മെറ്റാഡേറ്റ നീക്കം ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>നിങ്ങളുടെ സ്വകാര്യത സംരക്ഷിക്കാൻ ചില ചിത്ര ഫോർമാറ്റുകളിൽ നിന്ന് മെറ്റാഡാറ്റ (EXIF, IPTC, XMP) നീക്കം ചെയ്യാൻ ശ്രമിക്കും. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Emoji</source>
+        <translation>ഇമോജി</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Auto-replace emoticons with emoji</source>
+        <translation>ഇമോട്ടിക്കണുകൾ സ്വതവേ ഇമോജി ആക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation>സന്ദേശം അയക്കുമ്പോൾ :) :D :P പോലുള്ള ടെക്സ്റ്റ് ഇമോട്ടിക്കണുകൾ അവയ്ക്ക് തുല്യമായ ഇമോജി ഉപയോഗിച്ച് സ്വതവേ മാറ്റുക. എല്ലായിടത്തും മാറ്റണോ അതോ അവസാനം മാത്രമോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Inline emoji picker</source>
+        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
+        <translation>സന്ദേശ ഇൻപുട്ടിൽ കോളൻ (:) ടൈപ്പ് ചെയ്യുമ്പോൾ ഇൻലൈൻ ഇമോജി പിക്കർ കാണിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Preferred gender</source>
+        <translation>ഇഷ്ടപ്പെട്ട ലിംഗഭേദം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ Unicode-നിർവ്വചിത ലിംഗ വേരിയന്റുകൾ (man/woman) ഇഷ്ടപ്പെടുക. മറ്റ് ലിംഗത്തിനായി വ്യക്തമായി തിരയൽ ഇപ്പോഴും പ്രവർത്തിക്കും. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred skin tone</source>
+        <translation>ഇഷ്ടപ്പെട്ട ത്വക്ക് നിറം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ ഒരു ത്വക്ക്-ടോൺ വേരിയന്റ് ഇഷ്ടപ്പെടുക. മറ്റൊരു ത്വക്ക്-ടോണിനായി വ്യക്തമായി തിരയൽ ഇപ്പോഴും പ്രവർത്തിക്കും. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Show others when I'm typing</source>
+        <translation>ഞാൻ ടൈപ്പ് ചെയ്യുമ്പോൾ മറ്റുള്ളവർക്ക് കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
+        <source>Account notifications</source>
+        <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable notifications for this account</source>
+        <translation>ഈ അക്കൗണ്ടിനായി അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
+        <translation>ഹോംസർവറിലെ നിങ്ങളുടെ Matrix അക്കൗണ്ട്-തലത്തിലുള്ള അറിയിപ്പ് സ്വിച്ച് നിയന്ത്രിക്കുന്നു. എല്ലാ ക്ലയന്റുകളിലും/ഉപകരണങ്ങളിലും അറിയിപ്പുകൾ നിശ്ശബ്ദമാക്കാൻ ഓഫ് ചെയ്യുക.</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>System notifications</source>
+        <translation>സിസ്റ്റം അറിയിപ്പുകൾ</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Enable system notifications</source>
+        <translation>സിസ്റ്റം അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
+        <translation>ക്ലയന്റ് നിലവിൽ ഫോക്കസ്ഡ് അല്ലാത്തപ്പോൾ ലഭിച്ച സന്ദേശങ്ങളെ കുറിച്ച് അറിയിക്കുക. മുകളിൽ അക്കൗണ്ട് അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുമ്പോൾ മാത്രം ഇത് പ്രാബല്യത്തിൽ വരും.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message content in notifications</source>
+        <translation>അറിയിപ്പുകളിൽ സന്ദേശ ഉള്ളടക്കം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much message text to include in notifications.</source>
+        <translation>അറിയിപ്പുകളിൽ എത്ര സന്ദേശ വാചകം ഉൾപ്പെടുത്തണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Flash app window/taskbar on incoming messages</source>
+        <translation>ആഗമന സന്ദേശങ്ങളിൽ ആപ്പ് വിൻഡോ/ടാസ്‌ക്ബാർ ഫ്ലാഷ് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
+        <translation>ഒരു സന്ദേശം ലഭിക്കുമ്പോൾ ഒരു ശ്രദ്ധ അലേർട്ട് കാണിക്കുക (ഉദാഹരണത്തിന്, ടാസ്ക്ബാർ ഐക്കൺ ആക്ടിവിറ്റി).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Attention indicators</source>
+        <translation>ശ്രദ്ധ സൂചകങ്ങൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count in window title</source>
+        <translation>ശ്രദ്ധ എണ്ണം വിൻഡോ ടൈറ്റിലിൽ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Append the number of rooms needing attention to the Komai window title.</source>
+        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം Komai വിൻഡോ തലക്കെട്ടിൽ ചേർക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show attention count on app icon/taskbar badge</source>
+        <translation>ആപ്പ് ഐക്കൺ/ടാസ്‌ക്‌ബാർ ബാഡ്ജിൽ ശ്രദ്ധ എണ്ണം കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം ആപ്പ്/ടാസ്‌ക്‌ബാർ ബാഡ്ജിൽ കാണിക്കുക. Linux-ൽ, ഡിഫോൾട്ടല്ലാത്ത പ്രൊഫൈലുകൾക്ക് വിശ്വസനീയമായ ആപ്പ് ബാഡ്ജുകൾക്ക് സ്വന്തം ഡെസ്‌ക്‌ടോപ്പ് ലോഞ്ചർ ആവശ്യമാണ്. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>System tray</source>
+        <translation>സിസ്റ്റം ട്രേ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Close to tray</source>
+        <translation>ട്രേയിലേക്ക് അടയ്ക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Keep the application running in the background after closing the client window.</source>
+        <translation>ക്ലയന്റ് വിൻഡോ അടച്ചതിനുശേഷം ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കട്ടെ.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Start in tray</source>
+        <translation>ട്രേയിൽ ആരംഭിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start the application in the background without showing the client window.</source>
+        <translation>ക്ലയന്റ് വിൻഡോ കാണിക്കാതെ ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ ആരംഭിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Window blur</source>
+        <translation>വിൻഡോ ബ്ലർ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Blur on focus loss</source>
+        <translation>ഫോക്കസ് നഷ്ടപ്പെടുമ്പോൾ ബ്ലർ</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Blur delay (seconds)</source>
+        <translation>ബ്ലർ കാലതാമസം (സെക്കൻഡ്)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation>ഫോക്കസ് നഷ്ടപ്പെട്ട ശേഷം ബ്ലർ ആരംഭിക്കുന്നതിന് മുൻപ് എത്ര സമയം കാത്തിരിക്കണമെന്ന് സജ്ജമാക്കുക. ഉടൻ ബ്ലർ ചെയ്യാൻ 0 സജ്ജമാക്കുക. പരമാവധി 3600 സെക്കൻഡ് (1 മണിക്കൂർ).</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
+        <source>General</source>
+        <translation>പൊതു</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable legacy calls</source>
+        <translation>ലെഗസി കോളുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
+        <translation>പഴയ (MatrixRTC-ന് മുൻപുള്ള) കോളുകൾ സ്വീകരിക്കാനും ആരംഭിക്കാനും അനുവദിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Use turn.matrix.org as fallback relay</source>
+        <translation>turn.matrix.org ഫോൾബാക്ക് റിലേയായി ഉപയോഗിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>നിങ്ങളുടെ ഹോംസർവ്വർ ഒന്ന് നൽകാത്തപ്പോൾ turn.matrix.org ഒരു ഫോൾബാക്ക് റിലേ/STUN സർവ്വറായി ഉപയോഗിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Devices</source>
+        <translation>ഉപകരണങ്ങൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Microphone</source>
+        <translation>മൈക്രോഫോൺ</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Camera</source>
+        <translation>ക്യാമറ</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera resolution</source>
+        <translation>കാമറ റെസലൂഷൻ</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Camera frame rate</source>
+        <translation>ക്യാമറ ഫ്രേം നിരക്ക്</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Ringtone</source>
+        <translation>റിംഗ്ടോൺ</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Screen sharing</source>
+        <translation>സ്ക്രീൻ ഷെയറിംഗ്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Screen share frame rate</source>
+        <translation>സ്ക്രീൻ ഷെയർ ഫ്രെയിം നിരക്ക്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
+        <translation>സ്ക്രീൻ പങ്കിടലിനായുള്ള ടാർഗെറ്റ് ഫ്രെയിമുകൾ പ്രതി സെക്കൻഡ്. കുറഞ്ഞ മൂല്യങ്ങൾ കുറഞ്ഞ CPU ഉം ബാൻഡ്‌വിഡ്ത്തും ഉപയോഗിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Include camera picture-in-picture</source>
+        <translation>ക്യാമറ പിക്ചർ-ഇൻ-പിക്ചർ ഉൾപ്പെടുത്തുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show participant camera while screen sharing</source>
+        <translation>സ്‌ക്രീൻ ഷെയർ ചെയ്യുമ്പോൾ പങ്കെടുക്കുന്നവരുടെ ക്യാമറ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show mouse cursor</source>
+        <translation>മൗസ് കഴ്‌സർ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
+        <source>D-Bus</source>
+        <translation>D-Bus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>D-Bus access</source>
+        <translation>D-Bus ആക്സസ്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
+        <translation>ലോക്കൽ കോളർമാർക്ക് Komai എത്ര &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ആക്സസ്&lt;/a&gt; നൽകുന്നുവെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Matrix Rooms Search</source>
+        <translation>Matrix മുറി തിരയൽ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enabled</source>
+        <translation>പ്രവർത്തനക്ഷമം</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
+        <translation>പ്രവർത്തനക്ഷമമാകുമ്പോൾ, &lt;a href="komai://rooms-directory"&gt;പൊതു മുറികൾ പര്യവേക്ഷണം ചെയ്യുക&lt;/a&gt; ഡയലോഗിൽ &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; പിന്തുണ ചേർക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Server</source>
+        <translation>സർവർ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
+        <translation>&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;-ന്റെ ഏതൊരു ഉദാഹരണവും ഉപയോഗിക്കാം, എന്നാൽ &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; നടത്തുന്ന ഒരു വലിയ ജനപ്രിയ ഉദാഹരണമാണ്.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Browser</source>
+        <translation>ബ്രൗസർ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
+        <source>Account</source>
+        <translation>അക്കൗണ്ട്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>User ID</source>
+        <translation>ഉപയോക്തൃ ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Homeserver</source>
+        <translation>ഹോംസെർവർ</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Edit profile</source>
+        <translation>പ്രൊഫൈൽ എഡിറ്റ് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Device</source>
+        <translation>ഉപകരണം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Device ID</source>
+        <translation>ഉപകരണ ID</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Access token</source>
+        <translation>ആക്സസ് ടോക്കൺ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
+        <translation>നിങ്ങളുടെ ആക്സസ് ടോക്കൺ നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് പൂർണ്ണ ആക്സസ് നൽകുന്നു. ഇത് ആരോടും പങ്കിടരുത്.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Users</source>
+        <translation>ഉപയോക്താക്കൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ignored users</source>
+        <translation>അവഗണിച്ച ഉപയോക്താക്കൾ</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Log out</source>
+        <translation>ലോഗ് ഔട്ട്</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
+        <source>Application</source>
+        <translation>ആപ്ലിക്കേഷൻ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Name</source>
+        <translation>പേര്</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Platform</source>
+        <translation>പ്ലാറ്റ്‌ഫോം</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Created by</source>
+        <translation>സൃഷ്ടിച്ചത്</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>License</source>
+        <translation>ലൈസൻസ്</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Acknowledgements</source>
+        <translation>കൃതജ്ഞതകൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fork base</source>
+        <translation>ഫോർക്ക് ബേസ്</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Fluent)</source>
+        <translation>ഐക്കൺ സെറ്റ് (Fluent)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
+        <translation>ഐക്കൺ സെറ്റ് (Font Awesome)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Default avatars (Boring Avatars)</source>
+        <translation>ഡിഫോൾട്ട് അവതാറുകൾ (Boring Avatars)</translation>
     </message>
 </context>
 <context>
@@ -9767,683 +11152,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
-    </message>
-</context>
-<context>
-    <name>settings::ui</name>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelLookFeel.inc" line="+7"/>
-        <source>Theme</source>
-        <translation>തീം</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Need more themes? Import from &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; or &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;create your own&lt;/a&gt; (restart required).</source>
-        <translation>കൂടുതൽ തീമുകൾ വേണോ? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക അല്ലെങ്കിൽ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;നിങ്ങളുടേത് സൃഷ്ടിക്കുക&lt;/a&gt; (പുനരാരംഭം ആവശ്യമാണ്).</translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Fonts</source>
-        <translation>ഫോണ്ടുകൾ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Font family</source>
-        <translation>ഫോണ്ട് ഫാമിലി</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം വലുപ്പം മാറ്റുന്നു. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനു ശേഷം മാത്രം അപ്ഡേറ്റ് ആകും.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Emoji font family</source>
-        <translation>ഇമോജി ഫോണ്ട് ഫാമിലി</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Behavior</source>
-        <translation>പെരുമാറ്റം</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Interaction mode</source>
-        <translation>ഇടപഴകൽ മോഡ്</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>ഡെസ്ക്ടോപ്പ് മൗസ്-ആദ്യ സ്വഭാവം ഉപയോഗിക്കുന്നു. ടച്ച് മോഡ് സ്വൈപ്പ്, ടച്ച് ഇടപഴകലുകൾ ഇഷ്ടപ്പെടുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>റൂം ലിസ്റ്റിനും ടൈംലൈനിനും ഇടയിൽ സ്വൈപ്പ് ചെയ്യൽ, സന്ദേശം മറുപടി നൽകാൻ സ്വൈപ്പ് ചെയ്യൽ തുടങ്ങിയ ആംഗ്യങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Controls when scrollbars are shown across the app.</source>
-        <translation>ആപ്പ് മുഴുവൻ സ്‌ക്രോൾബാറുകൾ എപ്പോൾ കാണിക്കണമെന്ന് നിയന്ത്രിക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="-104"/>
-        <source>Appearance</source>
-        <translation>രൂപഭാവം</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Affects spacing, icon sizes, and list row heights.</source>
-        <translation>സ്‌പേസിംഗ്, ഐക്കൺ വലുപ്പം, ലിസ്റ്റ് വരി ഉയരം എന്നിവ ബാധിക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>ഭാഷ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <source>Avatars</source>
-        <translation>അവതാറുകൾ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Avatar preview</source>
-        <translation>അവതാർ പ്രിവ്യൂ</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Shown for users and rooms that have no custom avatar.</source>
-        <translation>ഇഷ്‌ടാനുസൃത അവതാർ ഇല്ലാത്ത ഉപയോക്താക്കൾക്കും മുറികൾക്കും കാണിക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Communities sidebar</source>
-        <translation>കമ്മ്യൂണിറ്റി സൈഡ്‌ബാർ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
-        <translation>കമ്മ്യൂണിറ്റി, ടാഗ് ഫിൽട്ടറുകളിൽ വായിക്കാത്ത ഊന്നൽ (എണ്ണം ബാഡ്ജുകൾ, വരി ഹൈലൈറ്റ്, ഇടത്-അരികു മാർക്കർ) കാണിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>All rooms</source>
-        <translation>എല്ലാ മുറികളും</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list.</source>
-        <translation>നിങ്ങളുടെ എല്ലാ മുറികളും ഒരു കാഴ്ചയിൽ കാണിക്കുന്നു. താഴെ ഒഴിവാക്കിയതായി അടയാളപ്പെടുത്തിയ ഫിൽട്ടറുകളിൽ പെടുന്ന മുറികൾ ഈ പട്ടികയിൽ നിന്ന് മറഞ്ഞിരിക്കും.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Matrix മുറി ടാഗിംഗ് API വഴി &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.favourite&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats with real people, excluding users &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as bots by heuristics.</source>
-        <translation>ഹ്യൂറിസ്റ്റിക്സ് വഴി ബോട്ടുകൾ ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; ഉപയോക്താക്കളെ ഒഴിവാക്കി, യഥാർത്ഥ ആളുകളുമായുള്ള നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Direct chats where the conversation partner is &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;detected&lt;/a&gt; as a bot or bridge service account.</source>
-        <translation>സംഭാഷണ പങ്കാളി ബോട്ട് അല്ലെങ്കിൽ ബ്രിഡ്ജ് സർവ്വീസ് അക്കൗണ്ട് ആയി &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/communities-sidebar.md#bot-detection-heuristics"&gt;കണ്ടെത്തിയ&lt;/a&gt; നേരിട്ടുള്ള ചാറ്റുകൾ.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Multi-participant rooms that are not direct chats (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; and others).</source>
-        <translation>നേരിട്ടുള്ള ചാറ്റുകൾ അല്ലാത്ത (&lt;a href="https://spec.matrix.org/v1.17/client-server-api/#direct-messaging"&gt;m.direct&lt;/a&gt; ഉം മറ്റുള്ളതും) ഒന്നിലധികം പങ്കാളികളുള്ള മുറികൾ.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; by the homeserver for administrative messages. See the &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; module in the Matrix spec.</source>
-        <translation>അഡ്മിനിസ്ട്രേറ്റീവ് സന്ദേശങ്ങൾക്കായി ഹോംസർവർ &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.server_notice&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ. Matrix സ്‌പെക്കിലെ &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#server-notices"&gt;Server Notices&lt;/a&gt; മൊഡ്യൂൾ കാണുക.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Rooms tagged with &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; via the Matrix room tagging API.</source>
-        <translation>Matrix മുറി ടാഗിംഗ് API വഴി &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#events-14"&gt;m.lowpriority&lt;/a&gt; ടാഗ് ചെയ്ത മുറികൾ.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Room list</source>
-        <translation>മുറി പട്ടിക</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
-        <translation>മുറികൾക്ക് അടുത്ത് വായിക്കാത്ത ഊന്നൽ (എണ്ണം ബാഡ്ജുകൾ, ബോൾഡ് മുറി നാമം, അവതാർ ബൗൺസ്, വരി ഹൈലൈറ്റ്, ഇടത്-അരികു മാർക്കർ) കാണിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
-        <translation>മുറി ലിസ്റ്റ് എൻ‌ട്രികളിൽ അവസാന സന്ദേശ പ്രിവ്യൂ ചേർക്കുന്നു. Spacious, Compact ലേഔട്ടുകളിൽ സ്വന്തം വരിയിലും Dense-ൽ മുറിയുടെ പേരിനു തൊട്ടടുത്തും കാണിക്കും.</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
-        <translation>ഒരു മുറിയിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ സജീവ ടാബ് പുനരുപയോഗിക്കണോ അല്ലെങ്കിൽ പുതിയ ഒന്ന് തുറക്കണോ എന്ന്. നിലവിലുള്ള ടാബ് ഉള്ള മുറികൾ എല്ലാ കേസുകളിലും സജീവമാകും.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Tab bar</source>
-        <translation>ടാബ് ബാർ</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
-        <translation>അടുത്തിടെ അടച്ച പ്രി-റെൻഡർ ചെയ്ത ടൈംലൈനുകൾ ഉടനടി മുറി മാറ്റം സാധ്യമാക്കുന്നു, പക്ഷേ CPU, RAM ഉപഭോഗം വർദ്ധിപ്പിക്കുന്നു. തുറന്ന ടാബുകൾ എല്ലായ്‌പ്പോഴും പ്രി-റെൻഡർ ചെയ്യപ്പെടും. തുറന്ന ടാബുകൾ മാത്രം നിലനിർത്താൻ 0 ആക്കുക.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
-        <source>Presentation</source>
-        <translation>അവതരണം</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Timeline preview</source>
-        <translation>ടൈംലൈൻ പ്രിവ്യൂ</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>സന്ദേശങ്ങൾ ഒരു ഭാഗത്ത് നിൽക്കണമോ അല്ലെങ്കിൽ അയക്കുന്നയാൾ അനുസരിച്ച് എതിർ ഭാഗങ്ങളിൽ ക്രമീകരിക്കണമോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Maximum message width (%)</source>
-        <translation>പരമാവധി സന്ദേശ വീതി (%)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of available timeline width that a single message can occupy.</source>
-        <translation>ലഭ്യമായ ടൈംലൈൻ വീതിയുടെ ഏത് ശതമാനം ഒരൊറ്റ സന്ദേശത്തിന് ഉൾക്കൊള്ളാം.</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Choose how sender colors are assigned in the timeline and bubble backgrounds.</source>
-        <translation>ടൈംലൈനിലും ബബ്ബിൾ പശ്ചാത്തലങ്ങളിലും അയക്കുന്നയാളുടെ നിറങ്ങൾ എങ്ങനെ നൽകണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation>അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ സന്ദേശങ്ങൾക്ക് മുകളിൽ എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബ്ബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബ്ബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation>ബബിൾ ലേഔട്ട് പ്രവർത്തനക്ഷമമാകുമ്പോൾ, നിങ്ങളുടെ സ്വന്തം സന്ദേശങ്ങൾക്ക് അടുത്ത് നിങ്ങളുടെ അവതാർ കാണിക്കുക. ഇത് ഇടത്/വലത് സമമിതി മെച്ചപ്പെടുത്തുകയും രചയിതൃത്വം തിരിച്ചറിയൽ എളുപ്പമാക്കുകയും ചെയ്യുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
-        <translation>ഫോർമാറ്റ് ചെയ്ത (HTML) ടൈംലൈൻ സന്ദേശങ്ങളിലെ കോഡ് ബ്ലോക്കുകൾക്ക് ഭാഷ-ബോധ്യമുള്ള സിന്റാക്‌സ് ഹൈലൈറ്റിംഗ് പ്രയോഗിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
-        <translation>ചില സന്ദേശങ്ങൾ, പ്രത്യേകിച്ച് 🎊, ☀️, അല്ലെങ്കിൽ 🌦️ പോലുള്ള ഇമോജികൾ ഉള്ളവ, ഒരു മനോഹരമായ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md"&gt;ടൈംലൈൻ ഇഫക്റ്റ്&lt;/a&gt; കാണിക്കാം.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Preferences.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
-        <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറച്ചുവെക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു. മുറി വിവരം → മുൻഗണനകളിൽ ഓരോ മുറിക്കും ഓവർറൈഡ് ചെയ്യാം.&lt;br&gt;⚠️ ത്രെഡ്-അനുസരിച്ചുള്ള വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമാകാം.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+84"/>
-        <source>Feedback</source>
-        <translation>ഫീഡ്‌ബാക്ക്</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>നിങ്ങളുടെ സന്ദേശങ്ങൾ വായിച്ചോ എന്ന് കാണിക്കുക. നിങ്ങളുടെ ഹോംസർവർ റീഡ് രസീതുകൾ പിന്തുണയ്ക്കുന്നില്ലെങ്കിൽ, മുറികൾ വായിച്ചതായി അടയാളപ്പെടുത്തിയേക്കില്ല.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+44"/>
-        <source>Actions</source>
-        <translation>പ്രവർത്തനങ്ങൾ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how message actions are opened.</source>
-        <translation>സന്ദേശ പ്രവർത്തനങ്ങൾ എങ്ങനെ തുറക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room.</source>
-        <translation>ആക്ഷൻ ബാറിൽ പിൻ ചെയ്ത പ്രതികരണങ്ങളുടെ കോമ വേർതിരിച്ച ലിസ്റ്റ്. ശേഷിക്കുന്ന സ്ലോട്ടുകൾ ഓരോ മുറിയിലും നിങ്ങൾ ഏറ്റവും കൂടുതൽ ഉപയോഗിക്കുന്ന പ്രതികരണങ്ങൾ കൊണ്ട് നിറയും.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Images handling</source>
-        <translation>ചിത്ര കൈകാര്യം</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Encrypted images are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; decrypted on disk (auto-purged periodically).</source>
-        <translation>എൻക്രിപ്റ്റഡ് ചിത്രങ്ങൾ ഡിസ്കിൽ ഡീക്രിപ്റ്റ് ചെയ്ത് &lt;a href="komai://media-cache"&gt;കാഷെ&lt;/a&gt; ചെയ്യുന്നു (ആനുകാലികമായി സ്വയം ശുദ്ധീകരിക്കപ്പെടും).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Video handling</source>
-        <translation>വീഡിയോ കൈകാര്യം</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable videos are &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>സാധ്യമാകുമ്പോൾ സ്ട്രീം ചെയ്യുന്നു; എൻക്രിപ്റ്റഡ് അല്ലെങ്കിൽ സീക്ക് ചെയ്യാനാകാത്ത വീഡിയോകൾ ഡിസ്‌കിൽ &lt;a href="komai://media-cache"&gt;ക്യാഷ്&lt;/a&gt; ചെയ്യുന്നു (ആനുകാലികമായി സ്വയം നീക്കം ചെയ്യപ്പെടുന്നു).</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Audio handling</source>
-        <translation>ഓഡിയോ കൈകാര്യം</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Streams when possible; encrypted or non-seekable audio is &lt;a href="komai://media-cache"&gt;cached&lt;/a&gt; on disk (auto-purged periodically).</source>
-        <translation>സാധ്യമാകുമ്പോൾ സ്ട്രീം ചെയ്യുന്നു; എൻക്രിപ്റ്റഡ് അല്ലെങ്കിൽ സീക്ക് ചെയ്യാനാകാത്ത ഓഡിയോ ഡിസ്‌കിൽ &lt;a href="komai://media-cache"&gt;ക്യാഷ്&lt;/a&gt; ചെയ്യുന്നു (ആനുകാലികമായി സ്വയം നീക്കം ചെയ്യപ്പെടുന്നു).</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Applied to inline audio players.</source>
-        <translation>ഇൻലൈൻ ഓഡിയോ പ്ലേയറുകൾക്ക് ബാധകം.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-80"/>
-        <source>Input</source>
-        <translation>ഇൻപുട്ട്</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose which Enter key combination sends messages.</source>
-        <translation>സന്ദേശങ്ങൾ അയക്കാൻ ഏത് Enter കീ കോമ്പിനേഷൻ ഉപയോഗിക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Controls whether &lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; syntax is auto-converted to produce a &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; message with Markdown plain-text fallback.</source>
-        <translation>&lt;a href="https://commonmark.org/help/"&gt;Markdown&lt;/a&gt; സിന്റാക്‌സ് Markdown plain-text fallback-നൊപ്പം &lt;a href="https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes"&gt;Matrix HTML&lt;/a&gt; സന്ദേശം നിർമ്മിക്കാൻ യാന്ത്രികമായി പരിവർത്തനം ചെയ്യണമോ എന്ന് നിയന്ത്രിക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline room picker when you type a hash (#) in the message input.</source>
-        <translation>സന്ദേശ ഇൻപുട്ടിൽ ഹാഷ് (#) ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു ഇൻലൈൻ മുറി പിക്കർ കാണിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
-        <translation>സന്ദേശ ഇൻപുട്ടിൽ ആറ്റ് ചിഹ്നം (@) ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു ഇൻലൈൻ ഉപയോക്തൃ പിക്കർ കാണിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
-        <translation>സ്പീച്ച്-ടു-ടെക്സ്റ്റ് പ്രവർത്തനക്ഷമമാക്കുന്നു. ട്രാൻസ്ക്രിപ്ഷൻ പ്രൊവൈഡർ &lt;a href="komai://settings/integrations/transcription"&gt;ഇന്റഗ്രേഷനുകൾ → വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ&lt;/a&gt;-ൽ കോൺഫിഗർ ചെയ്യുക.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Attachments</source>
-        <translation>അറ്റാച്ച്മെന്റുകൾ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Best-effort removal of metadata (EXIF, IPTC, XMP) from some image formats to protect your privacy. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>നിങ്ങളുടെ സ്വകാര്യത സംരക്ഷിക്കാൻ ചില ഇമേജ് ഫോർമാറ്റുകളിൽ നിന്ന് മെറ്റാഡാറ്റ (EXIF, IPTC, XMP) നീക്കം ചെയ്യാൻ ശ്രമിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/attachments.md"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Emoji</source>
-        <translation>ഇമോജി</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation>സന്ദേശം അയക്കുമ്പോൾ :) :D :P പോലുള്ള ടെക്‌സ്‌റ്റ് ഇമോട്ടിക്കോണുകൾ അവയ്ക്ക് തുല്യമായ emoji ആക്കി മാറ്റുക. എല്ലായിടത്തും അല്ലെങ്കിൽ അവസാനം മാത്രം മാറ്റണമോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Show an inline emoji picker when you type a colon (:) in the message input.</source>
-        <translation>സന്ദേശ ഇൻപുട്ടിൽ കോളൻ (:) ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു ഇൻലൈൻ ഇമോജി പിക്കർ കാണിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ Unicode-നിർവചിച്ച ലിംഗ വേരിയന്റുകൾ (പുരുഷൻ/സ്ത്രീ) മുൻഗണന നൽകുക. മറ്റ് ലിംഗം വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ ഒരു ത്വക്ക്-ടോൺ വേരിയന്റ് മുൻഗണന നൽകുക. മറ്റ് ത്വക്ക് ടോൺ വ്യക്തമായി തിരയുന്നതും പ്രവർത്തിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
-        <source>Account notifications</source>
-        <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enable notifications for this account</source>
-        <translation>ഈ അക്കൗണ്ടിനായി അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your Matrix account-level notification switch on the homeserver. Turn off to mute notifications across all your clients/devices.</source>
-        <translation>ഹോം സെർവറിൽ നിങ്ങളുടെ Matrix അക്കൗണ്ട്-ലെവൽ അറിയിപ്പ് സ്വിച്ച് നിയന്ത്രിക്കുന്നു. നിങ്ങളുടെ എല്ലാ ക്ലൈന്റുകളിലും/ഉപകരണങ്ങളിലും അറിയിപ്പുകൾ മ്യൂട്ട് ചെയ്യാൻ ഓഫ് ചെയ്യുക.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>System notifications</source>
-        <translation>സിസ്റ്റം അറിയിപ്പുകൾ</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above.</source>
-        <translation>ക്ലൈന്റ് നിലവിൽ ഫോക്കസ് ചെയ്തിട്ടില്ലാത്തപ്പോൾ ലഭിച്ച സന്ദേശങ്ങളെക്കുറിച്ച് അറിയിക്കുക. മുകളിൽ അക്കൗണ്ട് അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കിയിരിക്കുമ്പോൾ മാത്രം ഇത് ബാധകമാകും.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Choose how much message text to include in notifications.</source>
-        <translation>അറിയിപ്പുകളിൽ എത്രമാത്രം സന്ദേശ ടെക്‌സ്‌റ്റ് ഉൾപ്പെടുത്തണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Show an attention alert when a message is received (for example, taskbar icon activity).</source>
-        <translation>ഒരു സന്ദേശം ലഭിക്കുമ്പോൾ ഒരു ശ്രദ്ധ അലേർട്ട് കാണിക്കുക (ഉദാഹരണത്തിന്, ടാസ്‌ക്ബാർ ഐക്കൺ ആക്ടിവിറ്റി).</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Attention indicators</source>
-        <translation>ശ്രദ്ധ സൂചകങ്ങൾ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Append the number of rooms needing attention to the Komai window title.</source>
-        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം Komai വിൻഡോ തലക്കെട്ടിൽ ചേർക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Show the number of rooms needing attention on the app/taskbar badge. On Linux, non-default profiles need their own desktop launcher for reliable app badges. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;Learn more&lt;/a&gt;.</source>
-        <translation>ശ്രദ്ധ ആവശ്യമുള്ള മുറികളുടെ എണ്ണം ആപ്പ്/ടാസ്‌ക്ബാർ ബാഡ്ജിൽ കാണിക്കുക. Linux-ൽ, ഡിഫോൾട്ടല്ലാത്ത പ്രൊഫൈലുകൾക്ക് വിശ്വസനീയമായ ആപ്പ് ബാഡ്ജുകൾക്ക് സ്വന്തം ഡെസ്‌ക്‌ടോപ്പ് ലോഞ്ചർ ആവശ്യമാണ്. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/application-profiles.md#reliable-app-badges-with-multiple-profiles"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>System tray</source>
-        <translation>സിസ്റ്റം ട്രേ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Keep the application running in the background after closing the client window.</source>
-        <translation>ക്ലൈന്റ് വിൻഡോ അടച്ചതിനു ശേഷവും ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>ക്ലയന്റ് വിൻഡോ കാണിക്കാതെ ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ ആരംഭിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Window blur</source>
-        <translation>വിൻഡോ ബ്ലർ</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
-        <translation>ഫോക്കസ് നഷ്‌ടപ്പെട്ടതിന് ശേഷം ബ്ലർ ആരംഭിക്കുന്നതിന് എത്ര സമയം കഴിയണം എന്ന് സജ്ജമാക്കുക. ഉടനടി ബ്ലർ ചെയ്യാൻ 0 ആക്കുക. പരമാവധി 3600 സെക്കൻഡ് (1 മണിക്കൂർ).</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
-        <source>General</source>
-        <translation>പൊതു</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
-        <translation>പഴയ (pre-MatrixRTC) കോളുകൾ സ്വീകരിക്കാനും ആരംഭിക്കാനും അനുവദിക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
-        <translation>നിങ്ങളുടെ ഹോംസർവർ ഒന്ന് നൽകുന്നില്ലെങ്കിൽ turn.matrix.org ഒരു ഫാൾബാക്ക് റിലേ/STUN സർവറായി ഉപയോഗിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>ഉപകരണങ്ങൾ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Microphone</source>
-        <translation>മൈക്രോഫോൺ</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Camera</source>
-        <translation>ക്യാമറ</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera resolution</source>
-        <translation>ക്യാമറ റെസൊലൂഷൻ</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Camera frame rate</source>
-        <translation>ക്യാമറ ഫ്രെയിം നിരക്ക്</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Ringtone</source>
-        <translation>റിംഗ്‌ടോൺ</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Screen sharing</source>
-        <translation>സ്‌ക്രീൻ പങ്കിടൽ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Target frames per second for screen sharing. Lower values use less CPU and bandwidth.</source>
-        <translation>സ്‌ക്രീൻ പങ്കിടലിനുള്ള ലക്ഷ്യ ഫ്രെയിം പ്രതി സെക്കൻഡ്. കുറഞ്ഞ മൂല്യങ്ങൾ CPU, ബാൻഡ്‌വിഡ്ത്ത് കുറവ് ഉപയോഗിക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelIntegrations.inc" line="+5"/>
-        <source>D-Bus</source>
-        <translation>D-Bus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>D-Bus access</source>
-        <translation>D-Bus ആക്‌സസ്</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Choose how much &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus access&lt;/a&gt; Komai exposes to local callers.</source>
-        <translation>Komai ലോക്കൽ കോളർമാർക്ക് എത്രമാത്രം &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ആക്സസ്&lt;/a&gt; നൽകണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Matrix Rooms Search</source>
-        <translation>Matrix മുറി തിരയൽ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>When enabled, adds &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; support to the &lt;a href="komai://rooms-directory"&gt;Explore Public Rooms&lt;/a&gt; dialog.</source>
-        <translation>പ്രവർത്തനക്ഷമമാകുമ്പോൾ, &lt;a href="komai://rooms-directory"&gt;പൊതു മുറികൾ പര്യവേക്ഷണം ചെയ്യുക&lt;/a&gt; ഡയലോഗിലേക്ക് &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; പിന്തുണ ചേർക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Any instance of &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; will do, but &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; is a large popular instance run by &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</source>
-        <translation>&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;-ന്റെ ഏതെങ്കിലും ഇൻസ്‌റ്റൻസ് ഉപയോഗിക്കാം, എന്നാൽ &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; നടത്തുന്ന ഒരു വലിയ ജനപ്രിയ ഇൻസ്‌റ്റൻസ് ആണ്.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Browser</source>
-        <translation>ബ്രൗസർ</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
-        <source>Encryption</source>
-        <translation>എൻക്രിപ്ഷൻ</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious.</source>
-        <translation>ഒരു ഉപയോക്താവിന് എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ അയക്കാൻ അവർ പരിശോധിക്കപ്പെട്ടിരിക്കണം. ഇത് സുരക്ഷ മെച്ചപ്പെടുത്തുന്നു, പക്ഷേ E2EE കൂടുതൽ ബുദ്ധിമുട്ടുള്ളതാക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
-        <translation>മറ്റ് ഉപയോക്താക്കളിൽ നിന്നുള്ള കീ അഭ്യർഥനകൾക്ക് അവർ പരിശോധിക്കപ്പെട്ടിട്ടുണ്ടെങ്കിൽ യാന്ത്രികമായി മറുപടി നൽകുന്നു, ആ ഉപകരണത്തിന് ആ കീകൾ ലഭ്യമാകേണ്ടതില്ലെങ്കിലും.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Download message encryption keys from and upload to the encrypted online key backup.</source>
-        <translation>സന്ദേശ എൻക്രിപ്ഷൻ കീകൾ എൻക്രിപ്റ്റഡ് ഓൺലൈൻ കീ ബാക്കപ്പിൽ നിന്ന് ഡൗൺലോഡ് ചെയ്യുകയും അപ്‌ലോഡ് ചെയ്യുകയും ചെയ്യുക.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Presence</source>
-        <translation>പ്രസൻസ്</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Status policy</source>
-        <translation>സ്റ്റാറ്റസ് നയം</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
-Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;Presence&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
-Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailable' ആണ് (5 മിനിറ്റ് നിഷ്‌ക്രിയത്വത്തിനുശേഷം).</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Status message</source>
-        <translation>സ്റ്റാറ്റസ് സന്ദേശം</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Transport</source>
-        <translation>ട്രാൻസ്‌പോർട്ട്</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Reject invalid or untrusted server certificates.</source>
-        <translation>അസാധുവായ അല്ലെങ്കിൽ വിശ്വസനീയമല്ലാത്ത സർവർ സർട്ടിഫിക്കറ്റുകൾ നിരസിക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Use HTTP/3 for Matrix server connections when available.</source>
-        <translation>ലഭ്യമായിരിക്കുമ്പോൾ Matrix സർവർ കണക്ഷനുകൾക്ക് HTTP/3 ഉപയോഗിക്കുക.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
-        <source>Account</source>
-        <translation>അക്കൗണ്ട്</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>User ID</source>
-        <translation>ഉപയോക്തൃ ID</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Homeserver</source>
-        <translation>ഹോംസർവർ</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Edit profile</source>
-        <translation>പ്രൊഫൈൽ തിരുത്തുക</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Device</source>
-        <translation>ഉപകരണം</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Device ID</source>
-        <translation>ഉപകരണ ID</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Access token</source>
-        <translation>ആക്സസ് ടോക്കൺ</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your access token gives full access to your account. Do not share it with anyone.</source>
-        <translation>നിങ്ങളുടെ ആക്‌സസ് ടോക്കൺ നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് പൂർണ്ണ ആക്‌സസ് നൽകുന്നു. ആരുമായും പങ്കിടരുത്.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Users</source>
-        <translation>ഉപയോക്താക്കൾ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ignored users</source>
-        <translation>അവഗണിച്ച ഉപയോക്താക്കൾ</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Log out</source>
-        <translation>ലോഗ് ഔട്ട്</translation>
-    </message>
-    <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelAbout.inc" line="+4"/>
-        <source>Application</source>
-        <translation>ആപ്ലിക്കേഷൻ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Name</source>
-        <translation>പേര്</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Platform</source>
-        <translation>പ്ലാറ്റ്ഫോം</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Created by</source>
-        <translation>നിർമ്മിച്ചത്</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>License</source>
-        <translation>ലൈസൻസ്</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Acknowledgements</source>
-        <translation>അംഗീകാരങ്ങൾ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Fork base</source>
-        <translation>ഫോർക്ക് ബേസ്</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Fluent)</source>
-        <translation>ഐക്കൺ സെറ്റ് (Fluent)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Icon set (Font Awesome)</source>
-        <translation>ഐക്കൺ സെറ്റ് (Font Awesome)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Default avatars (Boring Avatars)</source>
-        <translation>സ്ഥിരസ്ഥിതി അവതാറുകൾ (Boring Avatars)</translation>
     </message>
 </context>
 </TS>

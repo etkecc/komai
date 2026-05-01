@@ -468,12 +468,12 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 foi criado por %2 (hospedagem gerenciada de servidor Matrix).</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+105"/>
         <source>Sponsoring!</source>
         <translation>Patrocinando!</translation>
     </message>
@@ -2567,7 +2567,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
         <source>Search…</source>
         <translation>Pesquisar…</translation>
     </message>
@@ -10976,22 +10976,22 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+51"/>
         <source>Welcome to Komai</source>
         <translation>Bem-vindo ao Komai</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+34"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
         <translation>O armazenamento seguro de segredos (chaveiro do sistema) não está disponível neste ambiente, então o Komai está usando armazenamento de segredos baseado em arquivo por enquanto. Isso é menos seguro.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+11"/>
         <source>Learn more</source>
         <translation>Saiba mais</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>An early touch of personality</source>
         <translation>Um toque inicial de personalidade</translation>
     </message>
@@ -10999,12 +10999,12 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
 <context>
     <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+46"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Light</source>
         <translation>Claro</translation>
     </message>
@@ -11014,22 +11014,27 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
         <translation>Escuro</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+29"/>
         <source>Enable animations</source>
         <translation>Ativar animações</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-4"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
         <translation>O Komai usa animações em vários lugares para melhorar o feedback visual. Desative-as se elas causarem desconforto.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-20"/>
+        <source>Theme variant</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+61"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Prefer emoji suggestions for</source>
         <translation>Preferir sugestões de emoji para</translation>
     </message>
@@ -11049,7 +11054,12 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
         <translation>👩 Mulheres</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+8"/>
+        <source>Preferred emoji gender</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Any skin tone</source>
         <translation>Qualquer tom de pele</translation>
     </message>
@@ -11077,6 +11087,11 @@ A verificação marca este dispositivo como confiável e concede acesso a mensag
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Escuro</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred emoji skin tone</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

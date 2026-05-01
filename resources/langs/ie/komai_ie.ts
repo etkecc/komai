@@ -468,12 +468,12 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 es creat par %2 (hostage de servidor Matrix gerit).</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+105"/>
         <source>Sponsoring!</source>
         <translation>Sponsorante!</translation>
     </message>
@@ -2567,7 +2567,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
         <source>Search…</source>
         <translation>Cercar…</translation>
     </message>
@@ -10976,22 +10976,22 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+51"/>
         <source>Welcome to Komai</source>
         <translation>Benvenite a Komai</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+34"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
         <translation>Stocage secret secur (keychain del OS) ne es disponibil in ti ambiente, dunca Komai usa stocage secret per files por nú. Ti es min secur.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+11"/>
         <source>Learn more</source>
         <translation>Apprender plu</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>An early touch of personality</source>
         <translation>Un prím tocca de personalité</translation>
     </message>
@@ -10999,12 +10999,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
 <context>
     <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+46"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Light</source>
         <translation>Clar</translation>
     </message>
@@ -11014,22 +11014,27 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <translation>Obscur</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+29"/>
         <source>Enable animations</source>
         <translation>Activar animations</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-4"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
         <translation>Komai usa animations in pluri loces por meliorar li feedback visual. Disactivar les si les fa vu sentir mal.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-20"/>
+        <source>Theme variant</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+61"/>
         <source>Language</source>
         <translation>Lingue</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Prefer emoji suggestions for</source>
         <translation>Preferer sugestions de emoji por</translation>
     </message>
@@ -11049,7 +11054,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <translation>👩 Femines</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+8"/>
+        <source>Preferred emoji gender</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Any skin tone</source>
         <translation>Qualunc ton de pel</translation>
     </message>
@@ -11077,6 +11087,11 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Obscur</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred emoji skin tone</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

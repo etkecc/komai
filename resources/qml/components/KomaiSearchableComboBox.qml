@@ -18,6 +18,20 @@ Item {
 
     signal activated(int index)
 
+    // Match Qt Quick's ComboBox so screen readers and Tab navigation treat
+    // this custom Item like a real combo box rather than an inert region.
+    activeFocusOnTab: true
+
+    Accessible.role: Accessible.ComboBox
+    Accessible.editable: false
+    Accessible.name: control.displayText
+    Accessible.onPressAction: popup.open()
+
+    Keys.onSpacePressed: popup.open()
+    Keys.onReturnPressed: popup.open()
+    Keys.onEnterPressed: popup.open()
+    Keys.onDownPressed: popup.open()
+
     FontMetrics {
         id: comboFontMetrics
         font: buttonLabel.font
@@ -33,11 +47,12 @@ Item {
     // Button-like display area
     Rectangle {
         id: buttonBackground
+        readonly property bool emphasised: popup.visible || control.activeFocus
         anchors.fill: parent
         color: palette.base
         radius: Komai.paddingSmall
-        border.color: popup.visible ? palette.highlight : Komai.theme.separator
-        border.width: popup.visible ? 2 : 1
+        border.color: emphasised ? palette.highlight : Komai.theme.separator
+        border.width: emphasised ? 2 : 1
     }
 
     Text {

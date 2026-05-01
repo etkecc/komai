@@ -468,12 +468,12 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 estas kreita de %2 (administrata Matrix-servilgastigo).</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+105"/>
         <source>Sponsoring!</source>
         <translation>Sponsoranta!</translation>
     </message>
@@ -2567,7 +2567,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
         <source>Search…</source>
         <translation>Serĉi…</translation>
     </message>
@@ -10979,22 +10979,22 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+51"/>
         <source>Welcome to Komai</source>
         <translation>Bonvenon al Komai</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+34"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
         <translation>Sekura sekreta memorejo (OS ŝlosilaro) ne estas disponebla en ĉi tiu medio, do Komai uzas dosier-bazitan sekretmemorejon nuntempe. Ĉi tio estas malpli sekura.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+11"/>
         <source>Learn more</source>
         <translation>Ekscii pli</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>An early touch of personality</source>
         <translation>Frua tuŝo de personeco</translation>
     </message>
@@ -11002,12 +11002,12 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
 <context>
     <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+46"/>
         <source>Theme</source>
         <translation>Temo</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Light</source>
         <translation>Hela</translation>
     </message>
@@ -11017,22 +11017,27 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <translation>Malhela</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+29"/>
         <source>Enable animations</source>
         <translation>Aktivigi animaciojn</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-4"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
         <translation>Komai uzas animaciojn en pluraj lokoj por plibonigi vizan retrosciigon. Malaktivigi ilin se ili kaŭzas al vi malbonan farton.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-20"/>
+        <source>Theme variant</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+61"/>
         <source>Language</source>
         <translation>Lingvo</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Prefer emoji suggestions for</source>
         <translation>Preferi sugestojn de emodžioj por</translation>
     </message>
@@ -11052,7 +11057,12 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <translation>👩 Virinoj</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+8"/>
+        <source>Preferred emoji gender</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Any skin tone</source>
         <translation>Ajna haŭtkoloro</translation>
     </message>
@@ -11080,6 +11090,11 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Malhela</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred emoji skin tone</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

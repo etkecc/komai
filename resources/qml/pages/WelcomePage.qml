@@ -44,23 +44,28 @@ Rectangle {
                 Layout.preferredHeight: 256
                 Layout.preferredWidth: 256
                 fillMode: Image.PreserveAspectFit
+                Accessible.ignored: true
             }
 
             Welcome.WelcomeRichText {
+                readonly property string plainText: qsTr("Welcome to Komai")
                 Layout.topMargin: Komai.paddingLarge
                 Layout.leftMargin: Komai.paddingLarge
                 Layout.rightMargin: Komai.paddingLarge
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 text: "<style>a { color: " + palette.highlight + "; text-decoration: none; }</style>" +
-                      qsTr("Welcome to Komai") +
+                      plainText +
                       " (<a href=\"" + root.komaiMeaningUrl + "\">こまい</a>)"
                 color: palette.text
                 font.pointSize: Settings.uiFontSizePt * 2
                 horizontalAlignment: Text.AlignHCenter
+                Accessible.role: Accessible.Heading
+                Accessible.name: plainText
             }
 
             Welcome.WelcomeRichText {
+                readonly property string plainText: Komai.taglineTemplate.arg(Komai.matrixWord)
                 Layout.topMargin: Komai.paddingSmall
                 Layout.leftMargin: Komai.paddingLarge
                 Layout.rightMargin: Komai.paddingLarge
@@ -72,9 +77,12 @@ Rectangle {
                 color: palette.buttonText
                 font.pointSize: Settings.uiFontSizePt * 1.5
                 horizontalAlignment: Text.AlignHCenter
+                Accessible.role: Accessible.Heading
+                Accessible.name: plainText
             }
 
             Welcome.WelcomeRichText {
+                readonly property string plainText: qsTr("Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.")
                 visible: Settings.secretsProviderFallbackWarningVisible
                 Layout.topMargin: Komai.paddingSmall
                 Layout.leftMargin: Komai.paddingLarge
@@ -83,12 +91,14 @@ Rectangle {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                      qsTr("Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.") +
+                      plainText +
                       " " +
                       "<a href=\"" + root.secretsStorageDocsUrl + "\">" + qsTr("Learn more") + "</a>"
                 color: Komai.theme.attention
                 font.pointSize: Settings.uiFontSizePt * 1.05
                 horizontalAlignment: Text.AlignHCenter
+                Accessible.role: Accessible.AlertMessage
+                Accessible.name: plainText
             }
 
             Welcome.WelcomePrimaryActions {
@@ -110,6 +120,7 @@ Rectangle {
                 text: qsTr("An early touch of personality")
                 color: palette.buttonText
                 font.pointSize: Settings.uiFontSizePt * 1.1
+                Accessible.role: Accessible.Heading
             }
 
             Welcome.WelcomePersonalityControls {

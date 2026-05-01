@@ -468,12 +468,12 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1은(는) %2가 만들었습니다 (관리형 Matrix 서버 호스팅).</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+105"/>
         <source>Sponsoring!</source>
         <translation>후원 중!</translation>
     </message>
@@ -2564,7 +2564,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
         <source>Search…</source>
         <translation>검색…</translation>
     </message>
@@ -10962,22 +10962,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+51"/>
         <source>Welcome to Komai</source>
         <translation>Komai에 오신 것을 환영합니다</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+34"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
         <translation>이 환경에서는 안전한 비밀 저장소(OS 키체인)를 사용할 수 없어 Komai가 현재 파일 기반 비밀 저장소를 사용하고 있습니다. 이는 보안이 더 취약합니다.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+11"/>
         <source>Learn more</source>
         <translation>더 알아보기</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>An early touch of personality</source>
         <translation>개성의 첫 번째 터치</translation>
     </message>
@@ -10985,12 +10985,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+46"/>
         <source>Theme</source>
         <translation>테마</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Light</source>
         <translation>라이트</translation>
     </message>
@@ -11000,22 +11000,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>다크</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+29"/>
         <source>Enable animations</source>
         <translation>애니메이션 사용</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-4"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
         <translation>Komai는 시각적 피드백을 향상시키기 위해 여러 곳에서 애니메이션을 사용합니다. 불편함을 느끼신다면 비활성화하세요.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-20"/>
+        <source>Theme variant</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+61"/>
         <source>Language</source>
         <translation>언어</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Prefer emoji suggestions for</source>
         <translation>이모지 제안 우선 대상</translation>
     </message>
@@ -11035,7 +11040,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>👩 여성</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+8"/>
+        <source>Preferred emoji gender</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Any skin tone</source>
         <translation>모든 피부톤</translation>
     </message>
@@ -11063,6 +11073,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 어두운 피부</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred emoji skin tone</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -13,6 +13,9 @@ Rectangle {
     property bool showSponsor: true
     readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
     readonly property string etkeProjectLink: "<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=attribution\">etke.cc</a>"
+    // Single source of truth so the rendered HTML and the screen-reader name
+    // can't drift apart.
+    readonly property string attributionTemplate: qsTr("%1 is created by %2 (managed Matrix server hosting).")
 
     // Drop to a two-row layout (text above, buttons below) when a single row
     // would leave the attribution text with no room to breathe.
@@ -69,6 +72,10 @@ Rectangle {
                 Layout.alignment: Qt.AlignVCenter
                 source: "qrc:/logos/komai.svg"
                 sourceSize: Qt.size(logoSize * 2, logoSize * 2)
+                // The same Komai/etke.cc URLs are reachable via links in the
+                // adjacent rich-text, so the logo is purely decorative for
+                // assistive tech.
+                Accessible.ignored: true
 
                 MouseArea {
                     anchors.fill: parent
@@ -87,9 +94,8 @@ Rectangle {
                 horizontalAlignment: Text.AlignLeft
                 elide: Text.ElideRight
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                      qsTr("%1 is created by %2 (managed Matrix server hosting).")
-                      .arg(root.komaiProjectLink)
-                      .arg(root.etkeProjectLink)
+                      root.attributionTemplate.arg(root.komaiProjectLink).arg(root.etkeProjectLink)
+                Accessible.name: root.attributionTemplate.arg("Komai").arg("etke.cc")
 
                 onLinkActivated: function(link) { Qt.openUrlExternally(link) }
 

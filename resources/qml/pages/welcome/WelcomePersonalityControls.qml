@@ -41,7 +41,10 @@ ColumnLayout {
     }
 
     PersonalityRow {
-        PersonalityLabel { text: qsTr("Theme") }
+        PersonalityLabel {
+            id: themeLabel
+            text: qsTr("Theme")
+        }
 
         Item { Layout.fillWidth: true }
 
@@ -56,6 +59,7 @@ ColumnLayout {
             onActivated: function(index) {
                 Settings.setThemeVariantByIndex(index)
             }
+            Accessible.name: qsTr("Theme variant")
         }
 
         KomaiComboBox {
@@ -66,10 +70,17 @@ ColumnLayout {
             onActivated: function(index) {
                 Settings.setThemeByVariantIndex(index)
             }
+            Accessible.name: themeLabel.text
         }
     }
 
     PersonalityRow {
+        id: animationsRow
+
+        // Hoisted so visible label, tooltip, and the toggle's accessible
+        // description all share one translatable source.
+        readonly property string animationsHint: qsTr("Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.")
+
         PersonalityLabel {
             id: animationsLabel
             text: qsTr("Enable animations")
@@ -88,7 +99,7 @@ ColumnLayout {
                 anchorItem: animationsLabel
                 anchorX: animationsLabel.width / 2
                 anchorY: 0
-                text: qsTr("Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.")
+                text: animationsRow.animationsHint
                 delay: Komai.tooltipDelay
                 requestedVisible: animationsHovered.hovered
             }
@@ -101,11 +112,16 @@ ColumnLayout {
             Layout.alignment: Qt.AlignVCenter
             checked: Settings.uiMotionAnimationsEnabled
             onCheckedChanged: Settings.uiMotionAnimationsEnabled = checked
+            Accessible.name: animationsLabel.text
+            Accessible.description: animationsRow.animationsHint
         }
     }
 
     PersonalityRow {
-        PersonalityLabel { text: qsTr("Language") }
+        PersonalityLabel {
+            id: languageLabel
+            text: qsTr("Language")
+        }
 
         Item { Layout.fillWidth: true }
 
@@ -118,6 +134,7 @@ ColumnLayout {
             onActivated: function(index) {
                 Settings.setLanguageByDropdownIndex(index)
             }
+            Accessible.name: languageLabel.text
 
             Connections {
                 target: Settings
@@ -154,6 +171,7 @@ ColumnLayout {
             }
             implicitContentWidthPolicy: ComboBox.WidestText
             popup.width: Math.max(width, implicitContentWidth + leftPadding + rightPadding + 24)
+            Accessible.name: qsTr("Preferred emoji gender")
         }
 
         KomaiComboBox {
@@ -174,6 +192,7 @@ ColumnLayout {
             }
             implicitContentWidthPolicy: ComboBox.WidestText
             popup.width: Math.max(width, implicitContentWidth + leftPadding + rightPadding + 24)
+            Accessible.name: qsTr("Preferred emoji skin tone")
         }
     }
 

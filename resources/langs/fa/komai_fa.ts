@@ -468,12 +468,12 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 توسط %2 ایجاد شده است (میزبانی مدیریت‌شده سرور Matrix).</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+105"/>
         <source>Sponsoring!</source>
         <translation>در حال حمایت!</translation>
     </message>
@@ -2564,7 +2564,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
         <source>Search…</source>
         <translation>جستجو…</translation>
     </message>
@@ -10962,22 +10962,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+51"/>
         <source>Welcome to Komai</source>
         <translation>به Komai خوش آمدید</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+34"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
         <translation>ذخیره‌سازی امن اسرار (جعبه‌کلید سیستم‌عامل) در این محیط در دسترس نیست، بنابراین Komai در حال حاضر از ذخیره‌سازی مبتنی بر فایل استفاده می‌کند. این روش امنیت کمتری دارد.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+11"/>
         <source>Learn more</source>
         <translation>بیشتر بدانید</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>An early touch of personality</source>
         <translation>لمسی اولیه از شخصیت</translation>
     </message>
@@ -10985,12 +10985,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+46"/>
         <source>Theme</source>
         <translation>پوسته</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Light</source>
         <translation>روشن</translation>
     </message>
@@ -11000,22 +11000,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>تیره</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+29"/>
         <source>Enable animations</source>
         <translation>فعال‌سازی انیمیشن‌ها</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-4"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
         <translation>کومای در چندین مکان از انیمیشن‌ها برای بهبود بازخورد بصری استفاده می‌کند. اگر باعث احساس ناخوشی می‌شوند، آن‌ها را غیرفعال کنید.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-20"/>
+        <source>Theme variant</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+61"/>
         <source>Language</source>
         <translation>زبان</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Prefer emoji suggestions for</source>
         <translation>ترجیح پیشنهادهای ایموجی برای</translation>
     </message>
@@ -11035,7 +11040,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>👩 زنان</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+8"/>
+        <source>Preferred emoji gender</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Any skin tone</source>
         <translation>هر رنگ پوستی</translation>
     </message>
@@ -11063,6 +11073,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 تیره</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred emoji skin tone</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

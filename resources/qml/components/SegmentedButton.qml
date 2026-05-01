@@ -107,6 +107,12 @@ Item {
                     activeFocusOnTab: true
                     focusPolicy: Qt.StrongFocus
 
+                    Accessible.role: Accessible.RadioButton
+                    Accessible.name: modelData && modelData.text ? modelData.text : ""
+                    Accessible.checkable: true
+                    Accessible.checked: isSelected
+                    Accessible.onPressAction: clicked()
+
                     onClicked: {
                         root.currentIndex = index;
                         root.activated(index);

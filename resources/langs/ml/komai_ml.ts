@@ -468,12 +468,12 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+90"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 നിർമ്മിച്ചിരിക്കുന്നത് %2 ആണ് (മാനേജ്ഡ് Matrix സർവർ ഹോസ്റ്റിംഗ്).</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+105"/>
         <source>Sponsoring!</source>
         <translation>സ്പോൺസർ ചെയ്യുന്നു!</translation>
     </message>
@@ -2567,7 +2567,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
         <source>Search…</source>
         <translation>തിരയുക…</translation>
     </message>
@@ -10976,22 +10976,22 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../../qml/pages/WelcomePage.qml" line="+56"/>
+        <location filename="../../qml/pages/WelcomePage.qml" line="+51"/>
         <source>Welcome to Komai</source>
         <translation>Komai-ലേക്ക് സ്വാഗതം</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+34"/>
         <source>Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.</source>
         <translation>സുരക്ഷിത രഹസ്യ സ്റ്റോറേജ് (OS കീചെയിൻ) ഈ പരിതസ്ഥിതിയിൽ ലഭ്യമല്ല, അതിനാൽ Komai ഇപ്പോൾ ഫയൽ-അടിസ്ഥാന രഹസ്യ സ്റ്റോറേജ് ഉപയോഗിക്കുന്നു. ഇത് കുറഞ്ഞ സുരക്ഷിതമാണ്.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+11"/>
         <source>Learn more</source>
         <translation>കൂടുതൽ അറിയുക</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>An early touch of personality</source>
         <translation>വ്യക്തിത്വത്തിൻ്റെ ആദ്യ സ്പർശം</translation>
     </message>
@@ -10999,12 +10999,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+46"/>
         <source>Theme</source>
         <translation>തീം</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Light</source>
         <translation>ഇളം</translation>
     </message>
@@ -11014,22 +11014,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>ഇരുണ്ട</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+29"/>
         <source>Enable animations</source>
         <translation>ആനിമേഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-4"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
         <translation>ദൃശ്യ പ്രതികരണം മെച്ചപ്പെടുത്താൻ Komai പല സ്ഥലങ്ങളിൽ ആനിമേഷനുകൾ ഉപയോഗിക്കുന്നു. അവ അസ്വസ്ഥത ഉണ്ടാക്കുന്നുവെങ്കിൽ പ്രവർത്തനരഹിതമാക്കുക.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-20"/>
+        <source>Theme variant</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+61"/>
         <source>Language</source>
         <translation>ഭാഷ</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+32"/>
         <source>Prefer emoji suggestions for</source>
         <translation>ഇമോജി നിർദ്ദേശങ്ങൾ മുൻഗണന നൽകുക</translation>
     </message>
@@ -11049,7 +11054,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>👩 സ്ത്രീകൾ</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+8"/>
+        <source>Preferred emoji gender</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Any skin tone</source>
         <translation>ഏത് ചർമ്മ നിറവും</translation>
     </message>
@@ -11077,6 +11087,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 ഇരുണ്ട</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Preferred emoji skin tone</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

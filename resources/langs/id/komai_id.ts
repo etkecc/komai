@@ -3575,6 +3575,11 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Tulis pesan, atau tekan ↑ untuk memilih pesan.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Stiker</translation>

@@ -3580,6 +3580,11 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Escreva uma mensagem ou prima ↑ para selecionar mensagens.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Autocolantes</translation>

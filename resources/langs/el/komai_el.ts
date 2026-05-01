@@ -3580,6 +3580,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Γράψτε ένα μήνυμα ή πατήστε ↑ για να επιλέξετε μηνύματα.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Αυτοκόλλητα</translation>

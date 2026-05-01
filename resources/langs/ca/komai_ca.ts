@@ -3580,6 +3580,11 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Escriu un missatge, o prem ↑ per seleccionar missatges.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>

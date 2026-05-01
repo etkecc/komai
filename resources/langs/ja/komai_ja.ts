@@ -3575,6 +3575,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>メッセージを入力、または↑を押してメッセージを選択。</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>スタンプ</translation>

@@ -3580,6 +3580,11 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Scriver un mesage, o presar ↑ por seleter mesages.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Stickers</translation>

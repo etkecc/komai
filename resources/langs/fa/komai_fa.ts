@@ -3575,6 +3575,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>پیامی بنویسید، یا ↑ را فشار دهید تا پیام‌ها را انتخاب کنید.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>استیکرها</translation>

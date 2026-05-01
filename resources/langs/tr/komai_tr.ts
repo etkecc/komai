@@ -3575,6 +3575,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Bir mesaj yazın ya da mesajları seçmek için ↑ tuşuna basın.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Çıkartmalar</translation>

@@ -3585,6 +3585,11 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Stickere</translation>

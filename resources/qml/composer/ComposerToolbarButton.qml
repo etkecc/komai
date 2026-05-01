@@ -47,6 +47,9 @@ AbstractButton {
     activeFocusOnTab: visible && enabled
     focusPolicy: Qt.StrongFocus
     hoverEnabled: true
+    // Icon-only AbstractButton — name comes from the tooltip so screen
+    // readers don't announce it as an unnamed button.
+    Accessible.name: root.toolTipText
     Keys.priority: Keys.BeforeItem
     Keys.onPressed: event => {
         if (!root.enabled || !root.isActivationKey(event))

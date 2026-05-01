@@ -3580,6 +3580,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Напиши съобщение или натисни ↑, за да избереш съобщения.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Стикери</translation>

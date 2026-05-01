@@ -3580,6 +3580,11 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Skribu mesaĝon, aŭ premu ↑ por elekti mesaĝojn.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Glumarkoj</translation>

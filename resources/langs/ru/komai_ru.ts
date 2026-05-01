@@ -3585,6 +3585,11 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Напиши сообщение или нажми ↑, чтобы выбрать сообщения.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Стикеры</translation>

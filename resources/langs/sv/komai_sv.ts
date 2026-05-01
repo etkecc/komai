@@ -3580,6 +3580,11 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Skriv ett meddelande, eller tryck ↑ för att markera meddelanden.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>

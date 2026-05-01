@@ -3580,6 +3580,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>පණිවිඩයක් ලියන්න, හෝ පණිවිඩ තේරීමට ↑ ඔබන්න.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>ස්ටිකර</translation>

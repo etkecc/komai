@@ -3575,6 +3575,11 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Viết tin nhắn, hoặc nhấn ↑ để chọn tin nhắn.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>

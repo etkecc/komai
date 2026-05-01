@@ -3580,6 +3580,11 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Écrivez un message, ou appuyez sur ↑ pour sélectionner des messages.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>

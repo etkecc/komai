@@ -3575,6 +3575,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>输入消息，或按 ↑ 选择消息。</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>贴纸</translation>

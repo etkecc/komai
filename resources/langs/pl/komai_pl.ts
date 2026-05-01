@@ -3585,6 +3585,11 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Napisz wiadomość lub naciśnij ↑, aby wybrać wiadomości.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Naklejki</translation>

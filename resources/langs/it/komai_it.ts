@@ -3580,6 +3580,11 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Scrivi un messaggio, o premi ↑ per selezionare i messaggi.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Sticker</translation>

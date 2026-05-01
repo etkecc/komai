@@ -1155,6 +1155,8 @@ Rectangle {
                 font.pointSize: Settings.uiFontSizePt
                 placeholderText: inputBar.hasUploads ? "" : qsTr("Write a message, or press ↑ to select messages.")
                 placeholderTextColor: palette.buttonText
+                Accessible.name: qsTr("Message")
+                Accessible.description: placeholderText
                 selectByMouse: true
                 topPadding: Komai.composerTextAreaPadding
                 verticalAlignment: TextEdit.AlignVCenter

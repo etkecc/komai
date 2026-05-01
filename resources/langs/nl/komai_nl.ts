@@ -3580,6 +3580,11 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Schrijf een bericht, of druk op ↑ om berichten te selecteren.</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Message</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+507"/>
         <source>Stickers</source>
         <translation>Stickers</translation>

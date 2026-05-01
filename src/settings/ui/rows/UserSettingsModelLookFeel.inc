@@ -26,7 +26,14 @@
       UiLayoutDensity,
       SettingKey::UiLayoutDensity),
     // Language
-    { QT_TRANSLATE_NOOP("UserSettingsModel", "Language [restart required]"), nullptr, SM::SearchableOptions, SM::TabLookFeel,
+    // Description shares the same source string as Font size so canonicalisation
+    // collapses both to a single translation per language. Drifting them apart
+    // means the AI translates the shared "may only update after restart" warning
+    // two different ways in the same language.
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "Language"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Most UI elements update live. "
+                                             "Some labels may only update after restarting the app."),
+      SM::SearchableOptions, SM::TabLookFeel,
       lookFeelLanguageValue,
       setLookFeelLanguageValue,
       {}, {}, {},
@@ -45,7 +52,7 @@
       nullptr,
       CORE_CONFIG_ID(UiFontFamily, SettingKey::UiFontFamily) },
     SIMPLE_DOUBLE_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Font size"),
-                                    QT_TRANSLATE_NOOP("UserSettingsModel", "Most UI elements resize live. "
+                                    QT_TRANSLATE_NOOP("UserSettingsModel", "Most UI elements update live. "
                                                "Some labels may only update after restarting the app."),
                                     SM::TabLookFeel,
                                     uiFontSizePt,

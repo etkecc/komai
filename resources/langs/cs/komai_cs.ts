@@ -10083,12 +10083,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Ovlivňuje mezery, velikosti ikon a výšky řádků v seznamu.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Jazyk [nutné restartování]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Jazyk</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Písma</translation>
     </message>
@@ -10103,9 +10103,10 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Velikost písma</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Většina prvků rozhraní se přizpůsobí živě. Některé popisky se mohou aktualizovat až po restartování aplikace.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Většina prvků UI se aktualizuje okamžitě. Některé popisky se mohou aktualizovat až po restartu aplikace.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10113,7 +10114,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Rodina písma pro emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Faktor škálování [vyžaduje restart]</translation>
     </message>

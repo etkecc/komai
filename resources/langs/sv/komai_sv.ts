@@ -10069,12 +10069,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Påverkar avstånd, ikonstorlekar och listhöjder.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Språk [omstart krävs]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Språk</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Teckensnitt</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Teckenstorlek</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>De flesta UI-element ändrar storlek direkt. Vissa etiketter kan kräva omstart av appen för att uppdateras.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>De flesta UI-element uppdateras direkt. Vissa etiketter kan bara uppdateras efter att appen startats om.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Emoji-teckensnittsfamilj</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Skalfaktor [omstart krävs]</translation>
     </message>

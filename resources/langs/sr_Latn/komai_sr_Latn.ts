@@ -10083,12 +10083,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Utiče na razmak, veličine ikona i visine redova liste.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Jezik [potrebno je restartovanje]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Jezik</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Fontovi</translation>
     </message>
@@ -10103,9 +10103,10 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Veličina fonta</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Većina elemenata interfejsa menja veličinu uživo. Neke oznake se mogu ažurirati tek nakon ponovnog pokretanja aplikacije.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Većina UI elemenata se ažurira odmah. Neki natpisi se možda ažuriraju tek nakon ponovnog pokretanja aplikacije.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10113,7 +10114,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Porodica emoji fontova</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Faktor skaliranja [potreban restart]</translation>
     </message>

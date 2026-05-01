@@ -10055,12 +10055,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Memengaruhi spasi, ukuran ikon, dan tinggi baris daftar.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Bahasa [perlu mulai ulang]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Bahasa</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Fon</translation>
     </message>
@@ -10075,9 +10075,10 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Ukuran fon</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Sebagian besar elemen UI diubah ukurannya secara langsung. Beberapa label mungkin hanya diperbarui setelah mulai ulang aplikasi.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Sebagian besar elemen UI diperbarui secara langsung. Beberapa label mungkin hanya diperbarui setelah memulai ulang aplikasi.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Keluarga fon emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Faktor skala [perlu restart]</translation>
     </message>

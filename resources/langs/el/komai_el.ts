@@ -10069,12 +10069,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επηρεάζει την απόσταση, τα μεγέθη εικονιδίων και τα ύψη γραμμών λίστας.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Γλώσσα [απαιτείται επανεκκίνηση]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Γλώσσα</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Γραμματοσειρές</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Μέγεθος γραμματοσειράς</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Τα περισσότερα στοιχεία διεπαφής αλλάζουν μέγεθος σε πραγματικό χρόνο. Ορισμένες ετικέτες ενδέχεται να ενημερωθούν μόνο μετά την επανεκκίνηση της εφαρμογής.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Τα περισσότερα στοιχεία διεπαφής ενημερώνονται σε πραγματικό χρόνο. Ορισμένες ετικέτες ενδέχεται να ενημερώνονται μόνο μετά την επανεκκίνηση της εφαρμογής.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Οικογένεια γραμματοσειράς emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Συντελεστής κλίμακας [απαιτείται επανεκκίνηση]</translation>
     </message>

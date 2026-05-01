@@ -10055,12 +10055,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>影響間距、圖示大小及清單列高度。</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>語言 [需要重新啟動]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>語言</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>字型</translation>
     </message>
@@ -10075,9 +10075,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>字型大小</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>大多數 UI 元素會即時調整大小。部分標籤可能需要重新啟動應用程式才會更新。</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>大多數 UI 元素會即時更新。部分標籤可能需要重新啟動應用程式後才會更新。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>表情符號字型系列</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>縮放比例 [需要重新啟動]</translation>
     </message>

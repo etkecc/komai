@@ -10055,12 +10055,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>간격, 아이콘 크기, 목록 행 높이에 영향을 줍니다.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>언어 [재시작 필요]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>언어</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>글꼴</translation>
     </message>
@@ -10075,9 +10075,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>글꼴 크기</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>대부분의 UI 요소는 실시간으로 크기가 조정됩니다. 일부 레이블은 앱을 다시 시작한 후에만 업데이트될 수 있습니다.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>대부분의 UI 요소는 실시간으로 업데이트됩니다. 일부 항목은 앱을 다시 시작한 후에만 업데이트될 수 있습니다.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>이모지 글꼴 패밀리</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>배율 [재시작 필요]</translation>
     </message>

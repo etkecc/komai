@@ -72,6 +72,25 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 {
     wireSettingConnections(UserSettings::instance().get());
 
+    // tr() in data() picks up the new translation immediately, but views only
+    // re-query on dataChanged. Without this, the currently-visible Settings
+    // tab keeps showing the old language until the user switches tabs and
+    // back, which forces a full re-render.
+    //
+    // QueuedConnection so the emit lands AFTER MainApplication's same-signal
+    // slot has swapped translators — otherwise the view re-queries data()
+    // while tr() still resolves against the old language.
+    connect(
+      UserSettings::instance().get(),
+      &UserSettings::uiLanguageChanged,
+      this,
+      [this]() {
+          const int rows = rowCount();
+          if (rows > 0)
+              emit dataChanged(index(0), index(rows - 1));
+      },
+      Qt::QueuedConnection);
+
     connect(&CallDevices::instance(), &CallDevices::devicesChanged, this, [this]() {
         const auto emitCallDeviceRowUpdate = [this](settings::core::SettingId id) {
             const int row = settings::ui::rowForSettingId(id);

@@ -10055,12 +10055,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Befolyásolja a térközöket, az ikonméreteket és a listaelemek magasságát.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Nyelv [újraindítás szükséges]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Nyelv</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Betűtípusok</translation>
     </message>
@@ -10075,9 +10075,10 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Betűméret</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>A legtöbb felhasználói felület elem valós időben változtatja a méretét. Egyes feliratok csak az alkalmazás újraindítása után frissülhetnek.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>A legtöbb felületi elem élőben frissül. Egyes feliratok csak az alkalmazás újraindítása után frissülnek.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Emoji betűtípus-család</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Méretezési tényező [újraindítás szükséges]</translation>
     </message>

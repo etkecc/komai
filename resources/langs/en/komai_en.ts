@@ -10032,12 +10032,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
+        <location line="+14"/>
+        <source>Language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation type="unfinished"/>
     </message>
@@ -10052,8 +10052,9 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -10062,7 +10063,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished">Emoji font family</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation type="unfinished"/>
     </message>

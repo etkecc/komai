@@ -10055,12 +10055,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>بر فاصله‌گذاری، اندازه آیکون‌ها و ارتفاع ردیف‌های فهرست تأثیر می‌گذارد.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>زبان [راه‌اندازی مجدد لازم است]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>زبان</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>فونت‌ها</translation>
     </message>
@@ -10075,9 +10075,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اندازه‌ی فونت</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>بیشتر عناصر رابط کاربری به‌صورت زنده تغییر اندازه می‌دهند. برخی برچسب‌ها ممکن است فقط پس از راه‌اندازی مجدد برنامه به‌روز شوند.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>بیشتر عناصر رابط کاربری به‌صورت زنده به‌روز می‌شوند. برخی برچسب‌ها ممکن است تنها پس از راه‌اندازی مجدد برنامه به‌روز شوند.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>خانواده‌ی فونت ایموجی</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>ضریب مقیاس [راه‌اندازی مجدد لازم است]</translation>
     </message>

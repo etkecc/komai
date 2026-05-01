@@ -10083,12 +10083,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Впливає на відступи, розміри значків та висоту рядків списку.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Мова [потрібен перезапуск]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Мова</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Шрифти</translation>
     </message>
@@ -10103,9 +10103,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Розмір шрифту</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Більшість елементів інтерфейсу змінюють розмір у реальному часі. Деякі написи можуть оновитися лише після перезапуску програми.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Більшість елементів інтерфейсу оновлюється одразу. Деякі підписи можуть оновитися лише після перезапуску застосунку.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10113,7 +10114,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Сімейство шрифтів емодзі</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Коефіцієнт масштабування [потрібен перезапуск]</translation>
     </message>

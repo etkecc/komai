@@ -10055,12 +10055,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>間隔、アイコンサイズ、リスト行の高さに影響します。</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>言語 [再起動が必要]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>言語</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>フォント</translation>
     </message>
@@ -10075,9 +10075,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>フォントサイズ</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>ほとんどのUI要素はリアルタイムでサイズ変更されます。一部のラベルはアプリの再起動後にのみ更新される場合があります。</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>ほとんどのUI要素はリアルタイムで更新されます。一部のラベルはアプリを再起動した後にのみ更新される場合があります。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>絵文字フォントファミリー</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>拡大率 [再起動が必要]</translation>
     </message>

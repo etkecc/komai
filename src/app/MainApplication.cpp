@@ -378,37 +378,73 @@ app::runMainApplication(int argc, char *argv[])
     if (QLocale().language() == QLocale::C)
         QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedKingdom));
 
-    if (const auto requestedLanguage = settings.lock()->uiLanguage(); !requestedLanguage.isEmpty())
-        QLocale::setDefault(QLocale(requestedLanguage));
+    // System locale captured up-front so "Use system" can be restored later
+    // without leaking a previously-selected language back into QLocale().
+    const QLocale systemLocale = QLocale::system();
 
     QTranslator qtTranslator;
-    if (qtTranslator.load(QLocale(),
-                          QStringLiteral("qtbase"),
-                          QStringLiteral("_"),
-                          QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
-        app.installTranslator(&qtTranslator);
-    } else
-        qDebug() << "Failed to load qtbase translations: "
-                 << QLibraryInfo::path(QLibraryInfo::TranslationsPath);
     QTranslator qmlTranslator;
-    if (qmlTranslator.load(QLocale(),
-                           QStringLiteral("qtdeclarative"),
-                           QStringLiteral("_"),
-                           QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
-        app.installTranslator(&qmlTranslator);
-    } else
-        qDebug() << "Failed to load qtdeclarative translations";
-
     QTranslator appTranslator;
-    if (appTranslator.load(QLocale(),
-                           QStringLiteral("komai"),
-                           QStringLiteral("_"),
-                           QStringLiteral(":/translations")))
-        app.installTranslator(&appTranslator);
-    else
-        qDebug() << "Failed to load Komai translations";
+
+    const auto loadTranslatorsForLocale = [&](const QLocale &locale) {
+        if (qtTranslator.load(locale,
+                              QStringLiteral("qtbase"),
+                              QStringLiteral("_"),
+                              QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+            app.installTranslator(&qtTranslator);
+        } else
+            qDebug() << "Failed to load qtbase translations: "
+                     << QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+
+        if (qmlTranslator.load(locale,
+                               QStringLiteral("qtdeclarative"),
+                               QStringLiteral("_"),
+                               QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+            app.installTranslator(&qmlTranslator);
+        } else
+            qDebug() << "Failed to load qtdeclarative translations";
+
+        if (appTranslator.load(locale,
+                               QStringLiteral("komai"),
+                               QStringLiteral("_"),
+                               QStringLiteral(":/translations")))
+            app.installTranslator(&appTranslator);
+        else
+            qDebug() << "Failed to load Komai translations";
+    };
+
+    const auto applyUiLanguage = [&](const QString &requestedLanguage) {
+        const QLocale newLocale =
+          requestedLanguage.isEmpty() ? systemLocale : QLocale(requestedLanguage);
+        QLocale::setDefault(newLocale);
+
+        // Removing first lets re-loading the same QTranslator object pick up
+        // a new .qm without leaving the old strings stacked underneath.
+        app.removeTranslator(&qtTranslator);
+        app.removeTranslator(&qmlTranslator);
+        app.removeTranslator(&appTranslator);
+
+        loadTranslatorsForLocale(newLocale);
+    };
+
+    applyUiLanguage(settings.lock()->uiLanguage());
 
     MainWindow w(nullptr, showStartupProfileSelector);
+
+    // Live language switching: Qt's removeTranslator/installTranslator dispatch
+    // QEvent::LanguageChange to widgets, and qmlEngine->retranslate() refreshes
+    // qsTr() bindings in QML. Strings cached as plain QString members in C++
+    // (model role labels, prebuilt menu items, etc.) won't refresh until next
+    // restart — same "good enough" caveat as font size.
+    QObject::connect(UserSettings::instance().get(),
+                     &UserSettings::uiLanguageChanged,
+                     &app,
+                     [&applyUiLanguage](const QString &requestedLanguage) {
+                         applyUiLanguage(requestedLanguage);
+
+                         if (auto *mw = MainWindow::instance(); mw && mw->engine())
+                             mw->engine()->retranslate();
+                     });
     // QQuickView w;
 
     // Start the IPC server unconditionally so CLI commands work regardless of

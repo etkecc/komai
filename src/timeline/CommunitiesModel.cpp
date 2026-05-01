@@ -100,6 +100,26 @@ CommunitiesModel::CommunitiesModel(QObject *parent)
     // (hidden subspaces no longer contribute), so rebuild badges on toggle.
     connect(
       this, &CommunitiesModel::hiddenSpacesChanged, this, [this]() { recomputeFilterBadges(); });
+
+    // Built-in filter rows (Favourites / Low Priority / All rooms / People / …)
+    // resolve their display name and tooltip via tr() in data(); views only
+    // re-query on dataChanged, so without this they keep showing the old
+    // language until the next unrelated update (e.g. an unread count change).
+    //
+    // QueuedConnection so the emit lands AFTER MainApplication's same-signal
+    // slot has swapped translators. With the default DirectConnection ordering
+    // depends on whether the model was constructed before MainApplication's
+    // connect ran, and CommunitiesModel is always created early.
+    connect(
+      UserSettings::instance().get(),
+      &UserSettings::uiLanguageChanged,
+      this,
+      [this]() {
+          const int rows = rowCount();
+          if (rows > 0)
+              emit dataChanged(index(0), index(rows - 1));
+      },
+      Qt::QueuedConnection);
 }
 
 QHash<int, QByteArray>

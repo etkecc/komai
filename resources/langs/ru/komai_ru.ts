@@ -10083,12 +10083,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Влияет на отступы, размеры иконок и высоту строк списка.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Язык [требуется перезапуск]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Язык</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Шрифты</translation>
     </message>
@@ -10103,9 +10103,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Размер шрифта</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Большинство элементов интерфейса изменяют размер в реальном времени. Некоторые подписи могут обновиться только после перезапуска приложения.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Большинство элементов интерфейса обновляются сразу. Некоторые метки обновятся только после перезапуска приложения.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10113,7 +10114,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Семейство шрифтов для эмодзи</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Масштаб [требуется перезапуск]</translation>
     </message>

@@ -10055,12 +10055,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Ảnh hưởng đến khoảng cách, kích thước biểu tượng và chiều cao hàng danh sách.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Ngôn ngữ [cần khởi động lại]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Ngôn ngữ</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Phông chữ</translation>
     </message>
@@ -10075,9 +10075,10 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Cỡ chữ</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Hầu hết các phần tử giao diện thay đổi kích thước ngay lập tức. Một số nhãn có thể chỉ cập nhật sau khi khởi động lại ứng dụng.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Hầu hết các thành phần giao diện cập nhật trực tiếp. Một số nhãn có thể chỉ cập nhật sau khi khởi động lại ứng dụng.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Họ phông chữ Emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Hệ số tỷ lệ [cần khởi động lại]</translation>
     </message>

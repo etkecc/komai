@@ -10069,12 +10069,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Affecte li spatiation, grandores de icones, e altores de rangas del lista.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Langue [restart requirit]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Lingue</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Fontes</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Grandore de fonte</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Li max parte del elementos UI se redimensionat in temp real. Alcun etiquettes pove solmen se actualisar pos restartar li application.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Li maxim parte de elements UI actualisa-se live. Cert etiquettes posse solmen actualisa-se pos restartar li aplicatione.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Familie de fonte emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Factor de escala [restart requirit]</translation>
     </message>

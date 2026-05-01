@@ -10055,12 +10055,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Boşlukları, simge boyutlarını ve liste satırı yüksekliklerini etkiler.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Dil [yeniden başlatma gerekli]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Dil</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Yazı Tipleri</translation>
     </message>
@@ -10075,9 +10075,10 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yazı tipi boyutu</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Çoğu arayüz öğesi anında yeniden boyutlandırılır. Bazı etiketler yalnızca uygulama yeniden başlatıldıktan sonra güncellenebilir.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Çoğu arayüz öğesi anlık güncellenir. Bazı etiketler yalnızca uygulama yeniden başlatıldıktan sonra güncellenebilir.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10085,7 +10086,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Emoji yazı tipi ailesi</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Ölçek faktörü [yeniden başlatma gerekli]</translation>
     </message>

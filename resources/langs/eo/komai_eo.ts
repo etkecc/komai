@@ -10072,12 +10072,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Influas interspacojn, grandecojn de piktogramoj kaj altecojn de listaj vicoj.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Lingvo [restartigo necesa]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Lingvo</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Tiparoj</translation>
     </message>
@@ -10092,9 +10092,10 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Tipara grandeco</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Plej multaj UI-elementoj ŝanĝas grandecon vive. Iuj etikedoj povas ĝisdatiĝi nur post restartigo de la aplikaĵo.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>La plej multaj UI-elementoj ĝisdatiĝas tuj. Iuj etikedoj eble ĝisdatiĝas nur post rekomencigo de la apliko.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10102,7 +10103,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Tipara familio por emojoj</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Skala faktoro [relanĉo bezonata]</translation>
     </message>

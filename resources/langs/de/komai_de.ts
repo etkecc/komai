@@ -10069,12 +10069,12 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Beeinflusst Abstände, Symbolgrößen und Zeilenhöhen in Listen.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Sprache [Neustart erforderlich]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Sprache</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Schriften</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Schriftgröße</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Die meisten UI-Elemente passen sich live an. Einige Beschriftungen werden möglicherweise erst nach einem Neustart der App aktualisiert.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Die meisten UI-Elemente werden live aktualisiert. Einige Beschriftungen werden möglicherweise erst nach einem Neustart der App aktualisiert.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Emoji-Schriftfamilie</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Skalierungsfaktor [Neustart erforderlich]</translation>
     </message>

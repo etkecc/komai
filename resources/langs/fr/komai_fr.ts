@@ -10069,12 +10069,12 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Affecte l'espacement, la taille des icônes et la hauteur des lignes de liste.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Langue [redémarrage requis]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Langue</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Polices</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Taille de police</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>La plupart des éléments d'interface se redimensionnent en temps réel. Certaines étiquettes ne se mettront à jour qu'après le redémarrage de l'application.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>La plupart des éléments d'interface se mettent à jour en direct. Certains libellés peuvent ne se mettre à jour qu'après redémarrage de l'application.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Famille de polices pour les emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Facteur d'échelle [redémarrage requis]</translation>
     </message>

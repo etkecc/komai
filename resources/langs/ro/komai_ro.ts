@@ -10083,12 +10083,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Afectează spațierea, dimensiunile pictogramelor și înălțimile rândurilor din liste.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Limbă [repornire necesară]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Limbă</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Fonturi</translation>
     </message>
@@ -10103,9 +10103,10 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Dimensiune font</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Majoritatea elementelor UI se redimensionează în timp real. Unele etichete se pot actualiza doar după repornirea aplicației.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Majoritatea elementelor de interfață se actualizează în timp real. Unele etichete se pot actualiza doar după repornirea aplicației.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10113,7 +10114,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Familie de fonturi emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Factor de scală [necesită repornire]</translation>
     </message>

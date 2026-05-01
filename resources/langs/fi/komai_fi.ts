@@ -10069,12 +10069,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Vaikuttaa välistykseen, kuvakkeiden kokoihin ja luettelorivien korkeuteen.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Kieli [uudelleenkäynnistys vaaditaan]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Kieli</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Kirjasimet</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Kirjasinkoko</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Useimmat käyttöliittymäelementit muuttavat kokoa reaaliajassa. Jotkin nimet saattavat päivittyä vasta sovelluksen uudelleenkäynnistyksen jälkeen.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Useimmat käyttöliittymäelementit päivittyvät reaaliajassa. Jotkin otsikot saattavat päivittyä vasta sovelluksen uudelleenkäynnistyksen jälkeen.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Emojin kirjainperhe</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Skaalaustekijä [uudelleenkäynnistys vaaditaan]</translation>
     </message>

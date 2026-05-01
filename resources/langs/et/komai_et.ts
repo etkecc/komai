@@ -10069,12 +10069,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Mõjutab vahesid, ikoonide suurust ja loendi ridade kõrgust.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Keel [taaskäivitamine vajalik]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Keel</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Fondid</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Fondi suurus</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Enamik kasutajaliidese elemente muudavad suurust reaalajas. Mõned sildid võivad uueneda alles pärast rakenduse taaskäivitamist.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Enamik kasutajaliidese elemente uuendatakse reaalajas. Mõned sildid võivad uuenduda alles pärast rakenduse taaskäivitamist.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Emoji fondiperekond</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Skaleerimistegur [taaskäivitamine vajalik]</translation>
     </message>

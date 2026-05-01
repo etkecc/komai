@@ -10069,12 +10069,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Влияе върху разредката, размерите на иконите и височините на редовете в списъка.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Език [необходимо е рестартиране]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Език</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Шрифтове</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Размер на шрифта</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Повечето UI елементи се преоразмеряват в реално време. Някои надписи може да се обновят само след рестартиране на приложението.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Повечето елементи се обновяват веднага. Някои може да изискват рестартиране на приложението.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Шрифтово семейство за емоджи</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Фактор на мащабиране [необходимо рестартиране]</translation>
     </message>

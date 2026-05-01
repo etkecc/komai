@@ -10125,12 +10125,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يؤثر على التباعد وأحجام الأيقونات وارتفاعات صفوف القائمة.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>اللغة [يلزم إعادة التشغيل]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>اللغة</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>الخطوط</translation>
     </message>
@@ -10145,9 +10145,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>حجم الخط</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>يتم تغيير حجم معظم عناصر واجهة المستخدم في الوقت الفعلي. قد لا تُحدَّث بعض التسميات إلا بعد إعادة تشغيل التطبيق.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>معظم عناصر الواجهة تُحدَّث فورياً. بعض التسميات قد لا تُحدَّث إلا بعد إعادة تشغيل التطبيق.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10155,7 +10156,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>عائلة خط الرموز التعبيرية</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>عامل الحجم [يتطلب إعادة التشغيل]</translation>
     </message>

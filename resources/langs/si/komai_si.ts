@@ -10069,12 +10069,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පරතරය, නිරූපක ප්‍රමාණ සහ ලැයිස්තු පේළි උස් කෙරෙහි බලපායි.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>භාෂාව [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>භාෂාව</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>අකුරු</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>අකුරු ප්‍රමාණය</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>බොහෝ UI මූලද්‍රව්‍ය සජීවීව ප්‍රතිප්‍රමාණ වෙති. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසුව පමණක් යාවත්කාලීන විය හැකිය.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>බොහෝ UI මූලද්‍රව්‍ය සජීවීව යාවත්කාලීන වේ. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසු පමණක් යාවත්කාලීන විය හැක.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ඉමෝජි අකුරු පවුල</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>පරිමාණ සාධකය [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
     </message>

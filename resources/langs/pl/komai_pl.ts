@@ -10084,12 +10084,12 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Wpływa na odstępy, rozmiary ikon i wysokości wierszy listy.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Język [wymagane ponowne uruchomienie]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Język</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Czcionki</translation>
     </message>
@@ -10104,9 +10104,10 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Rozmiar czcionki</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>Większość elementów interfejsu zmienia rozmiar na żywo. Niektóre etykiety mogą zaktualizować się dopiero po ponownym uruchomieniu aplikacji.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>Większość elementów interfejsu aktualizuje się na bieżąco. Niektóre etykiety mogą się zaktualizować dopiero po ponownym uruchomieniu aplikacji.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10114,7 +10115,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Rodzina czcionki emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Współczynnik skalowania [wymagane ponowne uruchomienie]</translation>
     </message>

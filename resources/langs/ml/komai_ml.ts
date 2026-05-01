@@ -10069,12 +10069,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അകലം, ഐക്കൺ വലുപ്പം, ലിസ്റ്റ് വരി ഉയരം എന്നിവ ബാധിക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>ഭാഷ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>ഭാഷ</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>ഫോണ്ടുകൾ</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഫോണ്ട് വലുപ്പം</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം വലുപ്പം മാറ്റുന്നു. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനുശേഷം മാത്രം അപ്ഡേറ്റ് ആകും.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം അപ്ഡേറ്റ് ആകും. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനുശേഷം മാത്രമേ അപ്ഡേറ്റ് ആകൂ.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഇമോജി ഫോന്റ് ഫാമിലി</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>സ്കെയിൽ ഫാക്ടർ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
     </message>

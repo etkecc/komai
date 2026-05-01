@@ -10072,12 +10072,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Afecta al espaciado, tamaños de iconos y alturas de filas de lista.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Idioma [se requiere reinicio]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Fuentes</translation>
     </message>
@@ -10092,9 +10092,10 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Tamaño de fuente</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>La mayoría de los elementos de la interfaz se redimensionan en tiempo real. Algunas etiquetas pueden actualizarse solo al reiniciar la aplicación.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>La mayoría de los elementos de la interfaz se actualizan en tiempo real. Algunas etiquetas solo pueden actualizarse al reiniciar la aplicación.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10102,7 +10103,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Familia de fuente de emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Factor de escala [se requiere reinicio]</translation>
     </message>

@@ -10069,12 +10069,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Beïnvloedt de afstand, pictogramgrootten en rijhoogten in lijsten.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Taal [herstart vereist]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Taal</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Lettertypen</translation>
     </message>
@@ -10089,9 +10089,10 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Lettergrootte</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>De meeste UI-elementen passen zich direct aan. Sommige labels worden mogelijk pas bijgewerkt na het herstarten van de app.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>De meeste UI-elementen worden live bijgewerkt. Sommige labels worden mogelijk pas bijgewerkt na het herstarten van de app.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Emoji-lettertypefamilie</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Schaalfactor [herstart vereist]</translation>
     </message>

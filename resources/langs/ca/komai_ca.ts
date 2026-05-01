@@ -10069,12 +10069,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Afecta l'espaiat, la mida de les icones i l'alçada de les files de la llista.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Language [restart required]</source>
-        <translation>Idioma [cal reiniciar]</translation>
+        <location line="+14"/>
+        <source>Language</source>
+        <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Fonts</source>
         <translation>Tipus de lletra</translation>
     </message>
@@ -10089,9 +10089,10 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Mida del tipus de lletra</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Most UI elements resize live. Some labels may only update after restarting the app.</source>
-        <translation>La majoria dels elements de la interfície es redimensionen en temps real. Algunes etiquetes poden actualitzar-se només després de reiniciar l'aplicació.</translation>
+        <location line="-20"/>
+        <location line="+21"/>
+        <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
+        <translation>La majoria d'elements de la interfície s'actualitzen en directe. Algunes etiquetes potser només s'actualitzen en reiniciar l'aplicació.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -10099,7 +10100,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Família de tipus de lletra d'emoji</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>Scale factor [restart required]</source>
         <translation>Factor d'escala [cal reiniciar]</translation>
     </message>

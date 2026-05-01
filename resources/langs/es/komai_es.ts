@@ -3096,14 +3096,29 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MatrixRoomEmptyState</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+22"/>
         <source>Loading thread…</source>
         <translation>Cargando hilo…</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Loading room…</source>
         <translation>Cargando sala…</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No messages in this thread</source>
+        <translation>No hay mensajes en este hilo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No messages to display</source>
+        <translation>No hay mensajes que mostrar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>If this looks wrong, check whether you have hidden event types in this room's settings.</source>
+        <translation>Si esto parece incorrecto, comprueba si tienes tipos de eventos ocultos en la configuración de esta sala.</translation>
     </message>
 </context>
 <context>

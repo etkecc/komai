@@ -3089,14 +3089,29 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomEmptyState</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+22"/>
         <source>Loading thread…</source>
         <translation>スレッドを読み込み中…</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Loading room…</source>
         <translation>ルームを読み込み中…</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No messages in this thread</source>
+        <translation>このスレッドにはメッセージがありません</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No messages to display</source>
+        <translation>表示するメッセージがありません</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>If this looks wrong, check whether you have hidden event types in this room's settings.</source>
+        <translation>表示がおかしい場合は、このルームの設定でイベントタイプを非表示にしていないか確認してください。</translation>
     </message>
 </context>
 <context>

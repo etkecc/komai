@@ -3093,14 +3093,29 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MatrixRoomEmptyState</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+22"/>
         <source>Loading thread…</source>
         <translation>Ladataan ketjua…</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Loading room…</source>
         <translation>Ladataan huonetta…</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No messages in this thread</source>
+        <translation>Ketjussa ei ole viestejä</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No messages to display</source>
+        <translation>Ei näytettäviä viestejä</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>If this looks wrong, check whether you have hidden event types in this room's settings.</source>
+        <translation>Jos tämä näyttää virheelliseltä, tarkista huoneen asetuksista, onko tapahtumatyyppejä piilotettu.</translation>
     </message>
 </context>
 <context>

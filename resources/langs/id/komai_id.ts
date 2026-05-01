@@ -3089,14 +3089,29 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomEmptyState</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+22"/>
         <source>Loading thread…</source>
         <translation>Memuat utas…</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Loading room…</source>
         <translation>Memuat ruangan…</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No messages in this thread</source>
+        <translation>Tidak ada pesan dalam utas ini</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No messages to display</source>
+        <translation>Tidak ada pesan untuk ditampilkan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>If this looks wrong, check whether you have hidden event types in this room's settings.</source>
+        <translation>Jika ini terlihat salah, periksa apakah ada jenis acara yang disembunyikan di pengaturan ruangan ini.</translation>
     </message>
 </context>
 <context>

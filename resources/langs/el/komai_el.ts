@@ -3093,14 +3093,29 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomEmptyState</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+22"/>
         <source>Loading thread…</source>
         <translation>Φόρτωση νήματος…</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Loading room…</source>
         <translation>Φόρτωση δωματίου…</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No messages in this thread</source>
+        <translation>Δεν υπάρχουν μηνύματα σε αυτό το νήμα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No messages to display</source>
+        <translation>Δεν υπάρχουν μηνύματα για εμφάνιση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>If this looks wrong, check whether you have hidden event types in this room's settings.</source>
+        <translation>Εάν αυτό φαίνεται λάθος, ελέγξτε αν έχετε κρυφούς τύπους συμβάντων στις ρυθμίσεις αυτού του δωματίου.</translation>
     </message>
 </context>
 <context>

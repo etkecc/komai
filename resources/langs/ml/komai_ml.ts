@@ -3093,14 +3093,29 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomEmptyState</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+21"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEmptyState.qml" line="+22"/>
         <source>Loading thread…</source>
         <translation>ത്രെഡ് ലോഡ് ചെയ്യുന്നു…</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Loading room…</source>
         <translation>മുറി ലോഡ് ചെയ്യുന്നു…</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No messages in this thread</source>
+        <translation>ഈ ത്രെഡിൽ സന്ദേശങ്ങൾ ഒന്നുമില്ല</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No messages to display</source>
+        <translation>പ്രദർശിപ്പിക്കാൻ സന്ദേശങ്ങൾ ഒന്നുമില്ല</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>If this looks wrong, check whether you have hidden event types in this room's settings.</source>
+        <translation>ഇത് തെറ്റായി തോന്നുന്നെങ്കിൽ, ഈ മുറിയുടെ ക്രമീകരണങ്ങളിൽ ഇവന്റ് തരങ്ങൾ മറച്ചുവച്ചിട്ടുണ്ടോ എന്ന് പരിശോധിക്കുക.</translation>
     </message>
 </context>
 <context>

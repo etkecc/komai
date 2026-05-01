@@ -62,6 +62,7 @@ AI gets the literal meaning right most of the time, but tends to miss what a nat
 
 - **Gender mismatches** in languages that gender verbs or adjectives by speaker/addressee
 - **Unnatural phrasing** — grammatically correct, but nobody would actually say it that way
+- **Word puzzles** — sentences built by concatenating multiple translated fragments. They work in English (SVO) but break in languages with different word order (Korean/Japanese SOV, Welsh VSO), because translators can't reorder the pieces. See [KDE's i18n pitfalls](https://techbase.kde.org/Development/Tutorials/Localization/i18n_Mistakes#Pitfall_#2:_Word_Puzzles) for context. If you spot one in the UI, please flag it — the fix lives in source code: merge the fragments into a single `qsTr()` with `%1`/`%2` placeholders so the translator can reorder them.
 - **Length problems** — translations that overflow buttons, tabs, tooltips, or other tight UI
 - **Inconsistent register** — formal and casual mixed within one screen, or shifting tone between related strings
 - **Style drift** — different translations of the same term across the app (`translations-canonicalize` helps, but only picks among existing variants)

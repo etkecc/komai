@@ -65,6 +65,12 @@
       CORE_CONFIG_ID(UiFontEmojiFamily, SettingKey::UiFontEmojiFamily) },
 #ifndef Q_OS_MACOS
     // ScaleFactor
+    // Note: "[restart required]" is part of the translatable label here, so each row
+    // ends up translated as one whole string. That's fine while only this row uses it
+    // — but if a third "[restart required]" row appears, split the suffix into its
+    // own QT_TRANSLATE_NOOP and concatenate at render time, otherwise the translated
+    // suffix tends to drift between rows (e.g. Bulgarian "необходимо е рестартиране"
+    // vs "необходимо рестартиране").
     SIMPLE_DOUBLE_CONFIG_RESTART_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Scale factor [restart required]"),
       nullptr,
       SM::TabLookFeel, uiScaleFactor, setUiScaleFactor, settings::core::kMinScaleFactor,

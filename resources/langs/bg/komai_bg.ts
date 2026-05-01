@@ -6395,7 +6395,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../qml/shell/components/RoomListToTopButton.qml" line="+19"/>
         <location line="+1"/>
         <source>Scroll to top</source>
-        <translation>Превъртане нагоре</translation>
+        <translation>Превъртане до горе</translation>
     </message>
 </context>
 <context>
@@ -8205,7 +8205,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location filename="../../qml/timeline/components/TimelineToEndButton.qml" line="+93"/>
         <location line="+1"/>
         <source>Scroll to bottom</source>
-        <translation>Превъртане надолу</translation>
+        <translation>Превъртане до долу</translation>
     </message>
 </context>
 <context>

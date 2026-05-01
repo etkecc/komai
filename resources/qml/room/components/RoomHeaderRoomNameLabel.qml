@@ -56,6 +56,10 @@ Item {
             text: root.roomName
             textFormat: Text.RichText
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            // RichText so the visible string may contain markup; Accessible.name
+            // should be the bare room name.
+            Accessible.role: Accessible.Heading
+            Accessible.name: root.roomName
         }
 
         Item {

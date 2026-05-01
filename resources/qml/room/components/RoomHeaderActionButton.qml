@@ -49,6 +49,10 @@ AbstractButton {
     focusPolicy: Qt.StrongFocus
     font.pointSize: Settings.uiFontSizePt
     hoverEnabled: true
+    // Use the visible label when present, otherwise the tooltip — most
+    // RoomHeader buttons are icon-only by default and only reveal labelText
+    // at wider widths.
+    Accessible.name: labelText.length > 0 ? labelText : toolTipText
     Keys.priority: Keys.BeforeItem
     Keys.onPressed: event => {
         if (!button.enabled || !button.isActivationKey(event))

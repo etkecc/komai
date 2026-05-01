@@ -5688,7 +5688,7 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Det här rummet är offentligt. Vem som helst kan gå med.</translation>
     </message>

@@ -5681,7 +5681,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Bu oda herkese açıktır. Herkes katılabilir.</translation>
     </message>

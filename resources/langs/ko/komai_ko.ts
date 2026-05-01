@@ -5681,7 +5681,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
         <source>This room is public. Anyone can join.</source>
         <translation>이 방은 공개입니다. 누구나 참여할 수 있습니다.</translation>
     </message>

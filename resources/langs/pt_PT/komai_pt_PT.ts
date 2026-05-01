@@ -5688,7 +5688,7 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+77"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Esta sala é pública. Qualquer pessoa pode entrar.</translation>
     </message>

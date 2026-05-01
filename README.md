@@ -91,6 +91,8 @@ See 📄 [Documentation](docs/README.md) for the full list of guides, including 
 
 Komai started as a fork of [nheko](https://nheko.im/nheko-reborn/nheko) by the Nheko-Reborn team. We're grateful for the original application and the Qt/QML groundwork that made Komai possible.
 
+Komai's Matrix protocol and end-to-end encryption core is built on the [matrix-rust-sdk](https://github.com/matrix-org/matrix-rust-sdk) by the [matrix.org](https://matrix.org/) team — a polished, well-documented Rust runtime that made the move off `mtxclient` + `libolm` tractable for us, and that positions Komai for everything that comes next in the Matrix ecosystem.
+
 - [Boring Avatars](https://github.com/boringdesigners/boring-avatars) — default avatar generation algorithms (Beam, Marble, Bauhaus styles), ported from TypeScript to C++
 - [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) — primary icon set (MIT)
 - [Font Awesome Free](https://github.com/FortAwesome/Font-Awesome) — supplementary icons and brand logos (CC BY 4.0)

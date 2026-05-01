@@ -5812,7 +5812,7 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
         <translation>Användar-ID, alfabetiskt</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Inbjuden</translation>
     </message>

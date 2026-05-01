@@ -5812,7 +5812,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <translation>Käyttäjätunnus, aakkosjärjestys</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Kutsuttu</translation>
     </message>

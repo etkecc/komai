@@ -5820,7 +5820,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
         <translation>Identyfikator użytkownika, alfabetycznie</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Zaproszeni</translation>
     </message>

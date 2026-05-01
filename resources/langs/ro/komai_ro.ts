@@ -5819,7 +5819,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
         <translation>ID utilizator, alfabetic</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Invitat</translation>
     </message>

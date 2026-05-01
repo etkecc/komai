@@ -5805,7 +5805,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
         <translation>ID người dùng, theo bảng chữ cái</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Đã mời</translation>
     </message>

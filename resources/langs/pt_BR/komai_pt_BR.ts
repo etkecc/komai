@@ -5812,7 +5812,7 @@ Os backups de chave no servidor não são removidos automaticamente.</translatio
         <translation>ID de usuário, alfabético</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Convidado</translation>
     </message>

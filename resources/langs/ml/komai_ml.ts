@@ -5812,7 +5812,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>ഉപയോക്തൃ ID, അക്ഷരമാലാ ക്രമത്തിൽ</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>ക്ഷണിക്കപ്പെട്ടവർ</translation>
     </message>

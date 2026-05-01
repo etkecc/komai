@@ -5819,7 +5819,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Ідентифікатор користувача, за алфавітом</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Запрошений</translation>
     </message>

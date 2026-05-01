@@ -5819,7 +5819,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
         <translation>ID uživatele, abecedně</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Pozváni</translation>
     </message>

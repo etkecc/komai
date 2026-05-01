@@ -5812,7 +5812,7 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
         <translation>Nutzer-ID, alphabetisch</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Eingeladen</translation>
     </message>

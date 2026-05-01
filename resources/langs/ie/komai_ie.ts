@@ -5812,7 +5812,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <translation>ID de usator, alfabetic</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Invitat</translation>
     </message>

@@ -151,41 +151,33 @@ utils::deriveReadableAccentTextColor(const QColor &accentColor,
 
     const bool preferDarker = backgroundLum > 0.5;
 
-    QColor bestColor;
-    int bestDistance   = std::numeric_limits<int>::max();
-    qreal bestContrast = initialContrast;
+    // Sweep HSL lightness along the original hue/saturation toward the end of
+    // the spectrum that increases contrast with the background. HSL is used
+    // (rather than QColor::lighter()/darker(), which scale HSV V) because HSV
+    // V scaling preserves HSV saturation, which is tiny for very-light pastels
+    // and very-dark colors — those collapse to near-greys when scaled. HSL
+    // lightness adjustments preserve perceptible hue across the full lightness
+    // range, and can always reach black/white-adjacent luminance regardless of
+    // the accent's starting value.
+    const QColor hslAccent  = accentColor.toHsl();
+    const int hue           = qMax(hslAccent.hslHue(), 0);
+    const int sat           = hslAccent.hslSaturation();
+    const int origLightness = hslAccent.lightness();
 
-    const auto consider = [&](const QColor &candidate, int distance) {
-        if (!candidate.isValid())
-            return;
-
-        const auto candidateContrast = contrastFor(candidate);
-        if (candidateContrast < minContrast)
-            return;
-
-        if (!bestColor.isValid() || distance < bestDistance ||
-            (distance == bestDistance && candidateContrast > bestContrast)) {
-            bestColor    = candidate;
-            bestDistance = distance;
-            bestContrast = candidateContrast;
+    constexpr int sweepStep = 4;
+    if (preferDarker) {
+        for (int l = origLightness - sweepStep; l >= 0; l -= sweepStep) {
+            const QColor candidate = QColor::fromHsl(hue, sat, l);
+            if (contrastFor(candidate) >= minContrast)
+                return candidate;
         }
-    };
-
-    for (int factor = 105; factor <= 400; factor += 5) {
-        if (preferDarker) {
-            consider(accentColor.darker(factor), factor - 100);
-            consider(accentColor.lighter(factor), factor - 100);
-        } else {
-            consider(accentColor.lighter(factor), factor - 100);
-            consider(accentColor.darker(factor), factor - 100);
+    } else {
+        for (int l = origLightness + sweepStep; l <= 255; l += sweepStep) {
+            const QColor candidate = QColor::fromHsl(hue, sat, l);
+            if (contrastFor(candidate) >= minContrast)
+                return candidate;
         }
-
-        if (bestColor.isValid() && bestDistance == 5)
-            break;
     }
-
-    if (bestColor.isValid())
-        return bestColor;
 
     const QColor black(Qt::black);
     const QColor white(Qt::white);

@@ -239,10 +239,21 @@ Item {
                                 Layout.fillWidth: true
 
                                 ElidedLabel {
+                                    readonly property int colorRevision: TimelineManager.colorRevision
+
                                     fullText: model.displayName
                                     color: delHover.hovered
                                         ? palette.brightText
-                                        : (del.isCurrentUser ? palette.highlight : palette.text)
+                                        : del.isCurrentUser
+                                            ? palette.highlight
+                                            : Komai.readableAccentTextColor(
+                                                (function() {
+                                                    const _revision = colorRevision;
+                                                    return (membersTab.members && membersTab.members.roomId)
+                                                        ? TimelineManager.roomUserColor(membersTab.members.roomId, model.mxid, palette.window, Settings.timelineUserColorCodingPolicy)
+                                                        : TimelineManager.userColor(model.mxid, palette.window);
+                                                })(),
+                                                palette.window)
                                     font.pixelSize: fontMetrics.font.pixelSize
                                     elideWidth: del.width - Komai.paddingMedium * 4 - Komai.iconSize - plBadge.width - encryptInd.width
                                     Layout.fillWidth: true

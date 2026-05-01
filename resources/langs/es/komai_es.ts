@@ -5815,7 +5815,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
         <translation>ID de usuario, alfabético</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Invitado</translation>
     </message>

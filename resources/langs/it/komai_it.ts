@@ -5812,7 +5812,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
         <translation>ID utente, alfabetico</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Invitato</translation>
     </message>

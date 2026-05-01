@@ -5819,7 +5819,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>ID пользователя, по алфавиту</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Приглашён</translation>
     </message>

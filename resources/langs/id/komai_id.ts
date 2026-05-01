@@ -5805,7 +5805,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <translation>ID pengguna, alfabetis</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Diundang</translation>
     </message>

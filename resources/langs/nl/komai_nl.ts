@@ -5812,7 +5812,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <translation>Gebruikers-ID, alfabetisch</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Uitgenodigd</translation>
     </message>

@@ -5812,7 +5812,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <translation>ID utilisateur, alphabétique</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Invité</translation>
     </message>

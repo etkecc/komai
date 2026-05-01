@@ -5814,7 +5814,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
         <translation>Uzanto-ID, alfabeta</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Invitita</translation>
     </message>

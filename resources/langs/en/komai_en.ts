@@ -5783,7 +5783,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation type="unfinished"/>
     </message>

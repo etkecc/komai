@@ -5812,7 +5812,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
         <translation>Kasutaja ID, tähestikuline</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Kutsutud</translation>
     </message>

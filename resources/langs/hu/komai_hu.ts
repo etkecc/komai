@@ -5805,7 +5805,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <translation>Felhasználói azonosító, ábécé szerint</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Meghívott</translation>
     </message>

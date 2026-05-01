@@ -5819,7 +5819,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <translation>Korisnički ID, abecedno</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Pozvani</translation>
     </message>

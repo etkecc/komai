@@ -5805,7 +5805,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>使用者ID，依字母排序</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>已邀請</translation>
     </message>

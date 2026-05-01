@@ -5812,7 +5812,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
         <translation>ID d'usuari, alfabètic</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Convidats</translation>
     </message>

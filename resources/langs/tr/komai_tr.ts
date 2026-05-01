@@ -5805,7 +5805,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
         <translation>Kullanıcı kimliği, alfabetik</translation>
     </message>
     <message>
-        <location line="+148"/>
+        <location line="+159"/>
         <source>Invited</source>
         <translation>Davet edildi</translation>
     </message>

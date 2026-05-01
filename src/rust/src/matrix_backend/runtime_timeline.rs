@@ -822,15 +822,17 @@ async fn run_room_timeline_loop(
 
     // Spawn a background task to fetch thread reply counts from the server.
     // This populates the shared cache so subsequent snapshot builds include
-    // accurate counts on thread root messages.
+    // accurate counts on thread root messages.  We deliberately do NOT
+    // rebuild the snapshot here: the main loop owns `current_values` and
+    // a clone captured at spawn time becomes stale once backward pagination
+    // diffs arrive, so writing it back would clobber the live snapshot
+    // (e.g. revert 38 paginated items back to the 20 we had at subscribe).
+    // The next diff in the main loop reads the cache via `get_thread_counts`
+    // and rebuilds with accurate counts naturally.
     {
         let client_clone = client.clone();
         let room_id_clone = room_id.clone();
         let cache_clone = Arc::clone(&thread_reply_counts);
-        let snapshot_clone = Arc::clone(&room_timeline_snapshot);
-        let media_lookup_clone = Arc::clone(&room_timeline_media_lookup);
-        let current_values_snapshot = current_values.clone();
-        let receipt_targets_clone = receipt_targets.clone();
         tokio::spawn(async move {
             if let Some(room) = client_clone.get_room(
                 &matrix_sdk::ruma::RoomId::parse(&room_id_clone).expect("already validated room_id"),
@@ -859,23 +861,6 @@ async fn run_room_timeline_loop(
                                     room_counts.entry(eid.clone()).and_modify(|c| *c = (*c).max(*count)).or_insert(*count);
                                 }
                             }
-                            // Rebuild the snapshot with the new counts.
-                            let read_own_event_ids = compute_read_own_event_ids(&current_values_snapshot, &receipt_targets_clone);
-                            let (snapshot, media_lookup) = build_room_timeline_snapshot(
-                                &current_values_snapshot,
-                                client_clone.user_id(),
-                                &read_own_event_ids,
-                                Some(&counts),
-                            );
-                            {
-                                let mut snapshot_guard = snapshot_clone.lock().expect("poisoned matrix room timeline snapshot mutex");
-                                *snapshot_guard = snapshot;
-                            }
-                            {
-                                let mut media_guard = media_lookup_clone.lock().expect("poisoned matrix room timeline media lookup mutex");
-                                media_guard.extend(media_lookup);
-                            }
-                            crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id_clone);
                             tracing::info!(handle_id, room_id = %room_id_clone, thread_count, "Cached thread reply counts from list_threads()");
                         }
                     }

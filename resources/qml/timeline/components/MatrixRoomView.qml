@@ -394,6 +394,30 @@ ColumnLayout {
         Layout.fillWidth: true
         color: palette.base
 
+        // Right-click on empty timeline space shows the settings shortcut.
+        // Message bubbles and reply previews consume the right-click on press
+        // (TimelineBubbleBody.qml), so the handler only fires on bare areas.
+        TapHandler {
+            acceptedButtons: Qt.RightButton
+            onTapped: timelineSettingsMenu.popup()
+        }
+
+        Menu {
+            id: timelineSettingsMenu
+
+            Component.onCompleted: {
+                if (timelineSettingsMenu.popupType != undefined)
+                    timelineSettingsMenu.popupType = 2;
+            }
+
+            MenuItem {
+                text: qsTr("Settings...") // Keep short: Qt may clip/elide longer menu item text
+                icon.source: "qrc:/icons/icons/ui/settings.svg"
+
+                onTriggered: MainWindow.showUserSettingsPage(UserSettingsModel.TabTimeline)
+            }
+        }
+
         ColumnLayout {
             anchors.fill: parent
             spacing: 0

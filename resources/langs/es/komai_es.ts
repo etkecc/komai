@@ -3196,6 +3196,14 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     </message>
 </context>
 <context>
+    <name>MatrixRoomView</name>
+    <message>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <source>Settings...</source>
+        <translation>Configuración...</translation>
+    </message>
+</context>
+<context>
     <name>MediaImageSurface</name>
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>

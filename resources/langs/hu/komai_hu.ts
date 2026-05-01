@@ -3189,6 +3189,14 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     </message>
 </context>
 <context>
+    <name>MatrixRoomView</name>
+    <message>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <source>Settings...</source>
+        <translation>Beállítások...</translation>
+    </message>
+</context>
+<context>
     <name>MediaImageSurface</name>
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>

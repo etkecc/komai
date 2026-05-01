@@ -3197,6 +3197,14 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     </message>
 </context>
 <context>
+    <name>MatrixRoomView</name>
+    <message>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <source>Settings...</source>
+        <translation>Podešavanja…</translation>
+    </message>
+</context>
+<context>
     <name>MediaImageSurface</name>
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>

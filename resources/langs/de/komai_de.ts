@@ -3193,6 +3193,14 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
 </context>
 <context>
+    <name>MatrixRoomView</name>
+    <message>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <source>Settings...</source>
+        <translation>Einstellungen…</translation>
+    </message>
+</context>
+<context>
     <name>MediaImageSurface</name>
     <message>
         <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>

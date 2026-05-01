@@ -90,6 +90,37 @@ ItemDelegate {
     activeFocusOnTab: false
     focusPolicy: Qt.NoFocus
 
+    Accessible.role: Accessible.ListItem
+    Accessible.name: {
+        if (isInvite)
+            return qsTr("Invite: %1").arg(roomName);
+        if (isSpace)
+            return qsTr("Space: %1").arg(roomName);
+        return roomName;
+    }
+    Accessible.checkable: true
+    Accessible.checked: isSelected
+    // Aggregate state visible to sighted users (unread count, draft,
+    // encrypted, last message preview, time) so screen readers announce
+    // the same at-a-glance signal in one shot. The inner avatar and text
+    // columns are marked ignored below since the info is already here.
+    Accessible.description: {
+        var parts = [];
+        if (emphasizeUnreadState && unreadCount > 0)
+            parts.push(qsTr("%n unread message(s)", "", unreadCount));
+        if (emphasizeUnreadState && hasLoudNotification)
+            parts.push(qsTr("Mentions you"));
+        if (hasDraft)
+            parts.push(qsTr("Has draft"));
+        if (isEncrypted)
+            parts.push(qsTr("Encrypted"));
+        if (lastMessage.length > 0)
+            parts.push(lastMessage);
+        if (time.length > 0)
+            parts.push(time);
+        return parts.join(". ");
+    }
+
     background: Rectangle {
         color: backgroundColor
 
@@ -338,6 +369,7 @@ ItemDelegate {
             unreadCount: roomItem.unreadCount
             bounceOnUnread: roomItem.emphasizeUnreadState
             isSelected: roomItem.isSelected
+            Accessible.ignored: true
         }
         ShellComponents.RoomListItemTextContent {
             density: roomItem.density
@@ -360,6 +392,7 @@ ItemDelegate {
             unimportantText: roomItem.unimportantText
             bubbleBackground: roomItem.bubbleBackground
             bubbleText: roomItem.bubbleText
+            Accessible.ignored: true
         }
     }
     Rectangle {
@@ -368,6 +401,7 @@ ItemDelegate {
         anchors.right: parent.right
         color: Komai.theme.separator
         height: 1
+        Accessible.ignored: true
     }
     Rectangle {
         anchors.left: parent.left
@@ -379,5 +413,6 @@ ItemDelegate {
         width: 6
         radius: 3
         opacity: 1.0 - roomItem.scrubProgress
+        Accessible.ignored: true
     }
 }

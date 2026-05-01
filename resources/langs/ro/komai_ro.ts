@@ -6374,6 +6374,43 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
 </context>
 <context>
+    <name>RoomListItemDelegate</name>
+    <message>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
+        <source>Invite: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Space: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <location line="+12"/>
+        <source>%n unread message(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+        </translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Mentions you</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Has draft</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Encrypted</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>RoomListItemTextContent</name>
     <message>
         <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>

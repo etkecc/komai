@@ -9,11 +9,12 @@ The pipeline is provider-neutral in principle; the current backend is the [Claud
 
 ## 🌍 Available translations
 
-Komai currently ships translations for the following 32 languages (plus English as the source). Click a row to jump to that language's translation files. Flags indicate broad regions only — they're a navigational aid, not a claim that a language belongs to any one country.
+Komai currently ships translations for the following 33 languages (plus English as the source). Click a row to jump to that language's translation files. Flags indicate broad regions only — they're a navigational aid, not a claim that a language belongs to any one country.
 
 | Flag | Language | Native name | Files |
 |------|----------|-------------|-------|
 | 🌐 | Arabic | العربية | [`resources/langs/ar/`](../../resources/langs/ar/) |
+| 🇧🇬 | Bulgarian | Български | [`resources/langs/bg/`](../../resources/langs/bg/) |
 | 🏴 | Catalan | Català | [`resources/langs/ca/`](../../resources/langs/ca/) |
 | 🇨🇳 | Chinese (Simplified) | 简体中文 | [`resources/langs/zh_CN/`](../../resources/langs/zh_CN/) |
 | 🇹🇼 | Chinese (Traditional) | 繁體中文 | [`resources/langs/zh_Hant/`](../../resources/langs/zh_Hant/) |

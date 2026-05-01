@@ -107,6 +107,7 @@ LANG_FORMS = {
     "zh_CN": ["other"],
     "zh_Hant": ["other"],
     # 2-form
+    "bg": ["one", "other"],
     "ca": ["one", "other"],
     "de": ["one", "other"],
     "el": ["one", "other"],

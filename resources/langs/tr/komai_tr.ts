@@ -4736,18 +4736,18 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>Kullanıcı adı</translation>
     </message>
     <message>
-        <location line="-677"/>
-        <location line="+825"/>
+        <location line="-714"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>Onayla</translation>
     </message>
     <message>
-        <location line="-787"/>
+        <location line="-833"/>
         <source>Verification</source>
         <translation>Doğrulama</translation>
     </message>
@@ -4768,12 +4768,12 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4793,27 +4793,34 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Hesap</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>Kaydol</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>Genel sunucular</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>Özel sunucu</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>Açık kayıtlı topluluk sunucuları</translation>
     </message>
@@ -4828,7 +4835,22 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>%1 tabanlı, Komai ekibi tarafından derlendi</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
@@ -4838,7 +4860,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Kayıt, sunucunun web sitesinde tarayıcınızda tamamlanır.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>Demo</translation>
     </message>
@@ -4848,12 +4870,12 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Tanıtım ve test amaçlı bir sunucu. Gerçek kullanım için uygun değildir.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>Kayıt akışı, tarayıcıda bir CAPTCHA sınamasının tamamlanmasını gerektirir.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>E-posta</translation>
     </message>
@@ -4863,12 +4885,12 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Kayıt akışı, geçerli bir e-posta adresinin onaylanmasını gerektirir.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>örn. example.com veya https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>Bu sunucu kayıt işlemini kendi web sitesinde yürütür.</translation>
     </message>
@@ -4884,49 +4906,50 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>Devam</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>%1 üzerinde hesabınızı oluşturun</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>Bu kullanıcı adı mevcut değil. Farklı bir tane deneyin.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>Bir kullanıcı adı seçin</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>Şifreyi Göster/Gizle</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>Bir şifre seçin</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>Şifreyi onayla</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>Şifreler eşleşmiyor</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Tanınabilir bir ad seçin. Diğerleri de görebilir.</translation>
     </message>
@@ -4936,27 +4959,33 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Başka bir rastgele ad oluştur</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>Öneriler:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>E-posta doğrulaması gerekli</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>eposta@adresiniz.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>Doğrulama e-postası gönder</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>E-postanızı kontrol edin ve doğrulama bağlantısına tıklayın, ardından aşağıdaki Devam'a tıklayın.</translation>
     </message>
@@ -4971,7 +5000,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Hizmet Koşulları</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>Koşulları kabul ediyorum</translation>
     </message>
@@ -4981,9 +5010,14 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Kayıt jetonu gerekli</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>Kayıt jetonunuzu girin</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -4996,7 +5030,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Ek doğrulama gerekli</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>Tarayıcınızda doğrulamayı tamamlayın, ardından aşağıdaki Onayla'ya tıklayın.</translation>
     </message>
@@ -5011,14 +5045,14 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Doğrulamayı tamamladım</translation>
     </message>
     <message>
-        <location line="-1283"/>
-        <location line="+772"/>
+        <location line="-1344"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>Şifre</translation>
     </message>
     <message>
-        <location line="-770"/>
-        <location line="+893"/>
+        <location line="-813"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>Cihaz adı</translation>
     </message>

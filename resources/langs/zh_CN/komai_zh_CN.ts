@@ -4736,18 +4736,18 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location line="-677"/>
-        <location line="+825"/>
+        <location line="-714"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location line="-787"/>
+        <location line="-833"/>
         <source>Verification</source>
         <translation>验证</translation>
     </message>
@@ -4768,12 +4768,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4793,27 +4793,34 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>账户</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>注册</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>公共服务器</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>自定义服务器</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>社区运营的开放注册服务器</translation>
     </message>
@@ -4828,7 +4835,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>基于 %1，由 Komai 团队精选</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>网页</translation>
     </message>
@@ -4838,7 +4860,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>注册在服务器网站上通过浏览器完成。</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>演示</translation>
     </message>
@@ -4848,12 +4870,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>此服务器仅用于演示和测试目的，不适合实际使用。</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>注册流程需要在浏览器中完成CAPTCHA验证。</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>邮箱</translation>
     </message>
@@ -4863,12 +4885,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>注册流程需要确认有效的电子邮件地址。</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>例如 example.com 或 https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>此服务器在其网站上处理注册。</translation>
     </message>
@@ -4884,49 +4906,50 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>继续</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>在%1上创建账户</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>此用户名不可用，请尝试其他用户名。</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>选择用户名</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>显示/隐藏密码</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>选择密码</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>确认密码</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>密码不匹配</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>选择一个易于识别的名称。其他人也可以看到它。</translation>
     </message>
@@ -4936,27 +4959,33 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>生成另一个随机名称</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>建议：</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>需要邮箱验证</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>your@email.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>发送验证邮件</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>请查收邮件并点击验证链接，然后点击下方的继续。</translation>
     </message>
@@ -4971,7 +5000,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>服务条款</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>我接受条款</translation>
     </message>
@@ -4981,9 +5010,14 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>需要注册令牌</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>输入注册令牌</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -4996,7 +5030,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>需要额外验证</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>在浏览器中完成验证，然后点击下方的确认。</translation>
     </message>
@@ -5011,14 +5045,14 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>我已完成验证</translation>
     </message>
     <message>
-        <location line="-1283"/>
-        <location line="+772"/>
+        <location line="-1344"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location line="-770"/>
-        <location line="+893"/>
+        <location line="-813"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>设备名</translation>
     </message>

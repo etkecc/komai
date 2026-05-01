@@ -4742,18 +4742,18 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>Nomine de usator</translation>
     </message>
     <message>
-        <location line="-677"/>
-        <location line="+825"/>
+        <location line="-714"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>Confirmar</translation>
     </message>
     <message>
-        <location line="-787"/>
+        <location line="-833"/>
         <source>Verification</source>
         <translation>Verification</translation>
     </message>
@@ -4774,12 +4774,12 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4799,27 +4799,34 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Conto</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>Cancellar</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>Registrar</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>Servores public</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>Servidor personalisat</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>Servidores operat per comunitat con registration aperte</translation>
     </message>
@@ -4834,7 +4841,22 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Basat sur %1, curit per li equipe de Komai</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
@@ -4844,7 +4866,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Li registración es completat in vu browser sur li site web del servore.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>Demo</translation>
     </message>
@@ -4854,12 +4876,12 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Un servidor por demonstration e test. Ne apte por usu real.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>Li flue de registración require completar un desfio CAPTCHA in li browser.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>Email</translation>
     </message>
@@ -4869,12 +4891,12 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Li flue de registración require confirmar un adresse email valid.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>p.ex. example.com o https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>Ci servore gera li registración sur su site web.</translation>
     </message>
@@ -4890,49 +4912,50 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>Continuar</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>Crear vostre conto sur %1</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>Ci nomine de usator ne es disponibil. Prova un altri.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>Chosar un nom de usator</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>Monstrar/Celar Parola de passe</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>Chosar un password</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>Confirmar password</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>Li parolas de passe ne concorda</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Chosar un nom recognoscibil. Altres pote vider it anc.</translation>
     </message>
@@ -4942,27 +4965,33 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Generar un altri nom aleatoric</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>Suggestiones:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>Verification de email requirit</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>vu@email.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>Inviar email de verification</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>Verificar vostre email e clicar li link de verification, pos clicar Continuar sub.</translation>
     </message>
@@ -4977,7 +5006,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Termes de Servicie</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>Io accepta li termes</translation>
     </message>
@@ -4987,9 +5016,14 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Token de registración requirat</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>Intrar vostre token de registration</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -5002,7 +5036,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Verification additional requirit</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>Completer li verification in vostre browser, pos clicar Confirmar sub.</translation>
     </message>
@@ -5017,14 +5051,14 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Io ha completat li verification</translation>
     </message>
     <message>
-        <location line="-1283"/>
-        <location line="+772"/>
+        <location line="-1344"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>Parola de passe</translation>
     </message>
     <message>
-        <location line="-770"/>
-        <location line="+893"/>
+        <location line="-813"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>Nom del aparate</translation>
     </message>

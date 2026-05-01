@@ -4742,18 +4742,18 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>පරිශීලක නාමය</translation>
     </message>
     <message>
-        <location line="-677"/>
-        <location line="+825"/>
+        <location line="-714"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>තහවුරු කරන්න</translation>
     </message>
     <message>
-        <location line="-787"/>
+        <location line="-833"/>
         <source>Verification</source>
         <translation>තහවුරු කිරීම</translation>
     </message>
@@ -4774,12 +4774,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4799,27 +4799,34 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>ගිණුම</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>ලියාපදිංචි වන්න</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>පොදු සේවාදායකයන්</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>අභිමත සේවාදායකය</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>විවෘත ලියාපදිංචිය සහිත ප්‍රජා-ක්‍රියාකාරී සේවාදායකයන්</translation>
     </message>
@@ -4834,7 +4841,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>%1 මත පදනම් වූ, Komai කණ්ඩායම විසින් සකස් කරන ලද</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>වෙබ්</translation>
     </message>
@@ -4844,7 +4866,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>ලියාපදිංචිය සේවාදායකයේ වෙබ් අඩවියේ ඔබේ බ්‍රවුසරය හරහා සම්පූර්ණ කෙරේ.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>නිරූපණය</translation>
     </message>
@@ -4854,12 +4876,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>නිරූපණ සහ පරීක්ෂා කිරීමේ අරමුණු සඳහා සේවාදායකයකි. සැබෑ භාවිතය සඳහා සුදුසු නොවේ.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>ලියාපදිංචි ක්‍රියාවලියට බ්‍රවුසරයේ CAPTCHA අභියෝගයක් සම්පූර්ණ කිරීම අවශ්‍ය වේ.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>ඊමේල්</translation>
     </message>
@@ -4869,12 +4891,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>ලියාපදිංචි ක්‍රියාවලියට වලංගු ඊමේල් ලිපිනයක් තහවුරු කිරීම අවශ්‍ය වේ.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>උදා. example.com හෝ https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>මෙම සේවාදායකය ලියාපදිංචිය තමන්ගේ වෙබ් අඩවිය හරහා සිදු කරයි.</translation>
     </message>
@@ -4890,49 +4912,50 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>ඉදිරියට යන්න</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>%1 හි ඔබේ ගිණුම සාදන්න</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>මෙම පරිශීලක නාමය ලබා ගත නොහැක. වෙනත් නාමයක් භාවිතා කරන්න.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>පරිශීලක නාමයක් තෝරන්න</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>මුරපදය පෙන්වන්න/සඟවන්න</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>මුරපදයක් තෝරන්න</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>මුරපදය තහවුරු කරන්න</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>මුරපද නොගැලපේ</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>හඳුනාගත හැකි නමක් තෝරන්න. අනෙක් අය ද එය දැකිය හැකිය.</translation>
     </message>
@@ -4942,27 +4965,33 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>තවත් අහඹු නමක් ජනනය කරන්න</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>යෝජනා:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>ඊමේල් තහවුරු කිරීම අවශ්‍ය වේ</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>your@email.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>තහවුරු කිරීමේ ඊමේල් යවන්න</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>ඔබේ ඊමේල් පරීක්ෂා කර තහවුරු කිරීමේ සබැඳිය ක්ලික් කරන්න, ඉන්පසු පහතින් දිගටම ක්ලික් කරන්න.</translation>
     </message>
@@ -4977,7 +5006,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>සේවා නියම</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>කොන්දේසි පිළිගනිමි</translation>
     </message>
@@ -4987,9 +5016,14 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>ලියාපදිංචි ටෝකනයක් අවශ්‍ය වේ</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>ඔබේ ලියාපදිංචි ටෝකනය ඇතුළු කරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -5002,7 +5036,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>අතිරේක තහවුරු කිරීමක් අවශ්‍ය වේ</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>ඔබේ බ්‍රවුසරයේ තහවුරු කිරීම සම්පූර්ණ කරන්න, ඉන්පසු පහතින් තහවුරු කරන්න ක්ලික් කරන්න.</translation>
     </message>
@@ -5017,14 +5051,14 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>තහවුරු කිරීම සම්පූර්ණ කළෙමි</translation>
     </message>
     <message>
-        <location line="-1283"/>
-        <location line="+772"/>
+        <location line="-1344"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>මුරපදය</translation>
     </message>
     <message>
-        <location line="-770"/>
-        <location line="+893"/>
+        <location line="-813"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>උපකරණ නාමය</translation>
     </message>

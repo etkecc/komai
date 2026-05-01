@@ -152,6 +152,8 @@ Rectangle {
                 bottomPadding: 0
                 leftPadding: Komai.paddingMedium
                 rightPadding: Komai.paddingMedium
+                Accessible.role: Accessible.Button
+                Accessible.name: qsTr("Cancel")
 
                 HoverHandler { cursorShape: Qt.PointingHandCursor }
 
@@ -174,6 +176,7 @@ Rectangle {
                         source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerCancel.hovered ? palette.brightText : palette.text)
                         sourceSize.width: 24
                         sourceSize.height: 24
+                        Accessible.ignored: true
                     }
 
                     Label {
@@ -182,6 +185,7 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt
                         font.bold: true
                         color: headerCancel.hovered ? palette.brightText : palette.text
+                        Accessible.ignored: true
                     }
                 }
             }
@@ -198,6 +202,7 @@ Rectangle {
                     sourceSize.width: registrationPage.headerIconSize
                     sourceSize.height: registrationPage.headerIconSize
                     fillMode: Image.PreserveAspectFit
+                    Accessible.ignored: true
                 }
 
                 Label {
@@ -206,6 +211,7 @@ Rectangle {
                     font.pointSize: Settings.uiFontSizePt * 1.1
                     font.bold: true
                     color: palette.text
+                    Accessible.role: Accessible.Heading
                 }
             }
         }
@@ -259,6 +265,7 @@ Rectangle {
                     registrationPage.selectedServerVanillaReg = true;
                     registrationPage.selectedServerRegLink = "";
                 }
+                Accessible.name: qsTr("Server selection mode")
             }
 
             // Tab description
@@ -322,6 +329,24 @@ Rectangle {
                     property color textColor: palette.text
                     property color secondaryTextColor: palette.buttonText
 
+                    Accessible.role: Accessible.ListItem
+                    Accessible.name: modelData.name
+                    Accessible.checkable: true
+                    Accessible.checked: isSelected
+                    // Aggregate the visual badges into one description string so
+                    // screen-reader users get the same at-a-glance signals
+                    // sighted users get without having to navigate into the
+                    // per-badge tooltips (which are mouse-only).
+                    Accessible.description: {
+                        var parts = [];
+                        if (!modelData.usingVanillaReg) parts.push(qsTr("Web registration"));
+                        if (modelData.category === "demo") parts.push(qsTr("Demo server"));
+                        if (modelData.captcha) parts.push(qsTr("CAPTCHA required"));
+                        if (modelData.email) parts.push(qsTr("Email verification required"));
+                        var summary = parts.length > 0 ? parts.join(", ") + ". " : "";
+                        return summary + (modelData.editorial || modelData.description || "");
+                    }
+
                     HoverHandler { cursorShape: Qt.PointingHandCursor }
 
                     background: Rectangle {
@@ -382,12 +407,15 @@ Rectangle {
                                 font.pointSize: Settings.uiFontSizePt * 1.05
                                 font.bold: true
                                 color: serverDelegate.textColor
+                                Accessible.ignored: true
                             }
 
-                            // ── Badges ──
+                            // ── Badges ── all ignored for assistive tech;
+                            // aggregated into serverDelegate.Accessible.description.
                             Rectangle {
                                 id: webBadge
                                 visible: !modelData.usingVanillaReg
+                                Accessible.ignored: true
                                 readonly property color badgeColor: palette.highlight
                                 implicitWidth: webBadgeLabel.implicitWidth + Komai.paddingSmall * 2
                                 implicitHeight: webBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
@@ -422,6 +450,7 @@ Rectangle {
                             Rectangle {
                                 id: demoBadge
                                 visible: modelData.category === "demo"
+                                Accessible.ignored: true
                                 readonly property color badgeColor: Komai.theme.warning
                                 implicitWidth: demoBadgeLabel.implicitWidth + Komai.paddingSmall * 2
                                 implicitHeight: demoBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
@@ -456,6 +485,7 @@ Rectangle {
                             Rectangle {
                                 id: captchaBadge
                                 visible: modelData.captcha
+                                Accessible.ignored: true
                                 readonly property color badgeColor: serverDelegate.secondaryTextColor
                                 implicitWidth: captchaBadgeLabel.implicitWidth + Komai.paddingSmall * 2
                                 implicitHeight: captchaBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
@@ -490,6 +520,7 @@ Rectangle {
                             Rectangle {
                                 id: emailBadge
                                 visible: modelData.email
+                                Accessible.ignored: true
                                 readonly property color badgeColor: serverDelegate.secondaryTextColor
                                 implicitWidth: emailBadgeLabel.implicitWidth + Komai.paddingSmall * 2
                                 implicitHeight: emailBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
@@ -535,6 +566,7 @@ Rectangle {
                             elide: Text.ElideRight
                             maximumLineCount: 2
                             onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+                            Accessible.ignored: true
 
                             MouseArea {
                                 anchors.fill: parent
@@ -563,6 +595,7 @@ Rectangle {
                     anchors.margins: Komai.paddingMedium
                     font.pointSize: Settings.uiFontSizePt * 1.1
                     placeholderText: qsTr("e.g. example.com or https://matrix.example.com")
+                    Accessible.name: qsTr("Custom server")
                     onTextChanged: {
                         registrationPage.selectedServer = text.trim();
                         registrationPage.selectedServerDomain = text.trim();
@@ -580,6 +613,7 @@ Rectangle {
                 text: reg.error
                 visible: text && registrationPage.currentStep === 0
                 wrapMode: TextEdit.Wrap
+                Accessible.role: Accessible.AlertMessage
             }
 
             // ── Probing spinner ──
@@ -587,6 +621,7 @@ Rectangle {
                 Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: reg.probing
+                Accessible.ignored: true
 
                 Spinner {
                     height: Komai.iconSize
@@ -695,6 +730,7 @@ Rectangle {
                 color: palette.text
                 font.pointSize: Settings.uiFontSizePt * 1.1
                 wrapMode: Text.Wrap
+                Accessible.role: Accessible.Heading
             }
 
             // Username
@@ -715,6 +751,7 @@ Rectangle {
                     spacing: Komai.paddingSmall
 
                     Label {
+                        id: usernameLabel
                         Layout.preferredWidth: registrationPage.fieldLabelWidth
                         Layout.margins: Komai.paddingMedium
                         text: qsTr("Username")
@@ -727,6 +764,7 @@ Rectangle {
                         Layout.preferredWidth: usernameField.height / 2
                         Layout.preferredHeight: usernameField.height / 2
                         Layout.alignment: Qt.AlignVCenter
+                        Accessible.ignored: true
 
                         Spinner {
                             anchors.fill: parent
@@ -777,6 +815,10 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         placeholderText: qsTr("Choose a username")
                         readOnly: registrationPage.currentStep > 1
+                        Accessible.name: usernameLabel.text
+                        Accessible.description: !reg.checkingUsername && text.length > 0 && !reg.usernameAvailable
+                            ? qsTr("This username is not available. Try a different one.")
+                            : ""
 
                         onTextChanged: usernameDebounce.restart()
 
@@ -809,6 +851,7 @@ Rectangle {
                     spacing: Komai.paddingSmall
 
                     Label {
+                        id: passwordLabel
                         Layout.preferredWidth: registrationPage.fieldLabelWidth
                         Layout.margins: Komai.paddingMedium
                         text: qsTr("Password")
@@ -824,6 +867,7 @@ Rectangle {
                         image: passwordField.echoMode === TextInput.Password ? ":/icons/icons/ui/eye-show.svg" : ":/icons/icons/ui/eye-hide.svg"
                         toolTipVisible: hovered
                         toolTipText: qsTr("Show/Hide Password")
+                        focusPolicy: Qt.StrongFocus
                         onClicked: passwordField.echoMode = passwordField.echoMode === TextInput.Normal ? TextInput.Password : TextInput.Normal
                     }
 
@@ -838,6 +882,7 @@ Rectangle {
                         echoMode: TextInput.Password
                         placeholderText: qsTr("Choose a password")
                         readOnly: registrationPage.currentStep > 1
+                        Accessible.name: passwordLabel.text
                     }
                 }
             }
@@ -863,6 +908,7 @@ Rectangle {
                         spacing: Komai.paddingSmall
 
                         Label {
+                            id: confirmLabel
                             Layout.preferredWidth: registrationPage.fieldLabelWidth
                             Layout.margins: Komai.paddingMedium
                             text: qsTr("Confirm")
@@ -874,6 +920,7 @@ Rectangle {
                             Layout.preferredWidth: confirmField.height / 2
                             Layout.preferredHeight: confirmField.height / 2
                             Layout.alignment: Qt.AlignVCenter
+                            Accessible.ignored: true
 
                             Image {
                                 anchors.fill: parent
@@ -895,6 +942,7 @@ Rectangle {
                             echoMode: TextInput.Password
                             placeholderText: qsTr("Confirm password")
                             readOnly: registrationPage.currentStep > 1
+                            Accessible.name: confirmLabel.text
                         }
                     }
 
@@ -907,6 +955,7 @@ Rectangle {
                         text: qsTr("Passwords do not match")
                         color: Komai.theme.error
                         horizontalAlignment: Text.AlignRight
+                        Accessible.role: Accessible.AlertMessage
                     }
                 }
             }
@@ -932,6 +981,7 @@ Rectangle {
                         spacing: Komai.paddingSmall
 
                         Label {
+                            id: regDeviceLabel
                             Layout.preferredWidth: registrationPage.fieldLabelWidth
                             Layout.margins: Komai.paddingMedium
                             text: qsTr("Device name")
@@ -944,6 +994,7 @@ Rectangle {
                             Layout.preferredWidth: regDeviceField.height / 2
                             Layout.preferredHeight: regDeviceField.height / 2
                             Layout.alignment: Qt.AlignVCenter
+                            Accessible.ignored: true
                         }
 
                         KomaiTextField {
@@ -956,6 +1007,7 @@ Rectangle {
                             font.pointSize: Settings.uiFontSizePt * 1.1
                             text: reg.deviceNameOS()
                             readOnly: registrationPage.currentStep > 1
+                            Accessible.name: regDeviceLabel.text
                         }
                     }
 
@@ -988,6 +1040,7 @@ Rectangle {
                             leftPadding: Komai.paddingMedium
                             rightPadding: Komai.paddingMedium
                             toolTipText: qsTr("Generate another random name")
+                            Accessible.name: toolTipText
                             onClicked: regSuggestRandomBtn.randomName = reg.deviceNameRandom()
                         }
 
@@ -1053,6 +1106,7 @@ Rectangle {
                 text: reg.error
                 visible: text && registrationPage.currentStep === 1
                 wrapMode: TextEdit.Wrap
+                Accessible.role: Accessible.AlertMessage
             }
 
             // Step 1 Continue
@@ -1101,6 +1155,7 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         font.bold: true
                         color: palette.text
+                        Accessible.role: Accessible.Heading
                     }
 
                     KomaiTextField {
@@ -1109,6 +1164,7 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         placeholderText: qsTr("your@email.com")
                         visible: reg.emailSid.length === 0
+                        Accessible.name: qsTr("Email address")
                     }
 
                     KomaiButton {
@@ -1123,6 +1179,7 @@ Rectangle {
                         Layout.preferredHeight: Komai.iconSize
                         Layout.fillWidth: true
                         visible: reg.requestingEmail
+                        Accessible.ignored: true
 
                         Spinner {
                             height: Komai.iconSize
@@ -1192,6 +1249,7 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         font.bold: true
                         color: palette.text
+                        Accessible.role: Accessible.Heading
                     }
 
                     Repeater {
@@ -1249,6 +1307,7 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         font.bold: true
                         color: palette.text
+                        Accessible.role: Accessible.Heading
                     }
 
                     KomaiTextField {
@@ -1256,6 +1315,7 @@ Rectangle {
                         Layout.fillWidth: true
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         placeholderText: qsTr("Enter your registration token")
+                        Accessible.name: qsTr("Registration token")
                     }
 
                     KomaiButton {
@@ -1300,6 +1360,7 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         font.bold: true
                         color: palette.text
+                        Accessible.role: Accessible.Heading
                     }
 
                     Label {
@@ -1344,6 +1405,7 @@ Rectangle {
                 text: reg.error
                 visible: text && registrationPage.currentStep >= 2
                 wrapMode: TextEdit.Wrap
+                Accessible.role: Accessible.AlertMessage
             }
 
             // ── Stage spinner ──
@@ -1351,6 +1413,7 @@ Rectangle {
                 Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: reg.registering
+                Accessible.ignored: true
 
                 Spinner {
                     height: Komai.iconSize

@@ -4742,18 +4742,18 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>Nom d'usuari</translation>
     </message>
     <message>
-        <location line="-677"/>
-        <location line="+825"/>
+        <location line="-714"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>Confirma</translation>
     </message>
     <message>
-        <location line="-787"/>
+        <location line="-833"/>
         <source>Verification</source>
         <translation>Verificació</translation>
     </message>
@@ -4774,12 +4774,12 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4799,27 +4799,34 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Compte</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>Registra't</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>Servidors públics</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>Servidor personalitzat</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>Servidors gestionats per la comunitat amb registre obert</translation>
     </message>
@@ -4834,7 +4841,22 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Basat en %1, seleccionat per l'equip de Komai</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
@@ -4844,7 +4866,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>El registre es completa al navegador, al lloc web del servidor.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>Demo</translation>
     </message>
@@ -4854,12 +4876,12 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Un servidor per a demostracions i proves. No és adequat per a ús real.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>El procés de registre requereix completar un repte CAPTCHA al navegador.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>Correu electrònic</translation>
     </message>
@@ -4869,12 +4891,12 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>El procés de registre requereix confirmar una adreça de correu electrònic vàlida.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>p. ex. example.com o https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>Aquest servidor gestiona el registre al seu lloc web.</translation>
     </message>
@@ -4890,49 +4912,50 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>Continua</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>Crea el teu compte a %1</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>Aquest nom d'usuari no està disponible. Prova'n un altre.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>Tria un nom d'usuari</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>Mostra/Amaga la contrasenya</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>Tria una contrasenya</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>Confirma la contrasenya</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>Les contrasenyes no coincideixen</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Tria un nom reconeixible. Els altres també el poden veure.</translation>
     </message>
@@ -4942,27 +4965,33 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Genera un altre nom aleatori</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>Suggeriments:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>Cal verificació per correu electrònic</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>el.teu@correu.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>Envia el correu de verificació</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>Comprova el correu electrònic i fes clic a l'enllaç de verificació, i a continuació fes clic a Continua.</translation>
     </message>
@@ -4977,7 +5006,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Condicions del servei</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>Accepto les condicions</translation>
     </message>
@@ -4987,9 +5016,14 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Cal un token de registre</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>Introdueix el teu token de registre</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -5002,7 +5036,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Cal verificació addicional</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>Completa la verificació al navegador i fes clic a Confirma.</translation>
     </message>
@@ -5017,14 +5051,14 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>He completat la verificació</translation>
     </message>
     <message>
-        <location line="-1283"/>
-        <location line="+772"/>
+        <location line="-1344"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>Contrasenya</translation>
     </message>
     <message>
-        <location line="-770"/>
-        <location line="+893"/>
+        <location line="-813"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>Nom del dispositiu</translation>
     </message>

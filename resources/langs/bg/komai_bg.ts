@@ -4742,30 +4742,30 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>Потребителско име</translation>
     </message>
     <message>
-        <location line="-678"/>
-        <location line="+772"/>
+        <location line="-715"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>Парола</translation>
     </message>
     <message>
-        <location line="-771"/>
-        <location line="+825"/>
+        <location line="-814"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>Потвърди</translation>
     </message>
     <message>
-        <location line="-824"/>
-        <location line="+893"/>
+        <location line="-870"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>Име на устройство</translation>
     </message>
     <message>
-        <location line="-856"/>
+        <location line="-906"/>
         <source>Verification</source>
         <translation>Верификация</translation>
     </message>
@@ -4786,12 +4786,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4811,27 +4811,34 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Акаунт</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>Регистрирай се</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>Публични сървъри</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>Персонализиран сървър</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>Сървъри, управлявани от общността, с отворена регистрация</translation>
     </message>
@@ -4846,7 +4853,22 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Базирано на %1, подбрано от екипа на Komai</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>Уеб</translation>
     </message>
@@ -4856,7 +4878,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Регистрацията се извършва в браузъра ти на уебсайта на сървъра.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>Демо</translation>
     </message>
@@ -4866,12 +4888,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Сървър за демонстрация и тестване. Не е подходящ за реална употреба.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>Процесът на регистрация изисква преминаване на CAPTCHA проверка в браузъра.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>Имейл</translation>
     </message>
@@ -4881,12 +4903,12 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Процесът на регистрация изисква потвърждаване на валиден имейл адрес.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>напр. example.com или https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>Този сървър обработва регистрацията на своя уебсайт.</translation>
     </message>
@@ -4902,49 +4924,50 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>Продължи</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>Създай акаунта си в %1</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>Това потребителско име не е налично. Опитай с друго.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>Избери потребителско име</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>Покажи/Скрий паролата</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>Избери парола</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>Потвърди паролата</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>Паролите не съвпадат</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Избери разпознаваемо име. Другите също могат да го виждат.</translation>
     </message>
@@ -4954,27 +4977,33 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Генерирай друго произволно име</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>Предложения:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>Необходима е верификация по имейл</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>your@email.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>Изпрати имейл за верификация</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>Провери имейла си и кликни върху линка за верификация, след което кликни Продължи по-долу.</translation>
     </message>
@@ -4989,7 +5018,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Условия за ползване</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>Приемам условията</translation>
     </message>
@@ -4999,9 +5028,14 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Необходим е регистрационен токен</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>Въведи регистрационния си токен</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -5014,7 +5048,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Необходима е допълнителна верификация</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>Завърши верификацията в браузъра си, след което кликни Потвърди по-долу.</translation>
     </message>

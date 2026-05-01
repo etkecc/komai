@@ -4742,18 +4742,18 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>Benutzername</translation>
     </message>
     <message>
-        <location line="-677"/>
-        <location line="+825"/>
+        <location line="-714"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>Bestätigen</translation>
     </message>
     <message>
-        <location line="-787"/>
+        <location line="-833"/>
         <source>Verification</source>
         <translation>Verifizierung</translation>
     </message>
@@ -4774,12 +4774,12 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4799,27 +4799,34 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Konto</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>Registrieren</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>Öffentliche Server</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>Benutzerdefinierter Server</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>Von der Community betriebene Server mit offener Registrierung</translation>
     </message>
@@ -4834,7 +4841,22 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Basierend auf %1, zusammengestellt vom Komai-Team</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
@@ -4844,7 +4866,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Die Registrierung wird in deinem Browser auf der Website des Servers abgeschlossen.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>Demo</translation>
     </message>
@@ -4854,12 +4876,12 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Ein Server für Demonstrations- und Testzwecke. Nicht für den echten Einsatz geeignet.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>Die Registrierung erfordert das Lösen einer CAPTCHA-Aufgabe im Browser.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>E-Mail</translation>
     </message>
@@ -4869,12 +4891,12 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Die Registrierung erfordert die Bestätigung einer gültigen E-Mail-Adresse.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>z. B. example.com oder https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>Dieser Server verwaltet die Registrierung auf seiner Website.</translation>
     </message>
@@ -4890,49 +4912,50 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>Weiter</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>Erstelle dein Konto auf %1</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>Dieser Nutzername ist nicht verfügbar. Probiere einen anderen.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>Wähle einen Nutzernamen</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>Passwort anzeigen oder verstecken</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>Wähle ein Passwort</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>Passwort bestätigen</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>Passwörter stimmen nicht überein</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Wähle einen erkennbaren Namen. Andere können ihn auch sehen.</translation>
     </message>
@@ -4942,27 +4965,33 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Anderen zufälligen Namen generieren</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>Vorschläge:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>E-Mail-Verifizierung erforderlich</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>deine@email.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>Verifizierungs-E-Mail senden</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>Prüfe deine E-Mail und klicke auf den Verifizierungslink, dann klicke unten auf Weiter.</translation>
     </message>
@@ -4977,7 +5006,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Nutzungsbedingungen</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>Ich akzeptiere die Bedingungen</translation>
     </message>
@@ -4987,9 +5016,14 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Registrierungstoken erforderlich</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>Registrierungstoken eingeben</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -5002,7 +5036,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Zusätzliche Verifizierung erforderlich</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>Schließe die Verifizierung in deinem Browser ab, dann klicke unten auf Bestätigen.</translation>
     </message>
@@ -5017,14 +5051,14 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Ich habe die Verifizierung abgeschlossen</translation>
     </message>
     <message>
-        <location line="-1283"/>
-        <location line="+772"/>
+        <location line="-1344"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>Passwort</translation>
     </message>
     <message>
-        <location line="-770"/>
-        <location line="+893"/>
+        <location line="-813"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>Gerätename</translation>
     </message>

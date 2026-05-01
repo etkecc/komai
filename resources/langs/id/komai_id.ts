@@ -4736,18 +4736,18 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
     <name>RegisterPage</name>
     <message>
         <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
-        <location line="+679"/>
+        <location line="+716"/>
         <source>Username</source>
         <translation>Nama pengguna</translation>
     </message>
     <message>
-        <location line="-677"/>
-        <location line="+825"/>
+        <location line="-714"/>
+        <location line="+871"/>
         <source>Confirm</source>
         <translation>Konfirmasi</translation>
     </message>
     <message>
-        <location line="-787"/>
+        <location line="-833"/>
         <source>Verification</source>
         <translation>Verifikasi</translation>
     </message>
@@ -4768,12 +4768,12 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+385"/>
+        <location line="+415"/>
         <source>CAPTCHA</source>
         <translation>CAPTCHA</translation>
     </message>
     <message>
-        <location line="-384"/>
+        <location line="-414"/>
         <source>SSO</source>
         <translation>SSO</translation>
     </message>
@@ -4793,27 +4793,34 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Akun</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+63"/>
+        <location line="+28"/>
         <source>Cancel</source>
         <translation>Batal</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Register</source>
         <translation>Daftar</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Public servers</source>
         <translation>Server publik</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+339"/>
         <source>Custom server</source>
         <translation>Server kustom</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-330"/>
+        <source>Server selection mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Community-operated servers with open registration</source>
         <translation>Server yang dioperasikan komunitas dengan pendaftaran terbuka</translation>
     </message>
@@ -4828,7 +4835,22 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Berdasarkan %1, dikurasi oleh tim Komai</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+43"/>
+        <source>Web registration</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Demo server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>CAPTCHA required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+86"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
@@ -4838,7 +4860,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Pendaftaran diselesaikan di browser Anda di situs web server.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Demo</source>
         <translation>Demo</translation>
     </message>
@@ -4848,12 +4870,12 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Server untuk demonstrasi dan pengujian. Tidak cocok untuk penggunaan nyata.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>The registration flow requires completing a CAPTCHA challenge in the browser.</source>
         <translation>Alur pendaftaran mengharuskan penyelesaian tantangan CAPTCHA di browser.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Email</source>
         <translation>Email</translation>
     </message>
@@ -4863,12 +4885,12 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Alur pendaftaran mengharuskan konfirmasi alamat email yang valid.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>cth. example.com atau https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>This server handles registration on its website.</source>
         <translation>Server ini menangani pendaftaran di situs webnya.</translation>
     </message>
@@ -4884,49 +4906,50 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <location line="+404"/>
-        <location line="+91"/>
-        <location line="+103"/>
+        <location line="+423"/>
+        <location line="+94"/>
+        <location line="+106"/>
         <source>Continue</source>
         <translation>Lanjutkan</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-593"/>
         <source>Create your account on %1</source>
         <translation>Buat akun Anda di %1</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>This username is not available. Try a different one.</source>
         <translation>Nama pengguna ini tidak tersedia. Coba yang lain.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-4"/>
         <source>Choose a username</source>
         <translation>Pilih nama pengguna</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+53"/>
         <source>Show/Hide Password</source>
         <translation>Tampilkan/Sembunyikan Kata Sandi</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Choose a password</source>
         <translation>Pilih kata sandi</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Confirm password</source>
         <translation>Konfirmasi kata sandi</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>Passwords do not match</source>
         <translation>Kata sandi tidak cocok</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Pilih nama yang mudah dikenali. Orang lain juga dapat melihatnya.</translation>
     </message>
@@ -4936,27 +4959,33 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Buat nama acak lain</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>Suggestions:</source>
         <translation>Saran:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="-744"/>
+        <location line="+809"/>
         <source>Email verification required</source>
         <translation>Verifikasi email diperlukan</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>your@email.com</source>
         <translation>email@anda.com</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+2"/>
+        <source>Email address</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Send verification email</source>
         <translation>Kirim email verifikasi</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Check your email and click the verification link, then click Continue below.</source>
         <translation>Periksa email Anda dan klik tautan verifikasi, lalu klik Lanjutkan di bawah.</translation>
     </message>
@@ -4971,7 +5000,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Ketentuan Layanan</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>I accept the terms</source>
         <translation>Saya menerima ketentuan</translation>
     </message>
@@ -4981,9 +5010,14 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Token pendaftaran diperlukan</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Enter your registration token</source>
         <translation>Masukkan token pendaftaran Anda</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Registration token</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
@@ -4996,7 +5030,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Verifikasi tambahan diperlukan</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Complete the verification in your browser, then click Confirm below.</source>
         <translation>Selesaikan verifikasi di browser Anda, lalu klik Konfirmasi di bawah.</translation>
     </message>
@@ -5011,14 +5045,14 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Saya telah menyelesaikan verifikasi</translation>
     </message>
     <message>
-        <location line="-1283"/>
-        <location line="+772"/>
+        <location line="-1344"/>
+        <location line="+815"/>
         <source>Password</source>
         <translation>Kata Sandi</translation>
     </message>
     <message>
-        <location line="-770"/>
-        <location line="+893"/>
+        <location line="-813"/>
+        <location line="+943"/>
         <source>Device name</source>
         <translation>Nama perangkat</translation>
     </message>

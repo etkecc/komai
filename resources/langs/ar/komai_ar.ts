@@ -11130,12 +11130,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePrimaryActions</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+28"/>
         <source>New to Matrix?</source>
         <translation>جديد في Matrix؟</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+11"/>
         <source>Register</source>
         <translation>التسجيل</translation>
     </message>

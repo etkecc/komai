@@ -11077,12 +11077,12 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
 <context>
     <name>WelcomePrimaryActions</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+28"/>
         <source>New to Matrix?</source>
         <translation>¿Nuevo en Matrix?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+11"/>
         <source>Register</source>
         <translation>Registrarse</translation>
     </message>

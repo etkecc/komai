@@ -11074,12 +11074,12 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
 <context>
     <name>WelcomePrimaryActions</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+28"/>
         <source>New to Matrix?</source>
         <translation>Nov a Matrix?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+11"/>
         <source>Register</source>
         <translation>Registrar</translation>
     </message>

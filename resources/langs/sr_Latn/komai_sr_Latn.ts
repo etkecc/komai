@@ -11088,12 +11088,12 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
 <context>
     <name>WelcomePrimaryActions</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+28"/>
         <source>New to Matrix?</source>
         <translation>Novi u Matrix-u?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+11"/>
         <source>Register</source>
         <translation>Registruj se</translation>
     </message>

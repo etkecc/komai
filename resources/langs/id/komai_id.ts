@@ -11060,12 +11060,12 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
 <context>
     <name>WelcomePrimaryActions</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+28"/>
         <source>New to Matrix?</source>
         <translation>Baru di Matrix?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+11"/>
         <source>Register</source>
         <translation>Daftar</translation>
     </message>

@@ -2543,7 +2543,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
-        <translation>Фино %1 приложение за чат, което може да заобичаш</translation>
+        <translation>Фино %1 чат приложение, което може да обикнеш.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4499,7 +4499,7 @@ Subcommands (run without a display server):
   %1 theme      Theme file management (offline)
 
 Run '%1 &lt;group&gt; --help' for subcommand details.</source>
-        <translation>Приятно приложение за Matrix чат, което може да обикнеш.
+        <translation>Фино Matrix чат приложение, което може да обикнеш.
 
 Подкоманди (изпълнявани без дисплейен сървър):
   %1 app        Метаданни на инстанцията (JSON)
@@ -11074,12 +11074,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePrimaryActions</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+28"/>
         <source>New to Matrix?</source>
         <translation>Нов в Matrix?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+11"/>
         <source>Register</source>
         <translation>Регистрирай се</translation>
     </message>

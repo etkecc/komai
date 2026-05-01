@@ -2744,51 +2744,52 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>LoginPage</name>
     <message>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
-        <location line="+177"/>
+        <location line="+184"/>
         <source>Matrix ID</source>
         <translation>Matrix ID</translation>
     </message>
     <message>
-        <location line="-176"/>
-        <location line="+281"/>
+        <location line="-183"/>
+        <location line="+292"/>
         <source>Server</source>
         <translation>Сървър</translation>
     </message>
     <message>
-        <location line="-280"/>
-        <location line="+409"/>
+        <location line="-291"/>
+        <location line="+424"/>
         <source>Device name</source>
         <translation>Име на устройство</translation>
     </message>
     <message>
-        <location line="-408"/>
-        <location line="+730"/>
+        <location line="-423"/>
+        <location line="+754"/>
         <source>Sign in method</source>
         <translation>Метод за влизане</translation>
     </message>
     <message>
-        <location line="-729"/>
-        <location line="+637"/>
-        <location line="+113"/>
-        <location line="+88"/>
+        <location line="-753"/>
+        <location line="+657"/>
+        <location line="+118"/>
+        <location line="+91"/>
         <source>Password</source>
         <translation>Парола</translation>
     </message>
     <message>
-        <location line="-758"/>
+        <location line="-810"/>
+        <location line="+27"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <location line="+31"/>
-        <location line="+564"/>
-        <location line="+208"/>
+        <location line="+27"/>
+        <location line="+32"/>
+        <location line="+581"/>
+        <location line="+217"/>
         <source>Sign in</source>
         <translation>Влез</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-800"/>
         <source>Account</source>
         <translation>Акаунт</translation>
     </message>
@@ -2798,38 +2799,38 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Устройство</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+66"/>
         <source>e.g. @user:example.com or user</source>
         <translation>напр. @user:example.com или user</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+50"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
         <translation>Акаунтите са на сървър. Пълен ID ще опита автоматично разпознаване на сървъра.</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+59"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>напр. example.com или https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>Both a server name and a full homeserver URL work.</source>
         <translation>Работи и с името на сървъра, и с пълния URL на homeserver-а.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+28"/>
         <source>Checking server...</source>
         <translation>Проверка на сървъра…</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+153"/>
+        <location line="+157"/>
         <source>Continue</source>
         <translation>Продължи</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Избери разпознаваемо име. Другите също могат да го виждат.</translation>
     </message>
@@ -2839,7 +2840,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Генерирай друго произволно име</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Suggestions:</source>
         <translation>Предложения:</translation>
     </message>
@@ -2850,18 +2851,18 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+56"/>
-        <location line="+201"/>
+        <location line="+209"/>
         <source>Your browser has been launched. Continue there.</source>
         <translation>Браузърът ти е отворен. Продължи там.</translation>
     </message>
     <message>
-        <location line="-154"/>
-        <location line="+208"/>
+        <location line="-160"/>
+        <location line="+217"/>
         <source>Show/Hide Password</source>
         <translation>Покажи/Скрий паролата</translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-112"/>
         <source>Browser (SSO)</source>
         <translation>Браузър (SSO)</translation>
     </message>

@@ -2803,37 +2803,38 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
-        <location line="+177"/>
+        <location line="+184"/>
         <source>Matrix ID</source>
         <translation>Matrix ID</translation>
     </message>
     <message>
-        <location line="-176"/>
-        <location line="+281"/>
+        <location line="-183"/>
+        <location line="+292"/>
         <source>Server</source>
         <translation>伺服器</translation>
     </message>
     <message>
-        <location line="-279"/>
-        <location line="+730"/>
+        <location line="-290"/>
+        <location line="+754"/>
         <source>Sign in method</source>
         <translation>登入方式</translation>
     </message>
     <message>
-        <location line="-649"/>
+        <location line="-697"/>
+        <location line="+27"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <location line="+31"/>
-        <location line="+564"/>
-        <location line="+208"/>
+        <location line="+27"/>
+        <location line="+32"/>
+        <location line="+581"/>
+        <location line="+217"/>
         <source>Sign in</source>
         <translation>登入</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-800"/>
         <source>Account</source>
         <translation>帳號</translation>
     </message>
@@ -2843,38 +2844,38 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>裝置</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+66"/>
         <source>e.g. @user:example.com or user</source>
         <translation>例如：@user:example.com 或 user</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+50"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
         <translation>帳號存在於伺服器上。完整 ID 將嘗試自動偵測伺服器。</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+59"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>例如：example.com 或 https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>Both a server name and a full homeserver URL work.</source>
         <translation>伺服器名稱和完整 homeserver URL 皆可使用。</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+28"/>
         <source>Checking server...</source>
         <translation>正在檢查伺服器……</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+153"/>
+        <location line="+157"/>
         <source>Continue</source>
         <translation>繼續</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>選擇一個易於識別的名稱。其他人也可以看到。</translation>
     </message>
@@ -2884,7 +2885,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>產生另一個隨機名稱</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Suggestions:</source>
         <translation>建議：</translation>
     </message>
@@ -2895,32 +2896,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+56"/>
-        <location line="+201"/>
+        <location line="+209"/>
         <source>Your browser has been launched. Continue there.</source>
         <translation>您的瀏覽器已開啟，請在那裡繼續。</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-55"/>
         <source>Browser (SSO)</source>
         <translation>瀏覽器（SSO）</translation>
     </message>
     <message>
-        <location line="-749"/>
-        <location line="+637"/>
-        <location line="+113"/>
-        <location line="+88"/>
+        <location line="-774"/>
+        <location line="+657"/>
+        <location line="+118"/>
+        <location line="+91"/>
         <source>Password</source>
         <translation>密碼</translation>
     </message>
     <message>
-        <location line="-189"/>
-        <location line="+208"/>
+        <location line="-197"/>
+        <location line="+217"/>
         <source>Show/Hide Password</source>
         <translation>顯示／隱藏密碼</translation>
     </message>
     <message>
-        <location line="-859"/>
-        <location line="+409"/>
+        <location line="-888"/>
+        <location line="+424"/>
         <source>Device name</source>
         <translation>裝置名稱</translation>
     </message>

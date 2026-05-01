@@ -2806,37 +2806,38 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
-        <location line="+177"/>
+        <location line="+184"/>
         <source>Matrix ID</source>
         <translation>Matrix ID</translation>
     </message>
     <message>
-        <location line="-176"/>
-        <location line="+281"/>
+        <location line="-183"/>
+        <location line="+292"/>
         <source>Server</source>
         <translation>സെർവർ</translation>
     </message>
     <message>
-        <location line="-279"/>
-        <location line="+730"/>
+        <location line="-290"/>
+        <location line="+754"/>
         <source>Sign in method</source>
         <translation>സൈൻ ഇൻ രീതി</translation>
     </message>
     <message>
-        <location line="-649"/>
+        <location line="-697"/>
+        <location line="+27"/>
         <source>Cancel</source>
         <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <location line="+31"/>
-        <location line="+564"/>
-        <location line="+208"/>
+        <location line="+27"/>
+        <location line="+32"/>
+        <location line="+581"/>
+        <location line="+217"/>
         <source>Sign in</source>
         <translation>സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-800"/>
         <source>Account</source>
         <translation>അക്കൗണ്ട്</translation>
     </message>
@@ -2846,38 +2847,38 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഉപകരണം</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+66"/>
         <source>e.g. @user:example.com or user</source>
         <translation>ഉദാ. @user:example.com അല്ലെങ്കിൽ user</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+50"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
         <translation>അക്കൗണ്ടുകൾ ഒരു സെർവറിലാണ്. ഒരു പൂർണ്ണ ID സർവ്വർ സ്വയം-കണ്ടെത്തൽ ശ്രമിക്കും.</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+59"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>ഉദാ. example.com അല്ലെങ്കിൽ https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>Both a server name and a full homeserver URL work.</source>
         <translation>ഒരു സെർവർ പേരും ഒരു പൂർണ്ണ ഹോംസർവ്വർ URL-ഉം പ്രവർത്തിക്കും.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+28"/>
         <source>Checking server...</source>
         <translation>സെർവർ പരിശോധിക്കുന്നു...</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+153"/>
+        <location line="+157"/>
         <source>Continue</source>
         <translation>തുടരുക</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>തിരിച്ചറിയാവുന്ന ഒരു പേര് തിരഞ്ഞെടുക്കുക. മറ്റുള്ളവർക്കും ഇത് കാണാൻ കഴിയും.</translation>
     </message>
@@ -2887,7 +2888,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>മറ്റൊരു ക്രമരഹിത പേര് ഉണ്ടാക്കുക</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Suggestions:</source>
         <translation>നിർദ്ദേശങ്ങൾ:</translation>
     </message>
@@ -2898,32 +2899,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+56"/>
-        <location line="+201"/>
+        <location line="+209"/>
         <source>Your browser has been launched. Continue there.</source>
         <translation>നിങ്ങളുടെ ബ്രൗസർ ആരംഭിച്ചു. അവിടെ തുടരുക.</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-55"/>
         <source>Browser (SSO)</source>
         <translation>ബ്രൗസർ (SSO)</translation>
     </message>
     <message>
-        <location line="-749"/>
-        <location line="+637"/>
-        <location line="+113"/>
-        <location line="+88"/>
+        <location line="-774"/>
+        <location line="+657"/>
+        <location line="+118"/>
+        <location line="+91"/>
         <source>Password</source>
         <translation>പാസ്‌വേഡ്</translation>
     </message>
     <message>
-        <location line="-189"/>
-        <location line="+208"/>
+        <location line="-197"/>
+        <location line="+217"/>
         <source>Show/Hide Password</source>
         <translation>പാസ്‌വേഡ് കാണിക്കുക/മറയ്ക്കുക</translation>
     </message>
     <message>
-        <location line="-859"/>
-        <location line="+409"/>
+        <location line="-888"/>
+        <location line="+424"/>
         <source>Device name</source>
         <translation>ഉപകരണത്തിന്റെ പേര്</translation>
     </message>

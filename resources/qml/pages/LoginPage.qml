@@ -129,6 +129,8 @@ Rectangle {
                 bottomPadding: 0
                 leftPadding: Komai.paddingMedium
                 rightPadding: Komai.paddingMedium
+                Accessible.role: Accessible.Button
+                Accessible.name: qsTr("Cancel")
 
                 HoverHandler {
                     cursorShape: Qt.PointingHandCursor
@@ -150,6 +152,7 @@ Rectangle {
                         source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerCancel.hovered ? palette.brightText : palette.text)
                         sourceSize.width: 24
                         sourceSize.height: 24
+                        Accessible.ignored: true
                     }
 
                     Label {
@@ -158,6 +161,7 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt
                         font.bold: true
                         color: headerCancel.hovered ? palette.brightText : palette.text
+                        Accessible.ignored: true
                     }
                 }
             }
@@ -175,6 +179,7 @@ Rectangle {
                     sourceSize.width: loginPage.headerIconSize
                     sourceSize.height: loginPage.headerIconSize
                     fillMode: Image.PreserveAspectFit
+                    Accessible.ignored: true
                 }
 
                 Label {
@@ -183,6 +188,7 @@ Rectangle {
                     font.pointSize: Settings.uiFontSizePt * 1.1
                     font.bold: true
                     color: palette.text
+                    Accessible.role: Accessible.Heading
                 }
             }
         }
@@ -245,6 +251,7 @@ Rectangle {
                         spacing: Komai.paddingSmall
 
                         Label {
+                            id: matrixIdLabel
                             Layout.preferredWidth: loginPage.fieldLabelWidth
                             Layout.margins: Komai.paddingMedium
                             text: qsTr("Matrix ID")
@@ -256,6 +263,7 @@ Rectangle {
                             Layout.preferredWidth: matrixIdField.height / 2
                             Layout.preferredHeight: matrixIdField.height / 2
                             Layout.alignment: Qt.AlignVCenter
+                            Accessible.ignored: true
 
                             Spinner {
                                 anchors.fill: parent
@@ -275,6 +283,7 @@ Rectangle {
                             font.pointSize: Settings.uiFontSizePt * 1.1
                             placeholderText: qsTr("e.g. @user:example.com or user")
                             readOnly: loginPage.currentStep !== 0
+                            Accessible.name: matrixIdLabel.text
                             Keys.onReturnPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
                             Keys.onEnterPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
 
@@ -313,6 +322,7 @@ Rectangle {
                         text: login.mxidError
                         visible: text && loginPage.currentStep === 0
                         wrapMode: TextEdit.Wrap
+                        Accessible.role: Accessible.AlertMessage
                     }
 
                     Label {
@@ -350,6 +360,7 @@ Rectangle {
                         spacing: Komai.paddingSmall
 
                         Label {
+                            id: serverLabel
                             Layout.preferredWidth: loginPage.fieldLabelWidth
                             Layout.margins: Komai.paddingMedium
                             text: qsTr("Server")
@@ -361,6 +372,7 @@ Rectangle {
                             Layout.preferredWidth: serverField.height / 2
                             Layout.preferredHeight: serverField.height / 2
                             Layout.alignment: Qt.AlignVCenter
+                            Accessible.ignored: true
 
                             Spinner {
                                 anchors.fill: parent
@@ -381,6 +393,7 @@ Rectangle {
                             placeholderText: qsTr("e.g. example.com or https://matrix.example.com")
                             text: login.homeserver
                             readOnly: loginPage.currentStep !== 0
+                            Accessible.name: serverLabel.text
                             Keys.onReturnPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
                             Keys.onEnterPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
 
@@ -425,6 +438,7 @@ Rectangle {
                         text: loginPage.error
                         visible: text && loginPage.currentStep === 0
                         wrapMode: TextEdit.Wrap
+                        Accessible.role: Accessible.AlertMessage
                     }
 
                     MatrixText {
@@ -479,6 +493,7 @@ Rectangle {
                         spacing: Komai.paddingSmall
 
                         Label {
+                            id: deviceNameLabel
                             Layout.preferredWidth: loginPage.fieldLabelWidth
                             Layout.margins: Komai.paddingMedium
                             text: qsTr("Device name")
@@ -491,6 +506,7 @@ Rectangle {
                             Layout.preferredWidth: deviceNameField.height / 2
                             Layout.preferredHeight: deviceNameField.height / 2
                             Layout.alignment: Qt.AlignVCenter
+                            Accessible.ignored: true
                         }
 
                         KomaiTextField {
@@ -503,6 +519,7 @@ Rectangle {
                             font.pointSize: Settings.uiFontSizePt * 1.1
                             text: login.deviceNameOS()
                             readOnly: loginPage.currentStep !== 1
+                            Accessible.name: deviceNameLabel.text
                             Keys.onReturnPressed: loginPage.advanceToStep(2)
                             Keys.onEnterPressed: loginPage.advanceToStep(2)
                         }
@@ -537,6 +554,7 @@ Rectangle {
                             leftPadding: Komai.paddingMedium
                             rightPadding: Komai.paddingMedium
                             toolTipText: qsTr("Generate another random name")
+                            Accessible.name: toolTipText
                             onClicked: suggestRandomBtn.randomName = login.deviceNameRandom()
                         }
 
@@ -691,6 +709,7 @@ Rectangle {
                 text: loginPage.error
                 visible: text && loginPage.currentStep === 2 && login.ssoSupported && !login.passwordSupported
                 wrapMode: TextEdit.Wrap
+                Accessible.role: Accessible.AlertMessage
             }
 
             // ── Password-only: password field + sign in ──
@@ -709,6 +728,7 @@ Rectangle {
                     spacing: Komai.paddingSmall
 
                     Label {
+                        id: pwOnlyLabel
                         Layout.fillWidth: true
                         Layout.margins: Komai.paddingMedium
                         text: qsTr("Password")
@@ -724,6 +744,7 @@ Rectangle {
                         image: pwOnlyField.echoMode === TextInput.Password ? ":/icons/icons/ui/eye-show.svg" : ":/icons/icons/ui/eye-hide.svg"
                         toolTipVisible: hovered
                         toolTipText: qsTr("Show/Hide Password")
+                        focusPolicy: Qt.StrongFocus
                         onClicked: {
                             pwOnlyField.echoMode = pwOnlyField.echoMode === TextInput.Normal
                                 ? TextInput.Password : TextInput.Normal;
@@ -739,6 +760,7 @@ Rectangle {
                         Layout.rightMargin: Komai.paddingSmall
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         echoMode: TextInput.Password
+                        Accessible.name: pwOnlyLabel.text
                         Keys.onReturnPressed: if (pwOnlyBtn.enabled) pwOnlyBtn.doPwLogin()
                         Keys.onEnterPressed: if (pwOnlyBtn.enabled) pwOnlyBtn.doPwLogin()
                     }
@@ -752,6 +774,7 @@ Rectangle {
                 text: loginPage.error
                 visible: text && loginPage.currentStep === 2 && login.passwordSupported && !login.ssoSupported
                 wrapMode: TextEdit.Wrap
+                Accessible.role: Accessible.AlertMessage
             }
 
             Item {
@@ -801,6 +824,7 @@ Rectangle {
                     spacing: Komai.paddingSmall
 
                     Label {
+                        id: methodLabel
                         Layout.preferredWidth: loginPage.fieldLabelWidth
                         Layout.margins: Komai.paddingMedium
                         text: qsTr("Sign in method")
@@ -813,6 +837,7 @@ Rectangle {
                         Layout.preferredWidth: signInMethodSegment.height / 2
                         Layout.preferredHeight: signInMethodSegment.height / 2
                         Layout.alignment: Qt.AlignVCenter
+                        Accessible.ignored: true
                     }
 
                     SegmentedButton {
@@ -831,6 +856,7 @@ Rectangle {
                                 login.cancelLogin();
                             loginPage.signInMethodIndex = index;
                         }
+                        Accessible.name: methodLabel.text
                     }
                 }
             }
@@ -892,6 +918,7 @@ Rectangle {
                 text: loginPage.error
                 visible: text && loginPage.currentStep === 2 && login.ssoSupported && login.passwordSupported && !loginPage.showPasswordField
                 wrapMode: TextEdit.Wrap
+                Accessible.role: Accessible.AlertMessage
             }
 
             // ── Both: Password field (when password selected) ──
@@ -910,6 +937,7 @@ Rectangle {
                     spacing: Komai.paddingSmall
 
                     Label {
+                        id: pwBothLabel
                         Layout.preferredWidth: loginPage.fieldLabelWidth
                         Layout.margins: Komai.paddingMedium
                         text: qsTr("Password")
@@ -922,6 +950,7 @@ Rectangle {
                         Layout.preferredWidth: pwBothField.height / 2
                         Layout.preferredHeight: pwBothField.height / 2
                         Layout.alignment: Qt.AlignVCenter
+                        Accessible.ignored: true
                     }
 
                     ImageButton {
@@ -932,6 +961,7 @@ Rectangle {
                         image: pwBothField.echoMode === TextInput.Password ? ":/icons/icons/ui/eye-show.svg" : ":/icons/icons/ui/eye-hide.svg"
                         toolTipVisible: hovered
                         toolTipText: qsTr("Show/Hide Password")
+                        focusPolicy: Qt.StrongFocus
                         onClicked: {
                             pwBothField.echoMode = pwBothField.echoMode === TextInput.Normal
                                 ? TextInput.Password : TextInput.Normal;
@@ -947,6 +977,7 @@ Rectangle {
                         Layout.rightMargin: Komai.paddingSmall
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         echoMode: TextInput.Password
+                        Accessible.name: pwBothLabel.text
                         Keys.onReturnPressed: if (pwBothBtn.enabled) pwBothBtn.doPwLogin()
                         Keys.onEnterPressed: if (pwBothBtn.enabled) pwBothBtn.doPwLogin()
                     }
@@ -960,6 +991,7 @@ Rectangle {
                 text: loginPage.error
                 visible: text && loginPage.currentStep === 2 && login.passwordSupported && login.ssoSupported && loginPage.showPasswordField
                 wrapMode: TextEdit.Wrap
+                Accessible.role: Accessible.AlertMessage
             }
 
             Item {

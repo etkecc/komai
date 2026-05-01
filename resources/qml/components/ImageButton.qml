@@ -25,8 +25,15 @@ AbstractButton {
     property int toolTipDelay: 0
     property real toolTipAnchorX: width / 2
 
+    // Default to NoFocus so dense icon-button rows (toolbars, message
+    // actions) don't trap Tab navigation. Callers can override to
+    // Qt.StrongFocus per-instance for buttons that genuinely deserve a
+    // tab stop (e.g. password show/hide).
     focusPolicy: Qt.NoFocus
     font.pointSize: Settings.uiFontSizePt
+    // Default Accessible.name to the tooltip so screen readers always have
+    // some name to announce, even for callers that forget to set one.
+    Accessible.name: button.toolTipText
     height: 16
     width: 16
 

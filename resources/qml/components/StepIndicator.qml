@@ -66,6 +66,12 @@ Item {
                     activeFocusOnTab: !isLocked
                     focusPolicy: isLocked ? Qt.NoFocus : Qt.StrongFocus
 
+                    Accessible.role: Accessible.PageTab
+                    Accessible.name: modelData && modelData.text ? modelData.text : ""
+                    Accessible.checkable: true
+                    Accessible.checked: isCurrent
+                    Accessible.onPressAction: if (!isLocked) clicked()
+
                     onClicked: {
                         root.activated(index);
                     }

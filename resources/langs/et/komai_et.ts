@@ -2806,37 +2806,38 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location filename="../../qml/pages/LoginPage.qml" line="+73"/>
-        <location line="+177"/>
+        <location line="+184"/>
         <source>Matrix ID</source>
         <translation>Matrixi kasutajatunnus</translation>
     </message>
     <message>
-        <location line="-176"/>
-        <location line="+281"/>
+        <location line="-183"/>
+        <location line="+292"/>
         <source>Server</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location line="-279"/>
-        <location line="+730"/>
+        <location line="-290"/>
+        <location line="+754"/>
         <source>Sign in method</source>
         <translation>Sisselogimise meetod</translation>
     </message>
     <message>
-        <location line="-649"/>
+        <location line="-697"/>
+        <location line="+27"/>
         <source>Cancel</source>
         <translation>Tühista</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <location line="+31"/>
-        <location line="+564"/>
-        <location line="+208"/>
+        <location line="+27"/>
+        <location line="+32"/>
+        <location line="+581"/>
+        <location line="+217"/>
         <source>Sign in</source>
         <translation>Logi sisse</translation>
     </message>
     <message>
-        <location line="-774"/>
+        <location line="-800"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -2846,38 +2847,38 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Seade</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+66"/>
         <source>e.g. @user:example.com or user</source>
         <translation>nt @user:example.com või kasutaja</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+50"/>
         <source>Accounts live on a server. A full ID will attempt server auto-detection.</source>
         <translation>Kontod asuvad serveris. Täisidentifikaatoriga üritatakse serverit automaatselt tuvastada.</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+59"/>
         <source>e.g. example.com or https://matrix.example.com</source>
         <translation>nt example.com või https://matrix.example.com</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>Both a server name and a full homeserver URL work.</source>
         <translation>Sobib nii serveri nimi kui ka täielik koduserveri URL.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+28"/>
         <source>Checking server...</source>
         <translation>Kontrollitakse serverit…</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+153"/>
+        <location line="+157"/>
         <source>Continue</source>
         <translation>Jätka</translation>
     </message>
     <message>
-        <location line="-88"/>
+        <location line="-89"/>
         <source>Choose a recognizable name. Others can see it too.</source>
         <translation>Vali äratuntav nimi. Teised näevad seda samuti.</translation>
     </message>
@@ -2887,7 +2888,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Genereeri teine juhuslik nimi</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>Suggestions:</source>
         <translation>Soovitused:</translation>
     </message>
@@ -2898,32 +2899,32 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+56"/>
-        <location line="+201"/>
+        <location line="+209"/>
         <source>Your browser has been launched. Continue there.</source>
         <translation>Brauser on avatud. Jätka seal.</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-55"/>
         <source>Browser (SSO)</source>
         <translation>Brauser (SSO)</translation>
     </message>
     <message>
-        <location line="-749"/>
-        <location line="+637"/>
-        <location line="+113"/>
-        <location line="+88"/>
+        <location line="-774"/>
+        <location line="+657"/>
+        <location line="+118"/>
+        <location line="+91"/>
         <source>Password</source>
         <translation>Salasõna</translation>
     </message>
     <message>
-        <location line="-189"/>
-        <location line="+208"/>
+        <location line="-197"/>
+        <location line="+217"/>
         <source>Show/Hide Password</source>
         <translation>Näita või peida salasõna</translation>
     </message>
     <message>
-        <location line="-859"/>
-        <location line="+409"/>
+        <location line="-888"/>
+        <location line="+424"/>
         <source>Device name</source>
         <translation>Seadme nimi</translation>
     </message>

@@ -2500,7 +2500,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profiilin nimi on pakollinen.</translation>
@@ -2541,7 +2541,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Välimuistikansiota ei voitu luoda uudelleen.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Hieno %1-viestisovellus, johon voi ihastua</translation>
     </message>
@@ -2567,7 +2567,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Hae…</translation>
     </message>
@@ -9715,7 +9715,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>⚠ Avatarin koko on asetettu Piilotetuksi, joten lähettäjien käyttäjänimet näytetään aina.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Käytä järjestelmää</translation>
     </message>
@@ -10989,27 +10989,9 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Uusi Matrix-käyttäjä?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Rekisteröidy</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Kirjaudu sisään</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -11024,22 +11006,27 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <translation>Tumma</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Ota animaatiot käyttöön</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai käyttää animaatioita useissa paikoissa visuaalisen palautteen parantamiseksi. Poista ne käytöstä, jos ne aiheuttavat pahoinvointia.</translation>
+        <translation>Komai käyttää animaatioita useissa paikoissa visuaalisen palautteen parantamiseksi. Poista ne käytöstä, jos ne saavat sinut voimaan pahoin.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Kieli</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
         <translation>Suosi emojiehdotuksia</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>Mikä tahansa sukupuoli</translation>
     </message>
@@ -11054,9 +11041,9 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <translation>👩 Naiset</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Mikä tahansa ihonsävy</translation>
+        <translation>Mikä tahansa ihonväri</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,6 +11069,24 @@ Vahvistus merkitsee tämän laitteen luotetuksi ja antaa pääsyn salattuihin vi
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Tumma</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Uusi Matrix-käyttäjä?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Rekisteröidy</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Kirjaudu sisään</translation>
     </message>
 </context>
 <context>

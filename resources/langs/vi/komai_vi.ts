@@ -2497,7 +2497,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Tên hồ sơ là bắt buộc.</translation>
@@ -2538,7 +2538,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Không thể tạo lại thư mục bộ nhớ đệm.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Ứng dụng trò chuyện %1 tuyệt vời mà bạn sẽ yêu thích</translation>
     </message>
@@ -2564,7 +2564,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Tìm kiếm…</translation>
     </message>
@@ -9701,7 +9701,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>⚠ Kích thước ảnh đại diện được đặt thành Ẩn, nên tên người gửi luôn được hiển thị.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Dùng hệ thống</translation>
     </message>
@@ -10016,7 +10016,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Tối vừa</translation>
+        <translation>👍🏾 Trung bình tối</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10975,27 +10975,9 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Mới dùng Matrix?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Đăng ký</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Đăng nhập</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Chủ đề</translation>
     </message>
@@ -11010,24 +10992,29 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
         <translation>Tối</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Bật hoạt ảnh</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai sử dụng hoạt ảnh ở một số nơi để cải thiện phản hồi trực quan. Tắt chúng nếu bạn cảm thấy không thoải mái.</translation>
+        <translation>Komai sử dụng hoạt ảnh ở một số nơi để cải thiện phản hồi trực quan. Tắt chúng nếu bạn cảm thấy khó chịu.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Ngôn ngữ</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
         <translation>Ưu tiên gợi ý emoji cho</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>Bất kỳ giới tính</translation>
+        <translation>Bất kỳ giới tính nào</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11040,9 +11027,9 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
         <translation>👩 Nữ</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Bất kỳ tông màu da</translation>
+        <translation>Bất kỳ màu da nào</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11062,12 +11049,30 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Tối vừa</translation>
+        <translation>👍🏾 Trung bình tối</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Tối</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Mới dùng Matrix?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Đăng ký</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Đăng nhập</translation>
     </message>
 </context>
 <context>

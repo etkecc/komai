@@ -2503,7 +2503,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Numele profilului este obligatoriu.</translation>
@@ -2544,7 +2544,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Nu s-a putut recrea folderul cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>O aplicație de chat %1 pe care ajungi să o iubești</translation>
     </message>
@@ -2570,7 +2570,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Caută…</translation>
     </message>
@@ -9729,7 +9729,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>⚠ Dimensiunea avatarului este setată la Ascuns, deci numele de utilizator ale expeditorilor sunt întotdeauna afișate.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Utilizare sistem</translation>
     </message>
@@ -11003,27 +11003,9 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Ești nou pe Matrix?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Înregistrare</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Autentificare</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Temă</translation>
     </message>
@@ -11038,22 +11020,27 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
         <translation>Întunecat</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
-        <translation>Activează animațiile</translation>
+        <translation>Activare animații</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
+        <translation>Komai folosește animații în mai multe locuri pentru a îmbunătăți feedback-ul vizual. Dezactivați-le dacă provoacă disconfort.</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai folosește animații în mai multe locuri pentru a îmbunătăți feedback-ul vizual. Dezactivează-le dacă te fac să te simți rău.</translation>
+        <source>Language</source>
+        <translation>Limbă</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
         <translation>Preferă sugestii emoji pentru</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>Orice gen</translation>
     </message>
@@ -11068,7 +11055,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
         <translation>👩 Femei</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
         <translation>Orice ton de piele</translation>
     </message>
@@ -11096,6 +11083,24 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Închis</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Ești nou pe Matrix?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Înregistrare</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Autentificare</translation>
     </message>
 </context>
 <context>

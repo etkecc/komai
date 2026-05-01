@@ -2500,7 +2500,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>ප්‍රොෆයිල් නාමය අවශ්‍ය වේ.</translation>
@@ -2541,7 +2541,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>හැඹිලි ෆෝල්ඩරය නැවත සෑදිය නොහැකි විය.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>ඔබට ප්‍රිය කළ හැකි හොඳ %1 කතාබස් යෙදුම</translation>
     </message>
@@ -2567,7 +2567,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>සොයන්න…</translation>
     </message>
@@ -9715,7 +9715,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>⚠ අවතාර ප්‍රමාණය සඟවා ඇති ලෙස සකසා ඇති නිසා, යවන්නාගේ පරිශීලක නම් සෑමවිටම පෙන්වේ.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>පද්ධතිය භාවිතා කරන්න</translation>
     </message>
@@ -10989,27 +10989,9 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Matrix ට නවකයෙකුද?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>ලියාපදිංචි වන්න</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>පිවිසෙන්න</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>තේමාව</translation>
     </message>
@@ -11024,39 +11006,44 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>අඳුරු</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
-        <translation>සජීවිකරණ සක්‍රිය කරන්න</translation>
+        <translation>සජීවීකරණ සක්‍රිය කරන්න</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
+        <translation>Komai දෘශ්‍ය ප්‍රතිපෝෂණය වැඩිදියුණු කිරීම සඳහා කිහිප තැනක සජීවීකරණ භාවිතා කරයි. ඒවා ඔබට අසහනය ඇති කරයි නම් අක්‍රිය කරන්න.</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai දෘශ්‍ය ප්‍රතිපෝෂණය වැඩිදියුණු කිරීමට ස්ථාන කිහිපයක සජීවිකරණ භාවිත කරයි. ඒවා ඔබට අපහසුතාවක් ඇති කරන්නේ නම් අක්‍රිය කරන්න.</translation>
+        <source>Language</source>
+        <translation>භාෂාව</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>සඳහා emoji යෝජනා ප්‍රමුඛ කරන්න</translation>
+        <translation>emoji යෝජනා සඳහා කැමතිය</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>ඕනෑම ලිංගිකත්වයක්</translation>
+        <translation>ඕනෑම ලිංගය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👨 Men</source>
-        <translation>👨 පිරිමින්</translation>
+        <translation>👨 පිරිමි</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👩 Women</source>
-        <translation>👩 කාන්තාවන්</translation>
+        <translation>👩 කාන්තා</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>ඕනෑම සමේ වර්ණයක්</translation>
+        <translation>ඕනෑම සම් වර්ණය</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,6 +11069,24 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 අඳුරු</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Matrix ට නවකයෙකුද?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>ලියාපදිංචි වන්න</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>පිවිසෙන්න</translation>
     </message>
 </context>
 <context>

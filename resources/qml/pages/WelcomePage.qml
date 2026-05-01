@@ -108,7 +108,7 @@ Rectangle {
                 font.pointSize: Settings.uiFontSizePt * 1.1
             }
 
-            Welcome.WelcomeThemeControls {
+            Welcome.WelcomePersonalityControls {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.leftMargin: Komai.paddingLarge
                 Layout.rightMargin: Komai.paddingLarge

@@ -2503,7 +2503,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Naziv profila je obavezan.</translation>
@@ -2544,7 +2544,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Nije moguće ponovo kreirati fasciklu keša.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Odlična %1 aplikacija za čat koju je lako zavoleti</translation>
     </message>
@@ -2570,7 +2570,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Pretraži…</translation>
     </message>
@@ -9729,7 +9729,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>⚠ Veličina avatara je podešena na Skriveno, pa se korisnička imena pošiljaoca uvek prikazuju.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Koristi sistemski</translation>
     </message>
@@ -11003,27 +11003,9 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Novi u Matrix-u?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Registruj se</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Prijavi se</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -11038,22 +11020,27 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
         <translation>Tamna</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Omogući animacije</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai koristi animacije na više mesta radi poboljšanja vizuelnih povratnih informacija. Onemogući ih ako te uznemiravaju.</translation>
+        <translation>Komai koristi animacije na nekoliko mesta radi boljeg vizuelnog povratnog odziva. Onemogući ih ako ti izazivaju nelagodnost.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Jezik</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Preferiraj predloge emojija za</translation>
+        <translation>Prikazuj emoji predloge za</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>Bilo koji pol</translation>
     </message>
@@ -11068,7 +11055,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
         <translation>👩 Žene</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
         <translation>Bilo koji ton kože</translation>
     </message>
@@ -11096,6 +11083,24 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Tamna</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Novi u Matrix-u?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Registruj se</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Prijavi se</translation>
     </message>
 </context>
 <context>

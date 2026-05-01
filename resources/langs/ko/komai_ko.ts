@@ -2497,7 +2497,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>프로필 이름이 필요합니다.</translation>
@@ -2538,7 +2538,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>캐시 폴더를 다시 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>사랑하게 될 훌륭한 %1 채팅 앱</translation>
     </message>
@@ -2564,7 +2564,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>검색…</translation>
     </message>
@@ -9701,7 +9701,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>⚠ 아바타 크기가 숨김으로 설정되어 있으므로 보낸 사람 이름이 항상 표시됩니다.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>시스템 사용</translation>
     </message>
@@ -10975,27 +10975,9 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Matrix가 처음이신가요?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>등록</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>로그인</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>테마</translation>
     </message>
@@ -11010,22 +10992,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>다크</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
-        <translation>애니메이션 활성화</translation>
+        <translation>애니메이션 사용</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
+        <translation>Komai는 시각적 피드백을 향상시키기 위해 여러 곳에서 애니메이션을 사용합니다. 불편함을 느끼신다면 비활성화하세요.</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai는 시각적 피드백을 향상하기 위해 여러 곳에서 애니메이션을 사용합니다. 불편하신 경우 비활성화하세요.</translation>
+        <source>Language</source>
+        <translation>언어</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>이모지 제안 선호</translation>
+        <translation>이모지 제안 우선 대상</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>모든 성별</translation>
     </message>
@@ -11040,9 +11027,9 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>👩 여성</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>모든 피부색</translation>
+        <translation>모든 피부톤</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11068,6 +11055,24 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 어두운 피부</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Matrix가 처음이신가요?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>등록</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>로그인</translation>
     </message>
 </context>
 <context>

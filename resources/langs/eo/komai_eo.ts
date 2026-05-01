@@ -2500,7 +2500,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profil-nomo estas postulata.</translation>
@@ -2541,7 +2541,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Ne eblis rekrei la kaŝmemoran dosierujon.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Bona %1 babileja aplikaĵo, kiun vi povas ekami</translation>
     </message>
@@ -2567,7 +2567,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Serĉi…</translation>
     </message>
@@ -9718,7 +9718,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>⚠ Avatara grandeco estas agordita al Kaŝita, do sendantaj uzantnomoj estas ĉiam montrataj.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Uzi sistemon</translation>
     </message>
@@ -10023,7 +10023,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Meze-hela</translation>
+        <translation>👍🏼 Meze hela</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10033,7 +10033,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Meze-malhela</translation>
+        <translation>👍🏾 Meze malhela</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10992,6 +10992,89 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     </message>
 </context>
 <context>
+    <name>WelcomePersonalityControls</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
+        <source>Theme</source>
+        <translation>Temo</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Light</source>
+        <translation>Hela</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dark</source>
+        <translation>Malhela</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Enable animations</source>
+        <translation>Aktivigi animaciojn</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
+        <translation>Komai uzas animaciojn en pluraj lokoj por plibonigi vizan retrosciigon. Malaktivigi ilin se ili kaŭzas al vi malbonan farton.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Lingvo</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Prefer emoji suggestions for</source>
+        <translation>Preferi sugestojn de emodžioj por</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Any gender</source>
+        <translation>Ajna sekso</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👨 Men</source>
+        <translation>👨 Viroj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👩 Women</source>
+        <translation>👩 Virinoj</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Any skin tone</source>
+        <translation>Ajna haŭtkoloro</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏻 Light</source>
+        <translation>👍🏻 Hela</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏼 Medium-light</source>
+        <translation>👍🏼 Meze hela</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏽 Medium</source>
+        <translation>👍🏽 Meza</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏾 Medium-dark</source>
+        <translation>👍🏾 Meze malhela</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>👍🏿 Dark</source>
+        <translation>👍🏿 Malhela</translation>
+    </message>
+</context>
+<context>
     <name>WelcomePrimaryActions</name>
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
@@ -11007,84 +11090,6 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
         <location line="+12"/>
         <source>Sign in</source>
         <translation>Ensaluti</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
-        <source>Theme</source>
-        <translation>Temo</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Light</source>
-        <translation>Hela</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Dark</source>
-        <translation>Malhela</translation>
-    </message>
-    <message>
-        <location line="+32"/>
-        <source>Enable animations</source>
-        <translation>Ŝalti animaciojn</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai uzas animaciojn en pluraj lokoj por plibonigi videblan reagon. Malŝaltu ilin se ili igas vin senti malbone.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Prefer emoji suggestions for</source>
-        <translation>Preferi emojiajn sugestojn por</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Any gender</source>
-        <translation>Ajna sekso</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>👨 Men</source>
-        <translation>👨 Viroj</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>👩 Women</source>
-        <translation>👩 Virinoj</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Any skin tone</source>
-        <translation>Ajna haŭtotono</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>👍🏻 Light</source>
-        <translation>👍🏻 Hela</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Meze-hela</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>👍🏽 Medium</source>
-        <translation>👍🏽 Meza</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>👍🏾 Medium-dark</source>
-        <translation>👍🏾 Meze-malhela</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>👍🏿 Dark</source>
-        <translation>👍🏿 Malhela</translation>
     </message>
 </context>
 <context>

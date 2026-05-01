@@ -747,6 +747,13 @@ public:
     Q_INVOKABLE int themeIndexInCurrentVariant() const;
     Q_INVOKABLE void setThemeByVariantIndex(int index);
 
+    // Language helpers for QML (used on the Welcome page).
+    // Index 0 in the dropdown is the translated "Use system" entry; subsequent
+    // entries are the languages whose .qm bundles are present in :/translations.
+    Q_INVOKABLE QStringList languageDropdownLabels() const;
+    Q_INVOKABLE int languageDropdownIndex() const;
+    Q_INVOKABLE void setLanguageByDropdownIndex(int index);
+
 #include "settings/ui/facade/UserSettingsGetters.inc"
 
 signals:

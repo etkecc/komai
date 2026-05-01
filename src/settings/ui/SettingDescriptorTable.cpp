@@ -18,6 +18,7 @@
 
 #include "config/komai.h"
 #include "settings/core/StartupConfig.h"
+#include "settings/ui/LanguagePresentation.h"
 #include "settings/ui/SettingDescriptorValueAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"

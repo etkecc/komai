@@ -2500,7 +2500,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
@@ -2541,7 +2541,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ക്യാഷ് ഫോൾഡർ പുനർനിർമ്മിക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>നിങ്ങൾ ഇഷ്ടപ്പെട്ടു പോകുന്ന ഒരു മികച്ച %1 ചാറ്റ് ആപ്പ്</translation>
     </message>
@@ -2567,7 +2567,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>തിരയുക…</translation>
     </message>
@@ -9390,7 +9390,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Light</source>
-        <translation>തെളിഞ്ഞ</translation>
+        <translation>ഇളം</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9715,7 +9715,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>⚠ അവതാർ വലിപ്പം മറഞ്ഞിരിക്കുന്നതായി സജ്ജമാക്കിയതിനാൽ, അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ എല്ലായ്‌പ്പോഴും കാണിക്കും.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>സിസ്റ്റം ഉപയോഗിക്കുക</translation>
     </message>
@@ -10020,7 +10020,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 ഇളം-ഇടത്തരം</translation>
+        <translation>👍🏼 ഇടത്തരം-ഇളം</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10989,34 +10989,16 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Matrix-ൽ പുതിയതാണോ?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>രജിസ്റ്റർ ചെയ്യുക</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>സൈൻ ഇൻ ചെയ്യുക</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>തീം</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Light</source>
-        <translation>തെളിഞ്ഞ</translation>
+        <translation>ഇളം</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11024,22 +11006,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>ഇരുണ്ട</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>ആനിമേഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai വിഷ്വൽ ഫീഡ്‌ബാക്ക് മെച്ചപ്പെടുത്താൻ നിരവധി സ്ഥലങ്ങളിൽ ആനിമേഷനുകൾ ഉപയോഗിക്കുന്നു. അവ അസ്വസ്ഥത ഉണ്ടാക്കുന്നുവെങ്കിൽ അവ പ്രവർത്തനരഹിതമാക്കുക.</translation>
+        <translation>ദൃശ്യ പ്രതികരണം മെച്ചപ്പെടുത്താൻ Komai പല സ്ഥലങ്ങളിൽ ആനിമേഷനുകൾ ഉപയോഗിക്കുന്നു. അവ അസ്വസ്ഥത ഉണ്ടാക്കുന്നുവെങ്കിൽ പ്രവർത്തനരഹിതമാക്കുക.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>ഭാഷ</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>ഇതിനായി ഇമോജി നിർദ്ദേശങ്ങൾ ഇഷ്ടപ്പെടുക</translation>
+        <translation>ഇമോജി നിർദ്ദേശങ്ങൾ മുൻഗണന നൽകുക</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>ഏത് ലിംഗവും</translation>
     </message>
@@ -11054,9 +11041,9 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>👩 സ്ത്രീകൾ</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>ഏത് ത്വക്ക് ടോണും</translation>
+        <translation>ഏത് ചർമ്മ നിറവും</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11066,7 +11053,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 ഇളം-ഇടത്തരം</translation>
+        <translation>👍🏼 ഇടത്തരം-ഇളം</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,6 +11069,24 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 ഇരുണ്ട</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Matrix-ൽ പുതിയതാണോ?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>രജിസ്റ്റർ ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>സൈൻ ഇൻ ചെയ്യുക</translation>
     </message>
 </context>
 <context>

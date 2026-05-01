@@ -66,9 +66,11 @@ class Komai : public QObject
     // Maximum duration in milliseconds for a video to be considered a GIF-like video (3 seconds).
     Q_PROPERTY(int gifVideoMaxDurationMs READ gifVideoMaxDurationMs CONSTANT)
 
-    Q_PROPERTY(QString tagline READ tagline CONSTANT)
-    Q_PROPERTY(QString taglineTemplate READ taglineTemplate CONSTANT)
-    Q_PROPERTY(QString matrixWord READ matrixWord CONSTANT)
+    // Translated strings need a NOTIFY for QML bindings to refresh when the
+    // language is switched at runtime. CONSTANT would mean "never re-evaluate".
+    Q_PROPERTY(QString tagline READ tagline NOTIFY localizedStringsChanged)
+    Q_PROPERTY(QString taglineTemplate READ taglineTemplate NOTIFY localizedStringsChanged)
+    Q_PROPERTY(QString matrixWord READ matrixWord NOTIFY localizedStringsChanged)
     Q_PROPERTY(bool profileDesktopLaunchersSupported READ profileDesktopLaunchersSupported CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
@@ -180,6 +182,7 @@ signals:
     void applicationProfilesChanged();
     void localCacheInfoChanged();
     void layoutMetricsChanged();
+    void localizedStringsChanged();
     void navigationRoomListShowLastMessageTimeChanged();
 
     void openLogoutDialog();

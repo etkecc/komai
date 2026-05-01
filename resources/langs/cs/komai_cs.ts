@@ -2503,7 +2503,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Název profilu je povinný.</translation>
@@ -2544,7 +2544,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Nepodařilo se znovu vytvořit složku mezipaměti.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Skvělá %1 chatovací aplikace, do které se lze zamilovat</translation>
     </message>
@@ -2570,7 +2570,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Hledat…</translation>
     </message>
@@ -9729,7 +9729,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>⚠ Velikost avataru je nastavena na Skrytý, proto jsou jména odesílatelů vždy zobrazena.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Použít systémové</translation>
     </message>
@@ -11003,27 +11003,9 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Nový uživatel Matrixu?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Registrovat</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Přihlásit se</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Motiv</translation>
     </message>
@@ -11038,24 +11020,29 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <translation>Tmavý</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Povolit animace</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai používá animace na několika místech pro lepší vizuální odezvu. Zakažte je, pokud vám způsobují nevolnost.</translation>
+        <translation>Komai používá animace na několika místech pro zlepšení vizuální zpětné vazby. Vypněte je, pokud vám způsobují nevolnost.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Jazyk</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Preferovat návrhy emoji pro</translation>
+        <translation>Upřednostňovat návrhy emoji pro</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>Libovolné pohlaví</translation>
+        <translation>Jakékoli pohlaví</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11068,9 +11055,9 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <translation>👩 Ženy</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Libovolný odstín pleti</translation>
+        <translation>Jakýkoli odstín pleti</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11096,6 +11083,24 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Tmavá</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Nový uživatel Matrixu?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Registrovat</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Přihlásit se</translation>
     </message>
 </context>
 <context>

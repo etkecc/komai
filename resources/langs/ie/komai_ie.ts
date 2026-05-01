@@ -2500,7 +2500,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Li nomine de profil es obligatori.</translation>
@@ -2541,7 +2541,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Ne posset recrear li dossier de cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Un bon applicat de chat %1 que vu pot amar</translation>
     </message>
@@ -2567,7 +2567,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Cercar…</translation>
     </message>
@@ -9715,7 +9715,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>⚠ Li dimension del avatar es definitit a Celat, donque li nomines de usator del expeditor es sempre montrat.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Usar sisteme</translation>
     </message>
@@ -10989,27 +10989,9 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Nov a Matrix?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Registrar</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Entrar</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -11024,29 +11006,34 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <translation>Obscur</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Activar animations</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai usa animations in pluri loces por melirar li retroaction visual. Disactivar les si ili fa vu sentir indisposat.</translation>
+        <translation>Komai usa animations in pluri loces por meliorar li feedback visual. Disactivar les si les fa vu sentir mal.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Lingue</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Preferir suggestiones de emoji por</translation>
+        <translation>Preferer sugestions de emoji por</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>Quelcunc genre</translation>
+        <translation>Qualunc genre</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>👨 Men</source>
-        <translation>👨 Hómines</translation>
+        <translation>👨 Homes</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11054,9 +11041,9 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <translation>👩 Femines</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Quelcunc ton de pell</translation>
+        <translation>Qualunc ton de pel</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,6 +11069,24 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Obscur</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Nov a Matrix?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Registrar</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Entrar</translation>
     </message>
 </context>
 <context>

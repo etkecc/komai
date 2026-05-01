@@ -2500,7 +2500,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Le nom du profil est obligatoire.</translation>
@@ -2541,7 +2541,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Impossible de recréer le dossier de cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Une belle application de chat %1 que vous apprendrez à aimer</translation>
     </message>
@@ -2567,7 +2567,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Rechercher…</translation>
     </message>
@@ -9715,7 +9715,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>⚠ La taille des avatars est définie sur Masqué, les noms d'utilisateur des expéditeurs sont donc toujours affichés.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Utiliser le système</translation>
     </message>
@@ -10989,27 +10989,9 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Nouveau sur Matrix ?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>S'inscrire</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Se connecter</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Thème</translation>
     </message>
@@ -11024,22 +11006,27 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
         <translation>Sombre</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Activer les animations</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai utilise des animations à plusieurs endroits pour améliorer les retours visuels. Désactivez-les si elles vous causent de l'inconfort.</translation>
+        <translation>Komai utilise des animations à plusieurs endroits pour améliorer le retour visuel. Désactivez-les si elles vous causent un malaise.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Langue</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
         <translation>Préférer les suggestions d'emoji pour</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>Tout genre</translation>
     </message>
@@ -11054,9 +11041,9 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
         <translation>👩 Femmes</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Toute teinte de peau</translation>
+        <translation>Tout teint de peau</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,6 +11069,24 @@ La vérification marque cet appareil comme approuvé et vous donne accès aux me
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Foncé</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Nouveau sur Matrix ?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>S'inscrire</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Se connecter</translation>
     </message>
 </context>
 <context>

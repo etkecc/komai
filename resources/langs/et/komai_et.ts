@@ -2500,7 +2500,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profiili nimi on kohustuslik.</translation>
@@ -2541,7 +2541,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Vahemälukausta ei õnnestunud taasluua.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Suurepärane %1 vestlusrakendus, millesse võid armuda</translation>
     </message>
@@ -2567,7 +2567,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Otsi…</translation>
     </message>
@@ -9715,7 +9715,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>⚠ Avatari suurus on seatud Peidetud, mistõttu kuvatakse alati saatja kasutajanimi.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Kasuta süsteemi</translation>
     </message>
@@ -10989,27 +10989,9 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Matrix on sulle uus?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Registreeri</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Logi sisse</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -11024,24 +11006,29 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
         <translation>Tume</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Luba animatsioonid</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
         <translation>Komai kasutab animatsioone mitmes kohas visuaalse tagasiside parandamiseks. Keela need, kui need tekitavad ebamugavust.</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Prefer emoji suggestions for</source>
-        <translation>Eelista emotikonide soovitusi</translation>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Keel</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+30"/>
+        <source>Prefer emoji suggestions for</source>
+        <translation>Eelista emojide soovitusi</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>Mis tahes sugu</translation>
+        <translation>Suvaline sugu</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11054,9 +11041,9 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
         <translation>👩 Naised</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Mis tahes nahatoon</translation>
+        <translation>Suvaline nahatoon</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,6 +11069,24 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Tume</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Matrix on sulle uus?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Registreeri</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Logi sisse</translation>
     </message>
 </context>
 <context>

@@ -2497,7 +2497,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profil adı gereklidir.</translation>
@@ -2538,7 +2538,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Önbellek klasörü yeniden oluşturulamadı.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Sevmeye değer harika bir %1 sohbet uygulaması</translation>
     </message>
@@ -2564,7 +2564,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Ara…</translation>
     </message>
@@ -9701,7 +9701,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>⚠ Avatar boyutu Gizli olarak ayarlandığından gönderen kullanıcı adları her zaman gösterilir.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Sistemi kullan</translation>
     </message>
@@ -10975,27 +10975,9 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Matrix'e yeni misiniz?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Kaydol</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Giriş yap</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -11010,22 +10992,27 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
         <translation>Koyu</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Animasyonları etkinleştir</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai, görsel geri bildirimi iyileştirmek için çeşitli yerlerde animasyonlar kullanır. Rahatsızlık hissettirirlerse devre dışı bırakın.</translation>
+        <translation>Komai, görsel geri bildirimi iyileştirmek için çeşitli yerlerde animasyon kullanır. Rahatsızlık veriyorsa devre dışı bırakabilirsiniz.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Dil</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Emoji önerilerini şunun için tercih et</translation>
+        <translation>Emoji önerilerini şunlar için tercih et</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>Herhangi bir cinsiyet</translation>
     </message>
@@ -11040,7 +11027,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
         <translation>👩 Kadınlar</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
         <translation>Herhangi bir ten rengi</translation>
     </message>
@@ -11068,6 +11055,24 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Koyu</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Matrix'e yeni misiniz?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Kaydol</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Giriş yap</translation>
     </message>
 </context>
 <context>

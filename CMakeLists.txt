@@ -528,6 +528,8 @@ set(SRC_FILES
     src/profile/ProfileManager.cpp
     src/profile/ProfileManager.h
     src/settings/SettingKeys.h
+    src/settings/ui/LanguagePresentation.h
+    src/settings/ui/LanguagePresentation.cpp
     src/settings/ui/SettingDescriptor.h
     src/settings/ui/SettingDescriptor.cpp
     src/settings/ui/SettingDescriptorTable.cpp
@@ -601,6 +603,7 @@ set(SRC_FILES
     src/settings/ui/facade/UserSettingsSettersUi.cpp
     src/settings/ui/facade/UserSettingsSettersMisc.cpp
     src/settings/ui/facade/UserSettingsCoreStoreBridge.cpp
+    src/settings/ui/facade/UserSettingsLanguage.cpp
     src/settings/ui/facade/UserSettingsSessionSettings.cpp
     src/settings/ui/facade/UserSettingsTheme.cpp
     src/models/UsersModel.cpp
@@ -1000,7 +1003,9 @@ if(BUILD_TESTING)
         src/settings/ui/facade/UserSettingsSettersUi.cpp
         src/settings/ui/facade/UserSettingsSettersMisc.cpp
         src/settings/ui/facade/UserSettingsCoreStoreBridge.cpp
+        src/settings/ui/facade/UserSettingsLanguage.cpp
         src/settings/ui/facade/UserSettingsTheme.cpp
+        src/settings/ui/LanguagePresentation.cpp
         src/ui/Theme.cpp
         src/ui/ThemeRegistry.cpp
         src/settings/SettingsController.cpp

@@ -2497,7 +2497,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>A profil neve kötelező.</translation>
@@ -2538,7 +2538,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Nem sikerült újra létrehozni a gyorsítótár mappát.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Egy remek %1 csevegőalkalmazás, amelyet megszerethet</translation>
     </message>
@@ -2564,7 +2564,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Keresés…</translation>
     </message>
@@ -9701,7 +9701,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>⚠ Az avatárméret Rejtett értékre van állítva, ezért a küldők felhasználónevei mindig láthatók.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Rendszer használata</translation>
     </message>
@@ -10975,27 +10975,9 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Új a Matrixban?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Regisztráció</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Bejelentkezés</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Téma</translation>
     </message>
@@ -11010,24 +10992,29 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
         <translation>Sötét</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Animációk engedélyezése</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>A Komai több helyen is animációkat használ a vizuális visszajelzés javítása érdekében. Tiltsd le őket, ha rosszul érzed magad tőlük.</translation>
+        <translation>A Komai több helyen animációkat használ a vizuális visszajelzés javítása érdekében. Kapcsolja ki, ha rosszul érzi magát tőlük.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Nyelv</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Emoji-javaslatok preferálása</translation>
+        <translation>Emoji javaslatok előnyben részesítése</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>Bármely nem</translation>
+        <translation>Bármilyen nem</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11040,9 +11027,9 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
         <translation>👩 Nők</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Bármely bőrszín</translation>
+        <translation>Bármilyen bőrszín</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11068,6 +11055,24 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Sötét</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Új a Matrixban?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Regisztráció</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Bejelentkezés</translation>
     </message>
 </context>
 <context>

@@ -2500,7 +2500,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profilnamn krävs.</translation>
@@ -2541,7 +2541,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Kunde inte återskapa cachemappen.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>En fin %1-chattapp som du kan lära dig älska</translation>
     </message>
@@ -2567,7 +2567,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Sök…</translation>
     </message>
@@ -9715,7 +9715,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>⚠ Avatarstorleken är inställd på Dold, så avsändarens användarnamn visas alltid.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Använd system</translation>
     </message>
@@ -10020,7 +10020,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Mellanjust</translation>
+        <translation>👍🏼 Mediumljus</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -10989,27 +10989,9 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Ny på Matrix?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Registrera</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Logga in</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -11024,24 +11006,29 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
         <translation>Mörkt</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Aktivera animationer</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai använder animationer på flera ställen för att förbättra visuell återkoppling. Inaktivera dem om de gör dig illamående.</translation>
+        <translation>Komai använder animationer på flera ställen för att förbättra den visuella återkopplingen. Inaktivera dem om de gör att du mår illa.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Språk</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Föredra emojförslag för</translation>
+        <translation>Föredra emoji-förslag för</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>Valfritt kön</translation>
+        <translation>Alla kön</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11054,9 +11041,9 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
         <translation>👩 Kvinnor</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Valfri hudton</translation>
+        <translation>Alla hudtoner</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11066,7 +11053,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     <message>
         <location line="+1"/>
         <source>👍🏼 Medium-light</source>
-        <translation>👍🏼 Mellanjust</translation>
+        <translation>👍🏼 Mediumljus</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11082,6 +11069,24 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Mörk</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Ny på Matrix?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Registrera</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Logga in</translation>
     </message>
 </context>
 <context>

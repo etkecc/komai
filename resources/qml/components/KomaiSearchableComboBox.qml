@@ -108,11 +108,54 @@ Item {
 
     Popup {
         id: popup
-        y: control.height + 2
+        readonly property int gap: 2
+
+        // Estimate the popup height from the model size up-front, not from
+        // popupLayout's laid-out implicitHeight: the ListView delegates aren't
+        // created until the popup actually shows, so on the first open the
+        // laid-out height is tiny and placePopup() would mis-pick "downward".
+        readonly property int searchFieldHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
+        readonly property int rowHeight: Math.max(28, Math.round(Settings.uiFontSizePt * 2.4))
+        readonly property int estimatedHeight: {
+            const items = (control.model && control.model.length) || 0;
+            // Cap visible rows so a long list still fits a reasonable popup.
+            const visibleRows = Math.min(items, 10);
+            return Math.min(searchFieldHeight + 2 + visibleRows * rowHeight + 4, 320);
+        }
+
+        // Flip upward when the control sits near the window's bottom edge so
+        // the dropdown doesn't get squeezed into a sliver. The decision uses
+        // estimatedHeight (data-derived, available before layout); the actual
+        // y is bound to implicitHeight below so the popup sits flush against
+        // the control regardless of how much shorter it ends up.
+        property bool openUpward: false
+
+        function placePopup() {
+            const win = control.Window.window;
+            if (!win) {
+                openUpward = false;
+                return;
+            }
+            const pos = control.mapToItem(null, 0, 0);
+            const margin = 8;
+            const spaceBelow = win.height - pos.y - control.height - margin;
+            const spaceAbove = pos.y - margin;
+            if (spaceBelow >= estimatedHeight + gap) {
+                openUpward = false;
+            } else if (spaceAbove >= estimatedHeight + gap) {
+                openUpward = true;
+            } else {
+                openUpward = spaceAbove > spaceBelow;
+            }
+        }
+
+        y: openUpward ? -implicitHeight - gap : control.height + gap
         width: control.width
         padding: 2
-        implicitHeight: Math.min(popupLayout.implicitHeight + topPadding + bottomPadding, 320)
+        implicitHeight: Math.min(popupLayout.implicitHeight + topPadding + bottomPadding, estimatedHeight)
         palette: control.palette
+
+        onAboutToShow: placePopup()
 
         onOpened: {
             searchField.text = "";

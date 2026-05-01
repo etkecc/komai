@@ -2497,7 +2497,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>نام پروفایل الزامی است.</translation>
@@ -2538,7 +2538,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ایجاد مجدد پوشه حافظه پنهان ممکن نبود.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>یک برنامه چت %1 عالی که می‌توانید به آن دل ببندید</translation>
     </message>
@@ -2564,7 +2564,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>جستجو…</translation>
     </message>
@@ -9701,7 +9701,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>⚠ اندازه تصویر نمایه روی 'پنهان' تنظیم شده است، بنابراین نام‌های کاربری فرستنده همیشه نمایش داده می‌شوند.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>استفاده از سیستم</translation>
     </message>
@@ -10975,27 +10975,9 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>تازه وارد Matrix شده‌اید؟</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>ثبت‌نام</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>ورود</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>پوسته</translation>
     </message>
@@ -11010,22 +10992,27 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>تیره</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>فعال‌سازی انیمیشن‌ها</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai در چند جا از انیمیشن استفاده می‌کند تا بازخورد بصری را بهبود بخشد. اگر احساس ناراحتی می‌کنید، آن‌ها را غیرفعال کنید.</translation>
+        <translation>کومای در چندین مکان از انیمیشن‌ها برای بهبود بازخورد بصری استفاده می‌کند. اگر باعث احساس ناخوشی می‌شوند، آن‌ها را غیرفعال کنید.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>زبان</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
         <translation>ترجیح پیشنهادهای ایموجی برای</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>هر جنسیتی</translation>
     </message>
@@ -11040,7 +11027,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation>👩 زنان</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
         <translation>هر رنگ پوستی</translation>
     </message>
@@ -11068,6 +11055,24 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 تیره</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>تازه وارد Matrix شده‌اید؟</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>ثبت‌نام</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>ورود</translation>
     </message>
 </context>
 <context>

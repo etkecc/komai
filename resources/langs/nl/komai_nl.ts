@@ -2500,7 +2500,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profielnaam is vereist.</translation>
@@ -2541,7 +2541,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Cache-map kon niet opnieuw worden aangemaakt.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Een geweldige %1 chat-app om van te houden</translation>
     </message>
@@ -2567,7 +2567,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Zoeken…</translation>
     </message>
@@ -9715,7 +9715,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>⚠ Avatargrootte is ingesteld op Verborgen, waardoor gebruikersnamen van verzenders altijd worden weergegeven.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Systeem gebruiken</translation>
     </message>
@@ -10989,27 +10989,9 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Nieuw bij Matrix?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Registreren</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Aanmelden</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Thema</translation>
     </message>
@@ -11024,22 +11006,27 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <translation>Donker</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Animaties inschakelen</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai gebruikt op verschillende plekken animaties om visuele feedback te verbeteren. Schakel ze uit als je er onwel van wordt.</translation>
+        <translation>Komai gebruikt animaties op verschillende plekken om visuele feedback te verbeteren. Schakel ze uit als je er onwel van wordt.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Taal</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Emoji-suggesties voor</translation>
+        <translation>Voorkeur emoji-suggesties voor</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
         <translation>Elk geslacht</translation>
     </message>
@@ -11054,7 +11041,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <translation>👩 Vrouwen</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
         <translation>Elke huidskleur</translation>
     </message>
@@ -11082,6 +11069,24 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Donker</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Nieuw bij Matrix?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Registreren</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Aanmelden</translation>
     </message>
 </context>
 <context>

@@ -142,6 +142,18 @@ Komai::Komai()
             &UserSettings::uiFontFamilyChanged,
             this,
             &Komai::layoutMetricsChanged);
+    // Properties that return tr()-translated strings (tagline, matrixWord)
+    // need their NOTIFY signal to fire on language switch — Qt's
+    // qmlEngine->retranslate() refreshes qsTr() bindings but doesn't know
+    // about C++ Q_PROPERTYs that happen to return localised text.
+    // Queued so the emit lands AFTER MainApplication's same-signal slot
+    // has installed the new translators; otherwise the binding re-evaluates
+    // against the previous language.
+    connect(UserSettings::instance().get(),
+            &UserSettings::uiLanguageChanged,
+            this,
+            &Komai::localizedStringsChanged,
+            Qt::QueuedConnection);
     connect(UserSettings::instance().get(),
             &UserSettings::navigationRoomListShowLastMessageTimeChanged,
             this,

@@ -2497,7 +2497,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+481"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Nama profil diperlukan.</translation>
@@ -2538,7 +2538,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Tidak dapat membuat ulang folder cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+116"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Aplikasi obrolan %1 yang akan Anda cintai</translation>
     </message>
@@ -2564,7 +2564,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>KomaiSearchableComboBox</name>
     <message>
-        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+143"/>
+        <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+186"/>
         <source>Search…</source>
         <translation>Cari…</translation>
     </message>
@@ -9701,7 +9701,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>⚠ Ukuran avatar diatur ke Tersembunyi, sehingga nama pengguna pengirim selalu ditampilkan.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc" line="+93"/>
+        <location filename="../../../src/settings/ui/LanguagePresentation.cpp" line="+104"/>
         <source>Use system</source>
         <translation>Gunakan sistem</translation>
     </message>
@@ -10975,27 +10975,9 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
     </message>
 </context>
 <context>
-    <name>WelcomePrimaryActions</name>
+    <name>WelcomePersonalityControls</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
-        <source>New to Matrix?</source>
-        <translation>Baru di Matrix?</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Register</source>
-        <translation>Daftar</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Sign in</source>
-        <translation>Masuk</translation>
-    </message>
-</context>
-<context>
-    <name>WelcomeThemeControls</name>
-    <message>
-        <location filename="../../qml/pages/welcome/WelcomeThemeControls.qml" line="+20"/>
+        <location filename="../../qml/pages/welcome/WelcomePersonalityControls.qml" line="+44"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -11010,24 +10992,29 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
         <translation>Gelap</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Enable animations</source>
         <translation>Aktifkan animasi</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+16"/>
         <source>Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.</source>
-        <translation>Komai menggunakan animasi di beberapa tempat untuk meningkatkan umpan balik visual. Nonaktifkan jika membuat Anda merasa tidak nyaman.</translation>
+        <translation>Komai menggunakan animasi di beberapa tempat untuk meningkatkan umpan balik visual. Nonaktifkan jika membuat Anda tidak nyaman.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+17"/>
+        <source>Language</source>
+        <translation>Bahasa</translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>Prefer emoji suggestions for</source>
-        <translation>Preferensi saran emoji untuk</translation>
+        <translation>Preferensikan saran emoji untuk</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Any gender</source>
-        <translation>Jenis kelamin apa saja</translation>
+        <translation>Gender apa pun</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11040,9 +11027,9 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
         <translation>👩 Wanita</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Any skin tone</source>
-        <translation>Warna kulit apa saja</translation>
+        <translation>Warna kulit apa pun</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11068,6 +11055,24 @@ Verifikasi menandai perangkat ini sebagai tepercaya dan memberi Anda akses ke pe
         <location line="+1"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Gelap</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomePrimaryActions</name>
+    <message>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation>Baru di Matrix?</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Register</source>
+        <translation>Daftar</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sign in</source>
+        <translation>Masuk</translation>
     </message>
 </context>
 <context>

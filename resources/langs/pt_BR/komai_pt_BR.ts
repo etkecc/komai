@@ -9390,7 +9390,7 @@ Você pode deixar de ignorar mais tarde pelo perfil do usuário ou via Configura
         <translation>Escuro</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controla seu status de &lt;a href="%1"&gt;Presença&lt;/a&gt; na rede Matrix.

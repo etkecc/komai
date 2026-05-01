@@ -9390,7 +9390,7 @@ Vous pouvez cesser de l'ignorer ultérieurement via le profil de cet utilisateur
         <translation>Sombre</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Contrôle votre statut de &lt;a href="%1"&gt;Présence&lt;/a&gt; sur le réseau Matrix.

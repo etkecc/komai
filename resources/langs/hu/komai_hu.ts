@@ -9376,7 +9376,7 @@ Az ignorálást később visszavonhatja ezen felhasználó profilján vagy a Be�
         <translation>Sötét</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Beállítja a &lt;a href="%1"&gt;Jelenlét&lt;/a&gt; állapotát a Matrix hálózaton.

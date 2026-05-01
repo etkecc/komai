@@ -9393,7 +9393,7 @@ Podrás dejar de ignorarle más tarde desde el perfil de este usuario o en Ajust
         <translation>Oscuro</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controla tu estado de &lt;a href="%1"&gt;Presencia&lt;/a&gt; en la red Matrix.

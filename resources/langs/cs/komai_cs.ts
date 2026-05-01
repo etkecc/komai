@@ -9404,7 +9404,7 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
         <translation>Tmavý</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ovládá tvůj stav &lt;a href="%1"&gt;Přítomnosti&lt;/a&gt; v síti Matrix.

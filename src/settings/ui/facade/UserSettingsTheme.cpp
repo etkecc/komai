@@ -50,10 +50,27 @@ UserSettings::setThemeVariantByIndex(int index)
     else
         return;
 
-    auto currentVariant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
+    auto &registry            = ThemeRegistry::instance();
+    const auto currentSlug    = uiThemeSlug();
+    const auto currentVariant = registry.themeVariant(currentSlug);
     if (newVariant == currentVariant)
         return;
-    setUiThemeSlug(ThemeRegistry::instance().defaultThemeSlug(newVariant));
+
+    // If the current theme has a counterpart in the new variant
+    // (e.g. "dark-nord" -> "light-nord"), switch to it.
+    // Otherwise, fall back to the default theme for the new variant.
+    const auto currentPrefix = currentVariant + QStringLiteral("-");
+    if (currentSlug.startsWith(currentPrefix)) {
+        const auto candidate =
+          newVariant + QStringLiteral("-") + currentSlug.mid(currentPrefix.size());
+        const auto *def = registry.findTheme(candidate);
+        if (def && def->variant == newVariant) {
+            setUiThemeSlug(candidate);
+            return;
+        }
+    }
+
+    setUiThemeSlug(registry.defaultThemeSlug(newVariant));
 }
 
 QStringList

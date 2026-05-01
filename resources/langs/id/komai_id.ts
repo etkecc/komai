@@ -9376,7 +9376,7 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
         <translation>Gelap</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Mengatur status &lt;a href="%1"&gt;Kehadiran&lt;/a&gt; Anda di jaringan Matrix.

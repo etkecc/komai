@@ -55,17 +55,11 @@ setThemeRoleData(int role, const QVariant &value)
     if (variantIdx < 0 || variantIdx > 1)
         return false;
 
-    QString newVariant;
-    if (variantIdx == 0)
-        newVariant = QStringLiteral("light");
-    else
-        newVariant = QStringLiteral("dark");
-
-    const auto currentVariant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
-    if (newVariant == currentVariant)
+    const QString newVariant = variantIdx == 0 ? QStringLiteral("light") : QStringLiteral("dark");
+    if (ThemeRegistry::instance().themeVariant(i->uiThemeSlug()) == newVariant)
         return false;
 
-    i->setUiThemeSlug(ThemeRegistry::instance().defaultThemeSlug(newVariant));
+    i->setThemeVariantByIndex(variantIdx);
     return true;
 }
 

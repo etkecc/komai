@@ -9390,7 +9390,7 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
         <translation>Donker</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Beheert je &lt;a href="%1"&gt;Aanwezigheid&lt;/a&gt;-status op het Matrix-netwerk.

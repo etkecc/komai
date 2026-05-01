@@ -9390,7 +9390,7 @@ Du kannst das Ignorieren später über das Profil dieses Nutzers oder über Eins
         <translation>Dunkel</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Steuert deinen &lt;a href="%1"&gt;Präsenz&lt;/a&gt;-Status im Matrix-Netzwerk.

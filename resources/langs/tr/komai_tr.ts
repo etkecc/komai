@@ -9376,7 +9376,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <translation>Koyu</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ağındaki &lt;a href="%1"&gt;Varlık&lt;/a&gt; durumunuzu kontrol eder.

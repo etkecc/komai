@@ -9376,7 +9376,7 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>다크</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix 네트워크에서 내 &lt;a href="%1"&gt;현재 상태&lt;/a&gt;를 제어합니다.

@@ -9390,7 +9390,7 @@ Saad eiramise hiljem tühistada selle kasutaja profiili kaudu või Seaded → Ko
         <translation>Tume</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Juhib teie &lt;a href="%1"&gt;Kohalolu&lt;/a&gt; olekut Matrix-võrgus.

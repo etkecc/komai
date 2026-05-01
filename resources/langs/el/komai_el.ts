@@ -9390,7 +9390,7 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>Σκοτεινό</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ελέγχει την κατάσταση &lt;a href="%1"&gt;Παρουσίας&lt;/a&gt; σας στο δίκτυο Matrix.

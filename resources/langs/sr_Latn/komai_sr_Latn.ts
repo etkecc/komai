@@ -9404,7 +9404,7 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
         <translation>Tamna</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Kontroliše tvoj status &lt;a href="%1"&gt;prisustva&lt;/a&gt; na Matrix mreži.

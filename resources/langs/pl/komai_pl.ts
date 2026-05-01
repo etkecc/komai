@@ -9405,7 +9405,7 @@ Możesz ją odignorować później przez profil użytkownika lub przez Ustawieni
         <translation>Ciemny</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Kontroluje twój status &lt;a href="%1"&gt;Obecności&lt;/a&gt; w sieci Matrix.

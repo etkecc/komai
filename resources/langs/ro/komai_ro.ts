@@ -9404,7 +9404,7 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
         <translation>Întunecat</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controlează starea de &lt;a href="%1"&gt;Prezență&lt;/a&gt; pe rețeaua Matrix.

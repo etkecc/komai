@@ -9393,7 +9393,7 @@ Vi povas malignori poste per la profilo de ĉi tiu uzanto aŭ per Agordoj → Ko
         <translation>Malhela</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Kontrolas vian &lt;a href="%1"&gt;Ĉeecon&lt;/a&gt; staton en la Matrix reto.

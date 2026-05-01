@@ -9390,7 +9390,7 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
         <translation>Tumma</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Hallinnoi &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilaasi Matrix-verkossa.

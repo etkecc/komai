@@ -832,9 +832,9 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n නොකියවූ පණිවිඩයක්</numerusform>
+            <numerusform>%n නොකියවූ පණිවිඩ</numerusform>
         </translation>
     </message>
     <message>
@@ -3582,7 +3582,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4836,7 +4836,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>සේවාදායක තේරීමේ ආකාරය</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4856,17 +4856,17 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>වෙබ් ලියාපදිංචිය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>ඩෙමෝ සේවාදායකය</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA අවශ්‍ය</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4996,7 +4996,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>විද්‍යුත් තැපැල් ලිපිනය</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5036,7 +5036,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>ලියාපදිංචි ටෝකනය</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6375,35 +6375,35 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>ආරාධනාව: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>අවකාශය: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n නොකියවූ පණිවිඩයක්</numerusform>
+            <numerusform>%n නොකියවූ පණිවිඩ</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>ඔබව සඳහන් කරයි</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>කෙටුම්පතක් ඇත</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>සංකේතිත</translation>
     </message>
 </context>
 <context>
@@ -11110,7 +11110,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>තේමා ප්‍රභේදය</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11140,7 +11140,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>කැමති ඉමෝජි ලිංගය</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11175,7 +11175,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>කැමති ඉමෝජි සම් වර්ණය</translation>
     </message>
 </context>
 <context>

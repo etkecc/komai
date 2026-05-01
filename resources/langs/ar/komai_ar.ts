@@ -832,13 +832,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n رسائل غير مقروءة</numerusform>
+            <numerusform>%n رسالة غير مقروءة</numerusform>
+            <numerusform>%n رسالتان غير مقروءتان</numerusform>
+            <numerusform>%n رسائل غير مقروءة</numerusform>
+            <numerusform>%n رسالة غير مقروءة</numerusform>
+            <numerusform>%n رسالة غير مقروءة</numerusform>
         </translation>
     </message>
     <message>
@@ -3602,7 +3602,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>رسالة</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4864,7 +4864,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>وضع اختيار الخادم</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4884,17 +4884,17 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>التسجيل عبر الويب</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>خادم تجريبي</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA مطلوب</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -5024,7 +5024,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>عنوان البريد الإلكتروني</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5064,7 +5064,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>رمز التسجيل</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6407,39 +6407,39 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>دعوة: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>فضاء: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n رسائل غير مقروءة</numerusform>
+            <numerusform>%n رسالة غير مقروءة</numerusform>
+            <numerusform>%n رسالتان غير مقروءتان</numerusform>
+            <numerusform>%n رسائل غير مقروءة</numerusform>
+            <numerusform>%n رسالة غير مقروءة</numerusform>
+            <numerusform>%n رسالة غير مقروءة</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>يذكرك</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>يوجد مسودة</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>مشفّر</translation>
     </message>
 </context>
 <context>
@@ -11174,7 +11174,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>نوع السمة</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11204,7 +11204,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>جنس الرمز التعبيري المفضل</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11239,7 +11239,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>لون بشرة الرمز التعبيري المفضل</translation>
     </message>
 </context>
 <context>

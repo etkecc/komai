@@ -833,9 +833,9 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n mensaje sin leer</numerusform>
+            <numerusform>%n mensajes sin leer</numerusform>
         </translation>
     </message>
     <message>
@@ -3585,7 +3585,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Mensaje</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4839,7 +4839,7 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Modo de selección de servidor</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4859,17 +4859,17 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Registro web</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Servidor de demostración</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>Se requiere CAPTCHA</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4999,7 +4999,7 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>Dirección de correo electrónico</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5039,7 +5039,7 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Token de registro</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6378,35 +6378,35 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Invitación: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Espacio: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n mensaje sin leer</numerusform>
+            <numerusform>%n mensajes sin leer</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Te menciona</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Tiene borrador</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Cifrada</translation>
     </message>
 </context>
 <context>
@@ -11113,7 +11113,7 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Variante de tema</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11143,7 +11143,7 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Género de emoji preferido</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11178,7 +11178,7 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Tono de piel de emoji preferido</translation>
     </message>
 </context>
 <context>

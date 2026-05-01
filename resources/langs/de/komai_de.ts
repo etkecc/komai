@@ -832,9 +832,9 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ungelesene Nachricht</numerusform>
+            <numerusform>%n ungelesene Nachrichten</numerusform>
         </translation>
     </message>
     <message>
@@ -3582,7 +3582,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Nachricht</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4836,7 +4836,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Serverauswahlmodus</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4856,17 +4856,17 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Webregistrierung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Demo-Server</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA erforderlich</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4996,7 +4996,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>E-Mail-Adresse</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5036,7 +5036,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Registrierungstoken</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6375,35 +6375,35 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Einladung: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Space: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n ungelesene Nachricht</numerusform>
+            <numerusform>%n ungelesene Nachrichten</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Erwähnt dich</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Hat Entwurf</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Verschlüsselt</translation>
     </message>
 </context>
 <context>
@@ -11110,7 +11110,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Theme-Variante</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11140,7 +11140,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Bevorzugtes Emoji-Geschlecht</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11175,7 +11175,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Bevorzugter Emoji-Hautton</translation>
     </message>
 </context>
 <context>

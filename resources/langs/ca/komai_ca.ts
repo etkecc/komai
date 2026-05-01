@@ -832,9 +832,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n missatge no llegit</numerusform>
+            <numerusform>%n missatges no llegits</numerusform>
         </translation>
     </message>
     <message>
@@ -3582,7 +3582,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Missatge</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4836,7 +4836,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Mode de selecció del servidor</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4856,17 +4856,17 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Registre web</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Servidor de demostració</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>Cal un CAPTCHA</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4996,7 +4996,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>Adreça electrònica</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5036,7 +5036,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Token de registre</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6375,35 +6375,35 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Invitació: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Espai: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n missatge no llegit</numerusform>
+            <numerusform>%n missatges no llegits</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>T'esmenta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Té un esborrany</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Xifrat</translation>
     </message>
 </context>
 <context>
@@ -11110,7 +11110,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Variant del tema</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11140,7 +11140,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Gènere d'emoji preferit</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11175,7 +11175,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>To de pell d'emoji preferit</translation>
     </message>
 </context>
 <context>

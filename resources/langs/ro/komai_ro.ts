@@ -832,10 +832,10 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n mesaj necitit</numerusform>
+            <numerusform>%n mesaje necitite</numerusform>
+            <numerusform>%n de mesaje necitite</numerusform>
         </translation>
     </message>
     <message>
@@ -3587,7 +3587,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Mesaj</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4843,7 +4843,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Mod de selectare a serverului</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4863,17 +4863,17 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Înregistrare web</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Server demo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA necesar</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -5003,7 +5003,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>Adresă de email</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5043,7 +5043,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Token de înregistrare</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6383,36 +6383,36 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Invitație: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Spațiu: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n mesaj necitit</numerusform>
+            <numerusform>%n mesaje necitite</numerusform>
+            <numerusform>%n de mesaje necitite</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Te menționează</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Are ciornă</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Criptată</translation>
     </message>
 </context>
 <context>
@@ -11126,7 +11126,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Variantă de temă</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11156,7 +11156,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Gen emoji preferat</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11191,7 +11191,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Ton de piele emoji preferat</translation>
     </message>
 </context>
 <context>

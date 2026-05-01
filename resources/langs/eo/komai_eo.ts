@@ -832,9 +832,9 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n nelegita mesaĝo</numerusform>
+            <numerusform>%n nelegitaj mesaĝoj</numerusform>
         </translation>
     </message>
     <message>
@@ -3582,7 +3582,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Mesaĝo</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4836,7 +4836,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Reĝimo de servilo-elekto</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4856,17 +4856,17 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Reta registriĝo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Demo-servilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA necesa</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4996,7 +4996,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>Retpoŝta adreso</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5036,7 +5036,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Registra ĵetono</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6377,35 +6377,35 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Invito: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Spaco: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n nelegita mesaĝo</numerusform>
+            <numerusform>%n nelegitaj mesaĝoj</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Mencias vin</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Havas malneton</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Ĉifrita</translation>
     </message>
 </context>
 <context>
@@ -11113,7 +11113,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Tema varianto</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11143,7 +11143,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Preferata emojia genro</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11178,7 +11178,7 @@ Kontrolo markas ĉi tiun aparaton kiel fidindan kaj donas al vi aliron al ĉifri
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Preferata emojia haŭtkoloro</translation>
     </message>
 </context>
 <context>

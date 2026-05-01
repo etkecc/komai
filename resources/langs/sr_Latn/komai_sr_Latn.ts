@@ -832,10 +832,10 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n nepročitana poruka</numerusform>
+            <numerusform>%n nepročitane poruke</numerusform>
+            <numerusform>%n nepročitanih poruka</numerusform>
         </translation>
     </message>
     <message>
@@ -3587,7 +3587,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Poruka</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4843,7 +4843,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Način izbora servera</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4863,17 +4863,17 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Web registracija</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Demo server</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>Potrebna CAPTCHA</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -5003,7 +5003,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>Email adresa</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5043,7 +5043,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Token za registraciju</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6383,36 +6383,36 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Poziv: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Prostor: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n nepročitana poruka</numerusform>
+            <numerusform>%n nepročitane poruke</numerusform>
+            <numerusform>%n nepročitanih poruka</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Pominje te</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Ima nacrt</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Šifrovana</translation>
     </message>
 </context>
 <context>
@@ -11126,7 +11126,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Varijanta teme</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11156,7 +11156,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Željeni pol emojija</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11191,7 +11191,7 @@ Verifikacija označava ovaj uređaj kao poverljiv i daje ti pristup šifrovanim 
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Željeni ton kože emojija</translation>
     </message>
 </context>
 <context>

@@ -832,8 +832,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n tin nhắn chưa đọc</numerusform>
         </translation>
     </message>
     <message>
@@ -3577,7 +3577,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Tin nhắn</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4829,7 +4829,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Chế độ chọn máy chủ</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4849,17 +4849,17 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Đăng ký qua web</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Máy chủ thử nghiệm</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>Yêu cầu CAPTCHA</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4989,7 +4989,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>Địa chỉ email</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5029,7 +5029,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Mã đăng ký</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6367,34 +6367,34 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Lời mời: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Không gian: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n tin nhắn chưa đọc</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Có đề cập đến bạn</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Có bản nháp</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Đã mã hóa</translation>
     </message>
 </context>
 <context>
@@ -11094,7 +11094,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Biến thể giao diện</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11124,7 +11124,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Giới tính emoji ưa thích</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11159,7 +11159,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Màu da emoji ưa thích</translation>
     </message>
 </context>
 <context>

@@ -832,9 +832,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n oläst meddelande</numerusform>
+            <numerusform>%n olästa meddelanden</numerusform>
         </translation>
     </message>
     <message>
@@ -3582,7 +3582,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Meddelande</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4836,7 +4836,7 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Servervalsläge</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4856,17 +4856,17 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Webbregistrering</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Demoserver</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA krävs</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4996,7 +4996,7 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>E-postadress</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5036,7 +5036,7 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Registreringstoken</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6375,35 +6375,35 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Inbjudan: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Område: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n oläst meddelande</numerusform>
+            <numerusform>%n olästa meddelanden</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Nämner dig</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Har utkast</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Krypterat</translation>
     </message>
 </context>
 <context>
@@ -11110,7 +11110,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Temavariant</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11140,7 +11140,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Föredraget emojikön</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11175,7 +11175,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Föredragen emoji-hudton</translation>
     </message>
 </context>
 <context>

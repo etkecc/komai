@@ -832,9 +832,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n lugemata sõnum</numerusform>
+            <numerusform>%n lugemata sõnumit</numerusform>
         </translation>
     </message>
     <message>
@@ -3582,7 +3582,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Sõnum</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4836,7 +4836,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Serveri valikurežiim</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4856,17 +4856,17 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Veebiregistreerimine</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Demoserver</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA on nõutav</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4996,7 +4996,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>E-posti aadress</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5036,7 +5036,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Registreerimisluba</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6375,35 +6375,35 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Kutse: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Ruum: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n lugemata sõnum</numerusform>
+            <numerusform>%n lugemata sõnumit</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Mainib sind</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>On mustand</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Krüptitud</translation>
     </message>
 </context>
 <context>
@@ -11110,7 +11110,7 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Teema variant</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11140,7 +11140,7 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Eelistatud emoji sugu</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11175,7 +11175,7 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Eelistatud emoji nahatoon</translation>
     </message>
 </context>
 <context>

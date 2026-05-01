@@ -832,10 +832,10 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n nepřečtená zpráva</numerusform>
+            <numerusform>%n nepřečtené zprávy</numerusform>
+            <numerusform>%n nepřečtených zpráv</numerusform>
         </translation>
     </message>
     <message>
@@ -3587,7 +3587,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Zpráva</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4843,7 +4843,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Režim výběru serveru</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4863,17 +4863,17 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Webová registrace</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Ukázkový server</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>Vyžadována CAPTCHA</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -5003,7 +5003,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>E-mailová adresa</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5043,7 +5043,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Registrační token</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6383,36 +6383,36 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Pozvánka: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Prostor: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n nepřečtená zpráva</numerusform>
+            <numerusform>%n nepřečtené zprávy</numerusform>
+            <numerusform>%n nepřečtených zpráv</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Zmiňuje tě</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Má koncept</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Šifrovaná</translation>
     </message>
 </context>
 <context>
@@ -11126,7 +11126,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Varianta motivu</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11156,7 +11156,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Preferované pohlaví emotikonů</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11191,7 +11191,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Preferovaný tón pleti emotikonů</translation>
     </message>
 </context>
 <context>

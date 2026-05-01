@@ -832,8 +832,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n olvasatlan üzenet</numerusform>
         </translation>
     </message>
     <message>
@@ -3577,7 +3577,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Üzenet</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4829,7 +4829,7 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Szerverválasztási mód</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4849,17 +4849,17 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Webes regisztráció</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Demo szerver</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA szükséges</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4989,7 +4989,7 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>E-mail cím</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5029,7 +5029,7 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Regisztrációs token</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6367,34 +6367,34 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Meghívás: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Tér: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n olvasatlan üzenet</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Megemlít</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Van piszkozat</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Titkosított</translation>
     </message>
 </context>
 <context>
@@ -11094,7 +11094,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Témaváltozat</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11124,7 +11124,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Preferált emoji nem</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11159,7 +11159,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Preferált emoji bőrtónus</translation>
     </message>
 </context>
 <context>

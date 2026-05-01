@@ -832,8 +832,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n okunmamış mesaj</numerusform>
         </translation>
     </message>
     <message>
@@ -3577,7 +3577,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Mesaj</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4829,7 +4829,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>Sunucu seçim modu</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4849,17 +4849,17 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>Web kaydı</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>Demo sunucu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA gerekli</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4989,7 +4989,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>E-posta adresi</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5029,7 +5029,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>Kayıt jetonu</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6367,34 +6367,34 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>Davet: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>Alan: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n okunmamış mesaj</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>Sizi anıyor</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>Taslak var</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>Şifreli</translation>
     </message>
 </context>
 <context>
@@ -11094,7 +11094,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>Tema varyantı</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11124,7 +11124,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>Tercih edilen emoji cinsiyeti</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11159,7 +11159,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>Tercih edilen emoji ten tonu</translation>
     </message>
 </context>
 <context>

@@ -832,8 +832,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message numerus="yes">
         <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n پیام خوانده‌نشده</numerusform>
         </translation>
     </message>
     <message>
@@ -3577,7 +3577,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>پیام</translation>
     </message>
     <message>
         <location line="+507"/>
@@ -4829,7 +4829,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="-330"/>
         <source>Server selection mode</source>
-        <translation type="unfinished"/>
+        <translation>حالت انتخاب سرور</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -4849,17 +4849,17 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+43"/>
         <source>Web registration</source>
-        <translation type="unfinished"/>
+        <translation>ثبت‌نام وب</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Demo server</source>
-        <translation type="unfinished"/>
+        <translation>سرور نمونه</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>CAPTCHA required</source>
-        <translation type="unfinished"/>
+        <translation>CAPTCHA لازم است</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -4989,7 +4989,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+2"/>
         <source>Email address</source>
-        <translation type="unfinished"/>
+        <translation>آدرس ایمیل</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5029,7 +5029,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     <message>
         <location line="+1"/>
         <source>Registration token</source>
-        <translation type="unfinished"/>
+        <translation>توکن ثبت‌نام</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -6367,34 +6367,34 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
         <source>Invite: %1</source>
-        <translation type="unfinished"/>
+        <translation>دعوت: %1</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Space: %1</source>
-        <translation type="unfinished"/>
+        <translation>فضا: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+12"/>
         <source>%n unread message(s)</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n پیام خوانده‌نشده</numerusform>
         </translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mentions you</source>
-        <translation type="unfinished"/>
+        <translation>به شما اشاره کرده</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has draft</source>
-        <translation type="unfinished"/>
+        <translation>دارای پیش‌نویس</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Encrypted</source>
-        <translation type="unfinished"/>
+        <translation>رمزگذاری‌شده</translation>
     </message>
 </context>
 <context>
@@ -11094,7 +11094,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="-20"/>
         <source>Theme variant</source>
-        <translation type="unfinished"/>
+        <translation>نوع پوسته</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -11124,7 +11124,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Preferred emoji gender</source>
-        <translation type="unfinished"/>
+        <translation>جنسیت ترجیحی ایموجی</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -11159,7 +11159,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+8"/>
         <source>Preferred emoji skin tone</source>
-        <translation type="unfinished"/>
+        <translation>رنگ پوست ترجیحی ایموجی</translation>
     </message>
 </context>
 <context>

@@ -86,11 +86,19 @@ ColumnLayout {
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
     property int lastInitialBufferTriggerCount: -1
+    property int lastInitialBufferTriggerRawCount: -1
     property string activeRoomId: ""
     property var measuredTimelineHeights: ({})
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
     property bool deferredInitialBufferTopUpPending: false
+    // Counts initial-buffer paginate attempts where the visible count
+    // did not advance (typical when raw items are arriving but every one
+    // is filtered out by the user's hidden-event preferences). Capped to
+    // avoid runaway pagination in pathological rooms (e.g. a bot that
+    // emitted thousands of membership changes). Reset to 0 when the
+    // visible count advances.
+    property int paginationProgresslessAttempts: 0
     property bool bufferPaginationInFlight: false
     property bool initialBufferCheckQueued: false
     property bool deferredBufferCheckQueued: false
@@ -185,6 +193,25 @@ ColumnLayout {
         target: root.perRoomModel
         enabled: filteredTimeline.collapseThreadReplies && !root.threadViewActive
         function onCountChanged() {
+            if (root.bufferPaginationInFlight) {
+                root.bufferPaginationInFlight = false;
+                if (root.deferredInitialBufferTopUpPending)
+                    root.scheduleDeferredInitialTimelineBufferCheck();
+                else if (root.initialTimelineBufferPending)
+                    root.scheduleInitialTimelineBufferCheck();
+            }
+        }
+    }
+
+    // Symmetric to the block above, but at a different layer: the model's
+    // *raw* count (allItems_) can grow without the visible count changing
+    // when every paginated event is filtered out by hidden-event prefs.
+    // Without this nudge the initial-buffer loop has nothing to wake it up
+    // and we'd be stuck on "No messages to display".
+    Connections {
+        target: root.perRoomModel
+        enabled: !root.threadViewActive
+        function onRawCountChanged() {
             if (root.bufferPaginationInFlight) {
                 root.bufferPaginationInFlight = false;
                 if (root.deferredInitialBufferTopUpPending)

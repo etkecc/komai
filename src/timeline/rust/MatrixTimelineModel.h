@@ -20,6 +20,11 @@ class MatrixTimelineModel final : public EventDataSource
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    /// Raw item count *before* the user-pref hidden-event filter is applied.
+    /// `count` reports visible rows; `rawCount` reports backing items, so the
+    /// initial-buffer loop can tell "no history" apart from "history exists
+    /// but is entirely hidden by current preferences".
+    Q_PROPERTY(int rawCount READ rawCount NOTIFY rawCountChanged)
 
 public:
     /// Canonical roles — values 0–45 match TimelineModel::Roles exactly so
@@ -129,6 +134,7 @@ public:
     QVector<MatrixTimelineItem> visibleItemsSnapshot() const { return items_; }
 
     int count() const { return items_.size(); }
+    int rawCount() const { return allItems_.size(); }
     int hiddenCount() const;
     bool redactItemByEventId(const QString &eventId);
     bool removeItemByTransactionId(const QString &transactionId);
@@ -138,6 +144,7 @@ public:
 
 signals:
     void countChanged();
+    void rawCountChanged();
     void specialEffectsTriggered(const QStringList &effectNames);
     void aboutToReplaceContent();
     void contentReplaced();

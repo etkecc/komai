@@ -279,15 +279,58 @@ QtObject {
         });
     }
 
+    // Hard cap on paginate attempts that don't advance the *visible* count
+    // (everything paginated is hidden by user prefs). 10 attempts × 50
+    // events ≈ 500 raw events per stage — generous enough to clear most
+    // bot-spam join/leave floods, bounded enough that a truly pathological
+    // room eventually gives up instead of paginating forever. Each
+    // attempt is one HTTP round-trip when the local cache is exhausted,
+    // so worst-case loading time is roughly 10 × server latency.
+    readonly property int maxProgresslessAttempts: 10
+    readonly property int progresslessPageSize: 50
+
     function maybeRequestInitialTimelineBuffer() {
         if (!timelineList
                 || !rootItem.initialTimelineBufferPending
                 || rootItem.initialBottomPinPending
                 || rootItem.bufferPaginationInFlight
-                || rootItem.loading
-                || !rootItem.hasTimeline) {
+                || rootItem.loading) {
             return;
         }
+
+        // The model may hold raw items that are all filtered out by the
+        // user's hidden-event preferences (typical for rooms with bursts of
+        // membership changes). Viewport math below assumes a non-zero
+        // contentHeight, which won't hold while count is 0, so request a
+        // flat paginate instead and bail. Subsequent rawCountChanged signals
+        // re-trigger this loop until either visible items appear or the
+        // attempts cap is hit.
+        const model = rootItem.perRoomModel;
+        if (model
+                && model.count <= 0
+                && model.rawCount > 0
+                && !rootItem.threadViewActive) {
+            if (rootItem.paginationProgresslessAttempts >= support.maxProgresslessAttempts) {
+                rootItem.initialTimelineBufferPending = false;
+                rootItem.deferredInitialBufferTopUpPending = false;
+                return;
+            }
+            rootItem.paginationProgresslessAttempts += 1;
+            console.info("[timeline-load] All loaded items hidden; requesting paginate"
+                + " attempt=" + rootItem.paginationProgresslessAttempts
+                + "/" + support.maxProgresslessAttempts
+                + " rawCount=" + model.rawCount);
+            if (!TimelineManager.paginateActiveMatrixTimelineBackwards(
+                    support.progresslessPageSize)) {
+                rootItem.initialTimelineBufferPending = false;
+                return;
+            }
+            rootItem.bufferPaginationInFlight = true;
+            return;
+        }
+
+        if (!rootItem.hasTimeline)
+            return;
 
         const viewportHeight = timelineList.height;
         if (viewportHeight <= 0 || timelineList.contentHeight <= 0)
@@ -328,6 +371,7 @@ QtObject {
                 rootItem.deferredInitialBufferTopUpPending = false;
                 rootItem.bufferPaginationInFlight = false;
                 rootItem.lastInitialBufferTriggerCount = -1;
+                rootItem.lastInitialBufferTriggerRawCount = -1;
                 rootItem.deferredBufferCheckQueued = false;
                 return;
             }
@@ -341,26 +385,56 @@ QtObject {
         rootItem.bufferPaginationInFlight = false;
 
         const itemCount = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0);
-        if (itemCount <= 0 || rootItem.lastInitialBufferTriggerCount === itemCount)
+        const rawItemCount = (rootItem.perRoomModel ? rootItem.perRoomModel.rawCount : 0);
+        if (itemCount <= 0)
             return;
 
-        const requestCount = Math.max(
-            1,
-            Math.min(12, Math.ceil((desiredBufferedHeight - timelineList.contentHeight) / averageRowHeight)));
+        const noVisibleProgress = rootItem.lastInitialBufferTriggerCount === itemCount;
+        const noRawProgress = rootItem.lastInitialBufferTriggerRawCount === rawItemCount;
+
+        // Truly stuck: previous paginate delivered nothing (likely the
+        // timeline's start was reached). Stop trying.
+        if (noVisibleProgress && noRawProgress)
+            return;
+
+        let requestCount;
+        if (noVisibleProgress) {
+            // Pagination is delivering raw items but every one is filtered
+            // out by hidden-event prefs. The viewport-extrapolation formula
+            // gives small request sizes that won't make headway here, so
+            // ratchet up the request and bound by an attempts cap.
+            if (rootItem.paginationProgresslessAttempts >= support.maxProgresslessAttempts) {
+                rootItem.initialTimelineBufferPending = false;
+                rootItem.deferredInitialBufferTopUpPending = false;
+                return;
+            }
+            rootItem.paginationProgresslessAttempts += 1;
+            requestCount = support.progresslessPageSize;
+        } else {
+            rootItem.paginationProgresslessAttempts = 0;
+            requestCount = Math.max(
+                1,
+                Math.min(12, Math.ceil((desiredBufferedHeight - timelineList.contentHeight) / averageRowHeight)));
+        }
+
         console.info("[timeline-load] Requesting buffer top-up: contentH="
             + Math.round(timelineList.contentHeight)
             + " desired=" + Math.round(desiredBufferedHeight)
             + " count=" + itemCount
-            + " requesting=" + requestCount);
+            + " rawCount=" + rawItemCount
+            + " requesting=" + requestCount
+            + (noVisibleProgress ? " (progressless)" : ""));
         if (!TimelineManager.paginateActiveMatrixTimelineBackwards(requestCount)) {
             rootItem.initialTimelineBufferPending = false;
             rootItem.bufferPaginationInFlight = false;
             rootItem.lastInitialBufferTriggerCount = -1;
+            rootItem.lastInitialBufferTriggerRawCount = -1;
             return;
         }
 
         rootItem.bufferPaginationInFlight = true;
         rootItem.lastInitialBufferTriggerCount = itemCount;
+        rootItem.lastInitialBufferTriggerRawCount = rawItemCount;
     }
 
     function estimatedInitialTimelinePageSize() {
@@ -424,31 +498,54 @@ QtObject {
             rootItem.deferredInitialBufferTopUpPending = false;
             rootItem.bufferPaginationInFlight = false;
             rootItem.lastInitialBufferTriggerCount = -1;
+            rootItem.lastInitialBufferTriggerRawCount = -1;
             return;
         }
 
         rootItem.bufferPaginationInFlight = false;
 
         const itemCount = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0);
-        if (itemCount <= 0 || rootItem.lastInitialBufferTriggerCount === itemCount)
+        const rawItemCount = (rootItem.perRoomModel ? rootItem.perRoomModel.rawCount : 0);
+        if (itemCount <= 0)
             return;
 
-        const requestCount = Math.max(
-            1,
-            Math.min(12, Math.ceil((desiredBufferedHeight - timelineList.contentHeight) / averageRowHeight)));
+        const noVisibleProgress = rootItem.lastInitialBufferTriggerCount === itemCount;
+        const noRawProgress = rootItem.lastInitialBufferTriggerRawCount === rawItemCount;
+        if (noVisibleProgress && noRawProgress)
+            return;
+
+        let requestCount;
+        if (noVisibleProgress) {
+            if (rootItem.paginationProgresslessAttempts >= support.maxProgresslessAttempts) {
+                rootItem.deferredInitialBufferTopUpPending = false;
+                return;
+            }
+            rootItem.paginationProgresslessAttempts += 1;
+            requestCount = support.progresslessPageSize;
+        } else {
+            rootItem.paginationProgresslessAttempts = 0;
+            requestCount = Math.max(
+                1,
+                Math.min(12, Math.ceil((desiredBufferedHeight - timelineList.contentHeight) / averageRowHeight)));
+        }
+
         console.info("[timeline-load] Requesting deferred buffer top-up: contentH="
             + Math.round(timelineList.contentHeight)
             + " desired=" + Math.round(desiredBufferedHeight)
             + " count=" + itemCount
-            + " requesting=" + requestCount);
+            + " rawCount=" + rawItemCount
+            + " requesting=" + requestCount
+            + (noVisibleProgress ? " (progressless)" : ""));
         if (!TimelineManager.paginateActiveMatrixTimelineBackwards(requestCount)) {
             rootItem.deferredInitialBufferTopUpPending = false;
             rootItem.bufferPaginationInFlight = false;
             rootItem.lastInitialBufferTriggerCount = -1;
+            rootItem.lastInitialBufferTriggerRawCount = -1;
             return;
         }
 
         rootItem.bufferPaginationInFlight = true;
         rootItem.lastInitialBufferTriggerCount = itemCount;
+        rootItem.lastInitialBufferTriggerRawCount = rawItemCount;
     }
 }

@@ -394,6 +394,7 @@ QtObject {
         rootItem.deferredInitialBufferTopUpPending = true;
         rootItem.bufferPaginationInFlight = false;
         rootItem.lastInitialBufferTriggerCount = -1;
+        rootItem.lastInitialBufferTriggerRawCount = -1;
 
         // The whole timeline already fits inside the viewport, so the room
         // switch is effectively done — content is on screen and the user

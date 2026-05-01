@@ -60,7 +60,9 @@ QtObject {
             rootItem.deferredInitialBufferTopUpPending = false;
             rootItem.bufferPaginationInFlight = false;
             rootItem.lastInitialBufferTriggerCount = -1;
+            rootItem.lastInitialBufferTriggerRawCount = -1;
             rootItem.deferredBufferCheckQueued = false;
+            rootItem.paginationProgresslessAttempts = 0;
         }
 
         rootItem.perfLoggedCountNonZero = false;

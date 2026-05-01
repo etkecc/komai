@@ -1060,6 +1060,8 @@ MatrixTimelineModel::removeItemByTransactionId(const QString &transactionId)
     }
 
     emit countChanged();
+    if (rawRow >= 0)
+        emit rawCountChanged();
     return true;
 }
 
@@ -1267,10 +1269,12 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
     }
 
     emitEffectsForPrependedItems(items);
-    allItems_ = items;
+    const auto oldRawCount = allItems_.size();
+    allItems_              = items;
+    const auto newRawCount = allItems_.size();
 
     const auto initialVisibleWindow      = configuredInitialVisibleWindow();
-    const auto uncappedVisibleCount      = static_cast<int>(allItems_.size());
+    const auto uncappedVisibleCount      = static_cast<int>(newRawCount);
     const auto cappedInitialVisibleCount = initialVisibleWindow
                                              ? std::min(uncappedVisibleCount, *initialVisibleWindow)
                                              : uncappedVisibleCount;
@@ -1279,8 +1283,11 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
     if (initialVisibleWindow && revealedItemCount_ > 0)
         targetVisibleCount = std::max(revealedItemCount_, cappedInitialVisibleCount);
 
-    revealedItemCount_ = std::clamp(targetVisibleCount, 0, static_cast<int>(allItems_.size()));
+    revealedItemCount_ = std::clamp(targetVisibleCount, 0, static_cast<int>(newRawCount));
     replaceVisibleItems(visibleItemsForRawCount(revealedItemCount_));
+
+    if (newRawCount != oldRawCount)
+        emit rawCountChanged();
 }
 
 void
@@ -1326,9 +1333,12 @@ void
 MatrixTimelineModel::clear()
 {
     optimisticRedactedEventIds_.clear();
+    const auto hadRawItems = !allItems_.isEmpty();
     allItems_.clear();
     revealedItemCount_ = 0;
     replaceVisibleItems({});
+    if (hadRawItems)
+        emit rawCountChanged();
 }
 
 } // namespace komai

@@ -7,6 +7,48 @@ To address this, Komai uses AI-assisted translation to fill in the gaps. We beli
 The pipeline is provider-neutral in principle; the current backend is the [Claude CLI](https://docs.anthropic.com/en/docs/claude-cli), wired up via `call_claude()` in [`bin/translations/translate.py`](../../bin/translations/translate.py). Swap that one function to use a different LLM.
 
 
+## 🌍 Available translations
+
+Komai currently ships translations for the following 32 languages (plus English as the source). Click a row to jump to that language's translation files. Flags indicate broad regions only — they're a navigational aid, not a claim that a language belongs to any one country.
+
+| Flag | Language | Native name | Files |
+|------|----------|-------------|-------|
+| 🌐 | Arabic | العربية | [`resources/langs/ar/`](../../resources/langs/ar/) |
+| 🏴 | Catalan | Català | [`resources/langs/ca/`](../../resources/langs/ca/) |
+| 🇨🇳 | Chinese (Simplified) | 简体中文 | [`resources/langs/zh_CN/`](../../resources/langs/zh_CN/) |
+| 🇹🇼 | Chinese (Traditional) | 繁體中文 | [`resources/langs/zh_Hant/`](../../resources/langs/zh_Hant/) |
+| 🇨🇿 | Czech | Čeština | [`resources/langs/cs/`](../../resources/langs/cs/) |
+| 🇳🇱 | Dutch | Nederlands | [`resources/langs/nl/`](../../resources/langs/nl/) |
+| 🌐 | Esperanto | Esperanto | [`resources/langs/eo/`](../../resources/langs/eo/) |
+| 🇪🇪 | Estonian | Eesti | [`resources/langs/et/`](../../resources/langs/et/) |
+| 🇫🇮 | Finnish | Suomi | [`resources/langs/fi/`](../../resources/langs/fi/) |
+| 🇫🇷 | French | Français | [`resources/langs/fr/`](../../resources/langs/fr/) |
+| 🇩🇪 | German | Deutsch | [`resources/langs/de/`](../../resources/langs/de/) |
+| 🇬🇷 | Greek | Ελληνικά | [`resources/langs/el/`](../../resources/langs/el/) |
+| 🇭🇺 | Hungarian | Magyar | [`resources/langs/hu/`](../../resources/langs/hu/) |
+| 🇮🇩 | Indonesian | Bahasa Indonesia | [`resources/langs/id/`](../../resources/langs/id/) |
+| 🌐 | Interlingue | Interlingue | [`resources/langs/ie/`](../../resources/langs/ie/) |
+| 🇮🇹 | Italian | Italiano | [`resources/langs/it/`](../../resources/langs/it/) |
+| 🇯🇵 | Japanese | 日本語 | [`resources/langs/ja/`](../../resources/langs/ja/) |
+| 🇰🇷 | Korean | 한국어 | [`resources/langs/ko/`](../../resources/langs/ko/) |
+| 🇮🇳 | Malayalam | മലയാളം | [`resources/langs/ml/`](../../resources/langs/ml/) |
+| 🇮🇷 | Persian | فارسی | [`resources/langs/fa/`](../../resources/langs/fa/) |
+| 🇵🇱 | Polish | Polski | [`resources/langs/pl/`](../../resources/langs/pl/) |
+| 🇧🇷 | Portuguese (Brazil) | Português (Brasil) | [`resources/langs/pt_BR/`](../../resources/langs/pt_BR/) |
+| 🇵🇹 | Portuguese (Portugal) | Português (Portugal) | [`resources/langs/pt_PT/`](../../resources/langs/pt_PT/) |
+| 🇷🇴 | Romanian | Română | [`resources/langs/ro/`](../../resources/langs/ro/) |
+| 🇷🇺 | Russian | Русский | [`resources/langs/ru/`](../../resources/langs/ru/) |
+| 🇷🇸 | Serbian (Latin) | Srpski | [`resources/langs/sr_Latn/`](../../resources/langs/sr_Latn/) |
+| 🇱🇰 | Sinhala | සිංහල | [`resources/langs/si/`](../../resources/langs/si/) |
+| 🇪🇸 | Spanish | Español | [`resources/langs/es/`](../../resources/langs/es/) |
+| 🇸🇪 | Swedish | Svenska | [`resources/langs/sv/`](../../resources/langs/sv/) |
+| 🇹🇷 | Turkish | Türkçe | [`resources/langs/tr/`](../../resources/langs/tr/) |
+| 🇺🇦 | Ukrainian | Українська | [`resources/langs/uk/`](../../resources/langs/uk/) |
+| 🇻🇳 | Vietnamese | Tiếng Việt | [`resources/langs/vi/`](../../resources/langs/vi/) |
+
+Want to improve a translation, or add a new language? See the rest of this document for the workflow, and feel free to open a pull request — even small fixes are welcome.
+
+
 ## 📂 Directory structure
 
 Translation files live in per-language directories under [`resources/langs/`](../../resources/langs/):

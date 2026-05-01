@@ -290,7 +290,7 @@ Item {
                             Layout.alignment: Qt.AlignTop
                         }
 
-                        Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                        Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignTop }
                         Item { Layout.fillWidth: true }
 
                         Components.KomaiTextArea {

@@ -1787,9 +1787,7 @@ Rectangle {
             text: qsTr("Settings...") // Keep short: Qt may clip/elide longer menu item text
             icon.source: "qrc:/icons/icons/ui/settings.svg"
 
-            onTriggered: MainWindow.showUserSettingsPage(
-                UserSettingsModel.TabNavigation,
-                "navigation-room-list-section")
+            onTriggered: MainWindow.showUserSettingsPage(UserSettingsModel.TabComposer)
         }
     }
 }

@@ -48,16 +48,28 @@ Item {
             id: themeCombo
             Layout.alignment: Qt.AlignVCenter
             font.pointSize: Settings.uiFontSizePt
-            model: safeValues
-            currentIndex: safeValue
+            model: root.safeValues
+            // Re-apply currentIndex after the model array changes — assigning
+            // a new model can leave ComboBox.currentIndex pointing at a stale
+            // slot (the wrong theme name shows next to the new variant).
+            onModelChanged: currentIndex = root.safeValue
+            Component.onCompleted: currentIndex = root.safeValue
             onActivated: {
                 if (!root.model)
                     return;
-                if (currentIndex >= 0 && currentIndex !== safeValue)
+                if (currentIndex >= 0 && currentIndex !== root.safeValue)
                     root.model.value = currentIndex;
             }
             implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
             wheelEnabled: activeFocus
+
+            Connections {
+                target: root
+                function onSafeValueChanged() {
+                    if (themeCombo.currentIndex !== root.safeValue)
+                        themeCombo.currentIndex = root.safeValue;
+                }
+            }
         }
     }
 }

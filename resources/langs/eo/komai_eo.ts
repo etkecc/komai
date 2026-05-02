@@ -3575,7 +3575,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1164"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1168"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Skribu mesaĝon, aŭ premu ↑ por elekti mesaĝojn.</translation>
     </message>

@@ -3570,7 +3570,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1164"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1168"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Tulis pesan, atau tekan ↑ untuk memilih pesan.</translation>
     </message>

@@ -998,6 +998,10 @@ Rectangle {
             Layout.minimumHeight: visible ? targetTextAreaHeight : 0
             Layout.preferredHeight: visible ? targetTextAreaHeight : 0
             visible: !inputBar.hasVoiceRecording
+            // Fade out (rather than hide) during uploads so Layout.fillWidth
+            // stays active and the button row doesn't redistribute; the draft
+            // lives on in messageInput.text and reappears once uploads clear.
+            opacity: inputBar.hasUploads ? 0 : 1
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             contentWidth: availableWidth
             implicitHeight: targetTextAreaHeight
@@ -1161,7 +1165,7 @@ Rectangle {
                 leftPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 padding: 0
                 font.pointSize: Settings.uiFontSizePt
-                placeholderText: inputBar.hasUploads ? "" : qsTr("Write a message, or press ↑ to select messages.")
+                placeholderText: qsTr("Write a message, or press ↑ to select messages.")
                 placeholderTextColor: palette.buttonText
                 Accessible.name: qsTr("Message")
                 Accessible.description: placeholderText

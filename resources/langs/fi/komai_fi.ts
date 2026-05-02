@@ -3575,7 +3575,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1164"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1168"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Kirjoita viesti tai paina ↑ valitaksesi viestejä.</translation>
     </message>

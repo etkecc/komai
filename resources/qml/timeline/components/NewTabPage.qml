@@ -58,9 +58,9 @@ Item {
         anchors.fill: parent
         spacing: 0
 
-        // Top spacer — centers content vertically when no search results.
+        // Top spacer — centers content vertically until the user starts searching.
         Item {
-            Layout.fillHeight: !search.hasResults
+            Layout.fillHeight: !search.isSearching
         }
 
         Image {
@@ -107,7 +107,9 @@ Item {
             visible: !search.isSearching
         }
 
-        // Bottom spacer — visible only when no search results (centering partner).
+        // Bottom spacer — fills the empty area below the search field whenever
+        // the results list is not present (no input → centering partner;
+        // searching with no matches → pins the content to the top).
         Item {
             Layout.fillHeight: true
             visible: !search.hasResults

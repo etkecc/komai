@@ -301,6 +301,13 @@ pub fn stop_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
         }
     }
 
+    // Drop any cached thread timelines tied to this room.  The room is
+    // leaving the cache (LRU eviction at the C++ per-room model layer), so
+    // its threads cannot be served from the warm cache anyway — keeping
+    // them around would pin SDK Timeline state for a room we've decided to
+    // forget about.
+    super::thread_timeline::evict_thread_subscriptions_for_room(handle_id, room_id);
+
     Ok(())
 }
 

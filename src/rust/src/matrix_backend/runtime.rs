@@ -551,6 +551,9 @@ const ROOM_LIST_PAGE_SIZE: usize = 100_000;
 const ROOM_TIMELINE_INITIAL_PAGE_SIZE: u16 = 15;
 const ROOM_TIMELINE_PAGE_SIZE: u16 = 50;
 const ROOM_TIMELINE_STOP_POLL_INTERVAL_MS: u64 = 50;
+/// Max number of thread timeline subscriptions kept warm.  Mirrors the
+/// "default 3 recently-closed timelines" behavior on the room side.
+pub(super) const THREAD_SUBSCRIPTION_CACHE_CAP: usize = 3;
 
 struct MatrixBackendHandle {
     client: Client,
@@ -589,10 +592,27 @@ struct MatrixBackendHandle {
     /// replies arrive via sync.  Keyed by room_id → event_id → reply_count.
     /// See `docs/architecture/thread-reply-counts.md` for design rationale.
     thread_reply_counts: Arc<Mutex<HashMap<String, HashMap<String, u32>>>>,
-    /// Active thread timeline view.  At most one thread can be viewed at a
-    /// time.  Set by `subscribe_to_thread_timeline()`, cleared by
-    /// `unsubscribe_from_thread_timeline()`.
-    active_thread_subscription: Option<thread_timeline::ThreadTimelineState>,
+    /// Cache of thread timeline subscriptions, keyed by `(room_id,
+    /// thread_root_id)`.  Bounded LRU (see `THREAD_SUBSCRIPTION_CACHE_CAP`).
+    /// Mirrors the room-timeline reuse pattern: visiting a thread, leaving
+    /// the room, then returning skips the SDK `TimelineFocus::Thread`
+    /// rebuild and the initial `/relations` fetch — both of which are
+    /// expensive and previously ran on every re-entry because thread state
+    /// was a single `Option` that got dropped each time.
+    ///
+    /// Entries for a room are evicted when the room timeline is stopped
+    /// (`stop_room_timeline`).
+    thread_subscriptions: HashMap<(String, String), thread_timeline::ThreadTimelineState>,
+    /// LRU order of `thread_subscriptions` keys, oldest first.  Used to pick
+    /// an eviction victim when the cache hits its capacity.
+    thread_subscription_lru: Vec<(String, String)>,
+    /// The currently-active thread, identifying the entry in
+    /// `thread_subscriptions` that receives `Refresh`/`PaginateBackwards`
+    /// commands and whose snapshot is served by
+    /// `fetch_thread_timeline_snapshot`.  `None` means no thread is
+    /// currently being viewed; cached entries may still exist for warm
+    /// reuse on re-entry.
+    active_thread_key: Option<(String, String)>,
     pending_identity_reset: Arc<Mutex<Option<IdentityResetHandle>>>,
     pending_device_sign_out: Arc<Mutex<Option<PendingDeviceSignOut>>>,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,

@@ -8383,7 +8383,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Alleen bestaande lokale bestanden kunnen worden bijgevoegd via slepen en neerzetten.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

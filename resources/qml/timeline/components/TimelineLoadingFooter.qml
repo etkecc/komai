@@ -13,14 +13,17 @@ Item {
     required property bool filteringInProgress
     required property string searchString
 
-    width: delegateWidth
-    // hacky, but works
-    height: loadingSpinner.height + 2 * Komai.paddingLarge
-
     // Hold spinner visible briefly after loading stops to prevent
     // flicker from rapid paginationInProgress toggles during search.
     property bool isLoading: ((roomModel && roomModel.paginationInProgress) || filteringInProgress) && !searchString
-    visible: isLoading || spinnerHoldTimer.running
+    readonly property bool _show: isLoading || spinnerHoldTimer.running
+
+    width: delegateWidth
+    // Collapse to zero when not loading so the ListView reserves no
+    // space at its visual top edge during normal scrolling.
+    height: _show ? loadingSpinner.height + 2 * Komai.paddingLarge : 0
+    visible: _show
+
     onIsLoadingChanged: {
         if (isLoading)
             spinnerHoldTimer.stop();
@@ -39,7 +42,7 @@ Item {
         anchors.centerIn: parent
         anchors.margins: Komai.paddingLarge
         foreground: palette.mid
-        running: root.isLoading || spinnerHoldTimer.running
+        running: root._show
         z: 3
     }
 }

@@ -385,6 +385,16 @@ MatrixTimelineModel::setRoomId(const QString &roomId)
     refreshDerivedFields();
 }
 
+void
+MatrixTimelineModel::setPaginationInProgress(bool inProgress)
+{
+    if (paginationInProgress_ == inProgress)
+        return;
+
+    paginationInProgress_ = inProgress;
+    emit paginationInProgressChanged();
+}
+
 int
 MatrixTimelineModel::rowCount(const QModelIndex &parent) const
 {

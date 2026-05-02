@@ -8383,7 +8383,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>Apenas ficheiros locais existentes podem ser anexados por arrastar e largar.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

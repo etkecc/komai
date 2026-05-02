@@ -8383,7 +8383,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Solo i file locali esistenti possono essere allegati tramite trascinamento.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

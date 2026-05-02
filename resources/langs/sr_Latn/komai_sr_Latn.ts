@@ -8396,7 +8396,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Prevlačenjem i ispuštanjem mogu se dodati samo postojeći lokalni fajlovi.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

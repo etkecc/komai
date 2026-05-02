@@ -25,6 +25,12 @@ class MatrixTimelineModel final : public EventDataSource
     /// initial-buffer loop can tell "no history" apart from "history exists
     /// but is entirely hidden by current preferences".
     Q_PROPERTY(int rawCount READ rawCount NOTIFY rawCountChanged)
+    /// True while the per-room timeline task is processing a backwards
+    /// pagination request (i.e. matrix-sdk is fetching older history,
+    /// possibly hitting the server). Used by the QML loading footer to
+    /// surface "loading more messages" state at the top of the timeline.
+    Q_PROPERTY(
+      bool paginationInProgress READ paginationInProgress NOTIFY paginationInProgressChanged)
 
 public:
     /// Canonical roles — values 0–45 match TimelineModel::Roles exactly so
@@ -135,6 +141,8 @@ public:
 
     int count() const { return items_.size(); }
     int rawCount() const { return allItems_.size(); }
+    bool paginationInProgress() const { return paginationInProgress_; }
+    void setPaginationInProgress(bool inProgress);
     int hiddenCount() const;
     bool redactItemByEventId(const QString &eventId);
     bool removeItemByTransactionId(const QString &transactionId);
@@ -145,6 +153,7 @@ public:
 signals:
     void countChanged();
     void rawCountChanged();
+    void paginationInProgressChanged();
     void specialEffectsTriggered(const QStringList &effectNames);
     void aboutToReplaceContent();
     void contentReplaced();
@@ -165,7 +174,8 @@ private:
     QString roomId_;
     QVector<MatrixTimelineItem> allItems_;
     QVector<MatrixTimelineItem> items_;
-    int revealedItemCount_ = 0;
+    int revealedItemCount_     = 0;
+    bool paginationInProgress_ = false;
     QSet<QString> optimisticRedactedEventIds_;
 };
 

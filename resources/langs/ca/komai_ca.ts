@@ -8383,7 +8383,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Només es poden adjuntar fitxers locals existents arrossegant i deixant anar.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

@@ -136,6 +136,10 @@ matrix_notify_room_timeline_snapshot_updated(std::uint64_t, ::rust::Str)
 {}
 
 void
+matrix_notify_room_timeline_pagination_state(std::uint64_t, ::rust::Str, bool)
+{}
+
+void
 matrix_notify_room_pinned_events_changed(std::uint64_t,
                                          ::rust::Str,
                                          ::rust::Vec<::rust::String>)

@@ -8383,7 +8383,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Endast befintliga lokala filer kan bifogas med drag och släpp.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

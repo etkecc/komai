@@ -337,6 +337,23 @@ matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, ::rust::St
 }
 
 void
+matrix_notify_room_timeline_pagination_state(std::uint64_t handle_id,
+                                             ::rust::Str room_id,
+                                             bool in_progress)
+{
+    const auto roomId = toQString(room_id);
+    postToAppThread([handle_id, roomId, in_progress]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleMatrixBackendRoomTimelinePaginationStateChanged(
+          handle_id, roomId, in_progress);
+    });
+}
+
+void
 matrix_notify_room_pinned_events_changed(std::uint64_t handle_id,
                                          ::rust::Str room_id,
                                          ::rust::Vec<::rust::String> event_ids)

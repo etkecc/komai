@@ -567,6 +567,22 @@ ColumnLayout {
                         : ((root.filteringRequested || filteredTimeline.collapseThreadReplies)
                             ? filteredTimeline : root.perRoomModel)
                     header: Item { width: 1; height: Komai.paddingSmall }
+                    // BottomToTop layout: this footer is rendered at the visual
+                    // top of the timeline.  It surfaces a spinner while the
+                    // matrix-sdk task is fetching older history (e.g. when
+                    // the user has scrolled to the top and pagination is
+                    // hitting the server) — without this, scrolling at the
+                    // top while history loads looks like the timeline has
+                    // hung. Backed by perRoomModel.paginationInProgress.
+                    footer: TimelineLoadingFooter {
+                        delegateWidth: matrixTimelineList.delegateMaxWidth
+                        // perRoomModel.paginationInProgress is room-scoped;
+                        // thread view has its own pagination flow which we
+                        // don't surface here.
+                        roomModel: root.threadViewActive ? null : root.perRoomModel
+                        filteringInProgress: root.filteringInProgress
+                        searchString: root.searchString
+                    }
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 

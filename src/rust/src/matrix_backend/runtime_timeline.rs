@@ -31,6 +31,19 @@ fn room_switch_perf_enabled() -> bool {
     })
 }
 
+// Debug-only knob: when set to a positive integer, on-demand backwards
+// pagination of the active room timeline sleeps that many milliseconds
+// before calling matrix-sdk's `paginate_backwards`.  Used to reproduce
+// slow-server behaviour locally without having to find a room whose
+// history is not already in the matrix-sdk cache.  No effect when unset
+// or 0.  Read on every call so the value can be changed without rebuild.
+fn debug_paginate_delay_ms() -> Option<u64> {
+    std::env::var("KOMAI_DEBUG_PAGINATE_DELAY_MS")
+        .ok()
+        .and_then(|s| s.parse::<u64>().ok())
+        .filter(|&ms| ms > 0)
+}
+
 fn log_room_timeline_perf(
     handle_id: u64,
     room_id: &str,
@@ -1047,6 +1060,20 @@ async fn run_room_timeline_loop(
                             page_size,
                             "Paginating active matrix-sdk room timeline backwards"
                         );
+                        crate::ffi::matrix_notify_room_timeline_pagination_state(
+                            handle_id,
+                            &room_id,
+                            true,
+                        );
+                        if let Some(delay_ms) = debug_paginate_delay_ms() {
+                            tracing::warn!(
+                                handle_id,
+                                room_id,
+                                delay_ms,
+                                "KOMAI_DEBUG_PAGINATE_DELAY_MS active; sleeping before paginate_backwards"
+                            );
+                            tokio::time::sleep(StdDuration::from_millis(delay_ms)).await;
+                        }
                         if let Err(error) = timeline.paginate_backwards(page_size).await {
                             tracing::warn!(
                                 handle_id,
@@ -1062,6 +1089,11 @@ async fn run_room_timeline_loop(
                                 &room_id,
                             );
                         }
+                        crate::ffi::matrix_notify_room_timeline_pagination_state(
+                            handle_id,
+                            &room_id,
+                            false,
+                        );
                     }
                     Some(MatrixBackendRoomTimelineCommand::ToggleReaction { event_id, reaction_key, response }) => {
                         tracing::info!(

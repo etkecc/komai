@@ -8396,7 +8396,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Перетаскиванием можно прикреплять только существующие локальные файлы.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

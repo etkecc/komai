@@ -156,8 +156,26 @@ QtObject {
 
         const delta = rotation - previousWheelRotation;
         previousWheelRotation = rotation;
-        timelineList.contentY -= delta * 5;
-        timelineList.returnToBounds();
+
+        // If the content fits inside the viewport there is nothing to
+        // scroll; bail out without touching contentY.  In BottomToTop
+        // mode Qt anchors the items to the visual bottom, and forcing
+        // contentY to originY would shift them upward away from that
+        // anchor (regression observed on small thread timelines).
+        const range = Math.max(0, timelineList.contentHeight - timelineList.height);
+        if (range <= 0)
+            return;
+
+        // Clamp the target contentY ourselves before assignment.
+        // Setting contentY out of bounds and then calling returnToBounds()
+        // can let an over-scrolled value show on a render frame before the
+        // snap-back lands, which manifests as visible jitter when the
+        // user keeps wheeling at the top edge while pagination is in
+        // flight (#79).
+        const proposedContentY = timelineList.contentY - delta * 5;
+        const minY = timelineList.originY;
+        const maxY = timelineList.originY + range;
+        timelineList.contentY = Math.max(minY, Math.min(maxY, proposedContentY));
         support.updateLastScroll();
 
         const halfW = Math.max(1, Math.round(timelineList.width / 2));

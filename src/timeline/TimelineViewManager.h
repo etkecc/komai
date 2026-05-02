@@ -401,6 +401,9 @@ public slots:
                                                  const QString &eventId);
     void
     handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
+    void handleMatrixBackendRoomTimelinePaginationStateChanged(std::uint64_t handleId,
+                                                               const QString &roomId,
+                                                               bool inProgress);
     void handleMatrixBackendRoomPinnedEventsChanged(std::uint64_t handleId,
                                                     const QString &roomId,
                                                     const QStringList &eventIds);

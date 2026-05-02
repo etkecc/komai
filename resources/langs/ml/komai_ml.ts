@@ -8383,7 +8383,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>നിലവിലുള്ള പ്രാദേശിക ഫയലുകൾ മാത്രം ഡ്രാഗ് ആൻഡ് ഡ്രോപ്പ് വഴി അറ്റാч്ч് ചെയ്യാൻ കഴിയും.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

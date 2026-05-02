@@ -8396,7 +8396,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Prin glisare și plasare pot fi atașate doar fișiere locale existente.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

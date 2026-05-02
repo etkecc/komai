@@ -8370,7 +8370,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Húzással és ejtéssel csak meglévő helyi fájlok csatolhatók.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

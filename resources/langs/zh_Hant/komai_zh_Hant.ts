@@ -8370,7 +8370,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>只能透過拖放附加本機現有的檔案。</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

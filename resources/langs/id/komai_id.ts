@@ -8370,7 +8370,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Hanya file lokal yang ada yang dapat dilampirkan dengan seret dan lepas.</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

@@ -2838,6 +2838,22 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
 }
 
 void
+TimelineViewManager::handleMatrixBackendRoomTimelinePaginationStateChanged(std::uint64_t handleId,
+                                                                           const QString &roomId,
+                                                                           bool inProgress)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    auto *model = perRoomModels_.value(roomId, nullptr);
+    if (!model)
+        return;
+
+    model->setPaginationInProgress(inProgress);
+}
+
+void
 TimelineViewManager::handleMatrixBackendRoomPinnedEventsChanged(std::uint64_t handleId,
                                                                 const QString &roomId,
                                                                 const QStringList &eventIds)

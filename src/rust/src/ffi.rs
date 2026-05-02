@@ -1326,6 +1326,12 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);
         #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_room_timeline_pagination_state(
+            handle_id: u64,
+            room_id: &str,
+            in_progress: bool,
+        );
+        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_pinned_events_changed(
             handle_id: u64,
             room_id: &str,

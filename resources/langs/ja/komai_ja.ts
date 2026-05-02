@@ -8370,7 +8370,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ドラッグ＆ドロップで添付できるのは既存のローカルファイルのみです。</translation>
     </message>
     <message>
-        <location line="+246"/>
+        <location line="+262"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

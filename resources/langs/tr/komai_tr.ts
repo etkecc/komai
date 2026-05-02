@@ -8284,7 +8284,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+293"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
         <source>Failed to send message: %1</source>
         <translation>Mesaj gönderilemedi: %1</translation>
     </message>

@@ -180,9 +180,7 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
             mainWindow->showNotification(message);
     };
     const auto clearReplyIfNeeded = [this]() {
-        bool changed = clearActiveMatrixReplyState();
-        changed |= clearActiveMatrixThreadState();
-        if (changed)
+        if (clearActiveMatrixReplyState())
             emit matrixTimelineStateChanged();
     };
     const auto activeHandleId = [mainWindow]() -> uint64_t {

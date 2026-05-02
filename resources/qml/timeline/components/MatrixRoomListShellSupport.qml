@@ -410,9 +410,24 @@ QtObject {
 
         rootItem.initialTimelineBufferPending = false;
         rootItem.deferredInitialBufferTopUpPending = true;
-        rootItem.bufferPaginationInFlight = false;
-        rootItem.lastInitialBufferTriggerCount = -1;
-        rootItem.lastInitialBufferTriggerRawCount = -1;
+
+        // Only reset the no-progress guard when we observe actual count
+        // movement since the last buffer top-up trigger. Without this
+        // gate, a contentHeight oscillation that doesn't reflect a real
+        // model change (e.g. the loading spinner footer expanding then
+        // collapsing on each paginate cycle) re-arms the guard and the
+        // deferred top-up retriggers paginate forever in rooms whose
+        // history has truly run out (#79 follow-up).
+        const currentCount = rootItem.perRoomModel ? rootItem.perRoomModel.count : 0;
+        const currentRawCount = rootItem.perRoomModel ? rootItem.perRoomModel.rawCount : 0;
+        const countMoved = rootItem.lastInitialBufferTriggerCount >= 0
+            && (rootItem.lastInitialBufferTriggerCount !== currentCount
+                || rootItem.lastInitialBufferTriggerRawCount !== currentRawCount);
+        if (countMoved || rootItem.lastInitialBufferTriggerCount < 0) {
+            rootItem.bufferPaginationInFlight = false;
+            rootItem.lastInitialBufferTriggerCount = -1;
+            rootItem.lastInitialBufferTriggerRawCount = -1;
+        }
 
         // The whole timeline already fits inside the viewport, so the room
         // switch is effectively done — content is on screen and the user

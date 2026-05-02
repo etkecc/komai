@@ -3220,7 +3220,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
         <source>Forward</source>
         <translation>Doorsturen</translation>
     </message>

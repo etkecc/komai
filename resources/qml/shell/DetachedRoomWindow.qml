@@ -11,6 +11,9 @@ import cc.etke.komai
 ApplicationWindow {
     id: roomWindowW
 
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     property var roomPreview: null
     readonly property string effectiveRoomId: roomPreview && roomPreview.roomid ? roomPreview.roomid : ""
     readonly property string effectiveRoomName: roomPreview && roomPreview.roomName ? roomPreview.roomName : ""

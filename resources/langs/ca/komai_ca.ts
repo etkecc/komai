@@ -3220,7 +3220,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
         <source>Forward</source>
         <translation>Reenvia</translation>
     </message>

@@ -3220,7 +3220,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
         <source>Forward</source>
         <translation>Vidarebefordra</translation>
     </message>

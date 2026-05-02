@@ -9,6 +9,10 @@ import cc.etke.komai
 
 Pane {
     id: timelineRoot
+
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     property var activeMediaOverlay: null
     property color overlayBackdropColor: Qt.rgba(0, 0, 0, palette.window.hslLightness < 0.5 ? 0.76 : 0.68)
     readonly property var rootTimeline: timelineRoot

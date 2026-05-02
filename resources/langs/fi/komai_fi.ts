@@ -3220,7 +3220,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
         <source>Forward</source>
         <translation>Välitä</translation>
     </message>

@@ -14,6 +14,9 @@ import cc.etke.komai 1.0
 Window {
     id: mediaOverlay
 
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     ComponentCatalog {
         id: componentCatalog
     }

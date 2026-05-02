@@ -3225,7 +3225,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
         <source>Forward</source>
         <translation>Prosledi</translation>
     </message>

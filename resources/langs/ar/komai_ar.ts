@@ -3446,17 +3446,14 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageActionsToolbar</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
+        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+220"/>
+        <location line="+168"/>
+        <location line="+1"/>
         <source>Reply in thread</source>
         <translation>الرد في السلسلة</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>New thread</source>
-        <translation>سلسلة جديدة</translation>
-    </message>
-    <message>
-        <location line="+141"/>
+        <location line="-176"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>

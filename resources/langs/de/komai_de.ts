@@ -3426,17 +3426,14 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MessageActionsToolbar</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
+        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+220"/>
+        <location line="+168"/>
+        <location line="+1"/>
         <source>Reply in thread</source>
         <translation>Im Thread antworten</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>New thread</source>
-        <translation>Neuer Thread</translation>
-    </message>
-    <message>
-        <location line="+141"/>
+        <location line="-176"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>

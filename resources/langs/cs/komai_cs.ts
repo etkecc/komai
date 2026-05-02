@@ -3431,17 +3431,14 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MessageActionsToolbar</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
+        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+220"/>
+        <location line="+168"/>
+        <location line="+1"/>
         <source>Reply in thread</source>
         <translation>Odpovědět ve vlákně</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>New thread</source>
-        <translation>Nové vlákno</translation>
-    </message>
-    <message>
-        <location line="+141"/>
+        <location line="-176"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>

@@ -3426,17 +3426,14 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MessageActionsToolbar</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
+        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+220"/>
+        <location line="+168"/>
+        <location line="+1"/>
         <source>Reply in thread</source>
         <translation>Répondre dans le fil</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>New thread</source>
-        <translation>Nouveau fil</translation>
-    </message>
-    <message>
-        <location line="+141"/>
+        <location line="-176"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>

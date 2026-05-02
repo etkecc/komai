@@ -72,10 +72,6 @@ Item {
         ? actionsRow.implicitHeight + twoRowSpacing + reactionsRow.implicitHeight
         : Math.max(actionsRow.implicitHeight, reactionsRow.implicitHeight)
 
-    function threadActionLabel() {
-        return (toolbar.messageModel && toolbar.messageModel.threadId) ? qsTr("Reply in thread") : qsTr("New thread");
-    }
-
     function dismissActionBar() {
         if (toolbar.messageActionsControl && typeof toolbar.messageActionsControl.dismiss === "function")
             toolbar.messageActionsControl.dismiss();
@@ -221,7 +217,7 @@ Item {
         font: Qt.font({
             "bold": true
         })
-        text: toolbar.threadActionLabel()
+        text: qsTr("Reply in thread")
     }
     TextMetrics {
         id: replyLabelMetrics
@@ -389,8 +385,8 @@ Item {
 
             toolbarRef: toolbar
             image: ":/icons/icons/ui/thread.svg"
-            labelText: toolbar.showActionLabels ? toolbar.threadActionLabel() : ""
-            toolTipText: toolbar.threadActionLabel()
+            labelText: toolbar.showActionLabels ? qsTr("Reply in thread") : ""
+            toolTipText: qsTr("Reply in thread")
             visible: toolbar.canThread
 
             onClicked: {

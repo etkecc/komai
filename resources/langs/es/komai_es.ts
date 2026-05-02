@@ -3429,17 +3429,14 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MessageActionsToolbar</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+76"/>
+        <location filename="../../qml/timeline/components/MessageActionsToolbar.qml" line="+220"/>
+        <location line="+168"/>
+        <location line="+1"/>
         <source>Reply in thread</source>
         <translation>Responder en hilo</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>New thread</source>
-        <translation>Nuevo hilo</translation>
-    </message>
-    <message>
-        <location line="+141"/>
+        <location line="-176"/>
         <location line="+160"/>
         <location line="+1"/>
         <source>Edit</source>

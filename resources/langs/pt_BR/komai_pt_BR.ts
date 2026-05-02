@@ -3575,7 +3575,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1164"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Digite uma mensagem, ou pressione ↑ para selecionar mensagens.</translation>
     </message>

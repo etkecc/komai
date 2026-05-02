@@ -787,6 +787,8 @@ Rectangle {
     }
 
     function composerBacktabTarget() {
+        if (transcriptionButton.visible && transcriptionButton.enabled)
+            return transcriptionButton;
         if (voiceButton.visible && voiceButton.enabled)
             return voiceButton;
         if (attachButton.visible && attachButton.enabled)
@@ -1135,7 +1137,13 @@ Rectangle {
                         messageInput.openCompleter(tokenStart, type);
                 }
 
-                KeyNavigation.backtab: voiceButton.visible ? voiceButton : (attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()))
+                KeyNavigation.backtab: transcriptionButton.visible
+                    ? transcriptionButton
+                    : (voiceButton.visible
+                        ? voiceButton
+                        : (attachButton.visible
+                            ? attachButton
+                            : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget())))
                 background: null
                 bottomPadding: Komai.composerTextAreaPadding
                 color: palette.text

@@ -3570,7 +3570,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1156"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1164"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Bir mesaj yazın ya da mesajları seçmek için ↑ tuşuna basın.</translation>
     </message>

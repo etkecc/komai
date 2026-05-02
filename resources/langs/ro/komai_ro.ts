@@ -3209,7 +3209,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
         <source>Settings...</source>
         <translation>Setări…</translation>
     </message>
@@ -3577,7 +3577,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1168"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
@@ -3602,7 +3602,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Trimite</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+58"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Nu ai permisiunea de a trimite mesaje în această cameră</translation>
     </message>
@@ -8092,7 +8092,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+172"/>
         <source>%1's status message</source>
         <translation>Mesajul de stare al lui %1</translation>
     </message>
@@ -8242,7 +8242,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+156"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
         <translation>Mesajul de stare al lui %1</translation>
     </message>

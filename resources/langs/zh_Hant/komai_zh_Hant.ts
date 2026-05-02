@@ -3199,7 +3199,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
         <source>Settings...</source>
         <translation>設定...</translation>
     </message>
@@ -3567,7 +3567,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1168"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>輸入訊息，或按 ↑ 選取訊息。</translation>
     </message>
@@ -3592,7 +3592,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>傳送</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+58"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>你在此聊天室沒有傳送訊息的權限</translation>
     </message>
@@ -8070,7 +8070,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+172"/>
         <source>%1's status message</source>
         <translation>%1的狀態訊息</translation>
     </message>
@@ -8218,7 +8218,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+156"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
         <translation>%1的狀態訊息</translation>
     </message>

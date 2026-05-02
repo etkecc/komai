@@ -3204,7 +3204,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
         <source>Settings...</source>
         <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
@@ -3572,7 +3572,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1168"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ ↑ അമർത്തുക.</translation>
     </message>
@@ -3597,7 +3597,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>അയക്കുക</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+58"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>ഈ മുറിയിൽ സന്ദേശങ്ങൾ അയക്കാൻ നിങ്ങൾക്ക് അനുമതി ഇല്ല</translation>
     </message>
@@ -8081,7 +8081,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+172"/>
         <source>%1's status message</source>
         <translation>%1-ന്റെ സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>
@@ -8230,7 +8230,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+156"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
         <source>%1's status message</source>
         <translation>%1-ന്റെ സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>

@@ -410,7 +410,18 @@ ColumnLayout {
     Rectangle {
         Layout.fillHeight: true
         Layout.fillWidth: true
-        color: palette.base
+
+        // When viewing a thread, tint the timeline backdrop with the thread's
+        // user color (same expression as ThreadViewBar) so the bar and the
+        // timeline area read as a single coloured surface — a stronger
+        // "you're in a thread" cue than the bar alone.
+        readonly property color threadTintColor: root.threadViewActive
+            ? TimelineManager.userColor(TimelineManager.matrixTimelineThreadEventId, palette.base)
+            : palette.buttonText
+        color: root.threadViewActive
+            ? Qt.tint(palette.window, Qt.hsla(threadTintColor.hslHue, 0.7,
+                                              threadTintColor.hslLightness, 0.1))
+            : palette.base
 
         // Right-click on empty timeline space shows the settings shortcut.
         // Message bubbles and reply previews consume the right-click on press

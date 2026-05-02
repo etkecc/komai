@@ -56,7 +56,15 @@ Column {
         width: contentWidth * 1.2
 
         background: Rectangle {
-            color: palette.window
+            readonly property string _threadEventId: TimelineManager.matrixTimelineThreadEventId
+            readonly property bool _threadActive: _threadEventId.length > 0
+            readonly property color _threadTintColor: _threadActive
+                ? TimelineManager.userColor(_threadEventId, palette.base)
+                : palette.buttonText
+            color: _threadActive
+                ? Qt.tint(palette.window, Qt.hsla(_threadTintColor.hslHue, 0.7,
+                                                  _threadTintColor.hslLightness, 0.1))
+                : palette.window
             radius: parent.height / 2
         }
     }

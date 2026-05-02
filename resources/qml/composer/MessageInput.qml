@@ -55,6 +55,18 @@ Rectangle {
     readonly property bool composerEnabled: !hasUploads && !hasVoiceRecording
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
 
+    // Thread-view tinting: when a thread is open, both the bar background and
+    // the send-button active state pick up the thread's user color so the
+    // composer reads as part of the thread surface.
+    readonly property string _threadEventId: TimelineManager.matrixTimelineThreadEventId
+    readonly property bool _threadActive: _threadEventId.length > 0
+    readonly property color _threadTintColor: _threadActive
+        ? TimelineManager.userColor(_threadEventId, palette.base)
+        : palette.buttonText
+    readonly property color _threadBackgroundTint: Qt.tint(palette.window,
+        Qt.hsla(_threadTintColor.hslHue, 0.7,
+                _threadTintColor.hslLightness, 0.1))
+
     // Transcription gesture state. Two trigger surfaces share this state
     // machine (Space long-press in the textarea, and the composer
     // microphone button). `transcriptionTriggerKind` records which surface
@@ -830,7 +842,9 @@ Rectangle {
     implicitHeight: Math.max(minimumBarHeight, row.implicitHeight)
     Layout.minimumHeight: minimumBarHeight
     Layout.preferredHeight: implicitHeight
-    color: inputBar.hasUploads || (room && !inputBar.canSendTextMessages) ? palette.alternateBase : palette.window
+    color: inputBar.hasUploads || (room && !inputBar.canSendTextMessages)
+        ? palette.alternateBase
+        : (inputBar._threadActive ? inputBar._threadBackgroundTint : palette.window)
 
     Shortcut {
         sequence: "Ctrl+R"
@@ -1746,7 +1760,12 @@ Rectangle {
             Layout.rightMargin: Komai.paddingMedium
             KeyNavigation.backtab: emojiButton.visible ? emojiButton : (stickerButton.visible ? stickerButton : (inputBar.hasVoiceRecording && voiceButton.visible ? voiceButton : messageInput))
             toolTipText: qsTr("Send")
-            buttonTextColor: inputBar.hasSendableContent ? palette.highlight : palette.buttonText
+            // In a thread view, the active-state colour swaps to the thread's
+            // user color so the composer reinforces the "you're sending into a
+            // thread" cue that the timeline tint provides.
+            buttonTextColor: inputBar.hasSendableContent
+                ? (inputBar._threadActive ? inputBar._threadTintColor : palette.highlight)
+                : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
 
             SequentialAnimation {

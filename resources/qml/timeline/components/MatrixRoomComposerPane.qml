@@ -75,11 +75,22 @@ ColumnLayout {
         readonly property int contentHeight: _walkMode
             ? _baselineHeight
             : Math.max(_baselineHeight, composerInput.implicitHeight)
+        // In thread view, tint the composer surface to match the thread bar
+        // and the timeline tint, so the whole "you're inside a thread" surface
+        // reads as one continuous coloured area.
+        readonly property string _threadEventId: TimelineManager.matrixTimelineThreadEventId
+        readonly property bool _threadActive: _threadEventId.length > 0
+        readonly property color _threadTintColor: _threadActive
+            ? TimelineManager.userColor(_threadEventId, palette.base)
+            : palette.buttonText
         Layout.fillWidth: true
         Layout.minimumHeight: visible ? implicitHeight : 0
         Layout.preferredHeight: visible ? implicitHeight : 0
         Layout.maximumHeight: visible ? implicitHeight : 0
-        color: palette.window
+        color: _threadActive
+            ? Qt.tint(palette.window, Qt.hsla(_threadTintColor.hslHue, 0.7,
+                                              _threadTintColor.hslLightness, 0.1))
+            : palette.window
         implicitHeight: inputShellSeparator.implicitHeight + contentHeight
         visible: !_hasRootItem || !root.rootItem.perfDisableComposer
 

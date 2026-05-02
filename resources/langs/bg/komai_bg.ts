@@ -2508,7 +2508,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Изисква се име на профил.</translation>
@@ -3585,7 +3585,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Съобщение</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Стикери</translation>
     </message>

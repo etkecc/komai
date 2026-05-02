@@ -2511,7 +2511,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>El nombre de perfil es obligatorio.</translation>
@@ -3588,7 +3588,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Mensaje</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Pegatinas</translation>
     </message>

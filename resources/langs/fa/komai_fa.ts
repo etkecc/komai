@@ -2504,7 +2504,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>نام پروفایل الزامی است.</translation>
@@ -3580,7 +3580,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>پیام</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>استیکرها</translation>
     </message>

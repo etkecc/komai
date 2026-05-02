@@ -2504,7 +2504,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>A profil neve kötelező.</translation>
@@ -3580,7 +3580,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Üzenet</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Matricák</translation>
     </message>

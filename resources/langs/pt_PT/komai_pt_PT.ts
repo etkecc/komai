@@ -2508,7 +2508,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>O nome do perfil é obrigatório.</translation>
@@ -3585,7 +3585,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Mensagem</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Autocolantes</translation>
     </message>

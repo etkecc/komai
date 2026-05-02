@@ -2504,7 +2504,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Nama profil diperlukan.</translation>
@@ -3580,7 +3580,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Pesan</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Stiker</translation>
     </message>

@@ -2508,7 +2508,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profielnaam is vereist.</translation>
@@ -3585,7 +3585,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Bericht</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

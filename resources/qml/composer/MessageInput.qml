@@ -1338,6 +1338,33 @@ Rectangle {
                             // At start of input
                             messageInput.openCompleter(0, "user");
                         }
+                    } else if (event.key == Qt.Key_Backspace
+                               && event.modifiers === Qt.NoModifier
+                               && messageInput.preeditText.length === 0
+                               && messageInput.selectionStart === messageInput.selectionEnd
+                               && messageInput.cursorPosition > 0) {
+                        // Qt's default Backspace deletes one UTF-16 code unit, which
+                        // breaks emoji clusters: base + VS16 leaves a bare text-default
+                        // glyph rendered B&W (e.g. ☺️ becomes ☺), and ZWJ sequences
+                        // degrade one component at a time. Delete the full previous
+                        // grapheme cluster instead.
+                        const pos = messageInput.cursorPosition;
+                        const prev = Komai.previousGraphemeBoundary(messageInput.text, pos);
+                        if (prev < pos - 1) {
+                            messageInput.remove(prev, pos);
+                            event.accepted = true;
+                        }
+                    } else if (event.key == Qt.Key_Delete
+                               && event.modifiers === Qt.NoModifier
+                               && messageInput.preeditText.length === 0
+                               && messageInput.selectionStart === messageInput.selectionEnd
+                               && messageInput.cursorPosition < messageInput.length) {
+                        const pos = messageInput.cursorPosition;
+                        const next = Komai.nextGraphemeBoundary(messageInput.text, pos);
+                        if (next > pos + 1) {
+                            messageInput.remove(pos, next);
+                            event.accepted = true;
+                        }
                     } else if (event.key == Qt.Key_Up && popup.opened) {
                         event.accepted = true;
                         completer.up();

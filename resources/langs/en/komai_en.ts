@@ -2502,7 +2502,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation type="unfinished"/>
@@ -3579,7 +3579,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

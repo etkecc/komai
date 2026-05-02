@@ -21,6 +21,7 @@
 #include <QProcess>
 #include <QScreen>
 #include <QStyle>
+#include <QTextBoundaryFinder>
 #include <QUrl>
 #include <QVariantMap>
 #include <QWindow>
@@ -417,6 +418,32 @@ QString
 Komai::formatHtmlEmojis(const QString &html)
 {
     return utils::replaceEmoji(html);
+}
+
+int
+Komai::previousGraphemeBoundary(const QString &text, int position)
+{
+    if (position <= 0 || text.isEmpty())
+        return 0;
+    if (position > text.length())
+        position = text.length();
+    QTextBoundaryFinder finder(QTextBoundaryFinder::Grapheme, text);
+    finder.setPosition(position);
+    const int prev = finder.toPreviousBoundary();
+    return prev < 0 ? 0 : prev;
+}
+
+int
+Komai::nextGraphemeBoundary(const QString &text, int position)
+{
+    if (text.isEmpty() || position >= text.length())
+        return text.length();
+    if (position < 0)
+        position = 0;
+    QTextBoundaryFinder finder(QTextBoundaryFinder::Grapheme, text);
+    finder.setPosition(position);
+    const int next = finder.toNextBoundary();
+    return next < 0 ? text.length() : next;
 }
 
 QString

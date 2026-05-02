@@ -2512,7 +2512,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Nazwa profilu jest wymagana.</translation>
@@ -3590,7 +3590,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Wiadomość</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Naklejki</translation>
     </message>

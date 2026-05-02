@@ -2508,7 +2508,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>El nom de perfil és obligatori.</translation>
@@ -3585,7 +3585,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Missatge</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>

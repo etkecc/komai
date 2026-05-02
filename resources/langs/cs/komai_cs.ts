@@ -2512,7 +2512,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Název profilu je povinný.</translation>
@@ -3590,7 +3590,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Zpráva</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Samolepky</translation>
     </message>

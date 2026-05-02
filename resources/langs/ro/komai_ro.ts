@@ -2512,7 +2512,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Numele profilului este obligatoriu.</translation>
@@ -3590,7 +3590,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>

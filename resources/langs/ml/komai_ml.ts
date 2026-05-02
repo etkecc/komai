@@ -2508,7 +2508,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
@@ -3585,7 +3585,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>സന്ദേശം</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>

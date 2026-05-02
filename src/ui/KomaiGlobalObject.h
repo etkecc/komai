@@ -129,6 +129,11 @@ public:
     }
     Q_INVOKABLE static QString normalizeEmojiForComparison(const QString &emoji);
     Q_INVOKABLE static QString formatHtmlEmojis(const QString &html);
+    //! Walk grapheme cluster boundaries in `text`. Used by the composer so
+    //! Backspace/Delete remove a whole cluster (e.g. base + VS16, ZWJ
+    //! sequence, or skin-tone modifier) rather than a single UTF-16 code unit.
+    Q_INVOKABLE static int previousGraphemeBoundary(const QString &text, int position);
+    Q_INVOKABLE static int nextGraphemeBoundary(const QString &text, int position);
     Q_INVOKABLE QColor readableAccentTextColor(QColor accentColor, QColor backgroundColor) const;
     Q_INVOKABLE QString humanReadableFileSize(qulonglong bytes) const;
     Q_INVOKABLE QString fileTypeIconSource(const QString &mimeType) const;

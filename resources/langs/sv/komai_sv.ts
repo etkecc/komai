@@ -2508,7 +2508,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profilnamn krävs.</translation>
@@ -3585,7 +3585,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Meddelande</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>

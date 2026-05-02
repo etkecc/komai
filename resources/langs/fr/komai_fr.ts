@@ -2508,7 +2508,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Le nom du profil est obligatoire.</translation>
@@ -3585,7 +3585,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>

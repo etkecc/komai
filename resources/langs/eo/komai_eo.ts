@@ -2508,7 +2508,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profil-nomo estas postulata.</translation>
@@ -3585,7 +3585,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Mesaĝo</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Glumarkoj</translation>
     </message>

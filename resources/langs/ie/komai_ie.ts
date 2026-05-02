@@ -2508,7 +2508,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+493"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Li nomine de profil es obligatori.</translation>
@@ -3585,7 +3585,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Mesage</translation>
     </message>
     <message>
-        <location line="+507"/>
+        <location line="+534"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

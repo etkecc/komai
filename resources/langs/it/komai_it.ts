@@ -3204,7 +3204,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Impostazioni…</translation>
     </message>
@@ -8397,7 +8397,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Salva allegato</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Impossibile inviare l'allegato '%1': %2</translation>
     </message>

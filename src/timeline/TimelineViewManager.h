@@ -201,7 +201,9 @@ public:
     QStringList matrixTimelineTypingUsers() const { return matrixTimelineTypingUsers_; }
     QAbstractItemModel *matrixThreadTimelineModel() const;
     bool matrixThreadTimelineLoading() const { return matrixThreadTimelineLoading_; }
-    Q_INVOKABLE void paginateActiveMatrixThreadTimelineBackwards(int limit = 50);
+    Q_INVOKABLE void
+    paginateActiveMatrixThreadTimelineBackwards(int limit                     = 50,
+                                                const QString &expectedRoomId = QString());
     Q_INVOKABLE void openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,

@@ -3204,7 +3204,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Configurationes…</translation>
     </message>
@@ -8397,7 +8397,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Salvar annexe</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Insuccesse enviar annexe '%1': %2</translation>
     </message>

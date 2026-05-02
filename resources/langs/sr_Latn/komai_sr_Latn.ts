@@ -3209,7 +3209,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Podešavanja…</translation>
     </message>
@@ -8410,7 +8410,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Sačuvaj prilog</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nije uspelo slanje priloga '%1': %2</translation>
     </message>

@@ -3209,7 +3209,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Ustawienia…</translation>
     </message>
@@ -8411,7 +8411,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Zapisz załącznik</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nie udało się wysłać załącznika '%1': %2</translation>
     </message>

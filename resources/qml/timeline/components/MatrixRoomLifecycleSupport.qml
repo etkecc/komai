@@ -48,6 +48,15 @@ QtObject {
                 && !rootItem.roomSwitchInProgress) {
             viewportSupport.scheduleReadMarkerUpdate(true);
         }
+        // The buffer top-up functions in `MatrixRoomViewportSupport` bail
+        // out when `!poolActive`, so any pending top-up that was scheduled
+        // while this view was deactivated would have run and returned early
+        // without making progress. Re-arm now that we're foregrounded again
+        // so the work gets done on the view that's actually visible.
+        if (rootItem.deferredInitialBufferTopUpPending)
+            rootItem.scheduleDeferredInitialTimelineBufferCheck();
+        else if (rootItem.initialTimelineBufferPending)
+            rootItem.scheduleInitialTimelineBufferCheck();
     }
 
     function _resetForRoom(fullReset, preserveScroll) {

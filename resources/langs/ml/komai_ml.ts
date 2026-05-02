@@ -3204,7 +3204,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
@@ -8397,7 +8397,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>അറ്റാч്ч്മെന്റ് സേവ് ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>അറ്റാച്ч്മെന്റ് '%1' അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>

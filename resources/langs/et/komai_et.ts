@@ -3204,7 +3204,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Seaded…</translation>
     </message>
@@ -8397,7 +8397,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Salvesta manus</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Manuse '%1' saatmine ebaõnnestus: %2</translation>
     </message>

@@ -3204,7 +3204,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Asetukset…</translation>
     </message>
@@ -8397,7 +8397,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Tallenna liite</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Liitteen '%1' lähettäminen epäonnistui: %2</translation>
     </message>

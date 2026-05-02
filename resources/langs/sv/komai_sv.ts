@@ -3204,7 +3204,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Inställningar...</translation>
     </message>
@@ -8397,7 +8397,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Spara bilaga</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Kunde inte skicka bilaga '%1': %2</translation>
     </message>

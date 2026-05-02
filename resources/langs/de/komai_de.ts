@@ -3204,7 +3204,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Einstellungen…</translation>
     </message>
@@ -8397,7 +8397,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Anhang speichern</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Fehler beim Senden des Anhangs '%1': %2</translation>
     </message>

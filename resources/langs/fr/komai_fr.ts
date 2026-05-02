@@ -3204,7 +3204,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>
@@ -8397,7 +8397,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Enregistrer la pièce jointe</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Échec de l'envoi de la pièce jointe '%1' : %2</translation>
     </message>

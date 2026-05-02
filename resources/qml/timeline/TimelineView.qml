@@ -75,6 +75,23 @@ Item {
         var isReactivation = (entry.roomView.activeRoomId === roomId);
         var poolSize = Object.keys(_poolEntries).length;
 
+        // On the cold path the entry's `MatrixRoomView` is brand new and its
+        // `activeRoomId` is still empty. Set it *before* `poolSlotActive`
+        // flips true: the layout cascade triggered by becoming visible can
+        // fire stray signals (e.g. a transient `atYEnd=true` on the empty
+        // ListView) whose slots query `root.activeRoomId`. Setting the room
+        // id last leaves a window where those slots see "" and route requests
+        // to whichever target the runtime currently has selected — typically
+        // the previous room's thread, leaking pagination on tab switch.
+        if (!isReactivation)
+            entry.roomView.activeRoomId = roomId;
+
+        // Mirror the synchronous-assignment pattern in `_poolDeactivateCurrent`:
+        // set `poolActive` directly so timeline-maintenance gates flip on
+        // before any further QML work. The binding from
+        // `matrixTimelineComponent` was removed; we own this property's value
+        // explicitly here.
+        entry.roomView.poolActive = true;
         entry.poolSlotActive = true;
         _activePoolEntry = entry;
 
@@ -90,7 +107,6 @@ Item {
         } else {
             console.info("[timeline-pool] miss room=" + roomId
                          + " poolSize=" + poolSize);
-            entry.roomView.activeRoomId = roomId;
         }
     }
 
@@ -102,6 +118,14 @@ Item {
             var roomId = _activePoolEntry.roomView.activeRoomId;
             _activePoolEntry.preserveScrollOnReactivation = tabController
                 && tabController.findTab(roomId) !== -1;
+            // Synchronously kill timeline maintenance on the outgoing view
+            // *before* flipping `poolSlotActive`. The visibility/layout
+            // teardown that follows can fire stray geometry signals
+            // (notably `atYEndChanged` on the inner ListView) before Qt
+            // finishes propagating the bound `poolActive` change to gates
+            // that depend on it. Direct assignment makes the property
+            // observable to those gates immediately.
+            _activePoolEntry.roomView.poolActive = false;
             _activePoolEntry.poolSlotActive = false;
             _activePoolEntry = null;
         }
@@ -352,7 +376,11 @@ Item {
 
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                poolActive: parent.poolSlotActive
+                // `poolActive` is set directly in JS by the pool functions
+                // (see `_poolSwitchTo` / `_poolDeactivateCurrent`) so its
+                // value flips synchronously, ahead of the layout signals
+                // that follow `poolSlotActive` changes. A QML binding here
+                // would re-evaluate too lazily on the cold path.
                 roomPreview: parent.poolSlotActive ? timelineView.roomPreview : null
                 dialogSupport: matrixRoomDialogSupport
                 messageActionsRoomModel: matrixRoomMessageActionsModel

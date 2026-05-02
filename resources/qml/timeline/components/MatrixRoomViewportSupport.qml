@@ -290,6 +290,15 @@ QtObject {
     readonly property int progresslessPageSize: 50
 
     function maybeRequestInitialTimelineBuffer() {
+        // Pooled-but-hidden room views must not paginate the *active* room
+        // (TimelineManager.paginateActiveMatrixTimelineBackwards routes by
+        // whichever room the runtime currently considers active, not by this
+        // view's own room). Without this gate, layout/model churn on inactive
+        // pool entries during a tab switch fans out into N concurrent
+        // backwards-pagination requests on the just-activated room.
+        if (!rootItem.poolActive)
+            return;
+
         if (!timelineList
                 || !rootItem.initialTimelineBufferPending
                 || rootItem.initialBottomPinPending
@@ -463,6 +472,10 @@ QtObject {
     }
 
     function maybeRequestDeferredInitialTimelineBuffer() {
+        // See note on `maybeRequestInitialTimelineBuffer` — same reason.
+        if (!rootItem.poolActive)
+            return;
+
         if (!timelineList
                 || !rootItem.deferredInitialBufferTopUpPending
                 || rootItem.initialBottomPinPending

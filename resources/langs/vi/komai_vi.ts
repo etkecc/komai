@@ -3199,7 +3199,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Cài đặt…</translation>
     </message>
@@ -8384,7 +8384,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Lưu tệp đính kèm</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Không thể gửi tệp đính kèm '%1': %2</translation>
     </message>

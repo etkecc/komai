@@ -3204,7 +3204,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+414"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+432"/>
         <source>Settings...</source>
         <translation>Configuració…</translation>
     </message>
@@ -8397,7 +8397,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Desa l'adjunt</translation>
     </message>
     <message>
-        <location line="+366"/>
+        <location line="+384"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>No s'ha pogut enviar l'adjunt '%1': %2</translation>
     </message>

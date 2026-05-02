@@ -224,13 +224,31 @@ ColumnLayout {
 
     // Thread view pagination: when the list reaches the oldest item
     // (atYEnd in BottomToTop mode = visual top), load more thread events.
+    //
+    // Gated on `poolActive`, but binding-evaluation timing during pool
+    // deactivation can let a stray `atYEnd` change race past the gate
+    // (the ListView re-layouts as the parent ColumnLayout becomes invisible,
+    // and Qt's binding propagation order isn't guaranteed to mark this
+    // Connection disabled before that geometry signal fires). The C++ side
+    // also gates on `expectedRoomId` matching the active room as a belt-
+    // and-braces backstop.
     Connections {
         target: matrixTimelineList
-        enabled: root.threadViewActive
+        enabled: root.threadViewActive && root.poolActive
         function onAtYEndChanged() {
+            // `activeRoomId` is empty during the cold-path window between
+            // a fresh component being created and the pool assigning its
+            // room. Without this guard, a transient `atYEnd=true` from the
+            // empty ListView's initial layout calls into C++ with an empty
+            // expected room id, which the C++ defensive check treats as
+            // "no expectation" and lets through — leaking pagination to
+            // whichever thread the Rust runtime still considers active.
             if (matrixTimelineList.atYEnd && root.threadViewActive
-                    && !root.threadTimelineLoading) {
-                TimelineManager.paginateActiveMatrixThreadTimelineBackwards(50);
+                    && root.poolActive
+                    && !root.threadTimelineLoading
+                    && root.activeRoomId.length > 0) {
+                TimelineManager.paginateActiveMatrixThreadTimelineBackwards(
+                    50, root.activeRoomId);
             }
         }
     }

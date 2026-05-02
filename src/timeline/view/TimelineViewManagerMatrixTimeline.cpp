@@ -3236,8 +3236,26 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
 }
 
 void
-TimelineViewManager::paginateActiveMatrixThreadTimelineBackwards(int limit)
+TimelineViewManager::paginateActiveMatrixThreadTimelineBackwards(int limit,
+                                                                 const QString &expectedRoomId)
 {
+    // Drop pagination requests that originate from a pool entry that's no
+    // longer the foreground view. During a tab switch the outgoing
+    // MatrixRoomView's ListView re-layouts as the pool deactivates it, which
+    // can fire a final `atYEndChanged` whose slot races against the QML
+    // binding propagation that would otherwise have disabled the Connection.
+    // Without this guard the request reaches the runtime and paginates the
+    // thread the user just left, slowing the switch.
+    if (!expectedRoomId.isEmpty() && expectedRoomId != activeMatrixTimelineRoomId_)
+        return;
+
+    // Only paginate when a thread is genuinely active. clearActiveMatrixThreadState
+    // empties this during room switches, which catches the race window where
+    // C++ has cleared but the Rust runtime's `active_thread_key` hasn't yet been
+    // reattached to the new room's thread.
+    if (matrixTimelineThreadEventId_.isEmpty())
+        return;
+
     if (matrixThreadTimelineLoading_)
         return;
 

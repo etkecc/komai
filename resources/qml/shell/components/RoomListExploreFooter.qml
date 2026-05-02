@@ -10,7 +10,7 @@ RoomListFooterBar {
 
     required property var tabController
 
-    visible: Communities.currentFilterId === ""
+    visible: Communities.currentFilterId !== "bot"
     actionLabel: qsTr("New")
     actionIcon: ":/icons/icons/ui/tab-add.svg"
 

@@ -8,10 +8,13 @@ use super::*;
 use super::event_summary::summarize_sync_timeline_event;
 use matrix_sdk::{
     deserialized_responses::SyncOrStrippedState,
+    event_handler::EventHandlerDropGuard,
     notification_settings::{NotificationSettings, RoomNotificationMode},
     ruma::{
         events::{
-            AnySyncTimelineEvent, SyncStateEvent, ignored_user_list::IgnoredUserListEventContent,
+            AnySyncTimelineEvent, SyncStateEvent,
+            ignored_user_list::IgnoredUserListEventContent,
+            receipt::{ReceiptThread, ReceiptType, SyncReceiptEvent},
             room::join_rules::JoinRule,
             space::child::SpaceChildEventContent,
         },
@@ -158,6 +161,67 @@ async fn run_sync_loop(
     // registered and we don't churn handlers on each per-room mode lookup.
     let notification_settings = client.notification_settings().await;
     let mut notification_settings_changes = notification_settings.subscribe_to_changes();
+
+    // Wake the loop when our own user's read receipts arrive, so the
+    // thread-receipt unread-suppression heuristic in `room_list_item_to_summary`
+    // re-evaluates without waiting for an unrelated `entries_stream` diff.
+    // Cross-device thread reads (e.g. Element X reading inside a thread) don't
+    // change matrix-sdk-base's `num_unread_messages`, so they never reach us
+    // via `RoomInfoNotableUpdateReasons::READ_RECEIPT` or via the room-list
+    // entries stream — we have to listen for the raw ephemeral ourselves.
+    //
+    // The wake-up triggers a *full* snapshot rebuild (every room), matching
+    // the `notification_settings_changes` arm below. With the thread-scoped
+    // filter on the handler this is bounded — receipts only ping the loop
+    // when they're for our user *and* tied to a specific thread, which is
+    // rare enough not to matter today. If profiling later shows this rebuild
+    // dominating, the next step is to scope it to just the affected room:
+    // the handler already receives the `Room` arg, so we could splice a
+    // single updated `MatrixRoomSummary` into `room_list_snapshot` instead
+    // of rebuilding all rooms. That requires a bit of refactoring because
+    // the parent-space enrichment pass at the tail of `build_room_list_snapshot`
+    // currently iterates every room; a per-room path would either skip that
+    // enrichment (parent spaces don't change on a receipt) or fold it in
+    // separately.
+    let receipt_notify = Arc::new(tokio::sync::Notify::new());
+    let _own_receipt_handler_guard: Option<EventHandlerDropGuard> = match client.user_id() {
+        Some(user_id) => {
+            let our_user_id = user_id.to_owned();
+            let notify = Arc::clone(&receipt_notify);
+            let handle = client.add_event_handler({
+                move |event: SyncReceiptEvent, _: matrix_sdk::Room| {
+                    let notify = Arc::clone(&notify);
+                    let our_user_id = our_user_id.clone();
+                    async move {
+                        // Only fire for *thread-scoped* receipts of our own user.
+                        // Main/Unthreaded receipts already update matrix-sdk-base's
+                        // `RoomInfo::read_receipts`, which fires `RoomInfoNotableUpdate`
+                        // and reaches us via the room-list `entries_stream`. Listening
+                        // for those here too would double-rebuild the snapshot on every
+                        // locally-read message.
+                        let needs_rebuild = event.content.0.values().any(|by_type| {
+                            by_type.values().any(|by_user| {
+                                by_user.get(&our_user_id).is_some_and(|receipt| {
+                                    matches!(receipt.thread, ReceiptThread::Thread(_))
+                                })
+                            })
+                        });
+                        if needs_rebuild {
+                            notify.notify_one();
+                        }
+                    }
+                }
+            });
+            Some(client.event_handler_drop_guard(handle))
+        }
+        None => {
+            tracing::warn!(
+                handle_id,
+                "Client has no user id; cross-device receipt watcher disabled"
+            );
+            None
+        }
+    };
 
     let mut current_values = Vector::<RoomListItem>::new();
     let mut initial_sync_ready_notified = false;
@@ -364,6 +428,38 @@ async fn run_sync_loop(
                         );
                         notification_settings_changes = notification_settings.subscribe_to_changes();
                     }
+                }
+            }
+
+            _ = receipt_notify.notified() => {
+                // Our own user's read receipt arrived (typically from another
+                // device). Rebuild so the thread-receipt suppression in
+                // `room_list_item_to_summary` re-evaluates against the freshly
+                // stored receipt.
+                if !current_values.is_empty() {
+                    let snapshot = build_room_list_snapshot(
+                        &current_values,
+                        &notification_settings,
+                    )
+                    .await;
+                    let room_count = snapshot.len();
+                    let ffi_snapshot = snapshot
+                        .iter()
+                        .cloned()
+                        .map(crate::matrix_backend::ffi::into_ffi_matrix_room_summary)
+                        .collect();
+                    *room_list_snapshot
+                        .lock()
+                        .expect("poisoned matrix room-list snapshot mutex") = snapshot;
+                    crate::ffi::matrix_notify_room_list_snapshot_updated(
+                        handle_id,
+                        ffi_snapshot,
+                    );
+                    tracing::debug!(
+                        handle_id,
+                        room_count,
+                        "Rebuilt matrix-sdk room-list snapshot after own-user read receipt"
+                    );
                 }
             }
 
@@ -887,6 +983,25 @@ async fn room_list_item_to_summary(
     let tags = fetch_room_tags(room).await;
     let parent_space_room_ids = fetch_parent_space_room_ids(room).await;
 
+    // matrix-sdk-base only honours main/unthreaded receipts when computing
+    // unread counts. When a thread-aware client (e.g. Element X) reads a
+    // thread on another device it sends a thread-scoped receipt instead, so
+    // the room badge stays "stuck" here even though the user is caught up.
+    // If `latest_event` is itself a thread reply and we have a receipt from
+    // our own user covering it on that thread, treat the room as read.
+    let mut raw_unread_messages = room.num_unread_messages();
+    let mut raw_unread_notifications = room.num_unread_notifications();
+    let mut raw_unread_mentions = room.num_unread_mentions();
+    if raw_unread_messages > 0
+        && let Some(event) = remote_latest_event
+        && let Some(thread_root) = extract_thread_root(event.raw())
+        && own_thread_receipt_covers(room, thread_root, &latest_event_id).await
+    {
+        raw_unread_messages = 0;
+        raw_unread_notifications = 0;
+        raw_unread_mentions = 0;
+    }
+
     let is_invite = matches!(room_state, RoomState::Invited);
     let (inviter_user_id, inviter_display_name, inviter_avatar_url, invite_reason) = if is_invite {
         let invite_details = room.invite_details().await.ok();
@@ -957,12 +1072,12 @@ async fn room_list_item_to_summary(
         // Mute → 0; MentionsOnly → mention count (badge/bold/dot all read
         // `unread_message_count`); AllMessages/None → raw matrix-sdk count.
         unread_message_count: apply_notification_mode_to_unread(
-            room.num_unread_messages(),
-            room.num_unread_mentions(),
+            raw_unread_messages,
+            raw_unread_mentions,
             user_defined_mode_for(notification_settings, room).await,
         ),
-        notification_count: room.num_unread_notifications(),
-        highlight_count: room.num_unread_mentions(),
+        notification_count: raw_unread_notifications,
+        highlight_count: raw_unread_mentions,
         timestamp,
     }
 }
@@ -986,4 +1101,55 @@ fn apply_notification_mode_to_unread(
         Some(RoomNotificationMode::MentionsAndKeywordsOnly) => unread_mentions,
         Some(RoomNotificationMode::AllMessages) | None => unread_messages,
     }
+}
+
+/// Extract the thread root id from a raw timeline event, when the event is a
+/// thread reply (`content.m.relates_to.rel_type == "m.thread"`).
+fn extract_thread_root(raw: &Raw<AnySyncTimelineEvent>) -> Option<OwnedEventId> {
+    #[derive(serde::Deserialize)]
+    struct Content {
+        #[serde(rename = "m.relates_to")]
+        relates_to: Option<RelatesTo>,
+    }
+    #[derive(serde::Deserialize)]
+    struct RelatesTo {
+        rel_type: Option<String>,
+        event_id: Option<OwnedEventId>,
+    }
+
+    raw.get_field::<Content>("content")
+        .ok()
+        .flatten()
+        .and_then(|c| c.relates_to)
+        .and_then(|r| match r.rel_type.as_deref() {
+            Some("m.thread") => r.event_id,
+            _ => None,
+        })
+}
+
+/// Returns true when one of our own read receipts (public or private) on the
+/// given thread points at `latest_event_id`.
+///
+/// matrix-sdk-base computes `num_unread_messages` from main/unthreaded
+/// receipts only, so a thread-aware client like Element X reading inside a
+/// thread leaves the room badge stuck even after the user has caught up. This
+/// helper inspects the thread receipt for the thread that contains the room's
+/// most recent event — the only one that can be "ahead" of the main marker —
+/// and lets the caller suppress the count when it matches.
+async fn own_thread_receipt_covers(
+    room: &RoomListItem,
+    thread_root: OwnedEventId,
+    latest_event_id: &str,
+) -> bool {
+    let user_id = room.own_user_id();
+    for receipt_type in [ReceiptType::Read, ReceiptType::ReadPrivate] {
+        match room
+            .load_user_receipt(receipt_type, ReceiptThread::Thread(thread_root.clone()), user_id)
+            .await
+        {
+            Ok(Some((event_id, _))) if event_id.as_str() == latest_event_id => return true,
+            _ => {}
+        }
+    }
+    false
 }

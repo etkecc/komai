@@ -269,6 +269,20 @@ Window {
             if (mediaOverlay.galleryMode) {
                 if (event.key === Qt.Key_Left)  { event.accepted = true; mediaOverlay.navigatePrev(); return; }
                 if (event.key === Qt.Key_Right) { event.accepted = true; mediaOverlay.navigateNext(); return; }
+
+                const hasNavigationModifier = event.modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier);
+                if (!hasNavigationModifier) {
+                    if (LayoutAgnosticKeys.matchesLatinKey(LayoutAgnosticKeys.LatinKey.H, event.key, event.nativeScanCode)) {
+                        event.accepted = true;
+                        mediaOverlay.navigatePrev();
+                        return;
+                    }
+                    if (LayoutAgnosticKeys.matchesLatinKey(LayoutAgnosticKeys.LatinKey.L, event.key, event.nativeScanCode)) {
+                        event.accepted = true;
+                        mediaOverlay.navigateNext();
+                        return;
+                    }
+                }
             }
 
             const isTab = event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab;

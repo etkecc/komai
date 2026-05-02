@@ -264,8 +264,8 @@ In the media overlay / image viewer:
 | --- | --- |
 | `Escape` | Close the overlay |
 | `Ctrl+C` | Copy the current media |
-| `Left` | Show the previous media item in gallery mode |
-| `Right` | Show the next media item in gallery mode |
+| `Left` / `H` | Show the previous media item in gallery mode |
+| `Right` / `L` | Show the next media item in gallery mode |
 | `Space` | Toggle video playback |
 | `Tab` | Move focus into the action buttons |
 | `Shift+Tab` | Move focus into the action buttons from the opposite end |

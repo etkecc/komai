@@ -3220,7 +3220,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+623"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
         <source>Forward</source>
         <translation>Reencaminhar</translation>
     </message>

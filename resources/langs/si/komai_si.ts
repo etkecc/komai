@@ -3220,7 +3220,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+623"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
         <source>Forward</source>
         <translation>ඉදිරියට යවන්න</translation>
     </message>

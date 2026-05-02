@@ -3225,7 +3225,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+623"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+637"/>
         <source>Forward</source>
         <translation>Přeposlat</translation>
     </message>

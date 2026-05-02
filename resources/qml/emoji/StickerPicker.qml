@@ -796,6 +796,7 @@ Popup {
                                     visible: del.modelData.unicode !== undefined
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
+                                    color: palette.text
                                     font.family: Settings.uiFontEmojiFamily
                                     font.pixelSize: 36
                                     text: del.modelData.unicode !== undefined ? del.modelData.unicode.replace('\ufe0f', '') : ""

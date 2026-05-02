@@ -7829,12 +7829,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1088"/>
+        <location line="+1089"/>
         <source>Settings</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location line="-717"/>
+        <location line="-718"/>
         <source>Pick an Emoji</source>
         <translation>Valitse emoji</translation>
     </message>
@@ -7854,7 +7854,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Hae</translation>
     </message>
     <message>
-        <location line="+580"/>
+        <location line="+581"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Muuta käytössä olevia paketteja, poista tai luo uusia paketteja</translation>
     </message>

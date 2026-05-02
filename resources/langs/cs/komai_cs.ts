@@ -7838,12 +7838,12 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1088"/>
+        <location line="+1089"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location line="-717"/>
+        <location line="-718"/>
         <source>Pick an Emoji</source>
         <translation>Vybrat emoji</translation>
     </message>
@@ -7863,7 +7863,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Hledat</translation>
     </message>
     <message>
-        <location line="+580"/>
+        <location line="+581"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Změnit aktivované balíčky, odstranit balíčky nebo vytvořit nové</translation>
     </message>

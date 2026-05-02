@@ -7820,12 +7820,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1088"/>
+        <location line="+1089"/>
         <source>Settings</source>
         <translation>Cài đặt</translation>
     </message>
     <message>
-        <location line="-717"/>
+        <location line="-718"/>
         <source>Pick an Emoji</source>
         <translation>Chọn emoji</translation>
     </message>
@@ -7845,7 +7845,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Tìm kiếm</translation>
     </message>
     <message>
-        <location line="+580"/>
+        <location line="+581"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Thay đổi gói được bật, xóa gói hoặc tạo gói mới</translation>
     </message>

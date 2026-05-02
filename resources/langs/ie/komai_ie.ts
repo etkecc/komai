@@ -7829,12 +7829,12 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1088"/>
+        <location line="+1089"/>
         <source>Settings</source>
         <translation>Parametres</translation>
     </message>
     <message>
-        <location line="-717"/>
+        <location line="-718"/>
         <source>Pick an Emoji</source>
         <translation>Selectar un Emoji</translation>
     </message>
@@ -7854,7 +7854,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Cerchar</translation>
     </message>
     <message>
-        <location line="+580"/>
+        <location line="+581"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Mutar queles packs es activat, remover packs, o crear noves</translation>
     </message>

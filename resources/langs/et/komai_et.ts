@@ -11199,7 +11199,7 @@ Verifitseerimine märgib seadme usaldatavaks ja annab juurdepääsu krüptitud s
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Eile</translation>
     </message>

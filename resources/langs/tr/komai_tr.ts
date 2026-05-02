@@ -11183,7 +11183,7 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Dün</translation>
     </message>

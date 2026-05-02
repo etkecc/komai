@@ -82,10 +82,6 @@ utils::replaceEmoji(const QString &body)
                 fmtBody += QStringLiteral("<span class=\"emoji\" style=\"font-family: '") %
                            utils::effectiveEmojiFontFamily() % QStringLiteral("'\">");
                 insideEmojiSpan = true;
-            } else if (code == 0xfe0f) {
-                // Skip the variation selector to work around QTBUG-97401 when rendering emoji.
-                // See also https://github.com/matrix-org/matrix-react-sdk/pull/1458/files
-                continue;
             }
         } else if (insideEmojiSpan) {
             fmtBody += QStringLiteral("</span>");

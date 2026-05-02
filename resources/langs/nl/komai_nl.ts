@@ -11199,7 +11199,7 @@ Verificatie markeert dit apparaat als vertrouwd en geeft je toegang tot versleut
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Gisteren</translation>
     </message>

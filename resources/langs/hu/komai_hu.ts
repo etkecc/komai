@@ -11183,7 +11183,7 @@ A hitelesítés megbízhatóként jelöli meg ezt az eszközt, és hozzáférés
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Tegnap</translation>
     </message>

@@ -11215,7 +11215,7 @@ Verificarea marchează acest dispozitiv ca de încredere și îți oferă acces 
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Ieri</translation>
     </message>

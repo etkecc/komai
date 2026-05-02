@@ -11199,7 +11199,7 @@ La verificació marca aquest dispositiu com a de confiança i et dona accés als
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Ahir</translation>
     </message>

@@ -11215,7 +11215,7 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Včera</translation>
     </message>

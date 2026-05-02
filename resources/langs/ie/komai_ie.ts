@@ -11199,7 +11199,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
         <source>Yesterday</source>
         <translation>Hier</translation>
     </message>

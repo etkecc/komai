@@ -799,7 +799,7 @@ Popup {
                                     color: palette.text
                                     font.family: Settings.uiFontEmojiFamily
                                     font.pixelSize: 36
-                                    text: del.modelData.unicode !== undefined ? del.modelData.unicode.replace('\ufe0f', '') : ""
+                                    text: del.modelData.unicode !== undefined ? del.modelData.unicode : ""
                                 }
 
                                 Image {

@@ -456,6 +456,31 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         setActiveMatrixThreadState(saved.threadEventId);
         setActiveMatrixEditState(saved.editEventId, saved.editMessageKind);
 
+        // Re-attach the matrix-sdk runtime to the restored thread.
+        // `matrixThreadTimelineModel_` is a singleton shared across rooms,
+        // and the runtime's "active thread" pointer still references
+        // whichever thread was opened last (possibly in another tab/room).
+        // Without this resubscribe, /relations refreshes route to the wrong
+        // thread and the singleton model continues to show the previously-
+        // active thread's items in this room's thread bar (issue #82). The
+        // thread-subscription cache makes a re-entry near-free — the call
+        // resolves to a warm-path notify and the snapshot for the correct
+        // (room, thread) is delivered to QML on the next event loop tick.
+        if (!saved.threadEventId.isEmpty()) {
+            auto *mainWindow    = MainWindow::instance();
+            const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+            if (handleId != 0) {
+                try {
+                    ::komai::rust::matrix_subscribe_to_thread_timeline(
+                      handleId, roomId.toStdString(), saved.threadEventId.toStdString());
+                } catch (const std::exception &e) {
+                    komai::logging::ui()->warn(
+                      "Failed to reattach matrix-sdk thread subscription on room switch: {}",
+                      e.what());
+                }
+            }
+        }
+
         for (auto &att : saved.attachments) {
             pendingMatrixAttachments_.push_back(std::move(att));
             const auto &back = pendingMatrixAttachments_.back();

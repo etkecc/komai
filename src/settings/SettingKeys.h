@@ -10,21 +10,20 @@ namespace SettingKey {
  * Canonical dotted keys used by settings load/save and migration-safe reads.
  */
 // config.yml
-constexpr auto SchemaVersion                    = "meta.settings_schema_version";
-constexpr auto ConfigSchemaVersion              = SchemaVersion;
-constexpr auto DesktopSystemTrayEnabled         = "desktop.system_tray.enabled";
-constexpr auto DesktopSystemTrayAutostart       = "desktop.system_tray.autostart";
-constexpr auto UiThemeSlug                      = "ui.theme.slug";
-constexpr auto UiFontFamily                     = "ui.font.family";
-constexpr auto UiFontEmojiFamily                = "ui.font.emoji_family";
-constexpr auto UiFontSizePt                     = "ui.font.size_pt";
-constexpr auto UiScaleFactor                    = "ui.scale.factor";
-constexpr auto UiMotionAnimationsEnabled        = "ui.motion.enable_animations";
-constexpr auto UiInputTouchSwipeGesturesEnabled = "ui.input.touch.swipe_gestures.enabled";
-constexpr auto UiAvatarsCircular                = "ui.avatars.circular";
-constexpr auto UiAvatarsDefaultAvatarStyle      = "ui.avatars.default_avatar_style";
-constexpr auto UiLayoutDensity                  = "ui.layout.density";
-constexpr auto UiLanguage                       = "ui.language";
+constexpr auto SchemaVersion               = "meta.settings_schema_version";
+constexpr auto ConfigSchemaVersion         = SchemaVersion;
+constexpr auto DesktopSystemTrayEnabled    = "desktop.system_tray.enabled";
+constexpr auto DesktopSystemTrayAutostart  = "desktop.system_tray.autostart";
+constexpr auto UiThemeSlug                 = "ui.theme.slug";
+constexpr auto UiFontFamily                = "ui.font.family";
+constexpr auto UiFontEmojiFamily           = "ui.font.emoji_family";
+constexpr auto UiFontSizePt                = "ui.font.size_pt";
+constexpr auto UiScaleFactor               = "ui.scale.factor";
+constexpr auto UiMotionAnimationsEnabled   = "ui.motion.enable_animations";
+constexpr auto UiAvatarsCircular           = "ui.avatars.circular";
+constexpr auto UiAvatarsDefaultAvatarStyle = "ui.avatars.default_avatar_style";
+constexpr auto UiLayoutDensity             = "ui.layout.density";
+constexpr auto UiLanguage                  = "ui.language";
 constexpr auto NavigationRoomListShowLastMessageTime =
   "navigation.room_list.show_last_message_timestamp";
 constexpr auto NavigationRoomListLastMessagePreview = "navigation.room_list.last_message_preview";

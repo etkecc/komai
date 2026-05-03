@@ -78,7 +78,6 @@ int desktopWindowFocusBlurDelaySeconds_;
 bool encryptionKeySharingShareWithTrusted_;
 bool encryptionKeySharingOnlyVerifiedUsers_;
 bool encryptionBackupOnlineEnabled_;
-bool uiInputTouchSwipeGesturesEnabled_;
 int navigationRoomListWidthPx_ = settings::core::definitions::kDefaultNavigationRoomListWidthPx;
 int navigationCommunitiesWidthPx_ =
   settings::core::definitions::kDefaultNavigationCommunitiesWidthPx;

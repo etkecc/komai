@@ -10151,16 +10151,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>启用滑动手势</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>启用手势，例如在聊天室列表与时间轴之间滑动，以及滑动消息以回复。</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>滚动条可见性</translation>
     </message>

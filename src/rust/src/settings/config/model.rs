@@ -42,7 +42,6 @@ pub struct ConfigUi {
     pub theme: ConfigUiTheme,
     pub font: ConfigUiFont,
     pub motion: ConfigUiMotion,
-    pub input: ConfigUiInput,
     pub layout: ConfigUiLayout,
     pub avatars: ConfigUiAvatars,
     pub scrollbar_policy: ConfigUiScrollbarPolicyToken,
@@ -69,11 +68,6 @@ pub struct ConfigUiFont {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiMotion {
     pub animations_enabled: Option<bool>,
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct ConfigUiInput {
-    pub touch_swipe_gestures_enabled: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

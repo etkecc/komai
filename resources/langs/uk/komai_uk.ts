@@ -10183,16 +10183,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Увімкнути жести свайпу</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Увімкнути жести, наприклад свайп між Списком кімнат і Стрічкою та свайп повідомлення для відповіді.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Видимість смуги прокрутки</translation>
     </message>

@@ -10167,16 +10167,6 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Aktivera svepgester</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Aktivera gester som att svepa mellan rumslista och tidslinje, och svepa ett meddelande för att svara.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Synlighet för rullningslisten</translation>
     </message>

@@ -10170,16 +10170,6 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Ebligi ŝovgestojn</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Ebligi gestojn kiel ŝovado inter Ĉambrolisto kaj Tempolinio, kaj ŝovado de mesaĝo por respondi.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Videbleco de rulstango</translation>
     </message>

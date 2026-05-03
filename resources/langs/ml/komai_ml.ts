@@ -10167,16 +10167,6 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>സ്വൈപ്പ് ജെസ്ചറുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>മുറി ലിസ്റ്റും ടൈംലൈനും തമ്മിൽ സ്വൈപ്പ് ചെയ്യൽ, മറുപടി നൽകാൻ സന്ദേശം സ്വൈപ്പ് ചെയ്യൽ തുടങ്ങിയ ജെസ്ചറുകൾ പ്രവർത്തനക്ഷമമാക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>സ്ക്രോൾബാർ ദൃശ്യത</translation>
     </message>

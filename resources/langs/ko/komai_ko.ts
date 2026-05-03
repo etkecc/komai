@@ -10151,16 +10151,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>스와이프 제스처 활성화</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>방 목록과 타임라인 사이 스와이프, 메시지 스와이프로 답장 등의 제스처를 활성화합니다.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>스크롤바 표시 여부</translation>
     </message>

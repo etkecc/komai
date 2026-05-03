@@ -10183,16 +10183,6 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Uključi gestove prevlačenjem</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Uključi gestove kao što su prevlačenje između Liste soba i Tajmlajne, i prevlačenje poruke radi odgovora.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Vidljivost klizača</translation>
     </message>

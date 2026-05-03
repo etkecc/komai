@@ -199,10 +199,6 @@ ui:
     size_pt: 14
   motion:
     enable_animations: true
-  input:
-    touch:
-      swipe_gestures:
-        enabled: true
   layout:
     density: compact
   avatars:
@@ -214,7 +210,6 @@ ui:
     assert_eq!(config.ui.font.emoji_family, "Noto Color Emoji");
     assert_eq!(config.ui.font.size_pt, Some(14.0));
     assert_eq!(config.ui.motion.animations_enabled, Some(true));
-    assert_eq!(config.ui.input.touch_swipe_gestures_enabled, Some(true));
     assert_eq!(config.ui.layout.density, ConfigUiLayoutDensityToken::Compact);
     assert_eq!(config.ui.avatars.circular, Some(true));
     assert_eq!(
@@ -419,7 +414,6 @@ fn encodes_generic_config_values() {
             font_family: "Iosevka".to_owned(),
             font_emoji_family: "Noto Color Emoji".to_owned(),
             motion_animations_enabled: true,
-            input_touch_swipe_gestures_enabled: true,
             layout_density: "spacious".to_owned(),
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),
@@ -713,10 +707,6 @@ fn encodes_generic_config_values() {
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "motion", "enable_animations"]),
-        Some(serde_yaml_ng::Value::Bool(true))
-    ));
-    assert!(matches!(
-        yaml::value_at_path(&root, &["ui", "input", "touch", "swipe_gestures", "enabled"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
@@ -1131,7 +1121,6 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
             font_family: String::new(),
             font_emoji_family: String::new(),
             motion_animations_enabled: true,
-            input_touch_swipe_gestures_enabled: true,
             layout_density: "regular".to_owned(),
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),
@@ -1373,7 +1362,6 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             font_family: String::new(),
             font_emoji_family: String::new(),
             motion_animations_enabled: true,
-            input_touch_swipe_gestures_enabled: true,
             layout_density: "regular".to_owned(),
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),

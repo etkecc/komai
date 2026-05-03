@@ -51,7 +51,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)).trimmed(),
       UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
     settings.setUiScaleFactor(snapshot.ui.scale_factor);
-    settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.input_touch_swipe_gestures_enabled);
     settings.setUiAvatarsCircular(snapshot.ui.avatars_circular);
     settings.setUiLayoutDensity(cfg::densityFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.ui.layout_density)).trimmed(),

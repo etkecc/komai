@@ -50,11 +50,6 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["ui", "input", "touch", "swipe_gestures", "enabled"],
-        Value::Bool(snapshot.ui.input_touch_swipe_gestures_enabled),
-    );
-    yaml::set_value(
-        &mut root,
         &["ui", "layout", "density"],
         Value::String(snapshot.ui.layout_density.clone()),
     );

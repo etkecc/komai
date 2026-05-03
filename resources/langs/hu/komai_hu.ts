@@ -10151,16 +10151,6 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Csúsztatásos gesztusok engedélyezése</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Gesztusok engedélyezése, például a Szobálista és az Idővonal közötti csúsztatás, illetve üzenet csúsztatása válaszoláshoz.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Görgetősáv láthatósága</translation>
     </message>

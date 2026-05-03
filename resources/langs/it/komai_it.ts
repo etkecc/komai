@@ -10167,16 +10167,6 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Abilita gesti di scorrimento</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Abilita gesti come lo scorrimento tra l'elenco stanze e la timeline, e lo scorrimento di un messaggio per rispondere.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Visibilità della barra di scorrimento</translation>
     </message>

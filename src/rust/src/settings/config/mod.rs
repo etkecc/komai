@@ -25,7 +25,7 @@ pub use model::{
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
     ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineThreads, ConfigTimelineThreadsCollapseReplies,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
-    ConfigUiAvatars, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
+    ConfigUiAvatars, ConfigUiFont, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
     ConfigUiTheme, LoadedConfig,
 };
 pub(crate) use model::CURRENT_CONFIG_SCHEMA_VERSION;
@@ -52,8 +52,6 @@ const UI_FONT_FAMILY_PATH: [&str; 3] = ["ui", "font", "family"];
 const UI_FONT_EMOJI_FAMILY_PATH: [&str; 3] = ["ui", "font", "emoji_family"];
 const UI_FONT_SIZE_PT_PATH: [&str; 3] = ["ui", "font", "size_pt"];
 const UI_MOTION_ANIMATIONS_ENABLED_PATH: [&str; 3] = ["ui", "motion", "enable_animations"];
-const UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH: [&str; 5] =
-    ["ui", "input", "touch", "swipe_gestures", "enabled"];
 const UI_LAYOUT_DENSITY_PATH: [&str; 3] = ["ui", "layout", "density"];
 const UI_AVATARS_CIRCULAR_PATH: [&str; 3] = ["ui", "avatars", "circular"];
 const UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH: [&str; 3] = ["ui", "avatars", "default_avatar_style"];
@@ -259,13 +257,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             motion: ConfigUiMotion {
                 animations_enabled: yaml::value_at_path(root, &UI_MOTION_ANIMATIONS_ENABLED_PATH)
                     .and_then(parse_scalar_bool),
-            },
-            input: ConfigUiInput {
-                touch_swipe_gestures_enabled: yaml::value_at_path(
-                    root,
-                    &UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH,
-                )
-                .and_then(parse_scalar_bool),
             },
             layout: ConfigUiLayout {
                 density: parse_storage_token(yaml::value_at_path(root, &UI_LAYOUT_DENSITY_PATH)),

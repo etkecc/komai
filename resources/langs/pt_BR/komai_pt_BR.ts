@@ -10167,16 +10167,6 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Habilitar gestos de deslize</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Habilita gestos como deslizar entre a Lista de Salas e a Linha do Tempo, e deslizar uma mensagem para responder.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Visibilidade da barra de rolagem</translation>
     </message>

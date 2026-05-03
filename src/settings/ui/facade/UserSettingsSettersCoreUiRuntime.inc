@@ -39,16 +39,6 @@ UserSettings::setTimelineFormattedCodeSyntaxHighlighting(bool s)
     save();
 }
 void
-UserSettings::setUiInputTouchSwipeGesturesEnabled(bool s)
-{
-    if (uiInputTouchSwipeGesturesEnabled_ == s)
-        return;
-    uiInputTouchSwipeGesturesEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::UiInputTouchSwipeGesturesEnabled, s);
-    emit uiInputTouchSwipeGesturesEnabledChanged(s);
-    save();
-}
-void
 UserSettings::setNavigationCommunitiesFilterFavourites(bool s)
 {
     if (navigationCommunitiesFilterFavourites_ == s)

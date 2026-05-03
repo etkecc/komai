@@ -12,7 +12,6 @@
 pub const SCALE_FACTOR: f32 = 1.0;
 pub const FONT_SIZE_PT: f64 = 13.0;
 pub const MOTION_ANIMATIONS_ENABLED: bool = true;
-pub const INPUT_TOUCH_SWIPE_GESTURES_ENABLED: bool = false;
 pub const AVATARS_CIRCULAR: bool = false;
 
 // -- navigation ---------------------------------------------------------------

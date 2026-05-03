@@ -10167,16 +10167,6 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Wischgesten aktivieren</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Gesten aktivieren, z. B. Wischen zwischen Raumliste und Timeline sowie Wischen einer Nachricht zum Antworten.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Sichtbarkeit der Scrollleiste</translation>
     </message>

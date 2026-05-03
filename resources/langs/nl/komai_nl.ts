@@ -10167,16 +10167,6 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Veeggebaren inschakelen</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Schakel gebaren in, zoals vegen tussen kamerlijst en tijdlijn, en een bericht vegen om te antwoorden.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Zichtbaarheid schuifbalk</translation>
     </message>

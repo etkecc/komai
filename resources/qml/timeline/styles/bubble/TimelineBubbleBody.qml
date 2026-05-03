@@ -642,26 +642,6 @@ Item {
         sourceComponent: metadataComponent
     }
 
-    DragHandler {
-        id: replyDragHandler
-        enabled: Settings.uiInputTouchSwipeGesturesEnabled && !root.perfDisableTimelineInteraction
-        yAxis.enabled: false
-        xAxis.enabled: true
-        xAxis.minimum: (root.wrapper.messageIsRightAligned ? 0 : root.wrapper.avatarMargin) - 100
-        xAxis.maximum: root.wrapper.messageIsRightAligned ? 0 : root.wrapper.avatarMargin
-        onActiveChanged: {
-            if (!replyDragHandler.active) {
-                if (replyDragHandler.xAxis.minimum <= replyDragHandler.xAxis.activeValue + 1) {
-                    if (root.wrapper.room)
-                        root.wrapper.room.reply = root.wrapper.eventId;
-                }
-                root.x = Qt.binding(function () {
-                    return root.wrapper.avatarIsOnRight ? 0 : root.wrapper.avatarMargin;
-                });
-            }
-        }
-    }
-
     TapHandler {
         enabled: !root.perfDisableTimelineInteraction
         onDoubleTapped: {

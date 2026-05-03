@@ -10167,16 +10167,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Ενεργοποίηση χειρονομιών σάρωσης</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Ενεργοποίηση χειρονομιών όπως σάρωση μεταξύ Λίστας Δωματίων και Χρονολογίου, και σάρωση μηνύματος για απάντηση.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Ορατότητα γραμμής κύλισης</translation>
     </message>

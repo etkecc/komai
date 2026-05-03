@@ -10167,16 +10167,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>ස්වයිප් අභිනයන් සක්‍රිය කරන්න</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>කාමර ලැයිස්තුව සහ කාලරේඛාව අතර ස්වයිප් කිරීම සහ පිළිතුරු දීමට පණිවිඩයක් ස්වයිප් කිරීම වැනි අභිනයන් සක්‍රිය කරන්න.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>අනුචලන තීරුවේ දෘශ්‍යතාව</translation>
     </message>

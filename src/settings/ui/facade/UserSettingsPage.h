@@ -210,8 +210,6 @@ class UserSettings final : public QObject
                  setNavigationRoomListWidthPx NOTIFY navigationRoomListWidthPxChanged)
     Q_PROPERTY(int navigationCommunitiesWidthPx READ navigationCommunitiesWidthPx WRITE
                  setNavigationCommunitiesWidthPx NOTIFY navigationCommunitiesWidthPxChanged)
-    Q_PROPERTY(bool uiInputTouchSwipeGesturesEnabled READ uiInputTouchSwipeGesturesEnabled WRITE
-                 setUiInputTouchSwipeGesturesEnabled NOTIFY uiInputTouchSwipeGesturesEnabledChanged)
     Q_PROPERTY(
       double uiScaleFactor READ uiScaleFactor WRITE setUiScaleFactor NOTIFY uiScaleFactorChanged)
     Q_PROPERTY(
@@ -552,7 +550,6 @@ public:
     void setDesktopSystemTrayEnabled(bool state);
     void setDesktopSystemTrayAutostart(bool state);
     void setDesktopSystemTrayFirstClosePrompted(bool state);
-    void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setUiScaleFactor(double factor);
     void setUiFontSizePt(double size);
     void setUiFontFamily(QString family);
@@ -818,7 +815,6 @@ signals:
     void desktopWindowFocusBlurDelaySecondsChanged(int state);
     void navigationRoomListWidthPxChanged(int state);
     void navigationCommunitiesWidthPxChanged(int state);
-    void uiInputTouchSwipeGesturesEnabledChanged(bool state);
     void uiScaleFactorChanged(double factor);
     void uiFontSizePtChanged(double state);
     void uiFontFamilyChanged(QString state);

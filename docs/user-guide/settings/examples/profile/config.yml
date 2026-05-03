@@ -12,9 +12,6 @@ ui:
     size_pt: 13.0
   motion:
     reduced: false
-  input:
-    enable_text_selection: true
-    swipe_gestures: false
   avatars:
     circular: false
     default_avatar_style: boring_avatars_bauhaus

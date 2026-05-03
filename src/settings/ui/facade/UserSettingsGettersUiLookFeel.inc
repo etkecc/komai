@@ -26,16 +26,6 @@ UserSettings::uiMotionAnimationsEnabled() const
     return uiMotionAnimationsEnabled_;
 }
 
-bool
-UserSettings::uiInputTouchSwipeGesturesEnabled() const
-{
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::UiInputTouchSwipeGesturesEnabled);
-        value.has_value())
-        return *value;
-    return uiInputTouchSwipeGesturesEnabled_;
-}
-
 UserSettings::Density
 UserSettings::uiLayoutDensity() const
 {

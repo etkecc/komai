@@ -1620,8 +1620,6 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiLanguage));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontSizePt));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiMotionAnimationsEnabled));
-    serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::UiInputTouchSwipeGesturesEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesLayoutMaxWidthPercent));

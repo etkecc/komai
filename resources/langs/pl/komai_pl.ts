@@ -10184,16 +10184,6 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Włącz gesty przesuwania</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Włącz gesty, takie jak przesuwanie między Listą pokojów a Osią czasu oraz przesuwanie wiadomości w celu odpowiedzi.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Widoczność paska przewijania</translation>
     </message>

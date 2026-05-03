@@ -10151,16 +10151,6 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Aktifkan gestur gesek</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Aktifkan gestur seperti menggesek antara Daftar Ruangan dan Linimasa, serta menggesek pesan untuk membalas.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Visibilitas scrollbar</translation>
     </message>

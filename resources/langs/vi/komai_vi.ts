@@ -10151,16 +10151,6 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+9"/>
-        <source>Enable swipe gestures</source>
-        <translation>Bật cử chỉ vuốt</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply.</source>
-        <translation>Bật các cử chỉ như vuốt giữa Danh sách phòng và Dòng thời gian, và vuốt tin nhắn để trả lời.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Scrollbar visibility</source>
         <translation>Hiển thị thanh cuộn</translation>
     </message>

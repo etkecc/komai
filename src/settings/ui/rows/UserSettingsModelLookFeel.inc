@@ -96,11 +96,6 @@
       nullptr,
       UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),
-    // EnableSwipeGestures
-    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Enable swipe gestures"),
-      QT_TRANSLATE_NOOP("UserSettingsModel",
-        "Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply."),
-      SM::TabLookFeel, uiInputTouchSwipeGesturesEnabled, setUiInputTouchSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
     // ScrollbarPolicy
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Scrollbar visibility"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Controls when scrollbars are shown across the app."),

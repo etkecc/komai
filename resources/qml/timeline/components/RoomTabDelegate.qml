@@ -565,11 +565,12 @@ Rectangle {
             Layout.preferredWidth: labelVisible ? -1 : 0
             visible: labelVisible
             text: tabDelegate.displayName
-            elide: Text.ElideRight
+            elide: tabDelegate.LayoutMirroring.enabled ? Text.ElideLeft : Text.ElideRight
             font.bold: tabDelegate.emphasizeUnread
             font.pixelSize: Komai.fontPixelSize
             color: tabDelegate.textColor
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
         }
 
         // Inline close button for avatar-only mode (in-flow, not overlaid).
@@ -620,7 +621,7 @@ Rectangle {
         height: parent.height
         visible: !tabDelegate.pinned && !tabDelegate.isAvatarOnly
 
-        // Gradient that fades from transparent to the opaque background.
+        // Gradient that fades from text into the opaque edge background.
         // Hidden in avatar-only mode (no text to fade).
         Rectangle {
             anchors.left: parent.left
@@ -631,8 +632,8 @@ Rectangle {
             gradient: Gradient {
                 orientation: Gradient.Horizontal
 
-                GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 1.0; color: tabDelegate.opaqueBackgroundColor }
+                GradientStop { position: 0.0; color: tabDelegate.LayoutMirroring.enabled ? tabDelegate.opaqueBackgroundColor : "transparent" }
+                GradientStop { position: 1.0; color: tabDelegate.LayoutMirroring.enabled ? "transparent" : tabDelegate.opaqueBackgroundColor }
             }
         }
 

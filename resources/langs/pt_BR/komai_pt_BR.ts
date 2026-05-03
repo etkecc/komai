@@ -3587,7 +3587,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Mensagem</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>Figurinhas</translation>
     </message>

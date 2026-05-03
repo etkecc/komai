@@ -3587,7 +3587,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Nachricht</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>

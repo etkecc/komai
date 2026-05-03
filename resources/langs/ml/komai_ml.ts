@@ -3587,7 +3587,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>സന്ദേശം</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>

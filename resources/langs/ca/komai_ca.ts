@@ -3587,7 +3587,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Missatge</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>

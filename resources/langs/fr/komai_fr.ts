@@ -3587,7 +3587,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>

@@ -3582,7 +3582,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>메시지</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>스티커</translation>
     </message>

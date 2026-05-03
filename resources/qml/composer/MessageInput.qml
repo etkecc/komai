@@ -1348,18 +1348,23 @@ Rectangle {
                             let userid = completer.currentUserid();
                             const capturedType = completer.completerType;
 
-                            completer.completerType = "";
-                            popup.close();
-
+                            // Close after insertCompletion: while popup.opened
+                            // is still true, the bulk-insert trigger detection
+                            // in maybeOpenCompleterForTrailingTokenAfterBulkInsert
+                            // short-circuits, so insertions that happen to begin
+                            // with a trigger char (e.g. raw MXIDs from "user-mxid"
+                            // completion) don't immediately re-open the popup.
                             if (currentCompletion) {
                                 messageInput.insertCompletion(currentCompletion, capturedType, userid);
                                 if (userid && capturedType === "user") {
-                                    console.log(userid);
                                     if (inputBar.inputController)
                                         inputBar.inputController.addMention(userid, currentCompletion);
                                 }
                                 event.accepted = true;
                             }
+
+                            completer.completerType = "";
+                            popup.close();
                             // Nothing selected: popup closed, fall through to send/newline.
                         }
                         // Send message Enter key combination event.
@@ -1597,6 +1602,8 @@ Rectangle {
                 Connections {
                     function onCompletionClicked(completion) {
                         messageInput.insertCompletion(completion);
+                        completer.completerType = "";
+                        popup.close();
                     }
                     function onCountChanged() {
                         // When the async search settles with zero results and the

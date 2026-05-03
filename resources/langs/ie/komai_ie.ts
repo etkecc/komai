@@ -3587,7 +3587,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Mesage</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

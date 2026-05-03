@@ -3582,7 +3582,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Tin nhắn</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>
     </message>

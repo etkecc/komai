@@ -3592,7 +3592,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Сообщение</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>Стикеры</translation>
     </message>

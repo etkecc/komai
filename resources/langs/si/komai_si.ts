@@ -3587,7 +3587,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>පණිවිඩය</translation>
     </message>
     <message>
-        <location line="+558"/>
+        <location line="+565"/>
         <source>Stickers</source>
         <translation>ස්ටිකර</translation>
     </message>

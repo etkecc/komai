@@ -6783,17 +6783,17 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+178"/>
         <source>New</source>
         <translation>Nowy</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+167"/>
         <source>Settings...</source>
         <translation>Ustawienia…</translation>
     </message>
     <message>
-        <location line="-167"/>
+        <location line="-168"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Otwórz nową kartę [Ctrl+T]</translation>
     </message>

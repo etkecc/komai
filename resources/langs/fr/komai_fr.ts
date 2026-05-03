@@ -6773,17 +6773,17 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+178"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+167"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>
     <message>
-        <location line="-167"/>
+        <location line="-168"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Ouvrir un nouvel onglet [Ctrl+T]</translation>
     </message>

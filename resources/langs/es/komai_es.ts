@@ -6776,17 +6776,17 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+178"/>
         <source>New</source>
         <translation>Nuevo</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+167"/>
         <source>Settings...</source>
         <translation>Configuración...</translation>
     </message>
     <message>
-        <location line="-167"/>
+        <location line="-168"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Abrir nueva pestaña [Ctrl+T]</translation>
     </message>

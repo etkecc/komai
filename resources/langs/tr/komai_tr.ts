@@ -6764,17 +6764,17 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+178"/>
         <source>New</source>
         <translation>Yeni</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+167"/>
         <source>Settings...</source>
         <translation>Ayarlar…</translation>
     </message>
     <message>
-        <location line="-167"/>
+        <location line="-168"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Yeni sekme aç [Ctrl+T]</translation>
     </message>

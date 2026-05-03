@@ -92,6 +92,12 @@ Rectangle {
     }
 
     readonly property int effectiveTabWidth: _stableTabWidth
+    readonly property bool _showLeftEdgeFade: tabBar.mirrored
+        ? tabListView.contentX < tabListView.maxContentX - 1
+        : tabListView.contentX > tabListView.minContentX + 1
+    readonly property bool _showRightEdgeFade: tabBar.mirrored
+        ? tabListView.contentX > tabListView.minContentX + 1
+        : tabListView.contentX < tabListView.maxContentX - 1
 
     implicitHeight: Komai.navigationRowHeight
     visible: tabController.tabs.count > 0
@@ -179,9 +185,10 @@ Rectangle {
         }
     }
 
-    // Left edge fade (visible when tabs are scrolled past the start).
+    // Left edge fade. In RTL the logical start/end are reversed, so the
+    // scroll-threshold condition swaps while the physical gradient stays put.
     Rectangle {
-        visible: tabListView.contentX > tabListView.minContentX + 1
+        visible: tabBar._showLeftEdgeFade
         x: tabListView.x
         y: tabListView.y
         width: 40
@@ -196,9 +203,9 @@ Rectangle {
         }
     }
 
-    // Right edge fade (visible when tabs extend past the visible area).
+    // Right edge fade. See the left-edge fade note above.
     Rectangle {
-        visible: tabListView.contentX < tabListView.maxContentX - 1
+        visible: tabBar._showRightEdgeFade
         x: tabListView.x + tabListView.width - 40
         y: tabListView.y
         width: 40

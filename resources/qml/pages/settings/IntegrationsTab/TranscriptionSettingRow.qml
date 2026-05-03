@@ -24,6 +24,7 @@ Item {
 
     readonly property bool useStackedLayout: width < Komai.settingRowStackBreakpoint
     readonly property bool hasDescription: description.length > 0
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     // Surfaced so child controls can flip their colors when the surrounding
     // card is hovered (the card's background goes to `palette.dark`, which
     // would otherwise drown out `palette.buttonText`-coloured controls).
@@ -75,6 +76,8 @@ Item {
                 text: root.label
                 textFormat: Text.AutoText
                 font.pointSize: 1.1 * Settings.uiFontSizePt
+                horizontalAlignment: root.mirrored ? Text.AlignRight : Text.AlignLeft
+                LayoutMirroring.enabled: false
                 wrapMode: Text.Wrap
             }
 
@@ -111,6 +114,8 @@ Item {
             text: root.description
             textFormat: Text.RichText
             font.pointSize: Settings.uiFontSizePt
+            horizontalAlignment: root.mirrored ? Text.AlignRight : Text.AlignLeft
+            LayoutMirroring.enabled: false
             wrapMode: Text.Wrap
             readOnly: true
             selectByMouse: true

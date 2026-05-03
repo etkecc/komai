@@ -19,6 +19,9 @@ Rectangle {
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
     property string scrollToSection: ""
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
     property int sidebarWidth: {
         // Read font height to track font size changes in this binding
         var _d1 = sidebarNavFontMetrics.height;
@@ -87,25 +90,34 @@ Rectangle {
 
                     onClicked: mainWindow.pop()
 
-                    contentItem: RowLayout {
-                        spacing: Komai.paddingMedium
+                    contentItem: Item {
+                        implicitWidth: backIcon.implicitWidth + Komai.paddingMedium + backLabel.implicitWidth
+                        implicitHeight: Math.max(backIcon.implicitHeight, backLabel.implicitHeight)
 
                         Image {
-                            Layout.preferredWidth: 24
-                            Layout.preferredHeight: 24
-                            Layout.alignment: Qt.AlignVCenter
+                            id: backIcon
+                            width: 24
+                            height: 24
+                            anchors.verticalCenter: parent.verticalCenter
+                            x: userSettingsDialog.mirrored ? parent.width - width : 0
                             source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerBack.hovered ? palette.brightText : palette.text)
                             sourceSize.width: 24
                             sourceSize.height: 24
+                            mirror: userSettingsDialog.mirrored
                         }
 
                         Label {
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignVCenter
+                            id: backLabel
+                            width: Math.max(0, parent.width - backIcon.width - Komai.paddingMedium)
+                            height: implicitHeight
+                            anchors.verticalCenter: parent.verticalCenter
+                            x: userSettingsDialog.mirrored ? 0 : backIcon.width + Komai.paddingMedium
                             text: qsTr("Back")
                             font.pointSize: Settings.uiFontSizePt
                             font.bold: true
                             color: headerBack.hovered ? palette.brightText : palette.text
+                            horizontalAlignment: userSettingsDialog.mirrored ? Text.AlignRight : Text.AlignLeft
+                            LayoutMirroring.enabled: false
                         }
                     }
 
@@ -191,13 +203,16 @@ Rectangle {
                             userSettingsDialog.currentTab = modelData.tab;
                         }
 
-                        contentItem: RowLayout {
-                            spacing: Komai.paddingMedium
+                        contentItem: Item {
+                            implicitWidth: navIcon.implicitWidth + Komai.paddingMedium + navLabel.implicitWidth
+                            implicitHeight: Math.max(navIcon.implicitHeight, navLabel.implicitHeight)
 
                             Image {
-                                Layout.preferredWidth: 24
-                                Layout.preferredHeight: 24
-                                Layout.alignment: Qt.AlignVCenter
+                                id: navIcon
+                                width: 24
+                                height: 24
+                                anchors.verticalCenter: parent.verticalCenter
+                                x: userSettingsDialog.mirrored ? parent.width - width : 0
                                 // Don't colorize the Komai logo (About tab)
                                 source: navItem.modelData.icon.startsWith("qrc:/logos/")
                                     ? navItem.modelData.icon
@@ -207,13 +222,18 @@ Rectangle {
                             }
 
                             Label {
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignVCenter
+                                id: navLabel
+                                width: Math.max(0, parent.width - navIcon.width - Komai.paddingMedium)
+                                height: implicitHeight
+                                anchors.verticalCenter: parent.verticalCenter
+                                x: userSettingsDialog.mirrored ? 0 : navIcon.width + Komai.paddingMedium
                                 text: navItem.modelData.text
                                 color: navItem.enabled ? navItem.textColor : palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt
                                 font.bold: navItem.isActive
-                                elide: Text.ElideRight
+                                horizontalAlignment: userSettingsDialog.mirrored ? Text.AlignRight : Text.AlignLeft
+                                elide: userSettingsDialog.mirrored ? Text.ElideLeft : Text.ElideRight
+                                LayoutMirroring.enabled: false
                             }
                         }
 
@@ -284,6 +304,8 @@ Rectangle {
             Loader {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                LayoutMirroring.enabled: userSettingsDialog.mirrored
+                LayoutMirroring.childrenInherit: true
 
                 Rectangle {
                     anchors.fill: parent

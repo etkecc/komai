@@ -7680,7 +7680,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Allpool olevatel valikutel pole mõju, kuna konto teatised on ülal keelatud.</translation>
     </message>
@@ -10913,12 +10913,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Seaded</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Välimus</translation>
     </message>
@@ -10958,12 +10958,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Rakenduseprofiilid</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Saadaval pärast sisselogimist</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Kõned</translation>
     </message>
@@ -10979,8 +10979,8 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Tagasi</translation>
     </message>

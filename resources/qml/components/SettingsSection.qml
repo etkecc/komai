@@ -15,6 +15,7 @@ Item {
     required property string label
     property string helperText: ""
     property color helperColor: palette.buttonText
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     implicitWidth: sectionLayout.implicitWidth
     implicitHeight: sectionLayout.implicitHeight
 
@@ -31,6 +32,8 @@ Item {
             textFormat: Text.AutoText
             font.pointSize: 1.1 * Settings.uiFontSizePt
             font.capitalization: Font.AllUppercase
+            horizontalAlignment: root.mirrored ? Text.AlignRight : Text.AlignLeft
+            LayoutMirroring.enabled: false
             wrapMode: Text.Wrap
         }
 
@@ -56,6 +59,8 @@ Item {
             text: root.helperText
             textFormat: Text.AutoText
             font.pointSize: Settings.uiFontSizePt
+            horizontalAlignment: root.mirrored ? Text.AlignRight : Text.AlignLeft
+            LayoutMirroring.enabled: false
             wrapMode: Text.Wrap
         }
     }

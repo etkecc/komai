@@ -7680,7 +7680,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Die Optionen unten haben keine Wirkung, da Kontobenachrichtigungen oben deaktiviert sind.</translation>
     </message>
@@ -10913,12 +10913,12 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Erscheinungsbild</translation>
     </message>
@@ -10958,12 +10958,12 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Anwendungsprofile</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Nach Anmeldung verfügbar</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Anrufe</translation>
     </message>
@@ -10979,8 +10979,8 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Zurück</translation>
     </message>

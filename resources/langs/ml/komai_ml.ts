@@ -7680,7 +7680,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ മുകളിൽ പ്രവർത്തനരഹിതമാക്കിയതിനാൽ, താഴെയുള്ള ഓപ്ഷനുകൾക്ക് ഒരു ഫലവുമില്ല.</translation>
     </message>
@@ -10913,12 +10913,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>ദൃശ്യരൂപം &amp; അനുഭൂതി</translation>
     </message>
@@ -10958,12 +10958,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ആപ്ലിക്കേഷൻ പ്രൊഫൈലുകൾ</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>ലോഗിൻ ചെയ്ത ശേഷം ലഭ്യമാകും</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>കോളുകൾ</translation>
     </message>
@@ -10979,8 +10979,8 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>തിരികെ</translation>
     </message>

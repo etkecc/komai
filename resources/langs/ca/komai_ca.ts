@@ -7680,7 +7680,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Les opcions de sota no tenen cap efecte perquè les notificacions del compte estan desactivades més amunt.</translation>
     </message>
@@ -10913,12 +10913,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Aparença</translation>
     </message>
@@ -10958,12 +10958,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Perfils de l'aplicació</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Disponible després d'iniciar sessió</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Trucades</translation>
     </message>
@@ -10979,8 +10979,8 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Enrere</translation>
     </message>

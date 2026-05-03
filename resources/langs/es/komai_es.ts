@@ -7683,7 +7683,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Las opciones de abajo no tienen efecto porque las notificaciones de la cuenta están desactivadas arriba.</translation>
     </message>
@@ -10916,12 +10916,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Apariencia</translation>
     </message>
@@ -10961,12 +10961,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Perfiles de aplicación</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Disponible tras iniciar sesión</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Llamadas</translation>
     </message>
@@ -10982,8 +10982,8 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>

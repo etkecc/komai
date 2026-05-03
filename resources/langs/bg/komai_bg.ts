@@ -7680,7 +7680,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Опциите по-долу нямат ефект, тъй като известията за акаунта са изключени по-горе.</translation>
     </message>
@@ -10913,14 +10913,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+26"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+29"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-94"/>
         <source>Look &amp; Feel</source>
         <translation>Вид и усещане</translation>
     </message>
@@ -10975,7 +10975,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>За</translation>
     </message>
     <message>
-        <location line="+183"/>
+        <location line="+200"/>
         <source>Available after login</source>
         <translation>Налично след вход</translation>
     </message>

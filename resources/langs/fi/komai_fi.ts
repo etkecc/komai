@@ -7680,7 +7680,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Alla olevilla asetuksilla ei ole vaikutusta, koska tilin ilmoitukset on poistettu käytöstä yllä.</translation>
     </message>
@@ -10913,12 +10913,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Ulkoasu</translation>
     </message>
@@ -10958,12 +10958,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Sovellusprofiilit</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Käytettävissä kirjautumisen jälkeen</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Puhelut</translation>
     </message>
@@ -10979,8 +10979,8 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Takaisin</translation>
     </message>

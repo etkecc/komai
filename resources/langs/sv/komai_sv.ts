@@ -7680,7 +7680,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Alternativen nedan har ingen effekt eftersom kontoaviseringar är inaktiverade ovan.</translation>
     </message>
@@ -10913,12 +10913,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Inställningar</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Utseende &amp; känsla</translation>
     </message>
@@ -10958,12 +10958,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Applikationsprofiler</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Tillgänglig efter inloggning</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Samtal</translation>
     </message>
@@ -10979,8 +10979,8 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Tillbaka</translation>
     </message>

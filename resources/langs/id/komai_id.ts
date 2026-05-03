@@ -7671,7 +7671,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opsi di bawah tidak berpengaruh karena notifikasi akun dinonaktifkan di atas.</translation>
     </message>
@@ -10897,12 +10897,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Pengaturan</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Tampilan &amp; Nuansa</translation>
     </message>
@@ -10942,12 +10942,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Profil Aplikasi</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Tersedia setelah masuk</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Panggilan</translation>
     </message>
@@ -10963,8 +10963,8 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Kembali</translation>
     </message>

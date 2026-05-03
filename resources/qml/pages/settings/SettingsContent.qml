@@ -18,6 +18,8 @@ Item {
     required property int tabFilter
     property bool collapsed: false
     property string scrollToTagId: ""
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
 
     onScrollToTagIdChanged: {
         if (scrollToTagId && settingsRepeater.count > 0)
@@ -210,6 +212,8 @@ Item {
                                     text: r.model.name ?? ""
                                     textFormat: Text.AutoText
                                     font.pointSize: 1.1 * Settings.uiFontSizePt
+                                    horizontalAlignment: root.mirrored ? Text.AlignRight : Text.AlignLeft
+                                    LayoutMirroring.enabled: false
                                     wrapMode: Text.Wrap
                                     onLinkActivated: function (link) {
                                         Qt.openUrlExternally(link);
@@ -493,6 +497,8 @@ Item {
                             textFormat: Text.RichText
                             color: rowHover.hovered ? palette.brightText : palette.buttonText
                             font.pointSize: Settings.uiFontSizePt
+                            horizontalAlignment: root.mirrored ? Text.AlignRight : Text.AlignLeft
+                            LayoutMirroring.enabled: false
                             wrapMode: Text.Wrap
                             readOnly: true
                             selectByMouse: true

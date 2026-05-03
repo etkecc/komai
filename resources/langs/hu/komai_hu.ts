@@ -7671,7 +7671,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Az alábbi opciók nem érvényesülnek, mert a fiók értesítései fent le vannak tiltva.</translation>
     </message>
@@ -10897,12 +10897,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Kinézet &amp; Stílus</translation>
     </message>
@@ -10942,12 +10942,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Alkalmazásprofilok</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Bejelentkezés után elérhető</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Hívások</translation>
     </message>
@@ -10963,8 +10963,8 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Vissza</translation>
     </message>

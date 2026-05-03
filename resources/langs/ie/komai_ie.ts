@@ -7680,7 +7680,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Li optiones sub ne ha effect proque li notificationes de conto es disactivat al dessupra.</translation>
     </message>
@@ -10913,12 +10913,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Parametres</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Aparentie &amp; Sensation</translation>
     </message>
@@ -10958,12 +10958,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Profiles de Application</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Disponibil pos connexion</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Appellas</translation>
     </message>
@@ -10979,8 +10979,8 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Retro</translation>
     </message>

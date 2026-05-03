@@ -7671,7 +7671,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Hesap bildirimleri yukarıda devre dışı bırakıldığından aşağıdaki seçeneklerin etkisi yoktur.</translation>
     </message>
@@ -10897,12 +10897,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Görünüm &amp; His</translation>
     </message>
@@ -10942,12 +10942,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Uygulama Profilleri</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Giriş yaptıktan sonra kullanılabilir</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Aramalar</translation>
     </message>
@@ -10963,8 +10963,8 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Geri</translation>
     </message>

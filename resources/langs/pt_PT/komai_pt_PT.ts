@@ -7680,7 +7680,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>As opções abaixo não têm efeito porque as notificações de conta estão desativadas acima.</translation>
     </message>
@@ -10913,12 +10913,12 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Definições</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Aparência</translation>
     </message>
@@ -10958,12 +10958,12 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Perfis da Aplicação</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Disponível após início de sessão</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Chamadas</translation>
     </message>
@@ -10979,8 +10979,8 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>

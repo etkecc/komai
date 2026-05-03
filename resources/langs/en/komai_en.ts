@@ -7649,7 +7649,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation type="unfinished"/>
     </message>
@@ -10876,12 +10876,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation type="unfinished">Settings</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation type="unfinished"/>
     </message>
@@ -10921,12 +10921,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation type="unfinished"/>
     </message>
@@ -10942,8 +10942,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Back</translation>
     </message>

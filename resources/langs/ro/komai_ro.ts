@@ -7689,7 +7689,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+157"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opțiunile de mai jos nu au efect deoarece notificările contului sunt dezactivate mai sus.</translation>
     </message>
@@ -10929,12 +10929,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
         <source>Settings</source>
         <translation>Setări</translation>
     </message>
     <message>
-        <location line="-236"/>
+        <location line="-253"/>
         <source>Look &amp; Feel</source>
         <translation>Aspect &amp; Stil</translation>
     </message>
@@ -10974,12 +10974,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Profiluri aplicație</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+201"/>
         <source>Available after login</source>
         <translation>Disponibil după autentificare</translation>
     </message>
     <message>
-        <location line="-188"/>
+        <location line="-205"/>
         <source>Calls</source>
         <translation>Apeluri</translation>
     </message>
@@ -10995,8 +10995,8 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="-17"/>
-        <location line="+79"/>
-        <location line="+13"/>
+        <location line="+86"/>
+        <location line="+15"/>
         <source>Back</source>
         <translation>Înapoi</translation>
     </message>

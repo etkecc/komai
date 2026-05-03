@@ -19,6 +19,7 @@ ComboBox {
     readonly property int minimumTextWidth: Math.max(72,
                                                      Math.round(comboFontMetrics.averageCharacterWidth * 9))
     readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
+    readonly property bool rtlLayout: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
 
     font.pointSize: Settings.uiFontSizePt
     implicitWidth: Math.max(minimumTextWidth + leftPadding + rightPadding,
@@ -26,8 +27,8 @@ ComboBox {
     implicitHeight: controlHeight
     wheelEnabled: activeFocus
     implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-    leftPadding: Komai.paddingMedium + 2
-    rightPadding: indicator.implicitWidth + Komai.paddingMedium * 2 + 2
+    leftPadding: rtlLayout ? indicator.implicitWidth + Komai.paddingMedium * 2 + 2 : Komai.paddingMedium + 2
+    rightPadding: rtlLayout ? Komai.paddingMedium + 2 : indicator.implicitWidth + Komai.paddingMedium * 2 + 2
     topPadding: Math.max(2, Komai.paddingSmall + 2)
     bottomPadding: Math.max(2, Komai.paddingSmall + 2)
 
@@ -60,7 +61,7 @@ ComboBox {
     }
 
     indicator: Image {
-        x: control.width - width - Komai.paddingMedium
+        x: control.rtlLayout ? Komai.paddingMedium : control.width - width - Komai.paddingMedium
         y: Math.round((control.height - height) / 2)
         source: "image://colorimage/:/icons/icons/ui/expanded.svg?" + (control.enabled
             ? control.palette.text

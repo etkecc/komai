@@ -20,14 +20,15 @@ SpinBox {
                                                       Math.round(spinFontMetrics.averageCharacterWidth * 9))
     readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
     readonly property int outerBorderWidth: activeFocus ? 2 : 1
+    readonly property bool rtlLayout: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
 
     font.pointSize: Settings.uiFontSizePt
     wheelEnabled: activeFocus
     editable: true
     implicitWidth: leftPadding + rightPadding + minimumFieldWidth
     implicitHeight: controlHeight
-    leftPadding: Komai.paddingMedium
-    rightPadding: indicatorWidth * 2 + Komai.paddingMedium
+    leftPadding: rtlLayout ? indicatorWidth * 2 + Komai.paddingMedium : Komai.paddingMedium
+    rightPadding: rtlLayout ? Komai.paddingMedium : indicatorWidth * 2 + Komai.paddingMedium
     topPadding: 0
     bottomPadding: 0
 
@@ -60,7 +61,9 @@ SpinBox {
     }
 
     up.indicator: Rectangle {
-        x: control.width - control.outerBorderWidth - width
+        x: control.rtlLayout
+            ? control.outerBorderWidth
+            : control.width - control.outerBorderWidth - width
         y: control.outerBorderWidth
         implicitWidth: control.indicatorWidth
         implicitHeight: Math.max(1, control.height - control.outerBorderWidth * 2)
@@ -77,7 +80,8 @@ SpinBox {
         }
 
         Rectangle {
-            anchors.left: parent.left
+            anchors.left: control.rtlLayout ? undefined : parent.left
+            anchors.right: control.rtlLayout ? parent.right : undefined
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: 1
@@ -91,7 +95,9 @@ SpinBox {
     }
 
     down.indicator: Rectangle {
-        x: control.width - control.outerBorderWidth - control.up.indicator.width - width
+        x: control.rtlLayout
+            ? control.outerBorderWidth + control.up.indicator.width
+            : control.width - control.outerBorderWidth - control.up.indicator.width - width
         y: control.outerBorderWidth
         implicitWidth: control.indicatorWidth
         implicitHeight: Math.max(1, control.height - control.outerBorderWidth * 2)
@@ -108,7 +114,8 @@ SpinBox {
         }
 
         Rectangle {
-            anchors.left: parent.left
+            anchors.left: control.rtlLayout ? undefined : parent.left
+            anchors.right: control.rtlLayout ? parent.right : undefined
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: 1

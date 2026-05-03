@@ -3,6 +3,21 @@
     // LookFeelAppearanceSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Appearance"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // Language
+    // Description shares the same source string as Font size so canonicalisation
+    // collapses both to a single translation per language. Drifting them apart
+    // means the AI translates the shared "may only update after restart" warning
+    // two different ways in the same language.
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "Language"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Most UI elements update live. "
+                                             "Some labels may only update after restarting the app."),
+      SM::SearchableOptions, SM::TabLookFeel,
+      lookFeelLanguageValue,
+      setLookFeelLanguageValue,
+      {}, {}, {},
+      lookFeelLanguageValues,
+      nullptr,
+      CORE_CONFIG_ID(UiLanguage, SettingKey::UiLanguage) },
     // Theme
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Theme"),
       QT_TRANSLATE_NOOP("UserSettingsModel",
@@ -25,21 +40,6 @@
       nullptr,
       UiLayoutDensity,
       SettingKey::UiLayoutDensity),
-    // Language
-    // Description shares the same source string as Font size so canonicalisation
-    // collapses both to a single translation per language. Drifting them apart
-    // means the AI translates the shared "may only update after restart" warning
-    // two different ways in the same language.
-    { QT_TRANSLATE_NOOP("UserSettingsModel", "Language"),
-      QT_TRANSLATE_NOOP("UserSettingsModel", "Most UI elements update live. "
-                                             "Some labels may only update after restarting the app."),
-      SM::SearchableOptions, SM::TabLookFeel,
-      lookFeelLanguageValue,
-      setLookFeelLanguageValue,
-      {}, {}, {},
-      lookFeelLanguageValues,
-      nullptr,
-      CORE_CONFIG_ID(UiLanguage, SettingKey::UiLanguage) },
     // LookFeelFontsSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Fonts & scaling"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

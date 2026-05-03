@@ -6773,17 +6773,17 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
         <source>New</source>
         <translation>Nieuw</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+161"/>
         <source>Settings...</source>
         <translation>Instellingen…</translation>
     </message>
     <message>
-        <location line="-135"/>
+        <location line="-162"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Open een nieuw tabblad [Ctrl+T]</translation>
     </message>
@@ -6796,7 +6796,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Nieuw tabblad</translation>
     </message>
     <message>
-        <location line="+250"/>
+        <location line="+249"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
         <translation>Tabblad losmaken</translation>

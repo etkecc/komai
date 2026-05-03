@@ -6764,17 +6764,17 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+161"/>
         <source>Settings...</source>
         <translation>设置...</translation>
     </message>
     <message>
-        <location line="-135"/>
+        <location line="-162"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>打开新标签页 [Ctrl+T]</translation>
     </message>
@@ -6787,7 +6787,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>新标签页</translation>
     </message>
     <message>
-        <location line="+250"/>
+        <location line="+249"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
         <translation>取消固定标签页</translation>

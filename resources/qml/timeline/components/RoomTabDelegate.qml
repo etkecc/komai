@@ -291,8 +291,7 @@ Rectangle {
             if (delta === 0)
                 return;
             var lv = tabDelegate.parentListView;
-            var maxX = Math.max(0, lv.contentWidth - lv.width);
-            lv.contentX = Math.max(0, Math.min(maxX, lv.contentX - delta));
+            lv.scrollBy(-delta);
             wheel.accepted = true;
         }
 

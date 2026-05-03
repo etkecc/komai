@@ -130,6 +130,18 @@ Rectangle {
             interactive: false
             model: tabController.tabs
 
+            readonly property bool rightToLeft: effectiveLayoutDirection === Qt.RightToLeft
+            readonly property real minContentX: originX
+            readonly property real maxContentX: Math.max(minContentX, originX + contentWidth - width)
+
+            function clampedContentX(x) {
+                return Math.max(minContentX, Math.min(maxContentX, x));
+            }
+
+            function scrollBy(delta) {
+                contentX = clampedContentX(contentX + delta);
+            }
+
             delegate: RoomTabDelegate {
                 tabController: tabBar.tabController
                 parentListView: tabListView
@@ -168,7 +180,7 @@ Rectangle {
 
     // Left edge fade (visible when tabs are scrolled past the start).
     Rectangle {
-        visible: tabListView.contentX > 1
+        visible: tabListView.contentX > tabListView.minContentX + 1
         x: tabListView.x
         y: tabListView.y
         width: 40
@@ -185,7 +197,7 @@ Rectangle {
 
     // Right edge fade (visible when tabs extend past the visible area).
     Rectangle {
-        visible: tabListView.contentX + tabListView.width < tabListView.contentWidth - 1
+        visible: tabListView.contentX < tabListView.maxContentX - 1
         x: tabListView.x + tabListView.width - 40
         y: tabListView.y
         width: 40
@@ -207,39 +219,66 @@ Rectangle {
         var idx = tabController.findTab(Rooms.currentRoomId);
         if (idx === -1)
             return;
-        // Accumulate actual delegate widths to find the tab's position,
-        // since avatar-only pinned tabs are narrower than effectiveTabWidth.
-        var tw = effectiveTabWidth;
-        var tabLeft = 0;
-        for (var i = 0; i < idx; i++) {
-            var item = tabListView.itemAtIndex(i);
-            tabLeft += item ? item.width : tw;
+
+        var precedingWidth = 0;
+        var estimatedContentWidth = 0;
+        var activeWidth = 0;
+        for (var i = 0; i < tabController.tabs.count; i++) {
+            var width = _tabWidthAtIndex(i);
+            if (i < idx)
+                precedingWidth += width;
+            if (i === idx)
+                activeWidth = width;
+            estimatedContentWidth += width;
         }
-        var activeItem = tabListView.itemAtIndex(idx);
-        var tabRight = tabLeft + (activeItem ? activeItem.width : tw);
+
+        var contentWidth = Math.max(tabListView.contentWidth, estimatedContentWidth);
+        var estimatedOriginX = tabListView.originX;
+        if (tabListView.rightToLeft)
+            estimatedOriginX -= Math.max(0, estimatedContentWidth - tabListView.contentWidth);
+
+        var tabLeft;
+        var tabRight;
+        if (tabListView.rightToLeft) {
+            tabRight = estimatedOriginX + contentWidth - precedingWidth;
+            tabLeft = tabRight - activeWidth;
+        } else {
+            tabLeft = estimatedOriginX + precedingWidth;
+            tabRight = tabLeft + activeWidth;
+        }
+
         var viewLeft = tabListView.contentX;
         var viewRight = viewLeft + tabListView.width;
         if (tabLeft >= viewLeft && tabRight <= viewRight)
             return; // already fully visible
-        // Use the larger of actual and estimated content width so that a
-        // just-appended tab (not yet laid out) can still be scrolled to.
-        var estimatedContentWidth = tabRight;
-        for (var j = idx + 1; j < tabController.tabs.count; j++) {
-            var jItem = tabListView.itemAtIndex(j);
-            estimatedContentWidth += jItem ? jItem.width : tw;
-        }
-        var maxScroll = Math.max(0,
-            Math.max(tabListView.contentWidth, estimatedContentWidth) - tabListView.width);
-        if (maxScroll <= 0)
+
+        var minScroll = estimatedOriginX;
+        var maxScroll = Math.max(minScroll, estimatedOriginX + contentWidth - tabListView.width);
+        if (maxScroll <= minScroll)
             return;
         var target;
         if (tabLeft < viewLeft)
             target = tabLeft;
         else
             target = tabRight - tabListView.width;
-        target = Math.max(0, Math.min(target, maxScroll));
+        target = Math.max(minScroll, Math.min(target, maxScroll));
         scrollAnimation.to = target;
         scrollAnimation.restart();
+    }
+
+    function _tabWidthAtIndex(index) {
+        var item = tabListView.itemAtIndex(index);
+        if (item)
+            return item.width;
+
+        var tab = tabController.tabs.get(index);
+        var isAvatarOnly = !!tab.roomId
+            && (tab.pinned
+                ? Settings.navigationTabsPinnedTabLabel === Settings.TabLabelDisplay.AvatarOnly
+                : Settings.navigationTabsTabLabel === Settings.TabLabelDisplay.AvatarOnly);
+        if (isAvatarOnly)
+            return tab.pinned ? _avatarOnlyPinnedWidth : _avatarOnlyUnpinnedWidth;
+        return effectiveTabWidth;
     }
 
     NumberAnimation {

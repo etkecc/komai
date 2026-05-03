@@ -6773,7 +6773,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+158"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+170"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Отвори нов раздел [Ctrl+T]</translation>
     </message>
@@ -6783,7 +6783,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Нов</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+161"/>
         <source>Settings...</source>
         <translation>Настройки…</translation>
     </message>
@@ -6796,7 +6796,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Нов раздел</translation>
     </message>
     <message>
-        <location line="+250"/>
+        <location line="+249"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
         <translation>Откачи раздела</translation>

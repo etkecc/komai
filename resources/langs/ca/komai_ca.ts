@@ -6773,17 +6773,17 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
         <source>New</source>
         <translation>Nou</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+161"/>
         <source>Settings...</source>
         <translation>Configuració…</translation>
     </message>
     <message>
-        <location line="-135"/>
+        <location line="-162"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Obre una pestanya nova [Ctrl+T]</translation>
     </message>
@@ -6796,7 +6796,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Pestanya nova</translation>
     </message>
     <message>
-        <location line="+250"/>
+        <location line="+249"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
         <translation>Desfixa la pestanya</translation>

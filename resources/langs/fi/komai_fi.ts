@@ -6773,17 +6773,17 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
         <source>New</source>
         <translation>Uusi</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+161"/>
         <source>Settings...</source>
         <translation>Asetukset…</translation>
     </message>
     <message>
-        <location line="-135"/>
+        <location line="-162"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Avaa uusi välilehti [Ctrl+T]</translation>
     </message>
@@ -6796,7 +6796,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Uusi välilehti</translation>
     </message>
     <message>
-        <location line="+250"/>
+        <location line="+249"/>
         <location line="+90"/>
         <source>Unpin Tab</source>
         <translation>Irrota välilehti</translation>

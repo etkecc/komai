@@ -43,8 +43,8 @@ TextMessage {
         id: stateEventIcon
 
         visible: root.isStateEvent
-        anchors.left: root.stateEventIconOnRight ? undefined : root.left
-        anchors.right: root.stateEventIconOnRight ? root.right : undefined
+        LayoutMirroring.enabled: false
+        x: root.stateEventIconOnRight ? Math.max(0, root.width - width) : 0
         y: Math.round((stateEventFontMetrics.lineSpacing - height) / 2)
         height: root.stateEventIconSize
         width: root.stateEventIconSize

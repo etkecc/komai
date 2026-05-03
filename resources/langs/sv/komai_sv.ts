@@ -6773,17 +6773,17 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
         <source>New</source>
         <translation>Ny</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+166"/>
         <source>Settings...</source>
         <translation>Inställningar...</translation>
     </message>
     <message>
-        <location line="-162"/>
+        <location line="-167"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Öppna en ny flik [Ctrl+T]</translation>
     </message>
@@ -6791,24 +6791,24 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomTabDelegate</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
+        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+86"/>
         <source>New Tab</source>
         <translation>Ny flik</translation>
     </message>
     <message>
-        <location line="+249"/>
-        <location line="+90"/>
+        <location line="+252"/>
+        <location line="+105"/>
         <source>Unpin Tab</source>
         <translation>Avfäst flik</translation>
     </message>
     <message>
-        <location line="-90"/>
-        <location line="+90"/>
+        <location line="-105"/>
+        <location line="+105"/>
         <source>Pin Tab</source>
         <translation>Fäst flik</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-84"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Stäng flik [Ctrl+W]</translation>
     </message>
@@ -6818,22 +6818,27 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Stäng flik</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Other Tabs</source>
         <translation>Stäng andra flikar</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Tabs to the Right</source>
         <translation>Stäng flikar till höger</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+0"/>
+        <source>Close Tabs to the Left</source>
+        <translation>Stäng flikar till vänster</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Close Unpinned Tabs</source>
         <translation>Stäng ej fästa flikar</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+39"/>
         <source>Close %1</source>
         <translation>Stäng %1</translation>
     </message>

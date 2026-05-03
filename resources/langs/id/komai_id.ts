@@ -6764,17 +6764,17 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
         <source>New</source>
         <translation>Baru</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+166"/>
         <source>Settings...</source>
         <translation>Pengaturan…</translation>
     </message>
     <message>
-        <location line="-162"/>
+        <location line="-167"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Buka tab baru [Ctrl+T]</translation>
     </message>
@@ -6782,24 +6782,24 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
 <context>
     <name>RoomTabDelegate</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
+        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+86"/>
         <source>New Tab</source>
         <translation>Tab Baru</translation>
     </message>
     <message>
-        <location line="+249"/>
-        <location line="+90"/>
+        <location line="+252"/>
+        <location line="+105"/>
         <source>Unpin Tab</source>
         <translation>Lepas Sematan Tab</translation>
     </message>
     <message>
-        <location line="-90"/>
-        <location line="+90"/>
+        <location line="-105"/>
+        <location line="+105"/>
         <source>Pin Tab</source>
         <translation>Sematkan Tab</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-84"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Tutup Tab [Ctrl+W]</translation>
     </message>
@@ -6809,22 +6809,27 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Tutup Tab</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Other Tabs</source>
         <translation>Tutup Tab Lainnya</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Tabs to the Right</source>
         <translation>Tutup Tab di Sebelah Kanan</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+0"/>
+        <source>Close Tabs to the Left</source>
+        <translation>Tutup Tab di Sebelah Kiri</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Close Unpinned Tabs</source>
         <translation>Tutup Tab yang Tidak Disematkan</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+39"/>
         <source>Close %1</source>
         <translation>Tutup %1</translation>
     </message>

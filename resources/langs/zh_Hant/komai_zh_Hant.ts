@@ -6764,17 +6764,17 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
         <source>New</source>
         <translation>新增</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+166"/>
         <source>Settings...</source>
         <translation>設定...</translation>
     </message>
     <message>
-        <location line="-162"/>
+        <location line="-167"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>開啟新分頁 [Ctrl+T]</translation>
     </message>
@@ -6782,24 +6782,24 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabDelegate</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
+        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+86"/>
         <source>New Tab</source>
         <translation>新增分頁</translation>
     </message>
     <message>
-        <location line="+249"/>
-        <location line="+90"/>
+        <location line="+252"/>
+        <location line="+105"/>
         <source>Unpin Tab</source>
         <translation>取消釘選分頁</translation>
     </message>
     <message>
-        <location line="-90"/>
-        <location line="+90"/>
+        <location line="-105"/>
+        <location line="+105"/>
         <source>Pin Tab</source>
         <translation>釘選分頁</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-84"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>關閉分頁 [Ctrl+W]</translation>
     </message>
@@ -6809,22 +6809,27 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>關閉分頁</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Other Tabs</source>
         <translation>關閉其他分頁</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Tabs to the Right</source>
         <translation>關閉右側分頁</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+0"/>
+        <source>Close Tabs to the Left</source>
+        <translation>關閉左側頁籤</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Close Unpinned Tabs</source>
         <translation>關閉未釘選的分頁</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+39"/>
         <source>Close %1</source>
         <translation>關閉 %1</translation>
     </message>

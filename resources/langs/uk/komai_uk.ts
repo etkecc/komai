@@ -6782,17 +6782,17 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
         <source>New</source>
         <translation>Новий</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+166"/>
         <source>Settings...</source>
         <translation>Налаштування...</translation>
     </message>
     <message>
-        <location line="-162"/>
+        <location line="-167"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Відкрити нову вкладку [Ctrl+T]</translation>
     </message>
@@ -6800,24 +6800,24 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabDelegate</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
+        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+86"/>
         <source>New Tab</source>
         <translation>Нова вкладка</translation>
     </message>
     <message>
-        <location line="+249"/>
-        <location line="+90"/>
+        <location line="+252"/>
+        <location line="+105"/>
         <source>Unpin Tab</source>
         <translation>Відкріпити вкладку</translation>
     </message>
     <message>
-        <location line="-90"/>
-        <location line="+90"/>
+        <location line="-105"/>
+        <location line="+105"/>
         <source>Pin Tab</source>
         <translation>Закріпити вкладку</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-84"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Закрити вкладку [Ctrl+W]</translation>
     </message>
@@ -6827,22 +6827,27 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Закрити вкладку</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Other Tabs</source>
         <translation>Закрити інші вкладки</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Tabs to the Right</source>
         <translation>Закрити вкладки праворуч</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+0"/>
+        <source>Close Tabs to the Left</source>
+        <translation>Закрити вкладки зліва</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Close Unpinned Tabs</source>
         <translation>Закрити незакріплені вкладки</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+39"/>
         <source>Close %1</source>
         <translation>Закрити %1</translation>
     </message>

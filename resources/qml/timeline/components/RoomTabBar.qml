@@ -13,6 +13,7 @@ Rectangle {
 
     required property var tabController
 
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     readonly property int preferredTabWidth: Settings.navigationTabsPreferredWidthPx
     readonly property int minimumTabWidth: Settings.navigationTabsMinimumWidthPx
 
@@ -317,7 +318,9 @@ Rectangle {
     // Right-click on empty tab bar space shows settings shortcut.
     TapHandler {
         acceptedButtons: Qt.RightButton
-        onTapped: tabBarSettingsMenu.popup()
+        onTapped: function(eventPoint) {
+            tabBar._openSettingsMenu(eventPoint.position.x, eventPoint.position.y);
+        }
     }
 
     Menu {
@@ -325,10 +328,13 @@ Rectangle {
 
         Component.onCompleted: {
             if (tabBarSettingsMenu.popupType != undefined)
-                tabBarSettingsMenu.popupType = 2;
+                tabBarSettingsMenu.popupType = tabBar.mirrored ? 0 : 2;
         }
 
         MenuItem {
+            LayoutMirroring.enabled: tabBar.mirrored
+            LayoutMirroring.childrenInherit: true
+
             text: qsTr("Settings...") // Keep short: Qt may clip/elide longer menu item text
             icon.source: "qrc:/icons/icons/ui/settings.svg"
 
@@ -336,5 +342,12 @@ Rectangle {
                 UserSettingsModel.TabNavigation,
                 "navigation-tab-bar-section")
         }
+    }
+
+    function _openSettingsMenu(localX, localY) {
+        var popupX = tabBar.mirrored
+            ? localX - tabBarSettingsMenu.implicitWidth
+            : localX;
+        tabBarSettingsMenu.popup(tabBar, popupX, localY);
     }
 }

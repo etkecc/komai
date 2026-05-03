@@ -6773,17 +6773,17 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
         <source>New</source>
         <translation>Nieuw</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+166"/>
         <source>Settings...</source>
         <translation>Instellingen…</translation>
     </message>
     <message>
-        <location line="-162"/>
+        <location line="-167"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Open een nieuw tabblad [Ctrl+T]</translation>
     </message>
@@ -6791,24 +6791,24 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomTabDelegate</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
+        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+86"/>
         <source>New Tab</source>
         <translation>Nieuw tabblad</translation>
     </message>
     <message>
-        <location line="+249"/>
-        <location line="+90"/>
+        <location line="+252"/>
+        <location line="+105"/>
         <source>Unpin Tab</source>
         <translation>Tabblad losmaken</translation>
     </message>
     <message>
-        <location line="-90"/>
-        <location line="+90"/>
+        <location line="-105"/>
+        <location line="+105"/>
         <source>Pin Tab</source>
         <translation>Tabblad vastzetten</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-84"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Tabblad sluiten [Ctrl+W]</translation>
     </message>
@@ -6818,22 +6818,27 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Tabblad sluiten</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Other Tabs</source>
         <translation>Andere tabbladen sluiten</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Tabs to the Right</source>
         <translation>Tabbladen rechts sluiten</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+0"/>
+        <source>Close Tabs to the Left</source>
+        <translation>Tabbladen links sluiten</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Close Unpinned Tabs</source>
         <translation>Niet-vastgezette tabbladen sluiten</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+39"/>
         <source>Close %1</source>
         <translation>%1 sluiten</translation>
     </message>

@@ -6773,17 +6773,17 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+171"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+172"/>
         <source>New</source>
         <translation>പുതിയത്</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+166"/>
         <source>Settings...</source>
         <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
     <message>
-        <location line="-162"/>
+        <location line="-167"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>ഒരു പുതിയ ടാബ് തുറക്കുക [Ctrl+T]</translation>
     </message>
@@ -6791,24 +6791,24 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabDelegate</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
+        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+86"/>
         <source>New Tab</source>
         <translation>പുതിയ ടാബ്</translation>
     </message>
     <message>
-        <location line="+249"/>
-        <location line="+90"/>
+        <location line="+252"/>
+        <location line="+105"/>
         <source>Unpin Tab</source>
         <translation>ടാബ് അൺപിൻ ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="-90"/>
-        <location line="+90"/>
+        <location line="-105"/>
+        <location line="+105"/>
         <source>Pin Tab</source>
         <translation>ടാബ് പിൻ ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-84"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>ടാബ് അടയ്ക്കുക [Ctrl+W]</translation>
     </message>
@@ -6818,22 +6818,27 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>ടാബ് അടയ്ക്കുക</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Other Tabs</source>
         <translation>മറ്റ് ടാബുകൾ അടയ്ക്കുക</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Close Tabs to the Right</source>
         <translation>വലതുഭാഗത്തുള്ള ടാബുകൾ അടയ്ക്കുക</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+0"/>
+        <source>Close Tabs to the Left</source>
+        <translation>ഇടത്തുള്ള ടാബുകൾ അടയ്ക്കുക</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Close Unpinned Tabs</source>
         <translation>പിൻ ചെയ്യാത്ത ടാബുകൾ അടയ്ക്കുക</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+39"/>
         <source>Close %1</source>
         <translation>%1 അടയ്ക്കുക</translation>
     </message>

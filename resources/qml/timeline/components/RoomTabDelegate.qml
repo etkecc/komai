@@ -25,6 +25,7 @@ Rectangle {
 
     readonly property bool isEmptyTab: !roomId
     readonly property bool isActive: isEmptyTab ? !Rooms.currentRoomId : roomId === Rooms.currentRoomId
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
 
     // Shake animation (triggered when controller bumps shakeEmptyTabRevision).
     Connections {
@@ -301,7 +302,7 @@ Rectangle {
                 return;
             }
             if (mouse.button === Qt.RightButton) {
-                _openContextMenu();
+                _openContextMenu(mouse.x, mouse.y);
                 return;
             }
             if (mouse.button === Qt.MiddleButton) {
@@ -323,7 +324,7 @@ Rectangle {
 
         Component.onCompleted: {
             if (tabContextMenu.popupType != undefined)
-                tabContextMenu.popupType = 2;
+                tabContextMenu.popupType = tabDelegate.mirrored ? 0 : 2;
         }
     }
 
@@ -331,6 +332,9 @@ Rectangle {
         id: menuItemPinToggle
 
         MenuItem {
+            LayoutMirroring.enabled: tabDelegate.mirrored
+            LayoutMirroring.childrenInherit: true
+
             text: tabDelegate.pinned ? qsTr("Unpin Tab") : qsTr("Pin Tab")
             icon.source: tabDelegate.pinned
                 ? "qrc:/icons/icons/ui/pin-off.svg"
@@ -349,6 +353,9 @@ Rectangle {
         id: menuItemCloseTab
 
         MenuItem {
+            LayoutMirroring.enabled: tabDelegate.mirrored
+            LayoutMirroring.childrenInherit: true
+
             text: tabDelegate.isActive ? qsTr("Close Tab [Ctrl+W]") : qsTr("Close Tab")
 
             onTriggered: tabController.closeTab(tabDelegate.roomId)
@@ -359,6 +366,9 @@ Rectangle {
         id: menuItemCloseOther
 
         MenuItem {
+            LayoutMirroring.enabled: tabDelegate.mirrored
+            LayoutMirroring.childrenInherit: true
+
             text: qsTr("Close Other Tabs")
 
             onTriggered: tabController.closeOtherTabs(tabDelegate.roomId)
@@ -369,7 +379,10 @@ Rectangle {
         id: menuItemCloseRight
 
         MenuItem {
-            text: qsTr("Close Tabs to the Right")
+            LayoutMirroring.enabled: tabDelegate.mirrored
+            LayoutMirroring.childrenInherit: true
+
+            text: tabDelegate.mirrored ? qsTr("Close Tabs to the Left") : qsTr("Close Tabs to the Right")
 
             onTriggered: tabController.closeTabsToTheRight(tabDelegate.roomId)
         }
@@ -379,6 +392,9 @@ Rectangle {
         id: menuItemCloseUnpinned
 
         MenuItem {
+            LayoutMirroring.enabled: tabDelegate.mirrored
+            LayoutMirroring.childrenInherit: true
+
             text: qsTr("Close Unpinned Tabs")
 
             onTriggered: tabController.closeUnpinnedTabs()
@@ -391,7 +407,7 @@ Rectangle {
         MenuSeparator {}
     }
 
-    function _openContextMenu() {
+    function _openContextMenu(localX, localY) {
         // Clear previous items.
         while (tabContextMenu.count > 0)
             tabContextMenu.takeItem(0).destroy();
@@ -408,7 +424,10 @@ Rectangle {
             tabContextMenu.addItem(menuItemCloseUnpinned.createObject(null));
         tabContextMenu.addItem(menuItemCloseTab.createObject(null));
 
-        tabContextMenu.popup();
+        var popupX = tabDelegate.mirrored
+            ? localX - tabContextMenu.implicitWidth
+            : localX;
+        tabContextMenu.popup(tabDelegate, popupX, localY);
     }
 
     KomaiToolTip {

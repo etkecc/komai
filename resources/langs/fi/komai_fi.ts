@@ -10100,7 +10100,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Ulkoasu</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Vaikuttaa välistykseen, kuvakkeiden kokoihin ja luettelorivien korkeuteen.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Kieli</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Kirjainperhe</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Kirjasinkoko</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Useimmat käyttöliittymäelementit päivittyvät reaaliajassa. Jotkin otsikot saattavat päivittyä vasta sovelluksen uudelleenkäynnistyksen jälkeen.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Skaalaustekijä [uudelleenkäynnistys vaaditaan]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Toiminta</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Ota käyttöliittymäanimaatiot käyttöön</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Hallinnoi, milloin vierityspalkit näytetään sovelluksessa.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatarit</translation>
     </message>

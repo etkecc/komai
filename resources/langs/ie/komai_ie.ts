@@ -10100,7 +10100,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Aparentie</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Affecte li spatiation, grandores de icones, e altores de rangas del lista.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Lingue</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Familie de fonte</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Grandore de fonte</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Li maxim parte de elements UI actualisa-se live. Cert etiquettes posse solmen actualisa-se pos restartar li aplicatione.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Factor de escala [restart requirit]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Comportament</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Activar animationes de UI</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Controla quande li barres de rolament es monstrat in li application.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatares</translation>
     </message>

@@ -10100,7 +10100,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Aspetto</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Influisce sulla spaziatura, le dimensioni delle icone e le altezze delle righe.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Lingua</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Famiglia di caratteri</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Dimensione carattere</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La maggior parte degli elementi UI si aggiorna in tempo reale. Alcune etichette potrebbero aggiornarsi solo dopo aver riavviato l'app.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Fattore di scala [riavvio richiesto]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Comportamento</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Abilita animazioni UI</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Controlla quando vengono mostrate le barre di scorrimento nell'app.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatar</translation>
     </message>

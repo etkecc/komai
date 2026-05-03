@@ -10084,7 +10084,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>外観</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>テーマ</translation>
     </message>
@@ -10104,12 +10104,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>間隔、アイコンサイズ、リスト行の高さに影響します。</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>フォントファミリー</translation>
     </message>
@@ -10119,8 +10119,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>フォントサイズ</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>ほとんどのUI要素はリアルタイムで更新されます。一部のラベルはアプリを再起動した後にのみ更新される場合があります。</translation>
     </message>
@@ -10140,12 +10140,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>拡大率 [再起動が必要]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>動作</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>UIアニメーションを有効にする</translation>
     </message>
@@ -10160,7 +10155,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>アプリ全体でスクロールバーを表示するタイミングを制御します。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>アバター</translation>
     </message>

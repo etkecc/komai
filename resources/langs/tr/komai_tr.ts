@@ -10084,7 +10084,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Görünüm</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10104,12 +10104,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Boşlukları, simge boyutlarını ve liste satırı yüksekliklerini etkiler.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Dil</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Yazı tipi ailesi</translation>
     </message>
@@ -10119,8 +10119,8 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yazı tipi boyutu</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Çoğu arayüz öğesi anlık güncellenir. Bazı etiketler yalnızca uygulama yeniden başlatıldıktan sonra güncellenebilir.</translation>
     </message>
@@ -10140,12 +10140,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Ölçek faktörü [yeniden başlatma gerekli]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Davranış</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Arayüz animasyonlarını etkinleştir</translation>
     </message>
@@ -10160,7 +10155,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Uygulamada kaydırma çubuklarının ne zaman gösterileceğini denetler.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatarlar</translation>
     </message>

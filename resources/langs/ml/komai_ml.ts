@@ -10100,7 +10100,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>രൂപഭംഗി</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>തീം</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അകലം, ഐക്കൺ വലുപ്പം, ലിസ്റ്റ് വരി ഉയരം എന്നിവ ബാധിക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>ഭാഷ</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>ഫോണ്ട് ഫാമിലി</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഫോണ്ട് വലുപ്പം</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം അപ്ഡേറ്റ് ആകും. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനുശേഷം മാത്രമേ അപ്ഡേറ്റ് ആകൂ.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>സ്കെയിൽ ഫാക്ടർ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>സ്വഭാവം</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>UI ആനിമേഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ആപ്പ് മുഴുവൻ സ്ക്രോൾബാറുകൾ എപ്പോൾ കാണിക്കണമെന്ന് നിയന്ത്രിക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>അവതാറുകൾ</translation>
     </message>

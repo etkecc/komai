@@ -10100,7 +10100,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Aparência</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Afeta o espaçamento, os tamanhos dos ícones e as alturas das linhas da lista.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Família de fontes</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Tamanho da fonte</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>A maioria dos elementos da interface atualiza em tempo real. Alguns rótulos podem ser atualizados apenas após reiniciar o aplicativo.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Fator de escala [reinicialização necessária]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Comportamento</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Habilitar animações de interface</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Controla quando as barras de rolagem são exibidas no aplicativo.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatares</translation>
     </message>

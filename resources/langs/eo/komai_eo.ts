@@ -10103,7 +10103,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Aspekto</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Temo</translation>
     </message>
@@ -10123,12 +10123,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Influas interspacojn, grandecojn de piktogramoj kaj altecojn de listaj vicoj.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Lingvo</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Tipara familio</translation>
     </message>
@@ -10138,8 +10138,8 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Tipara grandeco</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La plej multaj UI-elementoj ĝisdatiĝas tuj. Iuj etikedoj eble ĝisdatiĝas nur post rekomencigo de la apliko.</translation>
     </message>
@@ -10159,12 +10159,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Skala faktoro [relanĉo bezonata]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Konduto</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Ebligi UI-animaciojn</translation>
     </message>
@@ -10179,7 +10174,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Kontrolas kiam rulumilistoj estas montrataj tra la aplikaĵo.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avataroj</translation>
     </message>

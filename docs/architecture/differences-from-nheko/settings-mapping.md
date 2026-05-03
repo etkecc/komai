@@ -29,21 +29,21 @@ Note:
 
 | Tab | Section | Setting | Komai Symbol | nheko Flat Key | Komai YAML Key | Komai Target | Persisted? |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Look & Feel | THEME | Theme | `settings::core::SettingId::UiThemeSlug` | `theme` | `ui.theme.slug` | config.yml | yes |
-| Look & Feel | FONTS | Font family | `settings::core::SettingId::UiFontFamily` | `font_family` | `ui.font.family` | config.yml | yes |
-| Look & Feel | FONTS | Font size | `settings::core::SettingId::UiFontSizePt` | `font_size` | `ui.font.size_pt` | config.yml | yes |
-| Look & Feel | FONTS | Emoji font family | `settings::core::SettingId::UiFontEmojiFamily` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
-| Look & Feel | FONTS | Scale factor | `settings::core::SettingId::UiScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable UI animations | `settings::core::SettingId::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
+| Look & Feel | APPEARANCE | Theme | `settings::core::SettingId::UiThemeSlug` | `theme` | `ui.theme.slug` | config.yml | yes |
+| Look & Feel | FONTS & SCALING | Font family | `settings::core::SettingId::UiFontFamily` | `font_family` | `ui.font.family` | config.yml | yes |
+| Look & Feel | FONTS & SCALING | Font size | `settings::core::SettingId::UiFontSizePt` | `font_size` | `ui.font.size_pt` | config.yml | yes |
+| Look & Feel | FONTS & SCALING | Emoji font family | `settings::core::SettingId::UiFontEmojiFamily` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
+| Look & Feel | FONTS & SCALING | Scale factor | `settings::core::SettingId::UiScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
+| Look & Feel | APPEARANCE | Enable UI animations | `settings::core::SettingId::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
 | Timeline | PRESENTATION | Maximum message width | `settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent` | *(new)* | `timeline.messages.layout.max_width_percent` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `settings::core::SettingId::UiAvatarsCircular` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Look & Feel | AVATARS | Default avatar style | `settings::core::SettingId::UiAvatarsDefaultAvatarStyle` | _(removed)_ | `ui.avatars.default_avatar_style` | config.yml | yes |
-| Look & Feel | LAYOUT | Density | `settings::core::SettingId::UiLayoutDensity` | `compact_room_list` | `ui.layout.density` | config.yml | yes |
+| Look & Feel | APPEARANCE | Density | `settings::core::SettingId::UiLayoutDensity` | `compact_room_list` | `ui.layout.density` | config.yml | yes |
 | Navigation | ROOM LIST | Show last message timestamp | `settings::core::SettingId::NavigationRoomListShowLastMessageTime` | `show_room_list_time` | `navigation.room_list.show_last_message_timestamp` | config.yml | yes |
 | Navigation | ROOM LIST | Show last message preview | `settings::core::SettingId::NavigationRoomListLastMessagePreview` | `show_last_message_preview` | `navigation.room_list.last_message_preview` | config.yml | yes |
 | Navigation | ROOM LIST | Show unread indicators | `settings::core::SettingId::NavigationRoomListShowUnreadIndicators` | `-` | `navigation.room_list.show_unread_indicators` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show unread indicators | `settings::core::SettingId::NavigationCommunitiesShowUnreadIndicators` | `-` | `navigation.communities.show_unread_indicators` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Scrollbar visibility | `settings::core::SettingId::UiScrollbarPolicy` | `scrollbars_in_roomlist` | `ui.scrollbar_policy` | config.yml | yes |
+| Look & Feel | APPEARANCE | Scrollbar visibility | `settings::core::SettingId::UiScrollbarPolicy` | `scrollbars_in_roomlist` | `ui.scrollbar_policy` | config.yml | yes |
 | Navigation | ROOM LIST | Sorting | `settings::core::SettingId::NavigationRoomListSort` | `room_sort_order` | `navigation.room_list.sort` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::NavigationCommunitiesFilterDirectChats` | `-` | `navigation.communities.filters.direct_chats` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Favourites filter | `settings::core::SettingId::NavigationCommunitiesFilterFavourites` | `-` | `navigation.communities.filters.favourites` | config.yml | yes |

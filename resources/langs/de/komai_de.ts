@@ -10100,7 +10100,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Erscheinungsbild</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Design</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Beeinflusst Abstände, Symbolgrößen und Zeilenhöhen in Listen.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Schriftfamilie</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Schriftgröße</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Die meisten UI-Elemente werden live aktualisiert. Einige Beschriftungen werden möglicherweise erst nach einem Neustart der App aktualisiert.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Skalierungsfaktor [Neustart erforderlich]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Verhalten</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>UI-Animationen aktivieren</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Legt fest, wann Scrollbalken in der App angezeigt werden.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatare</translation>
     </message>

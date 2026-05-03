@@ -10100,7 +10100,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Utseende</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Påverkar avstånd, ikonstorlekar och listhöjder.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Språk</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Teckensnittsfamilj</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Teckenstorlek</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>De flesta UI-element uppdateras direkt. Vissa etiketter kan bara uppdateras efter att appen startats om.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Skalfaktor [omstart krävs]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Beteende</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Aktivera UI-animationer</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Styr när rullningslister visas i appen.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatarer</translation>
     </message>

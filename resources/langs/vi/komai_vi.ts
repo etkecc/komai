@@ -10084,7 +10084,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Giao diện</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Chủ đề</translation>
     </message>
@@ -10104,12 +10104,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Ảnh hưởng đến khoảng cách, kích thước biểu tượng và chiều cao hàng danh sách.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Ngôn ngữ</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Họ phông chữ</translation>
     </message>
@@ -10119,8 +10119,8 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Cỡ chữ</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Hầu hết các thành phần giao diện cập nhật trực tiếp. Một số nhãn có thể chỉ cập nhật sau khi khởi động lại ứng dụng.</translation>
     </message>
@@ -10140,12 +10140,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hệ số tỷ lệ [cần khởi động lại]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Hành vi</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Bật hoạt ảnh giao diện</translation>
     </message>
@@ -10160,7 +10155,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Kiểm soát thời điểm hiển thị thanh cuộn trong toàn ứng dụng.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Ảnh đại diện</translation>
     </message>

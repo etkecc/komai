@@ -10100,7 +10100,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Weergave</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Thema</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Beïnvloedt de afstand, pictogramgrootten en rijhoogten in lijsten.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Taal</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Lettertypefamilie</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Lettergrootte</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>De meeste UI-elementen worden live bijgewerkt. Sommige labels worden mogelijk pas bijgewerkt na het herstarten van de app.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Schaalfactor [herstart vereist]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Gedrag</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>UI-animaties inschakelen</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Bepaalt wanneer schuifbalken in de app worden weergegeven.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>

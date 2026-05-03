@@ -10103,7 +10103,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Apariencia</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10123,12 +10123,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Afecta al espaciado, tamaños de iconos y alturas de filas de lista.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Familia de fuente</translation>
     </message>
@@ -10138,8 +10138,8 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Tamaño de fuente</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La mayoría de los elementos de la interfaz se actualizan en tiempo real. Algunas etiquetas solo pueden actualizarse al reiniciar la aplicación.</translation>
     </message>
@@ -10159,12 +10159,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Factor de escala [se requiere reinicio]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Comportamiento</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Activar animaciones de la interfaz</translation>
     </message>
@@ -10179,7 +10174,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Controla cuándo se muestran las barras de desplazamiento en la aplicación.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatares</translation>
     </message>

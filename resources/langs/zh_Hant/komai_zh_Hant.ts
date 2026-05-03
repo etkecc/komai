@@ -10084,7 +10084,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>外觀</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>主題</translation>
     </message>
@@ -10104,12 +10104,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>影響間距、圖示大小及清單列高度。</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>語言</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>字型系列</translation>
     </message>
@@ -10119,8 +10119,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>字型大小</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>大多數 UI 元素會即時更新。部分標籤可能需要重新啟動應用程式後才會更新。</translation>
     </message>
@@ -10140,12 +10140,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>縮放比例 [需要重新啟動]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>行為</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>啟用 UI 動畫</translation>
     </message>
@@ -10160,7 +10155,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>控制應用程式中捲軸的顯示時機。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>頭像</translation>
     </message>

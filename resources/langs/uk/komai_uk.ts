@@ -10116,7 +10116,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Зовнішній вигляд</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Тема</translation>
     </message>
@@ -10136,12 +10136,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Впливає на відступи, розміри значків та висоту рядків списку.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Мова</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Сімейство шрифтів</translation>
     </message>
@@ -10151,8 +10151,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Розмір шрифту</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Більшість елементів інтерфейсу оновлюється одразу. Деякі підписи можуть оновитися лише після перезапуску застосунку.</translation>
     </message>
@@ -10172,12 +10172,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Коефіцієнт масштабування [потрібен перезапуск]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Поведінка</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Увімкнути анімації інтерфейсу</translation>
     </message>
@@ -10192,7 +10187,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Керує тим, коли у застосунку відображаються смуги прокручування.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Аватари</translation>
     </message>

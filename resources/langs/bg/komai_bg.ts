@@ -10100,7 +10100,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Външен вид</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Тема</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Влияе върху разредката, размерите на иконите и височините на редовете в списъка.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Език</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Шрифтово семейство</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Размер на шрифта</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Повечето елементи се обновяват веднага. Някои може да изискват рестартиране на приложението.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Фактор на мащабиране [необходимо рестартиране]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Поведение</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Активирай UI анимации</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Управлява кога се показват лентите за превъртане в приложението.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Аватари</translation>
     </message>

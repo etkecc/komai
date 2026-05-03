@@ -10100,7 +10100,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Aparença</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10120,12 +10120,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Afecta l'espaiat, la mida de les icones i l'alçada de les files de la llista.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Família de tipus de lletra</translation>
     </message>
@@ -10135,8 +10135,8 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Mida del tipus de lletra</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La majoria d'elements de la interfície s'actualitzen en directe. Algunes etiquetes potser només s'actualitzen en reiniciar l'aplicació.</translation>
     </message>
@@ -10156,12 +10156,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Factor d'escala [cal reiniciar]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Comportament</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Activa les animacions de la interfície</translation>
     </message>
@@ -10176,7 +10171,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Controla quan es mostren les barres de desplaçament a tota l'aplicació.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>

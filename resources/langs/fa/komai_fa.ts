@@ -10084,7 +10084,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ظاهر</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>پوسته</translation>
     </message>
@@ -10104,12 +10104,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>بر فاصله‌گذاری، اندازه آیکون‌ها و ارتفاع ردیف‌های فهرست تأثیر می‌گذارد.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>زبان</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>خانواده‌ی فونت</translation>
     </message>
@@ -10119,8 +10119,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اندازه‌ی فونت</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>بیشتر عناصر رابط کاربری به‌صورت زنده به‌روز می‌شوند. برخی برچسب‌ها ممکن است تنها پس از راه‌اندازی مجدد برنامه به‌روز شوند.</translation>
     </message>
@@ -10140,12 +10140,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ضریب مقیاس [راه‌اندازی مجدد لازم است]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>رفتار</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>فعال کردن انیمیشن‌های رابط کاربری</translation>
     </message>
@@ -10160,7 +10155,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>کنترل می‌کند که نوارهای پیمایش در طول برنامه چه زمانی نمایش داده شوند.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>آواتارها</translation>
     </message>

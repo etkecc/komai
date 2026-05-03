@@ -10116,7 +10116,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izgled</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10136,12 +10136,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Utiče na razmak, veličine ikona i visine redova liste.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Jezik</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Porodica fontova</translation>
     </message>
@@ -10151,8 +10151,8 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Veličina fonta</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Većina UI elemenata se ažurira odmah. Neki natpisi se možda ažuriraju tek nakon ponovnog pokretanja aplikacije.</translation>
     </message>
@@ -10172,12 +10172,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Faktor skaliranja [potreban restart]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Ponašanje</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Uključi animacije interfejsa</translation>
     </message>
@@ -10192,7 +10187,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Kontroliše kada se klizači prikazuju u aplikaciji.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatari</translation>
     </message>

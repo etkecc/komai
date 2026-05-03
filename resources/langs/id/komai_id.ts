@@ -10084,7 +10084,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Tampilan</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10104,12 +10104,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Memengaruhi spasi, ukuran ikon, dan tinggi baris daftar.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Bahasa</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Keluarga fon</translation>
     </message>
@@ -10119,8 +10119,8 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Ukuran fon</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Sebagian besar elemen UI diperbarui secara langsung. Beberapa label mungkin hanya diperbarui setelah memulai ulang aplikasi.</translation>
     </message>
@@ -10140,12 +10140,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Faktor skala [perlu restart]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Perilaku</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Aktifkan animasi UI</translation>
     </message>
@@ -10160,7 +10155,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Mengontrol kapan bilah gulir ditampilkan di seluruh aplikasi.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatar</translation>
     </message>

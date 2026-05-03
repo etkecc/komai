@@ -10084,7 +10084,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Megjelenés</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Téma</translation>
     </message>
@@ -10104,12 +10104,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Befolyásolja a térközöket, az ikonméreteket és a listaelemek magasságát.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Nyelv</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Betűtípus-család</translation>
     </message>
@@ -10119,8 +10119,8 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Betűméret</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>A legtöbb felületi elem élőben frissül. Egyes feliratok csak az alkalmazás újraindítása után frissülnek.</translation>
     </message>
@@ -10140,12 +10140,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Méretezési tényező [újraindítás szükséges]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Viselkedés</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Felhasználói felület animációinak engedélyezése</translation>
     </message>
@@ -10160,7 +10155,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Szabályozza, mikor jelenjenek meg a görgetősávok az alkalmazásban.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatarok</translation>
     </message>

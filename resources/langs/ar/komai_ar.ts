@@ -10164,7 +10164,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>المظهر</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>السمة</translation>
     </message>
@@ -10184,12 +10184,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يؤثر على التباعد وأحجام الأيقونات وارتفاعات صفوف القائمة.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>اللغة</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>عائلة الخط</translation>
     </message>
@@ -10199,8 +10199,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>حجم الخط</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>معظم عناصر الواجهة تُحدَّث فورياً. بعض التسميات قد لا تُحدَّث إلا بعد إعادة تشغيل التطبيق.</translation>
     </message>
@@ -10220,12 +10220,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>عامل الحجم [يتطلب إعادة التشغيل]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>السلوك</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>تفعيل رسوم واجهة المستخدم المتحركة</translation>
     </message>
@@ -10240,7 +10235,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يتحكم في متى تظهر أشرطة التمرير في التطبيق.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>الصور الرمزية</translation>
     </message>

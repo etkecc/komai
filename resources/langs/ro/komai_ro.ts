@@ -10116,7 +10116,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Aspect</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Temă</translation>
     </message>
@@ -10136,12 +10136,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Afectează spațierea, dimensiunile pictogramelor și înălțimile rândurilor din liste.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Limbă</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Familie de fonturi</translation>
     </message>
@@ -10151,8 +10151,8 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Dimensiune font</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Majoritatea elementelor de interfață se actualizează în timp real. Unele etichete se pot actualiza doar după repornirea aplicației.</translation>
     </message>
@@ -10172,12 +10172,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Factor de scală [necesită repornire]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Comportament</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Activează animațiile UI</translation>
     </message>
@@ -10192,7 +10187,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Controlează când sunt afișate barele de derulare în aplicație.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avataruri</translation>
     </message>

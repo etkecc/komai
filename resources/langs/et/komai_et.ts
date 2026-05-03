@@ -10100,7 +10100,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Välimus</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Mõjutab vahesid, ikoonide suurust ja loendi ridade kõrgust.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Keel</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Fondiperekond</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Fondi suurus</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Enamik kasutajaliidese elemente uuendatakse reaalajas. Mõned sildid võivad uuenduda alles pärast rakenduse taaskäivitamist.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Skaleerimistegur [taaskäivitamine vajalik]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Käitumine</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Luba kasutajaliidese animatsioonid</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Juhib, millal kerimisribad rakenduses kuvatakse.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatarid</translation>
     </message>

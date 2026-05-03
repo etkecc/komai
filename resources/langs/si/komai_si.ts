@@ -10100,7 +10100,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පෙනුම</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>තේමාව</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පරතරය, නිරූපක ප්‍රමාණ සහ ලැයිස්තු පේළි උස් කෙරෙහි බලපායි.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>භාෂාව</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>අකුරු පවුල</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>අකුරු ප්‍රමාණය</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>බොහෝ UI මූලද්‍රව්‍ය සජීවීව යාවත්කාලීන වේ. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසු පමණක් යාවත්කාලීන විය හැක.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පරිමාණ සාධකය [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>හැසිරීම</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>UI සජීවීකරණ සක්‍රිය කරන්න</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>යෙදුම පුරා අනුචලන තීරු පෙන්වන්නේ කවදාද යන්න පාලනය කරයි.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>අවතාර</translation>
     </message>

@@ -10116,7 +10116,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Vzhled</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Motiv</translation>
     </message>
@@ -10136,12 +10136,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Ovlivňuje mezery, velikosti ikon a výšky řádků v seznamu.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Rodina písma</translation>
     </message>
@@ -10151,8 +10151,8 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Velikost písma</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Většina prvků UI se aktualizuje okamžitě. Některé popisky se mohou aktualizovat až po restartu aplikace.</translation>
     </message>
@@ -10172,12 +10172,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Faktor škálování [vyžaduje restart]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Chování</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Povolit animace rozhraní</translation>
     </message>
@@ -10192,7 +10187,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Řídí, kdy jsou v aplikaci zobrazovány posuvníky.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatary</translation>
     </message>

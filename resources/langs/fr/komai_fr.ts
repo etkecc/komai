@@ -10100,7 +10100,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Apparence</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Thème</translation>
     </message>
@@ -10120,12 +10120,12 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Affecte l'espacement, la taille des icônes et la hauteur des lignes de liste.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Famille de polices</translation>
     </message>
@@ -10135,8 +10135,8 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Taille de police</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La plupart des éléments d'interface se mettent à jour en direct. Certains libellés peuvent ne se mettre à jour qu'après redémarrage de l'application.</translation>
     </message>
@@ -10156,12 +10156,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Facteur d'échelle [redémarrage requis]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Comportement</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Activer les animations de l'interface</translation>
     </message>
@@ -10176,7 +10171,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Contrôle l'affichage des barres de défilement dans l'application.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>

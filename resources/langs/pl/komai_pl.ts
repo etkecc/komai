@@ -10117,7 +10117,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Wygląd</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+18"/>
         <source>Theme</source>
         <translation>Motyw</translation>
     </message>
@@ -10137,12 +10137,12 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Wpływa na odstępy, rozmiary ikon i wysokości wierszy listy.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-23"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+56"/>
         <source>Font family</source>
         <translation>Rodzina czcionek</translation>
     </message>
@@ -10152,8 +10152,8 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Rozmiar czcionki</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+21"/>
+        <location line="-62"/>
+        <location line="+63"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Większość elementów interfejsu aktualizuje się na bieżąco. Niektóre etykiety mogą się zaktualizować dopiero po ponownym uruchomieniu aplikacji.</translation>
     </message>
@@ -10173,12 +10173,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Współczynnik skalowania [wymagane ponowne uruchomienie]</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Behavior</source>
-        <translation>Zachowanie</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-57"/>
         <source>Enable UI animations</source>
         <translation>Włącz animacje interfejsu</translation>
     </message>
@@ -10193,7 +10188,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Określa, kiedy paski przewijania są wyświetlane w aplikacji.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+54"/>
         <source>Avatars</source>
         <translation>Awatary</translation>
     </message>

@@ -416,6 +416,23 @@ testValidationMessages()
                                           {},
                                           "Finish the Matrix user ID",
                                           "/kick with a partial user id nudges the user to finish it");
+    ok &= expectInspectionMessageContains(QStringLiteral("/kick"),
+                                          {},
+                                          "Pass a Matrix user ID after this command",
+                                          "/kick without arguments leads with the user-id action");
+    ok &= expectInspectionMessageContains(
+      QStringLiteral("/kick alice"),
+      {},
+      "Use a Matrix user ID like @alice:example.org",
+      "/kick with bad arguments tells the user the right format");
+    ok &= expectInspectionMessageContains(QStringLiteral("/redact"),
+                                          {},
+                                          "Pass an event ID or Matrix user ID",
+                                          "/redact without arguments leads with the user-id action");
+    ok &= expectInspectionMessageContains(QStringLiteral("/redact garbage"),
+                                          {},
+                                          "Use an event ID or Matrix user ID",
+                                          "/redact with bad arguments tells the user the right format");
     ok &= expect(timeline::slash_commands::inspect(QStringLiteral("/notice hello"), {})
                      .validation.message.isEmpty(),
                  "valid commands keep the validation surface quiet");

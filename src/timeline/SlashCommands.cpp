@@ -172,7 +172,8 @@ validateKickLike(const ParsedCommand &parsed, const CommandContext &context)
 
         return makeValidationResult(
           ValidationState::ContextRejected,
-          "Reply to a message or pass a Matrix user ID after this command.");
+          "Pass a Matrix user ID after this command, or use it while replying to a message to "
+          "target the sender.");
     }
 
     const auto target = firstArgument(parsed);
@@ -185,8 +186,10 @@ validateKickLike(const ParsedCommand &parsed, const CommandContext &context)
     if (!context.replySenderId.isEmpty())
         return valid();
 
-    return makeValidationResult(ValidationState::ContextRejected,
-                                "Reply to a message or pass a Matrix user ID after this command.");
+    return makeValidationResult(
+      ValidationState::ContextRejected,
+      "Use a Matrix user ID like @alice:example.org, or use this command without arguments "
+      "while replying to a message.");
 }
 
 ValidationResult
@@ -199,7 +202,8 @@ validateRedact(const ParsedCommand &parsed, const CommandContext &context)
 
         return makeValidationResult(
           ValidationState::ContextRejected,
-          "Reply to a message or pass an event ID or Matrix user ID after /redact.");
+          "Pass an event ID or Matrix user ID after /redact, or use it while replying to a "
+          "message to target that message.");
     }
 
     const auto target = firstArgument(parsed);
@@ -217,7 +221,8 @@ validateRedact(const ParsedCommand &parsed, const CommandContext &context)
 
     return makeValidationResult(
       ValidationState::ContextRejected,
-      "Reply to a message or pass an event ID or Matrix user ID after /redact.");
+      "Use an event ID or Matrix user ID after /redact, or use it without arguments while "
+      "replying to a message.");
 }
 
 ValidationResult

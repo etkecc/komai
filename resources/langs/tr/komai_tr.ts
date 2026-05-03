@@ -5678,7 +5678,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Bu oda herkese açıktır. Herkes katılabilir.</translation>
     </message>
@@ -5688,7 +5688,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
         <translation>Bu oda özeldir. Davet gereklidir.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Genel</translation>
     </message>

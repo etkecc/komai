@@ -5692,7 +5692,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ova soba je javna. Svako može da se pridruži.</translation>
     </message>
@@ -5702,7 +5702,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <translation>Ova soba je privatna. Potreban je poziv.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Javno</translation>
     </message>

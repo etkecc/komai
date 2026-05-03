@@ -5692,7 +5692,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Tato místnost je veřejná. Kdokoli se může připojit.</translation>
     </message>
@@ -5702,7 +5702,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
         <translation>Tato místnost je soukromá. Vyžaduje pozvánku.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Veřejná</translation>
     </message>

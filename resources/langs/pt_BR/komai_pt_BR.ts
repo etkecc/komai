@@ -5685,7 +5685,7 @@ Os backups de chave no servidor não são removidos automaticamente.</translatio
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Esta sala é pública. Qualquer pessoa pode entrar.</translation>
     </message>
@@ -5695,7 +5695,7 @@ Os backups de chave no servidor não são removidos automaticamente.</translatio
         <translation>Esta sala é privada. Convite necessário.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Pública</translation>
     </message>

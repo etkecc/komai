@@ -5688,7 +5688,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Esta sala es pública. Cualquiera puede unirse.</translation>
     </message>
@@ -5698,7 +5698,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
         <translation>Esta sala es privada. Se requiere invitación.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Pública</translation>
     </message>

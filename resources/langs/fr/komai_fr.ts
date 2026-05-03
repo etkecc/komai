@@ -5685,7 +5685,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ce salon est public. Tout le monde peut le rejoindre.</translation>
     </message>
@@ -5695,7 +5695,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <translation>Ce salon est privé. Invitation requise.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Public</translation>
     </message>

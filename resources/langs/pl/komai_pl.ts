@@ -5693,7 +5693,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ten pokój jest publiczny. Każdy może dołączyć.</translation>
     </message>
@@ -5703,7 +5703,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
         <translation>Ten pokój jest prywatny. Wymagane zaproszenie.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Publiczny</translation>
     </message>

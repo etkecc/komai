@@ -5685,7 +5685,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Aquesta sala és pública. Qualsevol es pot unir.</translation>
     </message>
@@ -5695,7 +5695,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
         <translation>Aquesta sala és privada. Cal invitació.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Pública</translation>
     </message>

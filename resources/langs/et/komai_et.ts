@@ -5685,7 +5685,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>See jututuba on avalik. Igaüks saab liituda.</translation>
     </message>
@@ -5695,7 +5695,7 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
         <translation>See jututuba on privaatne. Kutse on nõutav.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Avalik</translation>
     </message>

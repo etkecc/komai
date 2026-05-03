@@ -5678,7 +5678,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ez a szoba nyilvános. Bárki csatlakozhat.</translation>
     </message>
@@ -5688,7 +5688,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <translation>Ez a szoba privát. Meghívás szükséges.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Nyilvános</translation>
     </message>

@@ -14,6 +14,7 @@ Item {
     property var room: null
     property bool showVisibilityLabel: false
     readonly property bool isPublic: room ? room.isPublic : true
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     readonly property real nameImplicitWidth: nameWidthHelper.implicitWidth
     readonly property real visibilityFullWidth: row.spacing + visibilityIcon.width + visibilityRow.spacing + visibilityLabel.implicitWidth
 
@@ -42,6 +43,10 @@ Item {
     Row {
         id: row
 
+        x: root.mirrored ? Math.max(0, root.width - width) : 0
+        width: Math.min(implicitWidth, root.width)
+        LayoutMirroring.enabled: root.mirrored
+        LayoutMirroring.childrenInherit: true
         spacing: Komai.paddingMedium
 
         Label {
@@ -52,6 +57,7 @@ Item {
             elide: Text.ElideRight
             font.bold: true
             font.pointSize: Settings.uiFontSizePt * 1.1
+            horizontalAlignment: Text.AlignLeft
             maximumLineCount: 2
             text: root.roomName
             textFormat: Text.RichText
@@ -113,6 +119,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     color: palette.buttonText
                     font.pointSize: Settings.uiFontSizePt
+                    horizontalAlignment: Text.AlignLeft
                     text: root.isPublic ? qsTr("Public") : qsTr("Private")
                     visible: root.showVisibilityLabel
                 }

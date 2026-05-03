@@ -5678,7 +5678,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Phòng này là công khai. Bất kỳ ai cũng có thể tham gia.</translation>
     </message>
@@ -5688,7 +5688,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
         <translation>Phòng này là riêng tư. Cần có lời mời.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Công khai</translation>
     </message>

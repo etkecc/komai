@@ -5685,7 +5685,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Deze kamer is openbaar. Iedereen kan binnengaan.</translation>
     </message>
@@ -5695,7 +5695,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <translation>Deze kamer is privé. Uitnodiging vereist.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Openbaar</translation>
     </message>

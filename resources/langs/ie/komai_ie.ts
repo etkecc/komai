@@ -5685,7 +5685,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+81"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Iste chambre es public. Quicun posse juntar se.</translation>
     </message>
@@ -5695,7 +5695,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <translation>Iste chambre es privat. Invitation requiret.</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Public</source>
         <translation>Public</translation>
     </message>

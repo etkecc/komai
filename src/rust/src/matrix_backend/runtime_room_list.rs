@@ -555,10 +555,12 @@ async fn build_room_list_snapshot(
         snapshot.push(room_list_item_to_summary(room, notification_settings).await);
     }
 
-    // Enrich parent_space_room_ids by reading m.space.child state events from
-    // each space. The per-room parent_spaces() call only looks at m.space.parent
-    // events set on the child room, which are optional and often absent.
-    // The authoritative source is m.space.child events on the space itself.
+    // Populate parent_space_room_ids by reading m.space.child state events
+    // from each space. m.space.child on the parent space is the authoritative
+    // direction of the relationship; we deliberately don't also consult
+    // `Room::parent_spaces()` (which scans m.space.parent on the child) because
+    // it offers no extra signal for joined parents and produces noisy upstream
+    // logs on the spec-valid "withdrawn" form (content lacking `via`).
     let mut child_to_parents: HashMap<String, Vec<String>> = HashMap::new();
     for room in values.iter() {
         if !room.is_space() {
@@ -883,40 +885,6 @@ async fn resolve_room_avatar_url(
     }
 }
 
-async fn fetch_parent_space_room_ids(room: &RoomListItem) -> Vec<String> {
-    let Ok(parent_spaces) = room.parent_spaces().await else {
-        tracing::debug!(
-            room_id = %room.room_id(),
-            "Failed to fetch matrix room parent spaces for room-list summary"
-        );
-        return Vec::new();
-    };
-
-    let mut parent_space_room_ids = parent_spaces
-        .filter_map(|result| async move {
-            match result {
-                Ok(ParentSpace::Reciprocal(parent))
-                | Ok(ParentSpace::WithPowerlevel(parent))
-                | Ok(ParentSpace::Illegitimate(parent)) => Some(parent.room_id().to_string()),
-                Ok(ParentSpace::Unverifiable(parent_room_id)) => Some(parent_room_id.to_string()),
-                Err(error) => {
-                    tracing::debug!(
-                        room_id = %room.room_id(),
-                        %error,
-                        "Failed to inspect matrix room parent-space relationship"
-                    );
-                    None
-                }
-            }
-        })
-        .collect::<Vec<_>>()
-        .await;
-
-    parent_space_room_ids.sort();
-    parent_space_room_ids.dedup();
-    parent_space_room_ids
-}
-
 async fn fetch_room_tags(room: &RoomListItem) -> Vec<String> {
     let Ok(tags) = room.tags().await else {
         tracing::debug!(
@@ -1000,7 +968,9 @@ async fn room_list_item_to_summary(
         None => (String::new(), String::new()),
     };
     let tags = fetch_room_tags(room).await;
-    let parent_space_room_ids = fetch_parent_space_room_ids(room).await;
+    // Populated by the post-pass in `build_room_list_snapshot` from the
+    // authoritative `m.space.child` direction.
+    let parent_space_room_ids: Vec<String> = Vec::new();
 
     // matrix-sdk-base only honours main/unthreaded receipts when computing
     // unread counts. When a thread-aware client (e.g. Element X) reads a

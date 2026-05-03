@@ -16,7 +16,6 @@ use matrix_sdk::{
     Client,
     Room,
     RoomState,
-    room::ParentSpace,
     encryption::{
         verification::{SasVerification, VerificationRequest},
         recovery::IdentityResetHandle,

@@ -8304,7 +8304,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Insuccesse enviar mesage: %1</translation>
     </message>
@@ -8446,7 +8446,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse ignorar usator %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>Ti comande necessita un chambre active.</translation>
     </message>
@@ -8461,7 +8461,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Li session Matrix ne es ancor parat.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nul mesage trovat de %1 in li visible timeline.</translation>
     </message>

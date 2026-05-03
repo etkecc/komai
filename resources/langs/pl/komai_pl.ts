@@ -8318,7 +8318,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Nie udało się wysłać wiadomości: %1</translation>
     </message>
@@ -8460,7 +8460,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Nie udało się zignorować użytkownika %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>To polecenie wymaga aktywnego pokoju.</translation>
     </message>
@@ -8475,7 +8475,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Sesja Matrix nie jest jeszcze gotowa.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nie znaleziono wiadomości od %1 na widocznej osi czasu.</translation>
     </message>

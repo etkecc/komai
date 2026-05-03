@@ -197,9 +197,15 @@ validateRedact(const ParsedCommand &parsed, const CommandContext &context)
 ValidationResult
 validateMsgtype(const ParsedCommand &parsed, const CommandContext &)
 {
-    if (firstArgument(parsed).isEmpty())
+    const auto first = firstArgument(parsed);
+    if (first.isEmpty())
         return makeValidationResult(ValidationState::Incomplete,
                                     "Enter a message type after /msgtype.");
+
+    const auto trimmed = trimmedArguments(parsed);
+    if (trimmed.size() <= first.size() || trimmed.mid(first.size()).trimmed().isEmpty())
+        return makeValidationResult(ValidationState::Incomplete,
+                                    "Enter a message after the message type.");
 
     return valid();
 }
@@ -375,7 +381,7 @@ const std::array<CommandDefinition, 21> kCommands{{
   {CommandId::Msgtype,
    "msgtype",
    "/msgtype ",
-   CMD_TR("/msgtype <msgtype> [message]"),
+   CMD_TR("/msgtype <msgtype> <message>"),
    CMD_TR("Send a message with a custom Matrix msgtype."),
    "msgtype custom message type",
    validateMsgtype},

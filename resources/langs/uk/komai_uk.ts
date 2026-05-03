@@ -8317,7 +8317,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Не вдалося надіслати повідомлення: %1</translation>
     </message>
@@ -8459,7 +8459,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не вдалося ігнорувати користувача %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>Ця команда потребує активної кімнати.</translation>
     </message>
@@ -8474,7 +8474,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Сеанс Matrix ще не готовий.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Повідомлень від %1 у видимій стрічці не знайдено.</translation>
     </message>

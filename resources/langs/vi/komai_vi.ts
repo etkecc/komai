@@ -8291,7 +8291,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Không thể gửi tin nhắn: %1</translation>
     </message>
@@ -8433,7 +8433,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể bỏ qua người dùng %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>Lệnh này cần một phòng đang hoạt động.</translation>
     </message>
@@ -8448,7 +8448,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Phiên Matrix chưa sẵn sàng.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Không tìm thấy tin nhắn nào từ %1 trong dòng thời gian hiển thị.</translation>
     </message>

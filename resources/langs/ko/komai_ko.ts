@@ -8291,7 +8291,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>메시지 전송 실패: %1</translation>
     </message>
@@ -8433,7 +8433,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>사용자 %1 무시 실패: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>이 명령을 실행하려면 활성 방이 필요합니다.</translation>
     </message>
@@ -8448,7 +8448,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix 세션이 아직 준비되지 않았습니다.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>표시된 타임라인에서 %1의 메시지를 찾을 수 없습니다.</translation>
     </message>

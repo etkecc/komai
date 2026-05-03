@@ -214,11 +214,8 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                                                 SlashFormatMode formatMode) {
         const auto plainBody = emoji::replaceEmoticons(
           body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
-        if (plainBody.isEmpty() &&
-            (messageKind == QStringLiteral("text") || messageKind == QStringLiteral("notice") ||
-             messageKind == QStringLiteral("emote"))) {
+        if (plainBody.isEmpty())
             return false;
-        }
 
         const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
         if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {

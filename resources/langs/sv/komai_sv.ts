@@ -8304,7 +8304,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Kunde inte skicka meddelande: %1</translation>
     </message>
@@ -8446,7 +8446,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Kunde inte ignorera användare %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>Det här kommandot kräver ett aktivt rum.</translation>
     </message>
@@ -8461,7 +8461,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Matrix-sessionen är inte redo ännu.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Inga meddelanden från %1 hittades i den synliga tidslinjen.</translation>
     </message>

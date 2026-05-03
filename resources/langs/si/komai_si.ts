@@ -8304,7 +8304,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>පණිවිඩය යැවීම අසාර්ථක විය: %1</translation>
     </message>
@@ -8446,7 +8446,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>පරිශීලකයා %1 නොසලකා හැරීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>මෙම විධානයට ක්‍රියාකාරී කාමරයක් අවශ්‍ය වේ.</translation>
     </message>
@@ -8461,7 +8461,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix සැසිය තවම සූදානම් නොවේ.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>දෘශ්‍ය කාල රේඛාවේ %1 ගෙන් පණිවිඩ හමු නොවීය.</translation>
     </message>

@@ -8291,7 +8291,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Gagal mengirim pesan: %1</translation>
     </message>
@@ -8433,7 +8433,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal mengabaikan pengguna %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>Perintah ini membutuhkan ruangan yang aktif.</translation>
     </message>
@@ -8448,7 +8448,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Sesi Matrix belum siap.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Tidak ada pesan dari %1 di linimasa yang terlihat.</translation>
     </message>

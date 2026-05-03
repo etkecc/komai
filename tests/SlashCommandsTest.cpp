@@ -283,6 +283,21 @@ testValidationAndSendBehavior()
                            ValidationState::Incomplete,
                            SubmitAction::PreserveComposer,
                            "/msgtype needs a msgtype before submit");
+    ok &= expectInspection(QStringLiteral("/msgtype foo"),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/msgtype with a type but no body cannot submit");
+    ok &= expectInspection(QStringLiteral("/msgtype foo  "),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/msgtype trailing whitespace does not count as a body");
+    ok &= expectInspection(QStringLiteral("/msgtype foo hello"),
+                           {},
+                           ValidationState::Valid,
+                           SubmitAction::ExecuteCommand,
+                           "/msgtype accepts a type plus body");
     return ok;
 }
 
@@ -310,6 +325,10 @@ testValidationMessages()
       {},
       "Reply to a message",
       "/react without reply context explains the rejection");
+    ok &= expectInspectionMessageContains(QStringLiteral("/msgtype foo"),
+                                          {},
+                                          "Enter a message after the message type",
+                                          "/msgtype with type but no body explains the missing body");
     ok &= expect(timeline::slash_commands::inspect(QStringLiteral("/notice hello"), {})
                      .validation.message.isEmpty(),
                  "valid commands keep the validation surface quiet");

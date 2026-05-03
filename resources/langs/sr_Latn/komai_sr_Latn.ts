@@ -8317,7 +8317,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Nije uspelo slanje poruke: %1</translation>
     </message>
@@ -8459,7 +8459,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspelo ignorisanje korisnika %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>Ova komanda zahteva aktivnu sobu.</translation>
     </message>
@@ -8474,7 +8474,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Matrix sesija još nije spremna.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nema poruka od %1 u vidljivoj vremenskoj liniji.</translation>
     </message>

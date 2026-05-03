@@ -8304,7 +8304,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
         <source>Failed to send message: %1</source>
         <translation>Sõnumi saatmine ebaõnnestus: %1</translation>
     </message>
@@ -8446,7 +8446,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Kasutaja %1 ignoreerimine ebaõnnestus: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
         <source>This command needs an active room.</source>
         <translation>See käsk vajab aktiivset jututuba.</translation>
     </message>
@@ -8461,7 +8461,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Matrixi seanss ei ole veel valmis.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+182"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nähtavas ajaskalas ei leitud sõnumeid kasutajalt %1.</translation>
     </message>

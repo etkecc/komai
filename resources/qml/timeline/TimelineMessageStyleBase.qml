@@ -88,6 +88,7 @@ TimelineEvent {
     readonly property bool selectedInView: !!chatRoot && !!wrapper.eventId
         && chatRoot.selectedEventIds
         && chatRoot.selectedEventIds.indexOf(wrapper.eventId) >= 0
+    readonly property bool mirrored: Qt.application.layoutDirection === Qt.RightToLeft
 
     property var chatRoot: null
     property var hoverDismissTimerRef: null
@@ -119,7 +120,7 @@ TimelineEvent {
             return true;
         case Settings.TimelineMessagesLayoutPositioning.OpposingBySender:
         default:
-            return wrapper.isSender;
+            return wrapper.mirrored ? !wrapper.isSender : wrapper.isSender;
         }
     }
 

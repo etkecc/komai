@@ -10,8 +10,18 @@ import cc.etke.komai 1.0
 
 Item {
     property var room: null
-    readonly property bool alignRightByPositioning:
-        Settings.timelineMessagesLayoutPositioning === Settings.TimelineMessagesLayoutPositioning.AllRight
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
+    readonly property bool alignRightByPositioning: {
+        switch (Settings.timelineMessagesLayoutPositioning) {
+        case Settings.TimelineMessagesLayoutPositioning.AllRight:
+            return true;
+        case Settings.TimelineMessagesLayoutPositioning.AllLeft:
+            return false;
+        case Settings.TimelineMessagesLayoutPositioning.OpposingBySender:
+        default:
+            return mirrored;
+        }
+    }
 
     Layout.fillWidth: true
     implicitHeight: Math.max(fontMetrics.height * 1.2, typingDisplay.implicitHeight)

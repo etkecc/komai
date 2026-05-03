@@ -27,6 +27,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Separator lines** between room list entries and autocomplete items
 - **Larger emoji** in the timeline by default
 - **Per-room user colors** -- unique color assignment in small rooms, accent-complementary color in large rooms
+- **No touch-style ripple animations** -- controls use quieter desktop hover and pressed feedback
 - **Fluent Icons workflow** -- we now keep [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) easy to update and extend, with details in [Icons Architecture](../architecture/icons.md) and the full [Icon Catalog](../architecture/icons-list.md).
 
 

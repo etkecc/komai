@@ -923,7 +923,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+227"/>
+        <location filename="../../qml/components/Completer.qml" line="+226"/>
         <source>Pick an emoji</source>
         <translation>Válasszon egy emojit</translation>
     </message>
@@ -958,7 +958,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Nincs találat.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+171"/>
         <source>Notify the whole room</source>
         <translation>Az egész szoba értesítése</translation>
     </message>
@@ -7767,12 +7767,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     </message>
     <message>
         <location line="-65"/>
-        <location line="+246"/>
+        <location line="+245"/>
         <source>Dismiss this message</source>
         <translation>Üzenet bezárása</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>

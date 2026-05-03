@@ -924,7 +924,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+227"/>
+        <location filename="../../qml/components/Completer.qml" line="+226"/>
         <source>Pick an emoji</source>
         <translation>Kies een emoji</translation>
     </message>
@@ -959,7 +959,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Geen overeenkomsten gevonden.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+171"/>
         <source>Notify the whole room</source>
         <translation>De hele kamer informeren</translation>
     </message>
@@ -7776,12 +7776,12 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     </message>
     <message>
         <location line="-65"/>
-        <location line="+246"/>
+        <location line="+245"/>
         <source>Dismiss this message</source>
         <translation>Dit bericht sluiten</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>

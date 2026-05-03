@@ -923,7 +923,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+227"/>
+        <location filename="../../qml/components/Completer.qml" line="+226"/>
         <source>Pick an emoji</source>
         <translation>Pilih emoji</translation>
     </message>
@@ -958,7 +958,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Tidak ada hasil yang cocok.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+171"/>
         <source>Notify the whole room</source>
         <translation>Beri tahu seluruh ruangan</translation>
     </message>
@@ -7767,12 +7767,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     </message>
     <message>
         <location line="-65"/>
-        <location line="+246"/>
+        <location line="+245"/>
         <source>Dismiss this message</source>
         <translation>Tutup pesan ini</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>

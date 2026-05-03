@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
@@ -158,8 +157,5 @@ AbstractButton {
     KomaiCursorShape {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
-    }
-    Ripple {
-        color: Qt.rgba(palette.alternateBase.r, palette.alternateBase.g, palette.alternateBase.b, 0.5)
     }
 }

@@ -925,7 +925,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+227"/>
+        <location filename="../../qml/components/Completer.qml" line="+226"/>
         <source>Pick an emoji</source>
         <translation>Vybrat emoji</translation>
     </message>
@@ -960,7 +960,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Nenalezeny žádné shody.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+171"/>
         <source>Notify the whole room</source>
         <translation>Upozornit celou místnost</translation>
     </message>
@@ -7785,12 +7785,12 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     </message>
     <message>
         <location line="-65"/>
-        <location line="+246"/>
+        <location line="+245"/>
         <source>Dismiss this message</source>
         <translation>Zavřít tuto zprávu</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>

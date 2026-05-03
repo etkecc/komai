@@ -924,7 +924,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+227"/>
+        <location filename="../../qml/components/Completer.qml" line="+226"/>
         <source>Pick an emoji</source>
         <translation>Vali emoji</translation>
     </message>
@@ -959,7 +959,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Tulemusi ei leitud.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+171"/>
         <source>Notify the whole room</source>
         <translation>Teavita kogu jututuba</translation>
     </message>
@@ -7776,12 +7776,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     </message>
     <message>
         <location line="-65"/>
-        <location line="+246"/>
+        <location line="+245"/>
         <source>Dismiss this message</source>
         <translation>Sulge see teade</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>

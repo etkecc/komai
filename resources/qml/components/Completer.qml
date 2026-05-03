@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -395,9 +394,6 @@ Control {
                             }
                         }
                     }
-                }
-                Ripple {
-                    color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5)
                 }
                 DelegateChooser {
                     id: chooser

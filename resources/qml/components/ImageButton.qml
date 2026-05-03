@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pragma ComponentBehavior: Bound
-import "../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
@@ -18,7 +17,6 @@ AbstractButton {
     property int cursor: Qt.PointingHandCursor
     property color highlightColor: palette.highlight
     property string image: undefined
-    property bool ripple: true
     property bool hoverPulse: false
     property string toolTipText: ""
     property bool toolTipVisible: hovered && toolTipText.length > 0
@@ -76,10 +74,6 @@ AbstractButton {
 
         anchors.fill: parent
         cursorShape: button.cursor
-    }
-    Ripple {
-        color: Qt.rgba(button.buttonTextColor.r, button.buttonTextColor.g, button.buttonTextColor.b, 0.5)
-        enabled: button.ripple
     }
     HoverPulseAnimation {
         id: hoverPulseAnim

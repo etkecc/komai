@@ -328,7 +328,6 @@ Popup {
                                 highlightColor: palette.text
                                 hoverEnabled: true
                                 image: ":/icons/icons/ui/dismiss.svg"
-                                ripple: false
                                 onClicked: snackbar.dismissCurrent()
 
                                 HoverHandler {

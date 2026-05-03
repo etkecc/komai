@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../ui"
 import QtQuick
 import QtQuick.Controls
 import cc.etke.komai 1.0 // for cursor shape
@@ -37,10 +36,6 @@ AbstractButton {
 
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
-    }
-
-    Ripple {
-        color: Qt.rgba(buttonTextColor.r, buttonTextColor.g, buttonTextColor.b, 0.5)
     }
 
 }

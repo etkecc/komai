@@ -220,10 +220,6 @@ ColumnLayout {
                     }
                 }
             }
-
-            Ripple {
-                color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5)
-            }
         }
     }
 }

@@ -181,10 +181,6 @@ ItemDelegate {
             roomContextMenu.show(roomItem, roomId, tags, isSpace, isInvite, hasUnreadMessages || hasLoudNotification);
     }
 
-    Ripple {
-        color: Qt.rgba(palette.dark.r, palette.dark.g, palette.dark.b, 0.5)
-    }
-
     // Keep 1px of padding here so the touch areas do not overlap.
     Item {
         anchors.fill: parent

@@ -20,9 +20,13 @@ Item {
     property bool collapsible: true
     property bool collapsed: width <= collapsedWidth
     property int splitterWidth: 1
+    property bool splitterOnLeft: false
     property int preferredWidth: 100
 
     Component.onCompleted: {
+        children[0].x = Qt.binding(() => {
+            return splitterOnLeft ? splitterWidth : 0;
+        });
         children[0].width = Qt.binding(() => {
             return width - splitterWidth;
         });

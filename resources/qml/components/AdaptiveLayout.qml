@@ -11,6 +11,7 @@ Container {
     id: container
 
     property int splitterGrabMargin: Komai.paddingSmall
+    readonly property bool splittersOnLeft: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     property Component handle
     property Component handleToucharea
 
@@ -23,6 +24,9 @@ Container {
             });
             contentChildren[i].splitterWidth = Qt.binding(function() {
                 return handle_.width;
+            });
+            contentChildren[i].splitterOnLeft = Qt.binding(function() {
+                return container.splittersOnLeft;
             });
         }
         contentChildren[count - 1].width = Qt.binding(function() {
@@ -49,7 +53,8 @@ Container {
         color: Komai.theme.separator
         height: container.height
         width: visible ? 1 : 0
-        anchors.right: parent.right
+        x: container.splittersOnLeft ? 0 : parent.width - width
+        LayoutMirroring.enabled: false
     }
 
     handleToucharea: Item {
@@ -58,12 +63,20 @@ Container {
         property int maximumWidth: parent.maximumWidth
         property int collapsedWidth: parent.collapsedWidth
         property int snapUpperWidth: parent.snapUpperWidth
-        property int calculatedWidth: visible ? x : 0
+        property bool dragging: false
+        property int dragStartWidth: parent.preferredWidth
+        property int dragWidth: parent.preferredWidth
+        property int calculatedWidth: visible ? (dragging ? dragWidth : parent.preferredWidth) : 0
+
+        function clampedWidth(width) {
+            return Math.max(collapsedWidth, Math.min(maximumWidth, width));
+        }
 
         height: container.height
         width: 1
-        x: parent.preferredWidth
+        x: container.splittersOnLeft ? 0 : parent.width - width
         z: 3
+        LayoutMirroring.enabled: false
 
         KomaiCursorShape {
             height: parent.height
@@ -75,14 +88,23 @@ Container {
         DragHandler {
             id: dragHandler
 
+            target: null
             xAxis.enabled: true
             yAxis.enabled: false
-            xAxis.minimum: splitter.collapsedWidth
-            xAxis.maximum: splitter.maximumWidth
             margin: container.splitterGrabMargin
             grabPermissions: PointerHandler.CanTakeOverFromAnything | PointerHandler.ApprovesTakeOverByHandlersOfSameType
+            onTranslationChanged: {
+                if (active) {
+                    const delta = container.splittersOnLeft ? -translation.x : translation.x;
+                    splitter.dragWidth = splitter.clampedWidth(splitter.dragStartWidth + delta);
+                }
+            }
             onActiveChanged: {
-                if (!active) {
+                if (active) {
+                    splitter.dragStartWidth = splitter.calculatedWidth;
+                    splitter.dragWidth = splitter.dragStartWidth;
+                    splitter.dragging = true;
+                } else {
                     let finalX = splitter.calculatedWidth;
                     if (splitter.snapUpperWidth > splitter.collapsedWidth
                         && finalX > splitter.collapsedWidth
@@ -90,8 +112,10 @@ Container {
                         const midpoint = (splitter.collapsedWidth + splitter.snapUpperWidth) / 2;
                         finalX = finalX < midpoint ? splitter.collapsedWidth : splitter.snapUpperWidth;
                     }
-                    splitter.x = finalX;
+                    splitter.dragging = false;
                     splitter.parent.preferredWidth = finalX;
+                    splitter.dragStartWidth = finalX;
+                    splitter.dragWidth = finalX;
                 }
             }
         }

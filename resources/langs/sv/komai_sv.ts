@@ -924,7 +924,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Välj en emoji</translation>
     </message>
@@ -932,6 +932,11 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Välj en användare att omnämna</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Inga träffar hittades.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Meddela hela rummet</translation>
     </message>
@@ -3026,7 +3031,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 skriver…</translation>
     </message>
@@ -3577,12 +3582,12 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Skriv ett meddelande, eller tryck ↑ för att markera meddelanden.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Meddelande</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>
@@ -8304,7 +8309,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Kunde inte skicka meddelande: %1</translation>
     </message>

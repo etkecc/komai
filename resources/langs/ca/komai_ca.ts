@@ -924,7 +924,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Tria un emoji</translation>
     </message>
@@ -932,6 +932,11 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Tria un usuari per mencionar</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>No s'ha trobat cap coincidència.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Notifica tota la sala</translation>
     </message>
@@ -3026,7 +3031,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 està escrivint…</translation>
     </message>
@@ -3577,12 +3582,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Escriu un missatge, o prem ↑ per seleccionar missatges.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Missatge</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>
@@ -8304,7 +8309,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>No s'ha pogut enviar el missatge: %1</translation>
     </message>

@@ -924,7 +924,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Kies een emoji</translation>
     </message>
@@ -932,6 +932,11 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Kies een gebruiker om te vermelden</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Geen overeenkomsten gevonden.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>De hele kamer informeren</translation>
     </message>
@@ -3026,7 +3031,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 is aan het typen…</translation>
     </message>
@@ -3577,12 +3582,12 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Schrijf een bericht, of druk op ↑ om berichten te selecteren.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Bericht</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>
@@ -8304,7 +8309,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Bericht verzenden mislukt: %1</translation>
     </message>

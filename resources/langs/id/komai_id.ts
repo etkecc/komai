@@ -923,7 +923,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Pilih emoji</translation>
     </message>
@@ -931,6 +931,11 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Pilih pengguna untuk disebut</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -953,7 +958,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Tidak ada hasil yang cocok.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Beri tahu seluruh ruangan</translation>
     </message>
@@ -3022,7 +3027,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 sedang mengetik…</translation>
     </message>
@@ -3572,12 +3577,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Tulis pesan, atau tekan ↑ untuk memilih pesan.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Pesan</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Stiker</translation>
     </message>
@@ -8291,7 +8296,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Gagal mengirim pesan: %1</translation>
     </message>

@@ -58,8 +58,11 @@ Control {
     function changeCompleter() {
         listView.mouseActivated = false;
         if (completerType) {
-            var backend = backendModel || completerType;
-            var needsRoom = completerType !== "room" && completerType !== "roomAliases" && completerType !== "command";
+            // The user-mxid type shares the same UsersModel backend as the
+            // mention picker — only the insertion behaviour differs.
+            var resolvedType = completerType === "user-mxid" ? "user" : completerType;
+            var backend = backendModel || resolvedType;
+            var needsRoom = resolvedType !== "room" && resolvedType !== "roomAliases" && resolvedType !== "command";
             if (needsRoom && !popup.roomId) {
                 completer = undefined;
                 currentIndex = -1;
@@ -81,7 +84,7 @@ Control {
             return null;
     }
     function currentUserid() {
-        if (popup.completerType == "user") {
+        if (popup.completerType == "user" || popup.completerType == "user-mxid") {
             return listView.itemAtIndex(currentIndex).modelData.userid;
         } else {
             return "";
@@ -103,7 +106,7 @@ Control {
             var item = listView.itemAtIndex(currentIndex);
             lastCompletionWasSpace = item && item.modelData && item.modelData.isSpace;
             popup.completionSelected(item.modelData.rawroomid);
-        } else if (popup.completerType == "user") {
+        } else if (popup.completerType == "user" || popup.completerType == "user-mxid") {
             lastCompletionWasSpace = false;
             popup.completionSelected(listView.itemAtIndex(currentIndex).modelData.userid);
         }
@@ -161,6 +164,7 @@ Control {
             readonly property bool hasHeader: popup.completerType === "emoji"
                 || popup.completerType === "customEmoji"
                 || popup.completerType === "user"
+                || popup.completerType === "user-mxid"
                 || popup.completerType === "roomAliases"
                 || popup.completerType === "command"
             readonly property int headerGlyphSize: Math.max(14, Math.ceil(Settings.uiFontSizePt * 1.05), Math.round(Komai.iconSize * 0.62))
@@ -199,7 +203,7 @@ Control {
                         var icon;
                         if (popup.completerType === "emoji" || popup.completerType === "customEmoji")
                             icon = "smile.svg";
-                        else if (popup.completerType === "user")
+                        else if (popup.completerType === "user" || popup.completerType === "user-mxid")
                             icon = "mention.svg";
                         else if (popup.completerType === "roomAliases")
                             icon = "tag.svg";
@@ -223,6 +227,8 @@ Control {
                             return qsTr("Pick an emoji");
                         else if (popup.completerType === "user")
                             return qsTr("Pick a user to mention");
+                        else if (popup.completerType === "user-mxid")
+                            return qsTr("Pick a user");
                         else if (popup.completerType === "command")
                             return qsTr("Pick a command");
                         else
@@ -351,7 +357,7 @@ Control {
                         if (popup.completerType == "room") {
                             lastCompletionWasSpace = model.isSpace;
                             popup.completionSelected(model.roomid);
-                        } else if (popup.completerType == "user") {
+                        } else if (popup.completerType == "user" || popup.completerType == "user-mxid") {
                             lastCompletionWasSpace = false;
                             popup.completionSelected(model.userid);
                         }
@@ -399,7 +405,11 @@ Control {
                     anchors.fill: parent
                     anchors.margins: popup.rowMargin
                     enabled: false
-                    roleValue: popup.completerType === "customEmoji" ? "emoji" : popup.completerType
+                    roleValue: popup.completerType === "customEmoji"
+                        ? "emoji"
+                        : popup.completerType === "user-mxid"
+                            ? "user"
+                            : popup.completerType
 
                     DelegateChoice {
                         roleValue: "user"

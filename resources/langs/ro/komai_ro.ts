@@ -925,7 +925,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Alege un emoji</translation>
     </message>
@@ -933,6 +933,11 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Alege un utilizator de menționat</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -955,7 +960,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Nu s-au găsit rezultate.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Notifică întreaga cameră</translation>
     </message>
@@ -3030,7 +3035,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 scrie…</translation>
     </message>
@@ -3582,12 +3587,12 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>
@@ -8317,7 +8322,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Nu s-a putut trimite mesajul: %1</translation>
     </message>

@@ -114,6 +114,11 @@ Item {
                         String(completion || ""));
         }
 
+        function commandExpectsUserIdAt(currentText, cursorPosition) {
+            return TimelineManager.activeMatrixCommandExpectsUserIdAt(String(currentText || ""),
+                                                                      Number(cursorPosition) || 0);
+        }
+
         function addMention(_userId, _completion) {
         }
 

@@ -338,7 +338,8 @@ const std::array<CommandDefinition, 21> kCommands{{
    CMD_TR("/invite <@userid> [reason]"),
    CMD_TR("Invite a user into the current room. Reason is optional."),
    "invite user",
-   validateInvite},
+   validateInvite,
+   true},
   {CommandId::Kick,
    "kick",
    "/kick @",
@@ -346,7 +347,8 @@ const std::array<CommandDefinition, 21> kCommands{{
    CMD_TR("Kick a user from the current room. Reason is optional. If user is left out, will try "
           "to kick the sender you are replying to."),
    "kick moderation user",
-   validateKickLike},
+   validateKickLike,
+   true},
   {CommandId::Ban,
    "ban",
    "/ban @",
@@ -354,7 +356,8 @@ const std::array<CommandDefinition, 21> kCommands{{
    CMD_TR("Ban a user from the current room. Reason is optional. If user is left out, will try "
           "to ban the sender you are replying to."),
    "ban moderation user",
-   validateKickLike},
+   validateKickLike,
+   true},
   {CommandId::Unban,
    "unban",
    "/unban @",
@@ -362,7 +365,8 @@ const std::array<CommandDefinition, 21> kCommands{{
    CMD_TR("Unban a user in the current room. Reason is optional. If user is left out, will try "
           "to unban the sender you are replying to."),
    "unban moderation user",
-   validateKickLike},
+   validateKickLike,
+   true},
   {CommandId::Redact,
    "redact",
    "/redact ",
@@ -370,7 +374,8 @@ const std::array<CommandDefinition, 21> kCommands{{
    CMD_TR("Redact an event by event id or that you are replying to, or all locally cached "
           "messages of a user. An optional reason can be provided."),
    "redact moderation event user",
-   validateRedact},
+   validateRedact,
+   true},
   {CommandId::Roomnick,
    "roomnick",
    "/roomnick ",
@@ -441,14 +446,16 @@ const std::array<CommandDefinition, 21> kCommands{{
    CMD_TR("/ignore <@userid>"),
    CMD_TR("Ignore a Matrix user."),
    "ignore user",
-   validateIgnoreUser},
+   validateIgnoreUser,
+   true},
   {CommandId::Unignore,
    "unignore",
    "/unignore @",
    CMD_TR("/unignore <@userid>"),
    CMD_TR("Stop ignoring a Matrix user."),
    "unignore user",
-   validateIgnoreUser},
+   validateIgnoreUser,
+   true},
 }};
 
 #undef CMD_TR
@@ -661,6 +668,28 @@ completionCursorPosition(const QString &text, int cursorPosition, QStringView co
 
     const int trailingOffset = std::max(0, clampedCursor - replaceEnd);
     return parsed.tokenStart + static_cast<int>(completion.size()) + trailingOffset;
+}
+
+bool
+argumentExpectsUserId(const QString &text, int cursorPosition)
+{
+    const int clampedCursor = std::clamp(cursorPosition, 0, static_cast<int>(text.size()));
+    const auto parsed       = parse(text);
+    if (!parsed.hasLeadingSlash || !parsed.definition ||
+        !parsed.definition->expectsUserIdFirstArg) {
+        return false;
+    }
+
+    const int firstArgStart = parsed.tokenEnd + 1;
+    if (clampedCursor < firstArgStart)
+        return false;
+
+    for (int i = firstArgStart; i < clampedCursor; ++i) {
+        if (text.at(i).isSpace())
+            return false;
+    }
+
+    return true;
 }
 
 } // namespace timeline::slash_commands

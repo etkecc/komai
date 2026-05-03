@@ -923,7 +923,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Válasszon egy emojit</translation>
     </message>
@@ -931,6 +931,11 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Válasszon felhasználót megemlítéshez</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -953,7 +958,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Nincs találat.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Az egész szoba értesítése</translation>
     </message>
@@ -3022,7 +3027,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 gépel…</translation>
     </message>
@@ -3572,12 +3577,12 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Írj üzenetet, vagy nyomj ↑-t az üzenetek kijelöléséhez.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Üzenet</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Matricák</translation>
     </message>
@@ -8291,7 +8296,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Nem sikerült elküldeni az üzenetet: %1</translation>
     </message>

@@ -924,7 +924,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>ഒരു ഇമോജി തിരഞ്ഞെടുക്കുക</translation>
     </message>
@@ -932,6 +932,11 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>പരാമർശിക്കാൻ ഒരു ഉപയോക്താവിനെ തിരഞ്ഞെടുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഒന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>മുഴുവൻ മുറിയെയും അറിയിക്കുക</translation>
     </message>
@@ -3026,7 +3031,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
@@ -3577,12 +3582,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ ↑ അമർത്തുക.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>സന്ദേശം</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>
@@ -8304,7 +8309,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>സന്ദേശം അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>

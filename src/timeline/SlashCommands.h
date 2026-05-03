@@ -80,6 +80,7 @@ struct CommandDefinition
     const char *description;
     const char *search;
     Validator validate;
+    bool expectsUserIdFirstArg = false;
 };
 
 struct ParsedCommand
@@ -157,5 +158,7 @@ QString
 applyCompletion(const QString &text, int cursorPosition, QStringView completion);
 int
 completionCursorPosition(const QString &text, int cursorPosition, QStringView completion);
+bool
+argumentExpectsUserId(const QString &text, int cursorPosition);
 
 } // namespace timeline::slash_commands

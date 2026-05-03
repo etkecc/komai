@@ -272,6 +272,8 @@ public:
     Q_INVOKABLE int activeMatrixCommandCompletionCursorPosition(const QString &text,
                                                                 int cursorPosition,
                                                                 const QString &completion) const;
+    Q_INVOKABLE bool
+    activeMatrixCommandExpectsUserIdAt(const QString &text, int cursorPosition) const;
     Q_INVOKABLE bool executeActiveMatrixSlashCommand(const QString &text);
 
     Q_INVOKABLE void openRoomSettings(QString room_id);

@@ -923,7 +923,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Chọn emoji</translation>
     </message>
@@ -931,6 +931,11 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Chọn người dùng để đề cập</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -953,7 +958,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Không tìm thấy kết quả.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Thông báo toàn bộ phòng</translation>
     </message>
@@ -3022,7 +3027,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 đang nhập…</translation>
     </message>
@@ -3572,12 +3577,12 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Viết tin nhắn, hoặc nhấn ↑ để chọn tin nhắn.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Tin nhắn</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>
     </message>
@@ -8291,7 +8296,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Không thể gửi tin nhắn: %1</translation>
     </message>

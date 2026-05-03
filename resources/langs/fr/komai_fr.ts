@@ -924,7 +924,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Choisir un emoji</translation>
     </message>
@@ -932,6 +932,11 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Choisir un utilisateur à mentionner</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Aucun résultat trouvé.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Notifier tout le salon</translation>
     </message>
@@ -3026,7 +3031,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 est en train d'écrire…</translation>
     </message>
@@ -3577,12 +3582,12 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Écrivez un message, ou appuyez sur ↑ pour sélectionner des messages.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>
@@ -8304,7 +8309,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Échec de l'envoi du message : %1</translation>
     </message>

@@ -163,6 +163,13 @@ TimelineViewManager::activeMatrixCommandCompletionCursorPosition(const QString &
 }
 
 bool
+TimelineViewManager::activeMatrixCommandExpectsUserIdAt(const QString &text,
+                                                        int cursorPosition) const
+{
+    return timeline::slash_commands::argumentExpectsUserId(text, cursorPosition);
+}
+
+bool
 TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
 {
     const auto inspection = timeline::slash_commands::inspect(

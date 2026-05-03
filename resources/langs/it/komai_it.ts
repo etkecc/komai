@@ -924,7 +924,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Scegli un'emoji</translation>
     </message>
@@ -932,6 +932,11 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Scegli un utente da menzionare</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Nessun risultato trovato.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Notifica tutta la stanza</translation>
     </message>
@@ -3026,7 +3031,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 sta scrivendo…</translation>
     </message>
@@ -3577,12 +3582,12 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Scrivi un messaggio, o premi ↑ per selezionare i messaggi.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Messaggio</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>
@@ -8304,7 +8309,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Impossibile inviare il messaggio: %1</translation>
     </message>

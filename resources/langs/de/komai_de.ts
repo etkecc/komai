@@ -924,7 +924,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Emoji auswählen</translation>
     </message>
@@ -932,6 +932,11 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Nutzer zum Erwähnen auswählen</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Keine Übereinstimmungen gefunden.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Den ganzen Raum benachrichtigen</translation>
     </message>
@@ -3026,7 +3031,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 schreibt …</translation>
     </message>
@@ -3577,12 +3582,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Schreib eine Nachricht oder drücke ↑, um Nachrichten auszuwählen.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Nachricht</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>
@@ -8304,7 +8309,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Fehler beim Senden der Nachricht: %1</translation>
     </message>

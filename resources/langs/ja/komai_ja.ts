@@ -923,7 +923,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>絵文字を選択</translation>
     </message>
@@ -931,6 +931,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>メンションするユーザーを選択</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -953,7 +958,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>一致するものが見つかりませんでした。</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>ルーム全体に通知する</translation>
     </message>
@@ -3022,7 +3027,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 が入力中…</translation>
     </message>
@@ -3572,12 +3577,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>メッセージを入力、または↑を押してメッセージを選択。</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>メッセージ</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>スタンプ</translation>
     </message>
@@ -8291,7 +8296,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>メッセージの送信に失敗しました: %1</translation>
     </message>

@@ -924,7 +924,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>ඉමෝජියක් තෝරන්න</translation>
     </message>
@@ -932,6 +932,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>සඳහන් කිරීමට පරිශීලකයෙකු තෝරන්න</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ගැළපීම් හමු නොවිණ.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>සම්පූර්ණ කාමරයට දැනුම් දෙන්න</translation>
     </message>
@@ -3026,7 +3031,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 ටයිප් කරමින් සිටී…</translation>
     </message>
@@ -3577,12 +3582,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>පණිවිඩයක් ලියන්න, හෝ පණිවිඩ තේරීමට ↑ ඔබන්න.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>පණිවිඩය</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>ස්ටිකර</translation>
     </message>
@@ -8304,7 +8309,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>පණිවිඩය යැවීම අසාර්ථක විය: %1</translation>
     </message>

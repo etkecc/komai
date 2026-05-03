@@ -156,6 +156,39 @@ testParserAndCompletionRanges()
 }
 
 bool
+testArgumentExpectsUserId()
+{
+    bool ok = true;
+    using timeline::slash_commands::argumentExpectsUserId;
+
+    ok &= expect(argumentExpectsUserId(QStringLiteral("/kick "), 6),
+                 "/kick first argument slot expects a user id");
+    ok &= expect(argumentExpectsUserId(QStringLiteral("/kick @"), 6),
+                 "/kick treats the position right before @ as a user id slot");
+    ok &= expect(argumentExpectsUserId(QStringLiteral("/ban @alice:example.org"), 5),
+                 "/ban first argument slot expects a user id");
+    ok &= expect(argumentExpectsUserId(QStringLiteral("/invite @"), 8),
+                 "/invite first argument slot expects a user id");
+    ok &= expect(argumentExpectsUserId(QStringLiteral("/ignore @"), 8),
+                 "/ignore first argument slot expects a user id");
+    ok &= expect(argumentExpectsUserId(QStringLiteral("/redact @"), 8),
+                 "/redact first argument slot expects a user id");
+    ok &= expect(!argumentExpectsUserId(QStringLiteral("/kick @alice:example.org reason"), 30),
+                 "second argument of /kick is not a user id slot");
+    ok &= expect(!argumentExpectsUserId(QStringLiteral("/notice @"), 8),
+                 "/notice does not expect a user id argument");
+    ok &= expect(!argumentExpectsUserId(QStringLiteral("/me @"), 4),
+                 "/me does not expect a user id argument");
+    ok &= expect(!argumentExpectsUserId(QStringLiteral("@alice:example.org"), 0),
+                 "plain @ outside a slash command does not expect a user id");
+    ok &= expect(!argumentExpectsUserId(QStringLiteral("/kick"), 3),
+                 "cursor still inside the command name does not expect a user id");
+    ok &= expect(!argumentExpectsUserId(QStringLiteral("/foo @"), 5),
+                 "unknown slash commands do not expect a user id");
+    return ok;
+}
+
+bool
 testCompleterTemplates()
 {
     bool ok               = true;
@@ -416,6 +449,7 @@ main(int argc, char **argv)
     bool ok = true;
     ok &= testRegistryInventory();
     ok &= testParserAndCompletionRanges();
+    ok &= testArgumentExpectsUserId();
     ok &= testCompleterTemplates();
     ok &= testValidationAndSendBehavior();
     ok &= testValidationMessages();

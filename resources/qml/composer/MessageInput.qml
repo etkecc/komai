@@ -1067,6 +1067,7 @@ Rectangle {
 
                     switch (completer.completerType) {
                     case "user":
+                    case "user-mxid":
                         return suffix.indexOf('@') >= 0 || suffix.indexOf('＠') >= 0;
                     case "emoji":
                         return suffix.indexOf(':') >= 0 || suffix.indexOf('：') >= 0;
@@ -1091,8 +1092,13 @@ Rectangle {
 
                     completer.completer.setSearchString(searchString);
                 }
-                function insertCompletion(completion) {
-                    if (completer.completerType === "command" && inputBar.inputController) {
+                function insertCompletion(completion, activeType, activeUserid) {
+                    if (activeType === undefined)
+                        activeType = completer.completerType;
+                    if (activeUserid === undefined)
+                        activeUserid = completer.currentUserid();
+
+                    if (activeType === "command" && inputBar.inputController) {
                         const updatedText = inputBar.inputController.applyCommandCompletion(messageInput.text,
                                                                                             cursorPosition,
                                                                                             completion);
@@ -1104,13 +1110,16 @@ Rectangle {
                         return;
                     }
 
+                    const isUserMxidPick = activeType === "user-mxid";
+                    const textToInsert = isUserMxidPick && activeUserid
+                        ? String(activeUserid)
+                        : completion;
                     let replaceEnd = cursorPosition;
                     messageInput.remove(completerTriggeredAt, replaceEnd);
-                    messageInput.insert(completerTriggeredAt, completion);
-                    messageInput.cursorPosition = completerTriggeredAt + completion.length;
-                    let userid = completer.currentUserid();
-                    if (userid && inputBar.inputController)
-                        inputBar.inputController.addMention(userid, completion);
+                    messageInput.insert(completerTriggeredAt, textToInsert);
+                    messageInput.cursorPosition = completerTriggeredAt + textToInsert.length;
+                    if (activeUserid && inputBar.inputController && !isUserMxidPick)
+                        inputBar.inputController.addMention(activeUserid, completion);
                 }
                 function openCompleter(pos, type) {
                     completerTriggeredAt = pos;
@@ -1120,8 +1129,14 @@ Rectangle {
                     messageInput.refreshCompleterSearchString();
                 }
                 function completerTypeForTrigger(trigger, tokenStart) {
-                    if ((trigger === '@' || trigger === '＠') && Settings.composerInputInlineUserPickerEnabled)
+                    if ((trigger === '@' || trigger === '＠') && Settings.composerInputInlineUserPickerEnabled) {
+                        if (inputBar.inputController
+                                && typeof inputBar.inputController.commandExpectsUserIdAt === "function"
+                                && inputBar.inputController.commandExpectsUserIdAt(messageInput.text, tokenStart)) {
+                            return "user-mxid";
+                        }
                         return "user";
+                    }
                     if ((trigger === ':' || trigger === '：') && Settings.composerInputInlineEmojiPickerEnabled)
                         return "emoji";
                     if ((trigger === '#' || trigger === '＃') && Settings.composerInputInlineRoomPickerEnabled)
@@ -1331,13 +1346,14 @@ Rectangle {
                         ) {
                             var currentCompletion = completer.currentCompletion();
                             let userid = completer.currentUserid();
+                            const capturedType = completer.completerType;
 
                             completer.completerType = "";
                             popup.close();
 
                             if (currentCompletion) {
-                                messageInput.insertCompletion(currentCompletion);
-                                if (userid) {
+                                messageInput.insertCompletion(currentCompletion, capturedType, userid);
+                                if (userid && capturedType === "user") {
                                     console.log(userid);
                                     if (inputBar.inputController)
                                         inputBar.inputController.addMention(userid, currentCompletion);
@@ -1632,6 +1648,7 @@ Rectangle {
                         case "roomAliases":
                             return availableWidth;
                         case "user":
+                        case "user-mxid":
                             if (availableWidth <= Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 40)))
                                 return availableWidth;
                             return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 34));

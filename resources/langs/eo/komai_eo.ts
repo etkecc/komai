@@ -924,7 +924,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+223"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Elekti emoĝion</translation>
     </message>
@@ -932,6 +932,11 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location line="+2"/>
         <source>Pick a user to mention</source>
         <translation>Elekti uzanton por mencii</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a user</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -954,7 +959,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Neniu kongruo trovita.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+174"/>
         <source>Notify the whole room</source>
         <translation>Sciigi la tutan ĉambron</translation>
     </message>
@@ -3026,7 +3031,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+141"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
         <source>%1 is typing…</source>
         <translation>%1 skribas…</translation>
     </message>
@@ -3577,12 +3582,12 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Skribu mesaĝon, aŭ premu ↑ por elekti mesaĝojn.</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+174"/>
         <source>Message</source>
         <translation>Mesaĝo</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+558"/>
         <source>Stickers</source>
         <translation>Glumarkoj</translation>
     </message>
@@ -8307,7 +8312,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+288"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>Malsukcesis sendi mesaĝon: %1</translation>
     </message>

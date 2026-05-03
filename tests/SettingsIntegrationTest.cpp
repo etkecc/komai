@@ -151,10 +151,6 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.ui.font_emoji_family)) ==
             expected,
           message);
-    if (keyString == QLatin1String(SettingKey::UiInputMode))
-        return expect(QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)) ==
-                        expected,
-                      message);
     if (keyString == QLatin1String(SettingKey::UiScrollbarPolicy))
         return expect(
           QString::fromStdString(static_cast<std::string>(snapshot.ui.scrollbar_policy)) ==
@@ -769,7 +765,6 @@ testEnumSettingsPersistAsStrings()
     settings->setDesktopNotificationsMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
-    settings->setUiInputMode(true);
     settings->save();
 
     const auto configRoot = loadConfigSnapshot(ctx.configFile(), "config");
@@ -842,11 +837,6 @@ testEnumSettingsPersistAsStrings()
                              SettingKey::IntegrationsDbusApiAccess,
                              QStringLiteral("read_only"),
                              "D-Bus access policy is persisted as string token");
-    ok &= expectConfigString(configRoot,
-                             SettingKey::UiInputMode,
-                             QStringLiteral("touch"),
-                             "input mode is persisted as string token");
-
     return ok;
 }
 
@@ -861,8 +851,6 @@ testInvalidConfigTokensFallbackToSafeValues()
     if (!ctx.writeConfig(QStringLiteral("ui:\n"
                                         "  theme:\n"
                                         "    slug: not-a-real-theme\n"
-                                        "  input:\n"
-                                        "    mode: spaceship\n"
                                         "network:\n"
                                         "  presence:\n"
                                         "    status_policy: not_a_real_presence\n")))
@@ -878,20 +866,15 @@ testInvalidConfigTokensFallbackToSafeValues()
                  "invalid theme slug is ignored");
     ok &= expect(settings->networkPresenceStatusPolicy() == UserSettings::Presence::AutomaticPresence,
                  "invalid presence token falls back to automatic presence");
-    ok &= expect(!settings->uiInputMode(),
-                 "invalid input mode token falls back to desktop mode");
 
     const auto &store = settings->coreStore();
     const auto theme = store.valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
     const auto presence = store.valueAs<int>(settings::core::SettingId::NetworkPresenceStatusPolicy);
-    const auto inputMode = store.valueAs<bool>(settings::core::SettingId::UiInputMode);
     ok &= expect(theme.has_value() && *theme != std::string{"not-a-real-theme"},
                  "core store keeps valid theme after invalid theme token");
     ok &= expect(presence.has_value() &&
                    *presence == static_cast<int>(UserSettings::Presence::AutomaticPresence),
                  "core store keeps fallback presence for invalid token");
-    ok &= expect(inputMode.has_value() && !*inputMode,
-                 "core store keeps fallback input mode for invalid token");
 
     return ok;
 }
@@ -1637,7 +1620,6 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiLanguage));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontSizePt));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiMotionAnimationsEnabled));
-    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiInputMode));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::UiInputTouchSwipeGesturesEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));

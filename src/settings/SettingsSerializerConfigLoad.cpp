@@ -12,7 +12,6 @@
 #include "logging/Logging.h"
 
 #include "SettingsSerializerConfigConverters.h"
-#include "SettingsSerializerConfigInternal.h"
 #include "SettingsSerializerConfigSchema.h"
 #include "settings/SettingKeys.h"
 #include "settings/core/SettingsDefinitions.h"
@@ -51,8 +50,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setUiAvatarsDefaultAvatarStyle(cfg::defaultAvatarStyleFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)).trimmed(),
       UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
-    settings.setUiInputMode(detail::fromStorageUiInputMode(
-      QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed()));
     settings.setUiScaleFactor(snapshot.ui.scale_factor);
     settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.input_touch_swipe_gestures_enabled);
     settings.setUiAvatarsCircular(snapshot.ui.avatars_circular);

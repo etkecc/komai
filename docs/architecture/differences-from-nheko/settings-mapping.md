@@ -52,7 +52,7 @@ Note:
 | Desktop | SYSTEM TRAY | Start in tray | `settings::core::SettingId::DesktopSystemTrayAutostart` | `start_in_tray` | `desktop.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `settings::core::SettingId::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `settings::core::SettingId::IntegrationsBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Interaction mode | `settings::core::SettingId::UiInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
+| - | REMOVED | Interaction mode | - | `mobile_mode` | - | - | no |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `settings::core::SettingId::UiInputTouchSwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures.enabled` | config.yml | yes |
 | Timeline | PRESENTATION | Style | `settings::core::SettingId::TimelineMessagesStyle` | `bubbles` | `timeline.messages.style` | config.yml | yes |
 | Timeline | PRESENTATION | Avatar size | `settings::core::SettingId::TimelineMessagesLayoutAvatarSize` | `small_avatars` | `timeline.messages.layout.avatar_size` | config.yml | yes |

@@ -525,49 +525,6 @@
     </message>
 </context>
 <context>
-    <name>CallInviteBar</name>
-    <message>
-        <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
-        <source>Video Call</source>
-        <translation>Appel Video</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Voice Call</source>
-        <translation>Appel Vocal</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Devices</source>
-        <translation>Aparates</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Accept</source>
-        <translation>Acceptar</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>No microphone found.</source>
-        <translation>Null microfone trovit.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Unknown microphone: %1</source>
-        <translation>Microfon incognit: %1</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Unknown camera: %1</source>
-        <translation>Camera incognit: %1</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Decline</source>
-        <translation>Declinar</translation>
-    </message>
-</context>
-<context>
     <name>CallManager</name>
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
@@ -9859,16 +9816,6 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Fonte emoji del sistema</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
-        <source>Desktop</source>
-        <translation>Bureau</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Touch</source>
-        <translation>Tactil</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
         <source>When needed</source>
         <translation>Quande necessari</translation>
@@ -10217,16 +10164,6 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <location line="+3"/>
         <source>Enable UI animations</source>
         <translation>Activar animationes de UI</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Interaction mode</source>
-        <translation>Mode de interaction</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Desktop usa comportament de muse-prim. Mode tactil favorisa interacciones de glissar e tactil.</translation>
     </message>
     <message>
         <location line="+9"/>

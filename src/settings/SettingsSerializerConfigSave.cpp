@@ -10,7 +10,6 @@
 #include <QString>
 
 #include "SettingsSerializerConfigConverters.h"
-#include "SettingsSerializerConfigInternal.h"
 #include "settings/core/StartupConfig.h"
 
 namespace settings::serializer {
@@ -31,7 +30,6 @@ stageConfig(const UserSettings &settings,
           .font_family               = settings.uiFontFamily().toStdString(),
           .font_emoji_family         = settings.uiFontEmojiFamilyStorageValue().toStdString(),
           .motion_animations_enabled = settings.uiMotionAnimationsEnabled(),
-          .input_mode = detail::toStorageUiInputMode(settings.uiInputMode()).toStdString(),
           .input_touch_swipe_gestures_enabled = settings.uiInputTouchSwipeGesturesEnabled(),
           .layout_density       = cfg::toStorageValue(settings.uiLayoutDensity()).toStdString(),
           .avatars_circular     = settings.uiAvatarsCircular(),

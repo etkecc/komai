@@ -525,49 +525,6 @@
     </message>
 </context>
 <context>
-    <name>CallInviteBar</name>
-    <message>
-        <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
-        <source>Video Call</source>
-        <translation>Appel vidéo</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Voice Call</source>
-        <translation>Appel audio</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Devices</source>
-        <translation>Appareils</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Accept</source>
-        <translation>Accepter</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>No microphone found.</source>
-        <translation>Aucun microphone trouvé.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Unknown microphone: %1</source>
-        <translation>Microphone inconnu : %1</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Unknown camera: %1</source>
-        <translation>Caméra inconnue : %1</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Decline</source>
-        <translation>Refuser</translation>
-    </message>
-</context>
-<context>
     <name>CallManager</name>
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
@@ -9859,16 +9816,6 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Police d'emoji système</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
-        <source>Desktop</source>
-        <translation>Bureau</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Touch</source>
-        <translation>Tactile</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
         <source>When needed</source>
         <translation>Si nécessaire</translation>
@@ -10217,16 +10164,6 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <location line="+3"/>
         <source>Enable UI animations</source>
         <translation>Activer les animations de l'interface</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Interaction mode</source>
-        <translation>Mode d'interaction</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Le mode Bureau privilégie les interactions à la souris. Le mode Tactile favorise les gestes de balayage et les interactions tactiles.</translation>
     </message>
     <message>
         <location line="+9"/>

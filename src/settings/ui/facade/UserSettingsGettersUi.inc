@@ -52,7 +52,6 @@
     int navigationTabsMinimumWidthPx() const;
     int navigationTabsMaxRecentlyClosedTimelines() const;
     TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy() const;
-    bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;
     bool timelineReadReceiptsEnabled() const;
     bool timelineThreadsCollapseReplies() const;

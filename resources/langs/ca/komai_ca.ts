@@ -525,49 +525,6 @@
     </message>
 </context>
 <context>
-    <name>CallInviteBar</name>
-    <message>
-        <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
-        <source>Video Call</source>
-        <translation>Videotrucada</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Voice Call</source>
-        <translation>Trucada de veu</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Devices</source>
-        <translation>Dispositius</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Accept</source>
-        <translation>Accepta</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>No microphone found.</source>
-        <translation>No s'ha trobat cap micròfon.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Unknown microphone: %1</source>
-        <translation>Micròfon desconegut: %1</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Unknown camera: %1</source>
-        <translation>Càmera desconeguda: %1</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Decline</source>
-        <translation>Rebutja</translation>
-    </message>
-</context>
-<context>
     <name>CallManager</name>
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
@@ -9859,16 +9816,6 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Tipus de lletra d'emoji del sistema</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
-        <source>Desktop</source>
-        <translation>Escriptori</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Touch</source>
-        <translation>Tàctil</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
         <source>When needed</source>
         <translation>Quan calgui</translation>
@@ -10217,16 +10164,6 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <location line="+3"/>
         <source>Enable UI animations</source>
         <translation>Activa les animacions de la interfície</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Interaction mode</source>
-        <translation>Mode d'interacció</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>L'escriptori utilitza un comportament orientat al ratolí. El mode tàctil afavoreix les interaccions de lliscament i tacte.</translation>
     </message>
     <message>
         <location line="+9"/>

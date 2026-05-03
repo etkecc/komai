@@ -27,15 +27,6 @@ UserSettings::uiMotionAnimationsEnabled() const
 }
 
 bool
-UserSettings::uiInputMode() const
-{
-    if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::UiInputMode);
-        value.has_value())
-        return *value;
-    return uiInputMode_;
-}
-
-bool
 UserSettings::uiInputTouchSwipeGesturesEnabled() const
 {
     if (const auto value =

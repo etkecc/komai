@@ -44,7 +44,7 @@ Slider {
         implicitHeight: control.sliderRadius
         radius: control.sliderRadius / 2
         color: control.progressColor
-        visible: !Settings.uiInputMode || control.alwaysShowSlider || control.hovered || control.pressed
+        visible: true
         border.color: control.progressColor
     }
 

@@ -4,8 +4,8 @@
 
 use super::{
     encode_config_yaml, load_config_snapshot, parse_config_text,
-    ConfigSecretsProviderToken, ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken,
-    ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
+    ConfigSecretsProviderToken, ConfigUiDefaultAvatarStyleToken, ConfigUiLayoutDensityToken,
+    ConfigUiScrollbarPolicyToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListOpeningPolicyToken,
     ConfigTimelineMediaImageDisplayToken,
@@ -86,17 +86,13 @@ secrets:
     );
 
     assert_eq!(config.ui.theme.slug, "dark-komai");
-    assert_eq!(config.ui.input.mode, ConfigUiInputModeToken::Text);
     assert_eq!(config.secrets.provider, ConfigSecretsProviderToken::File);
 }
 
 #[test]
-fn parses_input_mode_and_hidden_events() {
+fn parses_hidden_events() {
     let config = parse_config_text(
         r#"
-ui:
-  input:
-    mode: touch
 timeline:
   hidden_events:
     global: []
@@ -107,7 +103,6 @@ timeline:
 "#,
     );
 
-    assert_eq!(config.ui.input.mode, ConfigUiInputModeToken::Touch);
     assert_eq!(config.timeline.hidden_events.global, Some(Vec::new()));
     assert_eq!(
         config.timeline.hidden_events.by_room.get("!room:example.org"),
@@ -424,7 +419,6 @@ fn encodes_generic_config_values() {
             font_family: "Iosevka".to_owned(),
             font_emoji_family: "Noto Color Emoji".to_owned(),
             motion_animations_enabled: true,
-            input_mode: "desktop".to_owned(),
             input_touch_swipe_gestures_enabled: true,
             layout_density: "spacious".to_owned(),
             avatars_circular: true,
@@ -706,10 +700,6 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::Mapping(_))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["ui", "input", "mode"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "desktop"
-    ));
-    assert!(matches!(
         yaml::value_at_path(&root, &["ui", "font", "family"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "Iosevka"
     ));
@@ -939,7 +929,6 @@ secrets:
 
     assert_eq!(loaded.config.ui.scale.factor, Some(1.5));
     assert_eq!(loaded.config.ui.theme.slug, "dark-komai");
-    assert_eq!(loaded.config.ui.input.mode, ConfigUiInputModeToken::Text);
     assert_eq!(loaded.config.ui.motion.animations_enabled, None);
     assert_eq!(loaded.config.secrets.provider, ConfigSecretsProviderToken::File);
     assert!(loaded.should_write_back);
@@ -950,8 +939,6 @@ fn invalid_tokens_normalize_to_known_defaults() {
     let config = parse_config_text(
         r#"
 ui:
-  input:
-    mode: nonsense
   avatars:
     default_avatar_style: mystery
   scrollbar_policy: odd
@@ -971,7 +958,6 @@ composer:
 "#,
     );
 
-    assert_eq!(config.ui.input.mode.to_storage_string(), "text");
     assert_eq!(
         config.ui.avatars.default_avatar_style.to_storage_string(),
         "boring_avatars_bauhaus"
@@ -1145,7 +1131,6 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
             font_family: String::new(),
             font_emoji_family: String::new(),
             motion_animations_enabled: true,
-            input_mode: "text".to_owned(),
             input_touch_swipe_gestures_enabled: true,
             layout_density: "regular".to_owned(),
             avatars_circular: true,
@@ -1388,7 +1373,6 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             font_family: String::new(),
             font_emoji_family: String::new(),
             motion_animations_enabled: true,
-            input_mode: "text".to_owned(),
             input_touch_swipe_gestures_enabled: true,
             layout_density: "regular".to_owned(),
             avatars_circular: true,

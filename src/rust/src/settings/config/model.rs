@@ -17,8 +17,7 @@ use super::tokens::{
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken,
     ConfigTimelineMessagesStyleToken, ConfigTimelineUserColorCodingPolicyToken,
-    ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiLayoutDensityToken,
-    ConfigUiScrollbarPolicyToken,
+    ConfigUiDefaultAvatarStyleToken, ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
 };
 
 pub(crate) const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 1;
@@ -74,7 +73,6 @@ pub struct ConfigUiMotion {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiInput {
-    pub mode: ConfigUiInputModeToken,
     pub touch_swipe_gestures_enabled: Option<bool>,
 }
 

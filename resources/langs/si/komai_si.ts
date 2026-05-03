@@ -525,49 +525,6 @@
     </message>
 </context>
 <context>
-    <name>CallInviteBar</name>
-    <message>
-        <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
-        <source>Video Call</source>
-        <translation>වීඩියෝ ඇමතුම</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Voice Call</source>
-        <translation>හඬ ඇමතුම</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Devices</source>
-        <translation>උපකරණ</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Accept</source>
-        <translation>පිළිගන්න</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>No microphone found.</source>
-        <translation>මයික්‍රෆෝනයක් හමු නොවිණි.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Unknown microphone: %1</source>
-        <translation>නොදන්නා මයික්‍රෝෆෝනය: %1</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Unknown camera: %1</source>
-        <translation>නොදන්නා කැමරාව: %1</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Decline</source>
-        <translation>ප්‍රතික්ෂේප කරන්න</translation>
-    </message>
-</context>
-<context>
     <name>CallManager</name>
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
@@ -9859,16 +9816,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පද්ධති emoji අකුරු</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
-        <source>Desktop</source>
-        <translation>ඩෙස්ක්ටොප්</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Touch</source>
-        <translation>ස්පර්ශ</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
         <source>When needed</source>
         <translation>අවශ්‍ය විට</translation>
@@ -10217,16 +10164,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+3"/>
         <source>Enable UI animations</source>
         <translation>UI සජීවීකරණ සක්‍රිය කරන්න</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Interaction mode</source>
-        <translation>අන්තර්ක්‍රියා ආකාරය</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>ඩෙස්ක්ටොප් මාදිලිය මූසිකය-ප්‍රථම හැසිරීම භාවිතා කරයි. ස්පර්ශ මාදිලිය ස්වයිප් සහ ස්පර්ශ අන්තර්ක්‍රියා සඳහා ප්‍රමුඛත්වය දෙයි.</translation>
     </message>
     <message>
         <location line="+9"/>

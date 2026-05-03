@@ -7,7 +7,6 @@
    SettingScope::Config,
    SettingKey::UiMotionAnimationsEnabled,
    false},
-  {SettingId::UiInputMode, SettingScope::Config, SettingKey::UiInputMode, false},
   {SettingId::UiInputTouchSwipeGesturesEnabled,
    SettingScope::Config,
    SettingKey::UiInputTouchSwipeGesturesEnabled,

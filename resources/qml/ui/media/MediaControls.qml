@@ -187,7 +187,7 @@ Rectangle {
 
                 states: State {
                     name: "shown"
-                    when: !Settings.uiInputMode || volumeButton.hovered || volumeSlider.hovered || volumeSlider.pressed
+                    when: true
 
                     PropertyChanges {
                         volumeSlider.opacity: 1

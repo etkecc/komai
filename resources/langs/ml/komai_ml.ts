@@ -525,49 +525,6 @@
     </message>
 </context>
 <context>
-    <name>CallInviteBar</name>
-    <message>
-        <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
-        <source>Video Call</source>
-        <translation>വീഡിയോ കോൾ</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Voice Call</source>
-        <translation>വോയ്സ് കോൾ</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Devices</source>
-        <translation>ഉപകരണങ്ങൾ</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Accept</source>
-        <translation>സ്വീകരിക്കുക</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>No microphone found.</source>
-        <translation>മൈക്രോഫോണൊന്നും കണ്ടെത്തിയില്ല.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Unknown microphone: %1</source>
-        <translation>അജ്ഞാത മൈക്രോഫോൺ:% 1</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Unknown camera: %1</source>
-        <translation>അജ്ഞാത ക്യാമറ:% 1</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Decline</source>
-        <translation>നിരസിക്കുക</translation>
-    </message>
-</context>
-<context>
     <name>CallManager</name>
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
@@ -9859,16 +9816,6 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>സിസ്റ്റം ഇമോജി ഫോണ്ട്</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
-        <source>Desktop</source>
-        <translation>ഡെസ്ക്ടോപ്പ്</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Touch</source>
-        <translation>ടച്ച്</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
         <source>When needed</source>
         <translation>ആവശ്യമാകുമ്പോൾ</translation>
@@ -10217,16 +10164,6 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <location line="+3"/>
         <source>Enable UI animations</source>
         <translation>UI ആനിമേഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Interaction mode</source>
-        <translation>ഇന്ററാക്ഷൻ മോഡ്</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>ഡെസ്ക്ടോപ്പ് മൗസ്-ഫസ്റ്റ് സ്വഭാവം ഉപയോഗിക്കുന്നു. ടച്ച് മോഡ് സ്വൈപ്പ്, ടച്ച് ഇന്ററാക്ഷനുകൾ അനുകൂലിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+9"/>

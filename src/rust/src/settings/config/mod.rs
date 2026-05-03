@@ -42,9 +42,8 @@ pub use tokens::{
     ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
-    ConfigTimelineUserColorCodingPolicyToken,
-    ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiLayoutDensityToken,
-    ConfigUiScrollbarPolicyToken,
+    ConfigTimelineUserColorCodingPolicyToken, ConfigUiDefaultAvatarStyleToken,
+    ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -53,7 +52,6 @@ const UI_FONT_FAMILY_PATH: [&str; 3] = ["ui", "font", "family"];
 const UI_FONT_EMOJI_FAMILY_PATH: [&str; 3] = ["ui", "font", "emoji_family"];
 const UI_FONT_SIZE_PT_PATH: [&str; 3] = ["ui", "font", "size_pt"];
 const UI_MOTION_ANIMATIONS_ENABLED_PATH: [&str; 3] = ["ui", "motion", "enable_animations"];
-const UI_INPUT_MODE_PATH: [&str; 3] = ["ui", "input", "mode"];
 const UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH: [&str; 5] =
     ["ui", "input", "touch", "swipe_gestures", "enabled"];
 const UI_LAYOUT_DENSITY_PATH: [&str; 3] = ["ui", "layout", "density"];
@@ -263,7 +261,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     .and_then(parse_scalar_bool),
             },
             input: ConfigUiInput {
-                mode: parse_storage_token(yaml::value_at_path(root, &UI_INPUT_MODE_PATH)),
                 touch_swipe_gestures_enabled: yaml::value_at_path(
                     root,
                     &UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH,

@@ -525,49 +525,6 @@
     </message>
 </context>
 <context>
-    <name>CallInviteBar</name>
-    <message>
-        <location filename="../../qml/voip/CallInviteBar.qml" line="+67"/>
-        <source>Video Call</source>
-        <translation>Βιντεοκλήση</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Voice Call</source>
-        <translation>Φωνητική κλήση</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Devices</source>
-        <translation>Συσκευές</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Accept</source>
-        <translation>Αποδοχή</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>No microphone found.</source>
-        <translation>Δεν βρέθηκε μικρόφωνο.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Unknown microphone: %1</source>
-        <translation>Άγνωστο μικρόφωνο: %1</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Unknown camera: %1</source>
-        <translation>Άγνωστη κάμερα: %1</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Decline</source>
-        <translation>Απόρριψη</translation>
-    </message>
-</context>
-<context>
     <name>CallManager</name>
     <message>
         <location filename="../../../src/voip/callmanager/CallManagerScreenShare.cpp" line="+119"/>
@@ -9859,16 +9816,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Γραμματοσειρά emoji συστήματος</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc" line="+30"/>
-        <source>Desktop</source>
-        <translation>Επιφάνεια εργασίας</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Touch</source>
-        <translation>Αφή</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
         <source>When needed</source>
         <translation>Όταν χρειάζεται</translation>
@@ -10217,16 +10164,6 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+3"/>
         <source>Enable UI animations</source>
         <translation>Ενεργοποίηση κινούμενων γραφικών διεπαφής</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Interaction mode</source>
-        <translation>Λειτουργία αλληλεπίδρασης</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions.</source>
-        <translation>Η επιφάνεια εργασίας χρησιμοποιεί συμπεριφορά με προτεραιότητα ποντικιού. Η λειτουργία αφής ευνοεί αλληλεπιδράσεις σάρωσης και αφής.</translation>
     </message>
     <message>
         <location line="+9"/>

@@ -558,7 +558,6 @@ set(SRC_FILES
     src/settings/SettingsSerializerConfig.cpp
     src/settings/SettingsSerializerConfigLoad.cpp
     src/settings/SettingsSerializerConfigSave.cpp
-    src/settings/SettingsSerializerConfigInternal.h
     src/settings/SettingsSerializerSession.cpp
     src/settings/SettingsSerializerState.cpp
     src/settings/SettingsSerializer.h

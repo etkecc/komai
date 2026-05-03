@@ -39,16 +39,6 @@ UserSettings::setTimelineFormattedCodeSyntaxHighlighting(bool s)
     save();
 }
 void
-UserSettings::setUiInputMode(bool s)
-{
-    if (uiInputMode_ == s)
-        return;
-    uiInputMode_ = s;
-    (void)coreStore_.set(settings::core::SettingId::UiInputMode, s);
-    emit uiInputModeChanged(s);
-    save();
-}
-void
 UserSettings::setUiInputTouchSwipeGesturesEnabled(bool s)
 {
     if (uiInputTouchSwipeGesturesEnabled_ == s)

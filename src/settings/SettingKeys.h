@@ -20,7 +20,6 @@ constexpr auto UiFontEmojiFamily                = "ui.font.emoji_family";
 constexpr auto UiFontSizePt                     = "ui.font.size_pt";
 constexpr auto UiScaleFactor                    = "ui.scale.factor";
 constexpr auto UiMotionAnimationsEnabled        = "ui.motion.enable_animations";
-constexpr auto UiInputMode                      = "ui.input.mode";
 constexpr auto UiInputTouchSwipeGesturesEnabled = "ui.input.touch.swipe_gestures.enabled";
 constexpr auto UiAvatarsCircular                = "ui.avatars.circular";
 constexpr auto UiAvatarsDefaultAvatarStyle      = "ui.avatars.default_avatar_style";

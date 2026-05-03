@@ -50,11 +50,6 @@ macro_rules! storage_token_enum {
     };
 }
 
-storage_token_enum!(ConfigUiInputModeToken, Text {
-    Text => "text",
-    Touch => "touch",
-});
-
 storage_token_enum!(ConfigUiScrollbarPolicyToken, WhenNeeded {
     WhenNeeded => "when_needed",
     Never => "never",

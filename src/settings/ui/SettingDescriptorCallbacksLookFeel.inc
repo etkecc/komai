@@ -4,6 +4,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc"
-#include "settings/ui/SettingDescriptorCallbacksLookFeelInputMode.inc"
 #include "settings/ui/SettingDescriptorCallbacksLookFeelLanguage.inc"
 #include "settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc"

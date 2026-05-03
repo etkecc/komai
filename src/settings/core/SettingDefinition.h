@@ -25,7 +25,6 @@ enum class SettingId
     UiFontSizePt,
     UiFontEmojiFamily,
     UiMotionAnimationsEnabled,
-    UiInputMode,
     UiInputTouchSwipeGesturesEnabled,
     UiAvatarsCircular,
     UiAvatarsDefaultAvatarStyle,

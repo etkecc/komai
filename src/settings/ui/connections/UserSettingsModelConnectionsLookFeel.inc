@@ -4,7 +4,6 @@
     CONNECT_SETTING_ID(UiFontSizePt, uiFontSizePtChanged, Value);
     CONNECT_SETTING_ID(UiFontEmojiFamily, uiFontEmojiFamilyChanged, Value);
 CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, Value);
-    CONNECT_SETTING_ID(UiInputMode, uiInputModeChanged, Value);
     CONNECT_SETTING_ID(UiLayoutDensity, uiLayoutDensityChanged, Value);
     CONNECT_SETTING_ID(UiLanguage, uiLanguageChanged, Value, Values);
     CONNECT_SETTING_ID(

@@ -5,13 +5,9 @@
 
 #include "SettingsSerializer.h"
 
-#include <QString>
-
 #include <utility>
 
 #include "logging/Logging.h"
-
-#include "SettingsSerializerConfigInternal.h"
 
 namespace settings::serializer {
 
@@ -46,30 +42,5 @@ activeLoggers()
 {
     return currentLoggers();
 }
-
-namespace detail {
-
-namespace {
-
-constexpr auto kUiInputModeDesktop = "desktop";
-constexpr auto kUiInputModeTouch   = "touch";
-
-} // namespace
-
-QString
-toStorageUiInputMode(bool uiInputMode)
-{
-    return QString::fromLatin1(uiInputMode ? kUiInputModeTouch : kUiInputModeDesktop);
-}
-
-bool
-fromStorageUiInputMode(const QString &value)
-{
-    if (value.trimmed().compare(QLatin1String(kUiInputModeTouch), Qt::CaseInsensitive) == 0)
-        return true;
-    return false;
-}
-
-} // namespace detail
 
 } // namespace settings::serializer

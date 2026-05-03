@@ -96,16 +96,6 @@
       nullptr,
       UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),
-    // InputMode
-    { QT_TRANSLATE_NOOP("UserSettingsModel", "Interaction mode"),
-      QT_TRANSLATE_NOOP("UserSettingsModel", "Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions."),
-      SM::SegmentedOptions, SM::TabLookFeel,
-      lookFeelInputModeValue,
-      setLookFeelInputModeValue,
-      {}, {}, {},
-      lookFeelInputModeValues,
-      nullptr,
-      CORE_CONFIG_ID(UiInputMode, SettingKey::UiInputMode) },
     // EnableSwipeGestures
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Enable swipe gestures"),
       QT_TRANSLATE_NOOP("UserSettingsModel",

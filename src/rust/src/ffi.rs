@@ -240,7 +240,6 @@ mod bridge {
         font_family: String,
         font_emoji_family: String,
         motion_animations_enabled: bool,
-        input_mode: String,
         input_touch_swipe_gestures_enabled: bool,
         layout_density: String,
         avatars_circular: bool,

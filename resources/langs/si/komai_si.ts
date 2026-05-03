@@ -3572,17 +3572,17 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>පණිවිඩයක් ලියන්න, හෝ පණිවිඩ තේරීමට ↑ ඔබන්න.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+159"/>
         <source>Message</source>
         <translation>පණිවිඩය</translation>
     </message>
     <message>
-        <location line="+534"/>
+        <location line="+556"/>
         <source>Stickers</source>
         <translation>ස්ටිකර</translation>
     </message>
@@ -8204,7 +8204,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+183"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
         <source>Retry sending</source>
         <translation>නැවත යැවීමට උත්සාහ කරන්න</translation>
     </message>

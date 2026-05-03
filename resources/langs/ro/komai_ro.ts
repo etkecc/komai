@@ -3577,17 +3577,17 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+159"/>
         <source>Message</source>
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+534"/>
+        <location line="+556"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>
@@ -8215,7 +8215,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+183"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
         <source>Retry sending</source>
         <translation>Reîncearcă trimiterea</translation>
     </message>

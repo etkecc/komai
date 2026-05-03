@@ -3567,17 +3567,17 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Viết tin nhắn, hoặc nhấn ↑ để chọn tin nhắn.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+159"/>
         <source>Message</source>
         <translation>Tin nhắn</translation>
     </message>
     <message>
-        <location line="+534"/>
+        <location line="+556"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>
     </message>
@@ -8193,7 +8193,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+183"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
         <source>Retry sending</source>
         <translation>Thử gửi lại</translation>
     </message>

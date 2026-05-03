@@ -3572,17 +3572,17 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Kirjuta sõnum või vajuta ↑, et valida sõnumeid.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+159"/>
         <source>Message</source>
         <translation>Sõnum</translation>
     </message>
     <message>
-        <location line="+534"/>
+        <location line="+556"/>
         <source>Stickers</source>
         <translation>Kleepsud</translation>
     </message>
@@ -8204,7 +8204,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+183"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
         <source>Retry sending</source>
         <translation>Proovi saatmist uuesti</translation>
     </message>

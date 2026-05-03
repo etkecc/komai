@@ -3575,17 +3575,17 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Escribe un mensaje o pulsa ↑ para seleccionar mensajes.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+159"/>
         <source>Message</source>
         <translation>Mensaje</translation>
     </message>
     <message>
-        <location line="+534"/>
+        <location line="+556"/>
         <source>Stickers</source>
         <translation>Pegatinas</translation>
     </message>
@@ -8207,7 +8207,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+183"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
         <source>Retry sending</source>
         <translation>Reintentar envío</translation>
     </message>

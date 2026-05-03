@@ -70,6 +70,7 @@ RowLayout {
     signal actionToggled()
     signal readReceiptsRequested(string eventId)
 
+    LayoutMirroring.enabled: false
     layoutDirection: metadata.isSender ? Qt.RightToLeft : Qt.LeftToRight
 
     required property string eventId

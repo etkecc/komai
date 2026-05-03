@@ -54,7 +54,9 @@ Rectangle {
     }
     readonly property bool composerEnabled: !hasUploads && !hasVoiceRecording
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
-    readonly property bool _rtlLayout: effectiveLayoutDirection === Qt.RightToLeft || Qt.application.layoutDirection === Qt.RightToLeft
+    readonly property bool _rtlLayout: inputBar.LayoutMirroring.enabled
+        || Qt.application.layoutDirection === Qt.RightToLeft
+        || inputBar._languageCodeIsRtl(Settings.uiLanguage)
 
     // Thread-view tinting: when a thread is open, both the bar background and
     // the send-button active state pick up the thread's user color so the
@@ -327,6 +329,24 @@ Rectangle {
         if (!room || !room.roomId)
             return null;
         return Transcription.resolveForRoom(room.roomId);
+    }
+    function _languageCodeIsRtl(code) {
+        const primaryCode = String(code || "").split(/[_-]/)[0];
+        return primaryCode === "ar"
+            || primaryCode === "fa"
+            || primaryCode === "he"
+            || primaryCode === "ur";
+    }
+    function _textStartsRtl(text) {
+        const value = String(text || "");
+        for (let i = 0; i < value.length; ++i) {
+            const c = value.charCodeAt(i);
+            if ((c >= 0x0590 && c <= 0x08ff) || (c >= 0xfb1d && c <= 0xfdff) || (c >= 0xfe70 && c <= 0xfeff))
+                return true;
+            if ((c >= 0x0041 && c <= 0x005a) || (c >= 0x0061 && c <= 0x007a))
+                return false;
+        }
+        return false;
     }
 
     function _armTranscriptionGesture(triggerKind) {
@@ -1028,6 +1048,7 @@ Rectangle {
                 property int completerTriggeredAt: 0
                 readonly property int horizontalTextPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 property string lastChar
+                property string placeholderLabelText: qsTr("Write a message, or press ↑ to select messages.")
                 property int previousTextLength: 0
 
                 function currentCompleterSearchString() {
@@ -1184,16 +1205,38 @@ Rectangle {
                 leftPadding: inputBar._rtlLayout ? 0 : horizontalTextPadding
                 rightPadding: inputBar._rtlLayout ? horizontalTextPadding : 0
                 font.pointSize: Settings.uiFontSizePt
-                placeholderText: qsTr("Write a message, or press ↑ to select messages.")
+                placeholderText: ""
                 placeholderTextColor: palette.buttonText
                 Accessible.name: qsTr("Message")
-                Accessible.description: placeholderText
+                Accessible.description: placeholderLabelText
                 selectByMouse: true
                 topPadding: Komai.composerTextAreaPadding
                 verticalAlignment: TextEdit.AlignVCenter
                 implicitHeight: textInput.targetTextAreaHeight
                 width: textInput.width
                 wrapMode: TextEdit.Wrap
+
+                Label {
+                    readonly property bool rtlText: inputBar._rtlLayout || inputBar._textStartsRtl(text)
+                    readonly property real availableWidth: Math.max(0, messageInput.width - messageInput.leftPadding - messageInput.rightPadding)
+
+                    color: messageInput.placeholderTextColor
+                    enabled: false
+                    font: messageInput.font
+                    height: Math.max(0, messageInput.height - messageInput.topPadding - messageInput.bottomPadding)
+                    horizontalAlignment: rtlText ? Text.AlignRight : Text.AlignLeft
+                    LayoutMirroring.enabled: false
+                    text: messageInput.placeholderLabelText
+                    textFormat: Text.PlainText
+                    width: Math.min(implicitWidth, availableWidth)
+                    x: rtlText
+                        ? Math.max(0, messageInput.width - messageInput.rightPadding - width)
+                        : messageInput.leftPadding
+                    y: messageInput.topPadding
+                    z: 1
+                    verticalAlignment: Text.AlignVCenter
+                    visible: messageInput.length === 0 && !messageInput.inputMethodComposing
+                }
 
                 Keys.onPressed: event => {
                     if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier) && event.key === Qt.Key_V) {
@@ -1772,7 +1815,7 @@ Rectangle {
                 ? (inputBar._threadActive ? inputBar._threadTintColor : palette.highlight)
                 : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
-            mirrorImage: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
+            mirrorImage: inputBar.LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
 
             SequentialAnimation {
                 id: shakeAnimation

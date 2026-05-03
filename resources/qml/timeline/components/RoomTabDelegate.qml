@@ -508,6 +508,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: tabDelegate.pinIconSize
                 height: tabDelegate.pinIconSize
+                mirror: tabDelegate.mirrored
                 source: tabDelegate.pinned
                     ? "image://colorimage/:/icons/icons/ui/pin-filled.svg?" + palette.highlight
                     : "image://colorimage/:/icons/icons/ui/pin.svg?" + tabDelegate.textColor
@@ -567,6 +568,7 @@ Rectangle {
                 anchors.rightMargin: -Math.round(badgeSize * ((Komai.density !== Settings.Density.Spacious) ? 0.45 : 0.60))
                 width: badgeSize
                 height: badgeSize
+                mirror: tabDelegate.mirrored
                 visible: tabDelegate.pinned
                     && Settings.navigationTabsShowPinButton !== Settings.TabPinButtonVisibility.Always
                 source: "image://colorimage/:/icons/icons/ui/pin-filled.svg?" + palette.highlight

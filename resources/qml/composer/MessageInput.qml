@@ -54,6 +54,7 @@ Rectangle {
     }
     readonly property bool composerEnabled: !hasUploads && !hasVoiceRecording
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
+    readonly property bool _rtlLayout: effectiveLayoutDirection === Qt.RightToLeft || Qt.application.layoutDirection === Qt.RightToLeft
 
     // Thread-view tinting: when a thread is open, both the bar background and
     // the send-button active state pick up the thread's user color so the
@@ -1025,6 +1026,7 @@ Rectangle {
                 id: messageInput
 
                 property int completerTriggeredAt: 0
+                readonly property int horizontalTextPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 property string lastChar
                 property int previousTextLength: 0
 
@@ -1176,8 +1178,11 @@ Rectangle {
                     && (inputBar.transcriptionState === "recording"
                         || inputBar.transcriptionState === "transcribing")
                 focus: true
-                leftPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
+                horizontalAlignment: inputBar._rtlLayout ? Text.AlignRight : Text.AlignLeft
+                LayoutMirroring.enabled: false
                 padding: 0
+                leftPadding: inputBar._rtlLayout ? 0 : horizontalTextPadding
+                rightPadding: inputBar._rtlLayout ? horizontalTextPadding : 0
                 font.pointSize: Settings.uiFontSizePt
                 placeholderText: qsTr("Write a message, or press ↑ to select messages.")
                 placeholderTextColor: palette.buttonText
@@ -1767,6 +1772,7 @@ Rectangle {
                 ? (inputBar._threadActive ? inputBar._threadTintColor : palette.highlight)
                 : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
+            mirrorImage: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
 
             SequentialAnimation {
                 id: shakeAnimation

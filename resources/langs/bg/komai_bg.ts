@@ -1067,7 +1067,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Натисни за транскрибиране на реч в текст (или отпусни, ако е задържано)</translation>
     </message>
@@ -3572,7 +3572,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Напиши съобщение или натисни ↑, за да избереш съобщения.</translation>
     </message>
@@ -3597,7 +3597,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Изпрати</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Нямаш разрешение да изпращаш съобщения в тази стая</translation>
     </message>

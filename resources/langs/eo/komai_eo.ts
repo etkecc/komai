@@ -1067,7 +1067,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Alklaku por transskribi parolon al teksto (aŭ liberigu se tenate)</translation>
     </message>
@@ -3572,7 +3572,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Skribu mesaĝon, aŭ premu ↑ por elekti mesaĝojn.</translation>
     </message>
@@ -3597,7 +3597,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Sendi</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Vi ne rajtas sendi mesaĝojn en ĉi tiu ĉambro</translation>
     </message>

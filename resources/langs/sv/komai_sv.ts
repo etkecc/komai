@@ -1067,7 +1067,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Klicka för att transkribera tal till text (eller släpp om du håller)</translation>
     </message>
@@ -3572,7 +3572,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Skriv ett meddelande, eller tryck ↑ för att markera meddelanden.</translation>
     </message>
@@ -3597,7 +3597,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Skicka</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Du har inte behörighet att skicka meddelanden i det här rummet</translation>
     </message>

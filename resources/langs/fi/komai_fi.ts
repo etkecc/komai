@@ -1067,7 +1067,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Napsauta muuntaaksesi puheen tekstiksi (tai vapauta jos pidät pohjassa)</translation>
     </message>
@@ -3572,7 +3572,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Kirjoita viesti tai paina ↑ valitaksesi viestejä.</translation>
     </message>
@@ -3597,7 +3597,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Lähetä</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Sinulla ei ole oikeutta lähettää viestejä tässä huoneessa</translation>
     </message>

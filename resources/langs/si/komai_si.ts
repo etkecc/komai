@@ -1067,7 +1067,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>කථාව පෙළට පිටපත් කිරීමට ක්ලික් කරන්න (හෝ අල්ලාගෙන සිටිනේ නම් මුදා හරින්න)</translation>
     </message>
@@ -3572,7 +3572,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>පණිවිඩයක් ලියන්න, හෝ පණිවිඩ තේරීමට ↑ ඔබන්න.</translation>
     </message>
@@ -3597,7 +3597,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>යවන්න</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>මෙම කාමරයේ පණිවිඩ යැවීමට ඔබට අවසර නැත</translation>
     </message>

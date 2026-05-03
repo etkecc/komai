@@ -1067,7 +1067,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Clique para transcrever fala em texto (ou solte se estiver segurando)</translation>
     </message>
@@ -3572,7 +3572,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Digite uma mensagem, ou pressione ↑ para selecionar mensagens.</translation>
     </message>
@@ -3597,7 +3597,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Enviar</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Você não tem permissão para enviar mensagens nesta sala</translation>
     </message>

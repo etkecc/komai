@@ -30,6 +30,7 @@ ComposerToolbarButton {
     enabled: _eligible
     opacity: enabled ? 1.0 : 0.3
     image: ":/icons/icons/ui/transcription.svg"
+    mirrorImage: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     buttonTextColor: _recordingViaButton ? Komai.theme.error : palette.buttonText
     toolTipText: _recordingViaButton
         ? qsTr("Click to transcribe speech to text (or release if held)")

@@ -19,6 +19,7 @@ AbstractButton {
     property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     property string image: ""
+    property bool mirrorImage: false
     property string toolTipText: ""
     property color buttonTextColor: palette.buttonText
     property real toolTipAnchorX: width / 2
@@ -104,6 +105,7 @@ AbstractButton {
         Image {
             anchors.centerIn: parent
             height: root.iconSize
+            mirror: root.mirrorImage
             source: root.image !== "" ? ("image://colorimage/" + root.image + "?" + root.actionTextColor) : ""
             sourceSize.height: root.iconSize
             sourceSize.width: root.iconSize

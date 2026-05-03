@@ -1067,7 +1067,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>സ്പീച്ച് ടെക്സ്റ്റ് ആക്കാൻ ക്ലിക്ക് ചെയ്യുക (അല്ലെങ്കിൽ പിടിച്ചിരിക്കുകയാണെങ്കിൽ വിടുക)</translation>
     </message>
@@ -3572,7 +3572,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ ↑ അമർത്തുക.</translation>
     </message>
@@ -3597,7 +3597,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>അയക്കുക</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>ഈ മുറിയിൽ സന്ദേശങ്ങൾ അയക്കാൻ നിങ്ങൾക്ക് അനുമതി ഇല്ല</translation>
     </message>

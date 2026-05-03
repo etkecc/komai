@@ -1067,7 +1067,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Clicar por transcriber parla a text (o liberear si tenet)</translation>
     </message>
@@ -3572,7 +3572,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scriver un mesage, o presar ↑ por seleter mesages.</translation>
     </message>
@@ -3597,7 +3597,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Inviar</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Vu ne ha permission de transmitter mesages in iste chambre</translation>
     </message>

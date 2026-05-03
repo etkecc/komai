@@ -1066,7 +1066,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Nhấn để chuyển giọng nói thành văn bản (hoặc thả nếu đang giữ)</translation>
     </message>
@@ -3567,7 +3567,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Viết tin nhắn, hoặc nhấn ↑ để chọn tin nhắn.</translation>
     </message>
@@ -3592,7 +3592,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Gửi</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Bạn không có quyền gửi tin nhắn trong phòng này</translation>
     </message>

@@ -1068,7 +1068,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ComposerTranscriptionButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+35"/>
+        <location filename="../../qml/composer/ComposerTranscriptionButton.qml" line="+36"/>
         <source>Click to transcribe speech to text (or release if held)</source>
         <translation>Нажми для распознавания речи в текст (или отпусти, если зажато)</translation>
     </message>
@@ -3577,7 +3577,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1182"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1187"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Напиши сообщение или нажми ↑, чтобы выбрать сообщения.</translation>
     </message>
@@ -3602,7 +3602,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Отправить</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>У вас нет прав для отправления сообщений в этой комнате</translation>
     </message>

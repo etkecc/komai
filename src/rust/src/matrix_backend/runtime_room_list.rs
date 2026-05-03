@@ -647,6 +647,10 @@ fn ci_ends_with(s: &str, suffix: &str) -> bool {
         .is_some_and(|candidate| candidate.eq_ignore_ascii_case(suffix))
 }
 
+fn is_bot(user_id: &str, display_name: &str, service_members: &HashSet<String>) -> bool {
+    service_members.contains(user_id) || is_likely_bot_user(user_id, display_name)
+}
+
 fn is_likely_bot_user(user_id: &str, display_name: &str) -> bool {
     if ci_starts_with(user_id, "@bot") {
         return true;
@@ -730,6 +734,16 @@ fn classify_room(
     room: &RoomListItem,
     hero_candidates: &[RoomHeroCandidate],
 ) -> MatrixRoomClassification {
+    // MSC4171: rooms can publish a `m.member_hints` state event listing
+    // user IDs the room considers "service members" (typically bridge bots
+    // that mautrix-* bridges, hookshot, etc. set on themselves). Treat any
+    // listed user as a bot regardless of textual heuristics — server-declared
+    // truth wins over name guesses.
+    let service_members: HashSet<String> = room
+        .service_members()
+        .map(|set| set.into_iter().map(|user_id| user_id.to_string()).collect())
+        .unwrap_or_default();
+
     let mut direct_targets: Vec<String> = room
         .direct_targets()
         .into_iter()
@@ -748,7 +762,7 @@ fn classify_room(
 
         return MatrixRoomClassification {
             is_direct: true,
-            is_bot_room: is_likely_bot_user(&partner_user_id, partner_display_name),
+            is_bot_room: is_bot(&partner_user_id, partner_display_name, &service_members),
             direct_chat_other_user_id: partner_user_id,
         };
     }
@@ -758,7 +772,11 @@ fn classify_room(
             if let Some(partner) = hero_candidates.first() {
                 MatrixRoomClassification {
                     is_direct: true,
-                    is_bot_room: is_likely_bot_user(&partner.user_id, &partner.display_name),
+                    is_bot_room: is_bot(
+                        &partner.user_id,
+                        &partner.display_name,
+                        &service_members,
+                    ),
                     direct_chat_other_user_id: partner.user_id.clone(),
                 }
             } else {
@@ -780,8 +798,9 @@ fn classify_room(
 
             let first = &hero_candidates[0];
             let second = &hero_candidates[1];
-            let first_is_bot = is_likely_bot_user(&first.user_id, &first.display_name);
-            let second_is_bot = is_likely_bot_user(&second.user_id, &second.display_name);
+            let first_is_bot = is_bot(&first.user_id, &first.display_name, &service_members);
+            let second_is_bot =
+                is_bot(&second.user_id, &second.display_name, &service_members);
 
             if first_is_bot && !second_is_bot {
                 MatrixRoomClassification {

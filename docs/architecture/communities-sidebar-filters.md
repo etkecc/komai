@@ -86,7 +86,7 @@ Rooms tagged with `m.favourite` via the Matrix [room tagging API](https://spec.m
 | Room filter | `FilterBy::People` -- accepts rooms where `IsDirect` is true AND `IsBotRoom` is false |
 | Visibility | only shown when `hasPeopleRooms_` is true (at least one non-bot DM exists) |
 
-Direct chats with real people, excluding users categorized as bots. A room is a direct chat if it appears in the user's [`m.direct`](https://spec.matrix.org/v1.17/client-server-api/#direct-messaging) account data. Bot detection uses the heuristic in `isLikelyBotUser()` (see Bots section below).
+Direct chats with real people, excluding users categorized as bots. A room is a direct chat if it appears in the user's [`m.direct`](https://spec.matrix.org/v1.17/client-server-api/#direct-messaging) account data, or is auto-detected as a 2-3-member room (with bridge bots stripped). Bot detection uses the room's [`m.member_hints` state event (MSC4171)](https://github.com/matrix-org/matrix-spec-proposals/pull/4171) when present, falling back to the textual `isLikelyBotUser()` heuristic (see Bots section below).
 
 ### Bots
 
@@ -103,17 +103,19 @@ Direct chats with real people, excluding users categorized as bots. A room is a 
 | Room filter | `FilterBy::Bots` -- accepts rooms where `RoomlistModel::IsBotRoom` is true |
 | Visibility | only shown when `hasBotRooms_` is true (at least one bot room exists) |
 
-Bot rooms are a strict subset of direct chats. A room is a bot room when its DM partner matches the bot heuristic in `isLikelyBotUser()` (`src/utils/UtilsCore.cpp`):
+Bot rooms are a strict subset of direct chats. The Rust classifier (`classify_room` in `src/rust/src/matrix_backend/runtime_room_list.rs`) marks a DM partner as a bot if either of the following holds:
 
-- User ID starts with `@bot` (case-insensitive), e.g. `@botserv:example.com`
-- User ID contains `bot:`, e.g. `@telegrambot:example.com`
-- User ID localpart contains `puppet` → **not a bot** (bridge puppet escape, e.g. `@_discordpuppet__123456789:example.com`)
-- User ID starts with `@_`, e.g. `@_webhooks_something:example.com`
-- User ID localpart ends with `bridge`, e.g. `@heisenbridge:example.com`
-- Display name contains `bridge bot`
-- Display name starts or ends with `bot`, e.g. "Hookshot Bot", "Bot Service"
+- The user ID is listed in the room's [`m.member_hints` state event (MSC4171, `io.element.functional_members`)](https://github.com/matrix-org/matrix-spec-proposals/pull/4171) `service_members` set. mautrix bridges, hookshot, and similar appservices publish this event on themselves, so this is the authoritative source when present.
+- Otherwise, the user matches the textual heuristic in `is_likely_bot_user()` (Rust) / `isLikelyBotUser()` (`src/utils/BotDetection.cpp`):
+  - User ID starts with `@bot` (case-insensitive), e.g. `@botserv:example.com`
+  - User ID contains `bot:`, e.g. `@telegrambot:example.com`
+  - User ID localpart contains `puppet` → **not a bot** (bridge puppet escape, e.g. `@_discordpuppet__123456789:example.com`)
+  - User ID starts with `@_`, e.g. `@_webhooks_something:example.com`
+  - User ID localpart ends with `bridge`, e.g. `@heisenbridge:example.com`
+  - Display name contains `bridge bot`
+  - Display name starts or ends with `bot`, e.g. "Hookshot Bot", "Bot Service"
 
-`DirectChatResolver::isBotRoom()` is the single entry point -- it resolves the DM partner, then checks the heuristic.
+`DirectChatResolver::isBotRoom()` is the C++ entry point -- it consults the cached room summary's `isBotRoom` flag (populated by the Rust classifier above, including the `m.member_hints` check) and falls back to the C++ textual heuristic if the summary doesn't already mark the room as a bot room.
 
 ### Groups
 

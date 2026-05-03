@@ -92,14 +92,17 @@ Komai determines whether a room is a direct chat using two methods:
 
 2. **Member-count heuristic** — rooms not listed in m.direct are auto-detected as direct chats if they have 2-3 members. In 3-member rooms (common with bridges), Komai checks whether one member is a bot to identify the real conversation partner.
 
+When applying the member-count heuristic, users that the room declares as service members via the [`m.member_hints` state event (MSC4171, also known as `io.element.functional_members`)](https://github.com/matrix-org/matrix-spec-proposals/pull/4171) are treated as bots regardless of name. mautrix bridges (Discord, Signal, Telegram, WhatsApp, Slack, …), hookshot, and similar appservices publish this event on themselves, which lets Komai correctly classify their portal rooms as DMs even when the bridge bot's user ID does not match any of the textual heuristics below.
+
 ## Bot Detection Heuristics
 
-Komai uses [heuristics](../../../src/utils/BotDetection.cpp) to classify users as bots or bridge service accounts. This classification determines whether a direct chat appears in the **People** or **Bots** filter. All checks are case-insensitive.
+Komai classifies users as bots or bridge service accounts using a server-declared signal first, then falls back to [textual heuristics](../../../src/utils/BotDetection.cpp). This classification determines whether a direct chat appears in the **People** or **Bots** filter. Textual checks are case-insensitive.
 
 A user is considered a bot if any of the following match. Checks are applied in the order listed -- this matters for the puppet escape hatch below.
 
 | # | Heuristic | Example | Result |
 |---|---|---|---|
+| 0 | Listed in the room's [`m.member_hints` state event (MSC4171)](https://github.com/matrix-org/matrix-spec-proposals/pull/4171) `service_members` | any user ID published by mautrix / hookshot / Element-style bridges | Bot |
 | 1 | User ID starts with `@bot` | `@botserv:example.com` | Bot |
 | 2 | User ID contains `bot:` | `@telegrambot:example.com` | Bot |
 | 3 | Localpart contains `puppet` (**escape**) | `@_discordpuppet__123:example.com` | **Human** |
@@ -108,6 +111,8 @@ A user is considered a bot if any of the following match. Checks are applied in 
 | 6 | Display name contains "bridge bot" | "Telegram Bridge Bot" | Bot |
 | 7 | Display name ends with "bot" (as a word) | "Hookshot Bot" | Bot |
 | 8 | Display name starts with "bot" (as a word) | "Bot Service" | Bot |
+
+Rule 0 is the authoritative source when present -- a user listed in `m.member_hints` is treated as a service member even if their name would otherwise read as human, and rules 1-8 are not consulted for that user. Rules 1-8 still apply to rooms (or users) where no `m.member_hints` event has been published.
 
 The puppet escape (rule 3) exists because bridge puppets represent real people on other platforms. Since it is checked *after* rules 1-2, a puppet whose user ID also starts with `@bot` or contains `bot:` is still classified as a bot (e.g. `@botpuppet:example.com`).
 

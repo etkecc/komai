@@ -893,7 +893,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Vali kasutaja</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Keel</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Fondid</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Fondiperekond</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Enamik kasutajaliidese elemente uuendatakse reaalajas. Mõned sildid võivad uuenduda alles pärast rakenduse taaskäivitamist.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Fondid ja skaleerimine</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Emoji fondiperekond</translation>
     </message>

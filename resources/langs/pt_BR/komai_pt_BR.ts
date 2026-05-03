@@ -893,7 +893,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Escolher um usuário</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Fontes</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Família de fontes</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>A maioria dos elementos da interface atualiza em tempo real. Alguns rótulos podem ser atualizados apenas após reiniciar o aplicativo.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Fontes e escala</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Família de fontes de emoji</translation>
     </message>

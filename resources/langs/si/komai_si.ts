@@ -893,7 +893,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>පරිශීලකයෙකු තෝරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>භාෂාව</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>අකුරු</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>අකුරු පවුල</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>බොහෝ UI මූලද්‍රව්‍ය සජීවීව යාවත්කාලීන වේ. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසු පමණක් යාවත්කාලීන විය හැක.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>අකුරු සහ පරිමාණය</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>ඉමෝජි අකුරු පවුල</translation>
     </message>

@@ -893,7 +893,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Nutzer auswählen</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Sprache</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Schriften</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Schriftfamilie</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Die meisten UI-Elemente werden live aktualisiert. Einige Beschriftungen werden möglicherweise erst nach einem Neustart der App aktualisiert.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Schriften &amp; Skalierung</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Emoji-Schriftfamilie</translation>
     </message>

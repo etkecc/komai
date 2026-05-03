@@ -893,7 +893,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Seliger un usator</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Lingue</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Fontes</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Familie de fonte</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Li maxim parte de elements UI actualisa-se live. Cert etiquettes posse solmen actualisa-se pos restartar li aplicatione.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Fontes &amp; scalament</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Familie de fonte emoji</translation>
     </message>

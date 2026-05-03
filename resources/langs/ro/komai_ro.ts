@@ -894,7 +894,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Alege un utilizator</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10141,12 +10141,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Limbă</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Fonturi</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Familie de fonturi</translation>
     </message>
@@ -10162,7 +10157,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Majoritatea elementelor de interfață se actualizează în timp real. Unele etichete se pot actualiza doar după repornirea aplicației.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Fonturi &amp; scalare</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Familie de fonturi emoji</translation>
     </message>

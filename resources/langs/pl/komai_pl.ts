@@ -894,7 +894,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz użytkownika</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10142,12 +10142,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Język</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Czcionki</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Rodzina czcionek</translation>
     </message>
@@ -10163,7 +10158,12 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Większość elementów interfejsu aktualizuje się na bieżąco. Niektóre etykiety mogą się zaktualizować dopiero po ponownym uruchomieniu aplikacji.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Czcionki &amp; skalowanie</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Rodzina czcionki emoji</translation>
     </message>

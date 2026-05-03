@@ -893,7 +893,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Scegli un utente</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Lingua</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Caratteri</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Famiglia di caratteri</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>La maggior parte degli elementi UI si aggiorna in tempo reale. Alcune etichette potrebbero aggiornarsi solo dopo aver riavviato l'app.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Font e ridimensionamento</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Famiglia di caratteri emoji</translation>
     </message>

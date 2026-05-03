@@ -894,7 +894,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Выберите пользователя</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10141,12 +10141,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Язык</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Шрифты</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Семейство шрифтов</translation>
     </message>
@@ -10162,7 +10157,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Большинство элементов интерфейса обновляются сразу. Некоторые метки обновятся только после перезапуска приложения.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Шрифты и масштабирование</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Семейство шрифтов для эмодзи</translation>
     </message>

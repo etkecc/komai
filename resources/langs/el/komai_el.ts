@@ -893,7 +893,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Επιλέξτε χρήστη</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Γλώσσα</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Γραμματοσειρές</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Οικογένεια γραμματοσειράς</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Τα περισσότερα στοιχεία διεπαφής ενημερώνονται σε πραγματικό χρόνο. Ορισμένες ετικέτες ενδέχεται να ενημερώνονται μόνο μετά την επανεκκίνηση της εφαρμογής.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Γραμματοσειρές &amp; κλιμάκωση</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Οικογένεια γραμματοσειράς emoji</translation>
     </message>

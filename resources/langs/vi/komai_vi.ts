@@ -892,7 +892,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Chọn người dùng</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10109,12 +10109,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Ngôn ngữ</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Phông chữ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Họ phông chữ</translation>
     </message>
@@ -10130,7 +10125,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hầu hết các thành phần giao diện cập nhật trực tiếp. Một số nhãn có thể chỉ cập nhật sau khi khởi động lại ứng dụng.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Phông chữ &amp; tỷ lệ</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Họ phông chữ Emoji</translation>
     </message>

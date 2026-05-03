@@ -892,7 +892,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>یک کاربر انتخاب کنید</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10109,12 +10109,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>زبان</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>فونت‌ها</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>خانواده‌ی فونت</translation>
     </message>
@@ -10130,7 +10125,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>بیشتر عناصر رابط کاربری به‌صورت زنده به‌روز می‌شوند. برخی برچسب‌ها ممکن است تنها پس از راه‌اندازی مجدد برنامه به‌روز شوند.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>فونت‌ها و مقیاس‌بندی</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>خانواده‌ی فونت ایموجی</translation>
     </message>

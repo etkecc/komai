@@ -894,7 +894,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Vybrat uživatele</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10141,12 +10141,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Jazyk</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Písma</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Rodina písma</translation>
     </message>
@@ -10162,7 +10157,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Většina prvků UI se aktualizuje okamžitě. Některé popisky se mohou aktualizovat až po restartu aplikace.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Písma a škálování</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Rodina písma pro emoji</translation>
     </message>

@@ -892,7 +892,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Bir kullanıcı seçin</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10109,12 +10109,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Dil</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Yazı Tipleri</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Yazı tipi ailesi</translation>
     </message>
@@ -10130,7 +10125,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Çoğu arayüz öğesi anlık güncellenir. Bazı etiketler yalnızca uygulama yeniden başlatıldıktan sonra güncellenebilir.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Yazı tipleri &amp; ölçekleme</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Emoji yazı tipi ailesi</translation>
     </message>

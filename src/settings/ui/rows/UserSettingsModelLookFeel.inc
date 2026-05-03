@@ -41,7 +41,7 @@
       nullptr,
       CORE_CONFIG_ID(UiLanguage, SettingKey::UiLanguage) },
     // LookFeelFontsSection
-    { QT_TRANSLATE_NOOP("UserSettingsModel", "Fonts"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "Fonts & scaling"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Font
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Font family"), nullptr, SM::SearchableOptions, SM::TabLookFeel,

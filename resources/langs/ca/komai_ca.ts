@@ -893,7 +893,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Tria un usuari</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Tipus de lletra</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Família de tipus de lletra</translation>
     </message>
@@ -10146,7 +10141,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>La majoria d'elements de la interfície s'actualitzen en directe. Algunes etiquetes potser només s'actualitzen en reiniciar l'aplicació.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Tipografies i escala</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Família de tipus de lletra d'emoji</translation>
     </message>

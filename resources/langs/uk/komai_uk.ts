@@ -894,7 +894,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Оберіть користувача</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10141,12 +10141,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Мова</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Шрифти</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Сімейство шрифтів</translation>
     </message>
@@ -10162,7 +10157,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Більшість елементів інтерфейсу оновлюється одразу. Деякі підписи можуть оновитися лише після перезапуску застосунку.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Шрифти та масштабування</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Сімейство шрифтів емодзі</translation>
     </message>

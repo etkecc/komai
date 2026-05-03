@@ -897,7 +897,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>اختر مستخدمًا</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10189,12 +10189,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اللغة</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>الخطوط</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>عائلة الخط</translation>
     </message>
@@ -10210,7 +10205,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>معظم عناصر الواجهة تُحدَّث فورياً. بعض التسميات قد لا تُحدَّث إلا بعد إعادة تشغيل التطبيق.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>الخطوط والتحجيم</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>عائلة خط الرموز التعبيرية</translation>
     </message>

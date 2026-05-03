@@ -894,7 +894,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>Seleccionar un usuario</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10128,12 +10128,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>Fuentes</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>Familia de fuente</translation>
     </message>
@@ -10149,7 +10144,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>La mayoría de los elementos de la interfaz se actualizan en tiempo real. Algunas etiquetas solo pueden actualizarse al reiniciar la aplicación.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>Fuentes y escala</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>Familia de fuente de emoji</translation>
     </message>

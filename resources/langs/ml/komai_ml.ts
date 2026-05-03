@@ -893,7 +893,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+2"/>
         <source>Pick a user</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ഉപയോക്താവിനെ തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10125,12 +10125,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഭാഷ</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Fonts</source>
-        <translation>ഫോണ്ടുകൾ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+14"/>
         <source>Font family</source>
         <translation>ഫോണ്ട് ഫാമിലി</translation>
     </message>
@@ -10146,7 +10141,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം അപ്ഡേറ്റ് ആകും. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനുശേഷം മാത്രമേ അപ്ഡേറ്റ് ആകൂ.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-11"/>
+        <source>Fonts &amp; scaling</source>
+        <translation>ഫോണ്ടുകളും സ്കെയിലിംഗും</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>Emoji font family</source>
         <translation>ഇമോജി ഫോന്റ് ഫാമിലി</translation>
     </message>

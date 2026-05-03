@@ -18,6 +18,7 @@ AbstractButton {
     property string displayName
     property color fallbackBorderColor: palette.mid
     property int fallbackBorderWidth: 1
+    property bool mirrorPresenceIndicator: false
     readonly property int frameWidth: Settings.uiAvatarsCircular ? Math.max(1, Math.round(width) - (Math.round(width) % 2)) : width
     readonly property int frameHeight: Settings.uiAvatarsCircular ? Math.max(1, Math.round(height) - (Math.round(height) % 2)) : height
     readonly property real avatarRadius: Settings.uiAvatarsCircular ? frameHeight / 2 : frameHeight / 8
@@ -137,7 +138,8 @@ AbstractButton {
         }
 
         anchors.bottom: bg.bottom
-        anchors.right: bg.right
+        anchors.left: avatar.mirrorPresenceIndicator ? bg.left : undefined
+        anchors.right: avatar.mirrorPresenceIndicator ? undefined : bg.right
         color: updatePresence()
         height: bg.height / 6
         radius: Settings.uiAvatarsCircular ? Math.floor(height / 2) : height / 8

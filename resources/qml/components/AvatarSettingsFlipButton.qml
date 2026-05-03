@@ -19,6 +19,7 @@ MouseArea {
     property string badgeIconSource: ":/icons/icons/ui/settings.svg"
     property bool suppressHoverUntilExit: false
     property real toolTipAnchorX: width / 2
+    readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     readonly property string resolvedToolTipText: toolTipText.length > 0
         ? toolTipText
         : (avatarDisplayName + (avatarUserId.length > 0 ? ("\n" + avatarUserId) : ""))
@@ -135,6 +136,7 @@ MouseArea {
                 userid: control.avatarUserId
                 roomid: control.avatarRoomId
                 fallbackBorderColor: palette.highlight
+                mirrorPresenceIndicator: control.mirrored
                 enabled: false
             }
 
@@ -145,9 +147,11 @@ MouseArea {
                 property int iconSize: Math.round(badgeSize * 0.69)
 
                 anchors.bottom: frontAvatar.bottom
-                anchors.left: frontAvatar.left
+                anchors.left: control.mirrored ? undefined : frontAvatar.left
+                anchors.right: control.mirrored ? frontAvatar.right : undefined
                 anchors.bottomMargin: -2
-                anchors.leftMargin: -2
+                anchors.leftMargin: control.mirrored ? 0 : -2
+                anchors.rightMargin: control.mirrored ? -2 : 0
                 width: badgeSize
                 height: badgeSize
                 radius: Math.round(badgeSize * 0.25)
@@ -211,9 +215,11 @@ MouseArea {
                 property real badgeAvatarScale: badgeSize > 0 ? (Math.round(badgeSize * 0.78) / control.effectiveButtonSize) : 1
 
                 anchors.bottom: backCard.bottom
-                anchors.left: backCard.left
+                anchors.left: control.mirrored ? undefined : backCard.left
+                anchors.right: control.mirrored ? backCard.right : undefined
                 anchors.bottomMargin: -2
-                anchors.leftMargin: -2
+                anchors.leftMargin: control.mirrored ? 0 : -2
+                anchors.rightMargin: control.mirrored ? -2 : 0
                 width: badgeSize
                 height: badgeSize
                 radius: Math.round(badgeSize * 0.22)
@@ -229,6 +235,7 @@ MouseArea {
                     userid: control.avatarUserId
                     roomid: control.avatarRoomId
                     fallbackBorderColor: palette.highlight
+                    mirrorPresenceIndicator: control.mirrored
                     enabled: false
                 }
             }

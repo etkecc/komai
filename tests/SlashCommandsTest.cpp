@@ -263,11 +263,61 @@ testValidationAndSendBehavior()
                            ValidationState::Valid,
                            SubmitAction::ExecuteCommand,
                            "/kick with reply context can treat arguments as a reason");
+    ok &= expectInspection(QStringLiteral("/kick @alice"),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/kick rejects a user id without a :server suffix");
+    ok &= expectInspection(QStringLiteral("/kick @alice:example.org"),
+                           {},
+                           ValidationState::Valid,
+                           SubmitAction::ExecuteCommand,
+                           "/kick accepts a complete Matrix user id");
+    ok &= expectInspection(QStringLiteral("/kick @alice:example.org rude"),
+                           {},
+                           ValidationState::Valid,
+                           SubmitAction::ExecuteCommand,
+                           "/kick accepts a complete Matrix user id with a trailing reason");
+    ok &= expectInspection(QStringLiteral("/ban @alice"),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/ban rejects a user id without a :server suffix");
+    ok &= expectInspection(QStringLiteral("/unban @alice"),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/unban rejects a user id without a :server suffix");
+    ok &= expectInspection(QStringLiteral("/invite @alice"),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/invite rejects a user id without a :server suffix");
+    ok &= expectInspection(QStringLiteral("/invite @alice:example.org"),
+                           {},
+                           ValidationState::Valid,
+                           SubmitAction::ExecuteCommand,
+                           "/invite accepts a complete Matrix user id");
+    ok &= expectInspection(QStringLiteral("/redact @alice"),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/redact rejects a user id without a :server suffix");
+    ok &= expectInspection(QStringLiteral("/redact @alice:example.org"),
+                           {},
+                           ValidationState::Valid,
+                           SubmitAction::ExecuteCommand,
+                           "/redact accepts a complete Matrix user id for bulk redaction");
     ok &= expectInspection(QStringLiteral("/ignore bob"),
                            {},
                            ValidationState::Invalid,
                            SubmitAction::PreserveComposer,
                            "/ignore rejects non-mxid input");
+    ok &= expectInspection(QStringLiteral("/ignore @alice"),
+                           {},
+                           ValidationState::Incomplete,
+                           SubmitAction::PreserveComposer,
+                           "/ignore rejects a user id without a :server suffix");
     ok &= expectInspection(QStringLiteral("/ignore @alice:example.org"),
                            {},
                            ValidationState::Valid,
@@ -329,6 +379,10 @@ testValidationMessages()
                                           {},
                                           "Enter a message after the message type",
                                           "/msgtype with type but no body explains the missing body");
+    ok &= expectInspectionMessageContains(QStringLiteral("/kick @alice"),
+                                          {},
+                                          "Finish the Matrix user ID",
+                                          "/kick with a partial user id nudges the user to finish it");
     ok &= expect(timeline::slash_commands::inspect(QStringLiteral("/notice hello"), {})
                      .validation.message.isEmpty(),
                  "valid commands keep the validation surface quiet");

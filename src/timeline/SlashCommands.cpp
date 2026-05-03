@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <array>
 
+#include "matrix/MatrixIdentifiers.h"
 #include "utils/Utils.h"
 
 namespace timeline::slash_commands {
@@ -96,6 +97,19 @@ adjustedCompletionReplacementEnd(const ParsedCommand &parsed, QStringView comple
     return replaceEnd;
 }
 
+bool
+looksLikeCompleteUserId(QStringView userId)
+{
+    return komai::parseMatrixUserId(userId).has_value();
+}
+
+ValidationResult
+incompleteUserIdResult()
+{
+    return makeValidationResult(ValidationState::Incomplete,
+                                "Finish the Matrix user ID, e.g. @alice:example.org.");
+}
+
 ValidationResult
 validateRequiredMessage(const ParsedCommand &parsed, const CommandContext &)
 {
@@ -142,6 +156,9 @@ validateInvite(const ParsedCommand &parsed, const CommandContext &)
           ValidationState::Invalid,
           "Use a Matrix user ID like @alice:example.org after this command.");
 
+    if (!looksLikeCompleteUserId(target))
+        return incompleteUserIdResult();
+
     return valid();
 }
 
@@ -159,8 +176,11 @@ validateKickLike(const ParsedCommand &parsed, const CommandContext &context)
     }
 
     const auto target = firstArgument(parsed);
-    if (target.startsWith(u"@"))
+    if (target.startsWith(u"@")) {
+        if (!looksLikeCompleteUserId(target))
+            return incompleteUserIdResult();
         return valid();
+    }
 
     if (!context.replySenderId.isEmpty())
         return valid();
@@ -183,7 +203,13 @@ validateRedact(const ParsedCommand &parsed, const CommandContext &context)
     }
 
     const auto target = firstArgument(parsed);
-    if (target.startsWith(u"$") || target.startsWith(u"@"))
+    if (target.startsWith(u"@")) {
+        if (!looksLikeCompleteUserId(target))
+            return incompleteUserIdResult();
+        return valid();
+    }
+
+    if (target.startsWith(u"$"))
         return valid();
 
     if (!context.replyEventId.isEmpty())
@@ -261,6 +287,9 @@ validateIgnoreUser(const ParsedCommand &parsed, const CommandContext &)
         return makeValidationResult(
           ValidationState::Invalid,
           "Use a Matrix user ID like @alice:example.org after this command.");
+
+    if (!looksLikeCompleteUserId(userId))
+        return incompleteUserIdResult();
 
     return valid();
 }

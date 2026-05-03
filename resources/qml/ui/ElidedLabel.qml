@@ -15,7 +15,8 @@ Label {
     property int fullTextWidth: Math.ceil(metrics.advanceWidth)
 
     color: palette.text
-    elide: Text.ElideRight
+    elide: LayoutMirroring.enabled ? Text.ElideLeft : Text.ElideRight
+    horizontalAlignment: Text.AlignLeft
     maximumLineCount: 1
     text: (textFormat == Text.PlainText) ? metrics.elidedText : TimelineManager.escapeEmoji(metrics.elidedText)
     textFormat: Text.PlainText
@@ -23,7 +24,7 @@ Label {
     TextMetrics {
         id: metrics
 
-        elide: Text.ElideRight
+        elide: root.LayoutMirroring.enabled ? Text.ElideLeft : Text.ElideRight
         font: root.font
     }
 }

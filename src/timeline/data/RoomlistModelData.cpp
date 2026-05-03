@@ -19,6 +19,13 @@
 #include "utils/Utils.h"
 
 namespace {
+struct RoomListPreviewParts
+{
+    QString text;
+    QString senderName;
+    QString body;
+};
+
 QString
 roomListPreviewSenderName(const komai::MatrixRoomSummary &room)
 {
@@ -29,11 +36,35 @@ roomListPreviewSenderName(const komai::MatrixRoomSummary &room)
     return room.lastMessageSenderId.trimmed();
 }
 
-QString
-formatMatrixRoomListPreview(const komai::MatrixRoomSummary &room)
+bool
+matrixRoomListPreviewsEnabled(const komai::MatrixRoomSummary &room)
 {
+    const auto style = UserSettings::instance()->navigationRoomListLastMessagePreview();
+    return style == UserSettings::LastMessagePreview::Always ||
+           (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !room.isEncrypted);
+}
+
+bool
+isStateRoomListPreviewKind(const QString &kind)
+{
+    return kind == QStringLiteral("membership_change") ||
+           kind == QStringLiteral("profile_change") || kind == QStringLiteral("other_state") ||
+           kind == QStringLiteral("failed_to_parse_state");
+}
+
+QString
+roomListPreviewLocalSenderName()
+{
+    return QCoreApplication::translate("RoomlistModel", "You");
+}
+
+RoomListPreviewParts
+formatMatrixRoomListPreviewParts(const komai::MatrixRoomSummary &room)
+{
+    RoomListPreviewParts parts;
+
     if (room.lastMessage.isEmpty() && room.lastMessageKind.isEmpty())
-        return {};
+        return parts;
 
     // Translate the preview body based on the kind key.  For non-content
     // kinds (event type labels, state events) this returns a translated
@@ -41,34 +72,44 @@ formatMatrixRoomListPreview(const komai::MatrixRoomSummary &room)
     const auto body =
       StateEventText::translateRoomListPreview(room.lastMessageKind, room.lastMessage);
     if (body.isEmpty())
-        return {};
+        return parts;
 
     if (room.lastMessageKind == QStringLiteral("emote")) {
         const auto senderName = roomListPreviewSenderName(room);
-        if (senderName.isEmpty())
-            return body;
+        if (senderName.isEmpty()) {
+            parts.text = body;
+            return parts;
+        }
 
-        return QStringLiteral("* %1 %2").arg(senderName, body);
+        parts.text = QStringLiteral("* %1 %2").arg(senderName, body);
+        return parts;
     }
 
-    if (room.lastMessageKind == QStringLiteral("membership_change") ||
-        room.lastMessageKind == QStringLiteral("profile_change") ||
-        room.lastMessageKind == QStringLiteral("other_state") ||
-        room.lastMessageKind == QStringLiteral("failed_to_parse_state")) {
-        return body;
+    if (isStateRoomListPreviewKind(room.lastMessageKind)) {
+        parts.text = body;
+        return parts;
     }
 
     const auto senderName = roomListPreviewSenderName(room);
-    if (senderName.isEmpty())
-        return body;
+    if (senderName.isEmpty()) {
+        parts.text = body;
+        return parts;
+    }
 
     const auto localUserId = utils::localUser().trimmed();
     const bool isLocal =
       !localUserId.isEmpty() && room.lastMessageSenderId.trimmed() == localUserId;
 
-    return isLocal ? QCoreApplication::translate("message-description sent:", "You: %1").arg(body)
-                   : QCoreApplication::translate("message-description sent:", "%1: %2")
-                       .arg(senderName, body);
+    parts.senderName = isLocal ? roomListPreviewLocalSenderName() : senderName;
+    parts.body       = body;
+    parts.text       = body;
+    return parts;
+}
+
+QString
+formatMatrixRoomListPreview(const komai::MatrixRoomSummary &room)
+{
+    return formatMatrixRoomListPreviewParts(room).text;
 }
 } // namespace
 
@@ -128,11 +169,15 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
                 return tr("Invited by %1").arg(room.inviterUserId);
             return tr("Pending invite");
         }
-        const auto style = UserSettings::instance()->navigationRoomListLastMessagePreview();
-        const bool previewsEnabled =
-          style == UserSettings::LastMessagePreview::Always ||
-          (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !room.isEncrypted);
-        return previewsEnabled ? formatMatrixRoomListPreview(room) : QString{};
+        return matrixRoomListPreviewsEnabled(room) ? formatMatrixRoomListPreview(room) : QString{};
+    }
+    case Roles::LastMessagePreviewSenderName:
+    case Roles::LastMessagePreviewBody: {
+        if (room.isInvite || !matrixRoomListPreviewsEnabled(room))
+            return QString{};
+
+        const auto parts = formatMatrixRoomListPreviewParts(room);
+        return role == Roles::LastMessagePreviewSenderName ? parts.senderName : parts.body;
     }
     case Roles::Time:
         if (room.timestamp > 0) {
@@ -173,6 +218,9 @@ RoomlistModel::dataForInviteRoom(const RoomInfo &room, int role) const
         return QString::fromStdString(room.name);
     case Roles::LastMessage:
         return tr("Pending invite.");
+    case Roles::LastMessagePreviewSenderName:
+    case Roles::LastMessagePreviewBody:
+        return QString{};
     case Roles::Time:
         return QString();
     case Roles::Timestamp:
@@ -207,6 +255,9 @@ RoomlistModel::dataForPreviewRoom(const RoomInfo &room, int role) const
         return QString::fromStdString(room.name);
     case Roles::LastMessage:
         return tr("Previewing this room");
+    case Roles::LastMessagePreviewSenderName:
+    case Roles::LastMessagePreviewBody:
+        return QString{};
     case Roles::Time:
         return QString();
     case Roles::Timestamp:
@@ -248,6 +299,9 @@ RoomlistModel::dataForUnavailablePreview(int role) const
         return tr("No preview available");
     case Roles::LastMessage:
         return tr("This room is possibly inaccessible");
+    case Roles::LastMessagePreviewSenderName:
+    case Roles::LastMessagePreviewBody:
+        return QString{};
     case Roles::Time:
         return QString();
     case Roles::Timestamp:

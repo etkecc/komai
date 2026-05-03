@@ -47,15 +47,14 @@ QtObject {
         return entry;
     }
 
-    // Role constants matching RoomlistModel::Roles enum (Qt::UserRole = 256).
-    readonly property int roleAvatarUrl: 256
-    readonly property int roleRoomName: 257
-    readonly property int roleHasUnreadMessages: 262
-    readonly property int roleHasLoudNotification: 263
-    readonly property int roleHasDraft: 265
-    readonly property int roleTags: 271
-    readonly property int roleIsDirect: 273
-    readonly property int roleDirectChatOtherUserId: 274
+    readonly property int roleAvatarUrl: Rooms.roleId("avatarUrl")
+    readonly property int roleRoomName: Rooms.roleId("roomName")
+    readonly property int roleHasUnreadMessages: Rooms.roleId("hasUnreadMessages")
+    readonly property int roleHasLoudNotification: Rooms.roleId("hasLoudNotification")
+    readonly property int roleHasDraft: Rooms.roleId("hasDraft")
+    readonly property int roleTags: Rooms.roleId("tags")
+    readonly property int roleIsDirect: Rooms.roleId("isDirect")
+    readonly property int roleDirectChatOtherUserId: Rooms.roleId("directChatOtherUserId")
 
     // Persist tab list to Settings after any mutation.
     // Empty tabs (roomId="") are persisted as startup-restorable "new tab" entries.

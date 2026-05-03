@@ -34,6 +34,8 @@ ItemDelegate {
     required property bool isInvite
     required property bool isSpace
     required property string lastMessage
+    required property string lastMessagePreviewSenderName
+    required property string lastMessagePreviewBody
     required property string draftPreview
     required property int unreadCount
     required property string roomId
@@ -385,6 +387,8 @@ ItemDelegate {
             baseFontPixelSize: roomItem.baseFontPixelSize
             roomName: roomItem.roomName
             lastMessage: roomItem.lastMessage
+            lastMessagePreviewSenderName: roomItem.lastMessagePreviewSenderName
+            lastMessagePreviewBody: roomItem.lastMessagePreviewBody
             draftPreview: roomItem.draftPreview
             time: roomItem.time
             draftIndicatorColor: roomItem.draftIndicatorColor

@@ -6373,7 +6373,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
         <source>Invite: %1</source>
         <translation>Invitación: %1</translation>
     </message>
@@ -6409,8 +6409,8 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
-        <location line="+85"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location line="+88"/>
         <source>You:</source>
         <translation>Tú:</translation>
     </message>
@@ -6864,7 +6864,12 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>RoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
+        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+58"/>
+        <source>You</source>
+        <translation>Tú</translation>
+    </message>
+    <message>
+        <location line="+109"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Invitado por %1</translation>
@@ -6875,17 +6880,17 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Invitación pendiente</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+50"/>
         <source>Pending invite.</source>
         <translation>Invitación pendiente.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+37"/>
         <source>Previewing this room</source>
         <translation>Vista previa de esta sala</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+42"/>
         <source>No preview available</source>
         <translation>No hay vista previa disponible</translation>
     </message>
@@ -11245,19 +11250,6 @@ La verificación marca este dispositivo como de confianza y te da acceso a los m
         <location line="+2"/>
         <source>Flags</source>
         <translation>Banderas</translation>
-    </message>
-</context>
-<context>
-    <name>message-description sent:</name>
-    <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
-        <source>You: %1</source>
-        <translation>Tú: %1</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>%1: %2</source>
-        <translation>%1: %2</translation>
     </message>
 </context>
 </TS>

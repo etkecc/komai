@@ -6378,7 +6378,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
         <source>Invite: %1</source>
         <translation>Pozvánka: %1</translation>
     </message>
@@ -6415,8 +6415,8 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
-        <location line="+85"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location line="+88"/>
         <source>You:</source>
         <translation>Ty:</translation>
     </message>
@@ -6870,7 +6870,12 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>RoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
+        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+58"/>
+        <source>You</source>
+        <translation>Vy</translation>
+    </message>
+    <message>
+        <location line="+109"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Pozváno od %1</translation>
@@ -6881,17 +6886,17 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Čekající pozvánka</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+50"/>
         <source>Pending invite.</source>
         <translation>Čekající pozvánka.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+37"/>
         <source>Previewing this room</source>
         <translation>Náhled této místnosti</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+42"/>
         <source>No preview available</source>
         <translation>Náhled není k dispozici</translation>
     </message>
@@ -11258,19 +11263,6 @@ Ověření označí toto zařízení jako důvěryhodné a umožní přístup k 
         <location line="+2"/>
         <source>Flags</source>
         <translation>Vlajky</translation>
-    </message>
-</context>
-<context>
-    <name>message-description sent:</name>
-    <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
-        <source>You: %1</source>
-        <translation>Ty: %1</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>%1: %2</source>
-        <translation>%1: %2</translation>
     </message>
 </context>
 </TS>

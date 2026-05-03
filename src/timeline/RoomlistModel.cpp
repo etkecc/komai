@@ -228,7 +228,13 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
                 if (!roomids.empty()) {
                     emit dataChanged(index(0),
                                      index((int)roomids.size() - 1),
-                                     {Roles::LastMessage, Roles::Time, Roles::Timestamp});
+                                     {
+                                       Roles::LastMessage,
+                                       Roles::LastMessagePreviewSenderName,
+                                       Roles::LastMessagePreviewBody,
+                                       Roles::Time,
+                                       Roles::Timestamp,
+                                     });
                 }
             });
 
@@ -323,6 +329,8 @@ RoomlistModel::roleNames() const
       {RoomName, "roomName"},
       {RoomId, "roomId"},
       {LastMessage, "lastMessage"},
+      {LastMessagePreviewSenderName, "lastMessagePreviewSenderName"},
+      {LastMessagePreviewBody, "lastMessagePreviewBody"},
       {Time, "time"},
       {Timestamp, "timestamp"},
       {HasUnreadMessages, "hasUnreadMessages"},
@@ -825,7 +833,14 @@ RoomlistModel::persistDraftForRoom(const QString &room_id, const QString &draftT
 
     emit dataChanged(index(idx),
                      index(idx),
-                     {Roles::HasDraft, Roles::DraftPreview, Roles::LastMessage, Qt::DisplayRole});
+                     {
+                       Roles::HasDraft,
+                       Roles::DraftPreview,
+                       Roles::LastMessage,
+                       Roles::LastMessagePreviewSenderName,
+                       Roles::LastMessagePreviewBody,
+                       Qt::DisplayRole,
+                     });
 }
 
 void
@@ -859,7 +874,13 @@ RoomlistModel::notifyRoomPreviewsBackfilled()
         return;
     emit dataChanged(index(0),
                      index(static_cast<int>(roomids.size()) - 1),
-                     {Roles::LastMessage, Roles::Time, Roles::Timestamp});
+                     {
+                       Roles::LastMessage,
+                       Roles::LastMessagePreviewSenderName,
+                       Roles::LastMessagePreviewBody,
+                       Roles::Time,
+                       Roles::Timestamp,
+                     });
 }
 
 #ifdef KOMAI_DBUS_SYS

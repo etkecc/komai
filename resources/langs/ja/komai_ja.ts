@@ -6362,7 +6362,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
         <source>Invite: %1</source>
         <translation>招待: %1</translation>
     </message>
@@ -6397,8 +6397,8 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
-        <location line="+85"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location line="+88"/>
         <source>You:</source>
         <translation>あなた:</translation>
     </message>
@@ -6852,7 +6852,12 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
+        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+58"/>
+        <source>You</source>
+        <translation>あなた</translation>
+    </message>
+    <message>
+        <location line="+109"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>%1 から招待されました</translation>
@@ -6863,17 +6868,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>招待保留中</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+50"/>
         <source>Pending invite.</source>
         <translation>招待保留中。</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+37"/>
         <source>Previewing this room</source>
         <translation>このルームをプレビュー中</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+42"/>
         <source>No preview available</source>
         <translation>プレビューなし</translation>
     </message>
@@ -11226,19 +11231,6 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <location line="+2"/>
         <source>Flags</source>
         <translation>旗</translation>
-    </message>
-</context>
-<context>
-    <name>message-description sent:</name>
-    <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
-        <source>You: %1</source>
-        <translation>あなた: %1</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>%1: %2</source>
-        <translation>%1: %2</translation>
     </message>
 </context>
 </TS>

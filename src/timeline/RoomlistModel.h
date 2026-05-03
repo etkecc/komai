@@ -97,6 +97,8 @@ public:
         RoomName,
         RoomId,
         LastMessage,
+        LastMessagePreviewSenderName,
+        LastMessagePreviewBody,
         Time,
         Timestamp,
         HasUnreadMessages,
@@ -327,6 +329,15 @@ public slots:
     // Look up a role value by room ID from the unfiltered source model.
     // Unlike roomidToIndex + data, this works even when the room is hidden by the current filter.
     Q_INVOKABLE int unfilteredRowCount() const { return roomlistmodel->rowCount(); }
+    Q_INVOKABLE int roleId(const QString &roleName) const
+    {
+        const auto roles = roomlistmodel->roleNames();
+        for (auto it = roles.cbegin(); it != roles.cend(); ++it) {
+            if (QString::fromUtf8(it.value()) == roleName)
+                return it.key();
+        }
+        return -1;
+    }
     Q_INVOKABLE QVariant unfilteredRoomData(const QString &roomid, int role)
     {
         int srcRow = roomlistmodel->roomidToIndex(roomid);

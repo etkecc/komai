@@ -6362,7 +6362,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+96"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
         <source>Invite: %1</source>
         <translation>Davet: %1</translation>
     </message>
@@ -6397,8 +6397,8 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
-        <location line="+85"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location line="+88"/>
         <source>You:</source>
         <translation>Siz:</translation>
     </message>
@@ -6852,7 +6852,12 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
+        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+58"/>
+        <source>You</source>
+        <translation>Siz</translation>
+    </message>
+    <message>
+        <location line="+109"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>%1 tarafından davet edildi</translation>
@@ -6863,17 +6868,17 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Bekleyen davet</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+50"/>
         <source>Pending invite.</source>
         <translation>Bekleyen davet.</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+37"/>
         <source>Previewing this room</source>
         <translation>Bu oda önizleniyor</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+42"/>
         <source>No preview available</source>
         <translation>Önizleme mevcut değil</translation>
     </message>
@@ -11226,19 +11231,6 @@ Doğrulama bu cihazı güvenilir olarak işaretler ve şifreli mesajlara erişim
         <location line="+2"/>
         <source>Flags</source>
         <translation>Bayraklar</translation>
-    </message>
-</context>
-<context>
-    <name>message-description sent:</name>
-    <message>
-        <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="-181"/>
-        <source>You: %1</source>
-        <translation>Siz: %1</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>%1: %2</source>
-        <translation>%1: %2</translation>
     </message>
 </context>
 </TS>

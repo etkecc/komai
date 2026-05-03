@@ -23,6 +23,8 @@ ColumnLayout {
     required property real baseFontPixelSize
     required property string roomName
     required property string lastMessage
+    required property string lastMessagePreviewSenderName
+    required property string lastMessagePreviewBody
     required property string draftPreview
     required property string time
     required property color importantText
@@ -85,7 +87,7 @@ ColumnLayout {
             visible: root.isInvite
             width: height
         }
-        ElidedLabel {
+        RoomListMessagePreview {
             id: inlinePreview
 
             anchors.left: inviteIcon.visible ? inviteIcon.right : titleText.right
@@ -93,10 +95,13 @@ ColumnLayout {
             anchors.baseline: titleText.baseline
             anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
             anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Komai.paddingSmall : 0
-            color: root.unimportantText
             elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Komai.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0)))
-            font.pointSize: Settings.uiFontSizePt * 0.95
-            fullText: root.lastMessage
+            fallbackText: root.lastMessage
+            fontPointSize: Settings.uiFontSizePt * 0.95
+            height: implicitHeight
+            senderName: root.lastMessagePreviewSenderName
+            body: root.lastMessagePreviewBody
+            textColor: root.unimportantText
             visible: root.isDense && titleRow.previewsEnabled && !root.hasDraft
         }
         Item {
@@ -176,16 +181,19 @@ ColumnLayout {
         Layout.preferredHeight: root.hasDraft ? subtextDraftText.implicitHeight : subtitleText.implicitHeight
         visible: !root.isDense && (titleRow.previewsEnabled || root.isInvite)
 
-        ElidedLabel {
+        RoomListMessagePreview {
             id: subtitleText
 
             anchors.left: parent.left
             anchors.right: subtextNotificationBubble.visible ? subtextNotificationBubble.left : parent.right
             anchors.rightMargin: subtextNotificationBubble.visible ? Komai.paddingSmall : 0
-            color: root.unimportantText
             elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth + Komai.paddingSmall : 0)
-            font.pointSize: root.compactPreview ? root.compactPreviewFontPt : (Settings.uiFontSizePt * 0.95)
-            fullText: root.lastMessage
+            fallbackText: root.lastMessage
+            fontPointSize: root.compactPreview ? root.compactPreviewFontPt : (Settings.uiFontSizePt * 0.95)
+            height: implicitHeight
+            senderName: root.lastMessagePreviewSenderName
+            body: root.lastMessagePreviewBody
+            textColor: root.unimportantText
             visible: !root.hasDraft
         }
         Item {

@@ -29,6 +29,7 @@ extern "C"
 {
 #include "gst/gl/gstgldisplay.h"
 #include "gst/gst.h"
+#include "gst/rtp/rtp.h"
 #include "gst/sdp/sdp.h"
 
 #define GST_USE_UNSTABLE_API
@@ -43,6 +44,32 @@ extern "C"
 
 // https://github.com/vector-im/riot-web/issues/10173
 #define STUN_SERVER "stun://turn.matrix.org:3478"
+
+// libwebrtc-based receivers (Chrome, Element, Firefox) require this RTP
+// header extension declared in the SDP and present on inbound packets to
+// assemble them into frames -- without it bytesReceived climbs but
+// framesReceived stays at 0. webrtcbin doesn't auto-add it; we have to
+// register it on each payloader before the offer is generated. URI from
+// gst-examples webrtc-sendrecv (which interops with browsers correctly).
+#define RTP_TWCC_URI "http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01"
+
+#ifdef GSTREAMER_AVAILABLE
+namespace {
+void
+addTwccHeaderExtension(GstElement *payloader, guint extId)
+{
+    GstRTPHeaderExtension *twcc = gst_rtp_header_extension_create_from_uri(RTP_TWCC_URI);
+    if (!twcc) {
+        komai::logging::ui()->warn(
+          "WebRTC: failed to create transport-wide-cc RTP header extension");
+        return;
+    }
+    gst_rtp_header_extension_set_id(twcc, extId);
+    g_signal_emit_by_name(payloader, "add-extension", twcc);
+    g_object_unref(twcc);
+}
+} // namespace
+#endif
 
 using webrtc::CallType;
 using webrtc::ScreenShareType;
@@ -980,13 +1007,14 @@ WebRTCSession::createPipeline(int opusPayloadType, int vp8PayloadType)
     if (!device)
         return false;
 
-    GstElement *source     = gst_device_create_element(device, nullptr);
-    GstElement *volume     = gst_element_factory_make("volume", "srclevel");
-    GstElement *convert    = gst_element_factory_make("audioconvert", nullptr);
-    GstElement *resample   = gst_element_factory_make("audioresample", nullptr);
-    GstElement *queue1     = gst_element_factory_make("queue", nullptr);
-    GstElement *opusenc    = gst_element_factory_make("opusenc", nullptr);
-    GstElement *rtp        = gst_element_factory_make("rtpopuspay", nullptr);
+    GstElement *source   = gst_device_create_element(device, nullptr);
+    GstElement *volume   = gst_element_factory_make("volume", "srclevel");
+    GstElement *convert  = gst_element_factory_make("audioconvert", nullptr);
+    GstElement *resample = gst_element_factory_make("audioresample", nullptr);
+    GstElement *queue1   = gst_element_factory_make("queue", nullptr);
+    GstElement *opusenc  = gst_element_factory_make("opusenc", nullptr);
+    GstElement *rtp      = gst_element_factory_make("rtpopuspay", nullptr);
+    addTwccHeaderExtension(rtp, 1);
     GstElement *queue2     = gst_element_factory_make("queue", nullptr);
     GstElement *capsfilter = gst_element_factory_make("capsfilter", nullptr);
 
@@ -1233,6 +1261,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
     // sendrecv config.
     g_object_set(rtpvp8pay, "picture-id-mode", 2, nullptr);
     g_object_set(rtpvp8pay, "pt", vp8PayloadType, nullptr);
+    addTwccHeaderExtension(rtpvp8pay, 1);
     GstElement *rtpqueue      = gst_element_factory_make("queue", nullptr);
     GstElement *rtpcapsfilter = gst_element_factory_make("capsfilter", nullptr);
     GstCaps *rtpcaps          = gst_caps_new_simple("application/x-rtp",

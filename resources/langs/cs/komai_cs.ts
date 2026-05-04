@@ -2300,7 +2300,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
         <source>External player</source>
         <translation>Externí přehrávač</translation>
     </message>

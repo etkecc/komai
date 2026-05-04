@@ -2296,7 +2296,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
         <source>External player</source>
         <translation>Väline mängija</translation>
     </message>

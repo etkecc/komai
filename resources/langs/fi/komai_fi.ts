@@ -2296,7 +2296,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
         <source>External player</source>
         <translation>Ulkoinen soitin</translation>
     </message>

@@ -357,13 +357,6 @@ Rectangle {
                 Layout.minimumWidth: 0
                 implicitHeight: headerContent.implicitHeight
 
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: root.togglePlayback()
-                }
-
                 RowLayout {
                     id: headerContent
 

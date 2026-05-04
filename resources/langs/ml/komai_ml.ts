@@ -2296,7 +2296,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
         <source>External player</source>
         <translation>ബാഹ്യ പ്ലേയർ</translation>
     </message>

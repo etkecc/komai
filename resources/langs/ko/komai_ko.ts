@@ -2292,7 +2292,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+423"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
         <source>External player</source>
         <translation>외부 플레이어</translation>
     </message>

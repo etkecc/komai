@@ -937,17 +937,22 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+18"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
+        <source>Calls are currently supported only in direct chats.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Hang up</source>
         <translation>Hívás bontása</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+2"/>
         <source>Already on a call</source>
         <translation>Már hívásban van</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>Place a call</source>
         <translation>Hívás indítása</translation>
     </message>
@@ -2984,7 +2989,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
         <source>%1 is typing…</source>
         <translation>%1 gépel…</translation>
     </message>

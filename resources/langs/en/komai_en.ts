@@ -932,17 +932,22 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+18"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
+        <source>Calls are currently supported only in direct chats.</source>
+        <translation>Calls are currently supported only in direct chats.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Hang up</source>
         <translation type="unfinished">Hang up</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+2"/>
         <source>Already on a call</source>
         <translation type="unfinished">Already on a call</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>Place a call</source>
         <translation type="unfinished">Place a call</translation>
     </message>
@@ -2982,7 +2987,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
         <source>%1 is typing…</source>
         <translation type="unfinished"/>
     </message>

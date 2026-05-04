@@ -939,17 +939,22 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+18"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
+        <source>Calls are currently supported only in direct chats.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Hang up</source>
         <translation>Završi poziv</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+2"/>
         <source>Already on a call</source>
         <translation>Već u pozivu</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>Place a call</source>
         <translation>Pokreni poziv</translation>
     </message>
@@ -2992,7 +2997,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
         <source>%1 is typing…</source>
         <translation>%1 kuca…</translation>
     </message>

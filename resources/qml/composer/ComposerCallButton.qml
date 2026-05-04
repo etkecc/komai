@@ -14,10 +14,24 @@ ComposerToolbarButton {
     required property var timelineRoot
     required property bool showAllButtons
 
+    // Mirrors the CallManager::sendInvite guard: legacy 1:1 calls are
+    // allowed in any room flagged direct, plus any room with exactly two
+    // active members.
+    readonly property bool roomCallable: !!root.room
+        && (root.room.isDirect === true || Number(root.room.roomMemberCount) === 2)
+    readonly property bool roomBlocksCall: !roomCallable && !CallManager.isOnCall
+
     Layout.alignment: Qt.AlignBottom
-    toolTipText: CallManager.isOnCall ? qsTr("Hang up") : (CallManager.isOnCallOnOtherDevice ? qsTr("Already on a call") : qsTr("Place a call"))
+    enabled: !roomBlocksCall
+    toolTipText: roomBlocksCall
+        ? qsTr("Calls are currently supported only in direct chats.")
+        : (CallManager.isOnCall
+            ? qsTr("Hang up")
+            : (CallManager.isOnCallOnOtherDevice
+                ? qsTr("Already on a call")
+                : qsTr("Place a call")))
     image: CallManager.isOnCall ? ":/icons/icons/ui/end-call.svg" : ":/icons/icons/ui/place-call.svg"
-    opacity: (CallManager.haveCallInvite || CallManager.isOnCallOnOtherDevice) ? 0.3 : 1
+    opacity: (roomBlocksCall || CallManager.haveCallInvite || CallManager.isOnCallOnOtherDevice) ? 0.3 : 1
     visible: CallManager.callsSupported && showAllButtons && CallManager.preMatrixRtcCallsEnabled
 
     onClicked: {

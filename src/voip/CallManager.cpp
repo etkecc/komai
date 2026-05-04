@@ -70,6 +70,7 @@ struct MatrixCallRoomContext
     QString avatarUrl;
     QString directChatOtherUserId;
     uint64_t memberCount = 0;
+    bool isDirect        = false;
 };
 
 QString
@@ -110,6 +111,7 @@ fetchMatrixCallRoomContext(const QString &roomId)
       .avatarUrl             = room.avatarUrl,
       .directChatOtherUserId = room.directChatOtherUserId,
       .memberCount           = room.memberCount,
+      .isDirect              = room.isDirect,
     };
 }
 
@@ -604,12 +606,18 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     generateCallID();
 
     const auto roomContext = fetchMatrixCallRoomContext(roomid);
-    if (!roomContext || roomContext->directChatOtherUserId.trimmed().isEmpty()) {
+    // Legacy 1:1 calls are supported in any room our classification flags as
+    // direct, plus any room with exactly two active members (covers 2-member
+    // rooms that lack m.direct / heroes and so come back as is_direct=false
+    // from the matrix-sdk classification).
+    if (!roomContext || !(roomContext->isDirect || roomContext->memberCount == 2)) {
         emit ChatPage::instance()->showNotification(
-          QStringLiteral("Calls are currently supported only in direct rooms."));
+          QStringLiteral("Calls are currently supported only in direct chats."));
         return;
     }
 
+    // May be empty when neither m.direct nor heroes resolved a partner; the
+    // rest of the code path tolerates that (invitee is optional in v0).
     const auto calleeId = roomContext->directChatOtherUserId;
 
 #ifdef GSTREAMER_AVAILABLE

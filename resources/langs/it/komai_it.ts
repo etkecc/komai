@@ -938,17 +938,22 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+18"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
+        <source>Calls are currently supported only in direct chats.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Hang up</source>
         <translation>Riaggancia</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+2"/>
         <source>Already on a call</source>
         <translation>Già in una chiamata</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>Place a call</source>
         <translation>Effettua una chiamata</translation>
     </message>
@@ -2988,7 +2993,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
         <source>%1 is typing…</source>
         <translation>%1 sta scrivendo…</translation>
     </message>

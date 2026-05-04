@@ -2003,16 +2003,6 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>通話セットアップイベントを表示</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>低レベルのm.callセットアップトラフィック。主に通話のデバッグに役立ちます。</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>サーバーアクセスの変更を表示</translation>
     </message>

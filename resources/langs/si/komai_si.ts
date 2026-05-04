@@ -2007,16 +2007,6 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>ඇමතුම් සැකසුම් සිදුවීම් පෙන්වන්න</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>අඩු-මට්ටමේ m.call සැකසුම් ගමනාගමනය. ප්‍රධාන වශයෙන් ඇමතුම් දෝෂ නිරාකරණ සඳහා ප්‍රයෝජනවත්.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>සේවාදායක ප්‍රවේශ වෙනස්කම් පෙන්වන්න</translation>
     </message>

@@ -2007,16 +2007,6 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Monstrar evenimentes de configurament de appellation</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Traffic de configurament m.call de bas nivel. Plu utile por diagnostic de appellation.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Monstrar cambias de accesse al servidor</translation>
     </message>

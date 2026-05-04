@@ -2007,16 +2007,6 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Näytä puhelun asetustapahtumat</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Matalan tason m.call-asetusliikenne. Hyödyllinen lähinnä puheluiden virheenkorjaukseen.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Näytä palvelimen käyttöoikeusmuutokset</translation>
     </message>

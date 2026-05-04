@@ -2011,16 +2011,6 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Показывать события настройки звонков</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Низкоуровневый трафик настройки m.call. Полезно в основном для отладки звонков.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Показывать изменения доступа к серверу</translation>
     </message>

@@ -2007,16 +2007,6 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Mostra els esdeveniments de configuració de trucades</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Trànsit de configuració m.call de baix nivell. Principalment útil per a la depuració de trucades.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Mostra els canvis d'accés al servidor</translation>
     </message>

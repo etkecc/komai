@@ -2008,16 +2008,6 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Mostrar eventos de configuración de llamada</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Tráfico de configuración m.call de bajo nivel. Útil principalmente para depurar llamadas.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Mostrar cambios de acceso al servidor</translation>
     </message>

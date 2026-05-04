@@ -2011,16 +2011,6 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Zobrazit události nastavení hovoru</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Nízkoúrovňový provoz nastavení m.call. Většinou užitečné pro ladění hovorů.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Zobrazit změny přístupu k serveru</translation>
     </message>

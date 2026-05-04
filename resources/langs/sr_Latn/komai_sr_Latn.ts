@@ -2011,16 +2011,6 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Prikaži događaje podešavanja poziva</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Niskonivolski m.call saobraćaj podešavanja poziva. Uglavnom korisno za otklanjanje grešaka u pozivima.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Prikaži promene pristupa serveru</translation>
     </message>

@@ -2007,16 +2007,6 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Visa samtalsinställningshändelser</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Lågnivå m.call-uppkopplingstrafik. Mest användbart för felsökning av samtal.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Visa serveråtkomständringar</translation>
     </message>

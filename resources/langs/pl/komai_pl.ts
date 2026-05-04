@@ -2011,16 +2011,6 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Pokaż zdarzenia konfiguracji połączenia</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Niskopoziomowy ruch konfiguracyjny m.call. Przydatne głównie do debugowania połączeń.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Pokaż zmiany dostępu do serwera</translation>
     </message>

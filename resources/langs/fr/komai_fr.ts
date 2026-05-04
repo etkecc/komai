@@ -2007,16 +2007,6 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Afficher les événements de configuration d'appel</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Trafic de configuration m.call de bas niveau. Principalement utile pour le débogage des appels.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Afficher les changements d'accès au serveur</translation>
     </message>

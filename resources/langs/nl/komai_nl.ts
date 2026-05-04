@@ -2007,16 +2007,6 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Gespreksopbouwgebeurtenissen tonen</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Laagniveau m.call-opbouwverkeer. Hoofdzakelijk nuttig voor het debuggen van gesprekken.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Servertoegangswijzigingen tonen</translation>
     </message>

@@ -2003,16 +2003,6 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Hiển thị sự kiện cài đặt cuộc gọi</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Lưu lượng cài đặt m.call cấp thấp. Hữu ích nhất để gỡ lỗi cuộc gọi.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Hiển thị thay đổi quyền truy cập máy chủ</translation>
     </message>

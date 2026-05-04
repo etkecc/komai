@@ -2023,16 +2023,6 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>إظهار أحداث إعداد المكالمات</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>حركة إعداد m.call منخفضة المستوى. مفيدة غالبًا لتصحيح أخطاء المكالمات.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>إظهار تغييرات الوصول للخوادم</translation>
     </message>

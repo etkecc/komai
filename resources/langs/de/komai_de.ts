@@ -2007,16 +2007,6 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Anruf-Setup-Ereignisse anzeigen</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Verbindungsaufbau-Traffic auf niedriger Ebene (m.call). Hauptsächlich für die Anruf-Fehlersuche nützlich.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Serverzugangsänderungen anzeigen</translation>
     </message>

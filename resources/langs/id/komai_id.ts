@@ -2003,16 +2003,6 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Tampilkan peristiwa pengaturan panggilan</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Lalu lintas pengaturan m.call tingkat rendah. Sebagian besar berguna untuk debugging panggilan.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Tampilkan perubahan akses server</translation>
     </message>

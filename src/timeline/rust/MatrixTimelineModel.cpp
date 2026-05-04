@@ -325,9 +325,23 @@ computeDerivedFields(MatrixTimelineItem &item,
 {
     const bool isState = isStateLikeKind(item.itemKind);
     item.cachedType = qml_mtx_events::matrixTimelineEventType(item.itemKind, item.matrixEventType);
+    // matrix-sdk-ui's default timeline event filter rejects every call
+    // lifecycle event except `m.call.invite`, so after sync these never
+    // appear at all. The send-queue's local echo bypasses that filter
+    // though, so an outgoing hangup/answer/reject would render a "ghost"
+    // entry that disappears on restart and never receives a delivery
+    // upgrade (no remote peer can ever read it). Hide these unconditionally
+    // so the local echo also vanishes.
+    const bool isAlwaysHiddenCallLifecycle = item.cachedType == qml_mtx_events::CallAnswer ||
+                                             item.cachedType == qml_mtx_events::CallHangUp ||
+                                             item.cachedType == qml_mtx_events::CallReject ||
+                                             item.cachedType == qml_mtx_events::CallSelectAnswer ||
+                                             item.cachedType == qml_mtx_events::CallNegotiate ||
+                                             item.cachedType == qml_mtx_events::CallCandidates;
     item.cachedIsHiddenEvent =
-      UserSettings::instance() &&
-      UserSettings::instance()->isTimelineEventHiddenInRoom(item.cachedType, roomId);
+      isAlwaysHiddenCallLifecycle ||
+      (UserSettings::instance() &&
+       UserSettings::instance()->isTimelineEventHiddenInRoom(item.cachedType, roomId));
     item.cachedEmojiOnlyCount = item.cachedType == qml_mtx_events::TextMessage
                                   ? utils::emojiOnlyCodepointCount(item.body)
                                   : 0;

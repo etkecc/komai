@@ -2007,16 +2007,6 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>കോൾ സെറ്റപ്പ് ഇവന്റുകൾ കാണിക്കുക</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>താഴ്ന്ന തലത്തിലുള്ള m.call സെറ്റപ്പ് ട്രാഫിക്. കോൾ ഡീബഗ്ഗിംഗിന് കൂടുതൽ ഉപയോഗപ്രദം.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>സർവർ ആക്‌സസ് മാറ്റങ്ങൾ കാണിക്കുക</translation>
     </message>

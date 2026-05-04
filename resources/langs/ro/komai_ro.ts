@@ -2011,16 +2011,6 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Afișează evenimentele de configurare a apelurilor</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Trafic de configurare m.call de nivel scăzut. Util în principal pentru depanarea apelurilor.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Afișează modificările accesului la server</translation>
     </message>

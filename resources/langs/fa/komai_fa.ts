@@ -2003,16 +2003,6 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>نمایش رویدادهای راه‌اندازی تماس</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>ترافیک سطح پایین راه‌اندازی m.call. بیشتر برای اشکال‌زدایی تماس مفید است.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>نمایش تغییرات دسترسی سرور</translation>
     </message>

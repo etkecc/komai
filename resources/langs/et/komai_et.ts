@@ -2007,16 +2007,6 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Näita kõne seadistussündmusi</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Madala taseme m.call seadistusliiklus. Kasulik peamiselt kõne silumiseks.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Näita serveri juurdepääsu muudatusi</translation>
     </message>

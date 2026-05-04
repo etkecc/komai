@@ -2007,16 +2007,6 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Exibir eventos de configuração de chamada</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Tráfego de configuração m.call de baixo nível. Principalmente útil para depuração de chamadas.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Exibir alterações de acesso ao servidor</translation>
     </message>

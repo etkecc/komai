@@ -203,12 +203,6 @@ Item {
         }
 
         HiddenEventToggleRow {
-            label: qsTr("Show call setup events")
-            description: qsTr("Low-level m.call setup traffic. Mostly useful for call debugging.")
-            eventTypes: [MtxEvent.CallCandidates, MtxEvent.CallSelectAnswer, MtxEvent.CallNegotiate]
-        }
-
-        HiddenEventToggleRow {
             label: qsTr("Show server access changes")
             description: qsTr("Allowed and blocked homeserver list changes.")
             eventTypes: [MtxEvent.ServerAcl]

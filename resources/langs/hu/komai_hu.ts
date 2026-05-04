@@ -2003,16 +2003,6 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     </message>
     <message>
         <location line="+5"/>
-        <source>Show call setup events</source>
-        <translation>Hívásbeállítási események megjelenítése</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Low-level m.call setup traffic. Mostly useful for call debugging.</source>
-        <translation>Alacsony szintű m.call beállítási forgalom. Főleg hívás hibakereséshez hasznos.</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Show server access changes</source>
         <translation>Szerver-hozzáférési változások megjelenítése</translation>
     </message>

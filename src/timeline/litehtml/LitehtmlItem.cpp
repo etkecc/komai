@@ -277,28 +277,48 @@ LitehtmlItem::relayout()
     if (m_font.italic())
         cw += qMax(2, qRound(QFontMetrics(m_font).ascent() * 0.2));
     setImplicitWidth(cw);
-    setImplicitHeight(m_document->height());
 
-    // Issue #78 instrumentation: predict per-message emoji top-overshoot.
-    // Run with KOMAI_EMOJI_CLIP_DEBUG=1 and grep for "emoji-clip-debug".
+    // Issue #78: when the message contains a `<span class="emoji">`, the emoji
+    // glyph (font-size: 1.4em via CSS) renders with the emoji font's larger
+    // ascent.  litehtml lays out the line box using the text font's ascent
+    // (faked in LitehtmlContainer::create_font to keep line heights uniform),
+    // so the emoji's ink top is positioned above the line box on the first
+    // line — i.e. above the QQuickPaintedItem's texture top edge — and gets
+    // clipped.  Reserve room for the overshoot and shift the document draw
+    // down by the same amount in paint().
+    const bool htmlHasEmoji = m_html.contains(QStringLiteral("<span class=\"emoji\""));
+    int ascentOvershoot     = 0;
+    if (htmlHasEmoji) {
+        const auto emojiFamily = utils::effectiveEmojiFontFamily();
+        if (!emojiFamily.isEmpty()) {
+            const int textPx  = qRound(m_font.pointSizeF() * 96.0 / 72.0);
+            const int emojiPx = qRound(textPx * timeline::litehtml::emojiScaleFactor);
+            QFont emojiFont;
+            emojiFont.setFamily(emojiFamily);
+            emojiFont.setPixelSize(emojiPx);
+            ascentOvershoot = QFontMetrics(emojiFont).ascent() - QFontMetrics(m_font).ascent();
+        }
+    }
+    m_topInset = qMax(0, ascentOvershoot);
+    setImplicitHeight(m_document->height() + m_topInset);
+
+    // Optional instrumentation (gated): log the predicted overshoot and the
+    // raw font metrics so we can compare against new reproductions in the
+    // future without rebuilding.  Run with KOMAI_EMOJI_CLIP_DEBUG=1 and
+    // grep for "emoji-clip-debug".
     static const bool emojiClipDebug = qEnvironmentVariableIsSet("KOMAI_EMOJI_CLIP_DEBUG");
     if (emojiClipDebug) {
-        const bool htmlHasEmoji = m_html.contains(QStringLiteral("<span class=\"emoji\""));
-        const auto emojiFamily  = utils::effectiveEmojiFontFamily();
-        const int textPx        = qRound(m_font.pointSizeF() * 96.0 / 72.0);
-        const int emojiPx       = qRound(textPx * timeline::litehtml::emojiScaleFactor);
+        const auto emojiFamily = utils::effectiveEmojiFontFamily();
+        const int textPx       = qRound(m_font.pointSizeF() * 96.0 / 72.0);
+        const int emojiPx      = qRound(textPx * timeline::litehtml::emojiScaleFactor);
         QFont emojiFont;
         emojiFont.setFamily(emojiFamily);
         emojiFont.setPixelSize(emojiPx);
         const QFontMetrics textFm(m_font);
         const QFontMetrics emojiFm(emojiFont);
-        const int ascentOvershoot = emojiFm.ascent() - textFm.ascent();
-        // Probe actual ink extent — color emoji fonts often have bitmap glyphs
-        // whose ink reaches above the reported metric ascent. tightBoundingRect's
-        // origin is the baseline; top() is negative for ink above the baseline.
         // Build the U+1F525 (🔥) surrogate pair explicitly: QStringLiteral
-        // doesn't decode UTF-8 escapes, so a "\xF0\x9F\x94\xA5" string ends up
-        // as four Latin-1 codepoints (4 tofu glyphs) instead of one emoji.
+        // doesn't decode UTF-8 escapes, so "\xF0\x9F\x94\xA5" ends up as four
+        // Latin-1 codepoints rather than one emoji.
         QString probe;
         probe.append(QChar(0xD83D));
         probe.append(QChar(0xDD25));
@@ -309,7 +329,7 @@ LitehtmlItem::relayout()
           "[emoji-clip-debug] item={} text='{}' textPt={:.2f} textPx={} textAscent={} "
           "emoji='{}' emojiPx={} emojiAscent={} ascentOvershoot_px={} "
           "inkAscent_px={} inkOvershoot_px={} probe_tight=({},{} {}x{}) "
-          "doc_h={} item_h={} html_has_emoji={} html_len={} html_head='{}'",
+          "doc_h={} item_h={} top_inset={} html_has_emoji={} html_len={} html_head='{}'",
           (void *)this,
           m_font.family().toStdString(),
           m_font.pointSizeF(),
@@ -327,6 +347,7 @@ LitehtmlItem::relayout()
           tightR.height(),
           m_document->height(),
           qRound(height()),
+          m_topInset,
           htmlHasEmoji,
           m_html.size(),
           m_html.left(120).toStdString());
@@ -383,10 +404,15 @@ LitehtmlItem::paint(QPainter *painter)
 
     // Always collect text runs so they are available for double-click word
     // selection without requiring a prior drag selection paint pass.
+    // Pass m_topInset as the y offset so that document y=0 maps to
+    // item y=m_topInset, leaving room above for emoji glyph overshoot
+    // (issue #78). TextRun rects recorded during draw_text are in
+    // painter (item) coords, so selection painting/hit-testing keeps
+    // working without further coord translation.
     QElapsedTimer timer;
     timer.start();
     m_container->beginTextRunCollection();
-    m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, 0, &clip);
+    m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, m_topInset, &clip);
     m_container->endTextRunCollection();
 
     if (m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd)
@@ -457,7 +483,7 @@ LitehtmlItem::handleHoverMove(qreal x, qreal y)
 
     int padLeft = static_cast<int>(m_leftPadding);
     int docX    = static_cast<int>(x) - padLeft;
-    int docY    = static_cast<int>(y);
+    int docY    = static_cast<int>(y) - m_topInset;
 
     // Skip if the document-space position hasn't moved since the last call.
     QPoint docPos(docX, docY);
@@ -534,7 +560,7 @@ LitehtmlItem::mousePressEvent(QMouseEvent *event)
     // litehtml needs document-space coordinates for link hit testing.
     int padLeft = static_cast<int>(m_leftPadding);
     int docX    = pos.x() - padLeft;
-    int docY    = pos.y();
+    int docY    = pos.y() - m_topInset;
     litehtml::position::vector redraw;
     m_document->on_lbutton_down(docX, docY, docX, docY, redraw);
 
@@ -585,7 +611,7 @@ LitehtmlItem::mouseReleaseEvent(QMouseEvent *event)
     int padLeft = static_cast<int>(m_leftPadding);
     auto pos    = event->position().toPoint();
     int docX    = pos.x() - padLeft;
-    int docY    = pos.y();
+    int docY    = pos.y() - m_topInset;
 
     // Only forward to litehtml (link activation) if this was a click, not a drag selection.
     bool hasSelection = m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd;

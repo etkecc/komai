@@ -139,6 +139,10 @@ private:
     qreal m_leftPadding  = 0;
     qreal m_rightPadding = 0;
     bool m_compact       = false;
+    // Top inset reserved for emoji glyph ink that overshoots the text-line
+    // ascent (issue #78). Computed during relayout from the diff between
+    // the emoji font's ascent at 1.4em and the text font's ascent.
+    int m_topInset = 0;
     QString m_masterCss;
     bool m_masterCssDirty = true;
     bool m_rebuildPending = false;

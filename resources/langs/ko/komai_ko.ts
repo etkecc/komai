@@ -219,7 +219,7 @@
 <context>
     <name>ActiveCallBar</name>
     <message>
-        <location filename="../../qml/voip/ActiveCallBar.qml" line="+104"/>
+        <location filename="../../qml/voip/ActiveCallBar.qml" line="+95"/>
         <source>Calling...</source>
         <translation>통화 중…</translation>
     </message>
@@ -230,7 +230,7 @@
         <translation>연결 중…</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+54"/>
         <source>You are screen sharing</source>
         <translation>화면을 공유하고 있습니다</translation>
     </message>
@@ -6949,18 +6949,18 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>카메라 화면 속 화면 포함</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Request remote camera</source>
         <translation>원격 카메라 요청</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+17"/>
         <source>View your callee's camera like a regular video call</source>
         <translation>일반 영상 통화처럼 상대방의 카메라 보기</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show mouse cursor</source>
         <translation>마우스 커서 표시</translation>
     </message>

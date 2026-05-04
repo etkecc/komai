@@ -219,7 +219,7 @@
 <context>
     <name>ActiveCallBar</name>
     <message>
-        <location filename="../../qml/voip/ActiveCallBar.qml" line="+104"/>
+        <location filename="../../qml/voip/ActiveCallBar.qml" line="+95"/>
         <source>Calling...</source>
         <translation>Hívás...</translation>
     </message>
@@ -230,7 +230,7 @@
         <translation>Csatlakozás...</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+54"/>
         <source>You are screen sharing</source>
         <translation>Képernyőmegosztás folyamatban</translation>
     </message>
@@ -6949,18 +6949,18 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>A kamera is szerepeljen a kép-a-képben</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Request remote camera</source>
         <translation>Távoli kamera kérése</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+17"/>
         <source>View your callee's camera like a regular video call</source>
         <translation>A hívó kamerájának megjelenítése, mint egy normál videóhívásban</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show mouse cursor</source>
         <translation>Egérkurzor megjelenítése</translation>
     </message>

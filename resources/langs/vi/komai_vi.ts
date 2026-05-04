@@ -219,7 +219,7 @@
 <context>
     <name>ActiveCallBar</name>
     <message>
-        <location filename="../../qml/voip/ActiveCallBar.qml" line="+104"/>
+        <location filename="../../qml/voip/ActiveCallBar.qml" line="+95"/>
         <source>Calling...</source>
         <translation>Đang gọi…</translation>
     </message>
@@ -230,7 +230,7 @@
         <translation>Đang kết nối…</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+54"/>
         <source>You are screen sharing</source>
         <translation>Bạn đang chia sẻ màn hình</translation>
     </message>
@@ -6949,18 +6949,18 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Bao gồm camera của bạn dạng hình trong hình</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Request remote camera</source>
         <translation>Yêu cầu camera từ xa</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+17"/>
         <source>View your callee's camera like a regular video call</source>
         <translation>Xem camera của người được gọi như cuộc gọi video thông thường</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show mouse cursor</source>
         <translation>Hiển thị con trỏ chuột</translation>
     </message>

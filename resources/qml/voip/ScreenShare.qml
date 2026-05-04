@@ -122,9 +122,19 @@ Popup {
             }
 
             MatrixText {
+                id: remoteVideoLabel
+
                 text: qsTr("Request remote camera")
-                toolTipText: qsTr("View your callee's camera like a regular video call")
-                toolTipVisible: hovered
+
+                KomaiToolTip {
+                    anchorItem: remoteVideoLabel
+                    anchorX: remoteVideoLabel.width / 2
+                    anchorY: remoteVideoLabel.height
+                    gapX: Komai.paddingMedium
+                    gapY: Komai.paddingMedium
+                    text: qsTr("View your callee's camera like a regular video call")
+                    requestedVisible: remoteVideoLabel.hovered
+                }
             }
 
             ToggleButton {
@@ -132,8 +142,16 @@ Popup {
 
                 Layout.alignment: Qt.AlignRight
                 checked: Settings.callsScreenshareIncludeRemoteVideo
-                toolTipText: qsTr("View your callee's camera like a regular video call")
-                toolTipVisible: hovered
+
+                KomaiToolTip {
+                    anchorItem: remoteVideoCheckBox
+                    anchorX: remoteVideoCheckBox.width / 2
+                    anchorY: remoteVideoCheckBox.height
+                    gapX: Komai.paddingMedium
+                    gapY: Komai.paddingMedium
+                    text: qsTr("View your callee's camera like a regular video call")
+                    requestedVisible: remoteVideoCheckBox.hovered
+                }
             }
 
             MatrixText {

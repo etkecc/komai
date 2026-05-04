@@ -219,7 +219,7 @@
 <context>
     <name>ActiveCallBar</name>
     <message>
-        <location filename="../../qml/voip/ActiveCallBar.qml" line="+104"/>
+        <location filename="../../qml/voip/ActiveCallBar.qml" line="+95"/>
         <source>Calling...</source>
         <translation>Позвъняване …</translation>
     </message>
@@ -230,7 +230,7 @@
         <translation>Свързване …</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+54"/>
         <source>You are screen sharing</source>
         <translation>Споделяш екрана си</translation>
     </message>
@@ -6958,18 +6958,18 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Включи камерата в режим картина в картина</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Request remote camera</source>
         <translation>Поискай отдалечена камера</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+17"/>
         <source>View your callee's camera like a regular video call</source>
         <translation>Виж камерата на отсрещната страна като при обикновено видеообаждане</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show mouse cursor</source>
         <translation>Покажи курсора на мишката</translation>
     </message>

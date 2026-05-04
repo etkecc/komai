@@ -219,7 +219,7 @@
 <context>
     <name>ActiveCallBar</name>
     <message>
-        <location filename="../../qml/voip/ActiveCallBar.qml" line="+104"/>
+        <location filename="../../qml/voip/ActiveCallBar.qml" line="+95"/>
         <source>Calling...</source>
         <translation>Vokante…</translation>
     </message>
@@ -230,7 +230,7 @@
         <translation>Konektante…</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+54"/>
         <source>You are screen sharing</source>
         <translation>Vi vidigas vian ekranon.</translation>
     </message>
@@ -6960,18 +6960,18 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Enigi vian filmilon en la filmon</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Request remote camera</source>
         <translation>Peti foran filmilon</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+17"/>
         <source>View your callee's camera like a regular video call</source>
         <translation>Vidi la filmilon de via vokato kiel en ordinara vidvoko</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show mouse cursor</source>
         <translation>Montri musan kursoron</translation>
     </message>

@@ -11,17 +11,8 @@ import cc.etke.komai 1.0
 
 Rectangle {
     visible: CallManager.isOnCall && CallManager.preMatrixRtcCallsEnabled
-    color: callInviteBar.color
+    color: "#2ECC71"
     implicitHeight: visible ? rowLayout.height + 8 : 0
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            if (CallManager.callType != Voip.VOICE)
-                stackLayout.currentIndex = stackLayout.currentIndex ? 0 : 1;
-
-        }
-    }
 
     RowLayout {
         id: rowLayout
@@ -135,16 +126,6 @@ Rectangle {
                         callTimer.startTime: Math.floor((new Date()).getTime() / 1000)
                     }
 
-                    // The shorthand PropertyChanges form crashes here; keep the explicit target.
-                    //PropertyChanges {
-                    //    stackLayout.currentIndex: CallManager.callType != Voip.VOICE ? 1 : 0
-                    //}
-
-                    PropertyChanges {
-                        target: stackLayout
-                        currentIndex: CallManager.callType != Voip.VOICE ? 1 : 0 // qmllint disable Quick.property-changes-parsed
-                    }
-
                 },
                 State {
                     name: "DISCONNECTED"
@@ -152,15 +133,6 @@ Rectangle {
 
                     PropertyChanges {
                         callStateLabel.text: ""
-                    }
-
-                    // The shorthand PropertyChanges form crashes here; keep the explicit target.
-                    //PropertyChanges {
-                    //    stackLayout.currentIndex: 0
-                    //}
-                    PropertyChanges {
-                        target: stackLayout
-                        currentIndex: 0 // qmllint disable Quick.property-changes-parsed
                     }
 
                 }

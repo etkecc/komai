@@ -219,7 +219,7 @@
 <context>
     <name>ActiveCallBar</name>
     <message>
-        <location filename="../../qml/voip/ActiveCallBar.qml" line="+104"/>
+        <location filename="../../qml/voip/ActiveCallBar.qml" line="+95"/>
         <source>Calling...</source>
         <translation>Chamando…</translation>
     </message>
@@ -230,7 +230,7 @@
         <translation>Conectando…</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+54"/>
         <source>You are screen sharing</source>
         <translation>Você está compartilhando sua tela.</translation>
     </message>
@@ -6958,18 +6958,18 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Incluir sua câmera em picture-in-picture</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Request remote camera</source>
         <translation>Solicitar câmera remota</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+17"/>
         <source>View your callee's camera like a regular video call</source>
         <translation>Veja a câmera do destinatário como em uma videochamada comum</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show mouse cursor</source>
         <translation>Mostrar cursor do mouse</translation>
     </message>

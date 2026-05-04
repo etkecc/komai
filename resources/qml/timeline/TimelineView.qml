@@ -481,7 +481,9 @@ Item {
         target: TimelineManager.matrixTimelineModel
 
         function onSpecialEffectsTriggered(effectNames) {
-            if (timelineView.perfDisableTimelineEffects || !effectNames || effectNames.length === 0)
+            if (timelineView.perfDisableTimelineEffects
+                || !Settings.timelineMediaEffectsEnabled
+                || !effectNames || effectNames.length === 0)
                 return;
 
             timelineEffects.pulseEffects(effectNames);

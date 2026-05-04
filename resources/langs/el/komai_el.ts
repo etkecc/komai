@@ -3534,12 +3534,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Γράψτε ένα μήνυμα ή πατήστε ↑ για να επιλέξετε μηνύματα.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>Μήνυμα</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>Αυτοκόλλητα</translation>
     </message>

@@ -3529,12 +3529,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Bir mesaj yazın ya da mesajları seçmek için ↑ tuşuna basın.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>Çıkartmalar</translation>
     </message>

@@ -3554,12 +3554,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>اكتب رسالةً، أو اضغط ↑ لتحديد الرسائل.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>رسالة</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>ملصقات</translation>
     </message>

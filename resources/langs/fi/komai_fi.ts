@@ -3534,12 +3534,12 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Kirjoita viesti tai paina ↑ valitaksesi viestejä.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>Viesti</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>Tarrat</translation>
     </message>

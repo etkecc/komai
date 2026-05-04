@@ -3534,12 +3534,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Escriu un missatge, o prem ↑ per seleccionar missatges.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>Missatge</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>

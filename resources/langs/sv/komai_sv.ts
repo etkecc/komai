@@ -3534,12 +3534,12 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Skriv ett meddelande, eller tryck ↑ för att markera meddelanden.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>Meddelande</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>

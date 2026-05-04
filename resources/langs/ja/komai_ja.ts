@@ -3529,12 +3529,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>メッセージを入力、または↑を押してメッセージを選択。</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>メッセージ</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>スタンプ</translation>
     </message>

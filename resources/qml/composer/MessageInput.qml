@@ -1152,6 +1152,9 @@ Rectangle {
                 function isCursorOnTopLine() {
                     return currentVisualLineStartPosition() === 0;
                 }
+                function isCursorOnBottomLine() {
+                    return currentVisualLineEndPosition() === messageInput.length;
+                }
                 function currentVisualLineStartPosition() {
                     return positionAt(0, cursorRectangle.y + cursorRectangle.height / 2);
                 }
@@ -1462,10 +1465,12 @@ Rectangle {
                             cursorPosition = messageInput.currentVisualLineStartPosition();
                         }
                     } else if (event.key == Qt.Key_Down && (event.modifiers == Qt.NoModifier || event.modifiers == Qt.KeypadModifier)) {
-                        const lineEnd = messageInput.currentVisualLineEndPosition();
-                        if (cursorPosition !== lineEnd) {
-                            event.accepted = true;
-                            cursorPosition = lineEnd;
+                        if (messageInput.isCursorOnBottomLine()) {
+                            const lineEnd = messageInput.currentVisualLineEndPosition();
+                            if (cursorPosition !== lineEnd) {
+                                event.accepted = true;
+                                cursorPosition = lineEnd;
+                            }
                         }
                     }
                 }

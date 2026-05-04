@@ -3534,12 +3534,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Scriver un mesage, o presar ↑ por seleter mesages.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+177"/>
         <source>Message</source>
         <translation>Mesage</translation>
     </message>
     <message>
-        <location line="+565"/>
+        <location line="+567"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

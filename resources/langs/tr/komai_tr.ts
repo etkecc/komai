@@ -8073,7 +8073,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+231"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 sesli arama yaptı.</translation>
     </message>

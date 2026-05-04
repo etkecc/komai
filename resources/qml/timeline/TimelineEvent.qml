@@ -149,20 +149,17 @@ EventDelegateChooser {
             surfaceColor: EventDelegateChooser.isReply
                           ? chooserReplySurfaceColor
                           : chooserMainSurfaceColor
-            font.italic: true
             formatted: {
                 var prefix = TimelineManager.escapeEmoji(userName) + " ";
                 var body = formattedBody;
-                // Render the whole emote as a single inline italic run.
-                // formattedBody comes wrapped in <p> from the HTML pipeline,
-                // and a <p> nested inside a <span> is invalid HTML.
-                // Convert paragraph breaks to line breaks so the rare
-                // multi-paragraph emote still breaks visually.
+                // Strip the outer <p> wrapper so the prefix sits on the same
+                // line as the body, and convert paragraph breaks into line
+                // breaks so multi-paragraph emotes still break visually.
                 var inline = body
                     .replace(/<\/p>\s*<p[^>]*>/gi, "<br><br>")
                     .replace(/^\s*<p[^>]*>/i, "")
                     .replace(/<\/p>\s*$/i, "");
-                return "<span style=\"font-style:italic\">" + prefix + inline + "</span>";
+                return prefix + inline;
             }
             isOnlyEmoji: 0
             keepFullText: true

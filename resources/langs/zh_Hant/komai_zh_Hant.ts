@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+156"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
         <source>Profile</source>
         <translation>個人資料</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>已忽略的使用者</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>Account</source>
         <translation>帳號</translation>
     </message>
@@ -2606,7 +2606,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>自動在 %1 天後清理。可隨時手動清除。</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+30"/>
         <source>Local cache</source>
         <translation>本機快取</translation>
     </message>
@@ -10791,7 +10791,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>任何 &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; 實例均可，但 &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; 是由 &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; 運營的大型熱門實例。</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Browser</source>
         <translation>瀏覽器</translation>
     </message>
@@ -11236,7 +11236,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>嘈雜事件</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>

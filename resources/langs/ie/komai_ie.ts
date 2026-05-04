@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+156"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>Usatores ignorat</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>Account</source>
         <translation>Conto</translation>
     </message>
@@ -2610,7 +2610,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Neteyat automaticmen pos %1 dies. Secur de purgar manualment quando vu vole.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+30"/>
         <source>Local cache</source>
         <translation>Cache local</translation>
     </message>
@@ -10807,7 +10807,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Omni instancie de &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; conveni, ma &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; es un grande instancie popular administrat de &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Browser</source>
         <translation>Navigator</translation>
     </message>
@@ -11252,7 +11252,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Eventes sonori</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>

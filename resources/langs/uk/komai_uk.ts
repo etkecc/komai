@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+156"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
         <source>Profile</source>
         <translation>Профіль</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>Ігноровані користувачі</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>Account</source>
         <translation>Обліковий запис</translation>
     </message>
@@ -2614,7 +2614,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Автоматично очищується через %1 днів. Можна очистити вручну будь-коли.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+30"/>
         <source>Local cache</source>
         <translation>Локальний кеш</translation>
     </message>
@@ -10823,7 +10823,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Підійде будь-який екземпляр &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;, але &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; — це великий популярний екземпляр, що підтримується &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Browser</source>
         <translation>Браузер</translation>
     </message>
@@ -11268,7 +11268,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Гучні події</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>

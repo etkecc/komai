@@ -28,5 +28,10 @@
       SM::TabIntegrations, networkMrsServerName, setNetworkMrsServerName, nullptr, NetworkMrsServerName, SettingKey::NetworkMrsServerName),
 
     // IntegrationsBrowserSection (control loaded via IntegrationsTab footerContent)
+    // tagId "browser" links this model SectionTitle to the customSection of
+    // the same name registered for TabIntegrations — when the footer's
+    // keywords match the search query, the proxy keeps this title visible
+    // even though no model row in this section matches.
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Browser"), nullptr, SM::SectionTitle, SM::TabIntegrations,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
+      settings::core::SettingId::Unknown, nullptr, "browser" },

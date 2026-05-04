@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+156"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
         <source>Profile</source>
         <translation>个人资料</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>已忽略用户</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>Account</source>
         <translation>账户</translation>
     </message>
@@ -2606,7 +2606,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1 天后自动清理。可随时手动清除。</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+30"/>
         <source>Local cache</source>
         <translation>本地缓存</translation>
     </message>
@@ -10791,7 +10791,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>任何 &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; 实例均可，但 &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; 是由 &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; 运营的大型热门实例。</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Browser</source>
         <translation>浏览器</translation>
     </message>
@@ -11236,7 +11236,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>嘈杂事件</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>

@@ -40,6 +40,32 @@ Item {
         var _ = root._searchQuery;
         return UserSettingsModel.customSectionMatches(UserSettingsModel.TabAccount, sectionId);
     }
+    // Sections after the first one in scrollContent set
+    // `Layout.topMargin: paddingLarge` to separate themselves from the
+    // previous section. When search hides every section ahead of them,
+    // that margin sits at the top of the tab and looks like an unwanted
+    // gap. This helper returns true only if at least one preceding
+    // section is currently visible — so the call sites can drop the
+    // margin to zero when this section turns out to be the first one
+    // actually rendered.
+    //
+    // The "otherDevices" entry is included even though its real
+    // visibility also depends on `accountView.otherDevicesCount > 0` —
+    // accountView lives inside the Loader and isn't directly reachable
+    // from here. Worst case: if only otherDevices keyword-matches but
+    // count is 0, a later section gets paddingLarge above it instead of
+    // 0. Rare and not visually loud.
+    readonly property var _sectionOrder: ["profile", "thisDevice", "otherDevices", "users", "localCache"]
+    function anyEarlierSectionVisible(sectionId) {
+        var idx = root._sectionOrder.indexOf(sectionId);
+        if (idx <= 0)
+            return false;
+        for (var i = 0; i < idx; i++) {
+            if (root.sectionVisible(root._sectionOrder[i]))
+                return true;
+        }
+        return false;
+    }
 
     Loader {
         anchors.fill: parent
@@ -487,7 +513,7 @@ Item {
                     Components.SettingsSection {
                         label: qsTr("This device (session)")
                         Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingLarge
+                        Layout.topMargin: root.anyEarlierSectionVisible("thisDevice") ? Komai.paddingLarge : 0
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                         visible: root.sectionVisible("thisDevice")
@@ -797,7 +823,7 @@ Item {
 
                     ColumnLayout {
                         Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingLarge
+                        Layout.topMargin: root.anyEarlierSectionVisible("otherDevices") ? Komai.paddingLarge : 0
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                         spacing: Komai.paddingSmall
@@ -1305,7 +1331,7 @@ Item {
                     Components.SettingsSection {
                         label: qsTr("Users")
                         Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingLarge
+                        Layout.topMargin: root.anyEarlierSectionVisible("users") ? Komai.paddingLarge : 0
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                         visible: root.sectionVisible("users")
@@ -1348,6 +1374,7 @@ Item {
                     LocalCacheSection {
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
+                        Layout.topMargin: root.anyEarlierSectionVisible("localCache") ? Komai.paddingLarge : 0
                         visible: root.sectionVisible("localCache")
                     }
 

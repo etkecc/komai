@@ -210,7 +210,12 @@ Item {
 
         Components.SettingsSection {
             Layout.fillWidth: true
-            Layout.topMargin: Komai.paddingLarge
+            // Inter-section spacing is the parent's responsibility — when this
+            // component is hidden alongside its preceding siblings in
+            // AccountTab (e.g. by the settings search filter), no internal
+            // top-padding should sit at the top of the visible page. The
+            // AccountTab instance binds Layout.topMargin on the
+            // LocalCacheSection itself.
             Layout.bottomMargin: Komai.paddingSmall
             label: qsTr("Local cache")
         }

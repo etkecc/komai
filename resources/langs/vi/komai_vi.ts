@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+156"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
         <source>Profile</source>
         <translation>Hồ sơ</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>Người dùng bị bỏ qua</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>Account</source>
         <translation>Tài khoản</translation>
     </message>
@@ -2606,7 +2606,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Tự động dọn sạch sau %1 ngày. Có thể xóa thủ công bất cứ lúc nào.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+30"/>
         <source>Local cache</source>
         <translation>Bộ nhớ đệm cục bộ</translation>
     </message>
@@ -10791,7 +10791,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Bất kỳ phiên bản nào của &lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt; đều được, nhưng &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; là phiên bản lớn và phổ biến được vận hành bởi &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Browser</source>
         <translation>Trình duyệt</translation>
     </message>
@@ -11236,7 +11236,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Sự kiện ồn ào</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>

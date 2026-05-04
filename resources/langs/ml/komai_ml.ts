@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+156"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
         <source>Profile</source>
         <translation>പ്രൊഫൈൽ</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>അവഗണിച്ച ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>Account</source>
         <translation>അക്കൗണ്ട്</translation>
     </message>
@@ -2610,7 +2610,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>%1 ദിവസത്തിന് ശേഷം സ്വയം ശുദ്ധീകരിക്കും. ഏത് സമയത്തും സ്വമേധയാ ശുദ്ധീകരിക്കാൻ സുരക്ഷിതം.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+30"/>
         <source>Local cache</source>
         <translation>പ്രാദേശിക ക്യാഷ്</translation>
     </message>
@@ -10807,7 +10807,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>&lt;a href="https://github.com/etkecc/mrs"&gt;Matrix Rooms Search&lt;/a&gt;-ന്റെ ഏതൊരു ഉദാഹരണവും ഉപയോഗിക്കാം, എന്നാൽ &lt;a href="https://matrixrooms.info"&gt;MatrixRooms.info&lt;/a&gt; &lt;a href="https://etke.cc/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/integrations/mrs"&gt;etke.cc&lt;/a&gt; നടത്തുന്ന ഒരു വലിയ ജനപ്രിയ ഉദാഹരണമാണ്.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Browser</source>
         <translation>ബ്രൗസർ</translation>
     </message>
@@ -11252,7 +11252,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ശബ്ദകോലാഹലമുള്ള ഇവന്റുകൾ</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>

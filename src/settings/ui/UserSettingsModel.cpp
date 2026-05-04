@@ -139,18 +139,29 @@ private:
     // the same section (i.e. before the next SectionTitle in the same tab) that
     // matches the query. Stops on tab change to avoid leaking matches between
     // tabs in the source array.
+    //
+    // Falls through to a customSection lookup when the SectionTitle has a
+    // tagId — e.g. the "Browser" SectionTitle in Integrations has no model
+    // rows after it (its content is rendered via the footerContent slot), so
+    // without this fallback the title gets hidden whenever the model rows
+    // don't carry the user's search term, even though the footer beneath
+    // it does match.
     bool sectionHasMatch(int sectionRow) const
     {
-        const int total = settingsTableRowCount();
+        const int total     = settingsTableRowCount();
+        const auto &section = settingsTable[sectionRow];
         for (int r = sectionRow + 1; r < total; ++r) {
             const auto &row = settingsTable[r];
             if (row.tab != tab_)
-                return false;
+                break;
             if (row.type == UserSettingsModel::SectionTitle)
-                return false;
+                break;
             if (rowMatchesQuery(row))
                 return true;
         }
+        if (section.tagId && *section.tagId &&
+            settingsModel_->customSectionMatches(tab_, QLatin1String(section.tagId)))
+            return true;
         return false;
     }
 

@@ -25,6 +25,8 @@ ColumnLayout {
     Layout.maximumHeight: visible ? implicitHeight : 0
     spacing: 0
 
+    TimelineCallStatusBars {}
+
     Composer.UploadBox {
         Layout.minimumHeight: 0
         Layout.preferredHeight: composerContainer.visible

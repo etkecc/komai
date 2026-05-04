@@ -893,9 +893,9 @@ Rectangle {
             // Plain Enter always works for voice (no newline concept).
             // Also honour the user's configured send-key combo.
             var seqs = ["Return", "Enter"];
-            if (Settings.composerInputSendKey == 1) // Shift+Enter
+            if (Settings.composerInputSendKey == Settings.SendMessageKey.ShiftEnter)
                 seqs.push("Shift+Return", "Shift+Enter");
-            else if (Settings.composerInputSendKey == 2) // Ctrl+Enter
+            else if (Settings.composerInputSendKey == Settings.SendMessageKey.CtrlEnter)
                 seqs.push("Ctrl+Return", "Ctrl+Enter");
             return seqs;
         }
@@ -1372,9 +1372,9 @@ Rectangle {
                         }
                         // Send message Enter key combination event.
                         if (!event.accepted && (
-                            Settings.composerInputSendKey == 0 && event.modifiers == Qt.NoModifier
-                              || Settings.composerInputSendKey == 1 && event.modifiers == Qt.ShiftModifier
-                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier)
+                            Settings.composerInputSendKey == Settings.SendMessageKey.Enter && event.modifiers == Qt.NoModifier
+                              || Settings.composerInputSendKey == Settings.SendMessageKey.ShiftEnter && event.modifiers == Qt.ShiftModifier
+                              || Settings.composerInputSendKey == Settings.SendMessageKey.CtrlEnter && event.modifiers == Qt.ControlModifier)
                         ) {
                             if (inputBar.inputController)
                                 inputBar.inputController.send();
@@ -1382,9 +1382,9 @@ Rectangle {
                         }
                         // Add newline Enter key combination event.
                         else if (!event.accepted && (
-                            Settings.composerInputSendKey == 0 && event.modifiers == Qt.ShiftModifier
-                              || Settings.composerInputSendKey == 1 && event.modifiers == Qt.NoModifier
-                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ShiftModifier)
+                            Settings.composerInputSendKey == Settings.SendMessageKey.Enter && event.modifiers == Qt.ShiftModifier
+                              || Settings.composerInputSendKey == Settings.SendMessageKey.ShiftEnter && event.modifiers == Qt.NoModifier
+                              || Settings.composerInputSendKey == Settings.SendMessageKey.CtrlEnter && event.modifiers == Qt.ShiftModifier)
                         ) {
                             messageInput.insert(messageInput.cursorPosition, "\n");
                             event.accepted = true;

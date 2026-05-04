@@ -27,9 +27,9 @@ Rectangle {
     readonly property bool showRemoveLabel: uploadsList.width > previewSize * 6
 
     function matchesSendShortcut(event) {
-        return Settings.composerInputSendKey == 0 && event.modifiers == Qt.NoModifier
-            || Settings.composerInputSendKey == 1 && event.modifiers == Qt.ShiftModifier
-            || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier;
+        return Settings.composerInputSendKey == Settings.SendMessageKey.Enter && event.modifiers == Qt.NoModifier
+            || Settings.composerInputSendKey == Settings.SendMessageKey.ShiftEnter && event.modifiers == Qt.ShiftModifier
+            || Settings.composerInputSendKey == Settings.SendMessageKey.CtrlEnter && event.modifiers == Qt.ControlModifier;
     }
 
     function maybeSend(event) {

@@ -83,7 +83,17 @@ protected:
         if (m.type == UserSettingsModel::SectionTitle)
             return sectionHasMatch(sourceRow);
 
-        return rowMatchesQuery(m);
+        if (rowMatchesQuery(m))
+            return true;
+
+        // A query that hits a SectionTitle's name (e.g. "fonts" hitting the
+        // "Fonts & scaling" header) reveals the title via sectionHasMatch's
+        // self-match branch below; the children of that section should follow
+        // along, even when their own name/description/keywords/values miss
+        // the query — otherwise "fonts" would show the title and just two of
+        // its three rows (e.g. Scale factor would stay hidden), which is
+        // confusing.
+        return parentSectionMatchesQuery(sourceRow);
     }
 
 private:
@@ -135,21 +145,24 @@ private:
         return settingsModel_->tr(s).contains(query_, Qt::CaseInsensitive);
     }
 
-    // Walks forward from a SectionTitle row looking for any non-section row in
-    // the same section (i.e. before the next SectionTitle in the same tab) that
-    // matches the query. Stops on tab change to avoid leaking matches between
-    // tabs in the source array.
-    //
-    // Falls through to a customSection lookup when the SectionTitle has a
-    // tagId — e.g. the "Browser" SectionTitle in Integrations has no model
-    // rows after it (its content is rendered via the footerContent slot), so
-    // without this fallback the title gets hidden whenever the model rows
-    // don't carry the user's search term, even though the footer beneath
-    // it does match.
+    // Decides whether a SectionTitle row should pass the filter. A section is
+    // considered a match when:
+    //   1. The section's own name/description/keywords contain the query
+    //      (e.g. "fonts" hits the "Fonts & scaling" title) — children of
+    //      such a section also pass the filter via parentSectionMatchesQuery
+    //      below, so the whole section moves together.
+    //   2. Any non-section row in the section matches.
+    //   3. The section's tagId names a registered customSection on this tab
+    //      that matches the query — e.g. the "Browser" SectionTitle in
+    //      Integrations has no model rows after it (its content lives in the
+    //      footerContent slot), so without this fallback the title would be
+    //      hidden whenever the model rows didn't carry the search term.
     bool sectionHasMatch(int sectionRow) const
     {
         const int total     = settingsTableRowCount();
         const auto &section = settingsTable[sectionRow];
+        if (rowMatchesQuery(section))
+            return true;
         for (int r = sectionRow + 1; r < total; ++r) {
             const auto &row = settingsTable[r];
             if (row.tab != tab_)
@@ -162,6 +175,21 @@ private:
         if (section.tagId && *section.tagId &&
             settingsModel_->customSectionMatches(tab_, QLatin1String(section.tagId)))
             return true;
+        return false;
+    }
+
+    // Walks backward from a non-section row to its parent SectionTitle in
+    // the same tab, returning true if that title matches the query. Used to
+    // pull a row in alongside a query that hit only its section header.
+    bool parentSectionMatchesQuery(int row) const
+    {
+        for (int r = row - 1; r >= 0; --r) {
+            const auto &prev = settingsTable[r];
+            if (prev.tab != tab_)
+                return false;
+            if (prev.type == UserSettingsModel::SectionTitle)
+                return rowMatchesQuery(prev);
+        }
         return false;
     }
 

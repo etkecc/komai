@@ -130,6 +130,7 @@ Item {
         id: matrixComposerRoom
 
         property string roomId: roomPreview ? roomPreview.roomid : ""
+        property string roomName: roomPreview ? String(roomPreview.roomName || "") : ""
         property bool isActiveMatrixTimelineRoom: true
         property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false
         property int roomMemberCount: roomPreview && roomPreview.roomMemberCount !== undefined

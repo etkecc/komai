@@ -2992,7 +2992,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
         <source>%1 is typing…</source>
         <translation>%1 píše…</translation>
     </message>
@@ -4016,32 +4016,42 @@ Ověřením se odemknou šifrované zprávy.</translation>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+20"/>
         <source>Place a call to %1?</source>
         <translation>Zavolat uživateli %1?</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+1"/>
+        <source>Place a call?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>No microphone found.</source>
         <translation>Nebyl nalezen žádný mikrofon.</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+28"/>
+        <source>Choose how to start the call:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+58"/>
         <source>Voice</source>
         <translation>Hlas</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Video</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>Screen</source>
-        <translation>Obrazovka</translation>
+        <location line="+14"/>
+        <source>Share screen</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-37"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>

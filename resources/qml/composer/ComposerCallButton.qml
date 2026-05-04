@@ -29,7 +29,11 @@ ComposerToolbarButton {
             } else if (CallManager.isOnCallOnOtherDevice) {
                 return;
             } else {
-                var dialog = placeCallDialog.createObject(root.timelineRoot);
+                var dialog = placeCallDialog.createObject(root.timelineRoot, {
+                    "roomId": String(root.room.roomId || ""),
+                    "roomName": String(root.room.roomName || ""),
+                    "timelineRoot": root.timelineRoot
+                });
                 dialog.open();
                 root.timelineRoot.destroyOnClose(dialog);
             }

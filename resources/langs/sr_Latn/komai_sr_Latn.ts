@@ -2992,7 +2992,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
         <source>%1 is typing…</source>
         <translation>%1 kuca…</translation>
     </message>
@@ -4016,32 +4016,42 @@ Verifikuj da otključaš šifrovane poruke.</translation>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+20"/>
         <source>Place a call to %1?</source>
         <translation>Pozvati %1?</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+1"/>
+        <source>Place a call?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>No microphone found.</source>
         <translation>Mikrofon nije pronađen.</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+28"/>
+        <source>Choose how to start the call:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+58"/>
         <source>Voice</source>
         <translation>Glasovni</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Video</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>Screen</source>
-        <translation>Ekran</translation>
+        <location line="+14"/>
+        <source>Share screen</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-37"/>
         <source>Cancel</source>
         <translation>Otkaži</translation>
     </message>

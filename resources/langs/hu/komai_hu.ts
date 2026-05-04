@@ -2984,7 +2984,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
         <source>%1 is typing…</source>
         <translation>%1 gépel…</translation>
     </message>
@@ -4006,32 +4006,42 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+20"/>
         <source>Place a call to %1?</source>
         <translation>Hívás indítása %1 felé?</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+1"/>
+        <source>Place a call?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>No microphone found.</source>
         <translation>Nem található mikrofon.</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+28"/>
+        <source>Choose how to start the call:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+58"/>
         <source>Voice</source>
         <translation>Hang</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Video</source>
         <translation>Videó</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>Screen</source>
-        <translation>Képernyő</translation>
+        <location line="+14"/>
+        <source>Share screen</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-37"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>

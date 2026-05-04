@@ -2984,7 +2984,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
         <source>%1 is typing…</source>
         <translation>%1 正在输入……</translation>
     </message>
@@ -4006,32 +4006,42 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+20"/>
         <source>Place a call to %1?</source>
         <translation>向 %1 发起通话？</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+1"/>
+        <source>Place a call?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>No microphone found.</source>
         <translation>未检测到麦克风。</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+28"/>
+        <source>Choose how to start the call:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+58"/>
         <source>Voice</source>
         <translation>语音</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>Screen</source>
-        <translation>屏幕</translation>
+        <location line="+14"/>
+        <source>Share screen</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-37"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

@@ -2982,7 +2982,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+146"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+147"/>
         <source>%1 is typing…</source>
         <translation type="unfinished"/>
     </message>
@@ -4000,32 +4000,42 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+20"/>
         <source>Place a call to %1?</source>
         <translation>Place a call to %1?</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+1"/>
+        <source>Place a call?</source>
+        <translation>Place a call?</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>No microphone found.</source>
         <translation>No microphone found.</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+28"/>
+        <source>Choose how to start the call:</source>
+        <translation>Choose how to start the call:</translation>
+    </message>
+    <message>
+        <location line="+58"/>
         <source>Voice</source>
         <translation>Voice</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Video</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>Screen</source>
-        <translation>Screen</translation>
+        <location line="+14"/>
+        <source>Share screen</source>
+        <translation>Share screen</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-37"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>

@@ -65,6 +65,52 @@ addFrameRate(std::vector<std::string> &rates, const FrameRate &rate)
     rates.push_back(std::to_string(rate.first) + "/" + std::to_string(rate.second));
 }
 
+// Pick the most useful capture frame rate from the camera's reported list.
+// Cameras often list ascending (5/10/15/30) so blindly picking the first
+// entry under-feeds the encoder; we prefer the highest frame rate that
+// caps at 30fps (sweet spot for live encoding) and fall back to the
+// highest available, then to the first entry as a last resort.
+std::string
+preferredFrameRate(const std::vector<std::string> &rates)
+{
+    if (rates.empty())
+        return {};
+
+    auto numericRate = [](const std::string &spec) -> double {
+        const auto slash = spec.find('/');
+        if (slash == std::string::npos)
+            return 0.0;
+        try {
+            const double num = std::stod(spec.substr(0, slash));
+            const double den = std::stod(spec.substr(slash + 1));
+            return den > 0 ? num / den : 0.0;
+        } catch (...) {
+            return 0.0;
+        }
+    };
+
+    const std::string *bestUnder30 = nullptr;
+    double bestUnder30Rate         = 0.0;
+    const std::string *bestAny     = nullptr;
+    double bestAnyRate             = 0.0;
+    for (const auto &spec : rates) {
+        const double r = numericRate(spec);
+        if (r > bestAnyRate) {
+            bestAnyRate = r;
+            bestAny     = &spec;
+        }
+        if (r > bestUnder30Rate && r <= 30.0) {
+            bestUnder30Rate = r;
+            bestUnder30     = &spec;
+        }
+    }
+    if (bestUnder30)
+        return *bestUnder30;
+    if (bestAny)
+        return *bestAny;
+    return rates.front();
+}
+
 void
 setDefaultDevice(bool isVideo)
 {
@@ -75,7 +121,7 @@ setDefaultDevice(bool isVideo)
         settings->setCallsDevicesCameraResolution(
           QString::fromStdString(camera.caps.front().resolution));
         settings->setCallsDevicesCameraFrameRate(
-          QString::fromStdString(camera.caps.front().frameRates.front()));
+          QString::fromStdString(preferredFrameRate(camera.caps.front().frameRates)));
     } else if (!isVideo && settings->callsDevicesMicrophone().isEmpty()) {
         settings->setCallsDevicesMicrophone(QString::fromStdString(audioSources_.front().name));
     }
@@ -378,6 +424,39 @@ CallDevices::videoDevice(std::pair<int, int> &resolution, std::pair<int, int> &f
         komai::logging::ui()->debug("WebRTC: camera: {}", name);
         resolution = tokenise(settings->callsDevicesCameraResolution().toStdString(), 'x');
         frameRate  = tokenise(settings->callsDevicesCameraFrameRate().toStdString(), '/');
+
+        // Migrate legacy stored values that were captured by the old
+        // "first frame rate the camera reports" default. UVC cameras
+        // commonly enumerate ascending (5/10/15/30), so existing profiles
+        // ended up at 5fps which is way too low to feed vp8enc; the
+        // remote ends up with bytesReceived > 0 but framesReceived = 0.
+        // Substitute a sensible upper bound from the camera's actual
+        // caps when the stored value is implausibly low for live video.
+        const double storedRate = frameRate.second > 0 ? static_cast<double>(frameRate.first) /
+                                                           static_cast<double>(frameRate.second)
+                                                       : 0.0;
+        if (storedRate < 10.0) {
+            for (const auto &cap : s->caps) {
+                if (cap.resolution != settings->callsDevicesCameraResolution().toStdString())
+                    continue;
+                const auto preferred = preferredFrameRate(cap.frameRates);
+                if (preferred.empty())
+                    break;
+                auto upgraded = tokenise(preferred, '/');
+                if (upgraded.second > 0 &&
+                    static_cast<double>(upgraded.first) / upgraded.second > storedRate) {
+                    komai::logging::ui()->info(
+                      "WebRTC: stored camera frame rate {}/{} is too low for "
+                      "live video; using {} from device caps instead",
+                      frameRate.first,
+                      frameRate.second,
+                      preferred);
+                    frameRate = upgraded;
+                }
+                break;
+            }
+        }
+
         komai::logging::ui()->debug(
           "WebRTC: camera resolution: {}x{}", resolution.first, resolution.second);
         komai::logging::ui()->debug(

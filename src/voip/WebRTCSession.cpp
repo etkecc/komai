@@ -125,6 +125,30 @@ newBusMessage(GstBus *bus G_GNUC_UNUSED, GstMessage *msg, gpointer user_data)
         g_free(debug);
         session->end();
         break;
+    case GST_MESSAGE_WARNING: {
+        GError *werr  = nullptr;
+        gchar *wdebug = nullptr;
+        gst_message_parse_warning(msg, &werr, &wdebug);
+        komai::logging::ui()->warn("WebRTC: warning from element {}: {} (debug: {})",
+                                   GST_OBJECT_NAME(msg->src),
+                                   werr ? werr->message : "(none)",
+                                   wdebug ? wdebug : "(none)");
+        g_clear_error(&werr);
+        g_free(wdebug);
+        break;
+    }
+    case GST_MESSAGE_INFO: {
+        GError *ierr  = nullptr;
+        gchar *idebug = nullptr;
+        gst_message_parse_info(msg, &ierr, &idebug);
+        komai::logging::ui()->info("WebRTC: info from element {}: {} (debug: {})",
+                                   GST_OBJECT_NAME(msg->src),
+                                   ierr ? ierr->message : "(none)",
+                                   idebug ? idebug : "(none)");
+        g_clear_error(&ierr);
+        g_free(idebug);
+        break;
+    }
     default:
         break;
     }
@@ -162,7 +186,7 @@ setLocalDescription(GstPromise *promise, gpointer webrtc)
     g_free(sdp);
     gst_webrtc_session_description_free(gstsdp);
 
-    komai::logging::ui()->debug(
+    komai::logging::ui()->info(
       "WebRTC: local description set ({}):\n{}", isAnswer ? "answer" : "offer", localsdp_);
 }
 
@@ -780,7 +804,7 @@ WebRTCSession::createOffer(CallType callType,
 bool
 WebRTCSession::acceptOffer(const std::string &sdp)
 {
-    komai::logging::ui()->debug("WebRTC: received offer:\n{}", sdp);
+    komai::logging::ui()->info("WebRTC: received offer:\n{}", sdp);
     if (state_ != State::DISCONNECTED)
         return false;
 
@@ -845,7 +869,7 @@ WebRTCSession::acceptNegotiation(const std::string &sdp)
 bool
 WebRTCSession::acceptAnswer(const std::string &sdp)
 {
-    komai::logging::ui()->debug("WebRTC: received answer:\n{}", sdp);
+    komai::logging::ui()->info("WebRTC: received answer:\n{}", sdp);
     if (state_ != State::OFFERSENT)
         return false;
 
@@ -1195,17 +1219,20 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
 
     GstElement *queue  = gst_element_factory_make("queue", nullptr);
     GstElement *vp8enc = gst_element_factory_make("vp8enc", nullptr);
-    g_object_set(vp8enc, "deadline", 1, nullptr);
-    g_object_set(vp8enc, "error-resilient", 1, nullptr);
-    // Without a keyframe cap vp8enc emits one keyframe at start and then
-    // drifts -- if the remote misses that first keyframe (likely while ICE
-    // is still settling, or under any packet loss) they freeze on a black
-    // frame indefinitely. PLI feedback eventually triggers a `force-key-unit`
-    // upstream event but only after webrtcbin is fully connected. Bound the
-    // interval to roughly two seconds at 30fps so a stale receiver always
-    // recovers within a couple of seconds.
-    g_object_set(vp8enc, "keyframe-max-dist", 60, nullptr);
-    GstElement *rtpvp8pay     = gst_element_factory_make("rtpvp8pay", nullptr);
+    // Mirror gst-examples' webrtc sendrecv config -- the only vp8enc settings
+    // they prove out for browser interop are `deadline=1` (realtime) and
+    // `keyframe-max-dist=2000`. PLI feedback handles per-receiver keyframe
+    // refresh requests on top of that floor.
+    g_object_set(vp8enc, "deadline", G_GINT64_CONSTANT(1), nullptr);
+    g_object_set(vp8enc, "keyframe-max-dist", 2000, nullptr);
+    GstElement *rtpvp8pay = gst_element_factory_make("rtpvp8pay", nullptr);
+    // libwebrtc (Chrome, Element, Firefox) requires the VP8 PictureID
+    // extension to assemble RTP packets into frames; `picture-id-mode=2`
+    // selects the 15-bit PictureID per RFC 7741. `pt` made explicit so
+    // it matches the capsfilter exactly. Mirrors gst-examples' webrtc
+    // sendrecv config.
+    g_object_set(rtpvp8pay, "picture-id-mode", 2, nullptr);
+    g_object_set(rtpvp8pay, "pt", vp8PayloadType, nullptr);
     GstElement *rtpqueue      = gst_element_factory_make("queue", nullptr);
     GstElement *rtpcapsfilter = gst_element_factory_make("capsfilter", nullptr);
     GstCaps *rtpcaps          = gst_caps_new_simple("application/x-rtp",

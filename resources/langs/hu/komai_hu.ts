@@ -3524,7 +3524,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1068"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Írj üzenetet, vagy nyomj ↑-t az üzenetek kijelöléséhez.</translation>
     </message>

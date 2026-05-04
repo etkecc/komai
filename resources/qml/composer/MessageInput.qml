@@ -1027,6 +1027,22 @@ Rectangle {
             readonly property int singleLineHeight: Math.ceil(fontMetrics.lineSpacing + messageInput.topPadding + messageInput.bottomPadding)
             readonly property int targetTextAreaHeight: Math.max(singleLineHeight,
                                                                  Math.ceil(messageInput.contentHeight + messageInput.topPadding + messageInput.bottomPadding))
+            readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+            readonly property bool hasVerticalOverflow: targetTextAreaHeight > height
+            readonly property bool scrollbarVisible: {
+                switch (scrollbarPolicy) {
+                case Settings.ScrollbarPolicy.Always:
+                    return true;
+                case Settings.ScrollbarPolicy.Never:
+                    return false;
+                case Settings.ScrollbarPolicy.WhenNeeded:
+                default:
+                    return hasVerticalOverflow;
+                }
+            }
+            readonly property real reservedScrollbarWidth: scrollbarVisible
+                ? Math.max(ScrollBar.vertical.width, ScrollBar.vertical.implicitWidth)
+                : 0
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.maximumHeight: Window.height / 4
@@ -1038,6 +1054,7 @@ Rectangle {
             // lives on in messageInput.text and reappears once uploads clear.
             opacity: inputBar.hasUploads ? 0 : 1
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             contentWidth: availableWidth
             implicitHeight: targetTextAreaHeight
             padding: 0
@@ -1222,8 +1239,8 @@ Rectangle {
                 horizontalAlignment: inputBar._rtlLayout ? Text.AlignRight : Text.AlignLeft
                 LayoutMirroring.enabled: false
                 padding: 0
-                leftPadding: inputBar._rtlLayout ? 0 : horizontalTextPadding
-                rightPadding: inputBar._rtlLayout ? horizontalTextPadding : 0
+                leftPadding: (inputBar._rtlLayout ? 0 : horizontalTextPadding) + (inputBar._rtlLayout ? textInput.reservedScrollbarWidth : 0)
+                rightPadding: (inputBar._rtlLayout ? horizontalTextPadding : 0) + (inputBar._rtlLayout ? 0 : textInput.reservedScrollbarWidth)
                 font.pointSize: Settings.uiFontSizePt
                 placeholderText: ""
                 placeholderTextColor: palette.buttonText

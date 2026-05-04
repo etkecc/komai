@@ -3529,7 +3529,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1068"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Kirjuta sõnum või vajuta ↑, et valida sõnumeid.</translation>
     </message>

@@ -3534,7 +3534,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1068"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Напишіть повідомлення або натисніть ↑, щоб вибрати повідомлення.</translation>
     </message>

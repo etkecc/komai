@@ -3529,7 +3529,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1068"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Schreib eine Nachricht oder drücke ↑, um Nachrichten auszuwählen.</translation>
     </message>

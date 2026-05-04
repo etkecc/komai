@@ -3529,7 +3529,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1051"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1068"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Escriu un missatge, o prem ↑ per seleccionar missatges.</translation>
     </message>

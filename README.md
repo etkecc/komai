@@ -33,7 +33,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)
 - 🎨 10+ [built-in themes](docs/user-guide/features/themes.md#-built-in-themes), maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for common UI text pairings. Also [🗂️ user-themable](docs/user-guide/features/themes.md#️-user-themes)
 - 🌐 [30+ languages](docs/maintainers/translations.md) with inherited nheko translations and AI-assisted gap filling
-- 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md)
+- 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md), grouped into tabs and searchable
 - 🧭 Polished [Room Directory](docs/user-guide/features/room-directory.md) with first-class [Matrix Rooms Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme)), language filtering, and room size filtering
 - 📋 Good support for hundreds of rooms and spaces
 - 📑 Browser-style [room tabs](docs/user-guide/features/tabs.md) for juggling multiple conversations at once, with pinning and more (a power-user feature still rare among Matrix clients)

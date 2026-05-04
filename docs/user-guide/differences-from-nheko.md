@@ -110,6 +110,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 ## ⚙️ Reorganized Settings
 
 - **Tabbed Settings panel** -- settings grouped into logical tabs instead of one long scrollable list
+- **Settings search** -- filter cards by name, description, or option label across the whole panel; matches highlight section badges in the sidebar
 - **All user-facing settings are surfaced in the UI** -- unlike upstream nheko, Komai exposes every supported user-facing setting through Application Settings (internal tuning keys such as low-level DB limits remain config-only)
 - **Audio media handling controls** -- Timeline settings now distinguish image, video, and audio external-open behavior, and let you choose the default inline playback speed
 - **Improved text accessibility controls** -- UI text follows the configured font size more consistently, and you can adjust font size quickly with keyboard shortcuts (`Ctrl` + `+` and `Ctrl` + `-`)

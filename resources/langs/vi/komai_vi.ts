@@ -939,7 +939,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Cuộc gọi hiện chỉ được hỗ trợ trong các cuộc trò chuyện trực tiếp.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3545,8 +3545,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Gửi</translation>
+        <source>Send [%1]</source>
+        <translation>Gửi [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4008,7 +4008,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Thực hiện cuộc gọi?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4018,7 +4018,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Chọn cách bắt đầu cuộc gọi:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4033,7 +4033,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Chia sẻ màn hình</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10017,22 +10017,26 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Khi nhấp nút</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Chỉ ở cuối tin nhắn</translation>
     </message>

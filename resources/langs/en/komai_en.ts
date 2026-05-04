@@ -3544,8 +3544,8 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Send</translation>
+        <source>Send [%1]</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+59"/>
@@ -9996,22 +9996,26 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation type="unfinished"/>
     </message>

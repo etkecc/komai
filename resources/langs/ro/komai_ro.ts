@@ -941,7 +941,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Apelurile sunt momentan acceptate doar în conversații directe.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3555,8 +3555,8 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Trimite</translation>
+        <source>Send [%1]</source>
+        <translation>Trimite [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4018,7 +4018,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Inițiezi un apel?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4028,7 +4028,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Alege cum să inițiezi apelul:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4043,7 +4043,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Partajează ecranul</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10049,22 +10049,26 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>La clic pe buton</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Doar la sfârșitul mesajelor</translation>
     </message>

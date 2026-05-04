@@ -61,6 +61,21 @@ UserSettings::UserSettings()
         flushDeferredStateSave();
         instance_.clear();
     });
+
+    // composerInputSendKeyLabel returns a tr()-translated string derived from
+    // composerInputSendKey, so its NOTIFY needs to fire on both the underlying
+    // setting change and on language switches. Queued on uiLanguageChanged so
+    // bindings re-evaluate AFTER MainApplication has installed the new
+    // translators (mirrors KomaiGlobalObject's localizedStringsChanged wiring).
+    connect(this, &UserSettings::composerInputSendKeyChanged, this, [this](SendMessageKey) {
+        emit composerInputSendKeyLabelChanged();
+    });
+    connect(
+      this,
+      &UserSettings::uiLanguageChanged,
+      this,
+      [this](QString) { emit composerInputSendKeyLabelChanged(); },
+      Qt::QueuedConnection);
 }
 
 QSharedPointer<UserSettings>

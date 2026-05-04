@@ -18,6 +18,22 @@ UserSettings::composerInputSendKey() const
     return composerInputSendKey_;
 }
 
+QString
+UserSettings::composerInputSendKeyLabel() const
+{
+    // Strings live in the UserSettingsModel context so they share translations
+    // with the settings-screen dropdown (composerSendMessageKeyValues()).
+    switch (composerInputSendKey()) {
+    case SendMessageKey::Enter:
+        return QCoreApplication::translate("UserSettingsModel", "Enter");
+    case SendMessageKey::ShiftEnter:
+        return QCoreApplication::translate("UserSettingsModel", "Shift+Enter");
+    case SendMessageKey::CtrlEnter:
+        return QCoreApplication::translate("UserSettingsModel", "Ctrl+Enter");
+    }
+    return QCoreApplication::translate("UserSettingsModel", "Enter");
+}
+
 UserSettings::AutoReplaceEmoji
 UserSettings::composerInputAutoReplaceEmoji() const
 {

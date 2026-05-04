@@ -941,7 +941,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Pozivi su trenutno podržani samo u direktnim razgovorima.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3555,8 +3555,8 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Pošalji</translation>
+        <source>Send [%1]</source>
+        <translation>Pošalji [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4018,7 +4018,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Uputiti poziv?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4028,7 +4028,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Odaberi kako pokrenuti poziv:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4043,7 +4043,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Podeli ekran</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10049,22 +10049,26 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Na klik dugmeta</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Samo na kraju poruka</translation>
     </message>

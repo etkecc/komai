@@ -99,6 +99,8 @@ class UserSettings final : public QObject
         setComposerInputMarkdownToHtmlEnabled NOTIFY composerInputMarkdownToHtmlEnabledChanged)
     Q_PROPERTY(SendMessageKey composerInputSendKey READ composerInputSendKey WRITE
                  setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
+    Q_PROPERTY(QString composerInputSendKeyLabel READ composerInputSendKeyLabel NOTIFY
+                 composerInputSendKeyLabelChanged)
     Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
                  WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
     Q_PROPERTY(
@@ -749,6 +751,13 @@ public:
     Q_INVOKABLE int languageDropdownIndex() const;
     Q_INVOKABLE void setLanguageByDropdownIndex(int index);
 
+    // Localized label for the current composer-send-key setting (e.g. "Enter",
+    // "Shift+Enter", "Ctrl+Enter"). Reuses the same translations the settings
+    // dropdown shows so QML callers (composer Send tooltip, slash-command
+    // hint) stay consistent with the settings screen, and refreshes on both
+    // setting changes and runtime language switches.
+    QString composerInputSendKeyLabel() const;
+
 #include "settings/ui/facade/UserSettingsGetters.inc"
 
 signals:
@@ -769,6 +778,7 @@ signals:
     void desktopSystemTrayFirstClosePromptedChanged(bool state);
     void composerInputMarkdownToHtmlEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
+    void composerInputSendKeyLabelChanged();
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
     void composerInputEmojiPreferredGenderChanged(EmojiPreferredGender state);
     void composerInputEmojiPreferredSkinToneChanged(EmojiPreferredSkinTone state);

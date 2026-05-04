@@ -940,7 +940,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Anrufe werden derzeit nur in Direktnachrichten unterstützt.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3550,8 +3550,8 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Senden</translation>
+        <source>Send [%1]</source>
+        <translation>Senden [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4013,7 +4013,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Anruf starten?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4023,7 +4023,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Wähle, wie du den Anruf starten möchtest:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4038,7 +4038,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Bildschirm teilen</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10033,22 +10033,26 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Bei Schaltflächenklick</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Eingabe</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Nur am Ende von Nachrichten</translation>
     </message>

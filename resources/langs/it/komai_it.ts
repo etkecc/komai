@@ -940,7 +940,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Le chiamate sono attualmente supportate solo nelle chat dirette.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3550,8 +3550,8 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Invia</translation>
+        <source>Send [%1]</source>
+        <translation>Invia [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4013,7 +4013,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Avviare una chiamata?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4023,7 +4023,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Scegli come avviare la chiamata:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4038,7 +4038,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Condividi schermo</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10033,22 +10033,26 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Al clic del pulsante</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Solo alla fine dei messaggi</translation>
     </message>

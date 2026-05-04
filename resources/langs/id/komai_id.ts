@@ -939,7 +939,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Panggilan saat ini hanya didukung dalam pesan langsung.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3545,8 +3545,8 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Kirim</translation>
+        <source>Send [%1]</source>
+        <translation>Kirim [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4008,7 +4008,7 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Lakukan panggilan?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4018,7 +4018,7 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Pilih cara memulai panggilan:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4033,7 +4033,7 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Bagikan layar</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10017,22 +10017,26 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Saat tombol diklik</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Hanya di akhir pesan</translation>
     </message>

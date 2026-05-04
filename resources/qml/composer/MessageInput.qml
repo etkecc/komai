@@ -1836,7 +1836,7 @@ Rectangle {
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
             Layout.rightMargin: Komai.paddingMedium
             KeyNavigation.backtab: emojiButton.visible ? emojiButton : (stickerButton.visible ? stickerButton : (inputBar.hasVoiceRecording && voiceButton.visible ? voiceButton : messageInput))
-            toolTipText: qsTr("Send")
+            toolTipText: qsTr("Send [%1]").arg(Settings.composerInputSendKeyLabel)
             // In a thread view, the active-state colour swaps to the thread's
             // user color so the composer reinforces the "you're sending into a
             // thread" cue that the timeline tint provides.

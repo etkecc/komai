@@ -940,7 +940,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Appellas es actualmente supportat solmen in conversationes directes.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3550,8 +3550,8 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Inviar</translation>
+        <source>Send [%1]</source>
+        <translation>Inviar [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4013,7 +4013,7 @@ Verificar por debloquar mesages criptat.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Far un appella?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4023,7 +4023,7 @@ Verificar por debloquar mesages criptat.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Eligir qualmen initiar li appella:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4038,7 +4038,7 @@ Verificar por debloquar mesages criptat.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Partar li ecran</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10033,22 +10033,26 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Al clic del button</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Solmen al fin de mesages</translation>
     </message>

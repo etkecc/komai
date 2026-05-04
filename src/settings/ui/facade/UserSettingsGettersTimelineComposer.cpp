@@ -5,5 +5,7 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 
+#include <QCoreApplication>
+
 #include "UserSettingsGettersTimelineComposerComposer.inc"
 #include "UserSettingsGettersTimelineComposerTimeline.inc"

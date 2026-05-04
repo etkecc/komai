@@ -939,7 +939,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>通話目前僅支援於私訊中。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3545,8 +3545,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>傳送</translation>
+        <source>Send [%1]</source>
+        <translation>傳送 [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4008,7 +4008,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>發起通話？</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4018,7 +4018,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>選擇通話方式：</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4033,7 +4033,7 @@ Verify to unlock encrypted messages.</source>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>分享螢幕</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10017,22 +10017,26 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>點擊按鈕時</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>僅在訊息末尾</translation>
     </message>

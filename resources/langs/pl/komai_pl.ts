@@ -941,7 +941,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
         <source>Calls are currently supported only in direct chats.</source>
-        <translation type="unfinished"/>
+        <translation>Połączenia są obecnie obsługiwane tylko w czatach bezpośrednich.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3555,8 +3555,8 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
     <message>
         <location line="+18"/>
-        <source>Send</source>
-        <translation>Wyślij</translation>
+        <source>Send [%1]</source>
+        <translation>Wyślij [%1]</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4019,7 +4019,7 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Nawiązać połączenie?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4029,7 +4029,7 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz, jak rozpocząć połączenie:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -4044,7 +4044,7 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
     <message>
         <location line="+14"/>
         <source>Share screen</source>
-        <translation type="unfinished"/>
+        <translation>Udostępnij ekran</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -10050,22 +10050,26 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Po kliknięciu przycisku</translation>
     </message>
     <message>
+        <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
+        <location line="+6"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
         <source>Only at the end of messages</source>
         <translation>Tylko na końcu wiadomości</translation>
     </message>

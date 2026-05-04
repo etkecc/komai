@@ -4006,7 +4006,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+40"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
         <source>Place a call to %1?</source>
         <translation>%1에게 통화를 거시겠습니까?</translation>
     </message>

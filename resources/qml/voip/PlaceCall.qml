@@ -27,6 +27,14 @@ Popup {
 
     }
 
+    Component {
+        id: screenShareDialog
+
+        ScreenShare {
+        }
+
+    }
+
     ColumnLayout {
         id: columnLayout
 

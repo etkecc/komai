@@ -4011,7 +4011,7 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+40"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
         <source>Place a call to %1?</source>
         <translation>Truca a %1?</translation>
     </message>

@@ -4006,7 +4006,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+40"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
         <source>Place a call to %1?</source>
         <translation>Thực hiện cuộc gọi đến %1?</translation>
     </message>

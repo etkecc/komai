@@ -4016,7 +4016,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
 <context>
     <name>PlaceCall</name>
     <message>
-        <location filename="../../qml/voip/PlaceCall.qml" line="+40"/>
+        <location filename="../../qml/voip/PlaceCall.qml" line="+48"/>
         <source>Place a call to %1?</source>
         <translation>Pozvati %1?</translation>
     </message>

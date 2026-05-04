@@ -126,7 +126,6 @@ ColumnLayout {
                 selectionModeRoot: root.rootItem
                 walkModeActive: composerContainer._walkMode
                 inputController: root.composerInputController
-                allowCalls: false
                 allowStickers: false
                 allowCommandCompleter: composerContainer._hasRootItem && !root.rootItem.editing
                 attachmentsEnabled: composerContainer._hasRootItem && !root.rootItem.editing

@@ -64,4 +64,25 @@ rowForSettingId(settings::core::SettingId id);
 // devices, themes) where source-English doesn't carry meaning.
 const char *const *valuesEnglishFor(QVariant (*helper)());
 
+// Source-English keywords for tabs whose content is partly or wholly
+// custom QML (Account, Application Profiles, Integrations Transcription
+// + Browser, Timeline state events). Lets the search proxy report a
+// tab as a match for terms the model rows don't carry, and lets the
+// custom QML hide non-matching sections.
+//
+// Keywords are grouped per section so each section can gate its own
+// visibility. `sectionId` is the stable string the QML matches on
+// (e.g. "profile", "thisDevice", "transcription"). The returned array
+// is null-terminated by `{nullptr, nullptr}`. Returns nullptr for tabs
+// that are pure-model (LookFeel, Navigation, etc.) — for those, the
+// SettingMeta rows themselves cover search.
+struct TabSearchSection
+{
+    const char *sectionId;
+    const char *const *keywordsEnglish;
+};
+
+const TabSearchSection *
+customSectionsForTab(int tab);
+
 } // namespace settings::ui

@@ -111,7 +111,26 @@ public:
     // Section-title rows are not counted. When the query is empty, returns the
     // total number of non-section rows in `tab` (so callers can choose to hide
     // the badge themselves when query is empty).
+    //
+    // Adds +1 when the tab has any registered custom-QML keyword match
+    // (Account profile fields, Integrations transcription/browser, Timeline
+    // state events, etc.). The +1 is "indicative, not exact" — it tells the
+    // sidebar badge that the tab carries a match even though that match
+    // lives outside `settingsTable`.
     Q_INVOKABLE int matchCountForTab(int tab) const;
+
+    // True when `tab` has any registered custom-QML keyword that matches the
+    // current search query (any section). Drives the empty-state label inside
+    // SettingsContent and the fully-custom AccountTab / ApplicationProfilesTab.
+    Q_INVOKABLE bool tabHasCustomMatches(int tab) const;
+
+    // True when the named section in `tab` (e.g. "profile", "thisDevice",
+    // "transcription") has at least one keyword matching the current query.
+    // Returns true when the query is empty so callers can use this directly
+    // as the section's `visible` property: when nothing is searched, every
+    // section stays visible. Drives section-level filtering inside the
+    // custom-QML tabs.
+    Q_INVOKABLE bool customSectionMatches(int tab, const QString &sectionId) const;
 
 Q_SIGNALS:
     void searchQueryChanged();

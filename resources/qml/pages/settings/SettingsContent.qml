@@ -19,10 +19,28 @@ Item {
     property bool collapsed: false
     property string scrollToTagId: ""
     readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
-    // When search is active and yields no matches, hide custom header/footer
-    // content (which isn't search-aware in v1) and show the empty-state label.
-    readonly property bool hasActiveQuery: (UserSettingsModel.searchQuery ?? "").length > 0
-    readonly property bool searchHidesEverything: hasActiveQuery && settingsRepeater.count === 0
+    // When search is active and yields no matches anywhere on this tab —
+    // neither model rows nor registered custom-QML keywords — hide custom
+    // header/footer content and show the empty-state label. When custom
+    // keywords match (Integrations transcription/browser, Timeline state
+    // events) we keep the header/footer visible even with zero model rows,
+    // since the matched concept lives there.
+    //
+    // The bindings explicitly read `_searchQuery` so they re-evaluate when
+    // the query changes from one non-empty value to another — Q_INVOKABLE
+    // methods don't notify QML, so without that read the binding only
+    // refreshes on the empty/non-empty transition.
+    readonly property string _searchQuery: UserSettingsModel.searchQuery ?? ""
+    readonly property bool hasActiveQuery: _searchQuery.length > 0
+    readonly property bool tabHasCustomMatch: {
+        var _ = root._searchQuery;
+        return root.hasActiveQuery && UserSettingsModel.tabHasCustomMatches(root.tabFilter);
+    }
+    readonly property bool searchHidesEverything: hasActiveQuery && settingsRepeater.count === 0 && !tabHasCustomMatch
+    function sectionVisible(sectionId) {
+        var _ = root._searchQuery;
+        return UserSettingsModel.customSectionMatches(root.tabFilter, sectionId);
+    }
     LayoutMirroring.childrenInherit: true
 
     onScrollToTagIdChanged: {
@@ -32,6 +50,13 @@ Item {
     // Extra content to show above the repeater (used by AboutTab for logo)
     property Component headerContent: null
     property Component footerContent: null
+    // Optional section IDs for the headerContent / footerContent slots. When
+    // set, the corresponding Loader gates its `active` on
+    // sectionVisible(<id>) — search filters out the header/footer when
+    // their keywords don't match. Tabs whose header/footer is decorative
+    // (e.g. AboutTab's logo) leave these empty so the content always shows.
+    property string headerSectionId: ""
+    property string footerSectionId: ""
 
     // Map a `komai://settings/<tab>[/<section>]` link to a tab change + scroll.
     // Adding a new entry here is the only thing required to make a new
@@ -85,7 +110,9 @@ Item {
             Loader {
                 id: headerLoader
                 Layout.fillWidth: true
-                active: root.headerContent !== null && !root.searchHidesEverything
+                active: root.headerContent !== null
+                    && !root.searchHidesEverything
+                    && (root.headerSectionId === "" || root.sectionVisible(root.headerSectionId))
                 visible: active
                 sourceComponent: root.headerContent
             }
@@ -539,7 +566,9 @@ Item {
             Loader {
                 id: footerLoader
                 Layout.fillWidth: true
-                active: root.footerContent !== null && !root.searchHidesEverything
+                active: root.footerContent !== null
+                    && !root.searchHidesEverything
+                    && (root.footerSectionId === "" || root.sectionVisible(root.footerSectionId))
                 visible: active
                 sourceComponent: root.footerContent
             }
@@ -553,7 +582,10 @@ Item {
         width: Math.min(parent.width - Komai.paddingLarge * 2, 480)
         color: palette.buttonText
         font.pointSize: Settings.uiFontSizePt
-        text: qsTr("No settings in this tab match your search.")
+        // qsTranslate (vs qsTr) forces the UserSettingsModel context so the
+        // string is shared with the AccountTab / ApplicationProfilesTab
+        // copies of the same label — translators localize it once.
+        text: qsTranslate("UserSettingsModel", "No settings in this tab match your search.")
         visible: root.searchHidesEverything
     }
 

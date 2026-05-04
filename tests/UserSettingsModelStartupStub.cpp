@@ -71,6 +71,18 @@ UserSettingsModel::matchCountForTab(int) const
     return 0;
 }
 
+bool
+UserSettingsModel::tabHasCustomMatches(int) const
+{
+    return false;
+}
+
+bool
+UserSettingsModel::customSectionMatches(int, const QString &) const
+{
+    return true;
+}
+
 namespace settings::ui {
 
 const SettingMeta settingsTable[] = {

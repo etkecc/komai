@@ -15,9 +15,48 @@ Item {
     id: root
     property bool collapsed: false
 
+    // AccountTab is fully custom QML, so it doesn't go through SettingsContent's
+    // model-row search. We do two things here:
+    //   1. Mirror the tab-level empty-state: if search is active and no Account
+    //      keyword matches, hide everything and show "no matches".
+    //   2. Per-section gating: each scrollContent child binds its `visible` to
+    //      sectionVisible("<id>"), so a query like "device" narrows the tab
+    //      to the device-related sections.
+    //
+    // The explicit `var _ = UserSettingsModel.searchQuery` reads in both
+    // helpers are not no-ops: Q_INVOKABLE methods don't notify QML, so the
+    // visible bindings only re-evaluate when something they read directly
+    // changes. Reading searchQuery makes it the binding's tracked dep, which
+    // is the property that fires NOTIFY on every keystroke in the search
+    // field — without it, going from "abc" to "device" wouldn't refresh
+    // section visibility.
+    readonly property string _searchQuery: UserSettingsModel.searchQuery ?? ""
+    readonly property bool hasActiveQuery: _searchQuery.length > 0
+    readonly property bool searchHidesEverything: {
+        var _ = root._searchQuery;
+        return root.hasActiveQuery && !UserSettingsModel.tabHasCustomMatches(UserSettingsModel.TabAccount);
+    }
+    function sectionVisible(sectionId) {
+        var _ = root._searchQuery;
+        return UserSettingsModel.customSectionMatches(UserSettingsModel.TabAccount, sectionId);
+    }
+
     Loader {
         anchors.fill: parent
+        active: !root.searchHidesEverything
+        visible: active
         sourceComponent: Settings.hasActiveSession ? accountSettingsView : signedOutView
+    }
+
+    Label {
+        anchors.centerIn: parent
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.Wrap
+        width: Math.min(parent.width - Komai.paddingLarge * 2, 480)
+        color: palette.buttonText
+        font.pointSize: Settings.uiFontSizePt
+        text: qsTranslate("UserSettingsModel", "No settings in this tab match your search.")
+        visible: root.searchHidesEverything
     }
 
     Component {
@@ -118,12 +157,14 @@ Item {
                         Layout.fillWidth: true
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
+                        visible: root.sectionVisible("profile")
                     }
 
                     // Avatar row
                     Item {
                         Layout.fillWidth: true
                         Layout.leftMargin: scrollContent.sideMargin
+                        visible: root.sectionVisible("profile")
                         Layout.rightMargin: scrollContent.sideMargin
                         implicitHeight: avatarRowContent.implicitHeight
 
@@ -233,6 +274,7 @@ Item {
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                         implicitHeight: displayNameRowContent.implicitHeight
+                        visible: root.sectionVisible("profile")
 
                         HoverHandler { id: displayNameRowHover; blocking: false }
                         Rectangle {
@@ -306,6 +348,7 @@ Item {
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                         implicitHeight: userIdRowContent.implicitHeight
+                        visible: root.sectionVisible("profile")
 
                         HoverHandler { id: userIdRowHover; blocking: false }
                         Rectangle {
@@ -375,6 +418,7 @@ Item {
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                         implicitHeight: homeserverRowContent.implicitHeight
+                        visible: root.sectionVisible("profile")
 
                         HoverHandler { id: homeserverRowHover; blocking: false }
                         Rectangle {
@@ -446,12 +490,14 @@ Item {
                         Layout.topMargin: Komai.paddingLarge
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
+                        visible: root.sectionVisible("thisDevice")
                     }
 
                     // Current device card
                     Item {
                         Layout.fillWidth: true
                         Layout.leftMargin: scrollContent.sideMargin
+                        visible: root.sectionVisible("thisDevice")
                         Layout.rightMargin: scrollContent.sideMargin
                         implicitHeight: currentDeviceCard.implicitHeight
 
@@ -755,7 +801,7 @@ Item {
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                         spacing: Komai.paddingSmall
-                        visible: accountView.otherDevicesCount > 0
+                        visible: accountView.otherDevicesCount > 0 && root.sectionVisible("otherDevices")
 
                         RowLayout {
                             Layout.fillWidth: true
@@ -823,14 +869,20 @@ Item {
                         Layout.alignment: Qt.AlignHCenter
                         Layout.topMargin: Komai.paddingMedium
                         running: accountView.otherDevicesExpanded && accountView.profile && accountView.profile.isLoading
-                        visible: accountView.otherDevicesExpanded && accountView.profile && accountView.profile.isLoading
+                        visible: accountView.otherDevicesExpanded && accountView.profile && accountView.profile.isLoading && root.sectionVisible("otherDevices")
                         foreground: palette.mid
                     }
 
                     // Other devices list
                     Repeater {
                         id: otherDevicesRepeater
-                        model: accountView.profile ? accountView.profile.deviceList : null
+                        // Suppress the model entirely when this section is hidden by
+                        // the search filter — Repeater delegates are parented to the
+                        // outer scrollContent and don't have their own visibility
+                        // collapse, so we drop them by clearing the model.
+                        model: root.sectionVisible("otherDevices")
+                            ? (accountView.profile ? accountView.profile.deviceList : null)
+                            : null
 
                         delegate: Item {
                             id: deviceDelegate
@@ -1256,12 +1308,14 @@ Item {
                         Layout.topMargin: Komai.paddingLarge
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
+                        visible: root.sectionVisible("users")
                     }
 
                     Item {
                         Layout.fillWidth: true
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
+                        visible: root.sectionVisible("users")
                         implicitHeight: ignoredUsersRowContent.implicitHeight
                         HoverHandler { id: ignoredUsersRowHover; blocking: false }
                         Rectangle { anchors.fill: ignoredUsersRowContent; color: ignoredUsersRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
@@ -1294,6 +1348,7 @@ Item {
                     LocalCacheSection {
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
+                        visible: root.sectionVisible("localCache")
                     }
 
                     // Bottom spacer

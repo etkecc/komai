@@ -231,7 +231,58 @@ int
 UserSettingsModel::matchCountForTab(int tab) const
 {
     auto *proxy = static_cast<settings::ui::SettingsSearchProxyModel *>(modelForTab(tab));
-    return proxy->matchCount();
+    int count   = proxy->matchCount();
+    if (tabHasCustomMatches(tab))
+        ++count;
+    return count;
+}
+
+bool
+UserSettingsModel::tabHasCustomMatches(int tab) const
+{
+    if (searchQuery_.isEmpty())
+        return false;
+
+    const auto *sections = settings::ui::customSectionsForTab(tab);
+    if (!sections)
+        return false;
+
+    for (const auto *s = sections; s->sectionId; ++s) {
+        for (const char *const *p = s->keywordsEnglish; p && *p; ++p) {
+            const char *kw = *p;
+            if (QString::fromUtf8(kw).contains(searchQuery_, Qt::CaseInsensitive))
+                return true;
+            if (tr(kw).contains(searchQuery_, Qt::CaseInsensitive))
+                return true;
+        }
+    }
+    return false;
+}
+
+bool
+UserSettingsModel::customSectionMatches(int tab, const QString &sectionId) const
+{
+    // Empty query → every section is "matching" so it stays visible.
+    if (searchQuery_.isEmpty())
+        return true;
+
+    const auto *sections = settings::ui::customSectionsForTab(tab);
+    if (!sections)
+        return false;
+
+    for (const auto *s = sections; s->sectionId; ++s) {
+        if (sectionId != QLatin1String(s->sectionId))
+            continue;
+        for (const char *const *p = s->keywordsEnglish; p && *p; ++p) {
+            const char *kw = *p;
+            if (QString::fromUtf8(kw).contains(searchQuery_, Qt::CaseInsensitive))
+                return true;
+            if (tr(kw).contains(searchQuery_, Qt::CaseInsensitive))
+                return true;
+        }
+        return false;
+    }
+    return false;
 }
 
 UserSettingsModel::UserSettingsModel(QObject *p)

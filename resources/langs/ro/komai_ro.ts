@@ -3539,12 +3539,12 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+179"/>
         <source>Message</source>
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+567"/>
+        <location line="+578"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>

@@ -3529,12 +3529,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>输入消息，或按 ↑ 选择消息。</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+179"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
     <message>
-        <location line="+567"/>
+        <location line="+578"/>
         <source>Stickers</source>
         <translation>贴纸</translation>
     </message>

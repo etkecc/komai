@@ -1124,8 +1124,10 @@ Rectangle {
                 function openCompleter(pos, type) {
                     completerTriggeredAt = pos;
                     completer.completerType = type;
-                    if (!popup.opened)
+                    if (!popup.opened) {
+                        popup._positionRefreshTick++;
                         popup.open();
+                    }
                     messageInput.refreshCompleterSearchString();
                 }
                 function completerTypeForTrigger(trigger, tokenStart) {
@@ -1633,6 +1635,15 @@ Rectangle {
                 Popup {
                     id: popup
 
+                    // Bumped before each open() to force the x/y/width bindings to
+                    // re-run inputBar.mapToItem(). mapToItem isn't a tracked binding
+                    // dep, so when an ancestor's transform changes (e.g. after a
+                    // StackView push/pop transition leaves the chat page transform
+                    // mid-flight) the cached binding value goes stale and the popup
+                    // ends up positioned off-screen. Reading this counter inside the
+                    // *RectInOverlay helpers makes them tracked.
+                    property int _positionRefreshTick: 0
+
                     readonly property real popupMargin: Komai.paddingSmall
                     readonly property bool composerIsTall: textInput.height > textInput.singleLineHeight * 2.5
 
@@ -1640,6 +1651,7 @@ Rectangle {
                         return Math.max(minValue, Math.min(value, maxValue));
                     }
                     function inputBarRectInOverlay() {
+                        const _ = popup._positionRefreshTick;
                         if (!popup.parent)
                             return Qt.rect(0, 0, inputBar.width, inputBar.height);
 
@@ -1647,6 +1659,7 @@ Rectangle {
                         return Qt.rect(topLeft.x, topLeft.y, inputBar.width, inputBar.height);
                     }
                     function anchorRectInOverlay() {
+                        const _ = popup._positionRefreshTick;
                         const cursorRect = messageInput.positionToRectangle(messageInput.completerTriggeredAt);
                         if (!popup.parent)
                             return cursorRect;

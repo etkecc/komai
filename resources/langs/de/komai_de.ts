@@ -3534,12 +3534,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Schreib eine Nachricht oder drücke ↑, um Nachrichten auszuwählen.</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+179"/>
         <source>Message</source>
         <translation>Nachricht</translation>
     </message>
     <message>
-        <location line="+567"/>
+        <location line="+578"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>

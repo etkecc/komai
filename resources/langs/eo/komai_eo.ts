@@ -3534,12 +3534,12 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Skribu mesaĝon, aŭ premu ↑ por elekti mesaĝojn.</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+179"/>
         <source>Message</source>
         <translation>Mesaĝo</translation>
     </message>
     <message>
-        <location line="+567"/>
+        <location line="+578"/>
         <source>Stickers</source>
         <translation>Glumarkoj</translation>
     </message>

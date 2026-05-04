@@ -3534,12 +3534,12 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Escreva uma mensagem ou prima ↑ para selecionar mensagens.</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+179"/>
         <source>Message</source>
         <translation>Mensagem</translation>
     </message>
     <message>
-        <location line="+567"/>
+        <location line="+578"/>
         <source>Stickers</source>
         <translation>Autocolantes</translation>
     </message>

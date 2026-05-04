@@ -9481,6 +9481,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation type="unfinished"/>
     </message>
@@ -9525,12 +9530,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation type="unfinished"/>
     </message>
@@ -9540,7 +9550,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation type="unfinished"/>
     </message>
@@ -9550,7 +9565,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation type="unfinished"/>
     </message>
@@ -9560,7 +9575,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation type="unfinished"/>
     </message>
@@ -9571,12 +9591,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation type="unfinished"/>
     </message>
@@ -9627,7 +9657,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation type="unfinished"/>
     </message>
@@ -9653,7 +9683,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation type="unfinished"/>
     </message>
@@ -9663,7 +9693,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation type="unfinished"/>
     </message>
@@ -9683,12 +9718,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation type="unfinished"/>
     </message>
@@ -10142,7 +10182,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation type="unfinished">Theme</translation>
     </message>
@@ -10152,7 +10192,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation type="unfinished"/>
     </message>
@@ -10162,48 +10202,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation type="unfinished">Emoji font family</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation type="unfinished"/>
     </message>
@@ -10213,7 +10273,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation type="unfinished"/>
     </message>
@@ -10223,12 +10308,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation type="unfinished"/>
     </message>
@@ -10238,23 +10328,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation type="unfinished">Communities sidebar</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation type="unfinished">All rooms</translation>
     </message>
@@ -10329,17 +10430,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation type="unfinished"/>
     </message>
@@ -10349,12 +10455,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation type="unfinished"/>
     </message>
@@ -10364,37 +10480,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation type="unfinished"/>
     </message>
@@ -10404,12 +10546,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation type="unfinished"/>
     </message>
@@ -10419,7 +10566,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation type="unfinished"/>
     </message>
@@ -10480,7 +10632,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished">Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation type="unfinished"/>
     </message>
@@ -10490,7 +10642,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation type="unfinished"/>
     </message>
@@ -10500,7 +10657,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation type="unfinished"/>
     </message>
@@ -10510,7 +10667,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation type="unfinished"/>
     </message>
@@ -10520,7 +10682,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation type="unfinished"/>
     </message>
@@ -10555,7 +10722,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation type="unfinished"/>
     </message>
@@ -10565,7 +10732,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation type="unfinished"/>
     </message>
@@ -10635,13 +10807,18 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -10681,26 +10858,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation type="unfinished">Camera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation type="unfinished">Camera resolution</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation type="unfinished">Camera frame rate</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation type="unfinished">Ringtone</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation type="unfinished"/>
     </message>
@@ -10745,7 +10947,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation type="unfinished"/>
     </message>

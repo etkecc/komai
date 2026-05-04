@@ -9518,6 +9518,11 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, assente, non disponibile, stato</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Messaggio di stato</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Anteprima della timeline</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stile</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>fumetto, normale, stile chat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Posizionamento orizzontale</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Scegli se i messaggi rimangono su un lato o vengono posizionati su lati opposti in base al mittente.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>allineato a sinistra, allineato a destra, allineamento</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Larghezza massima messaggio (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Percentuale della larghezza disponibile della timeline che un singolo messaggio può occupare.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Codifica colore mittente/messaggio</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Scegli come vengono assegnati i colori del mittente nella timeline e negli sfondi delle bolle.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>colore utente, colore mittente, colore nome</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Mostra il nome utente del mittente sopra i messaggi</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Controlla quando i nomi utente dei mittenti vengono mostrati sopra i messaggi. In modalità bolla, il proprio nome utente è sempre nascosto. Nelle stanze più piccole, gli avatar e i colori delle bolle sono spesso contesto sufficiente.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>autore, chi ha inviato, autore del messaggio</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Dimensione avatar</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>immagine del profilo, dimensione immagine</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Mostra avatar accanto ai fumetti dei propri messaggi</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Feedback</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Azioni</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Politica di attivazione azioni</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Scegli come vengono aperte le azioni sui messaggi.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>passaggio del mouse, pulsante, reazioni, risposta, reagire</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Reazioni bloccate</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Riproduci immagini animate solo al passaggio del mouse</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Mostra immagini automaticamente</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>immagini inline, anteprima immagine</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Apri in un visualizzatore esterno</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Aspetto</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Servono altri temi? Importa dalla &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; o &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;crea il tuo&lt;/a&gt; (riavvio richiesto).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Densità</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Influisce sulla spaziatura, le dimensioni delle icone e le altezze delle righe.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Lingua</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Famiglia di caratteri</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Dimensione carattere</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La maggior parte degli elementi UI si aggiorna in tempo reale. Alcune etichette potrebbero aggiornarsi solo dopo aver riavviato l'app.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Font e ridimensionamento</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Famiglia di caratteri emoji</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Fattore di scala [riavvio richiesto]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Abilita animazioni UI</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>locale, traduzione, i18n, localizzazione</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>colore, colori, colore, colori, skin, sfondo, aspetto</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>spaziatura, padding, compatto, comodo, layout</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>animazioni, ridurre le animazioni, accessibilità</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Visibilità della barra di scorrimento</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Controlla quando vengono mostrate le barre di scorrimento nell'app.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>barra di scorrimento, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>carattere tipografico, font</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>dimensione testo, zoom, leggibilità</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>carattere emoji</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoom, hidpi, risoluzione</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatar</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Anteprima avatar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Usa avatar circolari</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>avatar rotondi, rotondo, arrotondamento, avatar circolari, forma avatar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Stile avatar predefinito</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Visualizzato per utenti e stanze senza avatar personalizzato.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar alternativo, segnaposto avatar, iniziali</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Barra laterale comunità</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Mostra indicatori messaggi non letti</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Mostra enfasi messaggi non letti (badge di conteggio, evidenziazione riga e indicatore sul bordo sinistro) sui filtri di comunità e tag.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>badge, notifiche, conteggio non letti</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Tutte le stanze</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Elenco stanze</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Mostra enfasi messaggi non letti (badge di conteggio, nome stanza in grassetto, animazione avatar, evidenziazione riga e indicatore sul bordo sinistro) accanto alle stanze.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Mostra data/ora dell'ultimo messaggio</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>ora, orologio</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Mostra anteprima dell'ultimo messaggio</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Aggiunge un'anteprima dell'ultimo messaggio alle voci dell'elenco stanze. Mostrata su una riga separata nei layout Spazioso e Compatto, e in linea accanto al nome della stanza in Denso.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>anteprima, sottotitolo, estratto</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Ordinamento</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>ordinamento, ordine, ordinamento</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Politica di apertura dell'elenco stanze</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Se fare clic su una stanza riutilizza la scheda attiva o ne apre una nuova. Le stanze con una scheda esistente la attivano in ogni caso.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>comportamento scheda, comportamento, clic, apri</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Barra delle schede</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Mostra pulsante blocca</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>blocco, bloccare</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Etichetta scheda bloccata</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>scheda bloccata, stile scheda, visibilità etichetta</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Etichetta scheda normale</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>stile scheda, visibilità etichetta</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Larghezza preferita della scheda</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>dimensione scheda, dimensioni scheda</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Larghezza minima scheda</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Massimo numero di timeline pre-renderizzate chiuse di recente</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Le timeline pre-renderizzate chiuse di recente consentono di passare istantaneamente da una stanza all'altra, ma aumentano l'uso di CPU e RAM. Le schede aperte sono sempre pre-renderizzate. Imposta 0 per mantenere solo le schede aperte.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>cronologia, chiuse di recente, prestazioni, ram, memoria</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Input</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Tasto di invio</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Scegli quale combinazione del tasto Invio invia i messaggi.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>scorciatoia da tastiera, tasto invio, Enter, Shift+Enter, Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Converti automaticamente Markdown in HTML</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Sostituisci automaticamente le emoticon con emoji</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Sostituisce automaticamente le emoticon testuali come :) :D :P con i corrispondenti emoji all'invio di un messaggio. Scegli se sostituire ovunque o solo alla fine.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>shortcode, sintassi con due punti, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Selettore emoji inline</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Mostra un selettore di emoji inline quando si digitano i due punti (:) nell'input del messaggio.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Genere preferito</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Solo selettore emoji inline: preferisci le varianti di genere definite da Unicode (uomo/donna) quando disponibili. La ricerca esplicita dell'altro genere funziona comunque. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Ulteriori informazioni&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>genere</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Tonalità della pelle preferita</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Solo selettore emoji inline: preferisci una variante di tono della pelle quando disponibile. La ricerca esplicita di un altro tono della pelle funziona comunque. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Ulteriori informazioni&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>colore della pelle, colore della pelle, pelle</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Mostra agli altri quando sto scrivendo</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Notifica i messaggi ricevuti quando il client non è attivo. Ha effetto solo se le notifiche dell'account sono abilitate in alto.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Contenuto messaggio nelle notifiche</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Scegli quanta parte del testo del messaggio includere nelle notifiche.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>privacy, anteprima notifica, testo notifica</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Lampeggia la finestra/taskbar per i messaggi in arrivo</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Sfoca alla perdita del focus</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Ritardo sfocatura (secondi)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Imposta quanto tempo dopo la perdita del focus inizia la sfocatura. Imposta 0 per sfocare immediatamente. Il massimo è 3600 secondi (1 ora).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>inattività, timer assenza, inattivo</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>ingresso audio, microfono</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Fotocamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webcam, ingresso video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Risoluzione fotocamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>qualità video, dimensione video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Frequenza fotogrammi fotocamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, fotogrammi al secondo, fluidità</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Suoneria</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>suono chiamata, chiamata in arrivo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Condivisione schermo</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Scegli quanto &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;accesso D-Bus&lt;/a&gt; Komai espone ai chiamanti locali.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, esterno, scripting, automazione</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Ricerca stanze Matrix</translation>
     </message>

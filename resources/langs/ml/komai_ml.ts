@@ -9518,6 +9518,11 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>ഓൺലൈൻ, ഓഫ്‌ലൈൻ, അവേ, ലഭ്യമല്ല, സ്റ്റാറ്റസ്</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>സ്റ്റാറ്റസ് സന്ദേശം</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ടൈംലൈൻ പ്രിവ്യൂ</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>ശൈലി</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>ബബിൾ, സാധാരണ, ചാറ്റ് ശൈലി</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>തിരശ്ചീന സ്ഥാനനിർണ്ണയം</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>സന്ദേശങ്ങൾ ഒരു വശത്ത് നിൽക്കണോ അല്ലെങ്കിൽ അയക്കുന്നവർ അനുസരിച്ച് വിപരീത വശങ്ങളിൽ ക്രമീകരിക്കണോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>ഇടത്ത് വിന്യസിച്ചത്, വലത്ത് വിന്യസിച്ചത്, വിന്യാസം</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>പരമാവധി സന്ദേശ വീതി (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഒരൊറ്റ സന്ദേശം ഉൾക്കൊള്ളാൻ കഴിയുന്ന ടൈംലൈൻ വീതിയുടെ ശതമാനം.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>അയയ്ക്കുന്നയാൾ/സന്ദേശം വർണ കോഡിംഗ്</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ടൈംലൈനിലും ബബിൾ പശ്ചാത്തലങ്ങളിലും അയക്കുന്നവരുടെ നിറങ്ങൾ എങ്ങനെ നൽകണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>ഉപയോക്തൃ നിറം, അയക്കുന്നയാളുടെ നിറം, പേര് നിറം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>സന്ദേശങ്ങൾക്ക് മുകളിൽ അയയ്ക്കുന്നയാളുടെ ഉപയോക്തൃനാമം കാണിക്കുക</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ സന്ദേശങ്ങൾക്ക് മുകളിൽ എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബ്ബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബ്ബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>രചയിതാവ്, അയച്ചയാൾ, സന്ദേശ രചയിതാവ്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>അവതാർ വലിപ്പം</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>പ്രൊഫൈൽ ചിത്രം, ചിത്ര വലുപ്പം</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>സ്വന്തം സന്ദേശ ബബിളുകൾക്ക് അടുത്ത് അവതാർ കാണിക്കുക</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>ഫീഡ്ബാക്ക്</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>പ്രവർത്തനങ്ങൾ</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>പ്രവർത്തന സജീവമാക്കൽ നയം</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>സന്ദേശ പ്രവർത്തനങ്ങൾ എങ്ങനെ തുറക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>ഹോവർ, ബട്ടൺ, റിയാക്ഷനുകൾ, മറുപടി, പ്രതികരിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>പിൻ ചെയ്ത പ്രതികരണങ്ങൾ</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഹോവർ ചെയ്യുമ്പോൾ മാത്രം ആനിമേറ്റഡ് ചിത്രങ്ങൾ പ്ലേ ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>ചിത്രങ്ങൾ സ്വയം കാണിക്കുക</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>ഇൻലൈൻ ചിത്രങ്ങൾ, ചിത്ര പ്രിവ്യൂ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>ഒരു ബാഹ്യ വ്യൂവറിൽ തുറക്കുക</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>രൂപഭംഗി</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>തീം</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>കൂടുതൽ തീമുകൾ വേണോ? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; യിൽ നിന്ന് ഇറക്കുമതി ചെയ്യുക അല്ലെങ്കിൽ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;സ്വന്തമായി ഉണ്ടാക്കുക&lt;/a&gt; (പുനരാരംഭം ആവശ്യമാണ്).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>സാന്ദ്രത</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അകലം, ഐക്കൺ വലുപ്പം, ലിസ്റ്റ് വരി ഉയരം എന്നിവ ബാധിക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>ഭാഷ</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>ഫോണ്ട് ഫാമിലി</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>ഫോണ്ട് വലുപ്പം</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>മിക്ക UI ഘടകങ്ങളും തത്സമയം അപ്ഡേറ്റ് ആകും. ചില ലേബലുകൾ ആപ്പ് പുനരാരംഭിച്ചതിനുശേഷം മാത്രമേ അപ്ഡേറ്റ് ആകൂ.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>ഫോണ്ടുകളും സ്കെയിലിംഗും</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>ഇമോജി ഫോന്റ് ഫാമിലി</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>സ്കെയിൽ ഫാക്ടർ [പുനരാരംഭം ആവശ്യമാണ്]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>UI ആനിമേഷനുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>ലൊക്കേൽ, വിവർത്തനം, i18n, ലോക്കലൈസേഷൻ</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>നിറം, നിറങ്ങൾ, ത്വക്ക്, വാൾപേപ്പർ, രൂപം</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>അകലം, പാഡിംഗ്, കോംപാക്ട്, സൗകര്യപ്രദം, ലേഔട്ട്</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>ചലനം, ചലനം കുറയ്ക്കുക, ആക്സസിബിലിറ്റി</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>സ്ക്രോൾബാർ ദൃശ്യത</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ആപ്പ് മുഴുവൻ സ്ക്രോൾബാറുകൾ എപ്പോൾ കാണിക്കണമെന്ന് നിയന്ത്രിക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>സ്ക്രോൾ ബാർ, സ്ക്രോൾബാർ</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>ടൈപ്പ്ഫേസ്, ഫോണ്ട്</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>ടെക്സ്റ്റ് വലുപ്പം, സൂം, വായനാക്ഷമത</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>ഇമോജി ടൈപ്പ്ഫേസ്</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, സൂം, hidpi, റെസലൂഷൻ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>അവതാറുകൾ</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അവതാർ പ്രിവ്യൂ</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>വൃത്താകൃതിയിലുള്ള അവതാറുകൾ ഉപയോഗിക്കുക</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>വൃത്താകൃതി അവതാറുകൾ, വൃത്തം, വൃത്തകൃതി, സർക്കിൾ അവതാറുകൾ, അവതാർ ആകൃതി</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>ഡിഫോൾട്ട് അവതാർ ശൈലി</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഇഷ്‌ടാനുസൃത അവതാർ ഇല്ലാത്ത ഉപയോക്താക്കൾക്കും മുറികൾക്കും കാണിക്കും.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>അവതാർ ഫാൾബാക്ക്, അവതാർ പ്ലേസ്‌ഹോൾഡർ, ആദ്യക്ഷരങ്ങൾ</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>കമ്മ്യൂണിറ്റി സൈഡ്ബാർ</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>വായിക്കാത്ത സൂചകങ്ങൾ കാണിക്കുക</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>കമ്മ്യൂണിറ്റി, ടാഗ് ഫിൽട്ടറുകളിൽ വായിക്കാത്ത ഊന്നൽ (എണ്ണ ബാഡ്ജുകൾ, വരി ഹൈലൈറ്റ്, ഇടതുവശ അടയാളം) കാണിക്കുക.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>ബാഡ്‌ജുകൾ, അറിയിപ്പുകൾ, വായിക്കാത്ത എണ്ണം</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>എല്ലാ മുറികളും</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>മുറി പട്ടിക</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>മുറികൾക്ക് അടുത്ത് വായിക്കാത്ത ഊന്നൽ (എണ്ണ ബാഡ്ജുകൾ, ബോൾഡ് മുറിപ്പേര്, അവതാർ ബൗൺസ്, വരി ഹൈലൈറ്റ്, ഇടതുവശ അടയാളം) കാണിക്കുക.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>അവസാന സന്ദേശ സമയമുദ്ര കാണിക്കുക</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>സമയം, ക്ലോക്ക്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>അവസാന സന്ദേശ പ്രിവ്യൂ കാണിക്കുക</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>മുറി ലിസ്റ്റ് എൻട്രികളിൽ അവസാന-സന്ദേശ പ്രിവ്യൂ ചേർക്കുന്നു. Spacious, Compact ലേഔട്ടുകളിൽ സ്വന്തം വരിയിൽ കാണിക്കുന്നു, Dense-ൽ മുറിയുടെ പേരിനൊപ്പം ഇൻലൈനായി.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>പ്രിവ്യൂ, സബ്‌ടൈറ്റിൽ, സ്‌നിപ്പറ്റ്</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>ക്രമീകരണം</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>അടുക്കൽ ക്രമം, ക്രമം, ക്രമീകരണം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>മുറി പട്ടിക തുറക്കൽ നയം</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഒരു മുറി ക്ലിക്ക് ചെയ്യുന്നത് സജീവ ടാബ് പുനരുപയോഗിക്കുന്നുണ്ടോ അതോ പുതിയ ഒന്ന് തുറക്കുന്നുണ്ടോ. നിലവിലുള്ള ടാബ് ഉള്ള മുറികൾ എല്ലാ സന്ദർഭങ്ങളിലും അത് സജീവമാക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>ടാബ് പെരുമാറ്റം, ക്ലിക്ക്, തുറക്കുക</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>ടാബ് ബാർ</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>പിൻ ബട്ടൺ കാണിക്കുക</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>പിൻ ചെയ്യുക, പിൻ ചെയ്യൽ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>പിൻ ചെയ്ത ടാബ് ലേബൽ</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>പിൻ ചെയ്ത ടാബ്, ടാബ് ശൈലി, ലേബൽ ദൃശ്യത</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>സാധാരണ ടാബ് ലേബൽ</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>ടാബ് ശൈലി, ലേബൽ ദൃശ്യത</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>ഇഷ്ടപ്പെട്ട ടാബ് വീതി</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>ടാബ് വലുപ്പം, ടാബ് അളവുകൾ</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>ഏറ്റവും കുറഞ്ഞ ടാബ് വീതി</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>അടുത്തിടെ അടച്ച പ്രീ-റെൻഡേർ ടൈംലൈനുകളുടെ പരമാവധി</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അടുത്തിടെ അടച്ച പ്രീ-റെൻഡർ ടൈംലൈനുകൾ തൽക്ഷണ മുറി മാറ്റം സാധ്യമാക്കുന്നു, എന്നാൽ CPU, RAM ഉപയോഗം വർദ്ധിക്കും. തുറന്ന ടാബുകൾ എല്ലായ്‌പ്പോഴും പ്രീ-റെൻഡർ ചെയ്യപ്പെടും. തുറന്ന ടാബുകൾ മാത്രം സൂക്ഷിക്കാൻ 0 ആക്കുക.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>ചരിത്രം, അടുത്തിടെ അടച്ചത്, പ്രകടനം, റാം, മെമ്മറി</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>ഇൻപുട്ട്</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>അയയ്ക്കൽ കീ</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഏത് Enter കീ സംയോജനം സന്ദേശങ്ങൾ അയക്കുന്നുവെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>കീബോർഡ് ഷോർട്ട്കട്ട്, അയക്കൽ കീ, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Markdown സ്വതവേ HTML ആക്കുക</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഇമോജി</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>ഇമോട്ടിക്കണുകൾ സ്വതവേ ഇമോജി ആക്കുക</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>സന്ദേശം അയക്കുമ്പോൾ :) :D :P പോലുള്ള ടെക്സ്റ്റ് ഇമോട്ടിക്കണുകൾ അവയ്ക്ക് തുല്യമായ ഇമോജി ഉപയോഗിച്ച് സ്വതവേ മാറ്റുക. എല്ലായിടത്തും മാറ്റണോ അതോ അവസാനം മാത്രമോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>ഷോർട്ട്കോഡുകൾ, കോളൺ സിന്റാക്സ്, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>ഇൻലൈൻ ഇമോജി പിക്കർ</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>സന്ദേശ ഇൻപുട്ടിൽ കോളൻ (:) ടൈപ്പ് ചെയ്യുമ്പോൾ ഇൻലൈൻ ഇമോജി പിക്കർ കാണിക്കുക.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>ഇഷ്ടപ്പെട്ട ലിംഗഭേദം</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ Unicode-നിർവ്വചിത ലിംഗ വേരിയന്റുകൾ (man/woman) ഇഷ്ടപ്പെടുക. മറ്റ് ലിംഗത്തിനായി വ്യക്തമായി തിരയൽ ഇപ്പോഴും പ്രവർത്തിക്കും. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>ലിംഗം</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>ഇഷ്ടപ്പെട്ട ത്വക്ക് നിറം</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഇൻലൈൻ ഇമോജി പിക്കർ മാത്രം: ലഭ്യമാകുമ്പോൾ ഒരു ത്വക്ക്-ടോൺ വേരിയന്റ് ഇഷ്ടപ്പെടുക. മറ്റൊരു ത്വക്ക്-ടോണിനായി വ്യക്തമായി തിരയൽ ഇപ്പോഴും പ്രവർത്തിക്കും. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>ത്വക്ക് നിറം, ത്വക്ക്</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>ഞാൻ ടൈപ്പ് ചെയ്യുമ്പോൾ മറ്റുള്ളവർക്ക് കാണിക്കുക</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ക്ലയന്റ് നിലവിൽ ഫോക്കസ്ഡ് അല്ലാത്തപ്പോൾ ലഭിച്ച സന്ദേശങ്ങളെ കുറിച്ച് അറിയിക്കുക. മുകളിൽ അക്കൗണ്ട് അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുമ്പോൾ മാത്രം ഇത് പ്രാബല്യത്തിൽ വരും.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>അറിയിപ്പുകളിൽ സന്ദേശ ഉള്ളടക്കം</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അറിയിപ്പുകളിൽ എത്ര സന്ദേശ വാചകം ഉൾപ്പെടുത്തണമെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>സ്വകാര്യത, അറിയിപ്പ് പ്രിവ്യൂ, അറിയിപ്പ് വാചകം</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>ആഗമന സന്ദേശങ്ങളിൽ ആപ്പ് വിൻഡോ/ടാസ്‌ക്ബാർ ഫ്ലാഷ് ചെയ്യുക</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഫോക്കസ് നഷ്ടപ്പെടുമ്പോൾ ബ്ലർ</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>ബ്ലർ കാലതാമസം (സെക്കൻഡ്)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>ഫോക്കസ് നഷ്ടപ്പെട്ട ശേഷം ബ്ലർ ആരംഭിക്കുന്നതിന് മുൻപ് എത്ര സമയം കാത്തിരിക്കണമെന്ന് സജ്ജമാക്കുക. ഉടൻ ബ്ലർ ചെയ്യാൻ 0 സജ്ജമാക്കുക. പരമാവധി 3600 സെക്കൻഡ് (1 മണിക്കൂർ).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>നിഷ്ക്രിയത, അവേ ടൈമർ, ഐഡിൽ</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>ഓഡിയോ ഇൻപുട്ട്, മൈക്ക്</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>ക്യാമറ</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>വെബ്‌ക്യാം, വീഡിയോ ഇൻപുട്ട്</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>കാമറ റെസലൂഷൻ</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>വീഡിയോ ഗുണനിലവാരം, വീഡിയോ വലുപ്പം</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>ക്യാമറ ഫ്രേം നിരക്ക്</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, സെക്കൻഡിൽ ഫ്രെയിമുകൾ, സ്മൂത്ത്നെസ്സ്</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>റിംഗ്ടോൺ</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>കോൾ ശബ്ദം, ഇൻകമിംഗ് കോൾ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>സ്ക്രീൻ ഷെയറിംഗ്</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ലോക്കൽ കോളർമാർക്ക് Komai എത്ര &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ആക്സസ്&lt;/a&gt; നൽകുന്നുവെന്ന് തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, ബാഹ്യം, സ്ക്രിപ്റ്റിംഗ്, ഓട്ടോമേഷൻ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix മുറി തിരയൽ</translation>
     </message>

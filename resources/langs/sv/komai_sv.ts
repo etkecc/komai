@@ -9518,6 +9518,11 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, borta, otillgänglig, status</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Statusmeddelande</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Förhandsgranskning av tidslinje</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stil</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>bubbla, enkel, chattstil</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Horisontell placering</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Välj om meddelanden håller sig på en sida eller placeras mot varandra beroende på avsändare.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>vänsterjusterad, högerjusterad, justering</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maximal meddelandebredd (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Procentandel av tillgänglig tidslinjbredd som ett enskilt meddelande kan uppta.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Färgkodning för avsändare/meddelande</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Välj hur avsändarfärger tilldelas i tidslinjen och bubbelns bakgrunder.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>användarfärg, avsändarfärg, namnfärg</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Visa avsändarens användarnamn ovanför meddelanden</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Styr när avsändarens användarnamn visas ovanför meddelanden. I bubbelläge är ditt eget användarnamn alltid dolt. I mindre rum räcker avatarer och bubbelkolor ofta som kontext.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>avsändare, vem skickade, meddelandeavsändare</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Avatarstorlek</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profilbild, bildstorlek</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Visa avatar bredvid egna meddelandebubblor</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Återkoppling</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Åtgärder</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Policy för aktivering av åtgärder</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Välj hur meddelandeåtgärder öppnas.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>hovra, knapp, reaktioner, svara, reagera</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Fästa reaktioner</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Spela upp animerade bilder endast vid hovring</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Visa bilder automatiskt</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>infogade bilder, bildförhandsgranskning</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Öppna i extern visare</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Utseende</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Behöver du fler teman? Importera från &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; eller &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;skapa ditt eget&lt;/a&gt; (omstart krävs).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Täthet</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Påverkar avstånd, ikonstorlekar och listhöjder.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Språk</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Teckensnittsfamilj</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Teckenstorlek</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>De flesta UI-element uppdateras direkt. Vissa etiketter kan bara uppdateras efter att appen startats om.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Teckensnitt &amp; skalning</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Emoji-teckensnittsfamilj</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Skalfaktor [omstart krävs]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Aktivera UI-animationer</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>språkinställning, översättning, i18n, lokalisering</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>färg, färger, tema, bakgrundsbild, utseende</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>avstånd, utfyllnad, kompakt, bekväm, layout</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>rörelse, minska rörelse, tillgänglighet</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Synlighet för rullningslisten</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Styr när rullningslister visas i appen.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>rullningslist, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>typsnitt, teckensnitt</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>textstorlek, zoom, läsbarhet</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoji-typsnitt</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoom, hidpi, upplösning</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatarer</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Avatarförhandsgranskning</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Använd runda avatarer</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>runda avatarer, rund, rundhet, cirkelavatarer, avatarform</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Standard avatarstil</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Visas för användare och rum som inte har en anpassad avatar.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatarersättning, avatarplatshållare, initialer</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Sidofält för gemenskaper</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Visa oläst-indikatorer</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Visa oläst-betoning (räknarbrickor, radmarkering och vänsterkantsmarkör) på gemenskaps- och taggfilter.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>märken, notifieringar, antal olästa</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Alla rum</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Rumslista</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Visa oläst-betoning (räknarbrickor, fetstilt rumsnamn, avatar-studs, radmarkering och vänsterkantsmarkör) bredvid rum.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Visa tidsstämpel för senaste meddelande</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>tid, klocka</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Visa förhandsgranskning av senaste meddelande</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Lägger till en förhandsgranskning av senaste meddelandet i rumlisteposter. Visas på en egen rad i Rymlig och Kompakt layout, och inbäddat bredvid rumsnamnet i Tät.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>förhandsgranskning, undertext, utdrag</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Sortering</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>sorteringsordning, ordning, sortering</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Rumlistans öppningspolicy</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Om ett klick på ett rum återanvänder den aktiva fliken eller öppnar en ny. Rum med en befintlig flik aktiveras alltid.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>flikbeteende, beteende, klick, öppna</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Flikrad</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Visa fästknapp</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>fästa, nåla</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Etikett för fäst flik</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>fäst flik, flikstil, etikettsynlighet</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Etikett för vanlig flik</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>flikstil, etikettsynlighet</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Föredragen flikbredd</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>flikstorlek, flikdimensioner</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minsta flikbredd</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Max antal förrenderade tidslinjer (nyligen stängda)</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Nyligen stängda förrenderade tidslinjer möjliggör omedelbar rumsväxling men ökar CPU- och RAM-användning. Öppna flikar är alltid förrenderade. Ange 0 för att endast behålla öppna flikar.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>historik, nyligen stängda, prestanda, ram, minne</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Inmatning</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Skicka-tangent</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Välj vilken Enter-tangentkombination som skickar meddelanden.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>tangentbordsgenväg, skicktangent, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Konvertera automatiskt Markdown till HTML</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Ersätt automatiskt emotikoner med emoji</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Ersätter automatiskt textemotikoner som :) :D :P med deras emoji-ekvivalenter när ett meddelande skickas. Välj om ersättningen ska ske överallt eller bara i slutet.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>kortkoder, kolonsyntax, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Inline-emojival</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Visa en infogad emojimeny när du skriver ett kolon (:) i meddelandefältet.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Föredraget kön</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Endast inline-emojival: föredra Unicode-definierade könsvarianter (man/kvinna) om tillgängliga. Det går fortfarande att söka explicit efter annat kön. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Läs mer&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>kön</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Föredragen hudton</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Endast inline-emojival: föredra en hudtonvariant om tillgänglig. Det går fortfarande att söka explicit efter annan hudton. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Läs mer&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>hudton, hudfärg, hud</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Visa för andra när jag skriver</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Avisera om mottagna meddelanden när klienten inte är i fokus. Detta gäller bara när kontots aviseringar är aktiverade ovan.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Meddelandeinnehåll i aviseringar</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Välj hur mycket meddelandetext som ska inkluderas i aviseringar.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>integritet, notifieringsförhandsgranskning, notifieringstext</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Blinka i appfönster/aktivitetsfält vid inkommande meddelanden</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Oskärpa vid fokusbortfall</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Fördröjning för oskärpa (sekunder)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Ange hur lång tid efter fokusbortfall innan suddighet börjar. Ange 0 för att sudda omedelbart. Maximum är 3600 sekunder (1 timme).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>inaktivitet, bortatimer, inaktiv</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>ljudingång, mikrofon, mic</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webbkamera, videoingång</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Kamerans upplösning</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>videokvalitet, videostorlek</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Kamerans bildfrekvens</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, bilder per sekund, jämnhet</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Ringsignal</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>samtalsljud, inkommande samtal</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Skärmdelning</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Välj hur mycket &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus-åtkomst&lt;/a&gt; Komai exponerar för lokala anropare.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, extern, skriptning, automatisering</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix-rumssökning</translation>
     </message>

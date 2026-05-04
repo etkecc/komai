@@ -9518,6 +9518,11 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, afwezig, niet beschikbaar, status</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Statusbericht</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Tijdlijnpreview</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stijl</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>bubbel, eenvoudig, chatstijl</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Horizontale plaatsing</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Kies of berichten aan één kant blijven of tegenover elkaar worden geplaatst op basis van afzender.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>links uitgelijnd, rechts uitgelijnd, uitlijning</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maximale berichtbreedte (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Percentage van de beschikbare tijdlijnbreedte dat één bericht kan innemen.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Kleurcodering afzender/bericht</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Kies hoe afzenderkleuren worden toegewezen in de tijdlijn en ballonachtergronden.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>gebruikerskleur, afzenderkleur, naamkleur</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Gebruikersnaam afzender boven berichten weergeven</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Bepaal wanneer gebruikersnamen van afzenders boven berichten worden weergegeven. In bellenweergave is je eigen gebruikersnaam altijd verborgen. In kleinere kamers zijn avatars en belkleuren vaak voldoende context.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>auteur, wie stuurde, berichtauteur</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Avatargrootte</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profielfoto, fotogrootte</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Avatar weergeven naast eigen berichtballonnen</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Feedback</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Acties</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Activeringsbeleid voor acties</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Kies hoe berichtacties worden geopend.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>zweven, knop, reacties, antwoorden, reageren</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Vastgezette reacties</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Geanimeerde afbeeldingen alleen afspelen bij hover</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Afbeeldingen automatisch weergeven</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>inline afbeeldingen, afbeeldingsvoorvertoning</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Openen in een externe viewer</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Weergave</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Thema</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Meer thema's nodig? Importeer van &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; of &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;maak je eigen&lt;/a&gt; (herstart vereist).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Dichtheid</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Beïnvloedt de afstand, pictogramgrootten en rijhoogten in lijsten.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Taal</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Lettertypefamilie</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Lettergrootte</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>De meeste UI-elementen worden live bijgewerkt. Sommige labels worden mogelijk pas bijgewerkt na het herstarten van de app.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Lettertypen &amp; schaling</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Emoji-lettertypefamilie</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Schaalfactor [herstart vereist]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>UI-animaties inschakelen</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>landinstelling, vertaling, i18n, lokalisatie</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>kleur, kleuren, kleur, kleuren, thema, achtergrond, uiterlijk</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>afstand, opvulling, compact, comfortabel, indeling</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>beweging, beweging verminderen, toegankelijkheid</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Zichtbaarheid schuifbalk</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Bepaalt wanneer schuifbalken in de app worden weergegeven.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>schuifbalk, schuifbalk</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>lettertype, lettertype</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>tekstgrootte, zoom, leesbaarheid</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoji-lettertype</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoom, hidpi, resolutie</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Avatarvoorbeeld</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Ronde avatars gebruiken</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>ronde avatars, rond, rondheid, cirkelvormige avatars, avatarvorm</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Standaard avatarstijl</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Weergegeven voor gebruikers en kamers zonder aangepaste avatar.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar-terugval, avatar-plaatshouder, initialen</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Gemeenschapszijbalk</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Ongelezen indicatoren tonen</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Toon ongelezen nadruk (telbadges, rijmarkering en markering aan linkerrand) op community- en tagfilters.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>badges, meldingen, aantal ongelezen</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Alle kamers</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Kamerlijst</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Toon ongelezen nadruk (telbadges, vetgedrukte kamernaam, springende avatar, rijmarkering en markering aan linkerrand) naast kamers.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Tijdstempel laatste bericht weergeven</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>tijd, klok</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Voorvertoning laatste bericht weergeven</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Voegt een voorbeeld van het laatste bericht toe aan kamerlijstitems. Wordt weergegeven op een eigen regel in de Ruimtelijke en Compacte weergave, en inline naast de kamernaam in de Dichte weergave.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>voorvertoning, ondertitel, fragment</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Sortering</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>sorteervolgorde, volgorde, ordening</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Openingsbeleid kamerlijst</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Of het klikken op een kamer het actieve tabblad hergebruikt of een nieuw opent. Kamers met een bestaand tabblad activeren dat altijd.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>tabbladgedrag, gedrag, klikken, openen</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Tabbladbalk</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Vastzetknop weergeven</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>vastzetten, vastzettten</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Label vastgezet tabblad</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>vastgezet tabblad, tabbladstijl, labelzichtbaarheid</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Label normaal tabblad</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>tabbladstijl, labelzichtbaarheid</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Voorkeursbreedte tabblad</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>tabbladgrootte, tabbladafmetingen</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minimale tabbreedte</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Max. onlangs gesloten voorgerenderde tijdlijnen</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Onlangs gesloten vooraf gerenderde tijdlijnen maken direct wisselen van kamer mogelijk, maar verhogen het CPU- en RAM-gebruik. Open tabbladen worden altijd vooraf gerenderd. Stel in op 0 om alleen open tabbladen te bewaren.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>geschiedenis, recentelijk gesloten, prestaties, ram, geheugen</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Invoer</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Verzendtoets</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Kies welke Enter-toetscombinatie berichten verzendt.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>sneltoets, verzendtoets, Enter, Shift+Enter, Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Markdown automatisch converteren naar HTML</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Emoticons automatisch vervangen door emoji</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Vervangt tekstemoticons zoals :) :D :P automatisch door hun emoji-equivalenten bij het verzenden van een bericht. Kies of je ze overal of alleen aan het einde vervangt.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>shortcodes, dubbele-puntsyntaxis, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Inline emoji-kiezer</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Toon een inline emoji-kiezer wanneer je een dubbele punt (:) typt in het berichtinvoerveld.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Voorkeursgender</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Alleen inline emoji-kiezer: geef de voorkeur aan door Unicode gedefinieerde gendervarianten (man/vrouw) indien beschikbaar. Expliciet zoeken naar het andere geslacht werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer informatie&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>geslacht</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Voorkeurshuidskleur</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Alleen inline emoji-kiezer: geef de voorkeur aan één huidtoonvariant indien beschikbaar. Expliciet zoeken naar een andere huidtoon werkt nog steeds. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Meer informatie&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>huidkleur, huidkleur, huid</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Aan anderen tonen wanneer ik aan het typen ben</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Meldingen over ontvangen berichten wanneer de client niet gefocust is. Dit heeft alleen effect wanneer accountmeldingen hierboven zijn ingeschakeld.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Berichtinhoud in meldingen</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Kies hoeveel berichttekst in meldingen wordt opgenomen.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>privacy, meldingsvoorvertoning, meldingstekst</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>App-venster/taakbalk laten knipperen bij binnenkomende berichten</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Vervagen bij focusverlies</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Vervagingsvertraging (seconden)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Stel in hoe lang na het verliezen van focus het vervagen begint. Stel 0 in om direct te vervagen. Maximum is 3600 seconden (1 uur).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>inactiviteit, afwezigheidstimer, inactief</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>audio-invoer, microfoon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Camera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webcam, video-invoer</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Cameraresolutie</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>videokwaliteit, videogrootte</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Cameraframerate</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, frames per seconde, vloeiendheid</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Beltoon</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>belgeluid, inkomende oproep</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Scherm delen</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Kies hoeveel &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus-toegang&lt;/a&gt; Komai blootstelt aan lokale aanroepers.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, extern, scripting, automatisering</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix Rooms Search</translation>
     </message>

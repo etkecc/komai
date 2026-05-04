@@ -43,6 +43,23 @@ readSettingValue(const QVariant &value, T &out)
     return true;
 }
 
+// Attaches `searchKeywords` to a row that's been built by one of the macro
+// helpers (SIMPLE_BOOL_CONFIG_ID_SETTING etc.). The macros only fill the
+// first 12 positional fields of SettingMeta, leaving the trailing
+// icon/tagId/syncedToMatrix/searchKeywords at their defaults. Wrapping the
+// macro call with `withKeywords(..., "...")` overrides searchKeywords
+// without requiring every macro to grow a keywords parameter.
+//
+// Used at static-init time to construct settingsTable[]; not constexpr
+// because SettingMeta carries QVariant members (lowerBound, upperBound,
+// step) whose copy ctors are not constexpr.
+inline SettingMeta
+withKeywords(SettingMeta m, const char *keywords)
+{
+    m.searchKeywords = keywords;
+    return m;
+}
+
 extern const SettingMeta settingsTable[];
 
 int

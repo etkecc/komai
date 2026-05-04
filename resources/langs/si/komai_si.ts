@@ -9518,6 +9518,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>සම්බන්ධිත, නොසම්බන්ධිත, ඈත, නොතිබෙන, තත්වය</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>තත්ත්ව පණිවිඩය</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Timeline පෙරදර්ශනය</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>විලාසය</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>බාබල, සරල, චැට් විලාසය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>තිරස් පිහිටීම</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පණිවිඩ එක් පැත්තකම රඳා සිටිනවාද නැතිනම් යවන්නාට අනුව ප්‍රතිවිරුද්ධ පැත්තවල සිටිනවාද යන්න තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>වමට පෙළගැස්වීම, දකුණට පෙළගැස්වීම, පෙළගැස්ම</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>පණිවිඩ උපරිම පළල (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>තනි පණිවිඩයකට භාවිත කළ හැකි timeline පළලේ ප්‍රතිශතය.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>යවන්නා/පණිවිඩ වර්ණ කේතනය</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>කාල රේඛාව සහ බලූන් පසුබිම්වල යවන්නාගේ වර්ණ පවරන ආකාරය තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>පරිශීලක වර්ණය, යවන්නාගේ වර්ණය, නාම වර්ණය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>පණිවිඩ ඉහළ යවන්නාගේ පරිශීලක නාමය පෙන්වන්න</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නම් පෙන්වන විට පාලනය කරන්න. බුබුලු ප්‍රකාරයේදී, ඔබේ පරිශීලක නම සෑමවිටම සඟවා ඇත. කුඩා කාමරවලදී, අවතාර සහ බුබුලු වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>කතුවරයා, යවන ලද්දේ කවුරුන්, පණිවිඩ කතුවරයා</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>අවතාර ප්‍රමාණය</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>පැතිකඩ රූපය, රූප ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>ස්වකීය පණිවිඩ බුබුළු අසල avatar පෙන්වන්න</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>ප්‍රතිපෝෂණය</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ක්‍රියා</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>ක්‍රියාමාර්ග සක්‍රිය කිරීමේ ප්‍රතිපත්තිය</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පණිවිඩ ක්‍රියා විවෘත කරන ආකාරය තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>hover, බොත්තම, ප්‍රතිචාර, පිළිතුර, ප්‍රතිචාර දැක්වීම</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Pin කළ ප්‍රතික්‍රියා</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Hover කිරීමේදී පමණක් සජීවී රූප ධාවනය කරන්න</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>රූප ස්වයංක්‍රීයව පෙන්වන්න</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>අතුළත් රූප, රූප පෙරදසුන</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>බාහිර viewer එකක විවෘත කරන්න</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පෙනුම</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>තේමාව</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>තවත් තේමා අවශ්‍යද? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; වෙතින් ආයාත කරන්න හෝ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;ඔබේම සාදන්න&lt;/a&gt; (නැවත ආරම්භ කිරීම අවශ්‍යයි).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>ඝනත්වය</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පරතරය, නිරූපක ප්‍රමාණ සහ ලැයිස්තු පේළි උස් කෙරෙහි බලපායි.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>භාෂාව</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>අකුරු පවුල</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>අකුරු ප්‍රමාණය</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>බොහෝ UI මූලද්‍රව්‍ය සජීවීව යාවත්කාලීන වේ. සමහර ලේබල් යෙදුම නැවත ආරම්භ කිරීමෙන් පසු පමණක් යාවත්කාලීන විය හැක.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>අකුරු සහ පරිමාණය</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>ඉමෝජි අකුරු පවුල</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>පරිමාණ සාධකය [නැවත ආරම්භ කිරීම අවශ්‍යයි]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>UI සජීවීකරණ සක්‍රිය කරන්න</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>ස්ථාන, පරිවර්තනය, i18n, දේශීයකරණය</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>වර්ණය, වර්ණ, සම, බිත්ති රූපය, දැස්ම</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>පරතරය, padding, සංක්ෂිප්ත, සුවදායක, පිළිවෙල</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>චලනය, චලනය අඩු කරන්න, ප්‍රවේශ්‍යතාව</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>අනුචලන තීරුවේ දෘශ්‍යතාව</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>යෙදුම පුරා අනුචලන තීරු පෙන්වන්නේ කවදාද යන්න පාලනය කරයි.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>අනුගමන තීරය, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>අකුරු ශෛලිය, අකුරු</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>පෙළ ප්‍රමාණය, විශාලනය, කියවිය හැකි බව</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoji අකුරු ශෛලිය</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, විශාලනය, hidpi, විභේදනය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>අවතාර</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Avatar පෙරදර්ශනය</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>වෘත්තාකාර අවතාර භාවිත කරන්න</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>වටකුරු අවතාර්, වටකුරු, වටකුරු බව, කවකාර අවතාර්, අවතාර් හැඩය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>පෙරනිමි අවතාර විලාසය</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>අභිරුචි avatar නොමැති පරිශීලකයන් සහ කාමර සඳහා පෙන්වේ.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>අවතාර් විකල්පය, අවතාර් ස්ථාන ධාරකය, මුල් අකුරු</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>ප්‍රජා අතුරු තීරුව</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>නොකියවූ දර්ශක පෙන්වන්න</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>ප්‍රජා සහ ටැග් පෙරහන් මත නොකියවූ අවධාරණය (ගණන් badge, පේළි highlight, සහ වම් කෙළවර සලකුණ) පෙන්වන්න.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>ලකුණු, දැනුම්දීම්, නොකියෙව් ගණන</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>සියලු කාමර</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>කාමර ලැයිස්තුව</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>කාමර අසල නොකියවූ අවධාරණය (ගණන් badge, bold කාමර නාමය, avatar bounce, පේළි highlight, සහ වම් කෙළවර සලකුණ) පෙන්වන්න.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>අවසාන පණිවිඩ කාල-ලකුණ පෙන්වන්න</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>කාලය, ඔරලෝසුව</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>අවසාන පණිවිඩ පෙරදසුන පෙන්වන්න</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>කාමර ලැයිස්තු ඇතුළත් කිරීම් සඳහා අවසාන පණිවිඩ පෙරදර්ශනයක් එකතු කරයි. Spacious සහ Compact පිළිවෙලන්හිදී ස්වකීය රේඛාවකින් දර්ශනය වන අතර Dense හිදී කාමර නාමයට යාබදව ඇතුළත් කෙරේ.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>පෙරදසුන, උපශීර්ෂය, කොටස</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>වර්ග කිරීම</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>වර්ගීකරණ අනුපිළිවෙල, අනුපිළිවෙල, අනුපිළිවෙළ ගැසීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>කාමර ලැයිස්තු විවෘත කිරීමේ ප්‍රතිපත්තිය</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>කාමරයක් ක්ලික් කිරීමෙන් ක්‍රියාකාරී ටැබය නැවත භාවිත කරයිද නැතහොත් නව ටැබයක් විවෘත කරයිද යන්න. දැනට ටැබයක් ඇති කාමර සියලු අවස්ථාවලදී ඒ ටැබය සක්‍රීය කරයි.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>ටැබ් හැසිරීම, හැසිරීම, ක්ලික් කරන්න, විවෘත කරන්න</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>ටැබ් තීරය</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>pin බොත්තම පෙන්වන්න</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>කූරු ඇනීම, කූරු ගැසීම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Pin කළ tab ලේබලය</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>කූරු ඇනූ ටැබ්, ටැබ් විලාසය, ලේබල් දෘශ්‍යතාව</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>සාමාන්‍ය ටැබ් ලේබලය</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>ටැබ් විලාසය, ලේබල් දෘශ්‍යතාව</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>කැමති tab පළල</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>ටැබ් ප්‍රමාණය, ටැබ් මිනුම්</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>ටැබ් අවම පළල</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>මෑතකදී වසා දැමූ පූර්ව-විදර්ශිත කාල රේඛා උපරිමය</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>මෑතකදී වසා දැමූ pre-rendered timeline ක්ෂණික කාමර මාරු කිරීම සක්‍රීය කරයි, නමුත් CPU සහ RAM භාවිතය වැඩිවේ. විවෘත tab සැමවිටම pre-rendered වේ. විවෘත tab පමණක් තබා ගැනීමට 0 ලෙස සකසන්න.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>ඉතිහාසය, මෑතකදී වසා දැමූ, කාර්යසාධනය, ram, මතකය</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>ආදානය</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>යැවීමේ යතුර</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පණිවිඩ යවන Enter යතුරු සංයෝජනය තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>යතුරුපුවරු කෙටිමං, යවන යතුර, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Markdown ස්වයංක්‍රීයව HTML බවට පරිවර්තනය කරන්න</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ඉමෝජි</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>ඉමොටිකොන් ස්වයංක්‍රීයව emoji සමඟ ප්‍රතිස්ථාපනය කරන්න</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පණිවිඩයක් යැවීමේදී :) :D :P වැනි පෙළ ඉමොටිකොන් ස්වයංක්‍රීයව ඒවාට අනුරූප emoji සමඟ ප්‍රතිස්ථාපනය කරන්න. සෑම තැනකම හෝ අවසානයේ පමණක් ප්‍රතිස්ථාපනය කළ යුතු දැයි තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>කෙටි කේත, කෝලන් රීතිය, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>ඉමොජි තෝරන්නා</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පණිවිඩ ආදානයේ කොලෝනයක් (:) ටයිප් කළ විට inline emoji තේරුම්කාරකයක් පෙන්වන්න.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>කැමති ලිංගය</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ඉමොජි තෝරන්නා පමණකි: ලබාගත හැකිවිට Unicode-නිර්වචිත ස්ත්‍රී/පුරුෂ ප්‍රභේද (man/woman) කැමති කරන්න. අනෙක් ස්ත්‍රී/පුරුෂ භාවය සඳහා සෙවීම තවමත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;තවත් ඉගෙනන්න&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>ලිංගය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>කැමති සම් වර්ණය</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ඉමොජි තෝරන්නා පමණකි: ලබාගත හැකිවිට එක් සම ස්වර ප්‍රභේදයක් කැමති කරන්න. වෙනත් සම ස්වරයක් සඳහා සෙවීම තවමත් ක්‍රියා කරයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;තවත් ඉගෙනන්න&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>සමේ වර්ණය, සමේ වර්ණ, සම</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>ටයිප් කරන විට අනෙක් අයට පෙන්වන්න</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>සේවාදායකය දැනට සක්‍රිය නොවූ විට ලැබුණු පණිවිඩ ගැන දැනුම් දෙන්න. ඉහත ගිණුම් දැනුම්දීම් සක්‍රිය කළ විට පමණක් මෙය බලාත්මක වේ.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>දැනුම්දීම්වල පණිවිඩ අන්තර්ගතය</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>දැනුම් දීම්වල ඇතුළත් කළ යුතු පණිවිඩ පාඨ ප්‍රමාණය තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>පෞද්ගලිකත්වය, දැනුම්දීම් පෙරදසුන, දැනුම්දීම් පෙළ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>ලැබෙන පණිවිඩ සඳහා යෙදුම් කවුළුව/කාර්ය තීරුව බැබළවන්න</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>අවධානය නැති වූ විට බොඳ කිරීම</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>බොඳ කිරීමේ ප්‍රමාදය (තත්පර)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>අවධානය නැතිවීමෙන් පසු බ්ලර් ආරම්භ වීමට ගතවන කාලය සකසන්න. වහාම බ්ලර් කිරීමට 0 සකසන්න. උපරිමය තත්පර 3600 (පැය 1) කි.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>නිෂ්ක්‍රීය කාලය, ඈත් කාලමාපකය, නිෂ්ක්‍රීය</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>ශ්‍රව්‍ය ආදානය, මයික්‍රෆෝනය</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>කැමරාව</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>වෙබ්කෑමරාව, වීඩියෝ ආදානය</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>කැමරා විභේදනය</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>වීඩියෝ ගුණාත්මකභාවය, වීඩියෝ ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>කැමරා රාමු අනුපාතය</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, තත්පරයට රාමු, සුමට බව</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>රිංටෝනය</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>ඇමතුම් ශබ්දය, ලැබෙන ඇමතුම</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>තිරය බෙදාගැනීම</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Komai දේශීය ඇමතුම්කරුවන්ට කොපමණ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus ප්‍රවේශය&lt;/a&gt; ලබා දෙනවාද යන්න තෝරන්න.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, බාහිර, ස්ක්‍රිප්ටිං, ස්වයංක්‍රීයකරණය</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix කාමර සෙවීම</translation>
     </message>

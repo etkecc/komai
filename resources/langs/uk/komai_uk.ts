@@ -9534,6 +9534,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>онлайн, офлайн, відсутній, недоступний, статус</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Статусне повідомлення</translation>
     </message>
@@ -9578,12 +9583,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Перегляд стрічки повідомлень</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Стиль</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>бульбашка, звичайний, стиль чату</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Горизонтальне розташування</translation>
     </message>
@@ -9593,7 +9603,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Виберіть, чи залишаються повідомлення на одній стороні, чи розміщуються по різні сторони залежно від відправника.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>вирівнювання по лівому краю, вирівнювання по правому краю, вирівнювання</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Максимальна ширина повідомлення (%)</translation>
     </message>
@@ -9603,7 +9618,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Відсоток доступної ширини стрічки, який може займати одне повідомлення.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Кодування кольором відправника/повідомлення</translation>
     </message>
@@ -9613,7 +9628,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Виберіть спосіб призначення кольорів відправника у стрічці та фонах бульбашок.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>колір користувача, колір відправника, колір імені</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Показувати ім'я відправника над повідомленнями</translation>
     </message>
@@ -9624,12 +9644,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Контролює відображення імен відправників над повідомленнями. У режимі бульбашок власне ім'я завжди приховано. У невеликих кімнатах аватари та кольори бульбашок зазвичай дають достатній контекст.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>автор, хто надіслав, автор повідомлення</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Розмір аватара</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>фото профілю, розмір фото</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Показувати аватар поруч із бульбашками власних повідомлень</translation>
     </message>
@@ -9680,7 +9710,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Відгук</translation>
     </message>
@@ -9706,7 +9736,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Дії</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Політика активації дій</translation>
     </message>
@@ -9716,7 +9746,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Виберіть спосіб відкриття дій над повідомленнями.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>наведення, кнопка, реакції, відповідь, реагувати</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Закріплені реакції</translation>
     </message>
@@ -9736,12 +9771,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Відтворювати анімовані зображення лише при наведенні</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Показувати зображення автоматично</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>вбудовані зображення, попередній перегляд зображень</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Відкрити у зовнішній програмі перегляду</translation>
     </message>
@@ -10195,7 +10235,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Зовнішній вигляд</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Тема</translation>
     </message>
@@ -10205,7 +10245,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Потрібно більше тем? Імпортуйте з &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; або &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;створіть власну&lt;/a&gt; (потрібен перезапуск).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Щільність</translation>
     </message>
@@ -10215,48 +10255,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Впливає на відступи, розміри значків та висоту рядків списку.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Мова</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Сімейство шрифтів</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Розмір шрифту</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Більшість елементів інтерфейсу оновлюється одразу. Деякі підписи можуть оновитися лише після перезапуску застосунку.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Шрифти та масштабування</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Сімейство шрифтів емодзі</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Коефіцієнт масштабування [потрібен перезапуск]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Увімкнути анімації інтерфейсу</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>локаль, переклад, i18n, локалізація</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>колір, кольори, шкіра, шпалери, вигляд</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>відступи, поля, компактний, зручний, розташування</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>анімація, зменшити анімацію, доступність</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Видимість смуги прокрутки</translation>
     </message>
@@ -10266,7 +10326,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Керує тим, коли у застосунку відображаються смуги прокручування.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>смуга прокрутки, прокрутка</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>гарнітура, шрифт</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>розмір тексту, масштаб, читабельність</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>шрифт емодзі</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, масштаб, hidpi, роздільна здатність</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Аватари</translation>
     </message>
@@ -10276,12 +10361,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Перегляд аватара</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Використовувати круглі аватари</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>круглі аватари, круглий, округлість, аватари у вигляді кола, форма аватара</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Стиль аватара за замовчуванням</translation>
     </message>
@@ -10291,23 +10381,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Відображається для користувачів і кімнат, у яких немає власного аватара.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>запасний аватар, заповнювач аватара, ініціали</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Бічна панель спільнот</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Показувати індикатори непрочитаних</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Показувати індикатори непрочитаного (лічильники, виділення рядка та маркер лівого краю) у фільтрах спільноти та тегів.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>значки, сповіщення, кількість непрочитаних</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Всі кімнати</translation>
     </message>
@@ -10382,17 +10483,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Список кімнат</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Показувати індикатори непрочитаного (лічильники, жирна назва кімнати, анімація аватара, виділення рядка та маркер лівого краю) поруч із кімнатами.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Показувати час останнього повідомлення</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>час, годинник</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Показувати попередній перегляд останнього повідомлення</translation>
     </message>
@@ -10402,12 +10508,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Додає попередній перегляд останнього повідомлення до записів у списку кімнат. Відображається на окремому рядку в макетах «Просторий» і «Компактний» та вбудовано поруч з назвою кімнати у «Щільному».</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>попередній перегляд, підзаголовок, уривок</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Сортування</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>порядок сортування, порядок, впорядкування</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Політика відкриття списку кімнат</translation>
     </message>
@@ -10417,37 +10533,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Визначає, чи клацання по кімнаті повторно використовує активну вкладку, чи відкриває нову. Кімнати з наявною вкладкою завжди її активують.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>поведінка вкладки, поведінка, клік, відкрити</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Панель вкладок</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Показувати кнопку закріплення</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>закріпити, закріплення</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Назва закріпленої вкладки</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>закріплена вкладка, стиль вкладки, видимість мітки</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Назва звичайної вкладки</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>стиль вкладки, видимість мітки</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Бажана ширина вкладки</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>розмір вкладки, розміри вкладки</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Мінімальна ширина вкладки</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Макс. нещодавно закритих попередньо відрендерених стрічок</translation>
     </message>
@@ -10457,12 +10599,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Нещодавно закриті попередньо відтворені стрічки дають змогу миттєво перемикатися між кімнатами, але збільшують використання ЦП та ОЗП. Відкриті вкладки завжди попередньо відтворюються. Встановіть 0, щоб зберігати лише відкриті вкладки.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>історія, нещодавно закриті, продуктивність, ram, пам'ять</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Введення</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Клавіша надсилання</translation>
     </message>
@@ -10472,7 +10619,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Виберіть, яка комбінація клавіші Enter надсилає повідомлення.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>клавіатурне скорочення, клавіша надсилання, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Автоматично конвертувати Markdown у HTML</translation>
     </message>
@@ -10533,7 +10685,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Емодзі</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Автоматично замінювати смайлики на emoji</translation>
     </message>
@@ -10543,7 +10695,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Автоматично замінювати текстові смайлики на кшталт :) :D :P їхніми еквівалентами emoji при надсиланні повідомлення. Виберіть, чи замінювати скрізь або лише наприкінці.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>короткі коди, синтаксис двокрапки, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Вбудований вибір емодзі</translation>
     </message>
@@ -10553,7 +10710,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Показувати вбудований вибір емодзі при введенні двокрапки (:) у полі повідомлення.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Бажана стать</translation>
     </message>
@@ -10563,7 +10720,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Лише вбудований вибір емодзі: надавати перевагу гендерним варіантам Unicode (чоловік/жінка), якщо доступні. Явний пошук іншого гендера все ще працює. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Дізнатися більше&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>стать</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Бажаний відтінок шкіри</translation>
     </message>
@@ -10573,7 +10735,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Лише вбудований вибір емодзі: надавати перевагу одному варіанту тону шкіри, якщо доступний. Явний пошук іншого тону шкіри все ще працює. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Дізнатися більше&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>колір шкіри, відтінок шкіри, шкіра</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Показувати іншим, що я пишу</translation>
     </message>
@@ -10608,7 +10775,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Сповіщати про отримані повідомлення, коли клієнт не у фокусі. Діє лише якщо сповіщення для облікового запису увімкнені вище.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Вміст повідомлень у сповіщеннях</translation>
     </message>
@@ -10618,7 +10785,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Виберіть, скільки тексту повідомлення включати до сповіщень.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>конфіденційність, попередній перегляд сповіщень, текст сповіщення</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Мигати вікном програми/панеллю завдань при вхідних повідомленнях</translation>
     </message>
@@ -10688,7 +10860,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Розмиття при втраті фокусу</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Затримка розмиття (секунди)</translation>
     </message>
@@ -10696,6 +10868,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Встановіть час затримки після втрати фокусу до початку розмиття. Встановіть 0 для негайного розмиття. Максимум — 3600 секунд (1 година).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>неактивність, таймер відсутності, простій</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10734,26 +10911,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>аудіовхід, мікрофон</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Камера</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>веб-камера, відеовхід</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Роздільна здатність камери</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>якість відео, розмір відео</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Частота кадрів камери</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, кадрів на секунду, плавність</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Рингтон</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>звук виклику, вхідний виклик</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Демонстрація екрана</translation>
     </message>
@@ -10798,7 +11000,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Виберіть, скільки &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;доступу D-Bus&lt;/a&gt; Komai надає локальним клієнтам.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, зовнішній, скриптинг, автоматизація</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Пошук кімнат Matrix</translation>
     </message>

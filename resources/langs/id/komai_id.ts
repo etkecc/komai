@@ -9502,6 +9502,11 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>daring, luring, pergi, tidak tersedia, status</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Pesan status</translation>
     </message>
@@ -9546,12 +9551,17 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pratinjau linimasa</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Gaya</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>gelembung, polos, gaya obrolan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Posisi horizontal</translation>
     </message>
@@ -9561,7 +9571,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pilih apakah pesan tetap di satu sisi atau diposisikan berseberangan berdasarkan pengirim.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>rata kiri, rata kanan, perataan</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Lebar pesan maksimum (%)</translation>
     </message>
@@ -9571,7 +9586,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Persentase lebar timeline yang tersedia yang dapat ditempati oleh satu pesan.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Kode warna pengirim/pesan</translation>
     </message>
@@ -9581,7 +9596,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pilih cara warna pengirim ditetapkan di linimasa dan latar belakang gelembung.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>warna pengguna, warna pengirim, warna nama</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Tampilkan nama pengguna pengirim di atas pesan</translation>
     </message>
@@ -9592,12 +9612,22 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Atur kapan nama pengguna pengirim ditampilkan di atas pesan. Dalam mode gelembung, nama pengguna Anda sendiri selalu tersembunyi. Dalam ruangan yang lebih kecil, avatar dan warna gelembung sering kali sudah cukup sebagai konteks.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>pengarang, pengirim, pengarang pesan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Ukuran avatar</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>foto profil, ukuran gambar</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Tampilkan avatar di samping gelembung pesan sendiri</translation>
     </message>
@@ -9648,7 +9678,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Umpan balik</translation>
     </message>
@@ -9674,7 +9704,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Tindakan</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Kebijakan aktivasi tindakan</translation>
     </message>
@@ -9684,7 +9714,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pilih cara membuka tindakan pesan.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>hover, tombol, reaksi, balas, bereaksi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Reaksi yang disematkan</translation>
     </message>
@@ -9704,12 +9739,17 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Putar gambar animasi hanya saat kursor di atasnya</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Tampilkan gambar secara otomatis</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>gambar sebaris, pratinjau gambar</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Buka di penampil eksternal</translation>
     </message>
@@ -10163,7 +10203,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Tampilan</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10173,7 +10213,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Butuh lebih banyak tema? Impor dari &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; atau &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;buat sendiri&lt;/a&gt; (perlu mulai ulang).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Kepadatan</translation>
     </message>
@@ -10183,48 +10223,68 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Memengaruhi spasi, ukuran ikon, dan tinggi baris daftar.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Bahasa</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Keluarga fon</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Ukuran fon</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Sebagian besar elemen UI diperbarui secara langsung. Beberapa label mungkin hanya diperbarui setelah memulai ulang aplikasi.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Font &amp; penskalaan</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Keluarga fon emoji</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Faktor skala [perlu restart]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Aktifkan animasi UI</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>lokal, terjemahan, i18n, lokalisasi</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>warna, warna-warna, warna, warna-warna, kulit, wallpaper, tampilan</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>spasi, padding, kompak, nyaman, tata letak</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>gerak, kurangi gerak, aksesibilitas</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Visibilitas scrollbar</translation>
     </message>
@@ -10234,7 +10294,32 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Mengontrol kapan bilah gulir ditampilkan di seluruh aplikasi.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>bilah gulir, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>jenis huruf, font</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>ukuran teks, zoom, keterbacaan</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>jenis huruf emoji</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoom, hidpi, resolusi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatar</translation>
     </message>
@@ -10244,12 +10329,17 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pratinjau avatar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Gunakan avatar lingkaran</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>avatar bulat, bulat, kebulatan, avatar lingkaran, bentuk avatar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Gaya avatar bawaan</translation>
     </message>
@@ -10259,23 +10349,34 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Ditampilkan untuk pengguna dan ruangan yang tidak memiliki avatar khusus.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar cadangan, avatar pengganti, inisial</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Bilah samping komunitas</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Tampilkan indikator belum dibaca</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Tampilkan penekanan belum dibaca (lencana jumlah, sorotan baris, dan penanda tepi kiri) pada filter komunitas dan tag.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>lencana, notifikasi, jumlah belum dibaca</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Semua ruangan</translation>
     </message>
@@ -10350,17 +10451,22 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Daftar ruangan</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Tampilkan penekanan belum dibaca (lencana jumlah, nama ruangan tebal, pantulan avatar, sorotan baris, dan penanda tepi kiri) di samping ruangan.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Tampilkan cap waktu pesan terakhir</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>waktu, jam</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Tampilkan pratinjau pesan terakhir</translation>
     </message>
@@ -10370,12 +10476,22 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Menambahkan pratinjau pesan terakhir ke entri daftar ruangan. Ditampilkan pada baris tersendiri di tata letak Luas dan Kompak, serta sebaris di samping nama ruangan di tata letak Padat.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>pratinjau, subjudul, cuplikan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Pengurutan</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>urutan pengurutan, urutan, pengurutan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Kebijakan pembukaan daftar ruangan</translation>
     </message>
@@ -10385,37 +10501,63 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Apakah mengklik ruangan menggunakan ulang tab aktif atau membuka tab baru. Ruangan dengan tab yang sudah ada akan diaktifkan dalam semua kasus.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>perilaku tab, perilaku, klik, buka</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Bilah tab</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Tampilkan tombol sematkan</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>sematkan, penyematan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Label tab yang disematkan</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>tab disematkan, gaya tab, visibilitas label</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Label tab reguler</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>gaya tab, visibilitas label</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Lebar tab pilihan</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>ukuran tab, dimensi tab</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Lebar tab minimum</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Maks linimasa pra-render yang baru ditutup</translation>
     </message>
@@ -10425,12 +10567,17 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Timeline yang baru ditutup dan telah dirender sebelumnya memungkinkan perpindahan ruangan secara instan, tetapi meningkatkan penggunaan CPU dan RAM. Tab yang terbuka selalu dirender sebelumnya. Atur ke 0 untuk hanya menyimpan tab yang terbuka.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>riwayat, baru saja ditutup, performa, ram, memori</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Input</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Tombol kirim</translation>
     </message>
@@ -10440,7 +10587,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pilih kombinasi tombol Enter yang mengirim pesan.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>pintasan keyboard, tombol kirim, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Otomatis konversi Markdown ke HTML</translation>
     </message>
@@ -10501,7 +10653,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Otomatis ganti emotikon dengan emoji</translation>
     </message>
@@ -10511,7 +10663,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Secara otomatis mengganti emotikon teks seperti :) :D :P dengan padanan emoji saat mengirim pesan. Pilih apakah penggantian dilakukan di mana saja atau hanya di akhir.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>kode singkat, sintaks titik dua, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Pemilih emoji sebaris</translation>
     </message>
@@ -10521,7 +10678,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Tampilkan pemilih emoji sebaris saat mengetik titik dua (:) di kolom pesan.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Preferensi gender</translation>
     </message>
@@ -10531,7 +10688,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Khusus pemilih emoji sebaris: utamakan varian gender yang ditentukan Unicode (pria/wanita) jika tersedia. Mencari secara eksplisit gender lain tetap bisa dilakukan. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Pelajari lebih lanjut&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>jenis kelamin</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Preferensi warna kulit</translation>
     </message>
@@ -10541,7 +10703,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Khusus pemilih emoji sebaris: utamakan satu varian warna kulit jika tersedia. Mencari secara eksplisit warna kulit lain tetap bisa dilakukan. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Pelajari lebih lanjut&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>warna kulit, warna kulit, kulit</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Tampilkan kepada orang lain saat sedang mengetik</translation>
     </message>
@@ -10576,7 +10743,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Beri tahu tentang pesan yang diterima ketika klien tidak sedang aktif. Ini hanya berlaku ketika notifikasi akun diaktifkan di atas.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Konten pesan dalam notifikasi</translation>
     </message>
@@ -10586,7 +10753,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pilih seberapa banyak teks pesan yang disertakan dalam notifikasi.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>privasi, pratinjau notifikasi, teks notifikasi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Kedipkan jendela/bilah tugas aplikasi saat pesan masuk</translation>
     </message>
@@ -10656,7 +10828,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Buram saat kehilangan fokus</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Penundaan buram (detik)</translation>
     </message>
@@ -10664,6 +10836,11 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Atur berapa lama setelah kehilangan fokus sebelum pemburaman dimulai. Atur 0 untuk memburkan segera. Maksimum adalah 3600 detik (1 jam).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>tidak aktif, timer pergi, idle</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10702,26 +10879,51 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>masukan audio, mikrofon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webcam, masukan video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Resolusi kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>kualitas video, ukuran video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Kecepatan bingkai kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, frame per detik, kelancaran</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Nada dering</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>suara panggilan, panggilan masuk</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Berbagi layar</translation>
     </message>
@@ -10766,7 +10968,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Pilih seberapa banyak &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;akses D-Bus&lt;/a&gt; yang ditampilkan Komai kepada pemanggil lokal.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, eksternal, skripting, otomasi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Pencarian Ruangan Matrix</translation>
     </message>

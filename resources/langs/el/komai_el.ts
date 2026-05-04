@@ -9518,6 +9518,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>σε σύνδεση, εκτός σύνδεσης, απών, μη διαθέσιμο, κατάσταση</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Μήνυμα κατάστασης</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Προεπισκόπηση ροής μηνυμάτων</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Στυλ</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>φούσκα, απλό, στυλ συνομιλίας</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Οριζόντια τοποθέτηση</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επιλέξτε αν τα μηνύματα παραμένουν σε μία πλευρά ή τοποθετούνται αντίθετα ανά αποστολέα.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>αριστερή στοίχιση, δεξιά στοίχιση, στοίχιση</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Μέγιστο πλάτος μηνύματος (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Ποσοστό του διαθέσιμου πλάτους της λίστας μηνυμάτων που μπορεί να καταλαμβάνει ένα μόνο μήνυμα.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Χρωματική κωδικοποίηση αποστολέα/μηνύματος</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επιλέξτε πώς αντιστοιχίζονται τα χρώματα αποστολέα στη χρονολογία και στα φόντα φυσαλίδων.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>χρώμα χρήστη, χρώμα αποστολέα, χρώμα ονόματος</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Εμφάνιση ονόματος χρήστη αποστολέα πάνω από τα μηνύματα</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Έλεγχος πότε εμφανίζονται τα ονόματα χρηστών αποστολέων πάνω από τα μηνύματα. Στη λειτουργία φυσαλίδας, το δικό σας όνομα χρήστη είναι πάντα κρυφό. Σε μικρότερα δωμάτια, τα avatar και τα χρώματα φυσαλίδων συχνά παρέχουν αρκετό πλαίσιο.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>αποστολέας, ποιος έστειλε, συγγραφέας μηνύματος</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Μέγεθος άβαταρ</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>φωτογραφία προφίλ, μέγεθος φωτογραφίας</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Εμφάνιση avatar δίπλα στις δικές σας φυσαλίδες μηνυμάτων</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Ανάδραση</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Ενέργειες</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Πολιτική ενεργοποίησης ενεργειών</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επιλέξτε πώς ανοίγουν οι ενέργειες μηνύματος.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>hover, κουμπί, αντιδράσεις, απάντηση, αντίδραση</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Καρφιτσωμένες αντιδράσεις</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Αναπαραγωγή κινούμενων εικόνων μόνο κατά την τοποθέτηση του δείκτη</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Αυτόματη εμφάνιση εικόνων</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>ενσωματωμένες εικόνες, προεπισκόπηση εικόνας</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Άνοιγμα σε εξωτερικό πρόγραμμα προβολής</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Εμφάνιση</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Θέμα</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Θέλετε περισσότερα θέματα; Εισαγάγετε από την &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ή &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;δημιουργήστε το δικό σας&lt;/a&gt; (απαιτείται επανεκκίνηση).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Πυκνότητα</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επηρεάζει την απόσταση, τα μεγέθη εικονιδίων και τα ύψη γραμμών λίστας.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Γλώσσα</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Οικογένεια γραμματοσειράς</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Μέγεθος γραμματοσειράς</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Τα περισσότερα στοιχεία διεπαφής ενημερώνονται σε πραγματικό χρόνο. Ορισμένες ετικέτες ενδέχεται να ενημερώνονται μόνο μετά την επανεκκίνηση της εφαρμογής.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Γραμματοσειρές &amp; κλιμάκωση</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Οικογένεια γραμματοσειράς emoji</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Συντελεστής κλίμακας [απαιτείται επανεκκίνηση]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Ενεργοποίηση κινούμενων γραφικών διεπαφής</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>γλωσσικές ρυθμίσεις, μετάφραση, i18n, τοπικοποίηση</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>χρώμα, χρώματα, χρώμα, χρώματα, θέμα, ταπετσαρία, εμφάνιση</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>απόσταση, padding, συμπαγές, άνετο, διάταξη</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>κίνηση, μείωση κίνησης, προσβασιμότητα</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Ορατότητα γραμμής κύλισης</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Ελέγχει πότε εμφανίζονται οι γραμμές κύλισης στην εφαρμογή.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>γραμμή κύλισης, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>γραμματοσειρά, font</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>μέγεθος κειμένου, ζουμ, αναγνωσιμότητα</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>γραμματοσειρά emoji</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, ζουμ, hidpi, ανάλυση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Άβαταρ</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Προεπισκόπηση avatar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Χρήση κυκλικών avatar</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>στρογγυλά avatars, στρογγυλό, στρογγυλότητα, κυκλικά avatars, σχήμα avatar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Προεπιλεγμένο στυλ άβαταρ</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Εμφανίζεται για χρήστες και δωμάτια χωρίς προσαρμοσμένο avatar.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>εφεδρικό avatar, placeholder avatar, αρχικά</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Πλαϊνή μπάρα κοινοτήτων</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Εμφάνιση δεικτών αδιάβαστων</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Εμφάνιση έμφασης αδιάβαστων (σήματα μέτρησης, επισήμανση γραμμής και αριστερός δείκτης) στα φίλτρα κοινότητας και ετικετών.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>σήματα, ειδοποιήσεις, αριθμός μη αναγνωσμένων</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Όλα τα δωμάτια</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Λίστα δωματίων</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Εμφάνιση έμφασης αδιάβαστων (σήματα μέτρησης, έντονο όνομα δωματίου, κίνηση avatar, επισήμανση γραμμής και αριστερός δείκτης) δίπλα στα δωμάτια.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Εμφάνιση χρονικής σήμανσης τελευταίου μηνύματος</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>ώρα, ρολόι</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Εμφάνιση προεπισκόπησης τελευταίου μηνύματος</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Προσθέτει προεπισκόπηση τελευταίου μηνύματος στις καταχωρήσεις της λίστας δωματίων. Εμφανίζεται σε ξεχωριστή γραμμή στις διατάξεις Ευρύχωρο και Συμπαγές, και ενσωματωμένο δίπλα στο όνομα του δωματίου στο Πυκνό.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>προεπισκόπηση, υπότιτλος, απόσπασμα</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Ταξινόμηση</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>σειρά ταξινόμησης, σειρά, ταξινόμηση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Πολιτική ανοίγματος λίστας δωματίων</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Καθορίζει εάν το κλικ σε δωμάτιο επαναχρησιμοποιεί την ενεργή καρτέλα ή ανοίγει νέα. Τα δωμάτια με υπάρχουσα καρτέλα την ενεργοποιούν σε κάθε περίπτωση.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>συμπεριφορά καρτέλας, συμπεριφορά, κλικ, άνοιγμα</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Γραμμή καρτελών</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Εμφάνιση κουμπιού καρφιτσώματος</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>καρφίτσα, καρφίτσωμα</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Ετικέτα καρφιτσωμένης καρτέλας</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>καρφιτσωμένη καρτέλα, στυλ καρτέλας, ορατότητα ετικέτας</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Ετικέτα κανονικής καρτέλας</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>στυλ καρτέλας, ορατότητα ετικέτας</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Προτιμώμενο πλάτος καρτέλας</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>μέγεθος καρτέλας, διαστάσεις καρτέλας</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Ελάχιστο πλάτος καρτέλας</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Μέγιστα προαποδοθέντα χρονολόγια πρόσφατα κλεισμένων</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Οι πρόσφατα κλειστές προαποδοθείσες λίστες μηνυμάτων επιτρέπουν άμεση εναλλαγή δωματίων αλλά αυξάνουν τη χρήση CPU και RAM. Οι ανοιχτές καρτέλες είναι πάντα προαποδοθείσες. Ορίστε σε 0 για να διατηρείτε μόνο τις ανοιχτές καρτέλες.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>ιστορικό, πρόσφατα κλειστά, απόδοση, ram, μνήμη</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Εισαγωγή</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Πλήκτρο αποστολής</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επιλέξτε ποιον συνδυασμό πλήκτρου Enter αποστέλλει μηνύματα.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>συντόμευση πληκτρολογίου, πλήκτρο αποστολής, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Αυτόματη μετατροπή Markdown σε HTML</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Αυτόματη αντικατάσταση emoticon με emoji</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Αυτόματη αντικατάσταση κειμενικών emoticon όπως :) :D :P με τα αντίστοιχα emoji κατά την αποστολή μηνύματος. Επιλέξτε αν θα αντικαθίστανται παντού ή μόνο στο τέλος.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>συντομογραφίες, σύνταξη με άνω κάτω τελεία, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Ενσωματωμένος επιλογέας emoji</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Εμφάνιση επιλογέα emoji κατά την πληκτρολόγηση άνω και κάτω τελείας (:) στο πεδίο μηνύματος.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Προτιμώμενο φύλο</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Μόνο για τον ενσωματωμένο επιλογέα emoji: προτίμηση παραλλαγών φύλου που ορίζει το Unicode (άνδρας/γυναίκα) όταν είναι διαθέσιμες. Η ρητή αναζήτηση για το άλλο φύλο εξακολουθεί να λειτουργεί. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>φύλο</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Προτιμώμενη χροιά δέρματος</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Μόνο για τον ενσωματωμένο επιλογέα emoji: προτίμηση μίας παραλλαγής χροιάς δέρματος όταν είναι διαθέσιμη. Η ρητή αναζήτηση για άλλη χροιά δέρματος εξακολουθεί να λειτουργεί. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>χρώμα δέρματος, χρώμα δέρματος, δέρμα</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Εμφάνιση στους άλλους όταν πληκτρολογώ</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Ειδοποίηση για ληφθέντα μηνύματα όταν ο πελάτης δεν είναι εστιασμένος. Αυτό ισχύει μόνο όταν οι ειδοποιήσεις λογαριασμού είναι ενεργοποιημένες παραπάνω.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Περιεχόμενο μηνύματος στις ειδοποιήσεις</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επιλέξτε πόσο κείμενο μηνύματος να συμπεριλαμβάνεται στις ειδοποιήσεις.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>απόρρητο, προεπισκόπηση ειδοποίησης, κείμενο ειδοποίησης</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Αναλαμπή παραθύρου/γραμμής εργασιών για εισερχόμενα μηνύματα</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Θόλωμα κατά απώλεια εστίασης</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Καθυστέρηση θολώματος (δευτερόλεπτα)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Ορίστε πόσο χρόνο μετά την απώλεια εστίασης ξεκινά η θόλωση. Ορίστε 0 για άμεση θόλωση. Το μέγιστο είναι 3600 δευτερόλεπτα (1 ώρα).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>αδράνεια, χρονόμετρο απουσίας, αδρανές</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>είσοδος ήχου, μικρόφωνο</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Κάμερα</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>κάμερα web, είσοδος βίντεο</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Ανάλυση κάμερας</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>ποιότητα βίντεο, μέγεθος βίντεο</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Ρυθμός καρέ κάμερας</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, καρέ ανά δευτερόλεπτο, ομαλότητα</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Ήχος κλήσης</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>ήχος κλήσης, εισερχόμενη κλήση</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Κοινή χρήση οθόνης</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επιλέξτε πόση &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;πρόσβαση D-Bus&lt;/a&gt; εκθέτει το Komai στους τοπικούς καλούντες.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, εξωτερικό, scripting, αυτοματισμός</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Αναζήτηση δωματίων Matrix</translation>
     </message>

@@ -9502,6 +9502,11 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>trực tuyến, ngoại tuyến, vắng mặt, không có sẵn, trạng thái</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Tin nhắn trạng thái</translation>
     </message>
@@ -9546,12 +9551,17 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Xem trước dòng thời gian</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Kiểu</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>bong bóng, đơn giản, kiểu chat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Vị trí ngang</translation>
     </message>
@@ -9561,7 +9571,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chọn liệu tin nhắn hiển thị ở một phía hay được định vị đối diện nhau theo người gửi.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>căn trái, căn phải, căn chỉnh</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Chiều rộng tin nhắn tối đa (%)</translation>
     </message>
@@ -9571,7 +9586,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Phần trăm chiều rộng dòng thời gian có sẵn mà một tin nhắn có thể chiếm.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Mã màu người gửi/tin nhắn</translation>
     </message>
@@ -9581,7 +9596,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chọn cách gán màu người gửi trong dòng thời gian và nền bong bóng.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>màu người dùng, màu người gửi, màu tên</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Hiển thị tên người gửi phía trên tin nhắn</translation>
     </message>
@@ -9592,12 +9612,22 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Kiểm soát thời điểm hiển thị tên người gửi phía trên tin nhắn. Trong chế độ bong bóng, tên của bạn luôn được ẩn. Trong các phòng nhỏ, ảnh đại diện và màu bong bóng thường đã đủ nhận diện.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>tác giả, người gửi, tác giả tin nhắn</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Kích thước ảnh đại diện</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>ảnh đại diện, kích thước ảnh</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Hiển thị ảnh đại diện bên cạnh bong bóng tin nhắn của bạn</translation>
     </message>
@@ -9648,7 +9678,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Phản hồi</translation>
     </message>
@@ -9674,7 +9704,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hành động</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Chính sách kích hoạt thao tác</translation>
     </message>
@@ -9684,7 +9714,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chọn cách mở thao tác tin nhắn.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>di chuột, nút, phản ứng, trả lời, phản hồi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Phản ứng đã ghim</translation>
     </message>
@@ -9704,12 +9739,17 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Phát ảnh động chỉ khi di chuột qua</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Hiển thị ảnh tự động</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>hình ảnh nội tuyến, xem trước hình ảnh</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Mở trong trình xem ngoài</translation>
     </message>
@@ -10163,7 +10203,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Giao diện</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Chủ đề</translation>
     </message>
@@ -10173,7 +10213,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Cần thêm chủ đề? Nhập từ &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; hoặc &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;tạo của riêng bạn&lt;/a&gt; (cần khởi động lại).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Mật độ</translation>
     </message>
@@ -10183,48 +10223,68 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Ảnh hưởng đến khoảng cách, kích thước biểu tượng và chiều cao hàng danh sách.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Ngôn ngữ</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Họ phông chữ</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Cỡ chữ</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Hầu hết các thành phần giao diện cập nhật trực tiếp. Một số nhãn có thể chỉ cập nhật sau khi khởi động lại ứng dụng.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Phông chữ &amp; tỷ lệ</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Họ phông chữ Emoji</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Hệ số tỷ lệ [cần khởi động lại]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Bật hoạt ảnh giao diện</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>ngôn ngữ, bản dịch, i18n, nội địa hóa</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>màu sắc, màu, giao diện, hình nền, giao diện</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>khoảng cách, đệm, gọn gàng, thoải mái, bố cục</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>chuyển động, giảm chuyển động, trợ năng</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Hiển thị thanh cuộn</translation>
     </message>
@@ -10234,7 +10294,32 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Kiểm soát thời điểm hiển thị thanh cuộn trong toàn ứng dụng.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>thanh cuộn, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>kiểu chữ, phông chữ</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>cỡ chữ, thu phóng, khả năng đọc</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>phông chữ emoji</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, thu phóng, hidpi, độ phân giải</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Ảnh đại diện</translation>
     </message>
@@ -10244,12 +10329,17 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Xem trước ảnh đại diện</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Sử dụng ảnh đại diện hình tròn</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>avatar tròn, tròn, độ tròn, avatar hình tròn, hình dạng avatar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Kiểu ảnh đại diện mặc định</translation>
     </message>
@@ -10259,23 +10349,34 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hiển thị cho người dùng và phòng không có ảnh đại diện tùy chỉnh.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar dự phòng, ảnh đại diện mặc định, chữ viết tắt</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Thanh bên cộng đồng</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Hiển thị chỉ báo chưa đọc</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Hiển thị điểm nhấn chưa đọc (huy hiệu đếm, tô sáng hàng và dấu cạnh trái) trên bộ lọc cộng đồng và thẻ.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>huy hiệu, thông báo, số chưa đọc</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Tất cả phòng</translation>
     </message>
@@ -10350,17 +10451,22 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Danh sách phòng</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Hiển thị điểm nhấn chưa đọc (huy hiệu đếm, tên phòng in đậm, avatar nhảy, tô sáng hàng và dấu cạnh trái) bên cạnh phòng.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Hiển thị dấu thời gian tin nhắn cuối</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>thời gian, đồng hồ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Hiển thị xem trước tin nhắn cuối</translation>
     </message>
@@ -10370,12 +10476,22 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Thêm xem trước tin nhắn cuối vào danh sách phòng. Hiển thị trên dòng riêng trong bố cục Rộng rãi và Nhỏ gọn, và hiển thị cùng dòng tên phòng trong bố cục Dày đặc.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>xem trước, phụ đề, đoạn trích</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Sắp xếp</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>thứ tự sắp xếp, thứ tự, sắp xếp</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Chính sách mở danh sách phòng</translation>
     </message>
@@ -10385,37 +10501,63 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Xác định việc nhấp vào phòng sẽ tái sử dụng tab hiện tại hay mở tab mới. Các phòng đã có tab sẵn sẽ luôn được kích hoạt tab đó.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>hành vi tab, hành vi, nhấp, mở</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Thanh tab</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Hiển thị nút ghim</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>ghim, ghim tab</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Nhãn tab đã ghim</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>tab đã ghim, kiểu tab, hiển thị nhãn</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Nhãn tab thông thường</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>kiểu tab, hiển thị nhãn</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Độ rộng tab ưu tiên</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>kích thước tab, kích thước tab</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Chiều rộng tab tối thiểu</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Số dòng thời gian đã đóng gần đây được kết xuất trước tối đa</translation>
     </message>
@@ -10425,12 +10567,17 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Dòng thời gian được kết xuất trước của các tab vừa đóng cho phép chuyển phòng tức thì nhưng tăng mức sử dụng CPU và RAM. Các tab đang mở luôn được kết xuất trước. Đặt thành 0 để chỉ giữ các tab đang mở.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>lịch sử, mới đóng gần đây, hiệu suất, ram, bộ nhớ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Nhập liệu</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Phím gửi</translation>
     </message>
@@ -10440,7 +10587,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chọn tổ hợp phím Enter để gửi tin nhắn.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>phím tắt, phím gửi, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Tự động chuyển đổi Markdown sang HTML</translation>
     </message>
@@ -10501,7 +10653,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Tự động thay thế biểu tượng cảm xúc bằng emoji</translation>
     </message>
@@ -10511,7 +10663,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Tự động thay thế biểu tượng cảm xúc dạng văn bản như :) :D :P bằng emoji tương đương khi gửi tin nhắn. Chọn thay thế ở mọi nơi hoặc chỉ ở cuối.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>mã ngắn, cú pháp dấu hai chấm, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Bộ chọn emoji nội tuyến</translation>
     </message>
@@ -10521,7 +10678,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hiển thị bộ chọn emoji nội tuyến khi bạn gõ dấu hai chấm (:) trong ô nhập tin nhắn.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Giới tính ưu tiên</translation>
     </message>
@@ -10531,7 +10688,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chỉ bộ chọn emoji nội tuyến: ưu tiên biến thể giới tính do Unicode định nghĩa (nam/nữ) khi có sẵn. Tìm kiếm rõ ràng cho giới tính kia vẫn hoạt động. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>giới tính</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Tông màu da ưu tiên</translation>
     </message>
@@ -10541,7 +10703,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chỉ bộ chọn emoji nội tuyến: ưu tiên một biến thể màu da khi có sẵn. Tìm kiếm rõ ràng cho màu da khác vẫn hoạt động. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>màu da, màu da, da</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Hiển thị cho người khác khi tôi đang gõ</translation>
     </message>
@@ -10576,7 +10743,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Thông báo về tin nhắn nhận được khi client không được tập trung. Chỉ có hiệu lực khi thông báo tài khoản được bật ở trên.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Nội dung tin nhắn trong thông báo</translation>
     </message>
@@ -10586,7 +10753,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chọn lượng nội dung tin nhắn được hiển thị trong thông báo.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>quyền riêng tư, xem trước thông báo, nội dung thông báo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Nhấp nháy cửa sổ ứng dụng/thanh tác vụ khi có tin nhắn đến</translation>
     </message>
@@ -10656,7 +10828,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Làm mờ khi mất tiêu điểm</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Độ trễ làm mờ (giây)</translation>
     </message>
@@ -10664,6 +10836,11 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Đặt thời gian chờ sau khi mất tiêu điểm trước khi bắt đầu làm mờ. Đặt 0 để làm mờ ngay lập tức. Tối đa là 3600 giây (1 giờ).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>không hoạt động, hẹn giờ vắng mặt, nhàn rỗi</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10702,26 +10879,51 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>đầu vào âm thanh, micro</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Camera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webcam, đầu vào video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Độ phân giải camera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>chất lượng video, kích thước video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Tốc độ khung hình camera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, khung hình mỗi giây, độ mượt</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Nhạc chuông</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>âm thanh cuộc gọi, cuộc gọi đến</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Chia sẻ màn hình</translation>
     </message>
@@ -10766,7 +10968,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Chọn mức độ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;quyền truy cập D-Bus&lt;/a&gt; mà Komai cung cấp cho các ứng dụng cục bộ.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, ngoài, scripting, tự động hóa</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Tìm kiếm phòng Matrix</translation>
     </message>

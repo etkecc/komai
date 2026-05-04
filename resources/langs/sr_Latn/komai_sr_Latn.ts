@@ -9534,6 +9534,11 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, odsutan, nedostupan, status</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Statusna poruka</translation>
     </message>
@@ -9578,12 +9583,17 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Pregled tajmlajna</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stil</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>balon, obično, stil razgovora</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Horizontalno pozicioniranje</translation>
     </message>
@@ -9593,7 +9603,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izaberite da li poruke ostaju na jednoj strani ili su raspoređene nasuprotno prema pošiljaocu.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>poravnanje levo, poravnanje desno, poravnanje</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maksimalna širina poruke (%)</translation>
     </message>
@@ -9603,7 +9618,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Procenat dostupne širine vremenske linije koji može da zauzme jedna poruka.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Kodiranje bojama pošiljaoca/poruke</translation>
     </message>
@@ -9613,7 +9628,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izaberite kako se dodeljuju boje pošiljalaca u osi i pozadinama mehurića.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>boja korisnika, boja pošiljaoca, boja imena</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Prikaži korisničko ime pošiljaoca iznad poruka</translation>
     </message>
@@ -9624,12 +9644,22 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Kontroliše kada se korisnička imena pošiljaoca prikazuju iznad poruka. U režimu mehurića, tvoje korisničko ime je uvek skriveno. U manjim sobama, avatari i boje mehurića su često dovoljan kontekst.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>autor, ko je poslao, autor poruke</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Veličina avatara</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profilna slika, veličina slike</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Prikaži avatar pored sopstvenih balona poruka</translation>
     </message>
@@ -9680,7 +9710,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Povratne informacije</translation>
     </message>
@@ -9706,7 +9736,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Akcije</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Politika aktivacije akcija</translation>
     </message>
@@ -9716,7 +9746,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izaberite kako se otvaraju akcije za poruke.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>lebdenje, dugme, reakcije, odgovor, reagovati</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Zakačene reakcije</translation>
     </message>
@@ -9736,12 +9771,17 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Reprodukuj animirane slike samo pri prelasku mišem</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Automatski prikaži slike</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>slike u tekstu, pregled slike</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Otvori u eksternom pregledaču</translation>
     </message>
@@ -10195,7 +10235,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izgled</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10205,7 +10245,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Trebaju ti više tema? Uvezi iz &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; ili &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;napravi sopstvenu&lt;/a&gt; (potrebno je restartovanje).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Gustina</translation>
     </message>
@@ -10215,48 +10255,68 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Utiče na razmak, veličine ikona i visine redova liste.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Jezik</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Porodica fontova</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Veličina fonta</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Većina UI elemenata se ažurira odmah. Neki natpisi se možda ažuriraju tek nakon ponovnog pokretanja aplikacije.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Fontovi i skaliranje</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Porodica emoji fontova</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Faktor skaliranja [potreban restart]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Uključi animacije interfejsa</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>lokalizacija, prevod, i18n, lokalna podešavanja</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>boja, boje, koža, pozadina, izgled</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>razmak, margina, kompaktno, udobno, raspored</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>animacija, smanji animaciju, pristupačnost</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Vidljivost klizača</translation>
     </message>
@@ -10266,7 +10326,32 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Kontroliše kada se klizači prikazuju u aplikaciji.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>traka za pomeranje, skrolbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>font, tipografija</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>veličina teksta, zum, čitljivost</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>font emoji znakova</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zum, hidpi, rezolucija</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatari</translation>
     </message>
@@ -10276,12 +10361,17 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Pregled avatara</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Koristiti okrugle avatare</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>okrugli avatari, okruglo, zaobljenost, kružni avatari, oblik avatara</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Podrazumevani stil avatara</translation>
     </message>
@@ -10291,23 +10381,34 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Prikazuje se za korisnike i sobe bez prilagođenog avatara.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>zamena za avatar, placeholder avatara, inicijali</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Bočna traka zajednica</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Prikaži indikatore nepročitanog</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Prikaži naglasak nepročitanog (bedževi sa brojem, isticanje reda i marker na levoj ivici) na filterima zajednice i oznakama.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>bedževi, obaveštenja, broj nepročitanih</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Sve sobe</translation>
     </message>
@@ -10382,17 +10483,22 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Lista soba</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Prikaži naglasak nepročitanog (bedževi sa brojem, podebljano ime sobe, animacija avatara, isticanje reda i marker na levoj ivici) pored soba.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Prikaži vreme poslednje poruke</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>vreme, sat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Prikaži pregled poslednje poruke</translation>
     </message>
@@ -10402,12 +10508,22 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Dodaje pregled poslednje poruke uz stavke liste soba. Prikazuje se na posebnom redu u rasporedima Prostorno i Kompaktno, a u redu pored naziva sobe u Gusto.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>pregled, podnaslov, isečak</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Sortiranje</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>redosled sortiranja, redosled, sortiranje</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Politika otvaranja liste soba</translation>
     </message>
@@ -10417,37 +10533,63 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Da li klik na sobu ponovo koristi aktivnu karticu ili otvara novu. Sobe sa postojećom karticom uvek aktiviraju tu karticu.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>ponašanje kartice, ponašanje, klik, otvoriti</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Traka kartica</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Prikaži dugme za zakačivanje</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>pinovanje, zakačiti</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Oznaka zakačenog taba</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>zakačena kartica, stil kartice, vidljivost oznake</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Oznaka regularnog taba</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>stil kartice, vidljivost oznake</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Željena širina taba</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>veličina kartice, dimenzije kartice</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minimalna širina kartice</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Maks. nedavno zatvorenih prethodno renderovanih tajmlajni</translation>
     </message>
@@ -10457,12 +10599,17 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Nedavno zatvorene unapred prikazane vremenske linije omogućavaju trenutno prebacivanje između soba, ali povećavaju upotrebu CPU-a i RAM-a. Otvoreni tabovi su uvek unapred prikazani. Postavi na 0 da bi se čuvali samo otvoreni tabovi.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>istorija, nedavno zatvoreno, performanse, ram, memorija</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Unos</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Taster za slanje</translation>
     </message>
@@ -10472,7 +10619,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izaberite koja kombinacija tipke Enter šalje poruke.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>prečica na tastaturi, taster za slanje, Enter, Shift+Enter, Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Automatski konvertuj Markdown u HTML</translation>
     </message>
@@ -10533,7 +10685,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Automatski zameni emotikone emojijima</translation>
     </message>
@@ -10543,7 +10695,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Automatski zamenjuje tekstualne emotikone poput :) :D :P njihovim ekvivalentima u emojiju pri slanju poruke. Izaberite da li da se zamenjuje svuda ili samo na kraju.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>šifre emoji znakova, sintaksa dvotačke, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Ugrađeni birač emojija</translation>
     </message>
@@ -10553,7 +10710,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Prikaži birač emojija u liniji kada ukucate dvotačku (:) u polje za unos poruke.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Željeni rod</translation>
     </message>
@@ -10563,7 +10720,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Samo za ugrađeni birač emojija: preferuj Unicode varijante roda (muška/ženska) kada su dostupne. Pretraga za drugi rod i dalje funkcioniše. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>pol</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Željeni ton kože</translation>
     </message>
@@ -10573,7 +10735,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Samo za ugrađeni birač emojija: preferuj jednu varijantu boje kože kada je dostupna. Pretraga za drugi ten i dalje funkcioniše. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>boja kože, ton kože, koža</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Prikaži drugima kada kucam</translation>
     </message>
@@ -10608,7 +10775,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Obaveštavaj o primljenim porukama kada klijent trenutno nije u fokusu. Ovo stupa na snagu samo kada su obaveštenja naloga uključena iznad.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Sadržaj poruke u obaveštenjima</translation>
     </message>
@@ -10618,7 +10785,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izaberite koliko teksta poruke uključiti u obaveštenja.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>privatnost, pregled obaveštenja, tekst obaveštenja</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Treperi prozor aplikacije/traka zadataka pri primljenim porukama</translation>
     </message>
@@ -10688,7 +10860,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Zamućenje pri gubitku fokusa</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Kašnjenje zamućenja (sekunde)</translation>
     </message>
@@ -10696,6 +10868,11 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Postavi koliko sekundi posle gubitka fokusa počinje zamagljivanje. Postavi 0 za trenutno zamagljivanje. Maksimum je 3600 sekundi (1 sat).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>neaktivnost, tajmer odsutnosti, neaktivan</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10734,26 +10911,51 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>audio ulaz, mikrofon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>veb kamera, video ulaz</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Rezolucija kamere</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>kvalitet videa, veličina videa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Broj frejmova kamere</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, sličica u sekundi, glatkoća</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Melodija</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>zvuk poziva, dolazni poziv</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Deljenje ekrana</translation>
     </message>
@@ -10798,7 +11000,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Izaberite koliki &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus pristup&lt;/a&gt; Komai izlaže lokalnim pozivačima.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, eksterno, skriptovanje, automatizacija</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Pretraga Matrix soba</translation>
     </message>

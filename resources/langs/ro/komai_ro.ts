@@ -9534,6 +9534,11 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, absent, indisponibil, stare</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Mesaj de stare</translation>
     </message>
@@ -9578,12 +9583,17 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Previzualizare cronologie</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stil</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>balon, simplu, stil conversație</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Poziționare orizontală</translation>
     </message>
@@ -9593,7 +9603,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Alege dacă mesajele rămân pe o singură parte sau sunt poziționate față în față după expeditor.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>aliniat la stânga, aliniat la dreapta, aliniere</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Lățime maximă a mesajului (%)</translation>
     </message>
@@ -9603,7 +9618,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Procentul din lățimea disponibilă a cronologiei pe care un singur mesaj îl poate ocupa.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Codificare prin culori expeditor/mesaj</translation>
     </message>
@@ -9613,7 +9628,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Alege cum sunt atribuite culorile expeditorului în cronologie și în fundalurile bulelor.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>culoare utilizator, culoare expeditor, culoare nume</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Afișează numele de utilizator al expeditorului deasupra mesajelor</translation>
     </message>
@@ -9624,12 +9644,22 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Controlează când numele expeditorilor sunt afișate deasupra mesajelor. În modul bule, propriul tău nume de utilizator este întotdeauna ascuns. În camerele mai mici, avatarele și culorile bulelor sunt adesea suficient context.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>autor, cine a trimis, autorul mesajului</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Dimensiune avatar</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>fotografie profil, dimensiune fotografie</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Afișează avatarul lângă bulele proprii de mesaje</translation>
     </message>
@@ -9680,7 +9710,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Feedback</translation>
     </message>
@@ -9706,7 +9736,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Acțiuni</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Politică de activare a acțiunilor</translation>
     </message>
@@ -9716,7 +9746,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Alege cum se deschid acțiunile mesajelor.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>hover, buton, reacții, răspuns, reacționează</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Reacții fixate</translation>
     </message>
@@ -9736,12 +9771,17 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Redă imagini animate doar la trecerea cursorului</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Afișează imaginile automat</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>imagini inline, previzualizare imagine</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Deschide în vizualizator extern</translation>
     </message>
@@ -10195,7 +10235,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Aspect</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Temă</translation>
     </message>
@@ -10205,7 +10245,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Ai nevoie de mai multe teme? Importă din &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; sau &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;creează-ți propria&lt;/a&gt; (repornire necesară).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Densitate</translation>
     </message>
@@ -10215,48 +10255,68 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Afectează spațierea, dimensiunile pictogramelor și înălțimile rândurilor din liste.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Limbă</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Familie de fonturi</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Dimensiune font</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Majoritatea elementelor de interfață se actualizează în timp real. Unele etichete se pot actualiza doar după repornirea aplicației.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Fonturi &amp; scalare</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Familie de fonturi emoji</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Factor de scală [necesită repornire]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Activează animațiile UI</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>localizare, traducere, i18n, localizare</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>culoare, culori, culoare, culori, temă, tapet, aspect</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>spațiere, padding, compact, confortabil, aspect</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>mișcare, reducere mișcare, accesibilitate</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Vizibilitatea barei de derulare</translation>
     </message>
@@ -10266,7 +10326,32 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Controlează când sunt afișate barele de derulare în aplicație.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>bară de derulare, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>tip de font, font</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>dimensiune text, zoom, lizibilitate</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>font emoji</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoom, hidpi, rezoluție</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avataruri</translation>
     </message>
@@ -10276,12 +10361,17 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Previzualizare avatar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Folosește avatare circulare</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>avatare rotunde, rotund, rotunjime, avatare cerc, formă avatar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Stil implicit de avatar</translation>
     </message>
@@ -10291,23 +10381,34 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Afișat pentru utilizatorii și camerele care nu au un avatar personalizat.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar implicit, substituent avatar, inițiale</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Bara laterală a comunităților</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Afișează indicatoare necitite</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Afișează accentul necitit (insigne cu număr, evidențiere rând și marker margine stângă) pe filtrele de comunitate și etichete.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>insigne, notificări, număr necitite</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Toate camerele</translation>
     </message>
@@ -10382,17 +10483,22 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Listă de camere</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Afișează accentul necitit (insigne cu număr, nume cameră îngroșat, animație avatar, evidențiere rând și marker margine stângă) lângă camere.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Afișează marca temporală a ultimului mesaj</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>timp, ceas</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Afișează previzualizarea ultimului mesaj</translation>
     </message>
@@ -10402,12 +10508,22 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Adaugă o previzualizare a ultimului mesaj la intrările din lista de camere. Afișată pe o linie separată în aspectele Spațios și Compact, și inline lângă numele camerei în Dens.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>previzualizare, subtitlu, extras</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Sortare</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>ordine sortare, ordine, sortare</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Politică de deschidere a listei de camere</translation>
     </message>
@@ -10417,37 +10533,63 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Dacă un clic pe o cameră refolosește fila activă sau deschide una nouă. Camerele cu o filă existentă o vor activa în toate cazurile.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>comportament filă, comportament, click, deschide</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Bară de file</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Afișează butonul de fixare</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>fixare, a fixa</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Etichetă filă fixată</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>filă fixată, stil filă, vizibilitate etichetă</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Etichetă filă normală</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>stil filă, vizibilitate etichetă</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Lățime preferată a filei</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>dimensiune filă, dimensiuni filă</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Lățime minimă a filei</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Număr maxim de timeline-uri pre-randate recent închise</translation>
     </message>
@@ -10457,12 +10599,17 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Cronologiile pre-redate închise recent permit comutarea instantanee între camere, dar măresc utilizarea CPU și RAM. Filele deschise sunt întotdeauna pre-redate. Setați la 0 pentru a păstra doar filele deschise.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>istoric, închise recent, performanță, ram, memorie</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Intrare</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Tastă de trimitere</translation>
     </message>
@@ -10472,7 +10619,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Alege ce combinație de taste cu Enter trimite mesajele.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>scurtătură tastatură, tasta de trimitere, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Conversie automată Markdown în HTML</translation>
     </message>
@@ -10533,7 +10685,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Înlocuire automată a emoticonanelor cu emoji</translation>
     </message>
@@ -10543,7 +10695,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Înlocuiește automat emoticoanele text precum :) :D :P cu echivalentele emoji la trimiterea unui mesaj. Alege dacă să înlocuiești peste tot sau doar la sfârșit.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>coduri scurte, sintaxă două puncte, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Selector emoji inline</translation>
     </message>
@@ -10553,7 +10710,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Afișează un selector de emoji inline când tastezi două puncte (:) în câmpul de mesaj.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Gen preferat</translation>
     </message>
@@ -10563,7 +10720,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Doar selector emoji inline: preferă variantele de gen definite de Unicode (bărbat/femeie) când sunt disponibile. Căutarea explicită a celuilalt gen funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Află mai mult&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>gen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Ton de piele preferat</translation>
     </message>
@@ -10573,7 +10735,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Doar selector emoji inline: preferă o variantă de culoare a pielii când este disponibilă. Căutarea explicită a altei culori a pielii funcționează în continuare. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Află mai mult&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>culoare piele, culoarea pielii, piele</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Arată altora când scriu</translation>
     </message>
@@ -10608,7 +10775,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Notifică despre mesajele primite când clientul nu este focalizat. Se aplică doar dacă notificările contului sunt activate mai sus.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Conținut mesaj în notificări</translation>
     </message>
@@ -10618,7 +10785,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Alege câtă parte din textul mesajului să fie inclusă în notificări.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>confidențialitate, previzualizare notificare, text notificare</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Clipire fereastră/bară de activități la mesaje primite</translation>
     </message>
@@ -10688,7 +10860,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Estompare la pierderea focusului</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Întârziere estompare (secunde)</translation>
     </message>
@@ -10696,6 +10868,11 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Setează cât timp după pierderea focusului înainte de a începe estomparea. Setați 0 pentru estompare imediată. Maximul este 3600 de secunde (1 oră).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>inactivitate, timer absent, inactiv</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10734,26 +10911,51 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>intrare audio, microfon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Cameră</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webcam, intrare video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Rezoluție cameră</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>calitate video, dimensiune video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Rată de cadre cameră</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, cadre pe secundă, fluiditate</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Ton de apel</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>sunet apel, apel primit</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Partajarea ecranului</translation>
     </message>
@@ -10798,7 +11000,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Alege cât &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;acces D-Bus&lt;/a&gt; expune Komai apelanților locali.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, extern, scripting, automatizare</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Căutare camere Matrix</translation>
     </message>

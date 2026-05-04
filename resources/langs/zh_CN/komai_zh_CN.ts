@@ -9502,6 +9502,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>在线, 离线, 离开, 不可用, 状态</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>状态消息</translation>
     </message>
@@ -9546,12 +9551,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>时间线预览</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>气泡, 纯文本, 聊天样式</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>水平对齐方式</translation>
     </message>
@@ -9561,7 +9571,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>选择消息是固定在一侧，还是按发送者分列两侧。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>左对齐, 右对齐, 对齐</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>消息最大宽度（%）</translation>
     </message>
@@ -9571,7 +9586,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>单条消息可占用的时间线可用宽度百分比。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>发送者/消息颜色编码</translation>
     </message>
@@ -9581,7 +9596,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>选择时间线和气泡背景中发送者颜色的分配方式。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>用户颜色, 发送者颜色, 名称颜色</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>在消息上方显示发送者用户名</translation>
     </message>
@@ -9592,12 +9612,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>控制发送者用户名在消息上方的显示时机。在气泡模式下，自己的用户名始终隐藏。在较小的聊天室中，头像和气泡颜色通常已提供足够的上下文。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>作者, 发送者, 消息作者</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>头像大小</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>头像, 图片大小</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>在自己的消息气泡旁显示头像</translation>
     </message>
@@ -9648,7 +9678,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>反馈</translation>
     </message>
@@ -9674,7 +9704,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>操作</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>操作激活策略</translation>
     </message>
@@ -9684,7 +9714,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>选择消息操作的打开方式。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>悬停, 按钮, 表情回应, 回复</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>固定的表情回应</translation>
     </message>
@@ -9704,12 +9739,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>仅在悬停时播放动态图片</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>自动显示图片</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>内联图片, 图片预览</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>在外部查看器中打开</translation>
     </message>
@@ -10163,7 +10203,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>外观</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
@@ -10173,7 +10213,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>需要更多主题？从 &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; 导入或&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;自定义主题&lt;/a&gt;（需要重启）。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>密度</translation>
     </message>
@@ -10183,48 +10223,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>影响间距、图标大小和列表行高。</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>字体系列</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>字体大小</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>大多数界面元素会实时更新。部分标签可能需要重启应用后才会生效。</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>字体与缩放</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>表情符号字体系列</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>缩放比例（需要重启）</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>启用界面动画</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>语言, 翻译, i18n, 本地化</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>颜色, 色彩, 皮肤, 壁纸, 外观</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>间距, 内边距, 紧凑, 舒适, 布局</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>动效, 减少动效, 无障碍</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>滚动条可见性</translation>
     </message>
@@ -10234,7 +10294,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>控制应用中滚动条的显示时机。</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>滚动条</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>字体, 字形</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>文字大小, 缩放, 可读性</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>表情符号字体</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, 缩放, hidpi, 分辨率</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>头像</translation>
     </message>
@@ -10244,12 +10329,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>头像预览</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>使用圆形头像</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>圆形头像, 圆角, 头像形状</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>默认头像样式</translation>
     </message>
@@ -10259,23 +10349,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>用于没有自定义头像的用户和聊天室。</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>头像占位符, 头像替代, 首字母</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>社区侧边栏</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>显示未读指示器</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>在社区和标签筛选器上显示未读强调效果（计数徽章、行高亮和左边缘标记）。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>徽章, 通知, 未读数</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>所有聊天室</translation>
     </message>
@@ -10350,17 +10451,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>聊天室列表</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>在聊天室旁显示未读强调效果（计数徽章、粗体聊天室名称、头像跳动、行高亮和左边缘标记）。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>显示最近消息时间戳</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>时间, 时钟</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>显示最近消息预览</translation>
     </message>
@@ -10370,12 +10476,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>在聊天室列表中添加最新消息预览。宽松和紧凑布局下单独显示一行，密集布局下显示在聊天室名称旁边。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>预览, 副标题, 摘要</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>排序</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>排序, 顺序</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>聊天室列表打开策略</translation>
     </message>
@@ -10385,37 +10501,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>点击聊天室时是复用当前标签页还是打开新标签页。已有标签页的聊天室在任何情况下都会激活其标签页。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>标签行为, 点击, 打开</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>标签栏</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>显示固定按钮</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>固定, 置顶</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>固定标签页标签</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>固定标签, 标签样式, 标签可见性</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>普通标签页标签</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>标签样式, 标签可见性</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>首选标签页宽度</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>标签大小, 标签尺寸</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>标签页最小宽度</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>最多保留最近关闭的预渲染时间轴数</translation>
     </message>
@@ -10425,12 +10567,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>最近关闭的预渲染时间线可实现即时切换聊天室，但会增加 CPU 和内存使用量。已打开的标签页始终处于预渲染状态。设为 0 则仅保留已打开的标签页。</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>历史记录, 最近关闭, 性能, 内存</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>输入</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>发送键</translation>
     </message>
@@ -10440,7 +10587,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>选择发送消息所用的 Enter 键组合。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>键盘快捷键, 发送键, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>自动将 Markdown 转换为 HTML</translation>
     </message>
@@ -10501,7 +10653,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>表情符号</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>自动将文字表情替换为 emoji</translation>
     </message>
@@ -10511,7 +10663,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>发送消息时自动将 :) :D :P 等文字表情符号替换为对应的 emoji。可选择替换全文或仅替换末尾。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>短代码, 冒号语法, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>内联表情符号选择器</translation>
     </message>
@@ -10521,7 +10678,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>在消息输入框中输入冒号（:）时，显示内联表情符号选择器。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>首选性别</translation>
     </message>
@@ -10531,7 +10688,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>仅限内联表情符号选择器：优先使用 Unicode 定义的性别变体（男/女）。仍可显式搜索其他性别。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>性别</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>首选肤色</translation>
     </message>
@@ -10541,7 +10703,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>仅限内联表情符号选择器：优先使用特定肤色变体。仍可显式搜索其他肤色。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>肤色, 皮肤颜色</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>正在输入时向他人显示状态</translation>
     </message>
@@ -10576,7 +10743,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>当客户端未处于焦点时接收消息通知。此选项仅在上方启用账号通知后生效。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>通知中的消息内容</translation>
     </message>
@@ -10586,7 +10753,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>选择通知中包含的消息文本量。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>隐私, 通知预览, 通知文本</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>收到新消息时闪烁应用窗口/任务栏</translation>
     </message>
@@ -10656,7 +10828,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>失焦时模糊</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>模糊延迟（秒）</translation>
     </message>
@@ -10664,6 +10836,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>设置失去焦点后多久开始模糊。设为 0 则立即模糊。最大值为 3600 秒（1 小时）。</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>不活跃, 离开计时, 空闲</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10702,26 +10879,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>音频输入, 麦克风</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>摄像头</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>摄像头, 视频输入</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>摄像头分辨率</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>视频质量, 视频大小</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>摄像头帧率</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, 每秒帧数, 流畅度</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>铃声</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>通话声音, 来电</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>屏幕共享</translation>
     </message>
@@ -10766,7 +10968,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>选择 Komai 向本地调用者开放的 &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus 访问&lt;/a&gt;权限。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, 外部, 脚本, 自动化</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix 聊天室搜索</translation>
     </message>

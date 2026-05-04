@@ -23,7 +23,9 @@
       {}, {}, {},
       callMicrophoneValues,
       nullptr,
-      CORE_CONFIG_ID(CallsDevicesMicrophone, SettingKey::CallsDevicesMicrophone) },
+      CORE_CONFIG_ID(CallsDevicesMicrophone, SettingKey::CallsDevicesMicrophone),
+      nullptr, nullptr, false,
+      QT_TRANSLATE_NOOP("UserSettingsModel", "audio input, mic") },
     // Camera
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Camera"), nullptr, SM::Options, SM::TabCalls,
       callCameraValue,
@@ -31,7 +33,9 @@
       {}, {}, {},
       callCameraValues,
       nullptr,
-      CORE_CONFIG_ID(CallsDevicesCamera, SettingKey::CallsDevicesCamera) },
+      CORE_CONFIG_ID(CallsDevicesCamera, SettingKey::CallsDevicesCamera),
+      nullptr, nullptr, false,
+      QT_TRANSLATE_NOOP("UserSettingsModel", "webcam, video input") },
     // CameraResolution
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Camera resolution"), nullptr, SM::Options, SM::TabCalls,
       callCameraResolutionValue,
@@ -39,7 +43,9 @@
       {}, {}, {},
       callCameraResolutionValues,
       nullptr,
-      CORE_CONFIG_ID(CallsDevicesCameraResolution, SettingKey::CallsDevicesCameraResolution) },
+      CORE_CONFIG_ID(CallsDevicesCameraResolution, SettingKey::CallsDevicesCameraResolution),
+      nullptr, nullptr, false,
+      QT_TRANSLATE_NOOP("UserSettingsModel", "video quality, video size") },
     // CameraFrameRate
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Camera frame rate"), nullptr, SM::Options, SM::TabCalls,
       callCameraFrameRateValue,
@@ -47,7 +53,9 @@
       {}, {}, {},
       callCameraFrameRateValues,
       nullptr,
-      CORE_CONFIG_ID(CallsDevicesCameraFrameRate, SettingKey::CallsDevicesCameraFrameRate) },
+      CORE_CONFIG_ID(CallsDevicesCameraFrameRate, SettingKey::CallsDevicesCameraFrameRate),
+      nullptr, nullptr, false,
+      QT_TRANSLATE_NOOP("UserSettingsModel", "fps, frames per second, smoothness") },
     // Ringtone
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Ringtone"), nullptr, SM::Options, SM::TabCalls,
       callRingtoneValue,
@@ -55,7 +63,9 @@
       {}, {}, {},
       callRingtoneValues,
       nullptr,
-      CORE_CONFIG_ID(CallsAudioRingtone, SettingKey::CallsAudioRingtone) },
+      CORE_CONFIG_ID(CallsAudioRingtone, SettingKey::CallsAudioRingtone),
+      nullptr, nullptr, false,
+      QT_TRANSLATE_NOOP("UserSettingsModel", "call sound, incoming call") },
 
     // CallsScreenSharingSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Screen sharing"), nullptr, SM::SectionTitle, SM::TabCalls,

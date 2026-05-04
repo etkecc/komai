@@ -9502,6 +9502,11 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, távol, nem elérhető, állapot</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Állapotüzenet</translation>
     </message>
@@ -9546,12 +9551,17 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Idősor-előnézet</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stílus</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>buborék, sima, csevegési stílus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Vízszintes elhelyezés</translation>
     </message>
@@ -9561,7 +9571,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Válassza ki, hogy az üzenetek egy oldalon maradjanak-e, vagy a küldőtől függően egymással szemben jelenjenek meg.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>balra igazított, jobbra igazított, igazítás</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maximális üzenetszélesség (%)</translation>
     </message>
@@ -9571,7 +9586,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Az egyetlen üzenet által az idővonal rendelkezésre álló szélességéből elfoglalható terület százaléka.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Küldő/üzenet színkódolása</translation>
     </message>
@@ -9581,7 +9596,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Válassza ki, hogyan legyenek hozzárendelve a küldő színei az idővonalon és a buborék háttereken.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>felhasználói szín, küldő színe, névszín</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Küldő felhasználónevének megjelenítése az üzenetek felett</translation>
     </message>
@@ -9592,12 +9612,22 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Szabályozza, mikor jelenjenek meg a küldők felhasználónevei az üzenetek felett. Buborék módban a saját felhasználónév mindig rejtett. Kisebb szobákban az avatárok és a buborékszínek általában elegendő kontextust nyújtanak.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>szerző, ki küldte, üzenet szerzője</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Avatar mérete</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profilkép, képméret</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Saját üzenetbuborékok melletti avatar megjelenítése</translation>
     </message>
@@ -9648,7 +9678,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Visszajelzés</translation>
     </message>
@@ -9674,7 +9704,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Műveletek</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Műveletek aktiválási szabályzata</translation>
     </message>
@@ -9684,7 +9714,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Válassza ki, hogyan nyílnak meg az üzenetműveletek.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>egérmutatás, gomb, reakciók, válasz, reagálás</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Rögzített reakciók</translation>
     </message>
@@ -9704,12 +9739,17 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Animált képek lejátszása csak kurzor fölé vitelkor</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Képek automatikus megjelenítése</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>beágyazott képek, képelőnézet</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Megnyitás külső megjelenítőben</translation>
     </message>
@@ -10163,7 +10203,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Megjelenés</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Téma</translation>
     </message>
@@ -10173,7 +10213,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Több téma kell? Importáljon a &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;-ból, vagy &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;hozza létre a sajátját&lt;/a&gt; (újraindítás szükséges).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Sűrűség</translation>
     </message>
@@ -10183,48 +10223,68 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Befolyásolja a térközöket, az ikonméreteket és a listaelemek magasságát.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Nyelv</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Betűtípus-család</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Betűméret</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>A legtöbb felületi elem élőben frissül. Egyes feliratok csak az alkalmazás újraindítása után frissülnek.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Betűtípusok és méretezés</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Emoji betűtípus-család</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Méretezési tényező [újraindítás szükséges]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Felhasználói felület animációinak engedélyezése</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>területi beállítás, fordítás, i18n, honosítás</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>szín, színek, téma, háttérkép, kinézet</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>térköz, margó, kompakt, kényelmes, elrendezés</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>mozgás, mozgás csökkentése, akadálymentesség</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Görgetősáv láthatósága</translation>
     </message>
@@ -10234,7 +10294,32 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Szabályozza, mikor jelenjenek meg a görgetősávok az alkalmazásban.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>görgetősáv, görgetőléc</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>betűtípus, betűkészlet</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>szövegméret, nagyítás, olvashatóság</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoji betűtípus</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, nagyítás, hidpi, felbontás</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatarok</translation>
     </message>
@@ -10244,12 +10329,17 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Avatar előnézet</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Kör alakú avatarok használata</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>kerek avatarok, kerek, kerekség, kör avatarok, avatar alakja</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Alapértelmezett avatar stílus</translation>
     </message>
@@ -10259,23 +10349,34 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Egyedi avatar nélküli felhasználóknál és szobáknál jelenik meg.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar-helyettesítő, avatar-jelölő, kezdőbetűk</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Közösségek oldalsávja</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Olvasatlan jelzők megjelenítése</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Olvasatlan kiemelés megjelenítése (számjelvények, sorkiemelés és bal széli jelölő) a közösség- és tagszűrőkön.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>jelvények, értesítések, olvasatlan szám</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Összes szoba</translation>
     </message>
@@ -10350,17 +10451,22 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Szobák listája</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Olvasatlan kiemelés megjelenítése (számjelvények, félkövér szobánév, avatar ugrálás, sorkiemelés és bal széli jelölő) a szobák mellett.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Utolsó üzenet időbélyegének megjelenítése</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>idő, óra</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Utolsó üzenet előnézetének megjelenítése</translation>
     </message>
@@ -10370,12 +10476,22 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Utolsó üzenet előnézetét jeleníti meg a szobalisták bejegyzéseinél. Tágas és Kompakt elrendezésben külön sorban jelenik meg, Sűrű nézetben a szoba neve mellett.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>előnézet, felirat, részlet</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Rendezés</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>rendezési sorrend, sorrend, rendezés</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Szobák listájának megnyitási szabálya</translation>
     </message>
@@ -10385,37 +10501,63 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Meghatározza, hogy egy szobára kattintva az aktív lapot használja-e újra, vagy új lapot nyit. A már megnyitott lappal rendelkező szobáknál mindig az adott lap aktiválódik.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>lap viselkedése, viselkedés, kattintás, megnyitás</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Lapsor</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Rögzítés gomb megjelenítése</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>rögzítés, rögzíteni</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Rögzített lap felirata</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>rögzített lap, lap stílusa, felirat láthatósága</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Normál lap felirata</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>lap stílusa, felirat láthatósága</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Preferált lapszélesség</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>lap mérete, lap méretei</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minimális lapszélesség</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Legutóbb bezárt előre renderelt idővonalak maximuma</translation>
     </message>
@@ -10425,12 +10567,17 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>A nemrég bezárt előre renderelt idővonalak azonnali szobák közötti váltást tesznek lehetővé, de növelik a CPU- és RAM-használatot. A nyitott lapok mindig előre rendereltek. A 0 érték beállításával csak a nyitott lapok maradnak meg.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>előzmények, nemrég bezárt, teljesítmény, ram, memória</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Bevitel</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Küldési billentyű</translation>
     </message>
@@ -10440,7 +10587,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Válassza ki, melyik Enter billentyűkombináció küldje el az üzeneteket.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>billentyűparancs, küldési billentyű, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Markdown automatikus konvertálása HTML-be</translation>
     </message>
@@ -10501,7 +10653,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Hangulatjelek automatikus cseréje emojira</translation>
     </message>
@@ -10511,7 +10663,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Automatikusan lecseréli a szöveges hangulatjeleket (pl. :) :D :P) a megfelelő emojikra üzenetküldéskor. Válassza ki, hogy mindenhol vagy csak a végén cserélje le.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>rövidkódok, kettőspont szintaxis, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Inline emoji-választó</translation>
     </message>
@@ -10521,7 +10678,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Beépített emoji-választó megjelenítése kettőspont (:) beírásakor az üzenetmezőben.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Preferált nem</translation>
     </message>
@@ -10531,7 +10688,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Csak inline emoji-választóban: az Unicode által meghatározott nemek szerinti változatok (férfi/nő) előnyben részesítése, ha elérhetők. A másik nem explicit keresése továbbra is működik. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tudjon meg többet&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>nem</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Preferált bőrszín</translation>
     </message>
@@ -10541,7 +10703,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Csak inline emoji-választóban: egy bőrszín-változat előnyben részesítése, ha elérhető. Más bőrszín explicit keresése továbbra is működik. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Tudjon meg többet&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>bőrszín, bőr szín, bőr</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Gépelésem jelzése másoknak</translation>
     </message>
@@ -10576,7 +10743,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Értesítés a beérkezett üzenetekről, ha az alkalmazás nincs éppen fókuszban. Ez csak akkor lép életbe, ha a fent engedélyezett fiók-értesítések aktívak.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Üzenettartalom az értesítésekben</translation>
     </message>
@@ -10586,7 +10753,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Válassza ki, mennyi üzenetszöveget tartalmazzon az értesítés.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>adatvédelem, értesítési előnézet, értesítési szöveg</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Alkalmazásablak/tálca villogtatása beérkező üzeneteknél</translation>
     </message>
@@ -10656,7 +10828,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Homályosítás fókuszvesztéskor</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Homályosítás késleltetése (másodperc)</translation>
     </message>
@@ -10664,6 +10836,11 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Állítsd be, mennyi idővel a fókusz elvesztése után kezdődjön el az elmosódás. A 0 azonnali elmosódást jelent. Maximum 3600 másodperc (1 óra).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>tétlenség, távolléti időzítő, üresjárat</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10702,26 +10879,51 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>hangbemenet, mikrofon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webkamera, videóbemenet</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Kamera felbontása</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>videóminőség, videóméret</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Kamera képkocka-sebesség</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, másodpercenkénti képkocka, simaság</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Csengőhang</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>hívási hang, bejövő hívás</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Képernyőmegosztás</translation>
     </message>
@@ -10766,7 +10968,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Válassza ki, mennyi &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus hozzáférést&lt;/a&gt; biztosít a Komai a helyi hívóknak.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, külső, szkriptelés, automatizálás</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix szobák keresése</translation>
     </message>

@@ -9502,6 +9502,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>オンライン、オフライン、離席中、利用不可、ステータス</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>ステータスメッセージ</translation>
     </message>
@@ -9546,12 +9551,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>タイムラインプレビュー</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>スタイル</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>バブル、プレーン、チャットスタイル</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>水平配置</translation>
     </message>
@@ -9561,7 +9571,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>メッセージを一方に固定するか、送信者ごとに向かい合わせに配置するかを選択します。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>左揃え、右揃え、配置</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>メッセージの最大幅 (%)</translation>
     </message>
@@ -9571,7 +9586,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>1つのメッセージが占めることができるタイムライン幅の割合。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>送信者/メッセージの色分け</translation>
     </message>
@@ -9581,7 +9596,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>タイムラインとバブル背景での送信者カラーの割り当て方法を選択します。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>ユーザーの色、送信者の色、名前の色</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>メッセージの上に送信者のユーザー名を表示</translation>
     </message>
@@ -9592,12 +9612,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>メッセージの上に送信者のユーザー名を表示するタイミングを制御します。バブルモードでは自分のユーザー名は常に非表示です。小さいルームではアバターとバブルの色だけで十分なことが多いです。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>送信者、送った人、メッセージの作者</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>アバターサイズ</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>プロフィール写真、画像サイズ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>自分のメッセージバブルの横にアバターを表示</translation>
     </message>
@@ -9648,7 +9678,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>フィードバック</translation>
     </message>
@@ -9674,7 +9704,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>アクション</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>アクション起動ポリシー</translation>
     </message>
@@ -9684,7 +9714,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>メッセージアクションの開き方を選択します。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>ホバー、ボタン、リアクション、返信、反応</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>ピン留めされたリアクション</translation>
     </message>
@@ -9704,12 +9739,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ホバー時のみアニメーション画像を再生</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>画像を自動的に表示</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>インライン画像、画像プレビュー</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>外部ビューアーで開く</translation>
     </message>
@@ -10163,7 +10203,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>外観</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>テーマ</translation>
     </message>
@@ -10173,7 +10213,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>テーマをもっと追加しませんか？&lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;からインポートするか、&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;独自のテーマを作成&lt;/a&gt;してください（再起動が必要）。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>密度</translation>
     </message>
@@ -10183,48 +10223,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>間隔、アイコンサイズ、リスト行の高さに影響します。</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>フォントファミリー</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>フォントサイズ</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>ほとんどのUI要素はリアルタイムで更新されます。一部のラベルはアプリを再起動した後にのみ更新される場合があります。</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>フォントとスケーリング</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>絵文字フォントファミリー</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>拡大率 [再起動が必要]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>UIアニメーションを有効にする</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>ロケール、翻訳、i18n、ローカライゼーション</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>色、カラー、スキン、壁紙、外観</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>間隔、パディング、コンパクト、快適、レイアウト</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>モーション、モーション軽減、アクセシビリティ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>スクロールバーの表示</translation>
     </message>
@@ -10234,7 +10294,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>アプリ全体でスクロールバーを表示するタイミングを制御します。</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>スクロールバー</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>書体、フォント</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>テキストサイズ、ズーム、読みやすさ</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>絵文字フォント</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>DPI、ズーム、HiDPI、解像度</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>アバター</translation>
     </message>
@@ -10244,12 +10329,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>アバタープレビュー</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>円形アバターを使用</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>丸いアバター、丸、丸み、円形アバター、アバター形状</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>デフォルトアバタースタイル</translation>
     </message>
@@ -10259,23 +10349,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>カスタムアバターのないユーザーとルームに表示されます。</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>アバター代替、アバタープレースホルダー、イニシャル</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>コミュニティサイドバー</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>未読インジケーターを表示</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>コミュニティとタグフィルターに未読強調表示（カウントバッジ、行のハイライト、左端マーカー）を表示します。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>バッジ、通知、未読数</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>すべてのルーム</translation>
     </message>
@@ -10350,17 +10451,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ルームリスト</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>ルームの横に未読強調表示（カウントバッジ、太字のルーム名、アバターバウンス、行のハイライト、左端マーカー）を表示します。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>最後のメッセージのタイムスタンプを表示</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>時刻、時計</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>最後のメッセージのプレビューを表示</translation>
     </message>
@@ -10370,12 +10476,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ルームリストに最終メッセージのプレビューを追加します。スペーシャスとコンパクトレイアウトでは独立した行に、密集レイアウトではルーム名の横にインラインで表示されます。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>プレビュー、サブタイトル、スニペット</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>並べ替え</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>並び順、順序、ソート</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>ルームリストの開き方</translation>
     </message>
@@ -10385,37 +10501,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ルームをクリックしたとき、アクティブなタブを再利用するか新しいタブを開くかを設定します。既存のタブがあるルームは常にそのタブがアクティブになります。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>タブの動作、クリック、開く</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>タブバー</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>ピンボタンを表示</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>ピン、ピン留め</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>ピン留めタブのラベル</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>ピン留めタブ、タブスタイル、ラベル表示</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>通常タブのラベル</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>タブスタイル、ラベル表示</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>優先するタブ幅</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>タブサイズ、タブの寸法</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>タブの最小幅</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>最近閉じたプリレンダリングタイムラインの最大数</translation>
     </message>
@@ -10425,12 +10567,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>最近閉じた事前レンダリング済みタイムラインにより瞬時にルームを切り替えられますが、CPUとRAMの使用量が増加します。開いているタブは常に事前レンダリングされます。開いているタブのみ保持するには0に設定してください。</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>履歴、最近閉じた、パフォーマンス、RAM、メモリ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>入力</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>送信キー</translation>
     </message>
@@ -10440,7 +10587,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>メッセージ送信に使用するEnterキーの組み合わせを選択します。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>キーボードショートカット、送信キー、Enter、Shift+Enter、Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>MarkdownをHTMLに自動変換</translation>
     </message>
@@ -10501,7 +10653,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>絵文字</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>顔文字を絵文字に自動置換</translation>
     </message>
@@ -10511,7 +10663,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>メッセージ送信時に :) :D :P などのテキスト顔文字を対応する絵文字に自動的に置換します。全体または末尾のみに置換するかを選択できます。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>ショートコード、コロン構文、:smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>インライン絵文字ピッカー</translation>
     </message>
@@ -10521,7 +10678,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>メッセージ入力欄でコロン（:）を入力するとインライン絵文字ピッカーを表示します。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>優先する性別</translation>
     </message>
@@ -10531,7 +10688,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>インライン絵文字ピッカーのみ: 利用可能な場合、Unicodeで定義された性別バリアント（男性/女性）を優先します。他の性別を明示的に検索することは引き続き可能です。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;詳細はこちら&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>性別</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>優先する肌の色</translation>
     </message>
@@ -10541,7 +10703,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>インライン絵文字ピッカーのみ: 利用可能な場合、特定の肌色バリアントを優先します。他の肌色を明示的に検索することは引き続き可能です。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;詳細はこちら&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>肌の色、スキンカラー、スキン</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>入力中であることを他のユーザーに表示</translation>
     </message>
@@ -10576,7 +10743,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>クライアントが現在フォーカスされていないときに受信メッセージを通知します。これは上記のアカウント通知が有効な場合にのみ有効です。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>通知内のメッセージ内容</translation>
     </message>
@@ -10586,7 +10753,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>通知に含めるメッセージテキストの量を選択します。</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>プライバシー、通知プレビュー、通知テキスト</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>メッセージ受信時にアプリウィンドウ/タスクバーを点滅させる</translation>
     </message>
@@ -10656,7 +10828,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>フォーカス喪失時のぼかし</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>ぼかし遅延（秒）</translation>
     </message>
@@ -10664,6 +10836,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>フォーカスを失ってからぼかしが始まるまでの時間を設定します。0に設定するとすぐにぼかしが適用されます。最大は3600秒（1時間）です。</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>非アクティブ、離席タイマー、アイドル</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10702,26 +10879,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>音声入力、マイク</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>カメラ</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>ウェブカメラ、映像入力</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>カメラ解像度</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>映像品質、映像サイズ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>カメラフレームレート</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>FPS、フレームレート、滑らかさ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>着信音</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>着信音、着信</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>画面共有</translation>
     </message>
@@ -10766,7 +10968,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>KomaiがローカルのD-Bus呼び出し元に公開する&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Busアクセス&lt;/a&gt;の範囲を選択します。</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>API、外部、スクリプト、自動化</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix ルーム検索</translation>
     </message>

@@ -9534,6 +9534,11 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, nepřítomen, nedostupný, stav</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Stavová zpráva</translation>
     </message>
@@ -9578,12 +9583,17 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Náhled časové osy</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Styl</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>bublina, prostý, styl chatu</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Vodorovné zarovnání</translation>
     </message>
@@ -9593,7 +9603,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zvolte, zda zprávy zůstanou na jedné straně, nebo budou umístěny naproti sobě podle odesílatele.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>zarovnat vlevo, zarovnat vpravo, zarovnání</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maximální šířka zprávy (%)</translation>
     </message>
@@ -9603,7 +9618,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Procento dostupné šířky časové osy, které může zabrat jedna zpráva.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Barevné kódování odesílatele/zprávy</translation>
     </message>
@@ -9613,7 +9628,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zvolte způsob přiřazení barev odesílatele v časové ose a pozadích bublin.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>barva uživatele, barva odesílatele, barva jména</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Zobrazit jméno odesílatele nad zprávami</translation>
     </message>
@@ -9624,12 +9644,22 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Určuje, kdy se nad zprávami zobrazují jména odesílatelů. V bublinovém režimu je vlastní jméno vždy skryto. V menších místnostech avatary a barvy bublin často poskytují dostatečný kontext.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>autor, kdo odeslal, autor zprávy</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Velikost avataru</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profilový obrázek, velikost obrázku</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Zobrazit avatar vedle vlastních bublin zpráv</translation>
     </message>
@@ -9680,7 +9710,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Zpětná vazba</translation>
     </message>
@@ -9706,7 +9736,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Akce</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Zásady aktivace akcí</translation>
     </message>
@@ -9716,7 +9746,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zvolte způsob otevírání akcí zprávy.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>najetí myší, tlačítko, reakce, odpověď, reagovat</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Připnuté reakce</translation>
     </message>
@@ -9736,12 +9771,17 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Přehrávat animované obrázky pouze při najetí myší</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Zobrazovat obrázky automaticky</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>vložené obrázky, náhled obrázku</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Otevřít v externím prohlížeči</translation>
     </message>
@@ -10195,7 +10235,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Vzhled</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Motiv</translation>
     </message>
@@ -10205,7 +10245,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Potřebujete více motivů? Importujte z &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; nebo si &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;vytvořte vlastní&lt;/a&gt; (nutné restartování).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Hustota</translation>
     </message>
@@ -10215,48 +10255,68 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Ovlivňuje mezery, velikosti ikon a výšky řádků v seznamu.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Rodina písma</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Velikost písma</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Většina prvků UI se aktualizuje okamžitě. Některé popisky se mohou aktualizovat až po restartu aplikace.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Písma a škálování</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Rodina písma pro emoji</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Faktor škálování [vyžaduje restart]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Povolit animace rozhraní</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>locale, překlad, i18n, lokalizace</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>barva, barvy, barva, barvy, motiv, tapeta, vzhled</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>mezery, odsazení, kompaktní, pohodlný, rozložení</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>pohyb, omezit pohyb, přístupnost</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Viditelnost posuvníku</translation>
     </message>
@@ -10266,7 +10326,32 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Řídí, kdy jsou v aplikaci zobrazovány posuvníky.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>posuvná lišta, posuvník</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>písmo, font</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>velikost textu, přiblížení, čitelnost</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>písmo emoji</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, přiblížení, hidpi, rozlišení</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatary</translation>
     </message>
@@ -10276,12 +10361,17 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Náhled avataru</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Použít kruhové avatary</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>kulaté avatary, kulatý, kulatost, kruhové avatary, tvar avataru</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Výchozí styl avataru</translation>
     </message>
@@ -10291,23 +10381,34 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zobrazeno pro uživatele a místnosti bez vlastního avataru.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>náhradní avatar, zástupný avatar, iniciály</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Postranní panel komunit</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Zobrazit indikátory nepřečtených</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Zobrazit zdůraznění nepřečtených (počítadla, zvýraznění řádku a levý okrajový indikátor) na filtrech komunity a štítků.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>odznaky, oznámení, počet nepřečtených</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Všechny místnosti</translation>
     </message>
@@ -10382,17 +10483,22 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Seznam místností</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Zobrazit zdůraznění nepřečtených (počítadla, tučný název místnosti, animace avataru, zvýraznění řádku a levý okrajový indikátor) u místností.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Zobrazit čas poslední zprávy</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>čas, hodiny</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Zobrazit náhled poslední zprávy</translation>
     </message>
@@ -10402,12 +10508,22 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Přidá náhled poslední zprávy k položkám seznamu místností. V rozložení Prostorné a Kompaktní se zobrazí na vlastním řádku, v Hustém vedle názvu místnosti.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>náhled, popis, výňatek</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Řazení</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>pořadí řazení, pořadí, řazení</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Pravidlo otevírání seznamu místností</translation>
     </message>
@@ -10417,37 +10533,63 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zda kliknutí na místnost znovu použije aktivní kartu nebo otevře novou. Místnosti s existující kartou ji vždy aktivují.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>chování záložky, chování, kliknutí, otevřít</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Lišta karet</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Zobrazit tlačítko připnutí</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>připnout, připínání</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Popisek připnuté záložky</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>připnutá záložka, styl záložky, viditelnost popisku</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Popisek normální záložky</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>styl záložky, viditelnost popisku</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Preferovaná šířka záložky</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>velikost záložky, rozměry záložky</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minimální šířka karty</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Max. předvykreslených časových os naposledy zavřených karet</translation>
     </message>
@@ -10457,12 +10599,17 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Nedávno zavřené předrenderované časové osy umožňují okamžité přepínání místností, ale zvyšují využití procesoru a RAM. Otevřené záložky jsou vždy předrenderované. Nastavte 0 pro zachování pouze otevřených záložek.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>historie, nedávno zavřené, výkon, ram, paměť</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Vstup</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Klávesa odeslání</translation>
     </message>
@@ -10472,7 +10619,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zvolte, která kombinace klávesy Enter odešle zprávy.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>klávesová zkratka, klávesa odeslání, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Automaticky převést Markdown do HTML</translation>
     </message>
@@ -10533,7 +10685,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Automaticky nahradit emotikony emoji</translation>
     </message>
@@ -10543,7 +10695,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Při odesílání zprávy automaticky nahrazuje textové emotikony jako :) :D :P jejich ekvivalenty emoji. Zvolte, zda nahrazovat všude, nebo pouze na konci.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>zkratky, syntaxe s dvojtečkou, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Vložený výběr emoji</translation>
     </message>
@@ -10553,7 +10710,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zobrazit výběr emoji při psaní dvojtečky (:) v poli zprávy.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Preferované pohlaví</translation>
     </message>
@@ -10563,7 +10720,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Pouze vložený výběr emoji: upřednostňovat pohlavní varianty definované v Unicode (muž/žena), pokud jsou dostupné. Explicitní hledání druhého pohlaví stále funguje. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Zjistit více&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>pohlaví</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Preferovaný odstín pleti</translation>
     </message>
@@ -10573,7 +10735,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Pouze vložený výběr emoji: upřednostňovat jednu variantu tónu pleti, pokud je dostupná. Explicitní hledání jiného tónu pleti stále funguje. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Zjistit více&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>barva pleti, barva pleti, pleť</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Zobrazovat ostatním, že píši</translation>
     </message>
@@ -10608,7 +10775,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Upozorňovat na přijaté zprávy, když klient nemá fokus. Účinné pouze při povolených oznámeních účtu výše.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Obsah zprávy v oznámeních</translation>
     </message>
@@ -10618,7 +10785,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zvolte, kolik textu zprávy zahrnout do oznámení.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>soukromí, náhled oznámení, text oznámení</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Blikat oknem aplikace/panelem úloh při příchozích zprávách</translation>
     </message>
@@ -10688,7 +10860,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Rozostření při ztrátě fokusu</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Zpoždění rozostření (sekundy)</translation>
     </message>
@@ -10696,6 +10868,11 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Nastavte, jak dlouho po ztrátě fokusu začne rozostření. Nastavte 0 pro okamžité rozostření. Maximum je 3600 sekund (1 hodina).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>nečinnost, časovač nepřítomnosti, nečinný</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10734,26 +10911,51 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>zvukový vstup, mikrofon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>webkamera, video vstup</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Rozlišení kamery</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>kvalita videa, velikost videa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Snímková frekvence kamery</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, snímků za sekundu, plynulost</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Vyzváněcí tón</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>zvuk hovoru, příchozí hovor</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Sdílení obrazovky</translation>
     </message>
@@ -10798,7 +11000,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zvolte, kolik &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;přístupu D-Bus&lt;/a&gt; Komai zpřístupní místním volajícím.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, externí, skriptování, automatizace</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Vyhledávání místností Matrix</translation>
     </message>

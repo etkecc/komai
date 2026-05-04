@@ -9502,6 +9502,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>آنلاین، آفلاین، دور، غیردسترس، وضعیت</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>پیام وضعیت</translation>
     </message>
@@ -9546,12 +9551,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>پیش‌نمایش جدول زمانی</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>سبک</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>حباب، ساده، سبک چت</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>موقعیت‌یابی افقی</translation>
     </message>
@@ -9561,7 +9571,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>انتخاب کنید که پیام‌ها در یک طرف بمانند یا بر اساس فرستنده روبه‌روی هم قرار گیرند.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>تراز چپ، تراز راست، تراز</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>حداکثر عرض پیام (%)</translation>
     </message>
@@ -9571,7 +9586,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>درصد عرض در دسترس جدول زمانی که یک پیام می‌تواند اشغال کند.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>رنگ‌بندی فرستنده/پیام</translation>
     </message>
@@ -9581,7 +9596,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>نحوه تخصیص رنگ‌های فرستنده در جدول زمانی و پس‌زمینه حباب‌ها را انتخاب کنید.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>رنگ کاربر، رنگ فرستنده، رنگ نام</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>نمایش نام کاربری فرستنده بالای پیام‌ها</translation>
     </message>
@@ -9592,12 +9612,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>کنترل کنید که نام کاربری فرستنده چه زمانی بالای پیام‌ها نمایش داده شود. در حالت حباب، نام کاربری خودتان همیشه پنهان است. در اتاق‌های کوچک‌تر، آواتارها و رنگ‌های حباب معمولاً زمینه کافی هستند.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>نویسنده، فرستنده، نویسنده پیام</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>اندازه آواتار</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>تصویر پروفایل، اندازه تصویر</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>نمایش آواتار کنار حباب‌های پیام خودم</translation>
     </message>
@@ -9648,7 +9678,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>بازخورد</translation>
     </message>
@@ -9674,7 +9704,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اقدامات</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>سیاست فعال‌سازی اقدامات</translation>
     </message>
@@ -9684,7 +9714,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>نحوه باز شدن اقدامات پیام را انتخاب کنید.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>نگه داشتن ماوس، دکمه، واکنش‌ها، پاسخ، واکنش</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>واکنش‌های سنجاق‌شده</translation>
     </message>
@@ -9704,12 +9739,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>پخش تصاویر متحرک فقط هنگام نگه‌داشتن ماوس</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>نمایش خودکار تصاویر</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>تصاویر درون‌خطی، پیش‌نمایش تصویر</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>باز کردن در نمایشگر خارجی</translation>
     </message>
@@ -10163,7 +10203,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ظاهر</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>پوسته</translation>
     </message>
@@ -10173,7 +10213,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>به تم‌های بیشتری نیاز دارید؟ از &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; وارد کنید یا &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;تم خود را بسازید&lt;/a&gt; (راه‌اندازی مجدد لازم است).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>تراکم</translation>
     </message>
@@ -10183,48 +10223,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>بر فاصله‌گذاری، اندازه آیکون‌ها و ارتفاع ردیف‌های فهرست تأثیر می‌گذارد.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>زبان</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>خانواده‌ی فونت</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>اندازه‌ی فونت</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>بیشتر عناصر رابط کاربری به‌صورت زنده به‌روز می‌شوند. برخی برچسب‌ها ممکن است تنها پس از راه‌اندازی مجدد برنامه به‌روز شوند.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>فونت‌ها و مقیاس‌بندی</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>خانواده‌ی فونت ایموجی</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>ضریب مقیاس [راه‌اندازی مجدد لازم است]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>فعال کردن انیمیشن‌های رابط کاربری</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>زبان محلی، ترجمه، i18n، بومی‌سازی</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>رنگ، رنگ‌ها، پوسته، تصویر زمینه، ظاهر</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>فاصله‌گذاری، حاشیه، فشرده، راحت، چیدمان</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>حرکت، کاهش حرکت، دسترس‌پذیری</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>نمایش نوار پیمایش</translation>
     </message>
@@ -10234,7 +10294,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>کنترل می‌کند که نوارهای پیمایش در طول برنامه چه زمانی نمایش داده شوند.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>نوار پیمایش، اسکرول‌بار</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>فونت، قلم</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>اندازه متن، بزرگنمایی، خوانایی</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>فونت ایموجی</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi، بزرگنمایی، hidpi، وضوح</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>آواتارها</translation>
     </message>
@@ -10244,12 +10329,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>پیش‌نمایش آواتار</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>استفاده از آواتارهای دایره‌ای</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>آواتار گرد، گرد، گردی، آواتار دایره‌ای، شکل آواتار</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>سبک پیش‌فرض آواتار</translation>
     </message>
@@ -10259,23 +10349,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>برای کاربران و اتاق‌هایی که آواتار سفارشی ندارند نمایش داده می‌شود.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>جایگزین آواتار، حروف اول نام</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>نوار کناری جوامع</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>نمایش نشانگرهای خوانده‌نشده</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>نمایش تأکید پیام‌های خوانده‌نشده (نشان‌های تعداد، برجسته‌سازی ردیف و نشانگر لبه چپ) روی فیلترهای جامعه و برچسب.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>نشان‌ها، اعلان‌ها، تعداد خوانده‌نشده</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>همه اتاق‌ها</translation>
     </message>
@@ -10350,17 +10451,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>فهرست اتاق‌ها</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>نمایش تأکید پیام‌های خوانده‌نشده (نشان‌های تعداد، نام اتاق پررنگ، پرش آواتار، برجسته‌سازی ردیف و نشانگر لبه چپ) کنار اتاق‌ها.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>نمایش زمان آخرین پیام</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>زمان، ساعت</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>نمایش پیش‌نمایش آخرین پیام</translation>
     </message>
@@ -10370,12 +10476,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>پیش‌نمایش آخرین پیام را به ورودی‌های فهرست اتاق اضافه می‌کند. در چیدمان‌های فراخ و فشرده در خط جداگانه‌ای نمایش داده می‌شود و در حالت متراکم در کنار نام اتاق.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>پیش‌نمایش، زیرعنوان، خلاصه</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>مرتب‌سازی</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>ترتیب مرتب‌سازی، ترتیب، مرتب‌سازی</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>سیاست باز کردن فهرست اتاق‌ها</translation>
     </message>
@@ -10385,37 +10501,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اینکه کلیک روی اتاق از زبانه فعال مجدداً استفاده کند یا زبانه جدیدی باز کند. اتاق‌هایی با زبانه موجود در همه موارد آن را فعال می‌کنند.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>رفتار تب، کلیک، باز کردن</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>نوار زبانه</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>نمایش دکمه سنجاق</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>سنجاق کردن، پین کردن</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>برچسب برگه سنجاق‌شده</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>تب سنجاق‌شده، سبک تب، نمایش برچسب</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>برچسب برگه معمولی</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>سبک تب، نمایش برچسب</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>عرض ترجیحی برگه</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>اندازه تب، ابعاد تب</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>حداقل عرض تب</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>حداکثر خطوط زمانی پیش‌رندرشده‌ی اخیراً بسته‌شده</translation>
     </message>
@@ -10425,12 +10567,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>جدول‌های زمانی از پیش رندرشده که اخیراً بسته شده‌اند، تغییر سریع اتاق را ممکن می‌کنند اما مصرف CPU و RAM را افزایش می‌دهند. برگه‌های باز همیشه از پیش رندر می‌شوند. برای نگه‌داشتن فقط برگه‌های باز، به 0 تنظیم کنید.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>تاریخچه، اخیراً بسته‌شده، عملکرد، رم، حافظه</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>ورودی</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>کلید ارسال</translation>
     </message>
@@ -10440,7 +10587,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>انتخاب کنید کدام ترکیب کلید Enter پیام‌ها را ارسال می‌کند.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>میانبر صفحه‌کلید، کلید ارسال، Enter، Shift+Enter، Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>تبدیل خودکار Markdown به HTML</translation>
     </message>
@@ -10501,7 +10653,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ایموجی</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>جایگزینی خودکار شکلک‌ها با ایموجی</translation>
     </message>
@@ -10511,7 +10663,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>هنگام ارسال پیام، شکلک‌های متنی مانند :) :D :P را به‌طور خودکار با معادل ایموجی‌شان جایگزین کنید. انتخاب کنید که در همه جا یا فقط در انتها جایگزین شوند.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>کدهای کوتاه، نحو دونقطه، :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>انتخاب‌کننده‌ی درون‌خطی ایموجی</translation>
     </message>
@@ -10521,7 +10678,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>نمایش انتخاب‌کننده شکلک درخطی هنگام تایپ دو نقطه (:) در ورودی پیام.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>جنسیت ترجیحی</translation>
     </message>
@@ -10531,7 +10688,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>فقط انتخاب‌کننده‌ی درون‌خطی ایموجی: ترجیح به نوع جنسیتی تعریف‌شده‌ی یونیکد (مرد/زن) در صورت وجود. جستجوی صریح برای جنسیت دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>جنسیت</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>رنگ پوست ترجیحی</translation>
     </message>
@@ -10541,7 +10703,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>فقط انتخاب‌کننده‌ی درون‌خطی ایموجی: ترجیح به یک نوع رنگ پوست در صورت وجود. جستجوی صریح برای رنگ پوست دیگر همچنان کار می‌کند. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>رنگ پوسته، پوسته</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>نمایش به دیگران هنگام تایپ کردن</translation>
     </message>
@@ -10576,7 +10743,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>هنگامی که کلاینت در حال حاضر در کانون توجه نیست، درباره‌ی پیام‌های دریافتی اعلان دهید. این تنظیم فقط زمانی اثر دارد که اعلان‌های حساب در بالا فعال باشند.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>محتوای پیام در اعلان‌ها</translation>
     </message>
@@ -10586,7 +10753,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>میزان متن پیام برای درج در اعلان‌ها را انتخاب کنید.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>حریم خصوصی، پیش‌نمایش اعلان، متن اعلان</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>چشمک زدن پنجره‌ی برنامه/نوار وظیفه هنگام دریافت پیام</translation>
     </message>
@@ -10656,7 +10828,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>محو شدن هنگام از دست دادن فوکوس</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>تأخیر محو شدن (ثانیه)</translation>
     </message>
@@ -10664,6 +10836,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>تنظیم مدت زمانی که پس از از دست دادن تمرکز، محو شدن شروع می‌شود. برای محو فوری 0 تنظیم کنید. حداکثر 3600 ثانیه (1 ساعت) است.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>عدم فعالیت، تایمر غیاب، بیکار</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10702,26 +10879,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>ورودی صوتی، میکروفون</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>دوربین</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>وب‌کم، ورودی ویدیو</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>وضوح دوربین</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>کیفیت ویدیو، اندازه ویدیو</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>نرخ فریم دوربین</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps، فریم در ثانیه، روانی</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>زنگ تماس</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>صدای تماس، تماس دریافتی</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>اشتراک‌گذاری صفحه</translation>
     </message>
@@ -10766,7 +10968,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>میزان &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;دسترسی D-Bus&lt;/a&gt; که Komai برای تماس‌گیرندگان محلی در معرض قرار می‌دهد را انتخاب کنید.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api، خارجی، اسکریپت‌نویسی، خودکارسازی</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>جستجوی اتاق‌های Matrix</translation>
     </message>

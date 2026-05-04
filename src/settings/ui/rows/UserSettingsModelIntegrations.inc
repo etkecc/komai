@@ -13,7 +13,9 @@
       {}, {}, {},
       integrationsDbusApiAccessValues,
       nullptr,
-      CORE_CONFIG_ID(IntegrationsDbusApiAccess, SettingKey::IntegrationsDbusApiAccess) },
+      CORE_CONFIG_ID(IntegrationsDbusApiAccess, SettingKey::IntegrationsDbusApiAccess),
+      nullptr, nullptr, false,
+      QT_TRANSLATE_NOOP("UserSettingsModel", "api, external, scripting, automation") },
 #endif
     // IntegrationsMrsSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Matrix Rooms Search"), nullptr, SM::SectionTitle, SM::TabIntegrations,

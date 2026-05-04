@@ -28,7 +28,9 @@
       {}, {}, {},
       networkPresenceStatusPolicyValues,
       nullptr,
-      CORE_CONFIG_ID(NetworkPresenceStatusPolicy, SettingKey::NetworkPresenceStatusPolicy) },
+      CORE_CONFIG_ID(NetworkPresenceStatusPolicy, SettingKey::NetworkPresenceStatusPolicy),
+      nullptr, nullptr, false,
+      QT_TRANSLATE_NOOP("UserSettingsModel", "online, offline, away, unavailable, status") },
     // PresenceStatusMessage
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Status message"),
       nullptr,

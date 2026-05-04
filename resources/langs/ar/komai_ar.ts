@@ -9582,6 +9582,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>متصل، غير متصل، بعيد، غير متاح، الحالة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>رسالة الحالة</translation>
     </message>
@@ -9626,12 +9631,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>معاينة الجدول الزمني</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>الأسلوب</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>فقاعة، عادي، نمط الدردشة</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>التموضع الأفقي</translation>
     </message>
@@ -9641,7 +9651,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اختر ما إذا كانت الرسائل تبقى على جانب واحد أو تُوضع في مواجهة بعضها حسب المرسل.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>محاذاة لليسار، محاذاة لليمين، المحاذاة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>الحد الأقصى لعرض الرسالة (%)</translation>
     </message>
@@ -9651,7 +9666,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>النسبة المئوية من عرض المحادثة المتاح الذي يمكن لرسالة واحدة أن تشغله.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>ترميز لوني للمُرسِل/الرسالة</translation>
     </message>
@@ -9661,7 +9676,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اختر كيفية تعيين ألوان المرسل في الجدول الزمني وخلفيات الفقاعات.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>لون المستخدم، لون المرسل، لون الاسم</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>إظهار اسم المُرسِل فوق الرسائل</translation>
     </message>
@@ -9672,12 +9692,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>تحكّم في وقت عرض أسماء المرسلين فوق الرسائل. في وضع الفقاعات، يكون اسمك مخفياً دائماً. في الغرف الأصغر، تكفي الصور الرمزية وألوان الفقاعات في الغالب سياقاً.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>المؤلف، من أرسل، مؤلف الرسالة</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>حجم الصورة الرمزية</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>صورة الملف الشخصي، حجم الصورة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>إظهار الصورة الرمزية بجانب فقاعات رسائلي</translation>
     </message>
@@ -9728,7 +9758,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>التغذية الراجعة</translation>
     </message>
@@ -9754,7 +9784,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>الإجراءات</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>سياسة تفعيل الإجراءات</translation>
     </message>
@@ -9764,7 +9794,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اختر كيفية فتح إجراءات الرسالة.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>تحويم، زر، تفاعلات، رد، تفاعل</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>التفاعلات المثبّتة</translation>
     </message>
@@ -9784,12 +9819,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>تشغيل الصور المتحركة عند التمرير فوقها فقط</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>إظهار الصور تلقائياً</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>صور مضمنة، معاينة الصورة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>فتح في عارض خارجي</translation>
     </message>
@@ -10243,7 +10283,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>المظهر</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>السمة</translation>
     </message>
@@ -10253,7 +10293,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>هل تحتاج إلى مظاهر أخرى؟ استورد من &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; أو &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;أنشئ مظهرك الخاص&lt;/a&gt; (يلزم إعادة التشغيل).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>الكثافة</translation>
     </message>
@@ -10263,48 +10303,68 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يؤثر على التباعد وأحجام الأيقونات وارتفاعات صفوف القائمة.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>اللغة</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>عائلة الخط</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>حجم الخط</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>معظم عناصر الواجهة تُحدَّث فورياً. بعض التسميات قد لا تُحدَّث إلا بعد إعادة تشغيل التطبيق.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>الخطوط والتحجيم</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>عائلة خط الرموز التعبيرية</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>عامل الحجم [يتطلب إعادة التشغيل]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>تفعيل رسوم واجهة المستخدم المتحركة</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>اللغة المحلية، الترجمة، i18n، التوطين</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>لون، ألوان، سمة، خلفية، مظهر</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>تباعد، حشو، مضغوط، مريح، التخطيط</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>حركة، تقليل الحركة، إمكانية الوصول</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>ظهور شريط التمرير</translation>
     </message>
@@ -10314,7 +10374,32 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يتحكم في متى تظهر أشرطة التمرير في التطبيق.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>شريط التمرير</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>الخط، نوع الخط</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>حجم النص، تكبير، سهولة القراءة</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>خط الرموز التعبيرية</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi، تكبير، hidpi، دقة الشاشة</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>الصور الرمزية</translation>
     </message>
@@ -10324,12 +10409,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>معاينة الصورة الرمزية</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>استخدام الصور الرمزية الدائرية</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>صور رمزية دائرية، دائري، استدارة، صور رمزية بشكل دائرة، شكل الصورة الرمزية</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>نمط الصورة الرمزية الافتراضي</translation>
     </message>
@@ -10339,23 +10429,34 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يُعرض للمستخدمين والغرف التي لا تملك صورة رمزية مخصصة.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>بديل الصورة الرمزية، عنصر نائب للصورة الرمزية، الأحرف الأولى</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>الشريط الجانبي للمجتمعات</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>إظهار مؤشرات غير المقروء</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>إظهار تأكيد غير المقروء (شارات العدد، تمييز الصف، ومؤشر الحافة اليسرى) على فلاتر المجتمع والوسوم.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>شارات، إشعارات، عدد غير المقروءة</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>جميع الغرف</translation>
     </message>
@@ -10430,17 +10531,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>قائمة الغرف</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>إظهار تأكيد غير المقروء (شارات العدد، اسم الغرفة بالخط العريض، نبض الصورة الرمزية، تمييز الصف، ومؤشر الحافة اليسرى) بجانب الغرف.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>إظهار وقت آخر رسالة</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>الوقت، الساعة</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>إظهار معاينة آخر رسالة</translation>
     </message>
@@ -10450,12 +10556,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يضيف معاينة لآخر رسالة إلى إدخالات قائمة الغرف. يظهر في سطر منفصل في التخطيطين الفسيح والمضغوط، وبجانب اسم الغرفة في التخطيط الكثيف.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>معاينة، عنوان فرعي، مقتطف</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>الترتيب</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>ترتيب الفرز، الترتيب، ترتيب</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>سياسة فتح قائمة الغرف</translation>
     </message>
@@ -10465,37 +10581,63 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يُحدد ما إذا كان النقر على غرفة يعيد استخدام التبويب النشط أو يفتح تبويباً جديداً. الغرف التي لها تبويب موجود يتم تنشيطه في جميع الحالات.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>سلوك التبويب، سلوك، نقر، فتح</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>شريط التبويبات</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>إظهار زر التثبيت</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>تثبيت، التثبيت</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>تسمية التبويب المثبّت</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>تبويب مثبت، نمط التبويب، ظهور التسمية</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>تسمية التبويب العادي</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>نمط التبويب، ظهور التسمية</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>عرض التبويب المفضّل</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>حجم التبويب، أبعاد التبويب</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>الحد الأدنى لعرض علامة التبويب</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>الحد الأقصى للجداول الزمنية المعروضة مسبقاً للغرف المغلقة مؤخراً</translation>
     </message>
@@ -10505,12 +10647,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>المحادثات المُعالجة مسبقاً والمغلقة حديثاً تتيح التنقل الفوري بين الغرف لكنها تزيد استهلاك المعالج والذاكرة. التبويبات المفتوحة تُعالَج مسبقاً دائماً. اضبط القيمة على 0 للاحتفاظ بالتبويبات المفتوحة فقط.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>السجل، المغلقة مؤخرًا، الأداء، ذاكرة الوصول العشوائي، الذاكرة</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>الإدخال</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>مفتاح الإرسال</translation>
     </message>
@@ -10520,7 +10667,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اختر مجموعة مفتاح Enter التي ترسل الرسائل.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>اختصار لوحة المفاتيح، مفتاح الإرسال، enter، shift+enter، ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>تحويل Markdown إلى HTML تلقائيًا</translation>
     </message>
@@ -10581,7 +10733,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>رمز تعبيري</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>الاستبدال التلقائي للرموز التعبيرية بالإيموجي</translation>
     </message>
@@ -10591,7 +10743,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يستبدل تلقائيًا الرموز التعبيرية النصية مثل :) :D :P بمكافئاتها من الإيموجي عند إرسال رسالة. اختر ما إذا كان الاستبدال في كل مكان أو في النهاية فقط.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>رموز قصيرة، صيغة النقطتين، :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>منتقي الرموز التعبيرية المضمّن</translation>
     </message>
@@ -10601,7 +10758,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>إظهار منتقي رموز تعبيرية مضمّن عند كتابة نقطتين (:) في حقل الرسالة.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>الجنس المفضّل</translation>
     </message>
@@ -10611,7 +10768,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>منتقي الرموز التعبيرية المضمّن فقط: تفضيل متغيرات الجنس المحددة بـ Unicode (رجل/امرأة) عند توفرها. لا يزال البحث الصريح عن الجنس الآخر يعمل. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;اعرف المزيد&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>الجنس</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>لون البشرة المفضّل</translation>
     </message>
@@ -10621,7 +10783,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>منتقي الرموز التعبيرية المضمّن فقط: تفضيل متغير لون بشرة واحد عند توفره. لا يزال البحث الصريح عن لون بشرة آخر يعمل. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;اعرف المزيد&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>لون البشرة، لون الجلد، البشرة</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>إظهار حالة الكتابة للآخرين</translation>
     </message>
@@ -10656,7 +10823,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>إشعار برسائل مستلمة عندما لا يكون العميل في مقدمة الشاشة. يسري هذا فقط عند تفعيل إشعارات الحساب أعلاه.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>محتوى الرسالة في الإشعارات</translation>
     </message>
@@ -10666,7 +10833,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اختر مقدار نص الرسالة المراد تضمينه في الإشعارات.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>الخصوصية، معاينة الإشعار، نص الإشعار</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>وميض نافذة التطبيق/شريط المهام عند الرسائل الواردة</translation>
     </message>
@@ -10736,7 +10908,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>التعتيم عند فقدان التركيز</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>تأخير التعتيم (ثوانٍ)</translation>
     </message>
@@ -10744,6 +10916,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>حدد المدة بعد فقدان التركيز قبل بدء التعتيم. اضبط 0 للتعتيم الفوري. الحد الأقصى 3600 ثانية (ساعة واحدة).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>خمول، مؤقت الغياب، غير نشط</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10782,26 +10959,51 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>إدخال الصوت، ميكروفون</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>الكاميرا</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>كاميرا الويب، إدخال الفيديو</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>دقة الكاميرا</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>جودة الفيديو، حجم الفيديو</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>معدل إطارات الكاميرا</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps، إطارات في الثانية، سلاسة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>نغمة الرنين</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>صوت المكالمة، مكالمة واردة</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>مشاركة الشاشة</translation>
     </message>
@@ -10846,7 +11048,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اختر مقدار &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;وصول D-Bus&lt;/a&gt; الذي يكشفه Komai للمتصلين المحليين.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api، خارجي، برمجة نصية، أتمتة</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>البحث في غرف Matrix</translation>
     </message>

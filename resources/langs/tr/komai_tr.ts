@@ -9502,6 +9502,11 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>çevrimiçi, çevrimdışı, uzakta, müsait değil, durum</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Durum mesajı</translation>
     </message>
@@ -9546,12 +9551,17 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Zaman çizelgesi önizlemesi</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stil</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>balon, düz, sohbet stili</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Yatay konumlandırma</translation>
     </message>
@@ -9561,7 +9571,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Mesajların tek tarafta mı kalacağını yoksa gönderene göre karşılıklı mı konumlandırılacağını seçin.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>sola hizalı, sağa hizalı, hizalama</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maksimum mesaj genişliği (%)</translation>
     </message>
@@ -9571,7 +9586,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Tek bir mesajın kaplabileceği mevcut zaman tüneli genişliğinin yüzdesi.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Gönderen/mesaj renk kodlaması</translation>
     </message>
@@ -9581,7 +9596,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Zaman tünelinde ve balon arka planlarında gönderen renklerinin nasıl atanacağını seçin.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>kullanıcı rengi, gönderen rengi, ad rengi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Mesajların üzerinde gönderen kullanıcı adını göster</translation>
     </message>
@@ -9592,12 +9612,22 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Gönderen kullanıcı adlarının mesajların üzerinde ne zaman görüntüleneceğini kontrol edin. Balon modunda kendi kullanıcı adınız her zaman gizlidir. Daha küçük odalarda avatarlar ve balon renkleri genellikle yeterli bağlam sağlar.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>yazar, kim gönderdi, mesaj yazarı</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Avatar boyutu</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profil fotoğrafı, fotoğraf boyutu</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Kendi mesaj balonlarının yanında avatar göster</translation>
     </message>
@@ -9648,7 +9678,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Geri bildirim</translation>
     </message>
@@ -9674,7 +9704,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Eylemler</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Eylem etkinleştirme politikası</translation>
     </message>
@@ -9684,7 +9714,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Mesaj eylemlerinin nasıl açılacağını seçin.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>üzerine gelme, düğme, tepkiler, yanıt, tepki ver</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Sabitlenmiş tepkiler</translation>
     </message>
@@ -9704,12 +9739,17 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Animasyonlu görselleri yalnızca üzerine gelindiğinde oynat</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Görselleri otomatik göster</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>satır içi görseller, görsel önizleme</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Harici bir görüntüleyicide aç</translation>
     </message>
@@ -10163,7 +10203,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Görünüm</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10173,7 +10213,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Daha fazla tema mı istiyorsunuz? &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;'den içe aktarın veya &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kendinizinkini oluşturun&lt;/a&gt; (yeniden başlatma gerekli).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Yoğunluk</translation>
     </message>
@@ -10183,48 +10223,68 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Boşlukları, simge boyutlarını ve liste satırı yüksekliklerini etkiler.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Dil</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Yazı tipi ailesi</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Yazı tipi boyutu</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Çoğu arayüz öğesi anlık güncellenir. Bazı etiketler yalnızca uygulama yeniden başlatıldıktan sonra güncellenebilir.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Yazı tipleri &amp; ölçekleme</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Emoji yazı tipi ailesi</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Ölçek faktörü [yeniden başlatma gerekli]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Arayüz animasyonlarını etkinleştir</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>yerel ayar, çeviri, i18n, yerelleştirme</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>renk, renkler, tema, duvar kağıdı, görünüm</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>boşluk, dolgu, kompakt, rahat, düzen</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>hareket, hareketi azalt, erişilebilirlik</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Kaydırma çubuğu görünürlüğü</translation>
     </message>
@@ -10234,7 +10294,32 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Uygulamada kaydırma çubuklarının ne zaman gösterileceğini denetler.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>kaydırma çubuğu, kaydırma çubuğu</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>yazı tipi, font</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>metin boyutu, yakınlaştırma, okunabilirlik</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoji yazı tipi</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, yakınlaştırma, hidpi, çözünürlük</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatarlar</translation>
     </message>
@@ -10244,12 +10329,17 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Avatar önizleme</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Yuvarlak avatarlar kullan</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>yuvarlak avatarlar, yuvarlak, yuvarlıklık, daire avatarlar, avatar şekli</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Varsayılan avatar stili</translation>
     </message>
@@ -10259,23 +10349,34 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Özel avatarı olmayan kullanıcılar ve odalar için gösterilir.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar yedek, avatar yer tutucu, baş harfler</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Topluluklar kenar çubuğu</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Okunmamış göstergeleri göster</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Topluluk ve etiket filtrelerinde okunmamış vurgusu göster (sayı rozetleri, satır vurgusu ve sol kenar işareti).</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>rozetler, bildirimler, okunmamış sayısı</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Tüm odalar</translation>
     </message>
@@ -10350,17 +10451,22 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Oda listesi</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Odaların yanında okunmamış vurgusu göster (sayı rozetleri, kalın oda adı, avatar sıçraması, satır vurgusu ve sol kenar işareti).</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Son mesaj zaman damgasını göster</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>zaman, saat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Son mesaj önizlemesini göster</translation>
     </message>
@@ -10370,12 +10476,22 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Oda listesi girişlerine son mesaj önizlemesi ekler. Geniş ve Kompakt düzenlerde ayrı bir satırda, Yoğun düzeninde ise oda adının yanında satır içi olarak gösterilir.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>önizleme, alt başlık, özet</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Sıralama</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>sıralama düzeni, sıra, sıralama</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Oda listesi açılış politikası</translation>
     </message>
@@ -10385,37 +10501,63 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Bir odaya tıklamanın etkin sekmeyi yeniden kullanıp kullanmayacağını veya yeni bir sekme açıp açmayacağını belirler. Mevcut sekmesi olan odalar her durumda etkinleştirilir.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>sekme davranışı, davranış, tıklama, aç</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Sekme çubuğu</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Sabitleme düğmesini göster</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>sabitle, sabitleme</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Sabitlenmiş sekme etiketi</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>sabitlenmiş sekme, sekme stili, etiket görünürlüğü</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Normal sekme etiketi</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>sekme stili, etiket görünürlüğü</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Tercih edilen sekme genişliği</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>sekme boyutu, sekme boyutları</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minimum sekme genişliği</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>En fazla yakın zamanda kapatılmış önceden oluşturulmuş zaman çizelgesi</translation>
     </message>
@@ -10425,12 +10567,17 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Son kapatılan önceden işlenmiş zaman tünelleri anlık oda geçişini sağlar ancak CPU ve RAM kullanımını artırır. Açık sekmeler her zaman önceden işlenir. Yalnızca açık sekmeleri korumak için 0 olarak ayarlayın.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>geçmiş, yakın zamanda kapatılan, performans, ram, bellek</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Giriş</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Gönder tuşu</translation>
     </message>
@@ -10440,7 +10587,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Mesaj göndermek için hangi Enter tuşu kombinasyonunun kullanılacağını seçin.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>klavye kısayolu, gönder tuşu, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Markdown'ı otomatik olarak HTML'ye dönüştür</translation>
     </message>
@@ -10501,7 +10653,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Emotikonları otomatik olarak emoji ile değiştir</translation>
     </message>
@@ -10511,7 +10663,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Mesaj gönderirken :) :D :P gibi metin ifadelerini otomatik olarak emoji karşılıklarıyla değiştirir. Her yerde mi yoksa yalnızca sonda mı değiştirileceğini seçin.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>kısa kodlar, iki nokta sözdizimi, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Satır içi emoji seçici</translation>
     </message>
@@ -10521,7 +10678,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Mesaj girişine iki nokta (:) yazdığınızda satır içi emoji seçici göster.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Tercih edilen cinsiyet</translation>
     </message>
@@ -10531,7 +10688,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yalnızca satır içi emoji seçici: mevcut olduğunda Unicode tanımlı cinsiyet varyantlarını (erkek/kadın) tercih et. Diğer cinsiyeti açıkça aramak yine de çalışır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>cinsiyet</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Tercih edilen ten rengi</translation>
     </message>
@@ -10541,7 +10703,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yalnızca satır içi emoji seçici: mevcut olduğunda tek bir ten rengi varyantını tercih et. Başka bir ten rengi için açıkça aramak yine de çalışır. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>ten rengi, cilt rengi, ten</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Yazdığımda diğerlerine göster</translation>
     </message>
@@ -10576,7 +10743,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>İstemci odakta değilken alınan mesajlar için bildir. Bu yalnızca yukarıda hesap bildirimleri etkinleştirildiğinde geçerlidir.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Bildirimlerdeki mesaj içeriği</translation>
     </message>
@@ -10586,7 +10753,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Bildirimlere ne kadar mesaj metni ekleneceğini seçin.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>gizlilik, bildirim önizlemesi, bildirim metni</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Gelen mesajlarda uygulama penceresi/görev çubuğunu yanıp söndür</translation>
     </message>
@@ -10656,7 +10828,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Odak kaybında bulanıklaştır</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Bulanıklaştırma gecikmesi (saniye)</translation>
     </message>
@@ -10664,6 +10836,11 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Odak kaybından ne kadar süre sonra bulanıklaştırmanın başlayacağını ayarlayın. Hemen bulanıklaştırmak için 0 olarak ayarlayın. Maksimum 3600 saniyedir (1 saat).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>hareketsizlik, uzakta zamanlayıcı, boşta</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10702,26 +10879,51 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>ses girişi, mikrofon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>web kamerası, video girişi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Kamera çözünürlüğü</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>video kalitesi, video boyutu</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Kamera kare hızı</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, saniye başına kare, pürüzsüzlük</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Zil sesi</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>arama sesi, gelen arama</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Ekran paylaşımı</translation>
     </message>
@@ -10766,7 +10968,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Komai'nin yerel çağıranlara ne kadar &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus erişimi&lt;/a&gt; sunacağını seçin.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, harici, betik, otomasyon</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix Oda Arama</translation>
     </message>

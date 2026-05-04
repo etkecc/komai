@@ -9518,6 +9518,11 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>en línia, fora de línia, absent, no disponible, estat</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Missatge d'estat</translation>
     </message>
@@ -9562,12 +9567,17 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Previsualització de la cronologia</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Estil</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>bombolla, senzill, estil de xat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Posicionament horitzontal</translation>
     </message>
@@ -9577,7 +9587,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Tria si els missatges es mantenen en un costat o es posicionen en costats oposats per remitent.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>alineat a l'esquerra, alineat a la dreta, alineació</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Amplada màxima del missatge (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Percentatge de l'amplada disponible de la línia de temps que pot ocupar un sol missatge.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Codificació de colors de remitent/missatge</translation>
     </message>
@@ -9597,7 +9612,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Tria com s'assignen els colors dels remitents a la línia de temps i als fons de les bombolles.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>color d'usuari, color del remitent, color del nom</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Mostra el nom d'usuari del remitent per sobre dels missatges</translation>
     </message>
@@ -9608,12 +9628,22 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Controla quan es mostren els noms d'usuari del remitent per sobre dels missatges. En el mode de bombolla, el teu nom d'usuari sempre s'amaga. En sales més petites, els avatars i els colors de les bombolles sovint aporten prou context.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>autor, qui ha enviat, autor del missatge</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Mida de l'avatar</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>foto de perfil, mida de la foto</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Mostra l'avatar al costat dels propis missatges</translation>
     </message>
@@ -9664,7 +9694,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Comentaris</translation>
     </message>
@@ -9690,7 +9720,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Accions</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Política d'activació d'accions</translation>
     </message>
@@ -9700,7 +9730,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Tria com s'obren les accions dels missatges.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>passar el ratolí, botó, reaccions, respondre, reaccionar</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Reaccions fixades</translation>
     </message>
@@ -9720,12 +9755,17 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Reprodueix imatges animades només en passar el cursor per sobre</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Mostra les imatges automàticament</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>imatges en línia, previsualització d'imatges</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Obre en un visor extern</translation>
     </message>
@@ -10179,7 +10219,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Aparença</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
@@ -10189,7 +10229,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Necessiteu més temes? Importeu-los des de &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; o &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;creeu-ne de propis&lt;/a&gt; (cal reiniciar).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Densitat</translation>
     </message>
@@ -10199,48 +10239,68 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Afecta l'espaiat, la mida de les icones i l'alçada de les files de la llista.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Família de tipus de lletra</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Mida del tipus de lletra</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La majoria d'elements de la interfície s'actualitzen en directe. Algunes etiquetes potser només s'actualitzen en reiniciar l'aplicació.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Tipografies i escala</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Família de tipus de lletra d'emoji</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Factor d'escala [cal reiniciar]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Activa les animacions de la interfície</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>idioma, traducció, i18n, localització</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>color, colors, tema, fons de pantalla, aparença</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>espaiat, marge interior, compacte, còmode, disseny</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>moviment, reduir el moviment, accessibilitat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Visibilitat de la barra de desplaçament</translation>
     </message>
@@ -10250,7 +10310,32 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Controla quan es mostren les barres de desplaçament a tota l'aplicació.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>barra de desplaçament, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>tipografia, lletra</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>mida del text, zoom, llegibilitat</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>tipografia d'emoji</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoom, hidpi, resolució</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatars</translation>
     </message>
@@ -10260,12 +10345,17 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Previsualització de l'avatar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Utilitza avatars circulars</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>avatars rodons, rodó, arrodoniment, avatars circulars, forma de l'avatar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Estil d'avatar predeterminat</translation>
     </message>
@@ -10275,23 +10365,34 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Es mostra per a usuaris i sales que no tenen cap avatar personalitzat.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar alternatiu, marcador d'avatar, inicials</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Barra lateral de comunitats</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Mostra els indicadors de no llegit</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Mostra l'èmfasi de no llegit (insígnies de recompte, ressaltat de fila i indicador del marge esquerre) als filtres de comunitat i etiqueta.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>indicadors, notificacions, missatges no llegits</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Totes les sales</translation>
     </message>
@@ -10366,17 +10467,22 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Llista de sales</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Mostra l'èmfasi de no llegit (insígnies de recompte, nom de sala en negreta, animació de l'avatar, ressaltat de fila i indicador del marge esquerre) al costat de les sales.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Mostra l'hora de l'últim missatge</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>hora, rellotge</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Mostra la previsualització de l'últim missatge</translation>
     </message>
@@ -10386,12 +10492,22 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Afegeix una previsualització de l'últim missatge a les entrades de la llista de sales. Es mostra en una línia pròpia en els dissenys Espaiós i Compacte, i en línia al costat del nom de la sala en el Dens.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>previsualització, subtítol, fragment</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Ordenació</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>ordre de classificació, ordre, ordenació</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Política d'obertura de la llista de sales</translation>
     </message>
@@ -10401,37 +10517,63 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Indica si fer clic a una sala reutilitza la pestanya activa o n'obre una de nova. Les sales amb una pestanya existent l'activen en tots els casos.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>comportament de la pestanya, comportament, clic, obrir</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Barra de pestanyes</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Mostra el botó de fixació</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>fixar, fixació</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Etiqueta de pestanya fixada</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>pestanya fixada, estil de pestanya, visibilitat de l'etiqueta</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Etiqueta de pestanya normal</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>estil de pestanya, visibilitat de l'etiqueta</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Amplada de pestanya preferida</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>mida de la pestanya, dimensions de la pestanya</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Amplada mínima de la pestanya</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Màxim de línies de temps prerenderades tancades recentment</translation>
     </message>
@@ -10441,12 +10583,17 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Les línies de temps prerenderitzades tancades recentment permeten canviar de sala a l'instant, però augmenten l'ús de la CPU i la RAM. Les pestanyes obertes sempre estan prerenderitzades. Establiu 0 per conservar només les pestanyes obertes.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>historial, tancades recentment, rendiment, ram, memòria</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Entrada</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Tecla d'enviament</translation>
     </message>
@@ -10456,7 +10603,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Tria quina combinació de tecles Intro envia missatges.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>drecera de teclat, tecla d'enviament, Enter, Shift+Enter, Ctrl+Enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Converteix automàticament Markdown a HTML</translation>
     </message>
@@ -10517,7 +10669,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Substitueix automàticament les emoticones per emojis</translation>
     </message>
@@ -10527,7 +10679,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Substitueix automàticament les emoticones de text com :) :D :P pels seus equivalents emoji en enviar un missatge. Tria si s'han de substituir a tot arreu o només al final.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>codis curts, sintaxi de dos punts, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Selector d'emoji en línia</translation>
     </message>
@@ -10537,7 +10694,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Mostra un selector d'emojis en línia quan s'escriu dos punts (:) a l'entrada de missatge.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Gènere preferit</translation>
     </message>
@@ -10547,7 +10704,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Només per al selector d'emoji en línia: prefereix les variants de gènere definides per Unicode (home/dona) quan estiguin disponibles. La cerca explícita de l'altre gènere continua funcionant. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>gènere</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>To de pell preferit</translation>
     </message>
@@ -10557,7 +10719,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Només per al selector d'emoji en línia: prefereix una variant de to de pell quan estigui disponible. La cerca explícita d'un altre to de pell continua funcionant. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>color de pell, color de pell, pell</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Mostra als altres quan estic escrivint</translation>
     </message>
@@ -10592,7 +10759,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Notifica sobre els missatges rebuts quan el client no té el focus. Això només té efecte quan les notificacions del compte estan activades més amunt.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Contingut del missatge a les notificacions</translation>
     </message>
@@ -10602,7 +10769,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Tria quant text del missatge s'inclou a les notificacions.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>privacitat, previsualització de notificacions, text de notificació</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Fes parpellejar la finestra/barra de tasques en rebre missatges</translation>
     </message>
@@ -10672,7 +10844,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Desenfoca en perdre el focus</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Retard del desenfocament (segons)</translation>
     </message>
@@ -10680,6 +10852,11 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Establiu quant de temps ha de passar després de perdre el focus fins que comenci el difuminat. Establiu 0 per difuminar immediatament. El màxim és 3600 segons (1 hora).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>inactivitat, temporitzador d'absència, inactiu</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>entrada d'àudio, micròfon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Càmera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>càmera web, entrada de vídeo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Resolució de la càmera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>qualitat de vídeo, mida del vídeo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Taxa de fotogrames de la càmera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, fotogrames per segon, suavitat</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>To de trucada</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>so de trucada, trucada entrant</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Compartició de pantalla</translation>
     </message>
@@ -10782,7 +10984,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Tria quant &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;accés D-Bus&lt;/a&gt; exposa Komai als clients locals.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, extern, scripting, automatització</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Cerca de sales de Matrix</translation>
     </message>

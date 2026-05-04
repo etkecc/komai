@@ -9521,6 +9521,11 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>enrete, eksterrete, for, nedisponebla, statuso</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Stata mesaĝo</translation>
     </message>
@@ -9565,12 +9570,17 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Antaŭrigardo de tempolinio</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stilo</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>veziko, simpla, babilstilo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Horizontala poziciado</translation>
     </message>
@@ -9580,7 +9590,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Elektu ĉu mesaĝoj restas ĉe unu flanko aŭ estas poziciigitaj kontraŭe laŭ sendanto.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>maldekstre vicigita, dekstre vicigita, vicigo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maksimuma mesaĝa larĝo (%)</translation>
     </message>
@@ -9590,7 +9605,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Procento de havebla kronolinia larĝo kiun unu mesaĝo povas okupi.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Kolorkodigo de sendinto/mesaĝo</translation>
     </message>
@@ -9600,7 +9615,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Elektu kiel sendantaj koloroj estas asignataj en la tempolinio kaj balonaj fonoj.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>uzantkoloro, sendantkoloro, nomkoloro</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Montri uzantnomon de sendinto super mesaĝoj</translation>
     </message>
@@ -9611,12 +9631,22 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Kontroli kiam sendantaj uzantnomoj estas montrataj super mesaĝoj. En bulbana reĝimo, via propra uzantnomo estas ĉiam kaŝita. En pli malgrandaj ĉambroj, avataroj kaj bulbaj koloroj estas ofte sufiĉa kunteksto.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>aŭtoro, kiu sendis, mesaĝaŭtoro</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Avatara grandeco</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profila bildo, bildgrandeco</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Montri avataron apud propraj mesaĝaj balonetoj</translation>
     </message>
@@ -9667,7 +9697,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Retrosciigo</translation>
     </message>
@@ -9693,7 +9723,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Agoj</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Agoj-aktiviga politiko</translation>
     </message>
@@ -9703,7 +9733,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Elektu kiel mesaĝaj agoj estas malfermitaj.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>hovri, butono, reagoj, respondi, reagi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Alpinglitaj reagoj</translation>
     </message>
@@ -9723,12 +9758,17 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Ludi animaciitajn bildojn nur dum superŝvebi</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Montri bildojn aŭtomate</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>enliniaj bildoj, bildantaŭrigardo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Malfermi per ekstera rigardilo</translation>
     </message>
@@ -10182,7 +10222,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Aspekto</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Temo</translation>
     </message>
@@ -10192,7 +10232,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Bezonas pli da temoj? Importu el &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt; aŭ &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;kreu vian propran&lt;/a&gt; (restartigo necesa).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Denseco</translation>
     </message>
@@ -10202,48 +10242,68 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Influas interspacojn, grandecojn de piktogramoj kaj altecojn de listaj vicoj.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Lingvo</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Tipara familio</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Tipara grandeco</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>La plej multaj UI-elementoj ĝisdatiĝas tuj. Iuj etikedoj eble ĝisdatiĝas nur post rekomencigo de la apliko.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Tiparoj &amp; skalado</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Tipara familio por emojoj</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Skala faktoro [relanĉo bezonata]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Ebligi UI-animaciojn</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>lokaĵaro, tradukado, i18n, lokalizacio</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>koloro, koloroj, haŭto, tapeto, aspekto</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>interspacigo, remburado, kompakta, komforta, aranĝo</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>movo, redukti movadon, alirebleco</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Videbleco de rulstango</translation>
     </message>
@@ -10253,7 +10313,32 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Kontrolas kiam rulumilistoj estas montrataj tra la aplikaĵo.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>rulumbreto, rulumbreto</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>tiparo, tiparo</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>tekstgrandeco, zoom, legebleco</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoĝia tiparo</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoom, hidpi, rezolucio</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avataroj</translation>
     </message>
@@ -10263,12 +10348,17 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Antaŭrigardo de avataro</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Uzi rondajn avatarojn</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>rondaj avataroj, ronda, rondeco, cirkla avataroj, avatara formo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Defaŭlta avatara stilo</translation>
     </message>
@@ -10278,23 +10368,34 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Montrata por uzantoj kaj ĉambroj kiuj ne havas propran avataron.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatara anstataŭaĵo, avatara loktenilo, inicialoj</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Komunuma flankpanelo</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Montri nelegitajn indikatorojn</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Montri nelegitan emfazon (kalkulajn insignojn, vican elstarigon kaj maldekstra-randan markisilon) sur komunumaj kaj etikedaj filtriloj.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>insignoj, sciigoj, nelegita kvanto</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Ĉiuj ĉambroj</translation>
     </message>
@@ -10369,17 +10470,22 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Listo de ĉambroj</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Montri nelegitan emfazon (kalkulajn insignojn, grasan ĉambronomon, avataran saltadon, vican elstarigon kaj maldekstra-randan markisilon) apud ĉambroj.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Montri tempostampon de lasta mesaĝo</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>tempo, horloĝo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Montri antaŭrigardon de lasta mesaĝo</translation>
     </message>
@@ -10389,12 +10495,22 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Aldonas antaŭrigardon de la lasta mesaĝo al ĉambrlistaj eroj. Montrata sur sia propra linio en Larĝa kaj Kompakta aspektoj, kaj enlinie apud la ĉambranomo en Densa.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>antaŭrigardo, subtitolo, fragmento</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Ordigo</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>vicordo, ordo, ordigo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Politiko por malfermi liston de ĉambroj</translation>
     </message>
@@ -10404,37 +10520,63 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Ĉu alklako sur ĉambro reutilas la aktivan langeton aŭ malfermas novan. Ĉambroj kun ekzistanta langeto ĝin aktivigas en ĉiuj kazoj.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>langeta konduto, konduto, klako, malfermi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Langeta stango</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Montri alpinglan butonon</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>alpingli, alpinglado</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Etikedo de alpinglita langeto</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>alpinglita langeto, langeta stilo, etikeda videbleco</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Etikedo de regula langeto</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>langeta stilo, etikeda videbleco</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Preferata larĝo de langeto</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>langeta grandeco, langeta dimensioj</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minimuma langeta larĝo</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Maksimumo da lastatempe fermitaj antaŭrenderigitaj tempolinioj</translation>
     </message>
@@ -10444,12 +10586,17 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Antaŭ-renderitaj kronolinioj de lastatempe fermitaj ĉambroj ebligas tujan ĉambran ŝanĝon sed pliigas CPU- kaj RAM-uzadon. Malfermitaj langetoj estas ĉiam antaŭ-renderitaj. Agordu je 0 por konservi nur malfermitajn langetojn.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>historio, lastatempe fermitaj, rendimento, ram, memoro</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Enigo</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Klavo por sendi</translation>
     </message>
@@ -10459,7 +10606,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Elektu per kiu Enter-tast-kombinaĵo mesaĝoj estas senditaj.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>klavara mallongigo, sendoklavo, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Aŭtomate konverti Markdown al HTML</translation>
     </message>
@@ -10520,7 +10672,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Aŭtomate anstataŭigi emotikonojn per emodžioj</translation>
     </message>
@@ -10530,7 +10682,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Aŭtomate anstataŭigi tekstajn emotikonojn kiel :) :D :P per siaj emodžiaj ekvivalentoj dum sendado de mesaĝo. Elektu ĉu anstataŭigi ĉie aŭ nur ĉe la fino.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>mallongkodoj, dupunkta sintakso, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Enlinia emojoa elektilo</translation>
     </message>
@@ -10540,7 +10697,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Montri enlinian emojian elektilon kiam vi tajpas dupunkton (:) en la mesaĝa enigokampo.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Preferata sekso</translation>
     </message>
@@ -10550,7 +10707,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Nur enlinia emojoa elektilo: preferi Unicode-difinitajn seksajn variantojn (viro/virino) kiam disponeblaj. Eksplicite serĉi la alian sekson daŭre funkcias. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lerni pli&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>sekso</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Preferata haŭtkoloro</translation>
     </message>
@@ -10560,7 +10722,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Nur enlinia emojoa elektilo: preferi unu haŭttonan variandon kiam disponebla. Eksplicite serĉi alian haŭttonon daŭre funkcias. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lerni pli&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>haŭtkoloro, haŭtkoloro, haŭto</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Montri al aliaj kiam mi tajpas</translation>
     </message>
@@ -10595,7 +10762,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Sciigi pri ricevitaj mesaĝoj kiam la kliento ne estas aktuale fokusita. Ĉi tio efektiviĝas nur kiam kontaj sciigoj estas ebligitaj supre.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Mesaĝenhavo en sciigoj</translation>
     </message>
@@ -10605,7 +10772,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Elektu kiom da mesaĝteksto inkluzivi en sciigoj.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>privateco, sciiga antaŭrigardo, sciiga teksto</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Ekbrili la aplikaĵan fenestron/taskbaron ĉe alvenantaj mesaĝoj</translation>
     </message>
@@ -10675,7 +10847,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Malklarigo ĉe fokusperdo</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Malklariga prokrasto (sekundoj)</translation>
     </message>
@@ -10683,6 +10855,11 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Agordu kiom longe post perdo de fokuso antaŭ ol malklarigo komenciĝas. Agordu 0 por malklarigi tuj. Maksimumo estas 3600 sekundoj (1 horo).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>neaktiveco, foresta tempomezurilo, senokupeco</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10721,26 +10898,51 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>aŭdia enigo, mikrofono</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Fotilo</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>retkamero, videa enigo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Fotila rezolucio</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>videa kvalito, videa grandeco</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Fotila kadrrapideco</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, kadroj por sekundo, glateco</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Ringsono</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>alvoksonoj, venanta alvoko</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Ekrandividado</translation>
     </message>
@@ -10785,7 +10987,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Elektu kiom da &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus aliro&lt;/a&gt; Komai elmontras al lokaj vokantoj.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, ekstera, skriptado, aŭtomatigo</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix-ĉambra serĉado</translation>
     </message>

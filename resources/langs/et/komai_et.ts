@@ -9518,6 +9518,11 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>võrgus, võrguühenduseta, eemal, kättesaamatu, olek</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Olekusõnum</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Ajaskaala eelvaade</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Stiil</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>mull, tavaline, vestlusstiil</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Horisontaalne paigutus</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Määrab, kas sõnumid jäävad ühele küljele või on saatja järgi üksteise vastas.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>vasakule joondatud, paremale joondatud, joondus</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Maksimaalne sõnumi laius (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Protsent kasutatavast ajaskaala laiusest, mida üksik sõnum võib hõivata.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Saatja/sõnumi värvikodeering</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Määrab, kuidas saatja värvid ajaloos ja mulli taustadel määratakse.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>kasutaja värv, saatja värv, nime värv</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Näita saatja kasutajanime sõnumite kohal</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Juhib, millal kuvatakse saatja kasutajanimedid sõnumite kohal. Mullirežiimis on teie enda kasutajanimi alati peidetud. Väiksemates jututubades on avatarid ja mullide värvid sageli piisav kontekst.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>autor, saatja, sõnumi autor</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Avatari suurus</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profiilipilt, pildi suurus</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Näita avataari oma sõnumimulli kõrval</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Tagasiside</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Toimingud</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Toimingute aktiveerimispoliitika</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Määrab, kuidas sõnumitoiminguid avatakse.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>hõljutamine, nupp, reaktsioonid, vastamine, reageerimine</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Kinnitatud reaktsioonid</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Esita animeeritud pilte ainult hõljumisel</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Näita pilte automaatselt</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>tekstisisesed pildid, pildi eelvaade</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Ava välises vaatajas</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Välimus</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Vajad rohkem teemasid? Impordi &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallery&lt;/a&gt;st või &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;loo oma&lt;/a&gt; (taaskäivitamine vajalik).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Tihedus</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Mõjutab vahesid, ikoonide suurust ja loendi ridade kõrgust.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Keel</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Fondiperekond</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Fondi suurus</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Enamik kasutajaliidese elemente uuendatakse reaalajas. Mõned sildid võivad uuenduda alles pärast rakenduse taaskäivitamist.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Fondid ja skaleerimine</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Emoji fondiperekond</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Skaleerimistegur [taaskäivitamine vajalik]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Luba kasutajaliidese animatsioonid</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>lokaat, tõlge, i18n, lokaliseerimine</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>värvus, värvused, värv, värvid, nahk, taustpilt, välimus</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>vahe, täidis, kompaktne, mugav, paigutus</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>liikumine, vähenda liikumist, ligipääsetavus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Kerimisriba nähtavus</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Juhib, millal kerimisribad rakenduses kuvatakse.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>kerimisriba</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>kirjatüüp, font</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>teksti suurus, suurendus, loetavus</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoji kirjatüüp</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, suurendus, hidpi, eraldusvõime</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatarid</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Avatari eelvaade</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Kasuta ümmargusi avataare</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>ümmargused avatarid, ümmargune, ümarus, ringi kujul avatarid, avatari kuju</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Vaikimisi avatari stiil</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Kuvatakse kasutajatele ja jututubadele, millel puudub kohandatud avatar.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatari asendus, avatari kohatäide, initsiaalid</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Kogukondade külgriba</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Kuva lugemata indikaatorid</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Näita lugemata rõhutust (arvu märgid, rea esiletõst ja vasak-ääre märkija) kogukonna- ja märgendifiltrites.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>märgised, teavitused, lugemata arv</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Kõik jututoad</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Jututubade nimekiri</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Näita lugemata rõhutust (arvu märgid, paks jututoa nimi, avatari põrkamine, rea esiletõst ja vasak-ääre märkija) jututubade kõrval.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Näita viimase sõnumi ajatemplit</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>kellaaeg, kell</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Näita viimase sõnumi eelvaadet</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Lisab jututubade loendisse viimase sõnumi eelvaate. Kuvatakse eraldi real Avara ja Kompaktse paigutuse korral ning jututoa nime kõrval Tiheda paigutuse korral.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>eelvaade, alapealkiri, lõik</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Sortimine</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>sortimise järjekord, järjekord, sortimine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Jututubade nimekirja avamise reegel</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Määrab, kas jututoal klõpsamine kasutab aktiivset vaheleht uuesti või avab uue. Jututoal, millel on juba vaheleht, aktiveeritakse see igal juhul.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>vahelehe käitumine, käitumine, klõps, avamine</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Vahelehtede riba</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Näita kinnitamisnuppu</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>kinnitamine, klammerdamine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Kinnitatud vahekaardi silt</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>kinnitatud vaheleht, vahelehe stiil, sildi nähtavus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Tavalise vahekaardi silt</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>vahelehe stiil, sildi nähtavus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Eelistatud vahekaardi laius</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>vahelehe suurus, vahelehe mõõtmed</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Minimaalne vahekaardi laius</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Maksimaalne arv hiljuti suletud eelrenderdatud ajajooni</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Hiljuti suletud eelrenderdatud ajaskaalad võimaldavad kohest jututoa vahetamist, kuid suurendavad protsessori ja RAM-i kasutust. Avatud vahekaardid renderdatakse alati eelnevalt. Seadke 0, et säilitada ainult avatud vahekaardid.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>ajalugu, hiljuti suletud, jõudlus, ram, mälu</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Sisend</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Saatmisklahv</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Määrab, milline Enter-klahvi kombinatsioon saadab sõnumeid.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>klaviatuuri otsetee, saatmisklahv, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Teisenda Markdown automaatselt HTML-iks</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Asenda emotikonid automaatselt emojidega</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Asendab sõnumi saatmisel automaatselt tekstiemotikonid (nt :) :D :P) nende emoji vastetega. Võimalus valida, kas asendada kõikjal või ainult lõpus.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>lühikoodid, koolonsüntaks, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Rea sees emoji valija</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Näita reasisest emoji valijat, kui sisestad sõnumisisendisse kooloni (:).</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Eelistatud sugu</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Ainult rea sees emoji valija: eelistada Unicode'is määratletud soo variante (mees/naine), kui need on saadaval. Teise soo otsimine töötab endiselt. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lisateave&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>sugu</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Eelistatud nahavärvus</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Ainult rea sees emoji valija: eelistada ühte nahavärvi varianti, kui see on saadaval. Teise nahavärvi otsimine töötab endiselt. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lisateave&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>nahatoon, nahavärvus, nahk</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Näita teistele, kui kirjutan</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Teavita saabunud sõnumitest, kui klient ei ole praegu fookuses. See jõustub ainult siis, kui konto teavitused on ülalpool lubatud.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Sõnumi sisu teavitustes</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Määrab, kui palju sõnumiteksti teavitustesse lisatakse.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>privaatsus, teavituse eelvaade, teavituse tekst</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Vilguta rakenduse akent/tegumiriba sissetulevate sõnumite korral</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Hägusta fookuse kaotamisel</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Hägustamise viivitus (sekundit)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Määra, kui kaua pärast fookuse kaotamist oodatakse enne udustamise algust. Seadke 0 koheseks udustamiseks. Maksimaalne väärtus on 3600 sekundit (1 tund).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>tegevusetus, eemaloleku taimer, jõudeaeg</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>helisisend, mikrofon</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kaamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>veebikaamera, videosisend</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Kaamera eraldusvõime</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>video kvaliteet, video suurus</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Kaamera kaadrisagedus</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, kaadrit sekundis, siledus</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Helinatoon</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>kõne heli, sissetulev kõne</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Ekraanijagamine</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Määrab, kui palju &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus juurdepääsu&lt;/a&gt; Komai kohalikele helistajatele pakub.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, väline, skriptimine, automatiseerimine</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix jututubade otsing</translation>
     </message>

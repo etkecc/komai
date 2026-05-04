@@ -40,13 +40,15 @@
       QT_TRANSLATE_NOOP("UserSettingsModel", "Notify about received messages when the client is not currently focused. This only takes effect when account notifications are enabled above."),
       SM::TabDesktop, desktopNotificationsEnabled, setDesktopNotificationsEnabled, desktopNotificationsSettingsEnabled, DesktopNotificationsEnabled, SettingKey::DesktopNotificationsEnabled),
     // DesktopNotificationsMessageContentPolicy
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Message content in notifications"),
-      QT_TRANSLATE_NOOP("UserSettingsModel", "Choose how much message text to include in notifications."),
-      SM::TabDesktop, desktopNotificationsMessageContentPolicy, setDesktopNotificationsMessageContentPolicy, UserSettings::NotificationMessageContentPolicy,
-      desktopNotificationsMessageContentPolicyValues,
-      desktopNotificationsSettingsEnabled,
-      DesktopNotificationsMessageContentPolicy,
-      SettingKey::DesktopNotificationsMessageContentPolicy),
+    withKeywords(
+      SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Message content in notifications"),
+        QT_TRANSLATE_NOOP("UserSettingsModel", "Choose how much message text to include in notifications."),
+        SM::TabDesktop, desktopNotificationsMessageContentPolicy, setDesktopNotificationsMessageContentPolicy, UserSettings::NotificationMessageContentPolicy,
+        desktopNotificationsMessageContentPolicyValues,
+        desktopNotificationsSettingsEnabled,
+        DesktopNotificationsMessageContentPolicy,
+        SettingKey::DesktopNotificationsMessageContentPolicy),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "privacy, notification preview, notification text")),
     // DesktopNotificationsAttentionOnIncoming
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Flash app window/taskbar on incoming messages"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Show an attention alert when a message is received (for example, taskbar icon activity)."),
@@ -84,8 +86,10 @@
                         nullptr,
                         SM::TabDesktop, desktopWindowFocusBlurEnabled, setDesktopWindowFocusBlurEnabled, nullptr, DesktopWindowFocusBlurEnabled, SettingKey::DesktopWindowFocusBlurEnabled),
     // DesktopWindowFocusBlurDelaySeconds
-    SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Blur delay (seconds)"),
-      QT_TRANSLATE_NOOP("UserSettingsModel",
-        "Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour)."),
-      SM::TabDesktop, desktopWindowFocusBlurDelaySeconds, setDesktopWindowFocusBlurDelaySeconds, 0, 3600, 10,
-      nullptr, desktopWindowFocusBlurDelaySecondsEnabled, DesktopWindowFocusBlurDelaySeconds, SettingKey::DesktopWindowFocusBlurDelaySeconds),
+    withKeywords(
+      SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Blur delay (seconds)"),
+        QT_TRANSLATE_NOOP("UserSettingsModel",
+          "Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour)."),
+        SM::TabDesktop, desktopWindowFocusBlurDelaySeconds, setDesktopWindowFocusBlurDelaySeconds, 0, 3600, 10,
+        nullptr, desktopWindowFocusBlurDelaySecondsEnabled, DesktopWindowFocusBlurDelaySeconds, SettingKey::DesktopWindowFocusBlurDelaySeconds),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "inactivity, away timer, idle")),

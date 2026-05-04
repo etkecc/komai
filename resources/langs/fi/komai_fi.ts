@@ -9518,6 +9518,11 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+9"/>
+        <source>online, offline, away, unavailable, status</source>
+        <translation>online, offline, poissa, ei tavoitettavissa, tila</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Status message</source>
         <translation>Tilaviesti</translation>
     </message>
@@ -9562,12 +9567,17 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Aikajanan esikatselu</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Style</source>
         <translation>Tyyli</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>bubble, plain, chat style</source>
+        <translation>kupla, tavallinen, chat-tyyli</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Horizontal positioning</source>
         <translation>Vaakasuuntainen sijoittelu</translation>
     </message>
@@ -9577,7 +9587,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Valitse, pysyvätkö viestit yhdellä puolella vai asetetaanko ne lähettäjän mukaan vastakkaisille puolille.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>left aligned, right aligned, alignment</source>
+        <translation>vasemmalle tasattu, oikealle tasattu, tasaus</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Maximum message width (%)</source>
         <translation>Viestien enimmäisleveys (%)</translation>
     </message>
@@ -9587,7 +9602,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Prosenttiosuus käytettävissä olevasta aikajanan leveydestä, jonka yksittäinen viesti voi täyttää.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Sender/message color coding</source>
         <translation>Lähettäjän/viestin värikoodaus</translation>
     </message>
@@ -9597,7 +9612,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Valitse, miten lähettäjävärit määritetään aikajanalla ja kuplapohjissa.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>user color, sender color, name color</source>
+        <translation>käyttäjän väri, lähettäjän väri, nimen väri</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show sender username above messages</source>
         <translation>Näytä lähettäjän käyttäjänimi viestien yläpuolella</translation>
     </message>
@@ -9608,12 +9628,22 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Hallitse, milloin lähettäjien käyttäjänimet näytetään viestien yläpuolella. Kuplatilassa oma käyttäjänimesi on aina piilotettu. Pienemmissä huoneissa avatarit ja kuplavärit tarjoavat usein riittävästi asiayhteyden.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>author, who sent, message author</source>
+        <translation>lähettäjä, kuka lähetti, viestin lähettäjä</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatar size</source>
         <translation>Avatarin koko</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>profile picture, picture size</source>
+        <translation>profiilikuva, kuvan koko</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show avatar next to own message bubbles</source>
         <translation>Näytä avatar omien viestikuplien vieressä</translation>
     </message>
@@ -9664,7 +9694,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+74"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
         <translation>Palaute</translation>
     </message>
@@ -9690,7 +9720,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Toiminnot</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Actions activation policy</source>
         <translation>Toimintojen aktivointikäytäntö</translation>
     </message>
@@ -9700,7 +9730,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Valitse, miten viestien toiminnot avataan.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>hover, button, reactions, reply, react</source>
+        <translation>vieminen päälle, painike, reaktiot, vastaus, reagointi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Pinned reactions</source>
         <translation>Kiinnitetyt reaktiot</translation>
     </message>
@@ -9720,12 +9755,17 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Toista animoidut kuvat vain hiiren osoittaessa</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show images automatically</source>
         <translation>Näytä kuvat automaattisesti</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>inline images, image preview</source>
+        <translation>kuvaesikatselu, kuvan esikatselu</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Open in an external viewer</source>
         <translation>Avaa ulkoisessa katseluohjelmassa</translation>
     </message>
@@ -10179,7 +10219,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Ulkoasu</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -10189,7 +10229,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Tarvitsetko lisää teemoja? Tuo &lt;a href="https://tinted-theming.github.io/tinted-gallery/"&gt;Tinted Gallerysta&lt;/a&gt; tai &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/themes.md"&gt;luo oma&lt;/a&gt; (uudelleenkäynnistys vaaditaan).</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Density</source>
         <translation>Tiheys</translation>
     </message>
@@ -10199,48 +10239,68 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Vaikuttaa välistykseen, kuvakkeiden kokoihin ja luettelorivien korkeuteen.</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-28"/>
         <source>Language</source>
         <translation>Kieli</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+66"/>
         <source>Font family</source>
         <translation>Kirjainperhe</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Font size</source>
         <translation>Kirjasinkoko</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location line="+63"/>
+        <location line="-75"/>
+        <location line="+76"/>
         <source>Most UI elements update live. Some labels may only update after restarting the app.</source>
         <translation>Useimmat käyttöliittymäelementit päivittyvät reaaliajassa. Jotkin otsikot saattavat päivittyä vasta sovelluksen uudelleenkäynnistyksen jälkeen.</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Fonts &amp; scaling</source>
         <translation>Fontit ja skaalaus</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+26"/>
         <source>Emoji font family</source>
         <translation>Emojin kirjainperhe</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Scale factor [restart required]</source>
         <translation>Skaalaustekijä [uudelleenkäynnistys vaaditaan]</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-67"/>
         <source>Enable UI animations</source>
         <translation>Ota käyttöliittymäanimaatiot käyttöön</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-29"/>
+        <source>locale, translation, i18n, localization</source>
+        <translation>alue, käännös, i18n, lokalisointi</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>colour, colours, color, colors, skin, wallpaper, look</source>
+        <translation>väri, värit, teema, taustakuva, ulkoasu</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>spacing, padding, compact, comfortable, layout</source>
+        <translation>välistys, täyte, tiivis, tilava, asettelu</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>motion, reduce motion, accessibility</source>
+        <translation>liike, vähennä liikettä, saavutettavuus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Scrollbar visibility</source>
         <translation>Vierityspalkin näkyvyys</translation>
     </message>
@@ -10250,7 +10310,32 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Hallinnoi, milloin vierityspalkit näytetään sovelluksessa.</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+9"/>
+        <source>scroll bar, scrollbar</source>
+        <translation>vierityspalkki, scrollbar</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>typeface, font</source>
+        <translation>kirjasintyyppi, fontti</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>text size, zoom, readability</source>
+        <translation>tekstin koko, zoomaus, luettavuus</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>emoji typeface</source>
+        <translation>emoji-kirjasintyyppi</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>dpi, zoom, hidpi, resolution</source>
+        <translation>dpi, zoomaus, hidpi, resoluutio</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Avatars</source>
         <translation>Avatarit</translation>
     </message>
@@ -10260,12 +10345,17 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Avatar-esikatselu</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Use circular avatars</source>
         <translation>Käytä pyöreitä avataria</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>round avatars, round, roundness, circle avatars, avatar shape</source>
+        <translation>pyöreät avatarit, pyöreä, pyöreys, ympyräavatarit, avatarin muoto</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Default avatar style</source>
         <translation>Oletusavatarityyli</translation>
     </message>
@@ -10275,23 +10365,34 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Näytetään käyttäjille ja huoneille, joilla ei ole mukautettua avataria.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>avatar fallback, avatar placeholder, initials</source>
+        <translation>avatar-varasijainti, avatar-paikkamerkki, nimikirjaimet</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Yhteisöjen sivupalkki</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <location line="+92"/>
+        <location line="+5"/>
+        <location line="+94"/>
         <source>Show unread indicators</source>
         <translation>Näytä lukemattomat indikaattorit</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-93"/>
         <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
         <translation>Näytä lukemattomien korostus (lukumäärämerkit, rivin korostus ja vasemman reunan merkki) yhteisö- ja tunnistesuodattimissa.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+94"/>
+        <source>badges, notifications, unread count</source>
+        <translation>merkit, ilmoitukset, lukemattomien määrä</translation>
+    </message>
+    <message>
+        <location line="-92"/>
         <source>All rooms</source>
         <translation>Kaikki huoneet</translation>
     </message>
@@ -10366,17 +10467,22 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Huonelista</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation>Näytä lukemattomien korostus (lukumäärämerkit, lihavoitu huoneen nimi, avataarin hyppely, rivin korostus ja vasemman reunan merkki) huoneiden vieressä.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Show last message timestamp</source>
         <translation>Näytä viimeisimmän viestin aikaleima</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>time, clock</source>
+        <translation>aika, kello</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show last message preview</source>
         <translation>Näytä viimeisimmän viestin esikatselu</translation>
     </message>
@@ -10386,12 +10492,22 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Lisää viimeisimmän viestin esikatselun huonelistauksiin. Näytetään omalla rivillään Väljä- ja Kompakti-asettelussa, ja huoneen nimen vieressä Tiivis-asettelussa.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>preview, subtitle, snippet</source>
+        <translation>esikatselu, alaotsikko, katkelma</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Sorting</source>
         <translation>Lajittelu</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>sort order, order, ordering</source>
+        <translation>järjestys, lajittelu, järjestäminen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Room list opening policy</source>
         <translation>Huonelistan avaamiskäytäntö</translation>
     </message>
@@ -10401,37 +10517,63 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Määrittää, avataanko huone aktiiviseen vai uuteen välilehteen napsauttamalla. Huoneilla, joilla on jo välilehti, se aktivoidaan aina.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>tab behaviour, behavior, click, open</source>
+        <translation>välilehden toiminta, napsautus, avaaminen</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Tab bar</source>
         <translation>Välilehtipalkki</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Show pin button</source>
         <translation>Näytä kiinnitysnappi</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pin, pinning</source>
+        <translation>kiinnitys, kiinnittäminen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Pinned tab label</source>
         <translation>Kiinnitetyn välilehden nimi</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>pinned tab, tab style, label visibility</source>
+        <translation>kiinnitetty välilehti, välilehden tyyli, otsikon näkyvyys</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Regular tab label</source>
         <translation>Tavallisen välilehden nimi</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
+        <source>tab style, label visibility</source>
+        <translation>välilehden tyyli, otsikon näkyvyys</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred tab width</source>
         <translation>Ensisijainen välilehden leveys</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
+        <location line="+7"/>
+        <source>tab size, tab dimensions</source>
+        <translation>välilehden koko, välilehden mitat</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Minimum tab width</source>
         <translation>Välilehtien vähimmäisleveys</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>Max recently-closed pre-rendered timelines</source>
         <translation>Esirenderöityjen äskettäin suljettujen aikajanoja enimmäismäärä</translation>
     </message>
@@ -10441,12 +10583,17 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Äskettäin suljetut esi-renderöidyt aikajanat mahdollistavat välittömän huoneen vaihtamisen, mutta lisäävät prosessori- ja muistinkäyttöä. Avoimet välilehdet esi-renderöidään aina. Aseta arvoksi 0, jotta säilytetään vain avoimet välilehdet.</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-70"/>
+        <location line="+3"/>
+        <source>history, recently closed, performance, ram, memory</source>
+        <translation>historia, äskettäin suljetut, suorituskyky, ram, muisti</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
         <source>Input</source>
         <translation>Syöte</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Send key</source>
         <translation>Lähetysnäppäin</translation>
     </message>
@@ -10456,7 +10603,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Valitse, mikä Enter-näppäinyhdistelmä lähettää viestit.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>keyboard shortcut, send key, enter, shift+enter, ctrl+enter</source>
+        <translation>pikanäppäin, lähetysnäppäin, enter, shift+enter, ctrl+enter</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Auto-convert Markdown to HTML</source>
         <translation>Muunna Markdown automaattisesti HTML:ksi</translation>
     </message>
@@ -10517,7 +10669,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Auto-replace emoticons with emoji</source>
         <translation>Korvaa hymiöt automaattisesti emojilla</translation>
     </message>
@@ -10527,7 +10679,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Korvaa automaattisesti tekstihymiöt kuten :) :D :P vastaavilla emojilla viestiä lähetettäessä. Valitse, korvaako kaikkialla vai vain lopussa.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>shortcodes, colon syntax, :smile:</source>
+        <translation>lyhytkoodit, kaksoispistesyntaksi, :smile:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Inline emoji picker</source>
         <translation>Tekstin sisäinen emojivalitsin</translation>
     </message>
@@ -10537,7 +10694,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Näytä upotettava emojivalitsin, kun kirjoitat kaksoispisteen (:) viesti-kenttään.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Preferred gender</source>
         <translation>Ensisijainen sukupuoli</translation>
     </message>
@@ -10547,7 +10704,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Vain tekstin sisäinen emojivalitsin: suosi Unicode-määritettyjä sukupuolivariantteja (mies/nainen) kun saatavilla. Toisen sukupuolen nimenomainen haku toimii silti. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lisätietoja&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>gender</source>
+        <translation>sukupuoli</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Preferred skin tone</source>
         <translation>Ensisijainen ihonsävy</translation>
     </message>
@@ -10557,7 +10719,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Vain tekstin sisäinen emojivalitsin: suosi yhtä ihonsävy-varianttia kun saatavilla. Toisen ihonsävyn nimenomainen haku toimii silti. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/emojis.md#-emoji-preferences"&gt;Lisätietoja&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
+        <source>skin color, skin colour, skin</source>
+        <translation>ihonväri, iho</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Näytä muille, kun kirjoitan</translation>
     </message>
@@ -10592,7 +10759,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Ilmoita vastaanotetuista viesteistä, kun asiakasohjelma ei ole aktiivinen. Tämä on voimassa vain, kun tilin ilmoitukset on otettu käyttöön yllä.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Message content in notifications</source>
         <translation>Viestisisältö ilmoituksissa</translation>
     </message>
@@ -10602,7 +10769,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Valitse, kuinka paljon viestitekstiä sisällytetään ilmoituksiin.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>privacy, notification preview, notification text</source>
+        <translation>yksityisyys, ilmoituksen esikatselu, ilmoitusteksti</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Flash app window/taskbar on incoming messages</source>
         <translation>Vilkuta sovelluksen ikkunaa/tehtäväpalkkia saapuvien viestien yhteydessä</translation>
     </message>
@@ -10672,7 +10844,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Sumennus fokuksen menettyessä</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Blur delay (seconds)</source>
         <translation>Sumennusviive (sekuntia)</translation>
     </message>
@@ -10680,6 +10852,11 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <location line="+1"/>
         <source>Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour).</source>
         <translation>Aseta, kuinka kauan fokuksen menettämisen jälkeen sumentaminen alkaa. Aseta 0 sumentaaksesi välittömästi. Enimmäisarvo on 3600 sekuntia (1 tunti).</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>inactivity, away timer, idle</source>
+        <translation>toimettomuus, poissaolotimer, joutenolo</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelCalls.inc" line="+4"/>
@@ -10718,26 +10895,51 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+10"/>
+        <source>audio input, mic</source>
+        <translation>äänitulo, mikrofoni</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>webcam, video input</source>
+        <translation>verkkokamera, videotulo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera resolution</source>
         <translation>Kameran resoluutio</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>video quality, video size</source>
+        <translation>videon laatu, videon koko</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Camera frame rate</source>
         <translation>Kameran kuvataajuus</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>fps, frames per second, smoothness</source>
+        <translation>fps, ruutua sekunnissa, sulavuus</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Ringtone</source>
         <translation>Soittoääni</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
+        <source>call sound, incoming call</source>
+        <translation>puheluääni, saapuva puhelu</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Screen sharing</source>
         <translation>Ruudunjako</translation>
     </message>
@@ -10782,7 +10984,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Valitse, kuinka paljon &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md"&gt;D-Bus-käyttöoikeuksia&lt;/a&gt; Komai tarjoaa paikallisille kutsuille.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
+        <source>api, external, scripting, automation</source>
+        <translation>api, ulkoinen, skriptaus, automaatio</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Matrix Rooms Search</source>
         <translation>Matrix-huoneiden haku</translation>
     </message>

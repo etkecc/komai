@@ -47,7 +47,8 @@ public:
         if (q == query_)
             return;
         query_ = q;
-        invalidateRowsFilter();
+        beginFilterChange();
+        endFilterChange(QSortFilterProxyModel::Direction::Rows);
     }
 
     int matchCount() const

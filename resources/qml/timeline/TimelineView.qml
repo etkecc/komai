@@ -412,6 +412,11 @@ Item {
             : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
+    TimelineVideoCallLoader {
+        anchors.fill: timelinePoolContainer
+        componentCatalog: componentCatalog
+        z: 2
+    }
     MatrixRoomComposerPane {
         id: matrixComposerPane
 

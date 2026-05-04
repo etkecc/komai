@@ -3,6 +3,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+// Source-English option lists for cross-locale settings search. See
+// SettingDescriptorCallbacksLookFeelTheme.inc header for the rationale.
+static const char *const timelineAvatarSizeValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Regular"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Small"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Hidden"),
+  nullptr,
+};
+
 static QVariant
 timelineAvatarSizeValues()
 {
@@ -12,6 +21,13 @@ timelineAvatarSizeValues()
            << QCoreApplication::translate("UserSettingsModel", "Hidden");
     return values;
 }
+
+static const char *const timelineSenderUsernameValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Always"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Only in large rooms (> 16 members)"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Never"),
+  nullptr,
+};
 
 static QVariant
 timelineSenderUsernameValues()
@@ -23,6 +39,12 @@ timelineSenderUsernameValues()
     return values;
 }
 
+static const char *const timelineMessagesStyleValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Plain"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Bubbles"),
+  nullptr,
+};
+
 static QVariant
 timelineMessagesStyleValues()
 {
@@ -31,6 +53,13 @@ timelineMessagesStyleValues()
            << QCoreApplication::translate("UserSettingsModel", "Bubbles");
     return values;
 }
+
+static const char *const timelineMessagesLayoutPositioningValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Opposing by sender"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "All left-aligned"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "All right-aligned"),
+  nullptr,
+};
 
 static QVariant
 timelineMessagesLayoutPositioningValues()
@@ -42,6 +71,12 @@ timelineMessagesLayoutPositioningValues()
     return values;
 }
 
+static const char *const timelineUserColorCodingPolicyValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Adaptive (per-member in small rooms)"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Me vs others"),
+  nullptr,
+};
+
 static QVariant
 timelineUserColorCodingPolicyValues()
 {
@@ -52,6 +87,13 @@ timelineUserColorCodingPolicyValues()
     return values;
 }
 
+static const char *const timelineShowImageValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Always"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Only in private rooms"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Never"),
+  nullptr,
+};
+
 static QVariant
 timelineShowImageValues()
 {
@@ -61,6 +103,13 @@ timelineShowImageValues()
            << QCoreApplication::translate("UserSettingsModel", "Never");
     return values;
 }
+
+static const char *const timelineMessageActionsActivationPolicyValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "On message hover"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "On button click"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Never"),
+  nullptr,
+};
 
 static QVariant
 timelineMessageActionsActivationPolicyValues()

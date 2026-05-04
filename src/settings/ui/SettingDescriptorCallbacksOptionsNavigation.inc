@@ -3,6 +3,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+// Source-English option lists for cross-locale settings search. See
+// SettingDescriptorCallbacksLookFeelTheme.inc header for the rationale.
+static const char *const navigationLastMessagePreviewValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Always"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Only in unencrypted rooms"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Never"),
+  nullptr,
+};
+
 static QVariant
 navigationLastMessagePreviewValues()
 {
@@ -12,6 +21,14 @@ navigationLastMessagePreviewValues()
            << QCoreApplication::translate("UserSettingsModel", "Never");
     return values;
 }
+
+static const char *const navigationRoomSortValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Unread first, then recent"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Unread first, then A-Z"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Recent activity"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Alphabetical"),
+  nullptr,
+};
 
 static QVariant
 navigationRoomSortValues()
@@ -24,6 +41,12 @@ navigationRoomSortValues()
     return values;
 }
 
+static const char *const navigationRoomListOpeningPolicyValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Reuse active tab"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Open new tab"),
+  nullptr,
+};
+
 static QVariant
 navigationRoomListOpeningPolicyValues()
 {
@@ -32,6 +55,12 @@ navigationRoomListOpeningPolicyValues()
            << QCoreApplication::translate("UserSettingsModel", "Open new tab");
     return values;
 }
+
+static const char *const navigationTabsShowPinButtonValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Always"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Never"),
+  nullptr,
+};
 
 static QVariant
 navigationTabsShowPinButtonValues()
@@ -42,6 +71,12 @@ navigationTabsShowPinButtonValues()
     return values;
 }
 
+static const char *const navigationTabsPinnedTabLabelValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Avatar and label"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Avatar only"),
+  nullptr,
+};
+
 static QVariant
 navigationTabsPinnedTabLabelValues()
 {
@@ -50,6 +85,14 @@ navigationTabsPinnedTabLabelValues()
            << QCoreApplication::translate("UserSettingsModel", "Avatar only");
     return values;
 }
+
+// Same set as pinned-tab; declared separately so the registry can map by
+// helper-pointer identity.
+static const char *const navigationTabsTabLabelValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Avatar and label"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Avatar only"),
+  nullptr,
+};
 
 static QVariant
 navigationTabsTabLabelValues()

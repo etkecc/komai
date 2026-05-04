@@ -9791,25 +9791,36 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Системен</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
-        <location line="+29"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
-        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+9"/>
         <location line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+11"/>
+        <location line="+10"/>
+        <location line="+40"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location line="+7"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+28"/>
+        <location line="+10"/>
         <source>Never</source>
         <translation>Никога</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <location line="-9"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-60"/>
+        <location line="+10"/>
         <source>Only in unencrypted rooms</source>
         <translation>Само в нешифровани стаи</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Whenever available</source>
         <translation>Когато е налично</translation>
     </message>
@@ -9826,92 +9837,114 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Системен шрифт за емоджи</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-11"/>
+        <location line="+10"/>
         <source>When needed</source>
         <translation>При необходимост</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
-        <location line="+30"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
-        <location line="+39"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <location line="-8"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-11"/>
+        <location line="+10"/>
+        <location line="+41"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
+        <location line="+10"/>
         <source>Always</source>
         <translation>Винаги</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+12"/>
         <source>Boring Avatars: Bauhaus</source>
         <translation>Boring Avatars: Bauhaus</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Beam</source>
         <translation>Boring Avatars: Beam</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Marble</source>
         <translation>Boring Avatars: Marble</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Letter initial</source>
         <translation>Начална буква</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>User icon</source>
         <translation>Икона на потребителя</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Spacious</source>
         <translation>Просторен</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Compact</source>
         <translation>Компактно</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Dense</source>
         <translation>Плътно</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+31"/>
+        <location line="+10"/>
         <source>None</source>
         <translation>Няма</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read-only</source>
         <translation>Само за четене</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read &amp; write</source>
         <translation>Четене &amp; запис</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+49"/>
+        <location line="+11"/>
         <source>Always online</source>
         <translation>Винаги онлайн</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always unavailable</source>
         <translation>Винаги недостъпен</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always offline</source>
         <translation>Винаги офлайн</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Automatic</source>
         <translation>Автоматично</translation>
     </message>
@@ -9926,179 +9959,216 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Всички файлове (*)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-43"/>
+        <location line="+11"/>
         <source>Unread first, then recent</source>
         <translation>Непрочетени първо, после скорошни</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Unread first, then A-Z</source>
         <translation>Непрочетени първо, после А-Я</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Recent activity</source>
         <translation>Скорошна активност</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Alphabetical</source>
         <translation>По азбучен ред</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Reuse active tab</source>
         <translation>Преизползвай активния раздел</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Open new tab</source>
         <translation>Отвори нов раздел</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar and label</source>
         <translation>Аватар и надпис</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-25"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar only</source>
         <translation>Само аватар</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location line="+10"/>
         <source>Regular</source>
         <translation>Стандартен</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Small</source>
         <translation>Малък</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Hidden</source>
         <translation>Скрит</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in large rooms (&gt; 16 members)</source>
         <translation>Само в големи стаи (&gt; 16 членове)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <location line="+9"/>
         <source>Plain</source>
         <translation>Обикновен</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Bubbles</source>
         <translation>Балончета</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Opposing by sender</source>
         <translation>Срещуположно по подател</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All left-aligned</source>
         <translation>Всички вляво</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All right-aligned</source>
         <translation>Всички вдясно</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Адаптивна (по потребител в малки стаи)</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-8"/>
+        <location line="+10"/>
         <source>Me vs others</source>
         <translation>Аз срещу другите</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in private rooms</source>
         <translation>Само в частни стаи</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>On message hover</source>
         <translation>При задържане на курсора върху съобщение</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>On button click</source>
         <translation>При щракване на бутон</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
         <location line="+6"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-27"/>
+        <location line="+10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
         <location line="-4"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+6"/>
+        <location line="+10"/>
         <source>Only at the end of messages</source>
         <translation>Само в края на съобщенията</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
         <location line="+10"/>
+        <location line="+7"/>
+        <location line="+13"/>
         <source>No preference</source>
         <translation>Без предпочитание</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-29"/>
+        <location line="+10"/>
         <source>👨 Man</source>
         <translation>👨 Мъж</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>👩 Woman</source>
         <translation>👩 Жена</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+13"/>
         <source>👍🏻 Light</source>
         <translation>👍🏻 Светъл</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏼 Medium-light</source>
         <translation>👍🏼 Средно светъл</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏽 Medium</source>
         <translation>👍🏽 Среден</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏾 Medium-dark</source>
         <translation>👍🏾 Средно тъмен</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Тъмен</translation>
     </message>

@@ -9754,25 +9754,36 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
-        <location line="+29"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
-        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+9"/>
         <location line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+11"/>
+        <location line="+10"/>
+        <location line="+40"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location line="+7"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+28"/>
+        <location line="+10"/>
         <source>Never</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <location line="-9"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-60"/>
+        <location line="+10"/>
         <source>Only in unencrypted rooms</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Whenever available</source>
         <translation type="unfinished"/>
     </message>
@@ -9789,92 +9800,114 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-11"/>
+        <location line="+10"/>
         <source>When needed</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
-        <location line="+30"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
-        <location line="+39"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <location line="-8"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-11"/>
+        <location line="+10"/>
+        <location line="+41"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
+        <location line="+10"/>
         <source>Always</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+12"/>
         <source>Boring Avatars: Bauhaus</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Beam</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Marble</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Letter initial</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>User icon</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Spacious</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Compact</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Dense</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+31"/>
+        <location line="+10"/>
         <source>None</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read-only</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read &amp; write</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+49"/>
+        <location line="+11"/>
         <source>Always online</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always unavailable</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always offline</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Automatic</source>
         <translation type="unfinished"/>
     </message>
@@ -9889,179 +9922,216 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished">All Files (*)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-43"/>
+        <location line="+11"/>
         <source>Unread first, then recent</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Unread first, then A-Z</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Recent activity</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Alphabetical</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Reuse active tab</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open new tab</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+17"/>
+        <location line="+5"/>
         <location line="+9"/>
-        <source>Avatar and label</source>
+        <source>Reuse active tab</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="-8"/>
         <location line="+9"/>
+        <source>Open new tab</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+20"/>
+        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+9"/>
+        <source>Avatar and label</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-25"/>
+        <location line="+9"/>
+        <location line="+8"/>
+        <location line="+9"/>
         <source>Avatar only</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location line="+10"/>
         <source>Regular</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Small</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Hidden</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in large rooms (&gt; 16 members)</source>
         <translation type="unfinished"/>
     </message>
     <message>
+        <location line="+6"/>
         <location line="+9"/>
         <source>Plain</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Bubbles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Opposing by sender</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All left-aligned</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All right-aligned</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-8"/>
+        <location line="+10"/>
         <source>Me vs others</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in private rooms</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>On message hover</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>On button click</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
         <location line="+6"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-27"/>
+        <location line="+10"/>
         <source>Enter</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="-4"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Shift+Enter</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Ctrl+Enter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+6"/>
+        <location line="+10"/>
         <source>Only at the end of messages</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
         <location line="+10"/>
+        <location line="+7"/>
+        <location line="+13"/>
         <source>No preference</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-29"/>
+        <location line="+10"/>
         <source>👨 Man</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>👩 Woman</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+13"/>
         <source>👍🏻 Light</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏼 Medium-light</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏽 Medium</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏾 Medium-dark</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏿 Dark</source>
         <translation type="unfinished"/>
     </message>

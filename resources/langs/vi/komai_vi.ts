@@ -9775,25 +9775,36 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Dùng hệ thống</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
-        <location line="+29"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
-        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+9"/>
         <location line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+11"/>
+        <location line="+10"/>
+        <location line="+40"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location line="+7"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+28"/>
+        <location line="+10"/>
         <source>Never</source>
         <translation>Không bao giờ</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <location line="-9"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-60"/>
+        <location line="+10"/>
         <source>Only in unencrypted rooms</source>
         <translation>Chỉ trong phòng không mã hóa</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Whenever available</source>
         <translation>Khi có sẵn</translation>
     </message>
@@ -9810,92 +9821,114 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Phông chữ emoji hệ thống</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-11"/>
+        <location line="+10"/>
         <source>When needed</source>
         <translation>Khi cần</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
-        <location line="+30"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
-        <location line="+39"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <location line="-8"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-11"/>
+        <location line="+10"/>
+        <location line="+41"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
+        <location line="+10"/>
         <source>Always</source>
         <translation>Luôn luôn</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+12"/>
         <source>Boring Avatars: Bauhaus</source>
         <translation>Boring Avatars: Bauhaus</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Beam</source>
         <translation>Boring Avatars: Beam</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Marble</source>
         <translation>Boring Avatars: Marble</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Letter initial</source>
         <translation>Chữ cái đầu</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>User icon</source>
         <translation>Biểu tượng người dùng</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Spacious</source>
         <translation>Rộng rãi</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Compact</source>
         <translation>Nhỏ gọn</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Dense</source>
         <translation>Dày đặc</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+31"/>
+        <location line="+10"/>
         <source>None</source>
         <translation>Không có</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read-only</source>
         <translation>Chỉ đọc</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read &amp; write</source>
         <translation>Đọc &amp; ghi</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+49"/>
+        <location line="+11"/>
         <source>Always online</source>
         <translation>Luôn trực tuyến</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always unavailable</source>
         <translation>Luôn không khả dụng</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always offline</source>
         <translation>Luôn ngoại tuyến</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Automatic</source>
         <translation>Tự động</translation>
     </message>
@@ -9910,179 +9943,216 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Tất cả tệp (*)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-43"/>
+        <location line="+11"/>
         <source>Unread first, then recent</source>
         <translation>Chưa đọc trước, sau đó gần đây nhất</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Unread first, then A-Z</source>
         <translation>Chưa đọc trước, sau đó A-Z</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Recent activity</source>
         <translation>Hoạt động gần đây</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Alphabetical</source>
         <translation>Theo bảng chữ cái</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Reuse active tab</source>
         <translation>Sử dụng lại tab đang hoạt động</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Open new tab</source>
         <translation>Mở tab mới</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar and label</source>
         <translation>Ảnh đại diện và nhãn</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-25"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar only</source>
         <translation>Chỉ ảnh đại diện</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location line="+10"/>
         <source>Regular</source>
         <translation>Thông thường</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Small</source>
         <translation>Nhỏ</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Hidden</source>
         <translation>Ẩn</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in large rooms (&gt; 16 members)</source>
         <translation>Chỉ trong phòng lớn (&gt; 16 thành viên)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <location line="+9"/>
         <source>Plain</source>
         <translation>Thường</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Bubbles</source>
         <translation>Bong bóng</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Opposing by sender</source>
         <translation>Đối lập theo người gửi</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All left-aligned</source>
         <translation>Tất cả căn trái</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All right-aligned</source>
         <translation>Tất cả căn phải</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Thích ứng (theo thành viên trong phòng nhỏ)</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-8"/>
+        <location line="+10"/>
         <source>Me vs others</source>
         <translation>Tôi và người khác</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in private rooms</source>
         <translation>Chỉ trong phòng riêng tư</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>On message hover</source>
         <translation>Khi di chuột qua tin nhắn</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>On button click</source>
         <translation>Khi nhấp nút</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
         <location line="+6"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-27"/>
+        <location line="+10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
         <location line="-4"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+6"/>
+        <location line="+10"/>
         <source>Only at the end of messages</source>
         <translation>Chỉ ở cuối tin nhắn</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
         <location line="+10"/>
+        <location line="+7"/>
+        <location line="+13"/>
         <source>No preference</source>
         <translation>Không ưu tiên</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-29"/>
+        <location line="+10"/>
         <source>👨 Man</source>
         <translation>👨 Nam</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>👩 Woman</source>
         <translation>👩 Nữ</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+13"/>
         <source>👍🏻 Light</source>
         <translation>👍🏻 Sáng</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏼 Medium-light</source>
         <translation>👍🏼 Sáng vừa</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏽 Medium</source>
         <translation>👍🏽 Trung bình</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏾 Medium-dark</source>
         <translation>👍🏾 Trung bình tối</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Tối</translation>
     </message>

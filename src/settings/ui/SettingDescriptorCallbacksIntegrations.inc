@@ -25,6 +25,15 @@ setIntegrationsDbusApiAccessValue(const QVariant &v)
       });
 }
 
+// Source-English option list for cross-locale settings search. See
+// SettingDescriptorCallbacksLookFeelTheme.inc header for the rationale.
+static const char *const integrationsDbusApiAccessValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "None"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Read-only"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Read & write"),
+  nullptr,
+};
+
 static QVariant
 integrationsDbusApiAccessValues()
 {

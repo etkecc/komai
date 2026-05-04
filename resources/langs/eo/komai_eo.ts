@@ -9794,25 +9794,36 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Uzi sistemon</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
-        <location line="+29"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
-        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+9"/>
         <location line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+11"/>
+        <location line="+10"/>
+        <location line="+40"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location line="+7"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+28"/>
+        <location line="+10"/>
         <source>Never</source>
         <translation>Neniam</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <location line="-9"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-60"/>
+        <location line="+10"/>
         <source>Only in unencrypted rooms</source>
         <translation>Nur en neĉifritaj ĉambroj</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Whenever available</source>
         <translation>Kiam ajn disponebla</translation>
     </message>
@@ -9829,92 +9840,114 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Sistema emoji-tiparo</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-11"/>
+        <location line="+10"/>
         <source>When needed</source>
         <translation>Kiam necese</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
-        <location line="+30"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
-        <location line="+39"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <location line="-8"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-11"/>
+        <location line="+10"/>
+        <location line="+41"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
+        <location line="+10"/>
         <source>Always</source>
         <translation>Ĉiam</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+12"/>
         <source>Boring Avatars: Bauhaus</source>
         <translation>Boring Avatars: Bauhaus</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Beam</source>
         <translation>Boring Avatars: Beam</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Marble</source>
         <translation>Boring Avatars: Marble</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Letter initial</source>
         <translation>Komenca litero</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>User icon</source>
         <translation>Uzanta ikono</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Spacious</source>
         <translation>Spacioza</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Compact</source>
         <translation>Kompakta</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Dense</source>
         <translation>Densa</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+31"/>
+        <location line="+10"/>
         <source>None</source>
         <translation>Nenio</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read-only</source>
         <translation>Nur-lega</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read &amp; write</source>
         <translation>Legi &amp; skribi</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+49"/>
+        <location line="+11"/>
         <source>Always online</source>
         <translation>Ĉiam enrete</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always unavailable</source>
         <translation>Ĉiam neatingebla</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always offline</source>
         <translation>Ĉiam eksterrete</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Automatic</source>
         <translation>Aŭtomata</translation>
     </message>
@@ -9929,179 +9962,216 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Ĉiuj dosieroj (*)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-43"/>
+        <location line="+11"/>
         <source>Unread first, then recent</source>
         <translation>Nelegitataj unue, poste lastatempaj</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Unread first, then A-Z</source>
         <translation>Nelegitataj unue, poste A-Z</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Recent activity</source>
         <translation>Lastatempa agado</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Alphabetical</source>
         <translation>Alfabeta</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Reuse active tab</source>
         <translation>Reuzi aktivan langeton</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Open new tab</source>
         <translation>Malfermi novan langeton</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar and label</source>
         <translation>Avataro kaj etikedo</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-25"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar only</source>
         <translation>Nur avataro</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location line="+10"/>
         <source>Regular</source>
         <translation>Regula</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Small</source>
         <translation>Malgranda</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Hidden</source>
         <translation>Kaŝita</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in large rooms (&gt; 16 members)</source>
         <translation>Nur en grandaj ĉambroj (&gt; 16 membroj)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <location line="+9"/>
         <source>Plain</source>
         <translation>Simpla</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Bubbles</source>
         <translation>Balonoj</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Opposing by sender</source>
         <translation>Kontraŭflanke laŭ sendinto</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All left-aligned</source>
         <translation>Ĉiuj maldekstre vicigitaj</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All right-aligned</source>
         <translation>Ĉiuj dekstre vicigitaj</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Adapta (laŭ-membro en malgrandaj ĉambroj)</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-8"/>
+        <location line="+10"/>
         <source>Me vs others</source>
         <translation>Mi kontraŭ aliaj</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in private rooms</source>
         <translation>Nur en privataj ĉambroj</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>On message hover</source>
         <translation>Ĉe mesaĝoŝvebo</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>On button click</source>
         <translation>Ĉe butonaklako</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
         <location line="+6"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-27"/>
+        <location line="+10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
         <location line="-4"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+6"/>
+        <location line="+10"/>
         <source>Only at the end of messages</source>
         <translation>Nur ĉe la fino de mesaĝoj</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
         <location line="+10"/>
+        <location line="+7"/>
+        <location line="+13"/>
         <source>No preference</source>
         <translation>Neniu prefero</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-29"/>
+        <location line="+10"/>
         <source>👨 Man</source>
         <translation>👨 Viro</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>👩 Woman</source>
         <translation>👩 Virino</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+13"/>
         <source>👍🏻 Light</source>
         <translation>👍🏻 Hela</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏼 Medium-light</source>
         <translation>👍🏼 Meze hela</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏽 Medium</source>
         <translation>👍🏽 Meza</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏾 Medium-dark</source>
         <translation>👍🏾 Meze malhela</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 Malhela</translation>
     </message>

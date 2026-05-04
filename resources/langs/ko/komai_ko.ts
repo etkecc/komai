@@ -9775,25 +9775,36 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>시스템 사용</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+12"/>
-        <location line="+29"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+22"/>
-        <location line="+39"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksDesktop.inc" line="+9"/>
         <location line="+10"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+22"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="+44"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="+11"/>
+        <location line="+10"/>
+        <location line="+40"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location line="+7"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+28"/>
+        <location line="+10"/>
         <source>Never</source>
         <translation>안 함</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-30"/>
+        <location line="-9"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-60"/>
+        <location line="+10"/>
         <source>Only in unencrypted rooms</source>
         <translation>암호화되지 않은 방에서만</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Whenever available</source>
         <translation>가능한 경우 항상</translation>
     </message>
@@ -9810,92 +9821,114 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>시스템 이모지 폰트</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelTheme.inc" line="-11"/>
+        <location line="+10"/>
         <source>When needed</source>
         <translation>필요할 때</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-1"/>
-        <location line="+30"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-51"/>
-        <location line="+39"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-2"/>
+        <location line="-8"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-11"/>
+        <location line="+10"/>
+        <location line="+41"/>
+        <location line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location line="+10"/>
+        <location line="+55"/>
+        <location line="+10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
+        <location line="+10"/>
         <source>Always</source>
         <translation>항상</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+12"/>
         <source>Boring Avatars: Bauhaus</source>
         <translation>Boring Avatars: Bauhaus</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Beam</source>
         <translation>Boring Avatars: Beam</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Boring Avatars: Marble</source>
         <translation>Boring Avatars: Marble</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>Letter initial</source>
         <translation>글자 이니셜</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <location line="+12"/>
         <source>User icon</source>
         <translation>사용자 아이콘</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Spacious</source>
         <translation>여유</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Compact</source>
         <translation>컴팩트</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Dense</source>
         <translation>조밀</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+32"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksIntegrations.inc" line="+31"/>
+        <location line="+10"/>
         <source>None</source>
         <translation>없음</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read-only</source>
         <translation>읽기 전용</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Read &amp; write</source>
         <translation>읽기 및 쓰기</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+50"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksNetwork.inc" line="+49"/>
+        <location line="+11"/>
         <source>Always online</source>
         <translation>항상 온라인</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always unavailable</source>
         <translation>항상 자리 비움</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Always offline</source>
         <translation>항상 오프라인</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Automatic</source>
         <translation>자동</translation>
     </message>
@@ -9910,179 +9943,216 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>모든 파일 (*)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc" line="-43"/>
+        <location line="+11"/>
         <source>Unread first, then recent</source>
         <translation>읽지 않은 항목 먼저, 이후 최근 순</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Unread first, then A-Z</source>
         <translation>읽지 않은 항목 먼저, 이후 A-Z</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Recent activity</source>
         <translation>최근 활동</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>Alphabetical</source>
         <translation>알파벳순</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Reuse active tab</source>
         <translation>활성 탭 재사용</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Open new tab</source>
         <translation>새 탭 열기</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar and label</source>
         <translation>아바타 및 레이블</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-25"/>
+        <location line="+9"/>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Avatar only</source>
         <translation>아바타만</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-49"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location line="+10"/>
         <source>Regular</source>
         <translation>보통</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Small</source>
         <translation>소형</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>Hidden</source>
         <translation>숨김</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in large rooms (&gt; 16 members)</source>
         <translation>대규모 방에서만 (16명 초과)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <location line="+9"/>
         <source>Plain</source>
         <translation>일반</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-8"/>
+        <location line="+9"/>
         <source>Bubbles</source>
         <translation>말풍선</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+10"/>
         <source>Opposing by sender</source>
         <translation>발신자별 반대편 배치</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All left-aligned</source>
         <translation>모두 왼쪽 정렬</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>All right-aligned</source>
         <translation>모두 오른쪽 정렬</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>적응형 (소규모 방에서 멤버별)</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-8"/>
+        <location line="+10"/>
         <source>Me vs others</source>
         <translation>나 vs 다른 사람</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>Only in private rooms</source>
         <translation>비공개 방에서만</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+10"/>
         <source>On message hover</source>
         <translation>메시지 마우스 올림 시</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>On button click</source>
         <translation>버튼 클릭 시</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/facade/UserSettingsGettersTimelineComposerComposer.inc" line="+28"/>
         <location line="+6"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-10"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-27"/>
+        <location line="+10"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
         <location line="-4"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Shift+Enter</source>
         <translation>Shift+Enter</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+1"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-9"/>
+        <location line="+10"/>
         <source>Ctrl+Enter</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+9"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="+6"/>
+        <location line="+10"/>
         <source>Only at the end of messages</source>
         <translation>메시지 끝에만</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
         <location line="+10"/>
+        <location line="+7"/>
+        <location line="+13"/>
         <source>No preference</source>
         <translation>기본 설정 없음</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-29"/>
+        <location line="+10"/>
         <source>👨 Man</source>
         <translation>👨 남성</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
+        <location line="+10"/>
         <source>👩 Woman</source>
         <translation>👩 여성</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+6"/>
+        <location line="+13"/>
         <source>👍🏻 Light</source>
         <translation>👍🏻 밝은 피부</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏼 Medium-light</source>
         <translation>👍🏼 중간 밝은 피부</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏽 Medium</source>
         <translation>👍🏽 중간 피부</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏾 Medium-dark</source>
         <translation>👍🏾 중간 어두운 피부</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
+        <location line="+13"/>
         <source>👍🏿 Dark</source>
         <translation>👍🏿 어두운 피부</translation>
     </message>

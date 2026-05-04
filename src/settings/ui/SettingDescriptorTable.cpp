@@ -68,6 +68,67 @@ settingsTableRowCount()
     return static_cast<int>(std::size(settingsTable));
 }
 
+const char *const *
+valuesEnglishFor(QVariant (*helper)())
+{
+    if (!helper)
+        return nullptr;
+
+    // Each entry pairs a runtime helper (which returns translated values
+    // via QCoreApplication::translate) with the matching source-English
+    // array, so the search proxy can match enum options like "Compact" or
+    // "Bubbles" cross-locale. Dynamic helpers — fonts, languages, audio
+    // devices, themes — are intentionally absent: their lists are derived
+    // from runtime data rather than translatable string literals.
+    if (helper == &composerSendMessageKeyValues)
+        return composerSendMessageKeyValuesEnglish;
+    if (helper == &composerAutoReplaceEmojiValues)
+        return composerAutoReplaceEmojiValuesEnglish;
+    if (helper == &composerEmojiPreferredGenderValues)
+        return composerEmojiPreferredGenderValuesEnglish;
+    if (helper == &composerEmojiPreferredSkinToneValues)
+        return composerEmojiPreferredSkinToneValuesEnglish;
+    if (helper == &desktopNotificationsMessageContentPolicyValues)
+        return desktopNotificationsMessageContentPolicyValuesEnglish;
+    if (helper == &integrationsDbusApiAccessValues)
+        return integrationsDbusApiAccessValuesEnglish;
+    if (helper == &lookFeelDefaultAvatarStyleValues)
+        return lookFeelDefaultAvatarStyleValuesEnglish;
+    if (helper == &lookFeelDensityValues)
+        return lookFeelDensityValuesEnglish;
+    if (helper == &lookFeelScrollbarPolicyValues)
+        return lookFeelScrollbarPolicyValuesEnglish;
+    if (helper == &navigationLastMessagePreviewValues)
+        return navigationLastMessagePreviewValuesEnglish;
+    if (helper == &navigationRoomListOpeningPolicyValues)
+        return navigationRoomListOpeningPolicyValuesEnglish;
+    if (helper == &navigationRoomSortValues)
+        return navigationRoomSortValuesEnglish;
+    if (helper == &navigationTabsPinnedTabLabelValues)
+        return navigationTabsPinnedTabLabelValuesEnglish;
+    if (helper == &navigationTabsShowPinButtonValues)
+        return navigationTabsShowPinButtonValuesEnglish;
+    if (helper == &navigationTabsTabLabelValues)
+        return navigationTabsTabLabelValuesEnglish;
+    if (helper == &networkPresenceStatusPolicyValues)
+        return networkPresenceStatusPolicyValuesEnglish;
+    if (helper == &timelineAvatarSizeValues)
+        return timelineAvatarSizeValuesEnglish;
+    if (helper == &timelineMessageActionsActivationPolicyValues)
+        return timelineMessageActionsActivationPolicyValuesEnglish;
+    if (helper == &timelineMessagesLayoutPositioningValues)
+        return timelineMessagesLayoutPositioningValuesEnglish;
+    if (helper == &timelineMessagesStyleValues)
+        return timelineMessagesStyleValuesEnglish;
+    if (helper == &timelineSenderUsernameValues)
+        return timelineSenderUsernameValuesEnglish;
+    if (helper == &timelineShowImageValues)
+        return timelineShowImageValuesEnglish;
+    if (helper == &timelineUserColorCodingPolicyValues)
+        return timelineUserColorCodingPolicyValuesEnglish;
+    return nullptr;
+}
+
 #undef I
 #undef SM
 #include "settings/ui/SettingDescriptorRowMacrosUndef.inc"

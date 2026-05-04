@@ -3,6 +3,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+// Source-English option list for cross-locale settings search. See
+// SettingDescriptorCallbacksLookFeelTheme.inc header for the rationale.
+static const char *const desktopNotificationsMessageContentPolicyValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Never"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Only in unencrypted rooms"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Whenever available"),
+  nullptr,
+};
+
 static QVariant
 desktopNotificationsMessageContentPolicyValues()
 {

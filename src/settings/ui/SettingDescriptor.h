@@ -54,4 +54,14 @@ validateSettingsTable();
 int
 rowForSettingId(settings::core::SettingId id);
 
+// For enum-style settings whose `getValues()` helper has a static set of
+// source-English options (Density's "Spacious"/"Compact"/"Dense", etc.),
+// returns a null-terminated array of those source strings. Used by the
+// settings search proxy to support cross-locale enum option matching: a
+// user typing "compact" in any UI language can still find Density.
+//
+// Returns nullptr for dynamic helpers (font lists, languages, audio
+// devices, themes) where source-English doesn't carry meaning.
+const char *const *valuesEnglishFor(QVariant (*helper)());
+
 } // namespace settings::ui

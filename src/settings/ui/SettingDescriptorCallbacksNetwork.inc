@@ -43,6 +43,16 @@ setNetworkPresenceStatusPolicyValue(const QVariant &v)
     });
 }
 
+// Source-English option list for cross-locale settings search. See
+// SettingDescriptorCallbacksLookFeelTheme.inc header for the rationale.
+static const char *const networkPresenceStatusPolicyValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Always online"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Always unavailable"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Always offline"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Automatic"),
+  nullptr,
+};
+
 static QVariant
 networkPresenceStatusPolicyValues()
 {

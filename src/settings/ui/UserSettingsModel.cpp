@@ -26,6 +26,8 @@ namespace settings::ui {
  *   - the row's translated name / source-English name
  *   - the row's translated description / source-English description
  *   - the row's translated searchKeywords / source-English searchKeywords
+ *   - any value in the row's option list, in either translated form
+ *     (`m.getValues()`) or source-English form (`valuesEnglishFor(m.getValues)`)
  * The dual source/translated check is what makes search work in both English
  * (which is always present, regardless of UI language) and the active locale.
  */
@@ -98,6 +100,22 @@ private:
         if (matchesTranslated(m.name) || matchesTranslated(m.description) ||
             matchesTranslated(m.searchKeywords))
             return true;
+
+        // Enum option labels (e.g. Density's "Compact" / "Spacious" / "Dense"):
+        // match against both the translated list and the source-English array.
+        if (m.getValues) {
+            const QVariant translatedValues = m.getValues();
+            for (const QString &v : translatedValues.toStringList()) {
+                if (v.contains(query_, Qt::CaseInsensitive))
+                    return true;
+            }
+            if (const char *const *english = valuesEnglishFor(m.getValues)) {
+                for (const char *const *p = english; *p; ++p) {
+                    if (matchesSource(*p))
+                        return true;
+                }
+            }
+        }
 
         return false;
     }

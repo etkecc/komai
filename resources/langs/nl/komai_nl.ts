@@ -749,13 +749,13 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Ziet er goed uit! Druk op Enter om te verzenden.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Ziet er goed uit! Druk op %1 om te verzenden.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Selecteer eerst een opdracht. Enter voegt in als er een is geselecteerd; anders wordt het verzonden.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Selecteer eerst een opdracht. Enter voegt in bij selectie; anders verstuurt %1.</translation>
     </message>
 </context>
 <context>

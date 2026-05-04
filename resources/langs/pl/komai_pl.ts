@@ -749,13 +749,13 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Wygląda dobrze! Naciśnij Enter, aby wysłać.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Wygląda dobrze! Naciśnij %1, aby wysłać.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Najpierw wybierz polecenie. Enter wstawia po zaznaczeniu; w przeciwnym razie wysyła.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Najpierw wybierz polecenie. Enter wstawia po zaznaczeniu; w przeciwnym razie %1 wysyła.</translation>
     </message>
 </context>
 <context>

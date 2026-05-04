@@ -749,13 +749,13 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Terlihat bagus! Tekan Enter untuk mengirimnya.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Terlihat bagus! Tekan %1 untuk mengirimnya.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Pilih perintah terlebih dahulu. Enter menyisipkan jika dipilih; jika tidak, langsung mengirim.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Pilih perintah terlebih dahulu. Enter menyisipkan jika dipilih; jika tidak, %1 mengirim.</translation>
     </message>
 </context>
 <context>

@@ -750,13 +750,13 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>¡Tiene buena pinta! Pulsa Intro para enviarlo.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>¡Todo bien! Pulsa %1 para enviarlo.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Selecciona primero un comando. Intro inserta si hay uno seleccionado; de lo contrario, envía.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Selecciona primero un comando. Intro inserta si hay uno seleccionado; si no, %1 envía.</translation>
     </message>
 </context>
 <context>

@@ -749,13 +749,13 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>നല്ലതായി കാണുന്നു! അയക്കാൻ Enter അമർത്തുക.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>നല്ലതുപോലെ ഉണ്ട്! അയക്കാൻ %1 അമർത്തുക.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>ആദ്യം ഒരു കമാൻഡ് തിരഞ്ഞെടുക്കുക. തിരഞ്ഞെടുത്തിട്ടുണ്ടെങ്കിൽ Enter ഇൻസേർട്ട് ചെയ്യും; അല്ലെങ്കിൽ അയക്കും.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>ആദ്യം ഒരു കമാൻഡ് തിരഞ്ഞെടുക്കുക. Enter തിരഞ്ഞെടുത്തിട്ടുണ്ടെങ്കിൽ ചേർക്കും; അല്ലാത്തപക്ഷം %1 അയക്കും.</translation>
     </message>
 </context>
 <context>

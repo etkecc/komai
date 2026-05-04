@@ -749,13 +749,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>يبدو جيدًا! اضغط Enter لإرساله.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>يبدو جيداً! اضغط %1 لإرساله.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>اختر أمرًا أولاً. Enter يُدرج إذا كان محددًا؛ وإلا يُرسل.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>اختر أمراً أولاً. يُدرج Enter إذا كان محدداً؛ وإلا يُرسل %1.</translation>
     </message>
 </context>
 <context>

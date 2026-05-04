@@ -749,13 +749,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>عالی به نظر می‌رسد! Enter را بزنید تا ارسال شود.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>عالی است! برای ارسال آن %1 را بزنید.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>ابتدا یک دستور انتخاب کنید. اگر انتخاب شده باشد Enter درج می‌کند؛ در غیر این صورت ارسال می‌کند.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>ابتدا یک دستور انتخاب کنید. اگر انتخاب شده باشد، Enter درج می‌کند؛ در غیر این صورت %1 ارسال می‌کند.</translation>
     </message>
 </context>
 <context>

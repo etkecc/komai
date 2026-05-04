@@ -749,13 +749,13 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Trông ổn! Nhấn Enter để gửi.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Trông tốt! Nhấn %1 để gửi.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Chọn lệnh trước. Enter sẽ chèn nếu đã chọn; nếu không thì sẽ gửi.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Chọn lệnh trước. Enter chèn nếu đã chọn; nếu không %1 gửi.</translation>
     </message>
 </context>
 <context>

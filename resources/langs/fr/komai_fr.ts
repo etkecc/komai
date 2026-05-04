@@ -749,13 +749,13 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Tout est bon ! Appuyez sur Entrée pour l'envoyer.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Parfait ! Appuyez sur %1 pour l'envoyer.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Sélectionnez d'abord une commande. Entrée insère si une commande est sélectionnée ; sinon elle envoie.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Sélectionnez d'abord une commande. Entrée insère si sélectionné ; sinon %1 envoie.</translation>
     </message>
 </context>
 <context>
@@ -4013,7 +4013,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
     <message>
         <location line="+1"/>
         <source>Place a call?</source>
-        <translation type="unfinished"/>
+        <translation>Passer un appel ?</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4023,7 +4023,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
     <message>
         <location line="+28"/>
         <source>Choose how to start the call:</source>
-        <translation type="unfinished"/>
+        <translation>Choisissez comment démarrer l'appel :</translation>
     </message>
     <message>
         <location line="+58"/>

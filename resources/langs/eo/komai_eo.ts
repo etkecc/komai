@@ -749,13 +749,13 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Bone aspektas! Premu Enter por sendi ĝin.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Aspektas bone! Premu %1 por sendi ĝin.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Elektu unue komandon. Enter enmetas se elektita; alie ĝi sendas.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Unue elektu komandon. Enter enigas se elektita; alie %1 sendas.</translation>
     </message>
 </context>
 <context>

@@ -749,13 +749,13 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Näeb hea välja! Vajuta Enter selle saatmiseks.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Näeb hea välja! Vajuta %1 saatmiseks.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Vali esmalt käsk. Enter sisestab, kui on valitud; muul juhul saadab.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Vali kõigepealt käsk. Enter sisestab valitu korral; muul juhul saadab %1.</translation>
     </message>
 </context>
 <context>

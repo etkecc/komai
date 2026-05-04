@@ -749,13 +749,13 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Sembla bon! Premer Enter por enviar it.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Sembla bon! Presse %1 por transmisser.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Seliger un comande primmen. Enter inserte si selectat; altrimen to envia.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Selecte un comande prime. Enter inserte si selectat; altrimen %1 transmisse.</translation>
     </message>
 </context>
 <context>

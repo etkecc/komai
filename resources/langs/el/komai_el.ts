@@ -749,13 +749,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Φαίνεται σωστό! Πατήστε Enter για αποστολή.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Φαίνεται καλά! Πατήστε %1 για αποστολή.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Επιλέξτε πρώτα μια εντολή. Το Enter εισάγει αν είναι επιλεγμένο, αλλιώς στέλνει.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Επιλέξτε πρώτα μια εντολή. Το Enter εισάγει αν υπάρχει επιλογή· αλλιώς το %1 στέλνει.</translation>
     </message>
 </context>
 <context>

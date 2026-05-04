@@ -749,13 +749,13 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Näyttää hyvältä! Paina Enter lähettääksesi sen.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Näyttää hyvältä! Paina %1 lähettääksesi.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Valitse ensin komento. Enter lisää jos valittuna; muuten lähettää.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Valitse ensin komento. Enter lisää jos valittuna; muuten %1 lähettää.</translation>
     </message>
 </context>
 <context>

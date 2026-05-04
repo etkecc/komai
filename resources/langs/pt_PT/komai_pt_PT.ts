@@ -749,13 +749,13 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Parece bem! Prima Enter para enviar.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Parece bem! Prima %1 para enviar.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Selecione primeiro um comando. Enter insere se estiver selecionado; caso contrário, envia.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Selecione primeiro um comando. Enter insere se estiver selecionado; caso contrário, %1 envia.</translation>
     </message>
 </context>
 <context>

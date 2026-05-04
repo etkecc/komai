@@ -24,6 +24,6 @@ QtObject {
         : successVisible
         ? (selectionActive
             ? qsTr("Hit Enter to insert it.")
-            : qsTr("Looks good! Hit Enter to send it."))
-        : qsTr("Select a command first. Enter inserts if selected; otherwise it sends.")
+            : qsTr("Looks good! Hit %1 to send it.").arg(Settings.composerInputSendKeyLabel))
+        : qsTr("Select a command first. Enter inserts if selected; otherwise %1 sends.").arg(Settings.composerInputSendKeyLabel)
 }

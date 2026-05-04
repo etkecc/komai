@@ -749,13 +749,13 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Vypadá dobře! Stiskni Enter pro odeslání.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Vypadá to dobře! Stiskni %1 pro odeslání.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Nejprve vyber příkaz. Je-li vybraný, Enter vloží; jinak odešle.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Nejprve vyber příkaz. Enter vloží, je-li vybrán; jinak %1 odešle.</translation>
     </message>
 </context>
 <context>

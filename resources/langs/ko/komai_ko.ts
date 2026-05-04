@@ -749,13 +749,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>좋습니다! Enter 키를 눌러 전송하세요.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>좋아 보입니다! %1을 눌러 전송하세요.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>먼저 명령어를 선택하세요. 선택된 경우 Enter 키로 삽입하고, 그렇지 않으면 전송합니다.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>먼저 명령을 선택하세요. 선택되면 Enter로 삽입되고, 그렇지 않으면 %1로 전송됩니다.</translation>
     </message>
 </context>
 <context>

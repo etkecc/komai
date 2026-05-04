@@ -749,13 +749,13 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Sembra buono! Premi Invio per inviarlo.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Sembra tutto a posto! Premi %1 per inviarlo.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Seleziona prima un comando. Invio inserisce se selezionato; altrimenti invia.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Seleziona prima un comando. Enter inserisce se selezionato; altrimenti %1 invia.</translation>
     </message>
 </context>
 <context>

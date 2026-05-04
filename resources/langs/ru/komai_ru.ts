@@ -749,13 +749,13 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Выглядит хорошо! Нажми Enter для отправки.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Отлично! Нажми %1, чтобы отправить.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Сначала выбери команду. Enter вставляет выбранный вариант; в противном случае — отправляет.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Сначала выбери команду. Enter вставляет выбранное; иначе %1 отправляет.</translation>
     </message>
 </context>
 <context>

@@ -749,13 +749,13 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Sieht gut aus! Enter drücken, um es zu senden.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Sieht gut aus! Drücke %1 zum Senden.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Zuerst einen Befehl auswählen. Enter fügt ein, wenn ausgewählt; andernfalls wird gesendet.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Wähle zuerst einen Befehl aus. Enter fügt ein, wenn ausgewählt; andernfalls sendet %1.</translation>
     </message>
 </context>
 <context>

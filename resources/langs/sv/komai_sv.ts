@@ -749,13 +749,13 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Ser bra ut! Tryck Enter för att skicka det.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Ser bra ut! Tryck %1 för att skicka.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Välj ett kommando först. Enter infogar om det är markerat, annars skickas det.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Välj ett kommando först. Enter infogar om valt; annars skickar %1.</translation>
     </message>
 </context>
 <context>

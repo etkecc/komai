@@ -749,13 +749,13 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Izgleda dobro! Pritisni Enter da pošalješ.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Izgleda dobro! Pritisni %1 da pošalješ.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Prvo odaberi komandu. Enter umeće ako je odabrana; inače šalje.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Prvo izaberi komandu. Enter ubacuje ako je izabrana; inače %1 šalje.</translation>
     </message>
 </context>
 <context>

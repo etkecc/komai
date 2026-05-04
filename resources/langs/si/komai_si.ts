@@ -749,13 +749,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>හොඳයි! යැවීමට Enter ඔබන්න.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>හොඳයි! යවීමට %1 ඔබන්න.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>පළමුව විධානයක් තෝරන්න. තෝරා ඇත්නම් Enter ඇතුළු කරයි; නැතිනම් යවයි.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>පළමුව විධානයක් තෝරන්න. තෝරා ගත්හොත් Enter ඇතුළු කරයි; නැතිනම් %1 යවයි.</translation>
     </message>
 </context>
 <context>

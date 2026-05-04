@@ -743,12 +743,12 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
+        <source>Looks good! Hit %1 to send it.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
         <translation type="unfinished"/>
     </message>
 </context>

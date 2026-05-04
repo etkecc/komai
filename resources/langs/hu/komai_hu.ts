@@ -749,13 +749,13 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Jól néz ki! Nyomjon Entert a küldéshez.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Jól néz ki! Nyomj %1-t a küldéshez.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Először válasszon parancsot. Az Enter beilleszti, ha ki van választva; egyébként elküldi.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Először válassz parancsot. Ha ki van jelölve, az Enter beilleszti; egyébként %1 küld.</translation>
     </message>
 </context>
 <context>

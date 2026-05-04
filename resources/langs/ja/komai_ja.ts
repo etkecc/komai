@@ -749,13 +749,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>問題ありません！Enter キーで送信します。</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>良さそうです！%1 を押して送信します。</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>先にコマンドを選択してください。選択中は Enter で挿入、それ以外は送信します。</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>コマンドを先に選択してください。選択中は Enter で挿入、それ以外は %1 で送信します。</translation>
     </message>
 </context>
 <context>

@@ -749,13 +749,13 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     </message>
     <message>
         <location line="+1"/>
-        <source>Looks good! Hit Enter to send it.</source>
-        <translation>Arată bine! Apasă Enter pentru a trimite.</translation>
+        <source>Looks good! Hit %1 to send it.</source>
+        <translation>Arată bine! Apasă %1 pentru a trimite.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Select a command first. Enter inserts if selected; otherwise it sends.</source>
-        <translation>Selectează mai întâi o comandă. Enter inserează dacă este selectată; altfel trimite.</translation>
+        <source>Select a command first. Enter inserts if selected; otherwise %1 sends.</source>
+        <translation>Selectează mai întâi o comandă. Enter inserează dacă este selectat; altfel, %1 trimite.</translation>
     </message>
 </context>
 <context>

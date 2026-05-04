@@ -265,6 +265,12 @@ private:
     QString currentRoomVisualStateDeferredRoomId_;
     QString deferredStartupCurrentRoomId_;
     bool allowDeferredStartupCurrentRoomRestore_ = false;
+    // Latched true the first time resumeDeferredStartupCurrentRoomRestore()
+    // fires (after the first chat frame swaps).  The latch survives the case
+    // where frameSwapped beats the matrix-sdk room-list snapshot: a later
+    // deferStartupCurrentRoomRestore() then performs the restore immediately
+    // instead of waiting for a single-shot signal that has already passed.
+    bool firstChatFrameReleased_ = false;
     // When UI requests opening a room before sync inserts it into the room summary list,
     // remember the target and switch once the room becomes available.
     QString pendingCurrentRoomId_;

@@ -125,9 +125,22 @@ RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
 void
 RoomlistModel::deferStartupCurrentRoomRestore(const QString &roomid)
 {
-    allowDeferredStartupCurrentRoomRestore_ = false;
-    deferredStartupCurrentRoomId_           = roomid;
+    deferredStartupCurrentRoomId_ = roomid;
     pendingCurrentRoomId_.clear();
+
+    if (firstChatFrameReleased_) {
+        // The frame-swap latch already fired (single-shot connection in
+        // MainWindow), so there will be no second resume callback to release
+        // this restore.  Perform it inline instead of leaving the gate stuck.
+        allowDeferredStartupCurrentRoomRestore_ = true;
+        komai::logging::ui()->info(
+          "Restoring saved room inline; first chat frame already released: {}",
+          roomid.toStdString());
+        setCurrentRoom(roomid);
+        return;
+    }
+
+    allowDeferredStartupCurrentRoomRestore_ = false;
     komai::logging::ui()->info("Queued saved-room restore for after the first chat frame: {}",
                                roomid.toStdString());
 }
@@ -195,6 +208,12 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
 void
 RoomlistModel::resumeDeferredStartupCurrentRoomRestore()
 {
+    // Latch the frame-swap signal so a later deferStartupCurrentRoomRestore
+    // call (e.g. when the matrix-sdk room-list snapshot lands after the first
+    // frame swap) can restore inline rather than wait forever for a single-
+    // shot connection that already fired.
+    firstChatFrameReleased_ = true;
+
     if (deferredStartupCurrentRoomId_.isEmpty())
         return;
 

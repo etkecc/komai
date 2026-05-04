@@ -5778,8 +5778,8 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Despre</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11323,7 +11323,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Profiluri aplicație</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Disponibil după autentificare</translation>
     </message>
@@ -11343,12 +11348,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Navigare</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Despre</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

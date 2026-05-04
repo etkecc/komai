@@ -5774,8 +5774,8 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Acerca de</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11310,7 +11310,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Perfiles de aplicación</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Disponible tras iniciar sesión</translation>
     </message>
@@ -11330,12 +11335,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Navegación</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Acerca de</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

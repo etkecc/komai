@@ -5764,8 +5764,8 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Giới thiệu</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11291,7 +11291,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hồ sơ ứng dụng</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Khả dụng sau khi đăng nhập</translation>
     </message>
@@ -11311,12 +11316,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Điều hướng</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Giới thiệu</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

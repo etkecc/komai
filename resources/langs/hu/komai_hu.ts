@@ -5764,8 +5764,8 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Névjegy</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11291,7 +11291,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Alkalmazásprofilok</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Bejelentkezés után elérhető</translation>
     </message>
@@ -11311,12 +11316,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Navigáció</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Névjegy</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

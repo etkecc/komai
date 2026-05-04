@@ -5771,8 +5771,8 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Om</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11307,7 +11307,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Applikationsprofiler</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Tillgänglig efter inloggning</translation>
     </message>
@@ -11327,12 +11332,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Navigation</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Om</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

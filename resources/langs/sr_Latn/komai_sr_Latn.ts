@@ -5778,8 +5778,8 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>O</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11323,7 +11323,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Profili aplikacije</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Dostupno nakon prijave</translation>
     </message>
@@ -11343,12 +11348,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Navigacija</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>O</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

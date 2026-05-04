@@ -5771,8 +5771,8 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Teave</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11307,7 +11307,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Rakenduseprofiilid</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Saadaval pärast sisselogimist</translation>
     </message>
@@ -11327,12 +11332,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Navigeerimine</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Teave</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

@@ -5771,8 +5771,8 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Over</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11307,7 +11307,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Applicatieprofielen</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Beschikbaar na aanmelden</translation>
     </message>
@@ -11327,12 +11332,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Navigatie</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Over</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

@@ -5771,8 +5771,8 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Pri</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11307,7 +11307,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Profiles de Application</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Disponibil pos connexion</translation>
     </message>
@@ -11327,12 +11332,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Navigation</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Pri</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

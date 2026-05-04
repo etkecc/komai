@@ -5771,8 +5771,8 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>Quant a</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11307,7 +11307,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Perfils de l'aplicació</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Disponible després d'iniciar sessió</translation>
     </message>
@@ -11327,12 +11332,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Navegació</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>Quant a</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

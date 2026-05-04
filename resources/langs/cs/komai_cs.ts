@@ -5778,8 +5778,8 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     </message>
     <message>
         <location line="+1"/>
-        <source>About</source>
-        <translation>O aplikaci</translation>
+        <source>About this room</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -11323,7 +11323,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Profily aplikace</translation>
     </message>
     <message>
-        <location line="+225"/>
+        <location line="+1"/>
+        <source>About Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Dostupné po přihlášení</translation>
     </message>
@@ -11343,12 +11348,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Navigace</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>About</source>
-        <translation>O aplikaci</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-8"/>
         <location line="+86"/>
         <location line="+15"/>
         <source>Back</source>

@@ -7647,9 +7647,14 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+164"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Les opcions de sota no tenen cap efecte perquè les notificacions del compte estan desactivades més amunt.</translation>
+    </message>
+    <message>
+        <location line="+392"/>
+        <source>No settings match your search.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -10205,7 +10210,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Es mostra per a usuaris i sales que no tenen cap avatar personalitzat.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Barra lateral de comunitats</translation>
     </message>
@@ -10849,12 +10854,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-279"/>
         <source>Look &amp; Feel</source>
         <translation>Aparença</translation>
     </message>
@@ -10894,12 +10899,17 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Perfils de l'aplicació</translation>
     </message>
     <message>
-        <location line="+201"/>
+        <location line="+225"/>
         <source>Available after login</source>
         <translation>Disponible després d'iniciar sessió</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="+57"/>
+        <source>Search settings…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-286"/>
         <source>Calls</source>
         <translation>Trucades</translation>
     </message>

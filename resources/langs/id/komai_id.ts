@@ -7638,9 +7638,14 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+164"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opsi di bawah tidak berpengaruh karena notifikasi akun dinonaktifkan di atas.</translation>
+    </message>
+    <message>
+        <location line="+392"/>
+        <source>No settings match your search.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -10189,7 +10194,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Ditampilkan untuk pengguna dan ruangan yang tidak memiliki avatar khusus.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Bilah samping komunitas</translation>
     </message>
@@ -10833,12 +10838,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
         <source>Settings</source>
         <translation>Pengaturan</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-279"/>
         <source>Look &amp; Feel</source>
         <translation>Tampilan &amp; Nuansa</translation>
     </message>
@@ -10878,12 +10883,17 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Profil Aplikasi</translation>
     </message>
     <message>
-        <location line="+201"/>
+        <location line="+225"/>
         <source>Available after login</source>
         <translation>Tersedia setelah masuk</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="+57"/>
+        <source>Search settings…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-286"/>
         <source>Calls</source>
         <translation>Panggilan</translation>
     </message>

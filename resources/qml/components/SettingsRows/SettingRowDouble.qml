@@ -15,12 +15,16 @@ KomaiSpinBox {
     readonly property double div: 100
     readonly property int decimals: 2
 
-    anchors.right: parent.right
+    anchors.right: parent?.right
     font.pointSize: Settings.uiFontSizePt
-    from: model.valueLowerBound * div
-    to: model.valueUpperBound * div
-    stepSize: model.valueStep * div
-    value: model.value * div
+    // Guard against `model` going null while the delegate is being torn down
+    // (e.g. when the settings search filter removes this row): unguarded
+    // `model.X` produces "Cannot read property of null" warnings on every
+    // keystroke in the search field.
+    from: (model?.valueLowerBound ?? 0) * div
+    to: (model?.valueUpperBound ?? 0) * div
+    stepSize: (model?.valueStep ?? 1) * div
+    value: (model?.value ?? 0) * div
     onValueModified: {
         if (!root.model)
             return;

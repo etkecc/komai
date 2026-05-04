@@ -7656,9 +7656,14 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+164"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opțiunile de mai jos nu au efect deoarece notificările contului sunt dezactivate mai sus.</translation>
+    </message>
+    <message>
+        <location line="+392"/>
+        <source>No settings match your search.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -10221,7 +10226,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Afișat pentru utilizatorii și camerele care nu au un avatar personalizat.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Bara laterală a comunităților</translation>
     </message>
@@ -10865,12 +10870,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
         <source>Settings</source>
         <translation>Setări</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-279"/>
         <source>Look &amp; Feel</source>
         <translation>Aspect &amp; Stil</translation>
     </message>
@@ -10910,12 +10915,17 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Profiluri aplicație</translation>
     </message>
     <message>
-        <location line="+201"/>
+        <location line="+225"/>
         <source>Available after login</source>
         <translation>Disponibil după autentificare</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="+57"/>
+        <source>Search settings…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-286"/>
         <source>Calls</source>
         <translation>Apeluri</translation>
     </message>

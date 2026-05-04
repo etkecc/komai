@@ -7647,9 +7647,14 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+164"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Les options ci-dessous n'ont aucun effet car les notifications du compte sont désactivées ci-dessus.</translation>
+    </message>
+    <message>
+        <location line="+392"/>
+        <source>No settings match your search.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -10205,7 +10210,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Affiché pour les utilisateurs et les salons sans avatar personnalisé.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Barre latérale des communautés</translation>
     </message>
@@ -10849,12 +10854,12 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+289"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-279"/>
         <source>Look &amp; Feel</source>
         <translation>Apparence</translation>
     </message>
@@ -10894,12 +10899,17 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Profils d'application</translation>
     </message>
     <message>
-        <location line="+201"/>
+        <location line="+225"/>
         <source>Available after login</source>
         <translation>Disponible après connexion</translation>
     </message>
     <message>
-        <location line="-205"/>
+        <location line="+57"/>
+        <source>Search settings…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-286"/>
         <source>Calls</source>
         <translation>Appels</translation>
     </message>

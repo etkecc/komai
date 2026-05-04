@@ -7647,9 +7647,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+159"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+164"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Опциите по-долу нямат ефект, тъй като известията за акаунта са изключени по-горе.</translation>
+    </message>
+    <message>
+        <location line="+392"/>
+        <source>No settings match your search.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -10205,7 +10210,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Показва се за потребители и стаи, които нямат персонализиран аватар.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelNavigation.inc" line="+4"/>
         <source>Communities sidebar</source>
         <translation>Странична лента на общностите</translation>
     </message>
@@ -10911,14 +10916,19 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>За</translation>
     </message>
     <message>
-        <location line="+200"/>
+        <location line="+224"/>
         <source>Available after login</source>
         <translation>Налично след вход</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+45"/>
         <source>Settings</source>
         <translation>Настройки</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Search settings…</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

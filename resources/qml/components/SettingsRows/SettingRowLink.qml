@@ -13,7 +13,8 @@ TextEdit {
     property bool hovered: false
 
     color: root.hovered ? palette.brightText : palette.text
-    text: model.value
+    // Guard against `model` going null during search-filter teardown.
+    text: model?.value ?? ""
     textFormat: Text.RichText
     readOnly: true
     selectByMouse: true

@@ -50,6 +50,7 @@ using descriptor_value::setSettingValue;
 // clang-format off
 const SettingMeta settingsTable[] = {
     #include "rows/UserSettingsModelLookFeel.inc"
+    #include "rows/UserSettingsModelNavigation.inc"
     #include "rows/UserSettingsModelTimeline.inc"
     #include "rows/UserSettingsModelComposer.inc"
     #include "rows/UserSettingsModelDesktop.inc"

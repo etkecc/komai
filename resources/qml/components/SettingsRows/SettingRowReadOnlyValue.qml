@@ -24,5 +24,6 @@ TextEdit {
     wrapMode: root.leftAligned ? TextEdit.WrapAnywhere : TextEdit.NoWrap
     readOnly: true
     selectByMouse: true
-    text: model.value
+    // Guard against `model` going null during search-filter teardown.
+    text: model?.value ?? ""
 }

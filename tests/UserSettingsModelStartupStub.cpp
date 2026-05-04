@@ -56,6 +56,21 @@ UserSettingsModel::modelForTab(int) const
     return nullptr;
 }
 
+void
+UserSettingsModel::setSearchQuery(const QString &query)
+{
+    if (query == searchQuery_)
+        return;
+    searchQuery_ = query;
+    emit searchQueryChanged();
+}
+
+int
+UserSettingsModel::matchCountForTab(int) const
+{
+    return 0;
+}
+
 namespace settings::ui {
 
 const SettingMeta settingsTable[] = {

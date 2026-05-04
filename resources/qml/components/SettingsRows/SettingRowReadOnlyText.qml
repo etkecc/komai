@@ -19,7 +19,8 @@ TextEdit {
     clip: true
     color: palette.text
     font.pointSize: Settings.uiFontSizePt
-    text: model.value
+    // Guard against `model` going null during search-filter teardown.
+    text: model?.value ?? ""
     horizontalAlignment: root.leftAligned ? Text.AlignLeft : Text.AlignRight
     wrapMode: root.leftAligned ? TextEdit.WrapAnywhere : TextEdit.NoWrap
     readOnly: true

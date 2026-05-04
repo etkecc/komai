@@ -7,9 +7,13 @@
 
 #include <QAbstractListModel>
 #include <QQmlEngine>
+#include <QString>
 
-class QSortFilterProxyModel;
 class UserSettings;
+
+namespace settings::ui {
+class SettingsSearchProxyModel;
+}
 
 class UserSettingsModel : public QAbstractListModel
 {
@@ -22,6 +26,8 @@ class UserSettingsModel : public QAbstractListModel
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
+
+    Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
 
 public:
     enum SettingsTab
@@ -98,8 +104,21 @@ public:
 
     Q_INVOKABLE QObject *modelForTab(int tab) const;
 
+    QString searchQuery() const { return searchQuery_; }
+    void setSearchQuery(const QString &query);
+
+    // Number of settings rows in `tab` that match the current search query.
+    // Section-title rows are not counted. When the query is empty, returns the
+    // total number of non-section rows in `tab` (so callers can choose to hide
+    // the badge themselves when query is empty).
+    Q_INVOKABLE int matchCountForTab(int tab) const;
+
+Q_SIGNALS:
+    void searchQueryChanged();
+
 private:
     void wireSettingConnections(UserSettings *settings);
 
-    mutable QHash<int, QSortFilterProxyModel *> filteredModels_;
+    QString searchQuery_;
+    mutable QHash<int, settings::ui::SettingsSearchProxyModel *> filteredModels_;
 };

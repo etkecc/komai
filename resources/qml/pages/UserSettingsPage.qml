@@ -152,7 +152,16 @@ Rectangle {
                         property bool availableInCurrentSession: !requiresSession || Settings.hasActiveSession
                         property color backgroundColor: palette.window
                         property color textColor: palette.text
+                        // Re-evaluates when the global search query changes (the explicit read
+                        // of UserSettingsModel.searchQuery is the binding's dependency hook;
+                        // matchCountForTab() is Q_INVOKABLE and not a property).
+                        readonly property bool hasActiveQuery: (UserSettingsModel.searchQuery ?? "").length > 0
+                        readonly property int searchMatchCount: {
+                            var _ = UserSettingsModel.searchQuery;
+                            return UserSettingsModel.matchCountForTab(modelData.tab);
+                        }
                         enabled: availableInCurrentSession
+                        opacity: hasActiveQuery && searchMatchCount === 0 ? 0.6 : 1.0
 
                         HoverHandler {
                             cursorShape: navItem.enabled && !navItem.isActive ? Qt.PointingHandCursor : Qt.ArrowCursor
@@ -223,10 +232,14 @@ Rectangle {
 
                             Label {
                                 id: navLabel
-                                width: Math.max(0, parent.width - navIcon.width - Komai.paddingMedium)
+                                width: Math.max(0, parent.width - navIcon.width - Komai.paddingMedium - (navBadge.visible ? navBadge.width + Komai.paddingSmall : 0))
                                 height: implicitHeight
                                 anchors.verticalCenter: parent.verticalCenter
-                                x: userSettingsDialog.mirrored ? 0 : navIcon.width + Komai.paddingMedium
+                                x: {
+                                    if (userSettingsDialog.mirrored)
+                                        return navBadge.visible ? navBadge.width + Komai.paddingSmall : 0;
+                                    return navIcon.width + Komai.paddingMedium;
+                                }
                                 text: navItem.modelData.text
                                 color: navItem.enabled ? navItem.textColor : palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt
@@ -234,6 +247,17 @@ Rectangle {
                                 horizontalAlignment: userSettingsDialog.mirrored ? Text.AlignRight : Text.AlignLeft
                                 elide: userSettingsDialog.mirrored ? Text.ElideLeft : Text.ElideRight
                                 LayoutMirroring.enabled: false
+                            }
+
+                            NotificationBubble {
+                                id: navBadge
+                                anchors.verticalCenter: parent.verticalCenter
+                                x: userSettingsDialog.mirrored ? 0 : parent.width - width
+                                unreadCount: navItem.searchMatchCount
+                                hasLoudNotification: false
+                                bubbleBackgroundColor: palette.highlight
+                                bubbleTextColor: palette.highlightedText
+                                mayBeVisible: navItem.hasActiveQuery
                             }
                         }
 
@@ -271,7 +295,9 @@ Rectangle {
                 color: palette.alternateBase
 
                 RowLayout {
-                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    anchors.leftMargin: Komai.paddingMedium
+                    anchors.rightMargin: Komai.paddingMedium
                     spacing: Komai.paddingMedium
 
                     Image {
@@ -290,6 +316,23 @@ Rectangle {
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         font.bold: true
                         color: palette.text
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    KomaiTextField {
+                        id: settingsSearchField
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.preferredWidth: Math.min(360, parent.width / 2)
+                        placeholderText: qsTr("Search settings…")
+                        text: UserSettingsModel.searchQuery
+                        onTextChanged: {
+                            if (text !== UserSettingsModel.searchQuery)
+                                UserSettingsModel.searchQuery = text;
+                        }
+                        Keys.onEscapePressed: {
+                            text = "";
+                        }
                     }
                 }
             }

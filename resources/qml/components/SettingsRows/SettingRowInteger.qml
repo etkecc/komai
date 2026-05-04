@@ -10,12 +10,15 @@ import cc.etke.komai
 KomaiSpinBox {
     id: root
 
-    anchors.right: parent.right
+    anchors.right: parent?.right
     font.pointSize: Settings.uiFontSizePt
-    from: model.valueLowerBound
-    to: model.valueUpperBound
-    stepSize: model.valueStep
-    value: model.value
+    // Guard against `model` going null while the delegate is being torn down
+    // (search-filter row removal): unguarded `model.X` produces "Cannot read
+    // property of null" warnings on every keystroke in the search field.
+    from: model?.valueLowerBound ?? 0
+    to: model?.valueUpperBound ?? 0
+    stepSize: model?.valueStep ?? 1
+    value: model?.value ?? 0
     onValueModified: {
         if (!root.model)
             return;

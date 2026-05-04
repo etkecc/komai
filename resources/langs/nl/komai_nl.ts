@@ -7653,7 +7653,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     </message>
     <message>
         <location line="+392"/>
-        <source>No settings match your search.</source>
+        <source>No settings in this tab match your search.</source>
         <translation type="unfinished"/>
     </message>
 </context>

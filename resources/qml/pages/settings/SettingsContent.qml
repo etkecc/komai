@@ -553,7 +553,7 @@ Item {
         width: Math.min(parent.width - Komai.paddingLarge * 2, 480)
         color: palette.buttonText
         font.pointSize: Settings.uiFontSizePt
-        text: qsTr("No settings match your search.")
+        text: qsTr("No settings in this tab match your search.")
         visible: root.searchHidesEverything
     }
 

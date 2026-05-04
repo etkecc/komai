@@ -5779,7 +5779,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+1"/>
         <source>About this room</source>
-        <translation type="unfinished"/>
+        <translation>О комнате</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10940,339 +10940,339 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation type="unfinished">Профиль</translation>
+        <translation>Профиль</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar</source>
-        <translation type="unfinished">Аватар</translation>
+        <translation>Аватар</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation type="unfinished">Отображаемое имя</translation>
+        <translation>Отображаемое имя</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Sessions</source>
-        <translation type="unfinished"/>
+        <translation>Сессии</translation>
     </message>
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation type="unfinished">Выйти</translation>
+        <translation>Выйти</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Identity</source>
-        <translation type="unfinished"/>
+        <translation>Личность</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>This device</source>
-        <translation type="unfinished">Это устройство</translation>
+        <translation>Это устройство</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This session</source>
-        <translation type="unfinished"/>
+        <translation>Эта сессия</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current device</source>
-        <translation type="unfinished"/>
+        <translation>Текущее устройство</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation type="unfinished">Имя устройства</translation>
+        <translation>Имя устройства</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Logout</source>
-        <translation type="unfinished"/>
+        <translation>Выйти</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Other devices</source>
-        <translation type="unfinished"/>
+        <translation>Другие устройства</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Other sessions</source>
-        <translation type="unfinished"/>
+        <translation>Другие сессии</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation type="unfinished">Верифицировать</translation>
+        <translation>Верифицировать</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verification</source>
-        <translation type="unfinished">Верификация</translation>
+        <translation>Верификация</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation type="unfinished">Верифицирован</translation>
+        <translation>Верифицировано</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Encryption keys</source>
-        <translation type="unfinished"/>
+        <translation>Ключи шифрования</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Refresh devices</source>
-        <translation type="unfinished"/>
+        <translation>Обновить устройства</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign out other devices</source>
-        <translation type="unfinished"/>
+        <translation>Выйти с других устройств</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Block user</source>
-        <translation type="unfinished"/>
+        <translation>Заблокировать пользователя</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mute user</source>
-        <translation type="unfinished"/>
+        <translation>Заглушить пользователя</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Local cache</source>
-        <translation type="unfinished">Локальный кэш</translation>
+        <translation>Локальный кэш</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache</source>
-        <translation type="unfinished"/>
+        <translation>Кэш</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished">Хранилище состояния Matrix SDK</translation>
+        <translation>Хранилище состояния Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished">Кэш Matrix SDK</translation>
+        <translation>Кэш Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation type="unfinished">Кэш медиафайлов</translation>
+        <translation>Кэш медиа</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache backend</source>
-        <translation type="unfinished"/>
+        <translation>Бэкенд кэша</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache size</source>
-        <translation type="unfinished"/>
+        <translation>Размер кэша</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache directory</source>
-        <translation type="unfinished"/>
+        <translation>Папка кэша</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Purge cache</source>
-        <translation type="unfinished"/>
+        <translation>Сбросить кэш</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Clear cache</source>
-        <translation type="unfinished"/>
+        <translation>Очистить кэш</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Storage</source>
-        <translation type="unfinished"/>
+        <translation>Хранилище</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Disk usage</source>
-        <translation type="unfinished"/>
+        <translation>Использование диска</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Application profile</source>
-        <translation type="unfinished"/>
+        <translation>Профиль приложения</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multi-account</source>
-        <translation type="unfinished"/>
+        <translation>Мультиаккаунт</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multiple accounts</source>
-        <translation type="unfinished"/>
+        <translation>Несколько аккаунтов</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Switch profile</source>
-        <translation type="unfinished"/>
+        <translation>Сменить профиль</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create profile</source>
-        <translation type="unfinished"/>
+        <translation>Создать профиль</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete profile</source>
-        <translation type="unfinished"/>
+        <translation>Удалить профиль</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>Ярлык на рабочем столе</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Work profile</source>
-        <translation type="unfinished"/>
+        <translation>Рабочий профиль</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Personal profile</source>
-        <translation type="unfinished"/>
+        <translation>Личный профиль</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Speech to text</source>
-        <translation type="unfinished"/>
+        <translation>Речь в текст</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Whisper</source>
-        <translation type="unfinished"/>
+        <translation>Whisper</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI</source>
-        <translation type="unfinished"/>
+        <translation>OpenAI</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>API key</source>
-        <translation type="unfinished">API-ключ</translation>
+        <translation>API-ключ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription provider</source>
-        <translation type="unfinished"/>
+        <translation>Провайдер транскрипции</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription model</source>
-        <translation type="unfinished"/>
+        <translation>Модель транскрипции</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription prompt</source>
-        <translation type="unfinished"/>
+        <translation>Подсказка для транскрипции</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription hosting</source>
-        <translation type="unfinished"/>
+        <translation>Хостинг транскрипции</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Realtime transcription</source>
-        <translation type="unfinished"/>
+        <translation>Транскрипция в реальном времени</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Streaming transcription</source>
-        <translation type="unfinished"/>
+        <translation>Потоковая транскрипция</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation type="unfinished">Команда для открытия ссылок</translation>
+        <translation>Команда открытия ссылок</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom browser</source>
-        <translation type="unfinished"/>
+        <translation>Пользовательский браузер</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Default browser</source>
-        <translation type="unfinished"/>
+        <translation>Браузер по умолчанию</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open links</source>
-        <translation type="unfinished"/>
+        <translation>Открывать ссылки</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>State events</source>
-        <translation type="unfinished"/>
+        <translation>События состояния</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins and leaves</source>
-        <translation type="unfinished"/>
+        <translation>Входы и выходы</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Member events</source>
-        <translation type="unfinished"/>
+        <translation>События участников</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Topic changes</source>
-        <translation type="unfinished"/>
+        <translation>Изменения темы</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Name changes</source>
-        <translation type="unfinished"/>
+        <translation>Изменения имени</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar changes</source>
-        <translation type="unfinished"/>
+        <translation>Изменения аватара</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level changes</source>
-        <translation type="unfinished"/>
+        <translation>Изменения уровня прав</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kicks</source>
-        <translation type="unfinished"/>
+        <translation>Исключения</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bans</source>
-        <translation type="unfinished"/>
+        <translation>Баны</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Noisy events</source>
-        <translation type="unfinished"/>
+        <translation>Шумные события</translation>
     </message>
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>
-        <translation type="unfinished"/>
+        <translation>В этой вкладке нет настроек, соответствующих поиску.</translation>
     </message>
 </context>
 <context>
@@ -11325,7 +11325,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>About Komai</source>
-        <translation type="unfinished"/>
+        <translation>О Komai</translation>
     </message>
     <message>
         <location line="+224"/>
@@ -11335,7 +11335,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+57"/>
         <source>Search settings…</source>
-        <translation type="unfinished"/>
+        <translation>Поиск настроек…</translation>
     </message>
     <message>
         <location line="-286"/>

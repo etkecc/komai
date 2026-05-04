@@ -5772,7 +5772,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+1"/>
         <source>About this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയെ കുറിച്ച്</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10924,339 +10924,339 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation type="unfinished">പ്രൊഫൈൽ</translation>
+        <translation>പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar</source>
-        <translation type="unfinished">അവതാർ</translation>
+        <translation>അവതാർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation type="unfinished">ഡിസ്‌പ്ലേ നാമം</translation>
+        <translation>പ്രദർശന നാമം</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Sessions</source>
-        <translation type="unfinished"/>
+        <translation>സെഷനുകൾ</translation>
     </message>
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation type="unfinished">സൈൻ ഔട്ട്</translation>
+        <translation>സൈൻ ഔട്ട്</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Identity</source>
-        <translation type="unfinished"/>
+        <translation>തിരിച്ചറിയൽ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>This device</source>
-        <translation type="unfinished">ഈ ഉപകരണം</translation>
+        <translation>ഈ ഉപകരണം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This session</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സെഷൻ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current device</source>
-        <translation type="unfinished"/>
+        <translation>നിലവിലെ ഉപകരണം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation type="unfinished">ഉപകരണത്തിന്റെ പേര്</translation>
+        <translation>ഉപകരണത്തിന്റെ പേര്</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Logout</source>
-        <translation type="unfinished"/>
+        <translation>ലോഗൗട്ട്</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Other devices</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണങ്ങൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Other sessions</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് സെഷനുകൾ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation type="unfinished">പരിശോധിക്കുക</translation>
+        <translation>പരിശോധിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verification</source>
-        <translation type="unfinished">പരിശോധന</translation>
+        <translation>പരിശോധന</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation type="unfinished">പരിശോധിക്കപ്പെട്ടത്</translation>
+        <translation>പരിശോധിച്ചത്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Encryption keys</source>
-        <translation type="unfinished"/>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Refresh devices</source>
-        <translation type="unfinished"/>
+        <translation>ഉപകരണങ്ങൾ പുതുക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign out other devices</source>
-        <translation type="unfinished"/>
+        <translation>മറ്റ് ഉപകരണങ്ങളിൽ നിന്ന് സൈൻ ഔട്ട് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Block user</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ തടയുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mute user</source>
-        <translation type="unfinished"/>
+        <translation>ഉപയോക്താവിനെ നിശബ്ദമാക്കുക</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Local cache</source>
-        <translation type="unfinished">പ്രാദേശിക ക്യാഷ്</translation>
+        <translation>പ്രാദേശിക കാഷേ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache</source>
-        <translation type="unfinished"/>
+        <translation>കാഷേ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished">Matrix SDK സ്റ്റേറ്റ് സ്റ്റോർ</translation>
+        <translation>Matrix SDK സ്റ്റേറ്റ് സ്റ്റോർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished">Matrix SDK ക്യാഷ്</translation>
+        <translation>Matrix SDK കാഷേ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation type="unfinished">മീഡിയ ക്യാഷ്</translation>
+        <translation>മീഡിയ കാഷേ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache backend</source>
-        <translation type="unfinished"/>
+        <translation>കാഷേ ബാക്കെൻഡ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache size</source>
-        <translation type="unfinished"/>
+        <translation>കാഷേ വലിപ്പം</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache directory</source>
-        <translation type="unfinished"/>
+        <translation>കാഷേ ഡയറക്ടറി</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Purge cache</source>
-        <translation type="unfinished"/>
+        <translation>കാഷേ ശുദ്ധീകരിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Clear cache</source>
-        <translation type="unfinished"/>
+        <translation>കാഷേ മായ്ക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Storage</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റോറേജ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Disk usage</source>
-        <translation type="unfinished"/>
+        <translation>ഡിസ്ക് ഉപയോഗം</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Application profile</source>
-        <translation type="unfinished"/>
+        <translation>ആപ്ലിക്കേഷൻ പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multi-account</source>
-        <translation type="unfinished"/>
+        <translation>മൾട്ടി-അക്കൗണ്ട്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multiple accounts</source>
-        <translation type="unfinished"/>
+        <translation>ഒന്നിലധികം അക്കൗണ്ടുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Switch profile</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ മാറ്റുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create profile</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete profile</source>
-        <translation type="unfinished"/>
+        <translation>പ്രൊഫൈൽ ഇല്ലാതാക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>ഡെസ്ക്ടോപ്പ് ലോഞ്ചർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Work profile</source>
-        <translation type="unfinished"/>
+        <translation>ജോലി പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Personal profile</source>
-        <translation type="unfinished"/>
+        <translation>വ്യക്തിഗത പ്രൊഫൈൽ</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Speech to text</source>
-        <translation type="unfinished"/>
+        <translation>സ്പീച്ച് ടു ടെക്സ്റ്റ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Whisper</source>
-        <translation type="unfinished"/>
+        <translation>Whisper</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI</source>
-        <translation type="unfinished"/>
+        <translation>OpenAI</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>API key</source>
-        <translation type="unfinished">API കീ</translation>
+        <translation>API കീ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription provider</source>
-        <translation type="unfinished"/>
+        <translation>ട്രാൻസ്ക്രിപ്ഷൻ പ്രൊവൈഡർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription model</source>
-        <translation type="unfinished"/>
+        <translation>ട്രാൻസ്ക്രിപ്ഷൻ മോഡൽ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription prompt</source>
-        <translation type="unfinished"/>
+        <translation>ട്രാൻസ്ക്രിപ്ഷൻ പ്രോംപ്റ്റ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription hosting</source>
-        <translation type="unfinished"/>
+        <translation>ട്രാൻസ്ക്രിപ്ഷൻ ഹോസ്റ്റിംഗ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Realtime transcription</source>
-        <translation type="unfinished"/>
+        <translation>തത്സമയ ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Streaming transcription</source>
-        <translation type="unfinished"/>
+        <translation>സ്ട്രീമിംഗ് ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation type="unfinished">ലിങ്ക് ബ്രൗസർ കമാൻഡ്</translation>
+        <translation>ലിങ്ക് ബ്രൗസർ കമാൻഡ്</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom browser</source>
-        <translation type="unfinished"/>
+        <translation>ഇഷ്ടാനുസൃത ബ്രൗസർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Default browser</source>
-        <translation type="unfinished"/>
+        <translation>സ്ഥിരസ്ഥിതി ബ്രൗസർ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open links</source>
-        <translation type="unfinished"/>
+        <translation>ലിങ്കുകൾ തുറക്കുക</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>State events</source>
-        <translation type="unfinished"/>
+        <translation>സ്റ്റേറ്റ് ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins and leaves</source>
-        <translation type="unfinished"/>
+        <translation>ചേരലും വിടലും</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Member events</source>
-        <translation type="unfinished"/>
+        <translation>അംഗ ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Topic changes</source>
-        <translation type="unfinished"/>
+        <translation>വിഷയ മാറ്റങ്ങൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Name changes</source>
-        <translation type="unfinished"/>
+        <translation>പേര് മാറ്റങ്ങൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar changes</source>
-        <translation type="unfinished"/>
+        <translation>അവതാർ മാറ്റങ്ങൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level changes</source>
-        <translation type="unfinished"/>
+        <translation>അധികാര നില മാറ്റങ്ങൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kicks</source>
-        <translation type="unfinished"/>
+        <translation>പുറന്തള്ളലുകൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bans</source>
-        <translation type="unfinished"/>
+        <translation>നിരോധനങ്ങൾ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Noisy events</source>
-        <translation type="unfinished"/>
+        <translation>ശബ്ദകോലാഹലമുള്ള ഇവന്റുകൾ</translation>
     </message>
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ ടാബിലെ ക്രമീകരണങ്ങളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല.</translation>
     </message>
 </context>
 <context>
@@ -11309,7 +11309,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+1"/>
         <source>About Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai-യെ കുറിച്ച്</translation>
     </message>
     <message>
         <location line="+224"/>
@@ -11319,7 +11319,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+57"/>
         <source>Search settings…</source>
-        <translation type="unfinished"/>
+        <translation>ക്രമീകരണങ്ങൾ തിരയുക…</translation>
     </message>
     <message>
         <location line="-286"/>

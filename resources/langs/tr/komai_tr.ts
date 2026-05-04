@@ -5765,7 +5765,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     <message>
         <location line="+1"/>
         <source>About this room</source>
-        <translation type="unfinished"/>
+        <translation>Bu oda hakkında</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10908,339 +10908,339 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation type="unfinished">Profil</translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar</source>
-        <translation type="unfinished">Avatar</translation>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation type="unfinished">Görünen ad</translation>
+        <translation>Görünen ad</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Sessions</source>
-        <translation type="unfinished"/>
+        <translation>Oturumlar</translation>
     </message>
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation type="unfinished">Oturumu kapat</translation>
+        <translation>Oturumu kapat</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Identity</source>
-        <translation type="unfinished"/>
+        <translation>Kimlik</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>This device</source>
-        <translation type="unfinished">Bu cihaz</translation>
+        <translation>Bu cihaz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This session</source>
-        <translation type="unfinished"/>
+        <translation>Bu oturum</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current device</source>
-        <translation type="unfinished"/>
+        <translation>Mevcut cihaz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation type="unfinished">Cihaz adı</translation>
+        <translation>Cihaz adı</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Logout</source>
-        <translation type="unfinished"/>
+        <translation>Çıkış yap</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Other devices</source>
-        <translation type="unfinished"/>
+        <translation>Diğer cihazlar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Other sessions</source>
-        <translation type="unfinished"/>
+        <translation>Diğer oturumlar</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation type="unfinished">Doğrula</translation>
+        <translation>Doğrula</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verification</source>
-        <translation type="unfinished">Doğrulama</translation>
+        <translation>Doğrulama</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation type="unfinished">Doğrulanmış</translation>
+        <translation>Doğrulanmış</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Encryption keys</source>
-        <translation type="unfinished"/>
+        <translation>Şifreleme anahtarları</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Refresh devices</source>
-        <translation type="unfinished"/>
+        <translation>Cihazları yenile</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign out other devices</source>
-        <translation type="unfinished"/>
+        <translation>Diğer cihazlarda oturumu kapat</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Block user</source>
-        <translation type="unfinished"/>
+        <translation>Kullanıcıyı engelle</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mute user</source>
-        <translation type="unfinished"/>
+        <translation>Kullanıcıyı sessize al</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Local cache</source>
-        <translation type="unfinished">Yerel önbellek</translation>
+        <translation>Yerel önbellek</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache</source>
-        <translation type="unfinished"/>
+        <translation>Önbellek</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished">Matrix SDK durum deposu</translation>
+        <translation>Matrix SDK durum deposu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished">Matrix SDK önbelleği</translation>
+        <translation>Matrix SDK önbelleği</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation type="unfinished">Medya önbelleği</translation>
+        <translation>Medya önbelleği</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache backend</source>
-        <translation type="unfinished"/>
+        <translation>Önbellek arka ucu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache size</source>
-        <translation type="unfinished"/>
+        <translation>Önbellek boyutu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache directory</source>
-        <translation type="unfinished"/>
+        <translation>Önbellek dizini</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Purge cache</source>
-        <translation type="unfinished"/>
+        <translation>Önbelleği boşalt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Clear cache</source>
-        <translation type="unfinished"/>
+        <translation>Önbelleği temizle</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Storage</source>
-        <translation type="unfinished"/>
+        <translation>Depolama</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Disk usage</source>
-        <translation type="unfinished"/>
+        <translation>Disk kullanımı</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Application profile</source>
-        <translation type="unfinished"/>
+        <translation>Uygulama profili</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multi-account</source>
-        <translation type="unfinished"/>
+        <translation>Çoklu hesap</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multiple accounts</source>
-        <translation type="unfinished"/>
+        <translation>Birden fazla hesap</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Switch profile</source>
-        <translation type="unfinished"/>
+        <translation>Profil değiştir</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create profile</source>
-        <translation type="unfinished"/>
+        <translation>Profil oluştur</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete profile</source>
-        <translation type="unfinished"/>
+        <translation>Profili sil</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>Masaüstü başlatıcı</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Work profile</source>
-        <translation type="unfinished"/>
+        <translation>İş profili</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Personal profile</source>
-        <translation type="unfinished"/>
+        <translation>Kişisel profil</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Speech to text</source>
-        <translation type="unfinished"/>
+        <translation>Konuşmadan metne</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Whisper</source>
-        <translation type="unfinished"/>
+        <translation>Whisper</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI</source>
-        <translation type="unfinished"/>
+        <translation>OpenAI</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>API key</source>
-        <translation type="unfinished">API anahtarı</translation>
+        <translation>API anahtarı</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription provider</source>
-        <translation type="unfinished"/>
+        <translation>Transkripsiyon sağlayıcısı</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription model</source>
-        <translation type="unfinished"/>
+        <translation>Transkripsiyon modeli</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription prompt</source>
-        <translation type="unfinished"/>
+        <translation>Transkripsiyon istemi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription hosting</source>
-        <translation type="unfinished"/>
+        <translation>Transkripsiyon barındırma</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Realtime transcription</source>
-        <translation type="unfinished"/>
+        <translation>Gerçek zamanlı transkripsiyon</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Streaming transcription</source>
-        <translation type="unfinished"/>
+        <translation>Akışlı transkripsiyon</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation type="unfinished">Bağlantı tarayıcı komutu</translation>
+        <translation>Bağlantı tarayıcı komutu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom browser</source>
-        <translation type="unfinished"/>
+        <translation>Özel tarayıcı</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Default browser</source>
-        <translation type="unfinished"/>
+        <translation>Varsayılan tarayıcı</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open links</source>
-        <translation type="unfinished"/>
+        <translation>Bağlantıları aç</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>State events</source>
-        <translation type="unfinished"/>
+        <translation>Durum olayları</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins and leaves</source>
-        <translation type="unfinished"/>
+        <translation>Katılımlar ve ayrılmalar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Member events</source>
-        <translation type="unfinished"/>
+        <translation>Üye olayları</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Topic changes</source>
-        <translation type="unfinished"/>
+        <translation>Konu değişiklikleri</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Name changes</source>
-        <translation type="unfinished"/>
+        <translation>Ad değişiklikleri</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar changes</source>
-        <translation type="unfinished"/>
+        <translation>Avatar değişiklikleri</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level changes</source>
-        <translation type="unfinished"/>
+        <translation>Yetki seviyesi değişiklikleri</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kicks</source>
-        <translation type="unfinished"/>
+        <translation>Atmalar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bans</source>
-        <translation type="unfinished"/>
+        <translation>Yasaklamalar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Noisy events</source>
-        <translation type="unfinished"/>
+        <translation>Gürültülü olaylar</translation>
     </message>
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>
-        <translation type="unfinished"/>
+        <translation>Bu sekmede aramanızla eşleşen ayar yok.</translation>
     </message>
 </context>
 <context>
@@ -11293,7 +11293,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location line="+1"/>
         <source>About Komai</source>
-        <translation type="unfinished"/>
+        <translation>Komai Hakkında</translation>
     </message>
     <message>
         <location line="+224"/>
@@ -11303,7 +11303,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location line="+57"/>
         <source>Search settings…</source>
-        <translation type="unfinished"/>
+        <translation>Ayarlarda ara…</translation>
     </message>
     <message>
         <location line="-286"/>

@@ -5775,7 +5775,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     <message>
         <location line="+1"/>
         <source>About this room</source>
-        <translation type="unfinished"/>
+        <translation>Acerca de esta sala</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10927,339 +10927,339 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation type="unfinished">Perfil</translation>
+        <translation>Perfil</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar</source>
-        <translation type="unfinished">Avatar</translation>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation type="unfinished">Nombre visible</translation>
+        <translation>Nombre para mostrar</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Sessions</source>
-        <translation type="unfinished"/>
+        <translation>Sesiones</translation>
     </message>
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation type="unfinished">Cerrar sesión</translation>
+        <translation>Cerrar sesión</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Identity</source>
-        <translation type="unfinished"/>
+        <translation>Identidad</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>This device</source>
-        <translation type="unfinished">Este dispositivo</translation>
+        <translation>Este dispositivo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This session</source>
-        <translation type="unfinished"/>
+        <translation>Esta sesión</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current device</source>
-        <translation type="unfinished"/>
+        <translation>Dispositivo actual</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation type="unfinished">Nombre de dispositivo</translation>
+        <translation>Nombre del dispositivo</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Logout</source>
-        <translation type="unfinished"/>
+        <translation>Cerrar sesión</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Other devices</source>
-        <translation type="unfinished"/>
+        <translation>Otros dispositivos</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Other sessions</source>
-        <translation type="unfinished"/>
+        <translation>Otras sesiones</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation type="unfinished">Verificar</translation>
+        <translation>Verificar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verification</source>
-        <translation type="unfinished">Verificación</translation>
+        <translation>Verificación</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation type="unfinished">Verificado</translation>
+        <translation>Verificado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Encryption keys</source>
-        <translation type="unfinished"/>
+        <translation>Claves de cifrado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Refresh devices</source>
-        <translation type="unfinished"/>
+        <translation>Actualizar dispositivos</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign out other devices</source>
-        <translation type="unfinished"/>
+        <translation>Cerrar sesión en otros dispositivos</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Block user</source>
-        <translation type="unfinished"/>
+        <translation>Bloquear usuario</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mute user</source>
-        <translation type="unfinished"/>
+        <translation>Silenciar usuario</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Local cache</source>
-        <translation type="unfinished">Caché local</translation>
+        <translation>Caché local</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache</source>
-        <translation type="unfinished"/>
+        <translation>Caché</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished">Almacén de estado del SDK de Matrix</translation>
+        <translation>Almacén de estado del SDK de Matrix</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished">Caché del SDK de Matrix</translation>
+        <translation>Caché del SDK de Matrix</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation type="unfinished">Caché de medios</translation>
+        <translation>Caché de medios</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache backend</source>
-        <translation type="unfinished"/>
+        <translation>Backend de caché</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache size</source>
-        <translation type="unfinished"/>
+        <translation>Tamaño de caché</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache directory</source>
-        <translation type="unfinished"/>
+        <translation>Directorio de caché</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Purge cache</source>
-        <translation type="unfinished"/>
+        <translation>Purgar caché</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Clear cache</source>
-        <translation type="unfinished"/>
+        <translation>Limpiar caché</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Storage</source>
-        <translation type="unfinished"/>
+        <translation>Almacenamiento</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Disk usage</source>
-        <translation type="unfinished"/>
+        <translation>Uso del disco</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Application profile</source>
-        <translation type="unfinished"/>
+        <translation>Perfil de aplicación</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multi-account</source>
-        <translation type="unfinished"/>
+        <translation>Multicuenta</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multiple accounts</source>
-        <translation type="unfinished"/>
+        <translation>Múltiples cuentas</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Switch profile</source>
-        <translation type="unfinished"/>
+        <translation>Cambiar perfil</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create profile</source>
-        <translation type="unfinished"/>
+        <translation>Crear perfil</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete profile</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar perfil</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>Lanzador de escritorio</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Work profile</source>
-        <translation type="unfinished"/>
+        <translation>Perfil de trabajo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Personal profile</source>
-        <translation type="unfinished"/>
+        <translation>Perfil personal</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Speech to text</source>
-        <translation type="unfinished"/>
+        <translation>Voz a texto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Whisper</source>
-        <translation type="unfinished"/>
+        <translation>Whisper</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI</source>
-        <translation type="unfinished"/>
+        <translation>OpenAI</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>API key</source>
-        <translation type="unfinished">Clave de API</translation>
+        <translation>Clave API</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription provider</source>
-        <translation type="unfinished"/>
+        <translation>Proveedor de transcripción</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription model</source>
-        <translation type="unfinished"/>
+        <translation>Modelo de transcripción</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription prompt</source>
-        <translation type="unfinished"/>
+        <translation>Prompt de transcripción</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription hosting</source>
-        <translation type="unfinished"/>
+        <translation>Alojamiento de transcripción</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Realtime transcription</source>
-        <translation type="unfinished"/>
+        <translation>Transcripción en tiempo real</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Streaming transcription</source>
-        <translation type="unfinished"/>
+        <translation>Transcripción en streaming</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation type="unfinished">Comando del navegador para enlaces</translation>
+        <translation>Comando del navegador de enlaces</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom browser</source>
-        <translation type="unfinished"/>
+        <translation>Navegador personalizado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Default browser</source>
-        <translation type="unfinished"/>
+        <translation>Navegador predeterminado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open links</source>
-        <translation type="unfinished"/>
+        <translation>Abrir enlaces</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>State events</source>
-        <translation type="unfinished"/>
+        <translation>Eventos de estado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins and leaves</source>
-        <translation type="unfinished"/>
+        <translation>Entradas y salidas</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Member events</source>
-        <translation type="unfinished"/>
+        <translation>Eventos de miembros</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Topic changes</source>
-        <translation type="unfinished"/>
+        <translation>Cambios de tema</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Name changes</source>
-        <translation type="unfinished"/>
+        <translation>Cambios de nombre</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar changes</source>
-        <translation type="unfinished"/>
+        <translation>Cambios de avatar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level changes</source>
-        <translation type="unfinished"/>
+        <translation>Cambios de nivel de poder</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kicks</source>
-        <translation type="unfinished"/>
+        <translation>Expulsiones</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bans</source>
-        <translation type="unfinished"/>
+        <translation>Prohibiciones</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Noisy events</source>
-        <translation type="unfinished"/>
+        <translation>Eventos ruidosos</translation>
     </message>
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>
-        <translation type="unfinished"/>
+        <translation>No hay ajustes en esta pestaña que coincidan con tu búsqueda.</translation>
     </message>
 </context>
 <context>
@@ -11312,7 +11312,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+1"/>
         <source>About Komai</source>
-        <translation type="unfinished"/>
+        <translation>Acerca de Komai</translation>
     </message>
     <message>
         <location line="+224"/>
@@ -11322,7 +11322,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+57"/>
         <source>Search settings…</source>
-        <translation type="unfinished"/>
+        <translation>Buscar ajustes…</translation>
     </message>
     <message>
         <location line="-286"/>

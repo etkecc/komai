@@ -5774,7 +5774,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+1"/>
         <source>About this room</source>
-        <translation type="unfinished"/>
+        <translation>Pri ĉi tiu ĉambro</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -10927,339 +10927,339 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation type="unfinished">Profilo</translation>
+        <translation>Profilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar</source>
-        <translation type="unfinished">Avataro</translation>
+        <translation>Avataro</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation type="unfinished">Montrata nomo</translation>
+        <translation>Videbla nomo</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Sessions</source>
-        <translation type="unfinished"/>
+        <translation>Sesioj</translation>
     </message>
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation type="unfinished">Elsaluti</translation>
+        <translation>Elsaluti</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Identity</source>
-        <translation type="unfinished"/>
+        <translation>Identeco</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>This device</source>
-        <translation type="unfinished">Ĉi tiu aparato</translation>
+        <translation>Ĉi tiu aparato</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This session</source>
-        <translation type="unfinished"/>
+        <translation>Ĉi tiu sesio</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Current device</source>
-        <translation type="unfinished"/>
+        <translation>Nuna aparato</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation type="unfinished">Aparata nomo</translation>
+        <translation>Nomo de aparato</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Logout</source>
-        <translation type="unfinished"/>
+        <translation>Elsaluti</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Other devices</source>
-        <translation type="unfinished"/>
+        <translation>Aliaj aparatoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Other sessions</source>
-        <translation type="unfinished"/>
+        <translation>Aliaj sesioj</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation type="unfinished">Kontroli</translation>
+        <translation>Kontroli</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verification</source>
-        <translation type="unfinished">Kontrolo</translation>
+        <translation>Kontrolo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation type="unfinished">Kontrolita</translation>
+        <translation>Kontrolita</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Encryption keys</source>
-        <translation type="unfinished"/>
+        <translation>Ĉifradaj ŝlosiloj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Refresh devices</source>
-        <translation type="unfinished"/>
+        <translation>Ĝisdatigi aparatojn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sign out other devices</source>
-        <translation type="unfinished"/>
+        <translation>Elsaluti aliajn aparatojn</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Block user</source>
-        <translation type="unfinished"/>
+        <translation>Bloki uzanton</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Mute user</source>
-        <translation type="unfinished"/>
+        <translation>Silentigi uzanton</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Local cache</source>
-        <translation type="unfinished">Loka kaŝmemoro</translation>
+        <translation>Loka kaŝmemoro</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache</source>
-        <translation type="unfinished"/>
+        <translation>Kaŝmemoro</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation type="unfinished">Matrix SDK stata stokejo</translation>
+        <translation>Matrix SDK ŝtatdeponejo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation type="unfinished">Matrix SDK kaŝmemoro</translation>
+        <translation>Matrix SDK kaŝmemoro</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation type="unfinished">Amaskomunikilara kaŝmemoro</translation>
+        <translation>Multimedija kaŝmemoro</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache backend</source>
-        <translation type="unfinished"/>
+        <translation>Kaŝmemora dorsaĵo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache size</source>
-        <translation type="unfinished"/>
+        <translation>Kaŝmemora grandeco</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cache directory</source>
-        <translation type="unfinished"/>
+        <translation>Kaŝmemora dosierujo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Purge cache</source>
-        <translation type="unfinished"/>
+        <translation>Purigi kaŝmemoron</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Clear cache</source>
-        <translation type="unfinished"/>
+        <translation>Forigi kaŝmemoron</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Storage</source>
-        <translation type="unfinished"/>
+        <translation>Stokado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Disk usage</source>
-        <translation type="unfinished"/>
+        <translation>Diska uzado</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Application profile</source>
-        <translation type="unfinished"/>
+        <translation>Aplikaĵa profilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multi-account</source>
-        <translation type="unfinished"/>
+        <translation>Plurkonto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Multiple accounts</source>
-        <translation type="unfinished"/>
+        <translation>Pluraj kontoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Switch profile</source>
-        <translation type="unfinished"/>
+        <translation>Ŝanĝi profilon</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Create profile</source>
-        <translation type="unfinished"/>
+        <translation>Krei profilon</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Delete profile</source>
-        <translation type="unfinished"/>
+        <translation>Forigi profilon</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Desktop launcher</source>
-        <translation type="unfinished"/>
+        <translation>Labortabla lanĉilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Work profile</source>
-        <translation type="unfinished"/>
+        <translation>Labora profilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Personal profile</source>
-        <translation type="unfinished"/>
+        <translation>Persona profilo</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Speech to text</source>
-        <translation type="unfinished"/>
+        <translation>Parolo al teksto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Whisper</source>
-        <translation type="unfinished"/>
+        <translation>Whisper</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OpenAI</source>
-        <translation type="unfinished"/>
+        <translation>OpenAI</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>API key</source>
-        <translation type="unfinished">API-ŝlosilo</translation>
+        <translation>API-ŝlosilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription provider</source>
-        <translation type="unfinished"/>
+        <translation>Transskribada provizanto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription model</source>
-        <translation type="unfinished"/>
+        <translation>Transskribada modelo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription prompt</source>
-        <translation type="unfinished"/>
+        <translation>Transskribada alvoko</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transcription hosting</source>
-        <translation type="unfinished"/>
+        <translation>Transskriba gastigado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Realtime transcription</source>
-        <translation type="unfinished"/>
+        <translation>Realtempa transskribo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Streaming transcription</source>
-        <translation type="unfinished"/>
+        <translation>Fluanta transskribo</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation type="unfinished">Retumila komando por ligiloj</translation>
+        <translation>Retumilkomando por ligiloj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom browser</source>
-        <translation type="unfinished"/>
+        <translation>Propra retumilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Default browser</source>
-        <translation type="unfinished"/>
+        <translation>Defaŭlta retumilo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open links</source>
-        <translation type="unfinished"/>
+        <translation>Malfermi ligilojn</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>State events</source>
-        <translation type="unfinished"/>
+        <translation>Stataj eventoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Joins and leaves</source>
-        <translation type="unfinished"/>
+        <translation>Aliĝoj kaj foriroj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Member events</source>
-        <translation type="unfinished"/>
+        <translation>Anaj eventoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Topic changes</source>
-        <translation type="unfinished"/>
+        <translation>Temaj ŝanĝoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Name changes</source>
-        <translation type="unfinished"/>
+        <translation>Nomŝanĝoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Avatar changes</source>
-        <translation type="unfinished"/>
+        <translation>Ŝanĝoj de avataro</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Power level changes</source>
-        <translation type="unfinished"/>
+        <translation>Ŝanĝoj de pova nivelo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kicks</source>
-        <translation type="unfinished"/>
+        <translation>Elpeladoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Bans</source>
-        <translation type="unfinished"/>
+        <translation>Malpermesoj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Noisy events</source>
-        <translation type="unfinished"/>
+        <translation>Laŭtaj eventoj</translation>
     </message>
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1344"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
         <source>No settings in this tab match your search.</source>
-        <translation type="unfinished"/>
+        <translation>Neniuj agordoj en ĉi tiu langeto kongruas kun via serĉo.</translation>
     </message>
 </context>
 <context>
@@ -11312,7 +11312,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>About Komai</source>
-        <translation type="unfinished"/>
+        <translation>Pri Komai</translation>
     </message>
     <message>
         <location line="+224"/>
@@ -11322,7 +11322,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+57"/>
         <source>Search settings…</source>
-        <translation type="unfinished"/>
+        <translation>Serĉi agordojn…</translation>
     </message>
     <message>
         <location line="-286"/>

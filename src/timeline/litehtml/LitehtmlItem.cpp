@@ -278,6 +278,60 @@ LitehtmlItem::relayout()
         cw += qMax(2, qRound(QFontMetrics(m_font).ascent() * 0.2));
     setImplicitWidth(cw);
     setImplicitHeight(m_document->height());
+
+    // Issue #78 instrumentation: predict per-message emoji top-overshoot.
+    // Run with KOMAI_EMOJI_CLIP_DEBUG=1 and grep for "emoji-clip-debug".
+    static const bool emojiClipDebug = qEnvironmentVariableIsSet("KOMAI_EMOJI_CLIP_DEBUG");
+    if (emojiClipDebug) {
+        const bool htmlHasEmoji = m_html.contains(QStringLiteral("<span class=\"emoji\""));
+        const auto emojiFamily  = utils::effectiveEmojiFontFamily();
+        const int textPx        = qRound(m_font.pointSizeF() * 96.0 / 72.0);
+        const int emojiPx       = qRound(textPx * timeline::litehtml::emojiScaleFactor);
+        QFont emojiFont;
+        emojiFont.setFamily(emojiFamily);
+        emojiFont.setPixelSize(emojiPx);
+        const QFontMetrics textFm(m_font);
+        const QFontMetrics emojiFm(emojiFont);
+        const int ascentOvershoot = emojiFm.ascent() - textFm.ascent();
+        // Probe actual ink extent — color emoji fonts often have bitmap glyphs
+        // whose ink reaches above the reported metric ascent. tightBoundingRect's
+        // origin is the baseline; top() is negative for ink above the baseline.
+        // Build the U+1F525 (🔥) surrogate pair explicitly: QStringLiteral
+        // doesn't decode UTF-8 escapes, so a "\xF0\x9F\x94\xA5" string ends up
+        // as four Latin-1 codepoints (4 tofu glyphs) instead of one emoji.
+        QString probe;
+        probe.append(QChar(0xD83D));
+        probe.append(QChar(0xDD25));
+        const QRect tightR     = emojiFm.tightBoundingRect(probe);
+        const int inkAscent    = -tightR.top();
+        const int inkOvershoot = inkAscent - textFm.ascent();
+        komai::logging::ui()->warn(
+          "[emoji-clip-debug] item={} text='{}' textPt={:.2f} textPx={} textAscent={} "
+          "emoji='{}' emojiPx={} emojiAscent={} ascentOvershoot_px={} "
+          "inkAscent_px={} inkOvershoot_px={} probe_tight=({},{} {}x{}) "
+          "doc_h={} item_h={} html_has_emoji={} html_len={} html_head='{}'",
+          (void *)this,
+          m_font.family().toStdString(),
+          m_font.pointSizeF(),
+          textPx,
+          textFm.ascent(),
+          emojiFamily.toStdString(),
+          emojiPx,
+          emojiFm.ascent(),
+          ascentOvershoot,
+          inkAscent,
+          inkOvershoot,
+          tightR.x(),
+          tightR.y(),
+          tightR.width(),
+          tightR.height(),
+          m_document->height(),
+          qRound(height()),
+          htmlHasEmoji,
+          m_html.size(),
+          m_html.left(120).toStdString());
+    }
+
     updateTextureSize();
     ++m_relayoutCount;
     if (roomSwitchPerfEnabled() && m_relayoutCount <= 3) {

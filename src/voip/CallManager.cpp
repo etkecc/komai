@@ -605,6 +605,23 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     roomid_   = roomid;
     generateCallID();
 
+    // Prime gstreamer plugin loading. The Qt6 video sink registers its QML
+    // types (`org.freedesktop.gstreamer.Qt6GLVideoItem`) only when its gst
+    // plugin gets loaded, and gstreamer plugins load lazily on first
+    // factory_make. For an offerer, the local pipeline never instantiates a
+    // video sink (no remote stream yet), so without an explicit prime here
+    // QML evaluates `VideoCall.qml` before the plugin loads and the import
+    // fails. Calling `havePlugins` walks the registry, which loads the
+    // plugins.
+    std::string pluginErrorMessage;
+    if (!session_.havePlugins(callType != CallType::VOICE,
+                              callType == CallType::SCREEN,
+                              screenShareType_,
+                              &pluginErrorMessage)) {
+        emit ChatPage::instance()->showNotification(QString::fromStdString(pluginErrorMessage));
+        return;
+    }
+
     const auto roomContext = fetchMatrixCallRoomContext(roomid);
     // Legacy 1:1 calls are supported in any room our classification flags as
     // direct, plus any room with exactly two active members (covers 2-member

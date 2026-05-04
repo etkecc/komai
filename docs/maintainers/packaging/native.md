@@ -102,6 +102,18 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
     qtkeychain-qt6 kdsingleapplication litehtml
 ```
 
+For VoIP (voice/video calls; skip if you build with `-DVOIP=OFF`):
+
+```sh
+sudo pacman -S --needed --asdeps gst-plugins-base gst-plugins-good gst-plugins-bad \
+    libnice gst-plugin-qml6
+```
+
+`gst-plugin-qml6` is the Qt6 GL video sink — without it, video calls
+fail to render at runtime (`module "org.freedesktop.gstreamer.Qt6GLVideoItem"
+is not installed`). `gst-plugins-bad` provides `webrtcbin`, which is
+what gates calls in the first place.
+
 ### Debian 13+ / Ubuntu 24.04+
 
 ```sh
@@ -111,6 +123,15 @@ sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \
     qt6-declarative-dev qtkeychain-qt6-dev qt6-base-private-dev \
     qt6-declarative-private-dev
+```
+
+For VoIP (voice/video calls; skip if you build with `-DVOIP=OFF`):
+
+```sh
+sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-bad1.0-dev libnice-dev \
+    gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad gstreamer1.0-nice gstreamer1.0-qt6
 ```
 
 By default, CPM downloads and builds all non-system C++ dependencies

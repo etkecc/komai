@@ -302,57 +302,6 @@ LitehtmlItem::relayout()
     m_topInset = qMax(0, ascentOvershoot);
     setImplicitHeight(m_document->height() + m_topInset);
 
-    // Optional instrumentation (gated): log the predicted overshoot and the
-    // raw font metrics so we can compare against new reproductions in the
-    // future without rebuilding.  Run with KOMAI_EMOJI_CLIP_DEBUG=1 and
-    // grep for "emoji-clip-debug".
-    static const bool emojiClipDebug = qEnvironmentVariableIsSet("KOMAI_EMOJI_CLIP_DEBUG");
-    if (emojiClipDebug) {
-        const auto emojiFamily = utils::effectiveEmojiFontFamily();
-        const int textPx       = qRound(m_font.pointSizeF() * 96.0 / 72.0);
-        const int emojiPx      = qRound(textPx * timeline::litehtml::emojiScaleFactor);
-        QFont emojiFont;
-        emojiFont.setFamily(emojiFamily);
-        emojiFont.setPixelSize(emojiPx);
-        const QFontMetrics textFm(m_font);
-        const QFontMetrics emojiFm(emojiFont);
-        // Build the U+1F525 (🔥) surrogate pair explicitly: QStringLiteral
-        // doesn't decode UTF-8 escapes, so "\xF0\x9F\x94\xA5" ends up as four
-        // Latin-1 codepoints rather than one emoji.
-        QString probe;
-        probe.append(QChar(0xD83D));
-        probe.append(QChar(0xDD25));
-        const QRect tightR     = emojiFm.tightBoundingRect(probe);
-        const int inkAscent    = -tightR.top();
-        const int inkOvershoot = inkAscent - textFm.ascent();
-        komai::logging::ui()->warn(
-          "[emoji-clip-debug] item={} text='{}' textPt={:.2f} textPx={} textAscent={} "
-          "emoji='{}' emojiPx={} emojiAscent={} ascentOvershoot_px={} "
-          "inkAscent_px={} inkOvershoot_px={} probe_tight=({},{} {}x{}) "
-          "doc_h={} item_h={} top_inset={} html_has_emoji={} html_len={} html_head='{}'",
-          (void *)this,
-          m_font.family().toStdString(),
-          m_font.pointSizeF(),
-          textPx,
-          textFm.ascent(),
-          emojiFamily.toStdString(),
-          emojiPx,
-          emojiFm.ascent(),
-          ascentOvershoot,
-          inkAscent,
-          inkOvershoot,
-          tightR.x(),
-          tightR.y(),
-          tightR.width(),
-          tightR.height(),
-          m_document->height(),
-          qRound(height()),
-          m_topInset,
-          htmlHasEmoji,
-          m_html.size(),
-          m_html.left(120).toStdString());
-    }
-
     updateTextureSize();
     ++m_relayoutCount;
     if (roomSwitchPerfEnabled() && m_relayoutCount <= 3) {

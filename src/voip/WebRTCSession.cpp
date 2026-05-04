@@ -296,9 +296,16 @@ testPacketLoss(gpointer G_GNUC_UNUSED)
 void
 setWaitForKeyFrame(GstBin *decodebin G_GNUC_UNUSED, GstElement *element, gpointer G_GNUC_UNUSED)
 {
-    // Unconditionally enable keyframe wait and requesting keyframes, so that we do that for
-    // every decode, not just vp8 decoding
-    g_object_set(element, "wait-for-keyframe", TRUE, "request-keyframe", TRUE, nullptr);
+    // Decodebin's `element-added` fires for every element it builds, including
+    // audio depays/decoders. `wait-for-keyframe` and `request-keyframe` only
+    // exist on RTP video depays -- guard the `g_object_set` so we don't spam
+    // GLib criticals like "GstRTPOpusDepay has no property named
+    // 'wait-for-keyframe'" on elements that simply don't expose them.
+    GObjectClass *klass = G_OBJECT_GET_CLASS(element);
+    if (g_object_class_find_property(klass, "wait-for-keyframe"))
+        g_object_set(element, "wait-for-keyframe", TRUE, nullptr);
+    if (g_object_class_find_property(klass, "request-keyframe"))
+        g_object_set(element, "request-keyframe", TRUE, nullptr);
 }
 
 GstElement *
@@ -1190,6 +1197,14 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
     GstElement *vp8enc = gst_element_factory_make("vp8enc", nullptr);
     g_object_set(vp8enc, "deadline", 1, nullptr);
     g_object_set(vp8enc, "error-resilient", 1, nullptr);
+    // Without a keyframe cap vp8enc emits one keyframe at start and then
+    // drifts -- if the remote misses that first keyframe (likely while ICE
+    // is still settling, or under any packet loss) they freeze on a black
+    // frame indefinitely. PLI feedback eventually triggers a `force-key-unit`
+    // upstream event but only after webrtcbin is fully connected. Bound the
+    // interval to roughly two seconds at 30fps so a stale receiver always
+    // recovers within a couple of seconds.
+    g_object_set(vp8enc, "keyframe-max-dist", 60, nullptr);
     GstElement *rtpvp8pay     = gst_element_factory_make("rtpvp8pay", nullptr);
     GstElement *rtpqueue      = gst_element_factory_make("queue", nullptr);
     GstElement *rtpcapsfilter = gst_element_factory_make("capsfilter", nullptr);

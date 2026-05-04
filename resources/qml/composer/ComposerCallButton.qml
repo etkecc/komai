@@ -30,6 +30,7 @@ ComposerToolbarButton {
             : (CallManager.isOnCallOnOtherDevice
                 ? qsTr("Already on a call")
                 : qsTr("Place a call")))
+    buttonTextColor: CallManager.isOnCall ? Komai.theme.error : palette.buttonText
     image: CallManager.isOnCall ? ":/icons/icons/ui/end-call.svg" : ":/icons/icons/ui/place-call.svg"
     opacity: (roomBlocksCall || CallManager.haveCallInvite || CallManager.isOnCallOnOtherDevice) ? 0.3 : 1
     visible: CallManager.callsSupported && showAllButtons && CallManager.preMatrixRtcCallsEnabled

@@ -227,8 +227,31 @@ htmlToPlainText(const QString &html)
 }
 
 QString
+emoteSenderPrefix(const MatrixTimelineItem &item)
+{
+    const auto sender = !item.senderDisplayName.isEmpty() ? item.senderDisplayName : item.senderId;
+    return sender.isEmpty() ? QString() : sender + QStringLiteral(" ");
+}
+
+QString
 originalCopyTextForItem(const MatrixTimelineItem &item)
 {
+    // Membership/profile state events have an empty body; without this they'd be
+    // dropped from a multi-selection copy (empty strings are filtered upstream).
+    if (item.cachedIsStateEvent) {
+        const auto translated = StateEventText::translate(item);
+        if (!translated.isEmpty())
+            return translated;
+        const auto fallback = htmlToPlainText(item.cachedFormattedStateEvent);
+        if (!fallback.isEmpty())
+            return fallback;
+        return item.body;
+    }
+
+    // Match the displayed text: TimelineEvent.qml prepends the sender display name to emote bodies.
+    if (item.itemKind == QStringLiteral("emote") && !item.body.isEmpty())
+        return emoteSenderPrefix(item) + item.body;
+
     return item.body;
 }
 
@@ -237,9 +260,12 @@ plainCopyTextForItem(const MatrixTimelineItem &item)
 {
     const auto html =
       item.cachedIsStateEvent ? item.cachedFormattedStateEvent : item.cachedFormattedBody;
-    const auto text = htmlToPlainText(html);
-    if (!text.isEmpty())
+    auto text = htmlToPlainText(html);
+    if (!text.isEmpty()) {
+        if (!item.cachedIsStateEvent && item.itemKind == QStringLiteral("emote"))
+            text = emoteSenderPrefix(item) + text;
         return text;
+    }
 
     return originalCopyTextForItem(item);
 }

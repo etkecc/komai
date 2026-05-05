@@ -122,6 +122,12 @@ repos:
         language: system
         files: '^(VERSION|CHANGELOG\.md|etc/packaging/archlinux/PKGBUILD|resources/komai\.appdata\.xml\.in|bin/prek/version-drift\.sh|bin/release/prepare\.py)$'
         pass_filenames: false
+      - id: release-translations-complete
+        name: Verify translations have no unfinished entries (release gate)
+        entry: python3 bin/prek/release-translations-complete.py
+        language: system
+        files: '^(VERSION|bin/prek/release-translations-complete\.py)$'
+        pass_filenames: false
       - id: tests
         name: Run C++ test suite
         entry: ./bin/prek/tests.sh

@@ -56,7 +56,12 @@ git tag v2026.05.05.0
 git push && git push --tags
 ```
 
-The drift hook runs on `git commit` and will block the commit if anything diverged.
+Two pre-commit hooks gate this commit:
+
+- `version-drift` — the version-bearing files all agree.
+- `release-translations-complete` — no unfinished entries in non-English translations.
+
+They run automatically if you have the git hook installed (`just prek-install-git-pre-commit-hook`); otherwise run them on demand with `just prek-run-on-all`. Both also run in CI, so a skipped local hook still blocks publish.
 
 ### 5. Watch the publish run
 

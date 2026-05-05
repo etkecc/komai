@@ -197,14 +197,17 @@ Item {
         ListView {
             id: chat
 
-            property int delegateMaxWidth: Math.max(120, width - 2 * Komai.paddingMedium - root.previewScrollBarWidth)
+            // Match the real timeline: scrollbar width is reserved by
+            // anchors.rightMargin below, so delegates fill the full ListView
+            // width without an extra inner inset.
+            property int delegateMaxWidth: width
 
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: previewHeader.bottom
             anchors.bottom: previewTypingIndicator.visible ? previewTypingIndicator.top : previewFooter.top
             anchors.leftMargin: Komai.paddingMedium
-            anchors.rightMargin: Komai.paddingMedium
+            anchors.rightMargin: Komai.paddingMedium + (previewScrollBar.visible ? previewScrollBar.width : 0)
             anchors.topMargin: Komai.paddingSmall
             anchors.bottomMargin: Komai.paddingSmall
             boundsBehavior: Flickable.StopAtBounds
@@ -304,6 +307,4 @@ Item {
             text: root.previewFooterText
         }
     }
-
-    readonly property int previewScrollBarWidth: previewScrollBar.visible ? ((previewScrollBar.width > 0 ? previewScrollBar.width : previewScrollBar.implicitWidth) + Komai.paddingSmall) : 0
 }

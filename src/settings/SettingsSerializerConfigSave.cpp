@@ -270,9 +270,8 @@ stageConfig(const UserSettings &settings,
         const auto byRoom = settings.integrationsTranscriptionOverridesByRoom();
         for (auto roomIt = byRoom.constBegin(); roomIt != byRoom.constEnd(); ++roomIt) {
             const auto &fields = roomIt.value();
-            ::komai::rust::SettingsConfigTranscriptionByRoomEntry entry{
-              .key = roomIt.key().toStdString(),
-            };
+            ::komai::rust::SettingsConfigTranscriptionByRoomEntry entry{};
+            entry.key = roomIt.key().toStdString();
             const auto setIfPresent =
               [&fields](const QString &name, bool &flag, ::rust::String &value) {
                   const auto it = fields.find(name);

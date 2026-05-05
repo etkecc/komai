@@ -270,6 +270,20 @@ if(NOT GIT_COMMIT_HASH)
 endif()
 message(STATUS "Git commit: ${GIT_COMMIT_HASH}")
 
+# Several values displayed by Komai (app version, About-tab acknowledgements)
+# are parsed from these files at configure time and baked into config/komai.h.
+# CMake won't re-run configure on its own when an arbitrary file changes, so
+# register them as configure dependencies — otherwise a `just build` after a
+# version/pin bump silently keeps the old values until something else
+# triggers reconfigure.
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/VERSION"
+    "${CMAKE_SOURCE_DIR}/rust-toolchain.toml"
+    "${CMAKE_SOURCE_DIR}/bin/icons/fluent/VERSION_REF"
+    "${CMAKE_SOURCE_DIR}/bin/icons/fontawesome/VERSION_REF"
+    "${CMAKE_SOURCE_DIR}/src/rust/Cargo.toml"
+)
+
 # Read pinned Fluent icon source ref (used by About acknowledgements)
 set(FLUENT_ICONS_VERSION "unknown")
 set(FLUENT_VERSION_REF_FILE "${CMAKE_SOURCE_DIR}/bin/icons/fluent/VERSION_REF")

@@ -9034,6 +9034,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
         <translation>Phím tắt</translation>
     </message>
     <message>

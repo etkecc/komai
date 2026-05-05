@@ -9062,6 +9062,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
         <translation>Prečice</translation>
     </message>
     <message>

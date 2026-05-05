@@ -9034,6 +9034,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
         <translation>Kısayollar</translation>
     </message>
     <message>

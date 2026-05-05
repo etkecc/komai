@@ -9062,7 +9062,8 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation>Klávesové zkratky</translation>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
+        <translation>Zkratky</translation>
     </message>
     <message>
         <location line="+5"/>

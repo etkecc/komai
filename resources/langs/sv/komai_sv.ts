@@ -9048,6 +9048,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
         <translation>Genvägar</translation>
     </message>
     <message>

@@ -9063,6 +9063,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
         <translation>Skróty</translation>
     </message>
     <message>

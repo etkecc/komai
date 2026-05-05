@@ -9034,7 +9034,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation>Billentyűparancsok</translation>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
+        <translation>Gyorsbillentyűk</translation>
     </message>
     <message>
         <location line="+5"/>

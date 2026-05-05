@@ -9048,7 +9048,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+56"/>
         <source>Shortcuts</source>
-        <translation>Преки пътища</translation>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
+        <translation>Клавиши</translation>
     </message>
     <message>
         <location line="+5"/>

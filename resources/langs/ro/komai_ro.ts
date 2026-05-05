@@ -9062,7 +9062,8 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation>Comenzi rapide</translation>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
+        <translation>Scurtături</translation>
     </message>
     <message>
         <location line="+5"/>

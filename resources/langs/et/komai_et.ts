@@ -9048,6 +9048,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
         <translation>Kiirklahvid</translation>
     </message>
     <message>

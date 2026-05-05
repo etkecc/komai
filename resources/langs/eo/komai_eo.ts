@@ -9051,7 +9051,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation>Ŝparvojetoj</translation>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
+        <translation>Mallongigoj</translation>
     </message>
     <message>
         <location line="+5"/>

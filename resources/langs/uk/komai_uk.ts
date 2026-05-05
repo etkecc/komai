@@ -9062,7 +9062,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation>Комбінації клавіш</translation>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
+        <translation>Гарячі клавіші</translation>
     </message>
     <message>
         <location line="+5"/>

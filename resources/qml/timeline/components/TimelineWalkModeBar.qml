@@ -235,7 +235,7 @@ Rectangle {
                     navigationHost: walkBar
                     alwaysShowToolTip: true
                     image: ":/icons/icons/ui/keyboard-shortcut.svg"
-                    labelText: qsTr("Shortcuts")
+                    labelText: qsTr("Shortcuts", "Walk-mode toolbar button — opens the keyboard shortcuts help dialog")
                     nextTabTarget: walkBar.nextVisibleButton(shortcutsButton)
                     previousTabTarget: walkBar.previousVisibleButton(shortcutsButton)
                         || (walkBar.chatRoot ? walkBar.chatRoot.timelineSelectionFocusTarget() : null)

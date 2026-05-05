@@ -9048,7 +9048,8 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+55"/>
         <source>Shortcuts</source>
-        <translation>Raccurtaments</translation>
+        <comment>Walk-mode toolbar button — opens the keyboard shortcuts help dialog</comment>
+        <translation>Raccurti</translation>
     </message>
     <message>
         <location line="+5"/>

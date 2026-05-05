@@ -11651,6 +11651,11 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+4"/>
+        <source>Matrix runtime (matrix-rust-sdk)</source>
+        <translation>Matrix runtime (matrix-rust-sdk)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Icon set (Fluent)</source>
         <translation>Pictogrammenset (Fluent)</translation>
     </message>

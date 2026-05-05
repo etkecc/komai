@@ -11651,6 +11651,11 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="+4"/>
+        <source>Matrix runtime (matrix-rust-sdk)</source>
+        <translation>Moteur Matrix (matrix-rust-sdk)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Icon set (Fluent)</source>
         <translation>Jeu d'icônes (Fluent)</translation>
     </message>

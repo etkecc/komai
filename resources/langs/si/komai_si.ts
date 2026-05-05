@@ -11651,6 +11651,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Matrix runtime (matrix-rust-sdk)</source>
+        <translation>Matrix රන්ටයිම් (matrix-rust-sdk)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Icon set (Fluent)</source>
         <translation>අයිකන් කට්ටලය (Fluent)</translation>
     </message>

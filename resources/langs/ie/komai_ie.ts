@@ -11651,6 +11651,11 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="+4"/>
+        <source>Matrix runtime (matrix-rust-sdk)</source>
+        <translation>Runtime de Matrix (matrix-rust-sdk)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Icon set (Fluent)</source>
         <translation>Set de icones (Fluent)</translation>
     </message>

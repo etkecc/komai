@@ -302,6 +302,37 @@ if(EXISTS "${FONTAWESOME_VERSION_REF_FILE}")
 endif()
 message(STATUS "Font Awesome icons ref: ${FONTAWESOME_ICONS_VERSION}")
 
+# Read pinned matrix-rust-sdk ref from src/rust/Cargo.toml (used by About
+# acknowledgements). Supports both git-pinning (`rev = "..."`) and crates.io
+# versioning (`version = "X.Y.Z"` or bare `"X.Y.Z"`). Exactly one of
+# MATRIX_SDK_REV / MATRIX_SDK_VERSION is non-empty in practice; the C++ side
+# picks the link target accordingly.
+set(MATRIX_SDK_REV "")
+set(MATRIX_SDK_VERSION "")
+set(MATRIX_SDK_CARGO_TOML "${CMAKE_SOURCE_DIR}/src/rust/Cargo.toml")
+if(EXISTS "${MATRIX_SDK_CARGO_TOML}")
+    file(STRINGS "${MATRIX_SDK_CARGO_TOML}" _matrix_sdk_lines REGEX "^matrix-sdk[ \t]*=")
+    foreach(_line IN LISTS _matrix_sdk_lines)
+        if(_line MATCHES "rev[ \t]*=[ \t]*\"([0-9a-fA-F]+)\"")
+            set(MATRIX_SDK_REV "${CMAKE_MATCH_1}")
+            break()
+        elseif(_line MATCHES "version[ \t]*=[ \t]*\"([^\"]+)\"")
+            set(MATRIX_SDK_VERSION "${CMAKE_MATCH_1}")
+            break()
+        elseif(_line MATCHES "^matrix-sdk[ \t]*=[ \t]*\"([^\"]+)\"")
+            set(MATRIX_SDK_VERSION "${CMAKE_MATCH_1}")
+            break()
+        endif()
+    endforeach()
+endif()
+if(MATRIX_SDK_REV)
+    message(STATUS "matrix-sdk pinned to git rev: ${MATRIX_SDK_REV}")
+elseif(MATRIX_SDK_VERSION)
+    message(STATUS "matrix-sdk pinned to version: ${MATRIX_SDK_VERSION}")
+else()
+    message(WARNING "Could not parse matrix-sdk pin from ${MATRIX_SDK_CARGO_TOML}")
+endif()
+
 cmake_host_system_information(RESULT BUILD_HOST QUERY HOSTNAME)
 
 include(CheckSymbolExists)

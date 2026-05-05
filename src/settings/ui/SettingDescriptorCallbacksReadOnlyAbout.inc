@@ -59,6 +59,34 @@ aboutAcknowledgementBoringAvatarsProjectValue()
 }
 
 static QVariant
+aboutAcknowledgementMatrixSdkProjectValue()
+{
+    const QString rev     = QString::fromLatin1(komai::matrix_sdk_rev);
+    const QString version = QString::fromLatin1(komai::matrix_sdk_version);
+
+    QString refLabel;
+    QString refUrl;
+    if (!rev.isEmpty()) {
+        refLabel = rev.left(8);
+        refUrl   = QStringLiteral("https://github.com/matrix-org/matrix-rust-sdk/commit/") + rev;
+    } else if (!version.isEmpty()) {
+        refLabel = QStringLiteral("v") + version;
+        refUrl   = QStringLiteral("https://github.com/matrix-org/matrix-rust-sdk/releases/tag/matrix-sdk-") + version;
+    }
+
+    QString refSegment;
+    if (!refLabel.isEmpty()) {
+        refSegment = QStringLiteral(" @ <a href=\"") + refUrl + QStringLiteral("\">") + refLabel + QStringLiteral("</a>");
+    }
+
+    return QStringLiteral(
+             "<a href=\"https://github.com/matrix-org/matrix-rust-sdk\">matrix-rust-sdk</a>") +
+           refSegment +
+           QStringLiteral(" by <a href=\"https://matrix.org\">Matrix.org Foundation</a> "
+                          "(<a href=\"https://github.com/matrix-org/matrix-rust-sdk/blob/main/LICENSE\">Apache-2.0</a>)");
+}
+
+static QVariant
 aboutCreatedByValue()
 {
     return QStringLiteral("<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=settings/about\">etke.cc</a>");

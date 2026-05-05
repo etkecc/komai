@@ -27,6 +27,10 @@
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Fork base"), nullptr, SM::Link, SM::TabAbout,
       aboutAcknowledgementForkBaseProjectValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
+    // AcknowledgementsMatrixSdk
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "Matrix runtime (matrix-rust-sdk)"), nullptr, SM::Link, SM::TabAbout,
+      aboutAcknowledgementMatrixSdkProjectValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },
     // AcknowledgementsFluentIcons
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Icon set (Fluent)"), nullptr, SM::Link, SM::TabAbout,
       aboutAcknowledgementFluentIconsProjectValue,

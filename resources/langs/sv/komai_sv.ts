@@ -11473,12 +11473,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
         <source>Settings</source>
         <translation>Inställningar</translation>
     </message>
     <message>
-        <location line="-279"/>
+        <location line="-287"/>
         <source>Look &amp; Feel</source>
         <translation>Utseende &amp; känsla</translation>
     </message>
@@ -11528,12 +11528,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Tillgänglig efter inloggning</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+65"/>
         <source>Search settings…</source>
         <translation>Sök inställningar…</translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-294"/>
         <source>Calls</source>
         <translation>Samtal</translation>
     </message>

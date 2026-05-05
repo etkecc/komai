@@ -11473,12 +11473,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
         <source>Settings</source>
         <translation>Seaded</translation>
     </message>
     <message>
-        <location line="-279"/>
+        <location line="-287"/>
         <source>Look &amp; Feel</source>
         <translation>Välimus</translation>
     </message>
@@ -11528,12 +11528,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Saadaval pärast sisselogimist</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+65"/>
         <source>Search settings…</source>
         <translation>Otsi seadeid…</translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-294"/>
         <source>Calls</source>
         <translation>Kõned</translation>
     </message>

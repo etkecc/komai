@@ -11476,12 +11476,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
         <source>Settings</source>
         <translation>Agordoj</translation>
     </message>
     <message>
-        <location line="-279"/>
+        <location line="-287"/>
         <source>Look &amp; Feel</source>
         <translation>Aspekto &amp; Sento</translation>
     </message>
@@ -11531,12 +11531,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Disponebla post ensaluto</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+65"/>
         <source>Search settings…</source>
         <translation>Serĉi agordojn…</translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-294"/>
         <source>Calls</source>
         <translation>Vokoj</translation>
     </message>

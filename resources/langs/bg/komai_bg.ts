@@ -11540,7 +11540,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Налично след вход</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+53"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>

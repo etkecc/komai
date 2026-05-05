@@ -11473,12 +11473,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location line="-279"/>
+        <location line="-287"/>
         <source>Look &amp; Feel</source>
         <translation>Aspetto &amp; Stile</translation>
     </message>
@@ -11528,12 +11528,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Disponibile dopo l'accesso</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+65"/>
         <source>Search settings…</source>
         <translation>Cerca impostazioni…</translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-294"/>
         <source>Calls</source>
         <translation>Chiamate</translation>
     </message>

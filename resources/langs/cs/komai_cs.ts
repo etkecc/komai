@@ -11489,12 +11489,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+315"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location line="-279"/>
+        <location line="-287"/>
         <source>Look &amp; Feel</source>
         <translation>Vzhled &amp; chování</translation>
     </message>
@@ -11544,12 +11544,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Dostupné po přihlášení</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+65"/>
         <source>Search settings…</source>
         <translation>Hledat nastavení…</translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-294"/>
         <source>Calls</source>
         <translation>Hovory</translation>
     </message>

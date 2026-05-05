@@ -291,13 +291,21 @@ Rectangle {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: headerBack.Layout.preferredHeight
+                // Use headerBack as the baseline so the right-side header
+                // visually aligns with the sidebar back button on
+                // Compact/Spacious, but grow past it on Dense where
+                // navigationRowHeight is shorter than the search field's
+                // implicit height and would otherwise crop it.
+                Layout.preferredHeight: Math.max(headerBack.Layout.preferredHeight,
+                                                 settingsSearchField.implicitHeight + 2 * Komai.paddingSmall)
                 color: palette.alternateBase
 
                 RowLayout {
                     anchors.fill: parent
                     anchors.leftMargin: Komai.paddingMedium
                     anchors.rightMargin: Komai.paddingMedium
+                    anchors.topMargin: Komai.paddingSmall
+                    anchors.bottomMargin: Komai.paddingSmall
                     spacing: Komai.paddingMedium
 
                     Image {

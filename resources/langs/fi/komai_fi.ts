@@ -6933,63 +6933,62 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
 <context>
     <name>ScreenShare</name>
     <message>
-        <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
+        <location filename="../../qml/voip/ScreenShare.qml" line="+20"/>
         <source>Share desktop with %1?</source>
         <translation>Jaa työpöytä käyttäjän %1 kanssa?</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+1"/>
+        <source>Share desktop?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Method:</source>
         <translation>Tapa:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Window:</source>
         <translation>Ikkuna:</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+23"/>
         <source>Request screencast</source>
         <translation>Pyydä näytönjakoa</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+13"/>
         <source>Frame rate:</source>
         <translation>Ruutunopeus:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+18"/>
         <source>Include your camera picture-in-picture</source>
         <translation>Sisällytä kamerasi kuva kuvassa -tilaan</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+21"/>
         <source>Request remote camera</source>
         <translation>Pyydä etäkameraa</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+17"/>
-        <source>View your callee's camera like a regular video call</source>
-        <translation>Näytä puhelun vastaanottajan kamera tavallisen videopuhelun tapaan</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+18"/>
         <source>Show mouse cursor</source>
         <translation>Näytä hiiren kursori</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Share</source>
         <translation>Jaa</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-6"/>
         <source>Preview</source>
         <translation>Esikatsele</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-10"/>
         <source>Cancel</source>
         <translation>Peruuta</translation>
     </message>

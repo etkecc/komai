@@ -6933,63 +6933,62 @@ Plase notar que it ne posse esser disactivat depos.</translation>
 <context>
     <name>ScreenShare</name>
     <message>
-        <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
+        <location filename="../../qml/voip/ScreenShare.qml" line="+20"/>
         <source>Share desktop with %1?</source>
         <translation>Partar desktop con %1?</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+1"/>
+        <source>Share desktop?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Method:</source>
         <translation>Metode:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Window:</source>
         <translation>Fenestre:</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+23"/>
         <source>Request screencast</source>
         <translation>Requestar screencast</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+13"/>
         <source>Frame rate:</source>
         <translation>Taxa de cadres:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+18"/>
         <source>Include your camera picture-in-picture</source>
         <translation>Includer vun camera picture-in-picture</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+21"/>
         <source>Request remote camera</source>
         <translation>Requestar camera remote</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+17"/>
-        <source>View your callee's camera like a regular video call</source>
-        <translation>Vider li camera del vun appellat quam un apelle video regular</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+18"/>
         <source>Show mouse cursor</source>
         <translation>Monstrar cursor del muse</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Share</source>
         <translation>Partar</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-6"/>
         <source>Preview</source>
         <translation>Prevision</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-10"/>
         <source>Cancel</source>
         <translation>Cancellar</translation>
     </message>

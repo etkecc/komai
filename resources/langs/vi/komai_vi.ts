@@ -6924,63 +6924,62 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>ScreenShare</name>
     <message>
-        <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
+        <location filename="../../qml/voip/ScreenShare.qml" line="+20"/>
         <source>Share desktop with %1?</source>
         <translation>Chia sẻ màn hình với %1?</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+1"/>
+        <source>Share desktop?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Method:</source>
         <translation>Phương thức:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Window:</source>
         <translation>Cửa sổ:</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+23"/>
         <source>Request screencast</source>
         <translation>Yêu cầu truyền màn hình</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+13"/>
         <source>Frame rate:</source>
         <translation>Tốc độ khung hình:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+18"/>
         <source>Include your camera picture-in-picture</source>
         <translation>Bao gồm camera của bạn dạng hình trong hình</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+21"/>
         <source>Request remote camera</source>
         <translation>Yêu cầu camera từ xa</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+17"/>
-        <source>View your callee's camera like a regular video call</source>
-        <translation>Xem camera của người được gọi như cuộc gọi video thông thường</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+18"/>
         <source>Show mouse cursor</source>
         <translation>Hiển thị con trỏ chuột</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Share</source>
         <translation>Chia sẻ</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-6"/>
         <source>Preview</source>
         <translation>Xem trước</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-10"/>
         <source>Cancel</source>
         <translation>Hủy</translation>
     </message>

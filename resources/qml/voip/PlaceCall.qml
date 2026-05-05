@@ -146,10 +146,19 @@ Components.OverlayDialog {
                     Settings.callsDevicesMicrophone = micCombo.currentText;
                     Settings.callsDevicesCamera = cameraCombo.currentText;
 
-                    const dialog = screenShareDialog.createObject(root.timelineRoot);
+                    // Keep PlaceCall open underneath ScreenShare. On Wayland,
+                    // ScreenShare's nested ComboBox popups break (auto-
+                    // dismissed by the compositor) unless another modal
+                    // dialog is alive to anchor the popup grab. Close
+                    // PlaceCall only after ScreenShare goes away.
+                    const dialog = screenShareDialog.createObject(root.timelineRoot, {
+                        "roomId": root.roomId,
+                        "roomName": root.roomName,
+                        "timelineRoot": root.timelineRoot
+                    });
+                    dialog.closed.connect(() => root.close());
                     dialog.open();
                     root.timelineRoot.destroyOnClose(dialog);
-                    root.close();
                 }
             }
         }

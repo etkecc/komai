@@ -6933,63 +6933,62 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>ScreenShare</name>
     <message>
-        <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
+        <location filename="../../qml/voip/ScreenShare.qml" line="+20"/>
         <source>Share desktop with %1?</source>
         <translation>Споделяне на работния плот с %1?</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+1"/>
+        <source>Share desktop?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Method:</source>
         <translation>Метод:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Window:</source>
         <translation>Прозорец:</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+23"/>
         <source>Request screencast</source>
         <translation>Поискай излъчване на екрана</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+13"/>
         <source>Frame rate:</source>
         <translation>Честота на кадрите:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+18"/>
         <source>Include your camera picture-in-picture</source>
         <translation>Включи камерата в режим картина в картина</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+21"/>
         <source>Request remote camera</source>
         <translation>Поискай отдалечена камера</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+17"/>
-        <source>View your callee's camera like a regular video call</source>
-        <translation>Виж камерата на отсрещната страна като при обикновено видеообаждане</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+18"/>
         <source>Show mouse cursor</source>
         <translation>Покажи курсора на мишката</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Share</source>
         <translation>Сподели</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-6"/>
         <source>Preview</source>
         <translation>Преглед</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-10"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
     </message>

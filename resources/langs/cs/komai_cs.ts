@@ -6942,63 +6942,62 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>ScreenShare</name>
     <message>
-        <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
+        <location filename="../../qml/voip/ScreenShare.qml" line="+20"/>
         <source>Share desktop with %1?</source>
         <translation>Sdílet plochu s %1?</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+1"/>
+        <source>Share desktop?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Method:</source>
         <translation>Metoda:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Window:</source>
         <translation>Okno:</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+23"/>
         <source>Request screencast</source>
         <translation>Požádat o sdílení obrazovky</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+13"/>
         <source>Frame rate:</source>
         <translation>Snímková frekvence:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+18"/>
         <source>Include your camera picture-in-picture</source>
         <translation>Zahrnout kameru jako obraz v obrazu</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+21"/>
         <source>Request remote camera</source>
         <translation>Požádat o vzdálenou kameru</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+17"/>
-        <source>View your callee's camera like a regular video call</source>
-        <translation>Zobrazit kameru volaného jako při běžném videohovoru</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+18"/>
         <source>Show mouse cursor</source>
         <translation>Zobrazit kurzor myši</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Share</source>
         <translation>Sdílet</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-6"/>
         <source>Preview</source>
         <translation>Náhled</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-10"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>

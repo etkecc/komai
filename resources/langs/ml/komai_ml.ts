@@ -6933,63 +6933,62 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>ScreenShare</name>
     <message>
-        <location filename="../../qml/voip/ScreenShare.qml" line="+32"/>
+        <location filename="../../qml/voip/ScreenShare.qml" line="+20"/>
         <source>Share desktop with %1?</source>
         <translation>%1-മായി ഡെസ്ക്ടോപ്പ് പങ്കിടണോ?</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+1"/>
+        <source>Share desktop?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Method:</source>
         <translation>രീതി:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Window:</source>
         <translation>വിൻഡോ:</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+23"/>
         <source>Request screencast</source>
         <translation>സ്ക്രീൻകാസ്റ്റ് അഭ്യർഥിക്കുക</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+13"/>
         <source>Frame rate:</source>
         <translation>ഫ്രേം റേറ്റ്:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+18"/>
         <source>Include your camera picture-in-picture</source>
         <translation>നിങ്ങളുടെ ക്യാമറ പിക്ചർ-ഇൻ-പിക്ചർ ഉൾപ്പെടുത്തുക</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+21"/>
         <source>Request remote camera</source>
         <translation>റിമോട്ട് ക്യാമറ അഭ്യർഥിക്കുക</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location line="+17"/>
-        <source>View your callee's camera like a regular video call</source>
-        <translation>സാധാരണ വീഡിയോ കോൾ പോലെ വിളിക്കപ്പെടുന്നയാളുടെ ക്യാമറ കാണുക</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+18"/>
         <source>Show mouse cursor</source>
         <translation>മൗസ് കഴ്‌സർ കാണിക്കുക</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Share</source>
         <translation>പങ്കിടുക</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-6"/>
         <source>Preview</source>
         <translation>പ്രിവ്യൂ</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-10"/>
         <source>Cancel</source>
         <translation>റദ്ദാക്കുക</translation>
     </message>

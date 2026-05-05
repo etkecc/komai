@@ -44,6 +44,12 @@ modules:
   # System dependencies (not managed by CPM — found via find_package/pkg-config)
   # OpenSSL is provided by the KDE Platform runtime.
   #
+  # We bundle a newer GStreamer than the runtime ships (for Qt6 video sink
+  # support in plugins-good), but only enable -base and -good. The runtime
+  # itself provides extra plugins that don't ship in either subproject --
+  # notably libgstpipewire.so from PipeWire (used as pipewiresrc for Wayland
+  # screen-share via xdg-desktop-portal), which is loaded from
+  # /usr/lib/.../gstreamer-1.0/ at runtime under 1.x plugin ABI compat.
   - name: gstreamer
     buildsystem: meson
     sources:

@@ -106,13 +106,17 @@ For VoIP (voice/video calls; skip if you build with `-DVOIP=OFF`):
 
 ```sh
 sudo pacman -S --needed --asdeps gst-plugins-base gst-plugins-good gst-plugins-bad \
-    libnice gst-plugin-qml6
+    libnice gst-plugin-qml6 gst-plugin-pipewire
 ```
 
 `gst-plugin-qml6` is the Qt6 GL video sink — without it, video calls
 fail to render at runtime (`module "org.freedesktop.gstreamer.Qt6GLVideoItem"
 is not installed`). `gst-plugins-bad` provides `webrtcbin`, which is
-what gates calls in the first place.
+what gates calls in the first place. `gst-plugin-pipewire` provides
+`pipewiresrc`, the GStreamer source element used to capture screen
+frames from xdg-desktop-portal on Wayland; without it, screen-share
+invitations fail with an install hint and the in-dialog Preview button
+does the same.
 
 ### Debian 13+ / Ubuntu 24.04+
 
@@ -131,7 +135,8 @@ For VoIP (voice/video calls; skip if you build with `-DVOIP=OFF`):
 sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-bad1.0-dev libnice-dev \
     gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
-    gstreamer1.0-plugins-bad gstreamer1.0-nice gstreamer1.0-qt6
+    gstreamer1.0-plugins-bad gstreamer1.0-nice gstreamer1.0-qt6 \
+    gstreamer1.0-pipewire
 ```
 
 By default, CPM downloads and builds all non-system C++ dependencies

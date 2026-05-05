@@ -75,6 +75,7 @@ AppDir:
     - gstreamer1.0-plugins-bad
     - gstreamer1.0-gl
     - gstreamer1.0-nice
+    - gstreamer1.0-pipewire
     - gstreamer1.0-qt6
     - gstreamer1.0-x
 

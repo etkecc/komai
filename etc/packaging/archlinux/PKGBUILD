@@ -41,6 +41,7 @@ optdepends=(
 	'libnice: VoIP/Video calls'
 	'gst-libav: Video messages'
 	'gst-plugin-qml6: Video calls support'
+	'gst-plugin-pipewire: Screen sharing on Wayland (xdg-desktop-portal)'
 )
 source=("git+https://github.com/etkecc/komai.git#tag=v${pkgver}")
 sha256sums=('SKIP')

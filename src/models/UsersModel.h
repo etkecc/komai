@@ -17,7 +17,9 @@ public:
         UserID,
     };
 
-    UsersModel(const std::string &roomId, QObject *parent = nullptr);
+    UsersModel(const std::string &roomId,
+               bool includeRoomMention = true,
+               QObject *parent         = nullptr);
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {

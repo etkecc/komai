@@ -886,7 +886,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Vali emoji</translation>
     </message>

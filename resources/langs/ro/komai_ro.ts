@@ -887,7 +887,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Alege un emoji</translation>
     </message>

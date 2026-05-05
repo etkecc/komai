@@ -886,7 +886,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Emoji auswählen</translation>
     </message>

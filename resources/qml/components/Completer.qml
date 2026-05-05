@@ -57,9 +57,10 @@ Control {
     function changeCompleter() {
         listView.mouseActivated = false;
         if (completerType) {
-            // The user-mxid type shares the same UsersModel backend as the
-            // mention picker — only the insertion behaviour differs.
-            var resolvedType = completerType === "user-mxid" ? "user" : completerType;
+            // user-mxid uses a sibling backend that excludes the @room
+            // pseudo-user, since /ban, /kick and friends need real MXIDs.
+            // Otherwise behaves like the mention picker.
+            var resolvedType = completerType;
             var backend = backendModel || resolvedType;
             var needsRoom = resolvedType !== "room" && resolvedType !== "roomAliases" && resolvedType !== "command";
             if (needsRoom && !popup.roomId) {

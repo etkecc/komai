@@ -885,7 +885,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Válasszon egy emojit</translation>
     </message>

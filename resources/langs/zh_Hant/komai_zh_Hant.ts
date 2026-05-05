@@ -885,7 +885,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>選擇表情符號</translation>
     </message>

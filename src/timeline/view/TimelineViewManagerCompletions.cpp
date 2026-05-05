@@ -23,6 +23,14 @@ TimelineViewManager::completerFor(const QString &completerName, const QString &r
         auto proxy     = new CompletionProxyModel(userModel);
         userModel->setParent(proxy);
         return proxy;
+    } else if (completerName == QLatin1String("user-mxid")) {
+        // Same backend as the mention picker, minus the @room pseudo-user —
+        // /ban, /kick and friends collect a real MXID, so suggesting @room
+        // (which is not a user the homeserver would accept) is misleading.
+        auto userModel = new UsersModel(roomId.toStdString(), /*includeRoomMention=*/false);
+        auto proxy     = new CompletionProxyModel(userModel);
+        userModel->setParent(proxy);
+        return proxy;
     } else if (completerName == QLatin1String("emoji")) {
         auto emojiModel = new CombinedImagePackModel(roomId.toStdString());
         auto proxy      = new CompletionProxyModel(emojiModel);

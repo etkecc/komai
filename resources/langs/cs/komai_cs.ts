@@ -887,7 +887,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Vybrat emoji</translation>
     </message>

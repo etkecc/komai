@@ -886,7 +886,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Elekti emoĝion</translation>
     </message>

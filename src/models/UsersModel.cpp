@@ -16,7 +16,7 @@
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
-UsersModel::UsersModel(const std::string &roomId, QObject *parent)
+UsersModel::UsersModel(const std::string &roomId, bool includeRoomMention, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
 {
@@ -28,16 +28,21 @@ UsersModel::UsersModel(const std::string &roomId, QObject *parent)
     QPointer<UsersModel> self(this);
     auto qRoomId = QString::fromStdString(roomId);
 
-    std::thread([self, handleId, qRoomId]() {
+    std::thread([self, handleId, qRoomId, includeRoomMention]() {
         const auto context = komai::matrix_backend::blockingCallContext();
         std::vector<QString> fetchedUserIds;
         std::vector<QString> fetchedDisplayNames;
         std::vector<QString> fetchedAvatarUrls;
 
-        // Add @room as the first entry
-        fetchedUserIds.push_back(QStringLiteral("@room"));
-        fetchedDisplayNames.push_back(QStringLiteral("@room"));
-        fetchedAvatarUrls.push_back(QString());
+        // @room is a room-wide mention pseudo-user; only valid when the picker
+        // is offering targets for an actual mention, not when an MXID is being
+        // collected for a slash command like /ban or /kick (where @room is not
+        // a real user the homeserver would accept).
+        if (includeRoomMention) {
+            fetchedUserIds.push_back(QStringLiteral("@room"));
+            fetchedDisplayNames.push_back(QStringLiteral("@room"));
+            fetchedAvatarUrls.push_back(QString());
+        }
 
         QString error;
         if (const auto members = komai::MatrixBackendRuntimeService::fetchRoomMembers(

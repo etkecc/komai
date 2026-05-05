@@ -887,7 +887,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Wybierz emoji</translation>
     </message>

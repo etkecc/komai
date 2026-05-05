@@ -886,7 +886,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>ഒരു ഇമോജി തിരഞ്ഞെടുക്കുക</translation>
     </message>

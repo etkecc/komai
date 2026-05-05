@@ -886,7 +886,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Valitse emoji</translation>
     </message>

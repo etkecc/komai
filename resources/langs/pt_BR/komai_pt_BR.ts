@@ -886,7 +886,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+226"/>
+        <location filename="../../qml/components/Completer.qml" line="+227"/>
         <source>Pick an emoji</source>
         <translation>Escolha um emoji</translation>
     </message>

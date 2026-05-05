@@ -11465,7 +11465,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+403"/>
         <source>No settings in this tab match your search.</source>
         <translation>Null configuratines in iste tab corresponde a vu recerca.</translation>
     </message>

@@ -11468,7 +11468,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+403"/>
         <source>No settings in this tab match your search.</source>
         <translation>No hay ajustes en esta pestaña que coincidan con tu búsqueda.</translation>
     </message>

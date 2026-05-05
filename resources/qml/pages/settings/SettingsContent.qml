@@ -530,6 +530,7 @@ Item {
                         }
 
                         TextEdit {
+                            id: descriptionText
                             Layout.fillWidth: true
                             Layout.leftMargin: Komai.paddingSmall
                             Layout.rightMargin: Komai.paddingSmall
@@ -557,6 +558,11 @@ Item {
                                 } else {
                                     Qt.openUrlExternally(link);
                                 }
+                            }
+
+                            KomaiCursorShape {
+                                anchors.fill: parent
+                                cursorShape: descriptionText.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
                             }
                         }
                     }

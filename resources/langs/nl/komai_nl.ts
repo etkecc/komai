@@ -11465,7 +11465,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+397"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+403"/>
         <source>No settings in this tab match your search.</source>
         <translation>Geen instellingen in dit tabblad komen overeen met je zoekopdracht.</translation>
     </message>

@@ -5,6 +5,7 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
+import cc.etke.komai
 
 TextEdit {
     id: root
@@ -20,5 +21,10 @@ TextEdit {
     selectByMouse: true
     onLinkActivated: function(link) {
         Qt.openUrlExternally(link);
+    }
+
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: root.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
     }
 }

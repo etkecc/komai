@@ -42,6 +42,7 @@ class CallManager : public QObject
     Q_PROPERTY(
       webrtc::ScreenShareType screenShareType READ screenShareType NOTIFY screenShareChanged)
     Q_PROPERTY(webrtc::State callState READ callState NOTIFY newCallState)
+    Q_PROPERTY(QString callRoomId READ callRoomId NOTIFY newInviteState)
     Q_PROPERTY(QString callParty READ callParty NOTIFY newInviteState)
     Q_PROPERTY(QString callPartyDisplayName READ callPartyDisplayName NOTIFY newInviteState)
     Q_PROPERTY(QString callPartyAvatarUrl READ callPartyAvatarUrl NOTIFY newInviteState)
@@ -66,6 +67,7 @@ public:
     webrtc::CallType callType() const { return callType_; }
     webrtc::ScreenShareType screenShareType() const { return screenShareType_; }
     webrtc::State callState() const { return session_.state(); }
+    QString callRoomId() const { return roomid_; }
     QString callParty() const { return callParty_; }
     QString callPartyDisplayName() const { return callPartyDisplayName_; }
     QString callPartyAvatarUrl() const { return callPartyAvatarUrl_; }

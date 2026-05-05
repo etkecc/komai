@@ -27,8 +27,12 @@ Rectangle {
             implicitHeight: Komai.iconSize
             url: CallManager.callPartyAvatarUrl.replace("mxc://", "image://MxcImage/")
             userid: CallManager.callParty
+            roomid: CallManager.callRoomId
             displayName: CallManager.callPartyDisplayName
-            onClicked: TimelineManager.openMediaOverlay(room, room.avatarUrl(userid), room.data.eventId)
+            onClicked: {
+                if (CallManager.callRoomId)
+                    TimelineManager.openRoomInfo(CallManager.callRoomId, "settings");
+            }
         }
 
         Label {

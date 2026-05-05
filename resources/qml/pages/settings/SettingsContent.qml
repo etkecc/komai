@@ -430,6 +430,7 @@ Item {
                                             anchors.right: r?.useStackedLayout ? undefined : parent?.right
                                             model: r?.model ?? null
                                             leftAligned: r?.useStackedLayout ?? false
+                                            hovered: rowHover.hovered
                                         }
                                     }
                                     DelegateChoice {

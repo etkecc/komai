@@ -12002,7 +12002,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+403"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
         <translation>Aucun paramètre dans cet onglet ne correspond à votre recherche.</translation>
     </message>

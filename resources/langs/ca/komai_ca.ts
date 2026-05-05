@@ -12002,7 +12002,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+403"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
         <translation>Cap configuració d'aquesta pestanya no coincideix amb la teva cerca.</translation>
     </message>

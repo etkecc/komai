@@ -12018,7 +12018,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+403"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
         <translation>В этой вкладке нет настроек, соответствующих поиску.</translation>
     </message>

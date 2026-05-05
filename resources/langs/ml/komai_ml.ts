@@ -12002,7 +12002,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+403"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
         <translation>ഈ ടാബിലെ ക്രമീകരണങ്ങളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല.</translation>
     </message>

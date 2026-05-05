@@ -8,11 +8,22 @@
 
 #include <QCoreApplication>
 
-// Short alias: all tr() calls go through this context so that lupdate
-// groups them under "StateEventText" in the .ts files.
-#define TR(text) QCoreApplication::translate("StateEventText", text)
-
 namespace StateEventText {
+
+// Translation-context shim. lupdate is a parser, not a preprocessor, and
+// won't expand a user-defined one-arg TR() macro -- it only recognises a
+// fixed set of names (tr, qsTr, QCoreApplication::translate,
+// Q_DECLARE_TR_FUNCTIONS, QT_*_NOOP, ...). Q_DECLARE_TR_FUNCTIONS(StateEventText)
+// emits a static inline tr() that calls
+// QCoreApplication::translate("StateEventText", ...), and lupdate uses the
+// macro's argument as the extraction context. Tr::tr("...") below behaves
+// identically at runtime to a hand-written
+// QCoreApplication::translate("StateEventText", "...") call, but its
+// literals actually land in the .ts catalogues.
+class Tr
+{
+    Q_DECLARE_TR_FUNCTIONS(StateEventText)
+};
 
 // ── Helpers ─────────────────────────────────────────────────────────
 
@@ -21,7 +32,7 @@ formatUser(const QString &displayName, const QString &userId)
 {
     if (displayName.isEmpty() || displayName == userId)
         return userId;
-    return TR("%1 (%2)").arg(displayName, userId);
+    return Tr::tr("%1 (%2)").arg(displayName, userId);
 }
 
 // ── Membership changes ──────────────────────────────────────────────
@@ -40,88 +51,88 @@ translateMembershipChange(const MatrixTimelineItem &item)
     // so that translators can reorder all parts freely.
 
     if (kind == QStringLiteral("joined"))
-        return TR("%1 joined the room").arg(user);
+        return Tr::tr("%1 joined the room").arg(user);
 
     if (kind == QStringLiteral("left"))
-        return TR("%1 left the room").arg(user);
+        return Tr::tr("%1 left the room").arg(user);
 
     if (kind == QStringLiteral("banned")) {
         if (hasSender && hasReason)
-            return TR("%1 was banned by %2: %3").arg(user, sender, reason);
+            return Tr::tr("%1 was banned by %2: %3").arg(user, sender, reason);
         if (hasSender)
-            return TR("%1 was banned by %2").arg(user, sender);
+            return Tr::tr("%1 was banned by %2").arg(user, sender);
         if (hasReason)
-            return TR("%1 was banned: %2").arg(user, reason);
-        return TR("%1 was banned").arg(user);
+            return Tr::tr("%1 was banned: %2").arg(user, reason);
+        return Tr::tr("%1 was banned").arg(user);
     }
 
     if (kind == QStringLiteral("unbanned")) {
         if (hasSender)
-            return TR("%1 was unbanned by %2").arg(user, sender);
-        return TR("%1 was unbanned").arg(user);
+            return Tr::tr("%1 was unbanned by %2").arg(user, sender);
+        return Tr::tr("%1 was unbanned").arg(user);
     }
 
     if (kind == QStringLiteral("kicked")) {
         if (hasSender && hasReason)
-            return TR("%1 was kicked by %2: %3").arg(user, sender, reason);
+            return Tr::tr("%1 was kicked by %2: %3").arg(user, sender, reason);
         if (hasSender)
-            return TR("%1 was kicked by %2").arg(user, sender);
+            return Tr::tr("%1 was kicked by %2").arg(user, sender);
         if (hasReason)
-            return TR("%1 was kicked: %2").arg(user, reason);
-        return TR("%1 was kicked").arg(user);
+            return Tr::tr("%1 was kicked: %2").arg(user, reason);
+        return Tr::tr("%1 was kicked").arg(user);
     }
 
     if (kind == QStringLiteral("invited")) {
         if (hasSender)
-            return TR("%1 was invited by %2").arg(user, sender);
-        return TR("%1 was invited").arg(user);
+            return Tr::tr("%1 was invited by %2").arg(user, sender);
+        return Tr::tr("%1 was invited").arg(user);
     }
 
     if (kind == QStringLiteral("kicked_and_banned")) {
         if (hasSender && hasReason)
-            return TR("%1 was kicked and banned by %2: %3").arg(user, sender, reason);
+            return Tr::tr("%1 was kicked and banned by %2: %3").arg(user, sender, reason);
         if (hasSender)
-            return TR("%1 was kicked and banned by %2").arg(user, sender);
+            return Tr::tr("%1 was kicked and banned by %2").arg(user, sender);
         if (hasReason)
-            return TR("%1 was kicked and banned: %2").arg(user, reason);
-        return TR("%1 was kicked and banned").arg(user);
+            return Tr::tr("%1 was kicked and banned: %2").arg(user, reason);
+        return Tr::tr("%1 was kicked and banned").arg(user);
     }
 
     if (kind == QStringLiteral("invitation_accepted"))
-        return TR("%1 accepted the invite").arg(user);
+        return Tr::tr("%1 accepted the invite").arg(user);
 
     if (kind == QStringLiteral("invitation_rejected"))
-        return TR("%1 rejected the invite").arg(user);
+        return Tr::tr("%1 rejected the invite").arg(user);
 
     if (kind == QStringLiteral("invitation_revoked")) {
         if (hasSender)
-            return TR("%1's invite was revoked by %2").arg(user, sender);
-        return TR("%1's invite was revoked").arg(user);
+            return Tr::tr("%1's invite was revoked by %2").arg(user, sender);
+        return Tr::tr("%1's invite was revoked").arg(user);
     }
 
     if (kind == QStringLiteral("knocked"))
-        return TR("%1 requested to join").arg(user);
+        return Tr::tr("%1 requested to join").arg(user);
 
     if (kind == QStringLiteral("knock_accepted")) {
         if (hasSender)
-            return TR("%1's knock was accepted by %2").arg(user, sender);
-        return TR("%1's knock was accepted").arg(user);
+            return Tr::tr("%1's knock was accepted by %2").arg(user, sender);
+        return Tr::tr("%1's knock was accepted").arg(user);
     }
 
     if (kind == QStringLiteral("knock_retracted"))
-        return TR("%1 withdrew the join request").arg(user);
+        return Tr::tr("%1 withdrew the join request").arg(user);
 
     if (kind == QStringLiteral("knock_denied")) {
         if (hasSender)
-            return TR("%1's join request was denied by %2").arg(user, sender);
-        return TR("%1's join request was denied").arg(user);
+            return Tr::tr("%1's join request was denied by %2").arg(user, sender);
+        return Tr::tr("%1's join request was denied").arg(user);
     }
 
     if (kind == QStringLiteral("redacted"))
-        return TR("Redacted membership event for %1").arg(user);
+        return Tr::tr("Redacted membership event for %1").arg(user);
 
     // none / error / not_implemented
-    return TR("Membership updated for %1").arg(user);
+    return Tr::tr("Membership updated for %1").arg(user);
 }
 
 // ── Profile changes ─────────────────────────────────────────────────
@@ -136,15 +147,15 @@ translateProfileChange(const MatrixTimelineItem &item)
     const auto &subKind = item.membershipChangeKind;
 
     if (subKind == QStringLiteral("displayname") && !detail.isEmpty())
-        return TR("%1 is now known as %2").arg(user, detail);
+        return Tr::tr("%1 is now known as %2").arg(user, detail);
 
     if (subKind == QStringLiteral("displayname_removed"))
-        return TR("%1 removed their display name").arg(user);
+        return Tr::tr("%1 removed their display name").arg(user);
 
     if (subKind == QStringLiteral("avatar"))
-        return TR("%1 changed their avatar").arg(user);
+        return Tr::tr("%1 changed their avatar").arg(user);
 
-    return TR("%1 updated their profile").arg(user);
+    return Tr::tr("%1 updated their profile").arg(user);
 }
 
 // ── Room state changes ──────────────────────────────────────────────
@@ -156,8 +167,8 @@ translateRoomName(const MatrixTimelineItem &item)
     const auto &detail = item.stateEventDetail;
 
     if (!detail.isEmpty())
-        return TR("%1 changed the room name to: %2").arg(sender, detail);
-    return TR("%1 removed the room name").arg(sender);
+        return Tr::tr("%1 changed the room name to: %2").arg(sender, detail);
+    return Tr::tr("%1 removed the room name").arg(sender);
 }
 
 static QString
@@ -167,8 +178,8 @@ translateRoomTopic(const MatrixTimelineItem &item)
     const auto &detail = item.stateEventDetail;
 
     if (!detail.isEmpty())
-        return TR("%1 changed the topic to: %2").arg(sender, detail);
-    return TR("%1 removed the topic").arg(sender);
+        return Tr::tr("%1 changed the topic to: %2").arg(sender, detail);
+    return Tr::tr("%1 removed the topic").arg(sender);
 }
 
 static QString
@@ -178,19 +189,19 @@ translateJoinRules(const MatrixTimelineItem &item)
     const auto &detail = item.stateEventDetail;
 
     if (detail == QStringLiteral("invite"))
-        return TR("%1 changed the room access rules to invite-only").arg(sender);
+        return Tr::tr("%1 changed the room access rules to invite-only").arg(sender);
     if (detail == QStringLiteral("knock"))
-        return TR("%1 changed the room access rules to knock-to-join").arg(sender);
+        return Tr::tr("%1 changed the room access rules to knock-to-join").arg(sender);
     if (detail == QStringLiteral("public"))
-        return TR("%1 changed the room access rules to public").arg(sender);
+        return Tr::tr("%1 changed the room access rules to public").arg(sender);
     if (detail == QStringLiteral("private"))
-        return TR("%1 changed the room access rules to private").arg(sender);
+        return Tr::tr("%1 changed the room access rules to private").arg(sender);
     if (detail == QStringLiteral("restricted"))
-        return TR("%1 changed the room access rules to restricted").arg(sender);
+        return Tr::tr("%1 changed the room access rules to restricted").arg(sender);
     if (detail == QStringLiteral("knock_restricted"))
-        return TR("%1 changed the room access rules to knock (restricted)").arg(sender);
+        return Tr::tr("%1 changed the room access rules to knock (restricted)").arg(sender);
 
-    return TR("%1 changed the room access rules").arg(sender);
+    return Tr::tr("%1 changed the room access rules").arg(sender);
 }
 
 static QString
@@ -200,15 +211,15 @@ translateHistoryVisibility(const MatrixTimelineItem &item)
     const auto &detail = item.stateEventDetail;
 
     if (detail == QStringLiteral("invited"))
-        return TR("%1 changed the room history visibility to visible since invite").arg(sender);
+        return Tr::tr("%1 changed the room history visibility to visible since invite").arg(sender);
     if (detail == QStringLiteral("joined"))
-        return TR("%1 changed the room history visibility to visible since join").arg(sender);
+        return Tr::tr("%1 changed the room history visibility to visible since join").arg(sender);
     if (detail == QStringLiteral("shared"))
-        return TR("%1 changed the room history visibility to shared").arg(sender);
+        return Tr::tr("%1 changed the room history visibility to shared").arg(sender);
     if (detail == QStringLiteral("world_readable"))
-        return TR("%1 changed the room history visibility to world-readable").arg(sender);
+        return Tr::tr("%1 changed the room history visibility to world-readable").arg(sender);
 
-    return TR("%1 changed the room history visibility").arg(sender);
+    return Tr::tr("%1 changed the room history visibility").arg(sender);
 }
 
 static QString
@@ -218,23 +229,23 @@ translateGuestAccess(const MatrixTimelineItem &item)
     const auto &detail = item.stateEventDetail;
 
     if (detail == QStringLiteral("can_join"))
-        return TR("%1 changed the room guest access to allowed").arg(sender);
+        return Tr::tr("%1 changed the room guest access to allowed").arg(sender);
     if (detail == QStringLiteral("forbidden"))
-        return TR("%1 changed the room guest access to forbidden").arg(sender);
+        return Tr::tr("%1 changed the room guest access to forbidden").arg(sender);
 
-    return TR("%1 changed the room guest access").arg(sender);
+    return Tr::tr("%1 changed the room guest access").arg(sender);
 }
 
 static QString
 powerLevelName(int64_t level)
 {
     if (level == 0)
-        return TR("Default (%1)").arg(level);
+        return Tr::tr("Default (%1)").arg(level);
     if (level == 50)
-        return TR("Moderator (%1)").arg(level);
+        return Tr::tr("Moderator (%1)").arg(level);
     if (level == 100)
-        return TR("Administrator (%1)").arg(level);
-    return TR("Custom (%1)").arg(level);
+        return Tr::tr("Administrator (%1)").arg(level);
+    return Tr::tr("Custom (%1)").arg(level);
 }
 
 static QString
@@ -244,11 +255,11 @@ translatePowerLevels(const MatrixTimelineItem &item)
     const auto &changes = item.powerLevelChanges;
 
     if (changes.empty())
-        return TR("%1 changed the room permissions").arg(sender);
+        return Tr::tr("%1 changed the room permissions").arg(sender);
 
     QStringList lines;
     for (const auto &change : changes) {
-        lines.append(TR("%1 changed the power level of %2 from %3 to %4")
+        lines.append(Tr::tr("%1 changed the power level of %2 from %3 to %4")
                        .arg(sender,
                             change.userId,
                             powerLevelName(change.oldLevel),
@@ -266,23 +277,23 @@ translateServerAcl(const MatrixTimelineItem &item)
     const auto &change = item.serverAclChange;
 
     if (change.isEmpty() || change.totalChanges() > serverAclMaxDetailedChanges)
-        return TR("%1 changed which servers are allowed in this room").arg(sender);
+        return Tr::tr("%1 changed which servers are allowed in this room").arg(sender);
 
     QStringList lines;
 
     for (const auto &server : change.deniedAdded)
-        lines.append(TR("%1 blocked servers matching %2").arg(sender, server));
+        lines.append(Tr::tr("%1 blocked servers matching %2").arg(sender, server));
     for (const auto &server : change.deniedRemoved)
-        lines.append(TR("%1 unblocked servers matching %2").arg(sender, server));
+        lines.append(Tr::tr("%1 unblocked servers matching %2").arg(sender, server));
     for (const auto &server : change.allowedAdded)
-        lines.append(TR("%1 allowed servers matching %2").arg(sender, server));
+        lines.append(Tr::tr("%1 allowed servers matching %2").arg(sender, server));
     for (const auto &server : change.allowedRemoved)
-        lines.append(TR("%1 disallowed servers matching %2").arg(sender, server));
+        lines.append(Tr::tr("%1 disallowed servers matching %2").arg(sender, server));
 
     if (change.ipLiteralsChange == 1)
-        lines.append(TR("%1 allowed connections from IP literal servers").arg(sender));
+        lines.append(Tr::tr("%1 allowed connections from IP literal servers").arg(sender));
     else if (change.ipLiteralsChange == 2)
-        lines.append(TR("%1 blocked connections from IP literal servers").arg(sender));
+        lines.append(Tr::tr("%1 blocked connections from IP literal servers").arg(sender));
 
     return lines.join(QStringLiteral("\n"));
 }
@@ -298,11 +309,11 @@ translateOtherState(const MatrixTimelineItem &item)
     if (eventType == QStringLiteral("m.room.topic"))
         return translateRoomTopic(item);
     if (eventType == QStringLiteral("m.room.avatar"))
-        return TR("%1 changed the room avatar").arg(sender);
+        return Tr::tr("%1 changed the room avatar").arg(sender);
     if (eventType == QStringLiteral("m.room.encryption"))
-        return TR("%1 enabled end-to-end encryption").arg(sender);
+        return Tr::tr("%1 enabled end-to-end encryption").arg(sender);
     if (eventType == QStringLiteral("m.room.pinned_events"))
-        return TR("%1 changed the pinned messages").arg(sender);
+        return Tr::tr("%1 changed the pinned messages").arg(sender);
     if (eventType == QStringLiteral("m.room.power_levels"))
         return translatePowerLevels(item);
     if (eventType == QStringLiteral("m.room.join_rules"))
@@ -312,23 +323,23 @@ translateOtherState(const MatrixTimelineItem &item)
     if (eventType == QStringLiteral("m.room.guest_access"))
         return translateGuestAccess(item);
     if (eventType == QStringLiteral("m.room.canonical_alias"))
-        return TR("%1 changed the addresses for this room").arg(sender);
+        return Tr::tr("%1 changed the addresses for this room").arg(sender);
     if (eventType == QStringLiteral("m.room.tombstone"))
-        return TR("%1 replaced this room").arg(sender);
+        return Tr::tr("%1 replaced this room").arg(sender);
     if (eventType == QStringLiteral("m.room.server_acl"))
         return translateServerAcl(item);
     if (eventType == QStringLiteral("m.room.create"))
-        return TR("%1 created and configured the room").arg(sender);
+        return Tr::tr("%1 created and configured the room").arg(sender);
     if (eventType == QStringLiteral("m.space.parent"))
-        return TR("%1 changed the parent communities for this room").arg(sender);
+        return Tr::tr("%1 changed the parent communities for this room").arg(sender);
     if (eventType == QStringLiteral("m.space.child"))
-        return TR("%1 changed a child room of this space").arg(sender);
+        return Tr::tr("%1 changed a child room of this space").arg(sender);
     if (eventType == QStringLiteral("m.policy.rule.room") ||
         eventType == QStringLiteral("m.policy.rule.user") ||
         eventType == QStringLiteral("m.policy.rule.server"))
-        return TR("%1 updated a moderation policy rule").arg(sender);
+        return Tr::tr("%1 updated a moderation policy rule").arg(sender);
 
-    return TR("%1 changed unknown state event %2").arg(sender, eventType);
+    return Tr::tr("%1 changed unknown state event %2").arg(sender, eventType);
 }
 
 // ── Event type labels ───────────────────────────────────────────────
@@ -337,27 +348,27 @@ QString
 eventTypeLabel(const QString &itemKind, const QString & /*matrixEventType*/)
 {
     if (itemKind == QStringLiteral("redacted"))
-        return TR("Deleted message");
+        return Tr::tr("Deleted message");
     if (itemKind == QStringLiteral("unable_to_decrypt"))
-        return TR("[Unable to decrypt message]");
+        return Tr::tr("[Unable to decrypt message]");
     if (itemKind == QStringLiteral("failed_to_parse_message_like"))
-        return TR("[Unreadable message event]");
+        return Tr::tr("[Unreadable message event]");
     if (itemKind == QStringLiteral("failed_to_parse_state"))
-        return TR("[Unreadable state event]");
+        return Tr::tr("[Unreadable state event]");
     if (itemKind == QStringLiteral("call_invite"))
-        return TR("[Call invite]");
+        return Tr::tr("[Call invite]");
     if (itemKind == QStringLiteral("rtc_notification"))
-        return TR("[RTC notification]");
+        return Tr::tr("[RTC notification]");
     if (itemKind == QStringLiteral("poll"))
-        return TR("[Poll]");
+        return Tr::tr("[Poll]");
     if (itemKind == QStringLiteral("sticker"))
-        return TR("[Sticker]");
+        return Tr::tr("[Sticker]");
     if (itemKind == QStringLiteral("reaction"))
-        return TR("Reactions updated");
+        return Tr::tr("Reactions updated");
     if (itemKind == QStringLiteral("other_message"))
-        return TR("[Unsupported message event]");
+        return Tr::tr("[Unsupported message event]");
     if (itemKind == QStringLiteral("unknown_message"))
-        return TR("[Unsupported message event]");
+        return Tr::tr("[Unsupported message event]");
 
     return {};
 }
@@ -384,7 +395,7 @@ translate(const MatrixTimelineItem &item)
     // introduce in the future.  Guarantees we never return an empty string
     // for something the timeline treats as a state event.
     if (!item.senderDisplayName.isEmpty())
-        return TR("Room state changed by %1")
+        return Tr::tr("Room state changed by %1")
           .arg(formatUser(item.senderDisplayName, item.senderId));
 
     return {};
@@ -399,7 +410,7 @@ translateNotificationBody(const MatrixNotificationItem &notification)
 
     // Invite notifications have no body from Rust -- provide translated text.
     if (kind == QStringLiteral("invite"))
-        return TR("Invited you to join this room");
+        return Tr::tr("Invited you to join this room");
 
     // For event-type kinds that have translatable labels, use eventTypeLabel().
     // This covers: redacted, unable_to_decrypt, poll, call_invite, sticker,
@@ -410,9 +421,9 @@ translateNotificationBody(const MatrixNotificationItem &notification)
 
     // For membership/state events shown in notifications, provide a generic label.
     if (kind == QStringLiteral("membership_change"))
-        return TR("[Membership change]");
+        return Tr::tr("[Membership change]");
     if (kind == QStringLiteral("other_state"))
-        return TR("[Room state changed]");
+        return Tr::tr("[Room state changed]");
 
     // Content-bearing kinds (text, image, video, etc.) -- use original body.
     return notification.plainBody;
@@ -430,11 +441,11 @@ translateRoomListPreview(const QString &kind, const QString &body)
 
     // State event kinds that need generic labels
     if (kind == QStringLiteral("membership_change"))
-        return TR("[Membership change]");
+        return Tr::tr("[Membership change]");
     if (kind == QStringLiteral("profile_change"))
-        return TR("[Profile updated]");
+        return Tr::tr("[Profile updated]");
     if (kind == QStringLiteral("other_state"))
-        return TR("[Room state changed]");
+        return Tr::tr("[Room state changed]");
 
     // Content-bearing kinds -- use original body as-is
     return body;
@@ -447,19 +458,26 @@ translateRoomListPreview(const QString &kind, const QString &body)
 
 namespace {
 
-// Try to split "Prefix: detail" and translate just the prefix.
-// Returns empty string if the error does not start with the prefix.
+// Try to split "Prefix: detail" and translate just the prefix. Returns
+// empty string if the error does not start with the prefix.
+//
+// `prefix` is used both for the prefix-match (as QLatin1String for cheap
+// startsWith) and as the translation source key (Tr::tr lookup), so call
+// sites can wrap it in QT_TRANSLATE_NOOP("StateEventText", ...) to make
+// lupdate extract the literal under the StateEventText context that
+// Tr::tr resolves at runtime.
 QString
-translateErrorPrefix(const QString &error, const QLatin1String &prefix, const char *translated)
+translateErrorPrefix(const QString &error, const char *prefix)
 {
-    if (!error.startsWith(prefix))
+    const auto prefixLatin = QLatin1String(prefix);
+    if (!error.startsWith(prefixLatin))
         return {};
 
-    const auto detail = error.mid(prefix.size()).trimmed();
+    const auto detail = error.mid(prefixLatin.size()).trimmed();
     if (detail.isEmpty())
-        return TR(translated);
+        return Tr::tr(prefix);
 
-    return QStringLiteral("%1 %2").arg(TR(translated), detail);
+    return QStringLiteral("%1 %2").arg(Tr::tr(prefix), detail);
 }
 
 } // anonymous namespace
@@ -471,55 +489,52 @@ translateAuthError(const QString &error)
 
     if (error ==
         QLatin1String("Received malformed response. Make sure the homeserver domain is valid."))
-        return TR("Received malformed response. Make sure the homeserver domain is valid.");
+        return Tr::tr("Received malformed response. Make sure the homeserver domain is valid.");
     if (error == QLatin1String("Autodiscovery failed. Received malformed response."))
-        return TR("Autodiscovery failed. Received malformed response.");
+        return Tr::tr("Autodiscovery failed. Received malformed response.");
     if (error == QLatin1String("Autodiscovery failed. Unknown error when requesting .well-known."))
-        return TR("Autodiscovery failed. Unknown error when requesting .well-known.");
+        return Tr::tr("Autodiscovery failed. Unknown error when requesting .well-known.");
     if (error ==
         QLatin1String("The required endpoints were not found. Possibly not a Matrix server."))
-        return TR("The required endpoints were not found. Possibly not a Matrix server.");
+        return Tr::tr("The required endpoints were not found. Possibly not a Matrix server.");
     if (error ==
         QLatin1String(
           "Server does not require any authentication for registration. This is unexpected."))
-        return TR(
+        return Tr::tr(
           "Server does not require any authentication for registration. This is unexpected.");
     if (error ==
         QLatin1String("Server returned no registration flows. Registration may be disabled."))
-        return TR("Server returned no registration flows. Registration may be disabled.");
+        return Tr::tr("Server returned no registration flows. Registration may be disabled.");
     if (error == QLatin1String("Registration is disabled on this server."))
-        return TR("Registration is disabled on this server.");
+        return Tr::tr("Registration is disabled on this server.");
     if (error == QLatin1String("Registration token cannot be empty"))
-        return TR("Registration token cannot be empty");
+        return Tr::tr("Registration token cannot be empty");
     if (error == QLatin1String("OAuth callback query cannot be empty"))
-        return TR("OAuth callback query cannot be empty");
+        return Tr::tr("OAuth callback query cannot be empty");
 
     // ── Dynamic strings with translatable prefix ──
     // Pattern: "Prefix: SDK-error-detail"
 
     QString result;
 
-    result = translateErrorPrefix(error,
-                                  QLatin1String("Failed to contact the homeserver:"),
-                                  "Failed to contact the homeserver:");
+    result = translateErrorPrefix(
+      error, QT_TRANSLATE_NOOP("StateEventText", "Failed to contact the homeserver:"));
     if (!result.isEmpty())
         return result;
 
-    result = translateErrorPrefix(error,
-                                  QLatin1String("Failed to discover Matrix login flows:"),
-                                  "Failed to discover Matrix login flows:");
-    if (!result.isEmpty())
-        return result;
-
-    result =
-      translateErrorPrefix(error, QLatin1String("Registration failed:"), "Registration failed:");
+    result = translateErrorPrefix(
+      error, QT_TRANSLATE_NOOP("StateEventText", "Failed to discover Matrix login flows:"));
     if (!result.isEmpty())
         return result;
 
     result =
-      translateErrorPrefix(error,
-                           QLatin1String("Autodiscovery failed while requesting .well-known:"),
-                           "Autodiscovery failed while requesting .well-known:");
+      translateErrorPrefix(error, QT_TRANSLATE_NOOP("StateEventText", "Registration failed:"));
+    if (!result.isEmpty())
+        return result;
+
+    result = translateErrorPrefix(
+      error,
+      QT_TRANSLATE_NOOP("StateEventText", "Autodiscovery failed while requesting .well-known:"));
     if (!result.isEmpty())
         return result;
 

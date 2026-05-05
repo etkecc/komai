@@ -312,6 +312,13 @@ CallManager::previewWindow(unsigned int index) const
             return;
         }
         GstElement *pipewiresrc = gst_element_factory_make("pipewiresrc", nullptr);
+        if (!pipewiresrc) {
+            komai::logging::ui()->error(
+              "Failed to create pipewiresrc -- gst-plugin-pipewire missing?");
+            gst_object_unref(pipe_);
+            pipe_ = nullptr;
+            return;
+        }
         g_object_set(pipewiresrc, "fd", (gint)stream->fd.fileDescriptor(), nullptr);
         std::string path = std::to_string(stream->nodeId);
         g_object_set(pipewiresrc, "path", path.c_str(), nullptr);

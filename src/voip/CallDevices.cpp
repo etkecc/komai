@@ -312,6 +312,31 @@ CallDevices::ensureInitialized(std::string *errorMessage)
             return false;
         }
 
+        // pipewiresrc (from PipeWire's gst-pipewire plugin) constructs caps
+        // with a degenerate `GstIntRange[N, N]` during portal stream
+        // negotiation. GStreamer's int-range constructor asserts start <
+        // end, producing a torrent of "range start is not smaller than end"
+        // criticals during every screen-share request. The pipeline still
+        // works -- it's a noisy upstream bug -- so we filter just that
+        // exact assertion text out of the GStreamer log domain rather than
+        // the user's terminal.
+        g_log_set_handler(
+          "GStreamer",
+          GLogLevelFlags(G_LOG_LEVEL_CRITICAL | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
+          [](const gchar *log_domain,
+             GLogLevelFlags log_level,
+             const gchar *message,
+             gpointer user_data) {
+              if (message) {
+                  if (std::strstr(message, "gst_value_collect_int_range") ||
+                      std::strstr(message, "range start is not smaller than end")) {
+                      return;
+                  }
+              }
+              g_log_default_handler(log_domain, log_level, message, user_data);
+          },
+          nullptr);
+
         gchar *version = gst_version_string();
         komai::logging::ui()->info("WebRTC: initialised {}", version);
         g_free(version);

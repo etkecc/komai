@@ -75,19 +75,31 @@ deliveryStateToEventState(const QString &state)
 QString
 defaultMembershipStateEventIcon()
 {
-    return QStringLiteral(":/icons/icons/ui/state-member-change.svg");
+    return QStringLiteral(":/icons/icons/ui/state-event.svg");
 }
 
 QString
 stateEventIconForMembershipChangeKind(const QString &membershipChangeKind)
 {
-    const auto normalizedMembershipChangeKind = membershipChangeKind.trimmed().toLower();
-    if (normalizedMembershipChangeKind == QStringLiteral("joined"))
+    const auto kind = membershipChangeKind.trimmed().toLower();
+
+    if (kind == QStringLiteral("joined"))
         return QStringLiteral(":/icons/icons/ui/state-member-join.svg");
-    if (normalizedMembershipChangeKind == QStringLiteral("left"))
+
+    // Member gained or restriction lifted
+    if (kind == QStringLiteral("invited") || kind == QStringLiteral("invitation_accepted") ||
+        kind == QStringLiteral("knock_accepted") || kind == QStringLiteral("unbanned"))
+        return QStringLiteral(":/icons/icons/ui/state-member-change.svg");
+
+    // Departure or withdrawn participation, voluntary or forced
+    if (kind == QStringLiteral("left") || kind == QStringLiteral("kicked") ||
+        kind == QStringLiteral("invitation_rejected") ||
+        kind == QStringLiteral("invitation_revoked") || kind == QStringLiteral("knock_retracted"))
         return QStringLiteral(":/icons/icons/ui/state-member-leave.svg");
-    if (normalizedMembershipChangeKind == QStringLiteral("banned") ||
-        normalizedMembershipChangeKind == QStringLiteral("kicked_and_banned"))
+
+    // Blocked entry
+    if (kind == QStringLiteral("banned") || kind == QStringLiteral("kicked_and_banned") ||
+        kind == QStringLiteral("knock_denied"))
         return QStringLiteral(":/icons/icons/ui/presence-blocked.svg");
 
     return defaultMembershipStateEventIcon();

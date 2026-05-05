@@ -93,7 +93,7 @@ Rectangle {
                 color: palette.buttonText
                 horizontalAlignment: Text.AlignLeft
                 elide: Text.ElideRight
-                text: "<style>a { color: " + palette.highlight + "; }</style>" +
+                text: "<style>a { color: " + palette.link + "; }</style>" +
                       root.attributionTemplate.arg(root.komaiProjectLink).arg(root.etkeProjectLink)
                 Accessible.name: root.attributionTemplate.arg("Komai").arg("etke.cc")
 

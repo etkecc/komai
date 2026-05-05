@@ -41,7 +41,7 @@ syntect = { version = "5", default-features = false, features = ["default-fancy"
 # up cached as `NotEncrypted` and sends go out as plaintext.
 # See var/plans/matrix-sdk-bump-and-cleartext-send-bug.md.
 #
-# ruma is pinned to the same git rev matrix-rust-sdk uses at this SHA to avoid
+# ruma is pinned to the same version matrix-rust-sdk uses at this SHA to avoid
 # duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.  The
 # direct ruma dep only exists to enable the `unstable-msc2545` feature (image
 # packs / sticker packs) that matrix-sdk doesn't enable on its own; the
@@ -49,10 +49,10 @@ syntect = { version = "5", default-features = false, features = ["default-fancy"
 # and `html` is pulled transitively by matrix-sdk-ui.  Code should import ruma
 # types through `matrix_sdk::ruma::*` rather than `ruma::*` directly so we
 # don't build in a hard coupling to the direct ruma version.
-ruma = { git = "https://github.com/ruma/ruma", rev = "7680eebd9586669e1a4e5b1fd1c2c691221369d4", features = ["unstable-msc2545"] }
-matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "eda8d1df38e656fa2eb68626d3f8d51116cc0f7e", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite", "markdown"] }
-matrix-sdk-base = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "eda8d1df38e656fa2eb68626d3f8d51116cc0f7e" }
-matrix-sdk-ui = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "eda8d1df38e656fa2eb68626d3f8d51116cc0f7e" }
+ruma = { version = "0.15.1", features = ["unstable-msc2545"] }
+matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "2ec031b8198f688940c5cab23c9756c955e713ee", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite", "markdown"] }
+matrix-sdk-base = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "2ec031b8198f688940c5cab23c9756c955e713ee" }
+matrix-sdk-ui = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "2ec031b8198f688940c5cab23c9756c955e713ee" }
 
 # TLS backend: rustls with aws-lc-rs as the crypto provider, matching what
 # matrix-sdk now hard-wires. Previously we forced native-tls (OpenSSL) to avoid

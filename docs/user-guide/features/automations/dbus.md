@@ -2,6 +2,8 @@
 
 Komai exposes a local [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) API so external tools can interact with your running session -- query rooms, switch themes, open chats, and more.
 
+D-Bus is the standard inter-process communication (IPC) bus on Linux desktops: applications register named services and other local processes -- scripts, panel widgets, desktop shells, language bindings -- call methods or listen for signals without writing transport code. See [Wikipedia: D-Bus](https://en.wikipedia.org/wiki/D-Bus) for background.
+
 > **Looking for the overview?** Start with [Automations](README.md) for a quick guide to MCP, CLI, and D-Bus.
 
 > **Need MCP host integration?** See the [MCP server guide](mcp.md). MCP is stdio-based, uses the same running-instance automation surface, and does not require D-Bus to be enabled.

@@ -1,6 +1,6 @@
 # 💻 CLI Commands
 
-Komai can be controlled from the terminal. CLI commands talk to a running Komai instance over a local Unix socket, so the target instance must be running. No display server is needed on the machine running the command.
+Komai can be controlled from the terminal through its [command-line interface](https://en.wikipedia.org/wiki/Command-line_interface) (CLI). CLI commands talk to a running Komai instance over a local Unix socket, so the target instance must be running. No display server is needed on the machine running the command.
 
 > **Looking for the overview?** Start with [Automations](README.md) for a quick guide to MCP, CLI, and D-Bus.
 

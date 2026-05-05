@@ -69,7 +69,7 @@
       "managerFilePatterns": [
         "/^bin/icons/fluent/VERSION_REF$/"
       ],
-      "matchStrings": ["^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
+      "matchStrings": ["(?m)^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
       "depNameTemplate": "microsoft/fluentui-system-icons",
       "datasourceTemplate": "github-tags"
     },
@@ -79,7 +79,7 @@
       "managerFilePatterns": [
         "/^bin/icons/fontawesome/VERSION_REF$/"
       ],
-      "matchStrings": ["^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
+      "matchStrings": ["(?m)^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
       "depNameTemplate": "FortAwesome/Font-Awesome",
       "datasourceTemplate": "github-tags"
     },

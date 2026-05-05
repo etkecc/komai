@@ -3123,7 +3123,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomMessageActionsModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+187"/>
+        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+191"/>
         <location line="+0"/>
         <location line="+33"/>
         <location line="+0"/>
@@ -7633,7 +7633,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
         <source>%1 is typing…</source>
         <translation>%1 schreibt …</translation>
     </message>
@@ -11771,7 +11771,7 @@ Die Verifizierung markiert dieses Gerät als vertrauenswürdig und gibt dir Zugr
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
         <translation>Gestern</translation>
     </message>

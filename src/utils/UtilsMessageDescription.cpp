@@ -109,12 +109,16 @@ utils::descriptiveTime(const QDateTime &then)
     const auto now  = QDateTime::currentDateTime();
     const auto days = then.daysTo(now);
 
+    // Default-constructed QLocale honours QLocale::setDefault() (set by
+    // MainApplication when the in-app UI language changes); QLocale::system()
+    // would always reflect $LC_TIME and bypass the user's choice. Likewise
+    // QDateTime::toString(format) uses the C locale, hence QLocale().toString.
     if (days == 0)
-        return QLocale::system().toString(then.time(), QLocale::ShortFormat);
+        return QLocale().toString(then.time(), QLocale::ShortFormat);
     else if (days < 2)
         return QString(QCoreApplication::translate("descriptiveTime", "Yesterday"));
     else if (days < 7)
-        return then.toString(QStringLiteral("dddd"));
+        return QLocale().toString(then, QStringLiteral("dddd"));
 
-    return QLocale::system().toString(then.date(), QLocale::ShortFormat);
+    return QLocale().toString(then.date(), QLocale::ShortFormat);
 }

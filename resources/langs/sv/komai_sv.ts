@@ -3123,7 +3123,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MatrixRoomMessageActionsModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+187"/>
+        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+191"/>
         <location line="+0"/>
         <location line="+33"/>
         <location line="+0"/>
@@ -7633,7 +7633,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
         <source>%1 is typing…</source>
         <translation>%1 skriver…</translation>
     </message>
@@ -11771,7 +11771,7 @@ Verifiering markerar den här enheten som betrodd och ger dig tillgång till kry
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
         <translation>Igår</translation>
     </message>

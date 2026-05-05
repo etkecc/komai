@@ -3118,7 +3118,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomMessageActionsModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+187"/>
+        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+191"/>
         <location line="+0"/>
         <location line="+33"/>
         <location line="+0"/>
@@ -7624,7 +7624,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
         <source>%1 is typing…</source>
         <translation>%1 đang nhập…</translation>
     </message>
@@ -11755,7 +11755,7 @@ Xác minh đánh dấu thiết bị này là đáng tin cậy và cho phép bạ
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
         <translation>Hôm qua</translation>
     </message>

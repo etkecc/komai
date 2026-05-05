@@ -3118,7 +3118,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomMessageActionsModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+187"/>
+        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+191"/>
         <location line="+0"/>
         <location line="+33"/>
         <location line="+0"/>
@@ -7624,7 +7624,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
         <source>%1 is typing…</source>
         <translation>%1 در حال تایپ است…</translation>
     </message>
@@ -11755,7 +11755,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
         <translation>دیروز</translation>
     </message>

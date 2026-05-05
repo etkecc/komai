@@ -3123,7 +3123,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MatrixRoomMessageActionsModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+187"/>
+        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+191"/>
         <location line="+0"/>
         <location line="+33"/>
         <location line="+0"/>
@@ -7633,7 +7633,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
         <source>%1 is typing…</source>
         <translation>%1 scrive…</translation>
     </message>
@@ -11771,7 +11771,7 @@ Verification marca ti aparate como confiat e da vu accesse a mesages criptat.</t
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+115"/>
+        <location filename="../../../src/utils/UtilsMessageDescription.cpp" line="+119"/>
         <source>Yesterday</source>
         <translation>Hier</translation>
     </message>

@@ -173,11 +173,16 @@ QtObject {
     }
 
     function formatDateSeparator(timestamp) {
-        return Qt.formatDate(timestamp, "ddd, MMM d");
+        // Reading Komai.matrixWord (NOTIFY-tied to localizedStringsChanged,
+        // queued after QLocale::setDefault) makes the calling text binding
+        // re-evaluate when the in-app UI language changes at runtime.
+        void Komai.matrixWord;
+        return timestamp.toLocaleDateString(Qt.locale(), Locale.LongFormat);
     }
 
     function formatLaterSeparator(_previous, timestamp) {
-        return Qt.formatTime(timestamp, "hh:mm");
+        void Komai.matrixWord;
+        return timestamp.toLocaleTimeString(Qt.locale(), Locale.ShortFormat);
     }
 
     function showEvent(eventId) {

@@ -48,11 +48,16 @@ Item {
         signal roomAvatarUrlChanged()
 
         function formatDateSeparator(timestamp) {
-            return Qt.formatDate(timestamp, "ddd, MMM d");
+            // See MatrixRoomHeaderModel.qml: Komai.matrixWord acts as a
+            // dependency so the calling binding re-evaluates on UI-language
+            // switch.
+            void Komai.matrixWord;
+            return timestamp.toLocaleDateString(Qt.locale(), Locale.LongFormat);
         }
 
         function formatLaterSeparator(_previous, timestamp) {
-            return Qt.formatTime(timestamp, "hh:mm");
+            void Komai.matrixWord;
+            return timestamp.toLocaleTimeString(Qt.locale(), Locale.ShortFormat);
         }
 
         function formatTypingUsers(users, _bg) {

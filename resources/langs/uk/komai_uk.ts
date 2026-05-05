@@ -6962,12 +6962,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Вікно:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Запросити показ екрана</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Частота кадрів:</translation>
     </message>
@@ -6987,7 +6987,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Показати курсор миші</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Поділитися</translation>
     </message>
@@ -6997,7 +6997,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Попередній перегляд</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>

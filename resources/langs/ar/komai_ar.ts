@@ -6989,12 +6989,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>النافذة:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>طلب تصوير الشاشة</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>معدل الإطارات:</translation>
     </message>
@@ -7014,7 +7014,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>إظهار مؤشر الفأرة</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>مشاركة</translation>
     </message>
@@ -7024,7 +7024,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>معاينة</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>إلغاء</translation>
     </message>

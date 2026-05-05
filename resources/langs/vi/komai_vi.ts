@@ -6944,12 +6944,12 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Cửa sổ:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Yêu cầu truyền màn hình</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Tốc độ khung hình:</translation>
     </message>
@@ -6969,7 +6969,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Hiển thị con trỏ chuột</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Chia sẻ</translation>
     </message>
@@ -6979,7 +6979,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Xem trước</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Hủy</translation>
     </message>

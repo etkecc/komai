@@ -6953,12 +6953,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Прозорец:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Поискай излъчване на екрана</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Честота на кадрите:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Покажи курсора на мишката</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Сподели</translation>
     </message>
@@ -6988,7 +6988,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Преглед</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
     </message>

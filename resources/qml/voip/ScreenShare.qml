@@ -73,25 +73,6 @@ Components.OverlayDialog {
     RowLayout {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
-        visible: CallManager.screenShareType === Voip.XDP
-
-        Item {
-            Layout.fillWidth: true
-        }
-
-        Components.KomaiButton {
-            highlighted: !CallManager.screenShareReady
-            text: qsTr("Request screencast")
-            onClicked: {
-                Settings.callsScreenshareShowCursor = showCursorCheckBox.checked;
-                CallManager.setupScreenShareXDP();
-            }
-        }
-    }
-
-    RowLayout {
-        Layout.fillWidth: true
-        spacing: Komai.paddingMedium
 
         Label {
             text: qsTr("Frame rate:")
@@ -174,6 +155,19 @@ Components.OverlayDialog {
 
         Item {
             Layout.fillWidth: true
+        }
+
+        Components.KomaiButton {
+            visible: CallManager.screenShareType === Voip.XDP
+            // Highlighted until the user has picked a source -- on XDP that's
+            // the only path to making Share appear. Stays visible afterwards
+            // so the user can re-pick if they change their mind.
+            highlighted: !CallManager.screenShareReady
+            text: qsTr("Request screencast")
+            onClicked: {
+                Settings.callsScreenshareShowCursor = showCursorCheckBox.checked;
+                CallManager.setupScreenShareXDP();
+            }
         }
 
         Components.KomaiButton {

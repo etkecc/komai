@@ -6955,12 +6955,12 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Fenestro:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Peti ekranvidon</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Filmerrapido:</translation>
     </message>
@@ -6980,7 +6980,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Montri musan kursoron</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Vidigi</translation>
     </message>
@@ -6990,7 +6990,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Antaŭrigardi</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Nuligi</translation>
     </message>

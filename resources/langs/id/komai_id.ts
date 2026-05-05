@@ -6944,12 +6944,12 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Jendela:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Minta penyiaran layar</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Laju bingkai:</translation>
     </message>
@@ -6969,7 +6969,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Tampilkan kursor mouse</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Bagikan</translation>
     </message>
@@ -6979,7 +6979,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Tampilkan</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Batal</translation>
     </message>

@@ -6956,12 +6956,12 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Ventana:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Solicitar screencast</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Tasa de fotogramas:</translation>
     </message>
@@ -6981,7 +6981,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Mostrar cursor del ratón</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Compartir</translation>
     </message>
@@ -6991,7 +6991,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Vista previa</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>

@@ -6953,12 +6953,12 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Finestra:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Sol·licita la transmissió de pantalla</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Taxa de fotogrames:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Mostra el cursor del ratolí</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Comparteix</translation>
     </message>
@@ -6988,7 +6988,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Previsualització</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>

@@ -6953,12 +6953,12 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Fenestre:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Requestar screencast</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Taxa de cadres:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Monstrar cursor del muse</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Partar</translation>
     </message>
@@ -6988,7 +6988,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Prevision</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Cancellar</translation>
     </message>

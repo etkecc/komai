@@ -6923,12 +6923,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Window:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Request screencast</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Frame rate:</translation>
     </message>
@@ -6948,7 +6948,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Share</translation>
     </message>
@@ -6958,7 +6958,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Preview</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>

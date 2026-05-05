@@ -6944,12 +6944,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>창:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>화면 전송 요청</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>프레임 속도:</translation>
     </message>
@@ -6969,7 +6969,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>마우스 커서 표시</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>공유</translation>
     </message>
@@ -6979,7 +6979,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>미리보기</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>

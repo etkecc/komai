@@ -6953,12 +6953,12 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Fönster:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Begär skärmsändning</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Bildfrekvens:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Visa muspekare</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Dela</translation>
     </message>
@@ -6988,7 +6988,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Förhandsgranska</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>

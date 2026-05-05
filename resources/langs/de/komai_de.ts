@@ -6953,12 +6953,12 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Fenster:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Fenster auswählen</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Bildrate:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Mauszeiger anzeigen</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Teilen</translation>
     </message>
@@ -6988,7 +6988,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>

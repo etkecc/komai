@@ -6953,12 +6953,12 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Fenêtre :</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Demander un partage d'écran</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Fréquence d'images :</translation>
     </message>
@@ -6978,7 +6978,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Afficher le curseur de la souris</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Partager</translation>
     </message>
@@ -6988,7 +6988,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Prévisualiser</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>

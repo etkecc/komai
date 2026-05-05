@@ -6944,12 +6944,12 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Ablak:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Képernyőközvetítés kérése</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Képkockasebesség:</translation>
     </message>
@@ -6969,7 +6969,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Egérkurzor megjelenítése</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Megosztás</translation>
     </message>
@@ -6979,7 +6979,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Előnézet</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>

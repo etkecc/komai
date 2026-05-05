@@ -6962,12 +6962,12 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Fereastră:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Solicită screencast</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Rată de cadre:</translation>
     </message>
@@ -6987,7 +6987,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Afișează cursorul mouse-ului</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Partajează</translation>
     </message>
@@ -6997,7 +6997,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Previzualizare</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Anulează</translation>
     </message>

@@ -6953,12 +6953,12 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Ikkuna:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Pyydä näytönjakoa</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Ruutunopeus:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Näytä hiiren kursori</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Jaa</translation>
     </message>
@@ -6988,7 +6988,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Esikatsele</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Peruuta</translation>
     </message>

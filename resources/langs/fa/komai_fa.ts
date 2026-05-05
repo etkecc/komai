@@ -6944,12 +6944,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>پنجره:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>درخواست پخش صفحه</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>نرخ فریم:</translation>
     </message>
@@ -6969,7 +6969,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>نمایش مکان‌نما</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>اشتراک‌گذاری</translation>
     </message>
@@ -6979,7 +6979,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>پیش‌نمایش</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>لغو</translation>
     </message>

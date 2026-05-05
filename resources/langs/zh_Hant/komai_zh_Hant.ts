@@ -6944,12 +6944,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>視窗：</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>請求螢幕投放</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>影格率：</translation>
     </message>
@@ -6969,7 +6969,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>顯示滑鼠游標</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>分享</translation>
     </message>
@@ -6979,7 +6979,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>預覽</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

@@ -6962,12 +6962,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Окно:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Запросить скринкаст</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Частота кадров:</translation>
     </message>
@@ -6987,7 +6987,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Показывать курсор мыши</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Поделиться</translation>
     </message>
@@ -6997,7 +6997,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>

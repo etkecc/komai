@@ -6962,12 +6962,12 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Okno:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Požádat o sdílení obrazovky</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Snímková frekvence:</translation>
     </message>
@@ -6987,7 +6987,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Zobrazit kurzor myši</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Sdílet</translation>
     </message>
@@ -6997,7 +6997,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Náhled</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>

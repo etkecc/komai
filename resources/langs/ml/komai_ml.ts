@@ -6953,12 +6953,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>വിൻഡോ:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>സ്ക്രീൻകാസ്റ്റ് അഭ്യർഥിക്കുക</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>ഫ്രേം റേറ്റ്:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>മൗസ് കഴ്‌സർ കാണിക്കുക</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>പങ്കിടുക</translation>
     </message>
@@ -6988,7 +6988,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>പ്രിവ്യൂ</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>റദ്ദാക്കുക</translation>
     </message>

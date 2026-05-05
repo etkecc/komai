@@ -6953,12 +6953,12 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Aken:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Ekraanisalvestuse päring</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Kaadrisagedus:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Näita hiire kursorit</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Jaga</translation>
     </message>
@@ -6988,7 +6988,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Eelvaade</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Tühista</translation>
     </message>

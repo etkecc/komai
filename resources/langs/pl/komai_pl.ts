@@ -6963,12 +6963,12 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Okno:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Żądaj nagrania ekranu</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Klatek na sekundę:</translation>
     </message>
@@ -6988,7 +6988,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Pokaż kursor myszy</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Udostępnij</translation>
     </message>
@@ -6998,7 +6998,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Podgląd</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>

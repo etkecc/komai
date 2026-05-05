@@ -6944,12 +6944,12 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Pencere:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Ekran yayını iste</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Kare hızı:</translation>
     </message>
@@ -6969,7 +6969,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Fare imlecini göster</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Paylaş</translation>
     </message>
@@ -6979,7 +6979,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Önizleme</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>

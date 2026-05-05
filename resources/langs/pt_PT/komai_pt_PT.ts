@@ -6953,12 +6953,12 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
         <translation>Janela:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Solicitar partilha de ecrã</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Taxa de fotogramas:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
         <translation>Mostrar cursor do rato</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Partilhar</translation>
     </message>
@@ -6988,7 +6988,7 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
         <translation>Pré-visualizar</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>

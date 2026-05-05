@@ -6953,12 +6953,12 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Finestra:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Richiedi screencast</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Frequenza fotogrammi:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Mostra cursore del mouse</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Condividi</translation>
     </message>
@@ -6988,7 +6988,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Anteprima</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>

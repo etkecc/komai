@@ -6962,12 +6962,12 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Prozor:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Zahtevaj screencast</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>Broj kadrova:</translation>
     </message>
@@ -6987,7 +6987,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Prikaži kursor miša</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>Deli</translation>
     </message>
@@ -6997,7 +6997,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Pregled</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>Otkaži</translation>
     </message>

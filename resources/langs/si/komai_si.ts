@@ -6953,12 +6953,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>කවුළුව:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+105"/>
         <source>Request screencast</source>
         <translation>Screencast ඉල්ලා සිටින්න</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-88"/>
         <source>Frame rate:</source>
         <translation>රාමු අනුපාතය:</translation>
     </message>
@@ -6978,7 +6978,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>මවුස් කර්සරය පෙන්වන්න</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+46"/>
         <source>Share</source>
         <translation>බෙදා ගන්න</translation>
     </message>
@@ -6988,7 +6988,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>පෙරදසුන</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-23"/>
         <source>Cancel</source>
         <translation>අවලංගු කරන්න</translation>
     </message>

@@ -7748,530 +7748,530 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/timeline/StateEventText.cpp" line="+35"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1（%2）</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>%1 joined the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 加入了聊天室</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 left the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 離開了聊天室</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 was banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 封禁：%3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 封禁</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被封禁：%2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被封禁</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was unbanned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 解除封禁</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was unbanned</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被解除封禁</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 踢出：%3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 踢出</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被踢出：%2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被踢出</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was invited by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 邀請</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was invited</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被邀請</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked and banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 踢出並封禁：%3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被 %2 踢出並封禁</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被踢出並封禁：%2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked and banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 已被踢出並封禁</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 accepted the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 接受了邀請</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 rejected the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 拒絕了邀請</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's invite was revoked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 的邀請已被 %2 撤銷</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's invite was revoked</source>
-        <translation type="unfinished"/>
+        <translation>%1 的邀請已被撤銷</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 requested to join</source>
-        <translation type="unfinished"/>
+        <translation>%1 申請加入</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's knock was accepted by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 的敲門申請已被 %2 接受</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's knock was accepted</source>
-        <translation type="unfinished"/>
+        <translation>%1 的敲門申請已被接受</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 withdrew the join request</source>
-        <translation type="unfinished"/>
+        <translation>%1 撤回了加入申請</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's join request was denied by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 的加入申請已被 %2 拒絕</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's join request was denied</source>
-        <translation type="unfinished"/>
+        <translation>%1 的加入申請已被拒絕</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Redacted membership event for %1</source>
-        <translation type="unfinished"/>
+        <translation>已刪除 %1 的成員事件</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Membership updated for %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 的成員身份已更新</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>%1 is now known as %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 現在的名稱為 %2</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 removed their display name</source>
-        <translation type="unfinished"/>
+        <translation>%1 移除了顯示名稱</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 changed their avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了頭像</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 updated their profile</source>
-        <translation type="unfinished"/>
+        <translation>%1 更新了個人資料</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 changed the room name to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室名稱變更為：%2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the room name</source>
-        <translation type="unfinished"/>
+        <translation>%1 移除了聊天室名稱</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the topic to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 將主題變更為：%2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the topic</source>
-        <translation type="unfinished"/>
+        <translation>%1 移除了主題</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room access rules to invite-only</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的存取規則變更為僅限受邀者</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock-to-join</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的存取規則變更為敲門加入</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to public</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的存取規則變更為公開</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to private</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的存取規則變更為私人</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to restricted</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的存取規則變更為限制</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock (restricted)</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的存取規則變更為敲門（限制）</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了聊天室的存取規則</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room history visibility to visible since invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的歷史訊息可見性變更為受邀後可見</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to visible since join</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的歷史訊息可見性變更為加入後可見</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to shared</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的歷史訊息可見性變更為共享</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to world-readable</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的歷史訊息可見性變更為公開可讀</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了聊天室的歷史訊息可見性</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room guest access to allowed</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的訪客存取權限變更為允許</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access to forbidden</source>
-        <translation type="unfinished"/>
+        <translation>%1 將聊天室的訪客存取權限變更為禁止</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了聊天室的訪客存取權限</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Default (%1)</source>
-        <translation type="unfinished"/>
+        <translation>預設 (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished">版主（%1）</translation>
+        <translation>版主 (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished">管理員（%1）</translation>
+        <translation>管理員（%1）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished">自訂（%1）</translation>
+        <translation>自訂 (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了聊天室的權限</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 changed the power level of %2 from %3 to %4</source>
-        <translation type="unfinished"/>
+        <translation>%1 將 %2 的權限等級從 %3 變更為 %4</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>%1 changed which servers are allowed in this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了此聊天室允許的伺服器</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 blocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 封鎖了符合 %2 的伺服器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 unblocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 解除封鎖了符合 %2 的伺服器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 allowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 允許符合 %2 的伺服器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 disallowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 禁止了符合 %2 的伺服器</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 allowed connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 允許來自 IP 字面量伺服器的連線</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 blocked connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 封鎖了來自 IP 字面量伺服器的連線</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>%1 changed the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了聊天室頭像</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished">%1 啟用了端對端加密</translation>
+        <translation>%1 啟用了端對端加密</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了置頂訊息</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the addresses for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了此聊天室的地址</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 replaced this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 取代了此聊天室</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 created and configured the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 建立並設定了聊天室</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the parent communities for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了此聊天室的上層社群</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed a child room of this space</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了此空間的子聊天室</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 updated a moderation policy rule</source>
-        <translation type="unfinished"/>
+        <translation>%1 更新了一條管理政策規則</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed unknown state event %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 變更了未知的狀態事件 %2</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation type="unfinished">已刪除的訊息</translation>
+        <translation>已刪除的訊息</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unable to decrypt message]</source>
-        <translation type="unfinished"/>
+        <translation>[無法解密訊息]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable message event]</source>
-        <translation type="unfinished"/>
+        <translation>[無法讀取的訊息事件]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable state event]</source>
-        <translation type="unfinished"/>
+        <translation>[無法讀取的狀態事件]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Call invite]</source>
-        <translation type="unfinished"/>
+        <translation>[通話邀請]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[RTC notification]</source>
-        <translation type="unfinished"/>
+        <translation>[RTC 通知]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Poll]</source>
-        <translation type="unfinished"/>
+        <translation>[投票]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Sticker]</source>
-        <translation type="unfinished"/>
+        <translation>[貼圖]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions updated</source>
-        <translation type="unfinished"/>
+        <translation>反應已更新</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>[Unsupported message event]</source>
-        <translation type="unfinished"/>
+        <translation>[不支援的訊息事件]</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room state changed by %1</source>
-        <translation type="unfinished"/>
+        <translation>聊天室狀態已由 %1 變更</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invited you to join this room</source>
-        <translation type="unfinished"/>
+        <translation>邀請你加入此聊天室</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+20"/>
         <source>[Membership change]</source>
-        <translation type="unfinished"/>
+        <translation>[成員變更]</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+22"/>
         <source>[Room state changed]</source>
-        <translation type="unfinished"/>
+        <translation>[聊天室狀態已變更]</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>[Profile updated]</source>
-        <translation type="unfinished"/>
+        <translation>[個人資料已更新]</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Received malformed response. Make sure the homeserver domain is valid.</source>
-        <translation type="unfinished"/>
+        <translation>收到格式錯誤的回應。請確認主伺服器域名是否有效。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Received malformed response.</source>
-        <translation type="unfinished"/>
+        <translation>自動探索失敗。收到格式錯誤的回應。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Unknown error when requesting .well-known.</source>
-        <translation type="unfinished"/>
+        <translation>自動探索失敗。請求 .well-known 時發生未知錯誤。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation type="unfinished"/>
+        <translation>找不到所需的端點。可能不是 Matrix 伺服器。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server does not require any authentication for registration. This is unexpected.</source>
-        <translation type="unfinished"/>
+        <translation>伺服器不要求任何驗證即可註冊。這是異常情況。</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server returned no registration flows. Registration may be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>伺服器未回傳任何註冊流程。註冊可能已停用。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration is disabled on this server.</source>
-        <translation type="unfinished"/>
+        <translation>此伺服器已停用註冊功能。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration token cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>註冊權杖不能為空</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>OAuth callback query cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>OAuth 回呼查詢不能為空</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Failed to contact the homeserver:</source>
-        <translation type="unfinished"/>
+        <translation>無法連接主伺服器：</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to discover Matrix login flows:</source>
-        <translation type="unfinished"/>
+        <translation>無法探索 Matrix 登入流程：</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Registration failed:</source>
-        <translation type="unfinished"/>
+        <translation>註冊失敗：</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Autodiscovery failed while requesting .well-known:</source>
-        <translation type="unfinished"/>
+        <translation>請求 .well-known 時自動探索失敗：</translation>
     </message>
 </context>
 <context>

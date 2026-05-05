@@ -7748,530 +7748,530 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location filename="../../../src/timeline/StateEventText.cpp" line="+35"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (%2)</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>%1 joined the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 csatlakozott a szobához</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 left the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 elhagyta a szobát</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 was banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1-t kitiltotta %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-t kitiltotta %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ki lett tiltva: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 ki lett tiltva</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was unbanned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 tiltását feloldotta %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was unbanned</source>
-        <translation type="unfinished"/>
+        <translation>%1 tiltása fel lett oldva</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1-t kidobta %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-t kidobta %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ki lett dobva: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked</source>
-        <translation type="unfinished"/>
+        <translation>%1 ki lett dobva</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was invited by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-t meghívta %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was invited</source>
-        <translation type="unfinished"/>
+        <translation>%1 meghívást kapott</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked and banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1-t kidobta és kitiltotta %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-t kidobta és kitiltotta %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ki lett dobva és tiltva: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked and banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 ki lett dobva és tiltva</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 accepted the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 elfogadta a meghívást</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 rejected the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 elutasította a meghívást</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's invite was revoked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 meghívóját visszavonta %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's invite was revoked</source>
-        <translation type="unfinished"/>
+        <translation>%1 meghívója vissza lett vonva</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 requested to join</source>
-        <translation type="unfinished"/>
+        <translation>%1 csatlakozást kért</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's knock was accepted by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 kopogtatását elfogadta %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's knock was accepted</source>
-        <translation type="unfinished"/>
+        <translation>%1 kopogtatása el lett fogadva</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 withdrew the join request</source>
-        <translation type="unfinished"/>
+        <translation>%1 visszavonta a csatlakozási kérelmét</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's join request was denied by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 csatlakozási kérelmét elutasította %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's join request was denied</source>
-        <translation type="unfinished"/>
+        <translation>%1 csatlakozási kérelme el lett utasítva</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Redacted membership event for %1</source>
-        <translation type="unfinished"/>
+        <translation>Tagságesemény törölve: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Membership updated for %1</source>
-        <translation type="unfinished"/>
+        <translation>Tagság frissítve: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>%1 is now known as %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 mostantól %2 névvel ismert</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 removed their display name</source>
-        <translation type="unfinished"/>
+        <translation>%1 eltávolította a megjelenítési nevét</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 changed their avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta az avatárját</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 updated their profile</source>
-        <translation type="unfinished"/>
+        <translation>%1 frissítette a profilját</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 changed the room name to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba nevét erre változtatta: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the room name</source>
-        <translation type="unfinished"/>
+        <translation>%1 eltávolította a szoba nevét</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the topic to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 a témát erre változtatta: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the topic</source>
-        <translation type="unfinished"/>
+        <translation>%1 eltávolította a témát</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room access rules to invite-only</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba hozzáférési szabályait csak meghívásosra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock-to-join</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba hozzáférési szabályait kopogtatással-csatlakozásra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to public</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba hozzáférési szabályait nyilvánosra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to private</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba hozzáférési szabályait privátra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to restricted</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba hozzáférési szabályait korlátozottra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock (restricted)</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba hozzáférési szabályait kopogtatásosra (korlátozott) változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a szoba hozzáférési szabályait</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room history visibility to visible since invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba előzményeinek láthatóságát meghívástól láthatóra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to visible since join</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba előzményeinek láthatóságát csatlakozástól láthatóra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to shared</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba előzményeinek láthatóságát megosztottra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to world-readable</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba előzményeinek láthatóságát mindenki számára olvashatóra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a szoba előzményeinek láthatóságát</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room guest access to allowed</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba vendéghozzáférését engedélyezettre változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access to forbidden</source>
-        <translation type="unfinished"/>
+        <translation>%1 a szoba vendéghozzáférését tiltottra változtatta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a szoba vendéghozzáférését</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Default (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Alapértelmezett (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished">Moderátor (%1)</translation>
+        <translation>Moderátor (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished">Adminisztrátor (%1)</translation>
+        <translation>Adminisztrátor (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished">Egyéni (%1)</translation>
+        <translation>Egyéni (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a szoba engedélyeit</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 changed the power level of %2 from %3 to %4</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta %2 jogosultsági szintjét %3-ról %4-re</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>%1 changed which servers are allowed in this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta, hogy mely szerverek engedélyezettek ebben a szobában</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 blocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 letiltotta a(z) %2 mintára illeszkedő szervereket</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 unblocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 feloldotta a(z) %2 mintára illeszkedő szerverek tiltását</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 allowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 engedélyezte a(z) %2 mintára illeszkedő szervereket</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 disallowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 visszavonta a(z) %2 mintára illeszkedő szerverek engedélyét</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 allowed connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 engedélyezte az IP-cím szerverekről érkező kapcsolatokat</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 blocked connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 letiltotta az IP-cím szerverekről érkező kapcsolatokat</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>%1 changed the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a szoba avatárját</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished">%1 bekapcsolta a végponttól végpontig titkosítást</translation>
+        <translation>%1 engedélyezte a végpontok közötti titkosítást</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a rögzített üzeneteket</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the addresses for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a szoba címeit</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 replaced this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 lecserélte ezt a szobát</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 created and configured the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 létrehozta és konfigurálta a szobát</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the parent communities for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta a szoba szülő közösségeit</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed a child room of this space</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatta ennek a térnek egy al-szobáját</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 updated a moderation policy rule</source>
-        <translation type="unfinished"/>
+        <translation>%1 frissített egy moderációs szabályt</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed unknown state event %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 megváltoztatott egy ismeretlen állapoteseményt: %2</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation type="unfinished">Törölt üzenet</translation>
+        <translation>Törölt üzenet</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unable to decrypt message]</source>
-        <translation type="unfinished"/>
+        <translation>[Az üzenet nem fejthető vissza]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Olvashatatlan üzenetesemény]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable state event]</source>
-        <translation type="unfinished"/>
+        <translation>[Olvashatatlan állapotesemény]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Call invite]</source>
-        <translation type="unfinished"/>
+        <translation>[Hívásmeghívó]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[RTC notification]</source>
-        <translation type="unfinished"/>
+        <translation>[RTC értesítés]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Poll]</source>
-        <translation type="unfinished"/>
+        <translation>[Szavazás]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Sticker]</source>
-        <translation type="unfinished"/>
+        <translation>[Matrica]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions updated</source>
-        <translation type="unfinished"/>
+        <translation>Reakciók frissítve</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>[Unsupported message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Nem támogatott üzenetesemény]</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room state changed by %1</source>
-        <translation type="unfinished"/>
+        <translation>A szoba állapotát %1 módosította</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invited you to join this room</source>
-        <translation type="unfinished"/>
+        <translation>Meghívott ebbe a szobába</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+20"/>
         <source>[Membership change]</source>
-        <translation type="unfinished"/>
+        <translation>[Tagságváltozás]</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+22"/>
         <source>[Room state changed]</source>
-        <translation type="unfinished"/>
+        <translation>[Szoba állapota megváltozott]</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>[Profile updated]</source>
-        <translation type="unfinished"/>
+        <translation>[Profil frissítve]</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Received malformed response. Make sure the homeserver domain is valid.</source>
-        <translation type="unfinished"/>
+        <translation>Hibás válasz érkezett. Ellenőrizze, hogy a kiszolgáló tartomány érvényes-e.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Received malformed response.</source>
-        <translation type="unfinished"/>
+        <translation>Az automatikus felfedezés sikertelen. Hibás válasz érkezett.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Unknown error when requesting .well-known.</source>
-        <translation type="unfinished"/>
+        <translation>Az automatikus felfedezés sikertelen. Ismeretlen hiba a .well-known lekérése során.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation type="unfinished"/>
+        <translation>A szükséges végpontok nem találhatók. Lehetséges, hogy ez nem Matrix kiszolgáló.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server does not require any authentication for registration. This is unexpected.</source>
-        <translation type="unfinished"/>
+        <translation>A kiszolgáló nem igényel hitelesítést a regisztrációhoz. Ez váratlan.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server returned no registration flows. Registration may be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>A kiszolgáló nem adott vissza regisztrációs folyamatokat. Lehetséges, hogy a regisztráció le van tiltva.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration is disabled on this server.</source>
-        <translation type="unfinished"/>
+        <translation>A regisztráció le van tiltva ezen a kiszolgálón.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration token cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>A regisztrációs token nem lehet üres</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>OAuth callback query cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>Az OAuth visszahívási lekérdezés nem lehet üres</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Failed to contact the homeserver:</source>
-        <translation type="unfinished"/>
+        <translation>Nem sikerült kapcsolatba lépni a kiszolgálóval:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to discover Matrix login flows:</source>
-        <translation type="unfinished"/>
+        <translation>Nem sikerült felderíteni a Matrix bejelentkezési folyamatokat:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Registration failed:</source>
-        <translation type="unfinished"/>
+        <translation>Regisztráció sikertelen:</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Autodiscovery failed while requesting .well-known:</source>
-        <translation type="unfinished"/>
+        <translation>Az automatikus felfedezés sikertelen a .well-known lekérése közben:</translation>
     </message>
 </context>
 <context>

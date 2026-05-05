@@ -326,7 +326,7 @@
     <message>
         <location line="+4"/>
         <source>List of rooms that allow access to this room. Anyone who is in any of those rooms can join this room.</source>
-        <translation>Списък на стаи, които позволяват достъп до тази стая. Всеки, който е в някоя от тях, може да влезне в тази стая.</translation>
+        <translation>Списък на стаи, които позволяват достъп до тази стая. Всеки, който е в някоя от тях, може да влезе в тази стая.</translation>
     </message>
     <message>
         <location line="+36"/>
@@ -7757,530 +7757,530 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/timeline/StateEventText.cpp" line="+35"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (%2)</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>%1 joined the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 влезе в стаята</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 left the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 напусна стаята</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 was banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше баннат/а от %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше баннат/а от %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше баннат/а: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше баннат/а</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was unbanned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше разбаннат/а от %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was unbanned</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше разбаннат/а</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а от %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а от %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was invited by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше поканен/а от %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was invited</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше поканен/а</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked and banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а и баннат/а от %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а и баннат/а от %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а и баннат/а: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked and banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 беше изгонен/а и баннат/а</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 accepted the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 прие поканата</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 rejected the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 отхвърли поканата</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's invite was revoked by %2</source>
-        <translation type="unfinished"/>
+        <translation>Поканата на %1 беше отменена от %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's invite was revoked</source>
-        <translation type="unfinished"/>
+        <translation>Поканата на %1 беше отменена</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 requested to join</source>
-        <translation type="unfinished"/>
+        <translation>%1 поиска да влезе</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's knock was accepted by %2</source>
-        <translation type="unfinished"/>
+        <translation>Почукването на %1 беше прието от %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's knock was accepted</source>
-        <translation type="unfinished"/>
+        <translation>Почукването на %1 беше прието</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 withdrew the join request</source>
-        <translation type="unfinished"/>
+        <translation>%1 оттегли заявката за влизане</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's join request was denied by %2</source>
-        <translation type="unfinished"/>
+        <translation>Заявката на %1 за влизане беше отказана от %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's join request was denied</source>
-        <translation type="unfinished"/>
+        <translation>Заявката на %1 за влизане беше отказана</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Redacted membership event for %1</source>
-        <translation type="unfinished"/>
+        <translation>Изтрито събитие за членство за %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Membership updated for %1</source>
-        <translation type="unfinished"/>
+        <translation>Членството е актуализирано за %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>%1 is now known as %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 вече е известен/а като %2</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 removed their display name</source>
-        <translation type="unfinished"/>
+        <translation>%1 премахна показваното си име</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 changed their avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени аватара си</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 updated their profile</source>
-        <translation type="unfinished"/>
+        <translation>%1 актуализира профила си</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 changed the room name to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени името на стаята на: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the room name</source>
-        <translation type="unfinished"/>
+        <translation>%1 премахна името на стаята</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the topic to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени темата на: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the topic</source>
-        <translation type="unfinished"/>
+        <translation>%1 премахна темата</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room access rules to invite-only</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правилата за достъп до стаята на само по покана</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock-to-join</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правилата за достъп до стаята на почукване за влизане</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to public</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правилата за достъп до стаята на публична</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to private</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правилата за достъп до стаята на частна</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to restricted</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правилата за достъп до стаята на ограничена</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock (restricted)</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правилата за достъп до стаята на почукване (ограничено)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правилата за достъп до стаята</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room history visibility to visible since invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени видимостта на историята на стаята на видима от момента на покана</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to visible since join</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени видимостта на историята на стаята на видима от момента на влизане</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to shared</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени видимостта на историята на стаята на споделена</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to world-readable</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени видимостта на историята на стаята на четима от всички</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени видимостта на историята на стаята</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room guest access to allowed</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени достъпа за гости до стаята на разрешен</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access to forbidden</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени достъпа за гости до стаята на забранен</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени достъпа за гости до стаята</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Default (%1)</source>
-        <translation type="unfinished"/>
+        <translation>По подразбиране (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished">Модератор (%1)</translation>
+        <translation>Модератор (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished">Администратор (%1)</translation>
+        <translation>Администратор (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished">Персонализиран (%1)</translation>
+        <translation>По избор (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени правата на стаята</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 changed the power level of %2 from %3 to %4</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени нивото на права на %2 от %3 на %4</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>%1 changed which servers are allowed in this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени кои сървъри са разрешени в тази стая</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 blocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 блокира сървъри, съответстващи на %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 unblocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 деблокира сървъри, съответстващи на %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 allowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 разреши сървъри, съответстващи на %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 disallowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 забрани сървъри, съответстващи на %2</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 allowed connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 разреши връзки от сървъри с буквален IP адрес</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 blocked connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 блокира връзки от сървъри с буквален IP адрес</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>%1 changed the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени аватара на стаята</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished">%1 включи шифроване от край до край</translation>
+        <translation>%1 активира шифроване от край до край</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени закачените съобщения</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the addresses for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени адресите за тази стая</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 replaced this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 замени тази стая</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 created and configured the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 създаде и конфигурира стаята</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the parent communities for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени родителските общности за тази стая</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed a child room of this space</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени дъщерна стая на това пространство</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 updated a moderation policy rule</source>
-        <translation type="unfinished"/>
+        <translation>%1 актуализира правило за политика на модериране</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed unknown state event %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 промени непознато събитие от тип %2</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation type="unfinished">Изтрито съобщение</translation>
+        <translation>Изтрито съобщение</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unable to decrypt message]</source>
-        <translation type="unfinished"/>
+        <translation>[Съобщението не може да се дешифрира]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Нечетимо събитие на съобщение]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable state event]</source>
-        <translation type="unfinished"/>
+        <translation>[Нечетимо събитие на състоянието]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Call invite]</source>
-        <translation type="unfinished"/>
+        <translation>[Покана за обаждане]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[RTC notification]</source>
-        <translation type="unfinished"/>
+        <translation>[RTC известие]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Poll]</source>
-        <translation type="unfinished"/>
+        <translation>[Анкета]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Sticker]</source>
-        <translation type="unfinished"/>
+        <translation>[Стикер]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions updated</source>
-        <translation type="unfinished"/>
+        <translation>Реакциите са актуализирани</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>[Unsupported message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Неподдържано събитие на съобщение]</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room state changed by %1</source>
-        <translation type="unfinished"/>
+        <translation>Състоянието на стаята е променено от %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invited you to join this room</source>
-        <translation type="unfinished"/>
+        <translation>Покани те да влезеш в тази стая</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+20"/>
         <source>[Membership change]</source>
-        <translation type="unfinished"/>
+        <translation>[Промяна на членство]</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+22"/>
         <source>[Room state changed]</source>
-        <translation type="unfinished"/>
+        <translation>[Промяна на състоянието на стаята]</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>[Profile updated]</source>
-        <translation type="unfinished"/>
+        <translation>[Профилът е актуализиран]</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Received malformed response. Make sure the homeserver domain is valid.</source>
-        <translation type="unfinished"/>
+        <translation>Получен е неправилен отговор. Увери се, че домейнът на homeserver-а е валиден.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Received malformed response.</source>
-        <translation type="unfinished"/>
+        <translation>Автоматичното откриване се провали. Получен е неправилно форматиран отговор.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Unknown error when requesting .well-known.</source>
-        <translation type="unfinished"/>
+        <translation>Автоматичното откриване се провали. Непозната грешка при заявка към .well-known.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation type="unfinished"/>
+        <translation>Необходимите крайни точки не бяха намерени. Вероятно не е Matrix сървър.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server does not require any authentication for registration. This is unexpected.</source>
-        <translation type="unfinished"/>
+        <translation>Сървърът не изисква удостоверяване за регистрация. Това е неочаквано.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server returned no registration flows. Registration may be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>Сървърът не върна схеми за регистрация. Регистрацията може да е забранена.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration is disabled on this server.</source>
-        <translation type="unfinished"/>
+        <translation>Регистрацията е забранена на този сървър.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration token cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>Токенът за регистрация не може да е празен</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>OAuth callback query cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>OAuth callback заявката не може да е празна</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Failed to contact the homeserver:</source>
-        <translation type="unfinished"/>
+        <translation>Неуспешно свързване с homeserver-а:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to discover Matrix login flows:</source>
-        <translation type="unfinished"/>
+        <translation>Неуспешно намиране на Matrix схеми за вход:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Registration failed:</source>
-        <translation type="unfinished"/>
+        <translation>Регистрацията е неуспешна:</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Autodiscovery failed while requesting .well-known:</source>
-        <translation type="unfinished"/>
+        <translation>Автоматичното откриване се провали при заявка към .well-known:</translation>
     </message>
 </context>
 <context>

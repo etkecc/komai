@@ -7757,530 +7757,530 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location filename="../../../src/timeline/StateEventText.cpp" line="+35"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (%2)</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>%1 joined the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 è entrato nella stanza</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 left the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha lasciato la stanza</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 was banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato bannato da %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato bannato da %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato bannato: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato bannato</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was unbanned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato sbannato da %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was unbanned</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato sbannato</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso da %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso da %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was invited by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato invitato da %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was invited</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato invitato</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked and banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso e bannato da %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso e bannato da %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso e bannato: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked and banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 è stato espulso e bannato</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 accepted the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha accettato l'invito</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 rejected the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha rifiutato l'invito</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's invite was revoked by %2</source>
-        <translation type="unfinished"/>
+        <translation>L'invito di %1 è stato revocato da %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's invite was revoked</source>
-        <translation type="unfinished"/>
+        <translation>L'invito di %1 è stato revocato</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 requested to join</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha richiesto di accedere</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's knock was accepted by %2</source>
-        <translation type="unfinished"/>
+        <translation>Il knock di %1 è stato accettato da %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's knock was accepted</source>
-        <translation type="unfinished"/>
+        <translation>Il knock di %1 è stato accettato</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 withdrew the join request</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha ritirato la richiesta di accesso</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's join request was denied by %2</source>
-        <translation type="unfinished"/>
+        <translation>La richiesta di accesso di %1 è stata negata da %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's join request was denied</source>
-        <translation type="unfinished"/>
+        <translation>La richiesta di accesso di %1 è stata negata</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Redacted membership event for %1</source>
-        <translation type="unfinished"/>
+        <translation>Evento di iscrizione eliminato per %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Membership updated for %1</source>
-        <translation type="unfinished"/>
+        <translation>Iscrizione aggiornata per %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>%1 is now known as %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ora si chiama %2</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 removed their display name</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha rimosso il proprio nome visualizzato</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 changed their avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato il proprio avatar</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 updated their profile</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha aggiornato il proprio profilo</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 changed the room name to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato il nome della stanza in: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the room name</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha rimosso il nome della stanza</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the topic to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato l'argomento in: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the topic</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha rimosso l'argomento</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room access rules to invite-only</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le regole di accesso alla stanza a solo su invito</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock-to-join</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le regole di accesso alla stanza a knock per accedere</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to public</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le regole di accesso alla stanza a pubblica</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to private</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le regole di accesso alla stanza a privata</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to restricted</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le regole di accesso alla stanza a limitato</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock (restricted)</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le regole di accesso alla stanza a knock (limitato)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le regole di accesso alla stanza</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room history visibility to visible since invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato la visibilità della cronologia della stanza a visibile dall'invito</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to visible since join</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato la visibilità della cronologia della stanza a visibile dall'accesso</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to shared</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato la visibilità della cronologia della stanza a condivisa</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to world-readable</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato la visibilità della cronologia della stanza a leggibile pubblicamente</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato la visibilità della cronologia della stanza</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room guest access to allowed</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato l'accesso degli ospiti alla stanza a consentito</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access to forbidden</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato l'accesso degli ospiti alla stanza a vietato</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato l'accesso degli ospiti alla stanza</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Default (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Predefinito (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished">Moderatore (%1)</translation>
+        <translation>Moderatore (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished">Amministratore (%1)</translation>
+        <translation>Amministratore (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished">Personalizzato (%1)</translation>
+        <translation>Personalizzato (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato i permessi della stanza</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 changed the power level of %2 from %3 to %4</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato il livello di potere di %2 da %3 a %4</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>%1 changed which servers are allowed in this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato quali server sono consentiti in questa stanza</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 blocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha bloccato i server corrispondenti a %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 unblocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha sbloccato i server corrispondenti a %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 allowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha consentito i server corrispondenti a %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 disallowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha vietato i server corrispondenti a %2</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 allowed connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha consentito connessioni da server IP letterali</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 blocked connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha bloccato connessioni da server IP letterali</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>%1 changed the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato l'avatar della stanza</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished">%1 ha attivato la crittografia end-to-end</translation>
+        <translation>%1 ha abilitato la crittografia end-to-end</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato i messaggi in evidenza</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the addresses for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato gli indirizzi per questa stanza</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 replaced this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha sostituito questa stanza</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 created and configured the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha creato e configurato la stanza</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the parent communities for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato le comunità genitore per questa stanza</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed a child room of this space</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato una stanza figlia di questo spazio</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 updated a moderation policy rule</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha aggiornato una regola di moderazione</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed unknown state event %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ha modificato un evento di stato sconosciuto %2</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation type="unfinished">Messaggio eliminato</translation>
+        <translation>Messaggio eliminato</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unable to decrypt message]</source>
-        <translation type="unfinished"/>
+        <translation>[Impossibile decifrare il messaggio]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Evento messaggio illeggibile]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable state event]</source>
-        <translation type="unfinished"/>
+        <translation>[Evento di stato illeggibile]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Call invite]</source>
-        <translation type="unfinished"/>
+        <translation>[Invito a chiamata]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[RTC notification]</source>
-        <translation type="unfinished"/>
+        <translation>[Notifica RTC]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Poll]</source>
-        <translation type="unfinished"/>
+        <translation>[Sondaggio]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Sticker]</source>
-        <translation type="unfinished"/>
+        <translation>[Sticker]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions updated</source>
-        <translation type="unfinished"/>
+        <translation>Reazioni aggiornate</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>[Unsupported message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Evento messaggio non supportato]</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room state changed by %1</source>
-        <translation type="unfinished"/>
+        <translation>Stato della stanza modificato da %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invited you to join this room</source>
-        <translation type="unfinished"/>
+        <translation>Ti ha invitato a entrare in questa stanza</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+20"/>
         <source>[Membership change]</source>
-        <translation type="unfinished"/>
+        <translation>[Cambio iscrizione]</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+22"/>
         <source>[Room state changed]</source>
-        <translation type="unfinished"/>
+        <translation>[Stato della stanza modificato]</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>[Profile updated]</source>
-        <translation type="unfinished"/>
+        <translation>[Profilo aggiornato]</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Received malformed response. Make sure the homeserver domain is valid.</source>
-        <translation type="unfinished"/>
+        <translation>Risposta non valida ricevuta. Assicurarsi che il dominio dell'homeserver sia valido.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Received malformed response.</source>
-        <translation type="unfinished"/>
+        <translation>Rilevamento automatico fallito. Risposta non valida ricevuta.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Unknown error when requesting .well-known.</source>
-        <translation type="unfinished"/>
+        <translation>Rilevamento automatico fallito. Errore sconosciuto durante la richiesta di .well-known.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation type="unfinished"/>
+        <translation>Gli endpoint richiesti non sono stati trovati. Probabilmente non è un server Matrix.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server does not require any authentication for registration. This is unexpected.</source>
-        <translation type="unfinished"/>
+        <translation>Il server non richiede alcuna autenticazione per la registrazione. Questo è inatteso.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server returned no registration flows. Registration may be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>Il server non ha restituito flussi di registrazione. La registrazione potrebbe essere disabilitata.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration is disabled on this server.</source>
-        <translation type="unfinished"/>
+        <translation>La registrazione è disabilitata su questo server.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration token cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>Il token di registrazione non può essere vuoto</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>OAuth callback query cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>La query di callback OAuth non può essere vuota</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Failed to contact the homeserver:</source>
-        <translation type="unfinished"/>
+        <translation>Impossibile contattare l'homeserver:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to discover Matrix login flows:</source>
-        <translation type="unfinished"/>
+        <translation>Impossibile rilevare i flussi di accesso Matrix:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Registration failed:</source>
-        <translation type="unfinished"/>
+        <translation>Registrazione non riuscita:</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Autodiscovery failed while requesting .well-known:</source>
-        <translation type="unfinished"/>
+        <translation>Rilevamento automatico fallito durante la richiesta di .well-known:</translation>
     </message>
 </context>
 <context>

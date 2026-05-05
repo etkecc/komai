@@ -7757,530 +7757,530 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location filename="../../../src/timeline/StateEventText.cpp" line="+35"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (%2)</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>%1 joined the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 is de kamer binnengegaan</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 left the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de kamer verlaten</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 was banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verbannen door %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verbannen door %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verbannen: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verbannen</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was unbanned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is ontbannen door %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was unbanned</source>
-        <translation type="unfinished"/>
+        <translation>%1 is ontbannen</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd door %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd door %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was invited by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is uitgenodigd door %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was invited</source>
-        <translation type="unfinished"/>
+        <translation>%1 is uitgenodigd</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked and banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd en verbannen door %2: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd en verbannen door %2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd en verbannen: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked and banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 is verwijderd en verbannen</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 accepted the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de uitnodiging geaccepteerd</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 rejected the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de uitnodiging geweigerd</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's invite was revoked by %2</source>
-        <translation type="unfinished"/>
+        <translation>De uitnodiging van %1 is ingetrokken door %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's invite was revoked</source>
-        <translation type="unfinished"/>
+        <translation>De uitnodiging van %1 is ingetrokken</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 requested to join</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft verzocht om toe te treden</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's knock was accepted by %2</source>
-        <translation type="unfinished"/>
+        <translation>Het klopverzoek van %1 is geaccepteerd door %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's knock was accepted</source>
-        <translation type="unfinished"/>
+        <translation>Het klopverzoek van %1 is geaccepteerd</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 withdrew the join request</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft het toetredingsverzoek ingetrokken</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's join request was denied by %2</source>
-        <translation type="unfinished"/>
+        <translation>Het toetredingsverzoek van %1 is geweigerd door %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's join request was denied</source>
-        <translation type="unfinished"/>
+        <translation>Het toetredingsverzoek van %1 is geweigerd</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Redacted membership event for %1</source>
-        <translation type="unfinished"/>
+        <translation>Lidmaatschapsgebeurtenis ingetrokken voor %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Membership updated for %1</source>
-        <translation type="unfinished"/>
+        <translation>Lidmaatschap bijgewerkt voor %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>%1 is now known as %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 is nu bekend als %2</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 removed their display name</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft hun weergavenaam verwijderd</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 changed their avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft hun avatar gewijzigd</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 updated their profile</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft hun profiel bijgewerkt</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 changed the room name to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de kamernaam gewijzigd naar: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the room name</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de kamernaam verwijderd</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the topic to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft het onderwerp gewijzigd naar: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the topic</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft het onderwerp verwijderd</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room access rules to invite-only</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de toegangsregels van de kamer gewijzigd naar alleen op uitnodiging</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock-to-join</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de toegangsregels van de kamer gewijzigd naar kloppen om toe te treden</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to public</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de toegangsregels van de kamer gewijzigd naar openbaar</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to private</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de toegangsregels van de kamer gewijzigd naar privé</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to restricted</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de toegangsregels van de kamer gewijzigd naar beperkt</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock (restricted)</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de toegangsregels van de kamer gewijzigd naar kloppen (beperkt)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de toegangsregels van de kamer gewijzigd</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room history visibility to visible since invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de zichtbaarheid van de kamergeschiedenis gewijzigd naar zichtbaar vanaf uitnodiging</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to visible since join</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de zichtbaarheid van de kamergeschiedenis gewijzigd naar zichtbaar vanaf deelname</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to shared</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de zichtbaarheid van de kamergeschiedenis gewijzigd naar gedeeld</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to world-readable</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de zichtbaarheid van de kamergeschiedenis gewijzigd naar wereldwijd leesbaar</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de zichtbaarheid van de kamergeschiedenis gewijzigd</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room guest access to allowed</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de gasttoegang van de kamer gewijzigd naar toegestaan</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access to forbidden</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de gasttoegang van de kamer gewijzigd naar verboden</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de gasttoegang van de kamer gewijzigd</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Default (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Standaard (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished">Moderator (%1)</translation>
+        <translation>Moderator (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished">Beheerder (%1)</translation>
+        <translation>Beheerder (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished">Aangepast (%1)</translation>
+        <translation>Aangepast (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de kamermachtigingen gewijzigd</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 changed the power level of %2 from %3 to %4</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft het machtsniveau van %2 gewijzigd van %3 naar %4</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>%1 changed which servers are allowed in this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft gewijzigd welke servers zijn toegestaan in deze kamer</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 blocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft servers die overeenkomen met %2 geblokkeerd</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 unblocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft servers die overeenkomen met %2 gedeblokkeerd</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 allowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft servers die overeenkomen met %2 toegestaan</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 disallowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft servers die overeenkomen met %2 niet meer toegestaan</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 allowed connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft verbindingen van IP-letterlijke servers toegestaan</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 blocked connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft verbindingen van IP-letterlijke servers geblokkeerd</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>%1 changed the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de avatar van de kamer gewijzigd</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished">%1 heeft eind-tot-eind versleuteling geactiveerd</translation>
+        <translation>%1 heeft end-to-end-versleuteling ingeschakeld</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de vastgezette berichten gewijzigd</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the addresses for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de adressen voor deze kamer gewijzigd</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 replaced this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft deze kamer vervangen</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 created and configured the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de kamer aangemaakt en geconfigureerd</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the parent communities for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft de bovenliggende gemeenschappen voor deze kamer gewijzigd</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed a child room of this space</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft een onderliggende kamer van deze ruimte gewijzigd</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 updated a moderation policy rule</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft een moderatiebeleidsregel bijgewerkt</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed unknown state event %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 heeft onbekende statusgebeurtenis %2 gewijzigd</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation type="unfinished">Ingetrokken bericht</translation>
+        <translation>Verwijderd bericht</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unable to decrypt message]</source>
-        <translation type="unfinished"/>
+        <translation>[Kan bericht niet ontsleutelen]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Onleesbare berichtgebeurtenis]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable state event]</source>
-        <translation type="unfinished"/>
+        <translation>[Onleesbare statusgebeurtenis]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Call invite]</source>
-        <translation type="unfinished"/>
+        <translation>[Beluitnodiging]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[RTC notification]</source>
-        <translation type="unfinished"/>
+        <translation>[RTC-melding]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Poll]</source>
-        <translation type="unfinished"/>
+        <translation>[Peiling]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Sticker]</source>
-        <translation type="unfinished"/>
+        <translation>[Sticker]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions updated</source>
-        <translation type="unfinished"/>
+        <translation>Reacties bijgewerkt</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>[Unsupported message event]</source>
-        <translation type="unfinished"/>
+        <translation>[Niet-ondersteunde berichtgebeurtenis]</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room state changed by %1</source>
-        <translation type="unfinished"/>
+        <translation>Kamerstatus gewijzigd door %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invited you to join this room</source>
-        <translation type="unfinished"/>
+        <translation>Uitgenodigd om deze kamer binnen te gaan</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+20"/>
         <source>[Membership change]</source>
-        <translation type="unfinished"/>
+        <translation>[Lidmaatschapswijziging]</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+22"/>
         <source>[Room state changed]</source>
-        <translation type="unfinished"/>
+        <translation>[Kamerstatus gewijzigd]</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>[Profile updated]</source>
-        <translation type="unfinished"/>
+        <translation>[Profiel bijgewerkt]</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Received malformed response. Make sure the homeserver domain is valid.</source>
-        <translation type="unfinished"/>
+        <translation>Ongeldig antwoord ontvangen. Controleer of het homeserver-domein geldig is.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Received malformed response.</source>
-        <translation type="unfinished"/>
+        <translation>Automatische detectie mislukt. Ongeldig antwoord ontvangen.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Unknown error when requesting .well-known.</source>
-        <translation type="unfinished"/>
+        <translation>Automatische detectie mislukt. Onbekende fout bij het opvragen van .well-known.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation type="unfinished"/>
+        <translation>De vereiste eindpunten zijn niet gevonden. Mogelijk geen Matrix-server.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server does not require any authentication for registration. This is unexpected.</source>
-        <translation type="unfinished"/>
+        <translation>De server vereist geen authenticatie voor registratie. Dit is onverwacht.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server returned no registration flows. Registration may be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>De server heeft geen registratiestromen teruggegeven. Registratie is mogelijk uitgeschakeld.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration is disabled on this server.</source>
-        <translation type="unfinished"/>
+        <translation>Registratie is uitgeschakeld op deze server.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration token cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>Registratietoken mag niet leeg zijn</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>OAuth callback query cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>OAuth callback-query mag niet leeg zijn</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Failed to contact the homeserver:</source>
-        <translation type="unfinished"/>
+        <translation>Kan de homeserver niet bereiken:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to discover Matrix login flows:</source>
-        <translation type="unfinished"/>
+        <translation>Kan de Matrix-inlogstromen niet ontdekken:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Registration failed:</source>
-        <translation type="unfinished"/>
+        <translation>Registratie mislukt:</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Autodiscovery failed while requesting .well-known:</source>
-        <translation type="unfinished"/>
+        <translation>Automatische detectie mislukt bij het opvragen van .well-known:</translation>
     </message>
 </context>
 <context>

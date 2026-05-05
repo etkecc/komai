@@ -7757,530 +7757,530 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/timeline/StateEventText.cpp" line="+35"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (%2)</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>%1 joined the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയിൽ ചേർന്നു</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 left the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറി വിട്ടു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 was banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ആൽ നിരോധിക്കപ്പെട്ടു: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ആൽ നിരോധിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 നിരോധിക്കപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 നിരോധിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was unbanned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ നിരോധനം %2 നീക്കി</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was unbanned</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ നിരോധനം നീക്കി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ആൽ പുറത്താക്കപ്പെട്ടു: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ആൽ പുറത്താക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 പുറത്താക്കപ്പെട്ടു: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked</source>
-        <translation type="unfinished"/>
+        <translation>%1 പുറത്താക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was invited by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ആൽ ക്ഷണിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was invited</source>
-        <translation type="unfinished"/>
+        <translation>%1 ക്ഷണിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 was kicked and banned by %2: %3</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ആൽ പുറത്താക്കുകയും നിരോധിക്കുകയും ചെയ്തു: %3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ആൽ പുറത്താക്കുകയും നിരോധിക്കുകയും ചെയ്തു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 was kicked and banned: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 പുറത്താക്കുകയും നിരോധിക്കുകയും ചെയ്തു: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 was kicked and banned</source>
-        <translation type="unfinished"/>
+        <translation>%1 പുറത്താക്കുകയും നിരോധിക്കുകയും ചെയ്തു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 accepted the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 ക്ഷണം സ്വീകരിച്ചു</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 rejected the invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 ക്ഷണം നിരസിച്ചു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's invite was revoked by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ ക്ഷണം %2 റദ്ദാക്കി</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's invite was revoked</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ ക്ഷണം റദ്ദാക്കി</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 requested to join</source>
-        <translation type="unfinished"/>
+        <translation>%1 ചേരാൻ അഭ്യർത്ഥിച്ചു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's knock was accepted by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ നോക്ക് %2 അംഗീകരിച്ചു</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's knock was accepted</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ നോക്ക് അംഗീകരിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 withdrew the join request</source>
-        <translation type="unfinished"/>
+        <translation>%1 ചേരൽ അഭ്യർത്ഥന പിൻവലിച്ചു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1's join request was denied by %2</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ ചേരൽ അഭ്യർത്ഥന %2 നിരസിച്ചു</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1's join request was denied</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ ചേരൽ അഭ്യർത്ഥന നിരസിക്കപ്പെട്ടു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Redacted membership event for %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ അംഗത്വ ഇവന്റ് നീക്കം ചെയ്തു</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Membership updated for %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ന്റെ അംഗത്വം അപ്ഡേറ്റ് ചെയ്തു</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>%1 is now known as %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഇപ്പോൾ %2 എന്ന് അറിയപ്പെടുന്നു</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 removed their display name</source>
-        <translation type="unfinished"/>
+        <translation>%1 അവരുടെ ഡിസ്പ്ലേ നാമം നീക്കം ചെയ്തു</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 changed their avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 അവരുടെ അവതാർ മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 updated their profile</source>
-        <translation type="unfinished"/>
+        <translation>%1 അവരുടെ പ്രൊഫൈൽ അപ്ഡേറ്റ് ചെയ്തു</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>%1 changed the room name to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ പേര് ഇങ്ങനെ മാറ്റി: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the room name</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ പേര് നീക്കം ചെയ്തു</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the topic to: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 വിഷയം ഇങ്ങനെ മാറ്റി: %2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 removed the topic</source>
-        <translation type="unfinished"/>
+        <translation>%1 വിഷയം നീക്കം ചെയ്തു</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room access rules to invite-only</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ആക്സസ് നിയമങ്ങൾ ക്ഷണം-മാത്രം ആക്കി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock-to-join</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ആക്സസ് നിയമങ്ങൾ ചേരാൻ-നോക്ക് ആക്കി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to public</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ആക്സസ് നിയമങ്ങൾ പൊതു ആക്കി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to private</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ആക്സസ് നിയമങ്ങൾ സ്വകാര്യം ആക്കി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to restricted</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ആക്സസ് നിയമങ്ങൾ നിയന്ത്രിതം ആക്കി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules to knock (restricted)</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ആക്സസ് നിയമങ്ങൾ നോക്ക് (നിയന്ത്രിത) ആക്കി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room access rules</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ആക്സസ് നിയമങ്ങൾ മാറ്റി</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room history visibility to visible since invite</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ചരിത്ര ദൃശ്യത ക്ഷണം മുതൽ ദൃശ്യമായതായി മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to visible since join</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ചരിത്ര ദൃശ്യത ചേരൽ മുതൽ ദൃശ്യമായതായി മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to shared</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ചരിത്ര ദൃശ്യത പങ്കിട്ടതായി മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility to world-readable</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ചരിത്ര ദൃശ്യത ലോകത്തിന് വായിക്കാവുന്നതായി മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room history visibility</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ചരിത്ര ദൃശ്യത മാറ്റി</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room guest access to allowed</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ഗസ്റ്റ് ആക്സസ് അനുവദിക്കപ്പെട്ടതായി മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access to forbidden</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ഗസ്റ്റ് ആക്സസ് നിരോധിക്കപ്പെട്ടതായി മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the room guest access</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ ഗസ്റ്റ് ആക്സസ് മാറ്റി</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Default (%1)</source>
-        <translation type="unfinished"/>
+        <translation>ഡിഫോൾട്ട് (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation type="unfinished">മോഡറേറ്റർ (%1)</translation>
+        <translation>മോഡറേറ്റർ (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation type="unfinished">അഡ്മിനിസ്ട്രേറ്റർ (%1)</translation>
+        <translation>അഡ്മിനിസ്ട്രേറ്റർ (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation type="unfinished">ഇഷ്ടാനുസൃതം (%1)</translation>
+        <translation>ഇഷ്ടാനുസൃതം (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the room permissions</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ അനുമതികൾ മാറ്റി</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 changed the power level of %2 from %3 to %4</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2-ന്റെ പവർ ലെവൽ %3-ൽ നിന്ന് %4 ആക്കി</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>%1 changed which servers are allowed in this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഈ മുറിയിൽ അനുവദനീയമായ സെർവറുകൾ മാറ്റി</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 blocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 ആയി പൊരുത്തപ്പെടുന്ന സെർവറുകൾ തടഞ്ഞു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 unblocked servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 ആയി പൊരുത്തപ്പെടുന്ന സെർവറുകൾ അൺബ്ലോക്ക് ചെയ്തു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 allowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 ആയി പൊരുത്തപ്പെടുന്ന സെർവറുകൾ അനുവദിച്ചു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 disallowed servers matching %2</source>
-        <translation type="unfinished"/>
+        <translation>%1, %2 ആയി പൊരുത്തപ്പെടുന്ന സെർവറുകൾ അനുവദിച്ചില്ല</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>%1 allowed connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 IP ലിറ്ററൽ സെർവറുകളിൽ നിന്ന് കണക്ഷനുകൾ അനുവദിച്ചു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 blocked connections from IP literal servers</source>
-        <translation type="unfinished"/>
+        <translation>%1 IP ലിറ്ററൽ സെർവറുകളിൽ നിന്ന് കണക്ഷനുകൾ തടഞ്ഞു</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>%1 changed the room avatar</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ അവതാർ മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation type="unfinished">%1 എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാക്കി</translation>
+        <translation>%1 എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാക്കി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the pinned messages</source>
-        <translation type="unfinished"/>
+        <translation>%1 പിൻ ചെയ്ത സന്ദേശങ്ങൾ മാറ്റി</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>%1 changed the addresses for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഈ മുറിയുടെ വിലാസങ്ങൾ മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 replaced this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഈ മുറി മാറ്റിസ്ഥാപിച്ചു</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 created and configured the room</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറി സൃഷ്ടിച്ച് കോൺഫിഗർ ചെയ്തു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed the parent communities for this room</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഈ മുറിയുടെ പാരന്റ് കമ്മ്യൂണിറ്റികൾ മാറ്റി</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed a child room of this space</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഈ സ്പേസിന്റെ ഒരു ചൈൽഡ് മുറി മാറ്റി</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 updated a moderation policy rule</source>
-        <translation type="unfinished"/>
+        <translation>%1 ഒരു മോഡറേഷൻ നയ നിയമം അപ്ഡേറ്റ് ചെയ്തു</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 changed unknown state event %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 അജ്ഞാത സ്റ്റേറ്റ് ഇവന്റ് %2 മാറ്റി</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation type="unfinished">നീക്കം ചെയ്ത സന്ദേശം</translation>
+        <translation>നീക്കം ചെയ്ത സന്ദേശം</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unable to decrypt message]</source>
-        <translation type="unfinished"/>
+        <translation>[സന്ദേശം ഡീക്രിപ്റ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable message event]</source>
-        <translation type="unfinished"/>
+        <translation>[വായിക്കാനാകാത്ത സന്ദേശ ഇവന്റ്]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Unreadable state event]</source>
-        <translation type="unfinished"/>
+        <translation>[വായിക്കാനാകാത്ത സ്റ്റേറ്റ് ഇവന്റ്]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Call invite]</source>
-        <translation type="unfinished"/>
+        <translation>[കോൾ ക്ഷണം]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[RTC notification]</source>
-        <translation type="unfinished"/>
+        <translation>[RTC അറിയിപ്പ്]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Poll]</source>
-        <translation type="unfinished"/>
+        <translation>[വോട്ടെടുപ്പ്]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>[Sticker]</source>
-        <translation type="unfinished"/>
+        <translation>[സ്റ്റിക്കർ]</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Reactions updated</source>
-        <translation type="unfinished"/>
+        <translation>പ്രതിക്രിയകൾ അപ്ഡേറ്റ് ചെയ്തു</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+2"/>
         <source>[Unsupported message event]</source>
-        <translation type="unfinished"/>
+        <translation>[പിന്തുണയ്ക്കാത്ത സന്ദേശ ഇവന്റ്]</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Room state changed by %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 മുറിയുടെ അവസ്ഥ മാറ്റി</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Invited you to join this room</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ ചേരാൻ ക്ഷണിച്ചു</translation>
     </message>
     <message>
         <location line="+11"/>
         <location line="+20"/>
         <source>[Membership change]</source>
-        <translation type="unfinished"/>
+        <translation>[അംഗത്വ മാറ്റം]</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+22"/>
         <source>[Room state changed]</source>
-        <translation type="unfinished"/>
+        <translation>[മുറിയുടെ അവസ്ഥ മാറ്റി]</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>[Profile updated]</source>
-        <translation type="unfinished"/>
+        <translation>[പ്രൊഫൈൽ അപ്ഡേറ്റ് ചെയ്തു]</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Received malformed response. Make sure the homeserver domain is valid.</source>
-        <translation type="unfinished"/>
+        <translation>തകരാറുള്ള പ്രതികരണം ലഭിച്ചു. ഹോംസർവർ ഡൊമെയ്ൻ സാധുവാണെന്ന് ഉറപ്പാക്കുക.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Received malformed response.</source>
-        <translation type="unfinished"/>
+        <translation>ഓട്ടോഡിസ്കവറി പരാജയപ്പെട്ടു. തെറ്റായ പ്രതികരണം ലഭിച്ചു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Autodiscovery failed. Unknown error when requesting .well-known.</source>
-        <translation type="unfinished"/>
+        <translation>ഓട്ടോഡിസ്കവറി പരാജയപ്പെട്ടു. .well-known അഭ്യർത്ഥിക്കുമ്പോൾ അജ്ഞാത പിശക്.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation type="unfinished"/>
+        <translation>ആവശ്യമായ എൻഡ്‌പോയിന്റുകൾ കണ്ടെത്തിയില്ല. ഒരു Matrix സർവർ ആയിരിക്കണമെന്നില്ല.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server does not require any authentication for registration. This is unexpected.</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്ട്രേഷനായി സർവർ ഒരു ആധികാരികതയും ആവശ്യപ്പെടുന്നില്ല. ഇത് അപ്രതീക്ഷിതമാണ്.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Server returned no registration flows. Registration may be disabled.</source>
-        <translation type="unfinished"/>
+        <translation>സർവർ ഒരു രജിസ്ട്രേഷൻ ഫ്ലോയും തിരിച്ചയച്ചില്ല. രജിസ്ട്രേഷൻ പ്രവർത്തനക്ഷമമല്ലായിരിക്കാം.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration is disabled on this server.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ സർവറിൽ രജിസ്ട്രേഷൻ പ്രവർത്തനക്ഷമമല്ല.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Registration token cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്ട്രേഷൻ ടോക്കൺ ശൂന്യമാകരുത്</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>OAuth callback query cannot be empty</source>
-        <translation type="unfinished"/>
+        <translation>OAuth കോൾബാക്ക് ക്വറി ശൂന്യമാകരുത്</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Failed to contact the homeserver:</source>
-        <translation type="unfinished"/>
+        <translation>ഹോംസർവറുമായി ബന്ധപ്പെടുന്നതിൽ പരാജയപ്പെട്ടു:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Failed to discover Matrix login flows:</source>
-        <translation type="unfinished"/>
+        <translation>Matrix ലോഗിൻ ഫ്ലോകൾ കണ്ടെത്തുന്നതിൽ പരാജയപ്പെട്ടു:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Registration failed:</source>
-        <translation type="unfinished"/>
+        <translation>രജിസ്ട്രേഷൻ പരാജയപ്പെട്ടു:</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Autodiscovery failed while requesting .well-known:</source>
-        <translation type="unfinished"/>
+        <translation>.well-known അഭ്യർത്ഥിക്കുമ്പോൾ ഓട്ടോഡിസ്കവറി പരാജയപ്പെട്ടു:</translation>
     </message>
 </context>
 <context>

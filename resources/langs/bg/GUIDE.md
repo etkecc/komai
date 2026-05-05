@@ -17,9 +17,11 @@ Use these consistently — do not switch between synonyms from one string to the
 | thread | **тред** |
 | direct message, DM | **директно съобщение** |
 | invite (verb / noun) | **поканя** / **покана** |
-| join (a room) | **влезна в** |
+| join (a room) | **вляза в** |
 | leave (a room) | **напусна** |
 | knock (request access to a private room) | **почукам** |
+| ban (verb) | **банна** |
+| unban (verb) | **разбанна** |
 | reaction | **реакция** |
 | redact (= delete a message) | **изтрия** |
 | encryption | **шифроване** |
@@ -32,6 +34,13 @@ Use these consistently — do not switch between synonyms from one string to the
 | avatar | **аватар** |
 
 **"Verify" is a security operation** in E2EE/device contexts (cryptographic check), not a generic "confirm". Use **верифицирам / верификация** consistently — do not substitute **потвърдя** ("confirm") or **проверя** ("check"), even though both might read more naturally in isolation. The distinction matters: a button that triggers a key-verification flow is not the same as a button that confirms a dialog.
+
+**Verb-form gotchas:**
+
+- "join / enter": use **влезе**, **влезеш**. Not **влезне**, **влезнеш**. Same for "exit / leave": **излезе**, **излезеш**, not **излезне**, **излезнеш**.
+- "was banned / unbanned": use **беше баннат/а** / **беше разбаннат/а**. Not **беше банен/а** / **беше разбанен/а**.
+
+Examples: `%1 joined the room` → `%1 влезе в стаята`. `Invited you to join this room` → `Покани те да влезеш в тази стая`. `%1 was banned` → `%1 беше баннат/а`.
 
 **"Thread" stays as тред**, the term Bulgarian users encounter in Slack / Discord / Twitter / Reddit. Do not substitute **тема** (which collides with Matrix's "room topic" — a separate, separately-translated feature) or **нишка** (computing-thread / sewing-thread connotation).
 

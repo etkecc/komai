@@ -14,6 +14,7 @@
 
 - 👥 [Application Profiles](features/application-profiles.md) -- profile switcher, create/launch/delete workflows
 - 🤖 [Automations](features/automations/README.md) -- MCP, CLI, and D-Bus surfaces for scripts, desktop tools, and AI hosts
+- 📞 [Calls](features/calls.md) -- what works (voice 1:1) and doesn't (video / screen-share / Element Call) today; disabled by default
 - 🏘️ [Communities Sidebar](features/communities-sidebar.md) -- filter your Matrix rooms by various builtin filters and Matrix Spaces
 - 😀 [Emoji Search and Picker](features/emojis.md) -- localized emoji discovery, aliases, and trigger behavior
 - ⌨️ [Keyboard Shortcuts](features/keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts

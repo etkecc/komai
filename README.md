@@ -25,9 +25,9 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 ## 🌟 Features
 
 - 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime)
-- 📞 Legacy Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 [Attachments](docs/user-guide/features/attachments.md) (file, image, audio) with a [built-in media viewer](docs/user-guide/features/media-playback.md) featuring gallery navigation and in-app video playback
-- 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to record speech and have it transcribed into the composer; works with OpenAI cloud or any OpenAI-compatible local server (whisper.cpp, Lemonade, LocalAI)
+- 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to record speech and have it transcribed into the composer; works with OpenAI cloud or any OpenAI-compatible local server
+- 📞 [Calls](docs/user-guide/features/calls.md) -- legacy 1:1 voice works; video and screen-share have known send-side bugs; no [Element Call](https://github.com/element-hq/element-call) support yet. Disabled by default
 - 😀 [Emoji](docs/user-guide/features/emojis.md) messages (with custom emojis). Support for richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃)
 - 💬 Replies, [Discord](https://discord.com/)-style [threads](docs/user-guide/features/threads.md), and message forwarding
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)

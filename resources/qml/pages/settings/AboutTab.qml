@@ -34,7 +34,8 @@ SettingsContent {
             Text {
                 Layout.alignment: Qt.AlignHCenter
                 textFormat: Text.RichText
-                text: "Komai (<a href=\"" + aboutTab.komaiMeaningUrl + "\">こまい</a>)"
+                text: "<style>a { color: " + palette.highlight + "; text-decoration: none; }</style>" +
+                      "Komai (<a href=\"" + aboutTab.komaiMeaningUrl + "\">こまい</a>)"
                 color: palette.text
                 font.pointSize: Settings.uiFontSizePt * 2
                 font.bold: true

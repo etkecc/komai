@@ -12010,12 +12010,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
         <source>Settings</source>
         <translation>Inställningar</translation>
     </message>
     <message>
-        <location line="-287"/>
+        <location line="-292"/>
         <source>Look &amp; Feel</source>
         <translation>Utseende &amp; känsla</translation>
     </message>
@@ -12060,7 +12060,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Om Komai</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+229"/>
         <source>Available after login</source>
         <translation>Tillgänglig efter inloggning</translation>
     </message>
@@ -12070,7 +12070,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Sök inställningar…</translation>
     </message>
     <message>
-        <location line="-294"/>
+        <location line="-299"/>
         <source>Calls</source>
         <translation>Samtal</translation>
     </message>
@@ -12081,7 +12081,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="-8"/>
-        <location line="+86"/>
+        <location line="+91"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Tillbaka</translation>

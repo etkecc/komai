@@ -12010,12 +12010,12 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location line="-287"/>
+        <location line="-292"/>
         <source>Look &amp; Feel</source>
         <translation>Apparence</translation>
     </message>
@@ -12060,7 +12060,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>À propos de Komai</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+229"/>
         <source>Available after login</source>
         <translation>Disponible après connexion</translation>
     </message>
@@ -12070,7 +12070,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Rechercher des paramètres…</translation>
     </message>
     <message>
-        <location line="-294"/>
+        <location line="-299"/>
         <source>Calls</source>
         <translation>Appels</translation>
     </message>
@@ -12081,7 +12081,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="-8"/>
-        <location line="+86"/>
+        <location line="+91"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Retour</translation>

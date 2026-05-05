@@ -12010,12 +12010,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location line="-287"/>
+        <location line="-292"/>
         <source>Look &amp; Feel</source>
         <translation>Aparença</translation>
     </message>
@@ -12060,7 +12060,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Sobre el Komai</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+229"/>
         <source>Available after login</source>
         <translation>Disponible després d'iniciar sessió</translation>
     </message>
@@ -12070,7 +12070,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Cerca la configuració…</translation>
     </message>
     <message>
-        <location line="-294"/>
+        <location line="-299"/>
         <source>Calls</source>
         <translation>Trucades</translation>
     </message>
@@ -12081,7 +12081,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="-8"/>
-        <location line="+86"/>
+        <location line="+91"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Enrere</translation>

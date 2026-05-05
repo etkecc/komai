@@ -12026,12 +12026,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location line="-287"/>
+        <location line="-292"/>
         <source>Look &amp; Feel</source>
         <translation>Vzhled &amp; chování</translation>
     </message>
@@ -12076,7 +12076,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>O Komai</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+229"/>
         <source>Available after login</source>
         <translation>Dostupné po přihlášení</translation>
     </message>
@@ -12086,7 +12086,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Hledat nastavení…</translation>
     </message>
     <message>
-        <location line="-294"/>
+        <location line="-299"/>
         <source>Calls</source>
         <translation>Hovory</translation>
     </message>
@@ -12097,7 +12097,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="-8"/>
-        <location line="+86"/>
+        <location line="+91"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Zpět</translation>

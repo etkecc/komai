@@ -12011,13 +12011,13 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <name>UserSettingsPage</name>
     <message>
         <location filename="../../qml/pages/UserSettingsPage.qml" line="+29"/>
-        <location line="+86"/>
+        <location line="+91"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location line="-94"/>
+        <location line="-99"/>
         <source>Look &amp; Feel</source>
         <translation>Вид и усещане</translation>
     </message>
@@ -12072,7 +12072,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>За Komai</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+229"/>
         <source>Available after login</source>
         <translation>Налично след вход</translation>
     </message>

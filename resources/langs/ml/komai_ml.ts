@@ -12010,12 +12010,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+323"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
         <source>Settings</source>
         <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
-        <location line="-287"/>
+        <location line="-292"/>
         <source>Look &amp; Feel</source>
         <translation>ദൃശ്യരൂപം &amp; അനുഭൂതി</translation>
     </message>
@@ -12060,7 +12060,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>Komai-യെ കുറിച്ച്</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+229"/>
         <source>Available after login</source>
         <translation>ലോഗിൻ ചെയ്ത ശേഷം ലഭ്യമാകും</translation>
     </message>
@@ -12070,7 +12070,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ക്രമീകരണങ്ങൾ തിരയുക…</translation>
     </message>
     <message>
-        <location line="-294"/>
+        <location line="-299"/>
         <source>Calls</source>
         <translation>കോളുകൾ</translation>
     </message>
@@ -12081,7 +12081,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="-8"/>
-        <location line="+86"/>
+        <location line="+91"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>തിരികെ</translation>

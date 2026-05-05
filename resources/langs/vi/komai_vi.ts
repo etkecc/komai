@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Toàn màn hình</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Thiếu thành phần GStreamer: pipewiresrc -- hãy cài đặt gst-plugin-pipewire (hoặc gstreamer1.0-pipewire trên Debian/Ubuntu).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6931,7 +6936,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Chia sẻ màn hình?</translation>
     </message>
     <message>
         <location line="+21"/>

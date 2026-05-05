@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Целият екран</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Липсващ GStreamer елемент: pipewiresrc -- инсталирайте gst-plugin-pipewire (или gstreamer1.0-pipewire на Debian/Ubuntu).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6940,7 +6945,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Споделяне на работния плот?</translation>
     </message>
     <message>
         <location line="+21"/>

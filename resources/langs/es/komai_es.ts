@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Pantalla completa</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Falta el elemento de GStreamer: pipewiresrc -- instala gst-plugin-pipewire (o gstreamer1.0-pipewire en Debian/Ubuntu).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6943,7 +6948,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>¿Compartir el escritorio?</translation>
     </message>
     <message>
         <location line="+21"/>

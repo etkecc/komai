@@ -785,6 +785,14 @@ WebRTCSession::havePlugins(bool isVideo,
 
     if (!haveVoicePlugins_ || (isVideo && !haveVideoPlugins_) ||
         (isScreenshare && !haveScreensharePlugins)) {
+        // Trim trailing accumulator space so the install-hint suffix reads
+        // cleanly when appended.
+        while (!strError.empty() && strError.back() == ' ')
+            strError.pop_back();
+        if (strError.find("pipewiresrc") != std::string::npos) {
+            strError += " -- install gst-plugin-pipewire "
+                        "(or gstreamer1.0-pipewire on Debian/Ubuntu).";
+        }
         komai::logging::ui()->error(strError);
         if (errorMessage)
             *errorMessage = strError;

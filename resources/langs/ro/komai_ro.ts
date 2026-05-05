@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Ecran întreg</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Element GStreamer lipsă: pipewiresrc -- instalați gst-plugin-pipewire (sau gstreamer1.0-pipewire pe Debian/Ubuntu).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6949,7 +6954,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Partajați desktopul?</translation>
     </message>
     <message>
         <location line="+21"/>

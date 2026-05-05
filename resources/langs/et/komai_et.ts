@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Terve ekraan</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Puudub GStreamer'i element: pipewiresrc -- installi gst-plugin-pipewire (või gstreamer1.0-pipewire Debian/Ubuntu puhul).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6940,7 +6945,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Kas jagada töölaud?</translation>
     </message>
     <message>
         <location line="+21"/>

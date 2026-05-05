@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Bütün ekran</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Eksik GStreamer öğesi: pipewiresrc -- gst-plugin-pipewire'ı yükleyin (veya Debian/Ubuntu'da gstreamer1.0-pipewire).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6931,7 +6936,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Masaüstünü paylaş?</translation>
     </message>
     <message>
         <location line="+21"/>

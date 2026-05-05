@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Semua layar</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Elemen GStreamer tidak ditemukan: pipewiresrc -- instal gst-plugin-pipewire (atau gstreamer1.0-pipewire di Debian/Ubuntu).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6931,7 +6936,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Bagikan desktop?</translation>
     </message>
     <message>
         <location line="+21"/>

@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Ceo ekran</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Nedostaje GStreamer element: pipewiresrc -- instalirajte gst-plugin-pipewire (ili gstreamer1.0-pipewire na Debian/Ubuntu).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6949,7 +6954,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Podeliti radnu površinu?</translation>
     </message>
     <message>
         <location line="+21"/>

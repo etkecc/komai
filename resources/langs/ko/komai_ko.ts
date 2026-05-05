@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>전체 화면</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>GStreamer 요소가 없습니다: pipewiresrc -- gst-plugin-pipewire를 설치하세요 (Debian/Ubuntu의 경우 gstreamer1.0-pipewire).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6931,7 +6936,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>데스크톱을 공유하시겠습니까?</translation>
     </message>
     <message>
         <location line="+21"/>

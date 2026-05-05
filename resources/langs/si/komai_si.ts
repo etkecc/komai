@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>සම්පූර්ණ තිරය</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>GStreamer මූලාංගය නොමැත: pipewiresrc -- gst-plugin-pipewire ස්ථාපනය කරන්න (හෝ Debian/Ubuntu හිදී gstreamer1.0-pipewire).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6940,7 +6945,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>ඩෙස්ක්ටොප් බෙදා ගන්නද?</translation>
     </message>
     <message>
         <location line="+21"/>

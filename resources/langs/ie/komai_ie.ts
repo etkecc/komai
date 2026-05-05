@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Toti li ecran</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation>Elemento GStreamer mancant: pipewiresrc -- installar gst-plugin-pipewire (o gstreamer1.0-pipewire sur Debian/Ubuntu).</translation>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>
@@ -6940,7 +6945,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="+1"/>
         <source>Share desktop?</source>
-        <translation type="unfinished"/>
+        <translation>Parteager le bureau?</translation>
     </message>
     <message>
         <location line="+21"/>

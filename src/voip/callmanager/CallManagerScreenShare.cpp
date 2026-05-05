@@ -315,6 +315,9 @@ CallManager::previewWindow(unsigned int index) const
         if (!pipewiresrc) {
             komai::logging::ui()->error(
               "Failed to create pipewiresrc -- gst-plugin-pipewire missing?");
+            emit ChatPage::instance()->showNotification(
+              tr("Missing GStreamer element: pipewiresrc -- install "
+                 "gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu)."));
             gst_object_unref(pipe_);
             pipe_ = nullptr;
             return;

@@ -541,6 +541,11 @@
         <source>Entire screen</source>
         <translation>Entire screen</translation>
     </message>
+    <message>
+        <location line="+176"/>
+        <source>Missing GStreamer element: pipewiresrc -- install gst-plugin-pipewire (or gstreamer1.0-pipewire on Debian/Ubuntu).</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ChatPage</name>

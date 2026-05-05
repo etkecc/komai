@@ -1040,9 +1040,14 @@ Rectangle {
                     return hasVerticalOverflow;
                 }
             }
-            readonly property real reservedScrollbarWidth: scrollbarVisible
-                ? Math.max(ScrollBar.vertical.width, ScrollBar.vertical.implicitWidth)
-                : 0
+            // Reserve based on the user's policy (a static setting), not on the
+            // live `scrollbarVisible` — that one feeds back through the
+            // TextArea's padding → contentHeight → hasVerticalOverflow and
+            // closes a binding loop. For WhenNeeded we reserve unconditionally
+            // so the textarea width stays stable as the user types.
+            readonly property real reservedScrollbarWidth: scrollbarPolicy === Settings.ScrollbarPolicy.Never
+                ? 0
+                : Math.max(ScrollBar.vertical.width, ScrollBar.vertical.implicitWidth)
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.maximumHeight: Window.height / 4

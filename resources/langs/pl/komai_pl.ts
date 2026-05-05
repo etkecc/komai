@@ -3539,7 +3539,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1068"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1073"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Napisz wiadomość lub naciśnij ↑, aby wybrać wiadomości.</translation>
     </message>

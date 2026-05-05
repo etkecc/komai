@@ -3539,7 +3539,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1068"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1073"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Napiši poruku, ili pritisni ↑ da izabereš poruke.</translation>
     </message>

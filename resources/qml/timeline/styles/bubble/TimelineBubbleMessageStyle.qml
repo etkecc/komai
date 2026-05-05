@@ -175,6 +175,7 @@ TimelineMessageStyleBase {
                 parentWidth: wrapper.width
                 roomRef: wrapper.roomForColorCoding
                 colorRoomId: wrapper.roomIdForColorCoding
+                isPreview: !!(wrapper.previewData && wrapper.previewData.room)
                 previousMessageDay: wrapper.previousMessageDay
                 previousMessageTimestamp: wrapper.previousMessageTimestamp
                 previousMessageIsStateEvent: wrapper.previousMessageIsStateEvent
@@ -209,6 +210,11 @@ TimelineMessageStyleBase {
             z: 5
 
             onLeftClicked: {
+                // Settings previews use a fake "!timeline-preview:" room id and
+                // synthetic users; opening a real profile dialog from here would
+                // surface garbage data, so swallow the click.
+                if (wrapper.previewData && wrapper.previewData.room)
+                    return;
                 if (wrapper.roomIdForColorCoding && wrapper.userId)
                     TimelineManager.openRoomUserProfile(wrapper.roomIdForColorCoding, wrapper.userId)
             }
@@ -258,6 +264,11 @@ TimelineMessageStyleBase {
                 Reactions {
                     eventId: wrapper.eventId
                     reactions: wrapper.reactions
+                    // In settings previews, route reaction-pill clicks through the
+                    // preview's no-op room stub. Without this, Reactions falls back
+                    // to TimelineManager.toggleActiveMatrixTimelineReaction(), which
+                    // fires against whatever real room is currently active.
+                    roomModel: (wrapper.previewData && wrapper.previewData.room) || null
                     Layout.maximumWidth: bubbleBody.width
                     Layout.fillWidth: !wrapper.messageIsRightAligned
 

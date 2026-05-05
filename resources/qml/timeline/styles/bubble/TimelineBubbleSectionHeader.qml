@@ -18,6 +18,9 @@ Column {
     required property int parentWidth
     required property var roomRef
     required property string colorRoomId
+    // Set by the settings preview hosts. Username clicks are no-ops there to
+    // avoid opening a "Room member info" dialog backed by synthetic data.
+    property bool isPreview: false
     required property var previousMessageDay
     required property var previousMessageTimestamp
     required property bool previousMessageIsStateEvent
@@ -131,6 +134,8 @@ Column {
             }
 
             onClicked: {
+                if (isPreview)
+                    return;
                 if (roomRef && roomRef.roomId && userId)
                     TimelineManager.openRoomUserProfile(roomRef.roomId, userId)
             }

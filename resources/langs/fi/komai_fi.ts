@@ -8062,7 +8062,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+172"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
         <source>%1's status message</source>
         <translation>Käyttäjän %1 tilaviesti</translation>
     </message>

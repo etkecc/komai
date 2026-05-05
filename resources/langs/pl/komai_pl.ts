@@ -8074,7 +8074,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+172"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
         <source>%1's status message</source>
         <translation>Wiadomość statusu %1</translation>
     </message>

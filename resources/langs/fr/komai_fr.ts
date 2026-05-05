@@ -8062,7 +8062,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+172"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
         <source>%1's status message</source>
         <translation>Message de statut de %1</translation>
     </message>

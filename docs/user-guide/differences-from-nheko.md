@@ -22,6 +22,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Rounded corners throughout** -- bubbles, dialogs, media, avatars, reply popups, search, and more. No sharp edges
 - **All dialogs were redesigned as in-app overlays** -- they now match the app's look, open with more sensible default sizes, and are usable immediately without the need for manual resizing
 - **Rounded-rectangle avatars** by default instead of circles
+- **Generative default avatars** -- when a user or room has no avatar set, Komai renders a deterministic colorful pattern ported from [Boring Avatars](https://github.com/boringdesigners/boring-avatars) (Bauhaus, Beam, or Marble) instead of nheko's first-letter avatar or optional [jdenticon](https://jdenticon.com/) plugin. Letter-initial and user-icon fallbacks are still selectable in Settings
 - **Bubble chat by default** with distinct sender-colored bubbles, more padding, metadata outside the bubble, and a max-width cap for readability
 - **Larger, more readable text** -- bigger default font, room list text, and timestamps
 - **Separator lines** between room list entries and autocomplete items

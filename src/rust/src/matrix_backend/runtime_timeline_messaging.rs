@@ -101,6 +101,14 @@ fn formatted_html_from_markdown(body: &str, use_markdown_formatting: bool) -> Op
     if html_uses_only_plain_text_wrappers(&html) {
         return None;
     }
+    // Markdown can produce HTML whose visible text is empty even though the
+    // input body wasn't (e.g. `*` → `<ul><li></li></ul>`, `# ` → `<h1></h1>`).
+    // Sending such a `formatted_body` is worse than sending none at all: the
+    // receiver renders the empty wrapper and loses the body. Element drops it
+    // in the same situations.
+    if html_visible_text_is_empty(&html) {
+        return None;
+    }
 
     Some(html)
 }
@@ -114,6 +122,29 @@ fn html_uses_only_plain_text_wrappers(html: &str) -> bool {
         .replace("<br />", "");
 
     !stripped.contains('<')
+}
+
+fn html_visible_text_is_empty(html: &str) -> bool {
+    let mut visible = String::with_capacity(html.len());
+    let mut in_tag = false;
+    for ch in html.chars() {
+        match ch {
+            '<' => in_tag = true,
+            '>' => in_tag = false,
+            _ if !in_tag => visible.push(ch),
+            _ => {}
+        }
+    }
+
+    let decoded = visible
+        .replace("&nbsp;", " ")
+        .replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&#39;", "'");
+
+    decoded.chars().all(char::is_whitespace)
 }
 
 // ---------------------------------------------------------------------------
@@ -873,4 +904,64 @@ pub async fn report_room_event(
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to report matrix-sdk room event: {e}"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn html_visible_text_is_empty_detects_empty_list() {
+        assert!(html_visible_text_is_empty("<ul>\n<li></li>\n</ul>\n"));
+        assert!(html_visible_text_is_empty("<h1></h1>"));
+        assert!(html_visible_text_is_empty("<hr />"));
+        assert!(html_visible_text_is_empty("<blockquote>\n</blockquote>"));
+    }
+
+    #[test]
+    fn html_visible_text_is_empty_keeps_real_content() {
+        assert!(!html_visible_text_is_empty("<ul><li>foo</li></ul>"));
+        assert!(!html_visible_text_is_empty("<h1>title</h1>"));
+        assert!(!html_visible_text_is_empty("<p><strong>bold</strong></p>"));
+    }
+
+    #[test]
+    fn html_visible_text_is_empty_decodes_entities() {
+        assert!(!html_visible_text_is_empty("<p>&lt;</p>"));
+        assert!(!html_visible_text_is_empty("<p>&amp;</p>"));
+    }
+
+    #[test]
+    fn formatted_html_skipped_for_lone_asterisk() {
+        // Regression for https://github.com/etkecc/komai/issues/104:
+        // pulldown-cmark turns `*` into `<ul><li></li></ul>`, which is
+        // worthless as `formatted_body` and would hide the body on render.
+        assert_eq!(formatted_html_from_markdown("*", true), None);
+    }
+
+    #[test]
+    fn formatted_html_skipped_for_other_visibly_empty_markdown() {
+        assert_eq!(formatted_html_from_markdown("# ", true), None);
+        assert_eq!(formatted_html_from_markdown("***", true), None);
+        assert_eq!(formatted_html_from_markdown("- ", true), None);
+    }
+
+    #[test]
+    fn formatted_html_skipped_for_plain_text() {
+        // Existing guard: a paragraph wrapper around plain text is no improvement.
+        assert_eq!(formatted_html_from_markdown("hello world", true), None);
+    }
+
+    #[test]
+    fn formatted_html_kept_for_real_markdown() {
+        assert!(formatted_html_from_markdown("**bold**", true).is_some());
+        assert!(formatted_html_from_markdown("* foo", true).is_some());
+        assert!(formatted_html_from_markdown("- a\n- b", true).is_some());
+        assert!(formatted_html_from_markdown("## heading", true).is_some());
+    }
+
+    #[test]
+    fn formatted_html_disabled_when_markdown_off() {
+        assert_eq!(formatted_html_from_markdown("**bold**", false), None);
+    }
 }

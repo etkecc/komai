@@ -4699,7 +4699,7 @@ Uruchom '%1 &lt;group&gt; --help', aby uzyskać szczegóły podkomendy.</transla
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Pokaż wszystkie reakcje</translation>
     </message>

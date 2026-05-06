@@ -4698,7 +4698,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Prikaži sve reakcije</translation>
     </message>

@@ -271,6 +271,14 @@ TimelineMessageStyleBase {
                     roomModel: (wrapper.previewData && wrapper.previewData.room) || null
                     Layout.maximumWidth: bubbleBody.width
                     Layout.fillWidth: !wrapper.messageIsRightAligned
+                    // For right-aligned bubbles, fillWidth is off and the leading
+                    // spacer pushes us to the right edge, but with no preferred
+                    // width set the Layout falls back to Flow.implicitWidth,
+                    // which collapses to a single pill's width and forces every
+                    // additional pill onto its own row. Feed Layout an explicit
+                    // content sum instead so the row sizes itself to the pills'
+                    // natural total width (capped at the bubble width).
+                    Layout.preferredWidth: Math.min(naturalContentWidth, bubbleBody.width)
 
                     onReactionDetailsRequested: (eventId) => {
                         if (chatRoot && chatRoot.openReactionDetailsDialog)

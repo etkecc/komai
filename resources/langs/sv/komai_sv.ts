@@ -4691,7 +4691,7 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Visa alla reaktioner</translation>
     </message>

@@ -4691,7 +4691,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Näita kõiki reaktsioone</translation>
     </message>

@@ -34,6 +34,40 @@ Flow {
     readonly property int reactionCount: reactions ? reactions.length : 0
     readonly property int hiddenReactionCount: Math.max(0, reactionCount - visibleCap)
 
+    // Width Reactions would need to render every visible pill side-by-side in
+    // a single row. Exposed so callers that size this Flow without `fillWidth`
+    // (e.g. the right-aligned bubble path in TimelineBubbleMessageStyle) have
+    // a stable preferred-size hint: Qt's Flow.implicitWidth is computed from
+    // the laid-out rows (max row width) and recursively collapses to a single
+    // pill's width when the Flow is given less space than its natural width,
+    // which makes it useless as a Layout.preferredWidth fallback.
+    readonly property real naturalContentWidth: {
+        // Touch reactive inputs so the binding re-runs when the model or font
+        // changes; itemAt(i).implicitWidth itself isn't tracked, but items
+        // are recreated when the model changes (count flips), and font
+        // changes propagate through Settings.
+        const _count = repeater.count;
+        const _font = Settings.uiFontSizePt;
+        const _morePillVisible = morePill.visible;
+        let total = 0;
+        let visibleItems = 0;
+        for (let i = 0; i < repeater.count; i++) {
+            const item = repeater.itemAt(i);
+            if (item && item.visible) {
+                if (visibleItems > 0)
+                    total += spacing;
+                total += item.implicitWidth;
+                visibleItems += 1;
+            }
+        }
+        if (_morePillVisible) {
+            if (visibleItems > 0)
+                total += spacing;
+            total += morePill.implicitWidth;
+        }
+        return total;
+    }
+
     spacing: 4
 
     Repeater {

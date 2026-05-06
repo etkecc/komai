@@ -4691,7 +4691,7 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Näytä kaikki reaktiot</translation>
     </message>

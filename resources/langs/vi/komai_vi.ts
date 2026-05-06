@@ -4684,7 +4684,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Hiển thị tất cả phản ứng</translation>
     </message>

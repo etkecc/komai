@@ -4691,7 +4691,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Monstrar omni reactiones</translation>
     </message>

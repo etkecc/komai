@@ -4691,7 +4691,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Mostra totes les reaccions</translation>
     </message>

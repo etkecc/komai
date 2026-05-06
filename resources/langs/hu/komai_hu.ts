@@ -4684,7 +4684,7 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Összes reakció megjelenítése</translation>
     </message>

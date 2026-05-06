@@ -4698,7 +4698,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
 <context>
     <name>Reactions</name>
     <message>
-        <location filename="../../qml/components/Reactions.qml" line="+178"/>
+        <location filename="../../qml/components/Reactions.qml" line="+212"/>
         <source>Show all reactions</source>
         <translation>Afișează toate reacțiile</translation>
     </message>

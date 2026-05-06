@@ -179,6 +179,14 @@ CPMAddPackage(
     NAME qt6keychain
     GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
     GIT_TAG 0.16.0
+    # The system QtKeychain config file is installed as Qt6KeychainConfig.cmake,
+    # so the lowercase package name we use here doesn't match find_package's
+    # default lookup. NAMES forces find_package into Config mode and points at
+    # the correct file, letting distro packagers reuse the system package via
+    # -DCPM_USE_LOCAL_PACKAGES=ON. EXCLUDE_FROM_ALL keeps the bundled fallback
+    # (when CPM does fetch + build) out of `cmake --install`.
+    FIND_PACKAGE_ARGUMENTS "NAMES Qt6Keychain"
+    EXCLUDE_FROM_ALL YES
 )
 
 set(KDSingleApplication_QT6 ON CACHE BOOL INTERNAL)
@@ -188,6 +196,10 @@ CPMAddPackage(
     NAME kdsingleapplication
     GIT_REPOSITORY https://github.com/KDAB/KDSingleApplication.git
     GIT_TAG v1.2.1
+    # System config file is KDSingleApplication-qt6Config.cmake; see qt6keychain
+    # above for the rationale.
+    FIND_PACKAGE_ARGUMENTS "NAMES KDSingleApplication-qt6"
+    EXCLUDE_FROM_ALL YES
 )
 
 if(Qt6Widgets_FOUND)
@@ -717,12 +729,29 @@ find_package(OpenSSL 1.1.0 REQUIRED)
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
 
-CPMAddPackage(
-    NAME litehtml
-    GIT_REPOSITORY https://github.com/litehtml/litehtml.git
-    GIT_TAG v0.9
-    OPTIONS "LITEHTML_BUILD_TESTING OFF"
-)
+# litehtml's upstream CMake packaging (e.g. Arch's /usr/lib/cmake/litehtml/
+# litehtmlConfig.cmake) ships without a litehtmlConfigVersion.cmake.  CPM
+# would extract "0.9" from GIT_TAG and pass it as a version constraint to
+# find_package, which then refuses to match the unversioned system config.
+# CPM has no supported way to suppress that derived version arg (cmake_parse_arguments
+# drops VERSION "" as if undefined), so we run find_package ourselves and only
+# fall through to the bundled build when no system package was found.
+if(CPM_USE_LOCAL_PACKAGES OR CPM_LOCAL_PACKAGES_ONLY)
+    find_package(litehtml CONFIG QUIET)
+endif()
+if(NOT litehtml_FOUND)
+    CPMAddPackage(
+        NAME litehtml
+        GIT_REPOSITORY https://github.com/litehtml/litehtml.git
+        GIT_TAG v0.9
+        OPTIONS "LITEHTML_BUILD_TESTING OFF"
+        # EXCLUDE_FROM_ALL keeps the bundled litehtml + gumbo headers, CMake
+        # configs, and static archives out of `cmake --install` so distro
+        # packagers don't need a post-install scrub when CPM falls through
+        # (e.g. on platforms with no system litehtml at all).
+        EXCLUDE_FROM_ALL YES
+    )
+endif()
 if(litehtml_ADDED)
     # Suppress compiler warnings from litehtml's own sources and headers
     target_compile_options(litehtml PRIVATE -w)
@@ -761,6 +790,11 @@ CPMAddPackage(
     NAME Corrosion
     GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
     GIT_TAG v0.6.1
+    # No system Corrosion package on Arch (or most distros), so this always
+    # falls through to fetch + build. EXCLUDE_FROM_ALL keeps Corrosion's own
+    # install rules out of `cmake --install` so distro packagers don't ship
+    # them under /usr alongside komai.
+    EXCLUDE_FROM_ALL YES
 )
 corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml)
 corrosion_add_cxxbridge(komai-rust-cxxbridge

@@ -200,9 +200,10 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.notes.outputs.tag }}
         run: |
-          gh release create "${{ steps.notes.outputs.tag }}" \
-            --title "${{ steps.notes.outputs.tag }}" \
+          gh release create "${TAG}" \
+            --title "${TAG}" \
             --notes-file notes.md \
             artefacts/komai-appimage/*.AppImage \
             artefacts/komai-flatpak/komai.flatpak \

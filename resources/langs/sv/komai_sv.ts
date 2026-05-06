@@ -473,7 +473,7 @@
         <translation>%1 skapas av %2 (hanterad Matrix-serverhosting).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsrar!</translation>
     </message>

@@ -17,9 +17,16 @@ Rectangle {
     // can't drift apart.
     readonly property string attributionTemplate: qsTr("%1 is created by %2 (managed Matrix server hosting).")
 
-    // Drop to a two-row layout (text above, buttons below) when a single row
-    // would leave the attribution text with no room to breathe.
-    readonly property real stackThreshold: footerLogo.logoSize + 180 + buttonsGroup.implicitWidth + 5 * Komai.paddingMedium
+    // Drop to a two-row layout (text above, buttons below) as soon as the full
+    // attribution sentence would otherwise need to elide alongside the buttons.
+    // Driving the threshold off footerText.implicitWidth keeps it adaptive to
+    // locale and font size, where a hard-coded reservation underestimated
+    // longer translations and let the buttons crowd into the elided text.
+    readonly property real stackThreshold:
+          footerLogo.logoSize
+        + footerText.implicitWidth
+        + buttonsGroup.implicitWidth
+        + 4 * Komai.paddingMedium
     readonly property bool stacked: width > 0 && width < stackThreshold
 
     // Always reserve paddingSmall above and below the inner content. In single-row
@@ -58,8 +65,8 @@ Rectangle {
         RowLayout {
             id: textGroup
 
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: !root.stacked
+            Layout.alignment: root.stacked ? Qt.AlignHCenter : Qt.AlignVCenter
             spacing: Komai.paddingMedium
 
             Image {
@@ -87,7 +94,7 @@ Rectangle {
             Text {
                 id: footerText
 
-                Layout.fillWidth: true
+                Layout.fillWidth: !root.stacked
                 textFormat: Text.RichText
                 font.pointSize: Settings.uiFontSizePt
                 color: palette.buttonText

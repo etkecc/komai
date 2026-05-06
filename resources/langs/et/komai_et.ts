@@ -473,7 +473,7 @@
         <translation>%1 on loodud %2 poolt (hallatav Matrix-serveri majutus).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsoreerin!</translation>
     </message>

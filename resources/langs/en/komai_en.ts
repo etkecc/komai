@@ -473,7 +473,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation type="unfinished"/>
     </message>

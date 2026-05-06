@@ -473,7 +473,7 @@
         <translation>%1, %2 tarafından oluşturulmuştur (yönetilen Matrix sunucu barındırma).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsorluk yapılıyor!</translation>
     </message>

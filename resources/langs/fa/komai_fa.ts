@@ -473,7 +473,7 @@
         <translation>%1 توسط %2 ایجاد شده است (میزبانی مدیریت‌شده سرور Matrix).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>در حال حمایت!</translation>
     </message>

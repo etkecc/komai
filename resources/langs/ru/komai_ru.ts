@@ -473,7 +473,7 @@
         <translation>%1 создан %2 (управляемый хостинг Matrix-серверов).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Спонсирую!</translation>
     </message>

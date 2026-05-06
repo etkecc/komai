@@ -473,7 +473,7 @@
         <translation>%1 നിർമ്മിച്ചിരിക്കുന്നത് %2 ആണ് (മാനേജ്ഡ് Matrix സർവർ ഹോസ്റ്റിംഗ്).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>സ്പോൺസർ ചെയ്യുന്നു!</translation>
     </message>

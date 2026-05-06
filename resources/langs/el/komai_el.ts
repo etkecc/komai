@@ -473,7 +473,7 @@
         <translation>%1 δημιουργήθηκε από %2 (φιλοξενία διαχειριζόμενου διακομιστή Matrix).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Χορηγεί!</translation>
     </message>

@@ -473,7 +473,7 @@
         <translation>%1 este creat de %2 (găzduire gestionată de servere Matrix).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsor!</translation>
     </message>

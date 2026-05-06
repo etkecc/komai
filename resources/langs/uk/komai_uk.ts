@@ -473,7 +473,7 @@
         <translation>%1 створено %2 (керований хостинг Matrix-серверів).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Підтримую!</translation>
     </message>

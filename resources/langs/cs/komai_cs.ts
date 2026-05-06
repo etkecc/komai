@@ -473,7 +473,7 @@
         <translation>%1 je vytvořeno společností %2 (spravovaný hosting Matrix serveru).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponzorujete!</translation>
     </message>

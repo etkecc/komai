@@ -473,7 +473,7 @@
         <translation>%1 wird von %2 bereitgestellt (verwaltetes Matrix-Server-Hosting).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsoring!</translation>
     </message>

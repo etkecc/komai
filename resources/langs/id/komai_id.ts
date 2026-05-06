@@ -473,7 +473,7 @@
         <translation>%1 dibuat oleh %2 (hosting server Matrix yang dikelola).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Mensponsori!</translation>
     </message>

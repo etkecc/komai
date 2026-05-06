@@ -473,7 +473,7 @@
         <translation>%1 es creat par %2 (hostage de servidor Matrix gerit).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsorante!</translation>
     </message>

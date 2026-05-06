@@ -473,7 +473,7 @@
         <translation>%1 estas kreita de %2 (administrata Matrix-servilgastigo).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsoranta!</translation>
     </message>

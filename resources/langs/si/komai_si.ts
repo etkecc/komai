@@ -473,7 +473,7 @@
         <translation>%1 %2 විසින් නිර්මාණය කරන ලදී (කළමනාකරණය කළ Matrix සේවාදායක සත්කාරකත්වය).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>අනුග්‍රාහකත්වය ලබා දෙමින්!</translation>
     </message>

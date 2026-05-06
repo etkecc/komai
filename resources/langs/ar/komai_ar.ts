@@ -473,7 +473,7 @@
         <translation>%1 من تطوير %2 (استضافة خوادم Matrix مُدارة).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>داعم!</translation>
     </message>

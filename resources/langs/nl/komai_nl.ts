@@ -473,7 +473,7 @@
         <translation>%1 is gemaakt door %2 (beheerde Matrix-serverhosting).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsoring!</translation>
     </message>

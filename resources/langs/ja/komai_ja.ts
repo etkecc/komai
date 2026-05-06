@@ -473,7 +473,7 @@
         <translation>%1は%2（Matrixサーバーのマネージドホスティング）によって作成されました。</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>スポンサー中！</translation>
     </message>

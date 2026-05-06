@@ -473,7 +473,7 @@
         <translation>%1 由 %2 建立（託管 Matrix 伺服器服務）。</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>贊助中！</translation>
     </message>

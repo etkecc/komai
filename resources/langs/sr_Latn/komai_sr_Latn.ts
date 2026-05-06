@@ -473,7 +473,7 @@
         <translation>%1 je kreiran od strane %2 (upravljani Matrix server hosting).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponzoriše!</translation>
     </message>

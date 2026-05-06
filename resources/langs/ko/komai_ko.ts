@@ -473,7 +473,7 @@
         <translation>%1은(는) %2가 만들었습니다 (관리형 Matrix 서버 호스팅).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>후원 중!</translation>
     </message>

@@ -473,7 +473,7 @@
         <translation>%1 е създаден от %2 (управлявано хостване на Matrix сървъри).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Спонсориране!</translation>
     </message>

@@ -473,7 +473,7 @@
         <translation>%1 a(z) %2 alkotása (kezelt Matrix szerverüzemeltetés).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Szponzorálok!</translation>
     </message>

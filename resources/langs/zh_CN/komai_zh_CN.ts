@@ -473,7 +473,7 @@
         <translation>%1 由 %2 创建（托管 Matrix 服务器）。</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>已赞助！</translation>
     </message>

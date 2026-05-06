@@ -473,7 +473,7 @@
         <translation>%1 on %2:n luoma (hallittu Matrix-palvelimen isännöinti).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsoroimassa!</translation>
     </message>

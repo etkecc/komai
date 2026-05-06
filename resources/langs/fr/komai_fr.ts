@@ -473,7 +473,7 @@
         <translation>%1 est créé par %2 (hébergement Matrix géré).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Sponsoring !</translation>
     </message>

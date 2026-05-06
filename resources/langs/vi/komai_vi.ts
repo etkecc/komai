@@ -473,7 +473,7 @@
         <translation>%1 được tạo bởi %2 (dịch vụ lưu trữ máy chủ Matrix được quản lý).</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+112"/>
         <source>Sponsoring!</source>
         <translation>Đang tài trợ!</translation>
     </message>

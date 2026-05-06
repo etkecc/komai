@@ -336,7 +336,7 @@ flatpak-clean:
 	rm -rf "{{ flatpak_build_dir }}"
 
 # Builds an AppImage bundle inside a Docker container (works on any distro)
-appimage-build-docker: emoji-fetch
+appimage-build-docker: _ensure_just_temp_directory emoji-fetch
 	#!/usr/bin/env bash
 	set -euo pipefail
 
@@ -357,7 +357,7 @@ appimage-build-native: emoji-fetch
 	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-native "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
 
 # Builds a snap package inside a Docker container (works on any distro)
-snap-build-docker: emoji-fetch
+snap-build-docker: _ensure_just_temp_directory emoji-fetch
 	#!/usr/bin/env bash
 	set -euo pipefail
 

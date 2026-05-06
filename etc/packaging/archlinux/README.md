@@ -10,10 +10,25 @@ The PKGBUILD clones the Komai git repository at a release tag (e.g., `v0.1.0`) a
 
 | Stage | What happens |
 |-------|-------------|
-| `build()` | CMake configure + build with `-DCMAKE_INSTALL_PREFIX=/usr -DMAN=OFF` |
+| `prepare()` | Removes `rust-toolchain.toml` so the build follows the distro's Rust toolchain. See [Rust toolchain handling](#rust-toolchain-handling) below. |
+| `build()` | CMake configure + build with the options described below |
 | `package()` | `cmake --install` with `DESTDIR` to stage files into the package directory |
 
 That means additional installed binaries, such as `komai-mcp`, are packaged automatically as long as the release tag being built includes the corresponding CMake install rules.
+
+### Notable CMake options
+
+- `-DMAN=ON` builds the asciidoctor man page (the `asciidoctor` makedep covers this).
+- `-DCPM_USE_LOCAL_PACKAGES=ON` makes CPM honour the system `qt6keychain` and `kdsingleapplication` packages (listed under `depends`) instead of fetching and rebuilding them.
+
+### Rust toolchain handling
+
+Upstream Komai pins a specific rustup channel via [`rust-toolchain.toml`](../../../rust-toolchain.toml) for development, CI, and Flatpak reproducibility. A distro package should follow the distro's Rust toolchain instead, so `prepare()` removes the file. That single removal covers both surfaces that would otherwise force the pinned version on the user:
+
+- **CMake.** Komai's CMakeLists.txt only parses `rust-toolchain.toml` (and pins Corrosion to its channel) when the file exists, so removal makes Corrosion fall back to whichever `rustc`/`cargo` the `rust` makedep provides.
+- **`rustup`'s shim.** When the `rust` makedep is satisfied by `rustup` rather than Arch's `rust` package, `rustup`'s shim respects `rust-toolchain.toml` independently of CMake and would auto-install the pinned channel mid-build (~250MB of unwanted downloads). With the file gone the shim has nothing to pin to.
+
+On systems where `rust` provides a plain `rustc`/`cargo` (Arch's `rust` package), the removal is a harmless no-op.
 
 ## Differences from the official nheko package
 

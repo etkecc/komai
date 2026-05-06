@@ -767,7 +767,13 @@ endif()
 # Corrosion's FindRust does not read rust-toolchain.toml — it picks the default
 # rustup toolchain. We parse the channel ourselves so the version is defined in
 # one place (rust-toolchain.toml) and Corrosion uses the same one.
-if(NOT DEFINED Rust_TOOLCHAIN)
+#
+# Distro packagers (e.g. the AUR PKGBUILD) can opt out of the pin by removing
+# rust-toolchain.toml in their packaging step. When the file is absent we skip
+# this block and Corrosion falls back to whichever rustc/cargo is on PATH. The
+# removal is also what prevents rustup's shim from silently auto-installing
+# the pinned channel during cargo invocations later in the build.
+if(NOT DEFINED Rust_TOOLCHAIN AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rust-toolchain.toml")
     file(READ "${CMAKE_CURRENT_SOURCE_DIR}/rust-toolchain.toml" _rust_toolchain_toml)
     string(REGEX MATCH "channel *= *\"([^\"]+)\"" _rust_channel_match "${_rust_toolchain_toml}")
     if(NOT CMAKE_MATCH_1)

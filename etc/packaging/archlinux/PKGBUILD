@@ -52,6 +52,17 @@ optdepends=(
 source=("git+https://github.com/etkecc/komai.git#tag=v${pkgver}")
 sha256sums=('SKIP')
 
+prepare() {
+	# Drop upstream's rustup channel pin so the build follows whatever
+	# rustc/cargo the `rust` makedep provides (Arch's `rust` package, or the
+	# user's default rustup toolchain when `rust` is satisfied by `rustup`).
+	# Without this, rustup's shim would auto-install the pinned channel from
+	# rust-toolchain.toml during the build (~250MB of unwanted downloads on
+	# any rustup-only system). Komai's CMake glue also keys off this file's
+	# presence, so removal cleanly opts out of both surfaces.
+	rm -f "$pkgname/rust-toolchain.toml"
+}
+
 build() {
 	cmake \
 		-B build \

@@ -19,8 +19,17 @@ The PKGBUILD is modeled after the [official nheko PKGBUILD](https://gitlab.archl
 
 | Stage | What happens |
 |-------|-------------|
-| `build()` | `cmake -B build -DCMAKE_INSTALL_PREFIX=/usr -DMAN=OFF && cmake --build build` |
+| `prepare()` | Removes `rust-toolchain.toml` so the build follows the system Rust toolchain instead of upstream's pinned channel. See the [packaging README](../../../etc/packaging/archlinux/README.md#rust-toolchain-handling) for the rationale. |
+| `build()` | `cmake -B build -S komai <options> && cmake --build build` |
 | `package()` | `DESTDIR="$pkgdir" cmake --install build` |
+
+The CMake options the PKGBUILD passes are:
+
+- `-DCMAKE_BUILD_TYPE=None` (defer to Arch's `CXXFLAGS`/`CFLAGS`)
+- `-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib`
+- `-DBUILD_TESTING=OFF`
+- `-DMAN=ON` (build the asciidoctor manpage)
+- `-DCPM_USE_LOCAL_PACKAGES=ON` (use system `qt6keychain` and `kdsingleapplication`, listed under `depends`)
 
 ## For maintainers
 

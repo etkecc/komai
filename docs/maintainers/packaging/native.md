@@ -148,6 +148,13 @@ If your distro `cargo`/`rustc` packages do not provide Rust `1.95.0`, install th
 `rustup toolchain install 1.95.0` so Corrosion can use the pinned version from
 `rust-toolchain.toml`.
 
+If you would rather build against whatever `rustc`/`cargo` your distro
+ships, remove `rust-toolchain.toml` from the source tree before configuring;
+Komai's CMake glue keys off the file's presence, and `rustup`'s shim (if you
+have one) will then leave its toolchain selection alone. Komai is not coupled
+to a specific toolchain version, so any reasonably recent stable Rust should
+work. This is the route the Arch PKGBUILD takes.
+
 Note: macOS bundle builds also need the Qt installation used for the build to
 include ICNS imageformat support, because the app bundle icon is generated from
 `resources/komai.svg` during the build.

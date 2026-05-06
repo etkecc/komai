@@ -957,7 +957,16 @@ else()
             "${CMAKE_CURRENT_SOURCE_DIR}/cmake/MacOSXBundleInfo.plist.in")
     endif()
 
-    if(HAVE_BACKTRACE_SYMBOLS_FD AND NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+    # Enable -rdynamic only for explicit Debug builds.  -rdynamic exports every
+    # static-archive symbol (Qt's QmlCacheGen output, the matrix-sdk Rust crate,
+    # AWS-LC, etc.) into .dynsym/.dynstr so backtrace_symbols_fd can name them
+    # at runtime — useful for developer debugging, but ~26 MiB of dead weight
+    # in optimized builds.  Distro packagers (Arch, Debian, Fedora) configure
+    # with CMAKE_BUILD_TYPE=None so the distro's own CFLAGS apply unmodified;
+    # treating "None" as "not Release" would saddle every distro binary with
+    # the rdynamic bloat.  Same shape for RelWithDebInfo/MinSizeRel, which
+    # are still optimized release variants.  So gate strictly on Debug.
+    if(HAVE_BACKTRACE_SYMBOLS_FD AND CMAKE_BUILD_TYPE STREQUAL "Debug")
         set_target_properties(komai PROPERTIES ENABLE_EXPORTS ON)
     endif()
 endif()

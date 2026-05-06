@@ -32,7 +32,7 @@ docker run --rm \
         apt-get update -qq
         apt-get install -y -qq --no-install-recommends \
             build-essential ninja-build cmake git ca-certificates \
-            python3 python3-pip \
+            python3 python3-pip python3-dev \
             qt6-base-dev qt6-base-private-dev qt6-multimedia-dev qt6-svg-dev qt6-tools-dev \
             qt6-declarative-dev qt6-declarative-private-dev \
             qt6-l10n-tools qt6-tools-dev-tools \
@@ -48,6 +48,7 @@ docker run --rm \
             libgl1-mesa-dev libxkbcommon-dev \
             libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
             curl \
+            pipx libffi-dev \
             desktop-file-utils elfutils fakeroot file squashfs-tools zsync \
             gtk-update-icon-cache \
             >/dev/null 2>&1
@@ -60,22 +61,55 @@ docker run --rm \
         export PATH="$HOME/.cargo/bin:$PATH"
 
         # Workaround: appimage-builder checks for apt-key on $PATH but never
-        # actually calls it (keys are handled via trusted.gpg.d).  Ubuntu 25.04
+        # actually calls it (keys are handled via trusted.gpg.d).  Ubuntu 25.04+
         # removed apt-key entirely, so we create a no-op stub.
         # See https://github.com/AppImageCrafters/appimage-builder/issues/372
         printf "#!/bin/sh\nexit 0" > /usr/bin/apt-key && chmod +x /usr/bin/apt-key
 
-        pip3 install --break-system-packages appimage-builder >/dev/null 2>&1
+        # Install appimage-builder via pipx instead of pip3 with
+        # --break-system-packages.  On Ubuntu 26.04 (Python 3.14) the system pip
+        # hits a TypeError when sorting wheels for some packages, including
+        # appimage-builder itself.  pipx sidesteps it by installing into an
+        # isolated venv with its own pip.
+        pipx install appimage-builder >/dev/null 2>&1
+        export PATH="$HOME/.local/bin:$PATH"
 
         # Workaround: appimage-builder 1.1.0 (PyPI) uses packaging.version.parse()
         # which rejects Debian version strings like "1.22.18ubuntu2" on packaging>=22.
         # Upstream fixed this on main (commit 728998d) but never released it.
-        # We apply the same fix: use pydpkg for Debian version comparison.
+        # Inject pydpkg into the same venv and rewrite package.py to use it.
         # See https://github.com/AppImageCrafters/appimage-builder/issues/311
-        pip3 install --break-system-packages pydpkg >/dev/null 2>&1
-        pkg_py=$(python3 -c "import appimagebuilder.modules.deploy.apt.package as m; print(m.__file__)")
+        pipx inject appimage-builder pydpkg >/dev/null 2>&1
+        venv_py="$HOME/.local/share/pipx/venvs/appimage-builder/bin/python"
+        pkg_py=$("$venv_py" -c "import appimagebuilder.modules.deploy.apt.package as m; print(m.__file__)")
         sed -i "s/from packaging import version/from pydpkg import Dpkg/" "$pkg_py"
         sed -i "s/return version.parse(self.version) > version.parse(other.version)/return Dpkg.compare_versions(self.version, other.version) > 0/" "$pkg_py"
+
+        # Workaround: appimage-builder 1.1.0 passes a Python `set` for
+        # APPDIR_LIBC_LINKER_PATH, but Environment._serialize_entry has no
+        # `set` branch, so the fallback writes the set repr (e.g.
+        # {"lib64/ld-linux-x86-64.so.2"}) into AppRun.env.  AppRun then tries
+        # to open that literal path and the AppImage fails to launch with
+        # APPRUN_ERROR: No such file or directory.  Wrap the set in sorted()
+        # so the serializer sees a list and joins with `:` as intended.
+        apprun_py=$("$venv_py" -c "import appimagebuilder.modules.setup.apprun_2.apprun2 as m; print(m.__file__)")
+        sed -i "s/set(patcher\.binary_interpreters_paths\.values())/sorted(set(patcher.binary_interpreters_paths.values()))/" "$apprun_py"
+
+        # Workaround: appimage-builder 1.1.0 writes the bundle-host glibc
+        # version into APPDIR_LIBC_VERSION, and the bundled AppRun chooses
+        # the compat runtime when host glibc <= APPDIR_LIBC_VERSION.  But
+        # appimage-builder produces a broken compat layout (the chdir target
+        # has the linker under usr/lib64/, while AppRun expects lib64/),
+        # so AppRun fails with APPRUN_ERROR: No such file or directory on
+        # any host whose glibc is not strictly newer than the build host.
+        # Force the value to 2.20 so AppRun always picks the default
+        # runtime (which symlinks the linker to host /lib64/...).  Users
+        # whose host glibc is older than what the bundled libs require
+        # (~2.43, matching the build container) would fail anyway when
+        # libQt6 loads, but at least the failure mode is a clear missing-
+        # symbol error rather than silent ENOENT for everyone.
+        libc_py=$("$venv_py" -c "import appimagebuilder.modules.setup.helpers.apprun_2_libc as m; print(m.__file__)")
+        sed -i "s|env\.set(\"APPDIR_LIBC_VERSION\", self\._guess_libc_version())|env.set(\"APPDIR_LIBC_VERSION\", \"2.20\")|" "$libc_py"
 
         echo "=== Copying source tree ==="
         # Exclude heavy build artifacts that would be rebuilt from scratch anyway.

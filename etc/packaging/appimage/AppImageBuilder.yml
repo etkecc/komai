@@ -23,11 +23,11 @@ AppDir:
     arch: amd64
     allow_unauthenticated: true
     sources:
-    - sourceline: deb http://archive.ubuntu.com/ubuntu/ plucky main restricted universe multiverse
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ resolute main restricted universe multiverse
       key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
-    - sourceline: deb http://archive.ubuntu.com/ubuntu/ plucky-updates main restricted universe multiverse
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ resolute-updates main restricted universe multiverse
       key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
-    - sourceline: deb http://archive.ubuntu.com/ubuntu/ plucky-security main restricted universe multiverse
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ resolute-security main restricted universe multiverse
       key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
     include:
     - ca-certificates

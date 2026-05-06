@@ -35,19 +35,24 @@ fi
 # import and comparison with pydpkg.  The Docker recipe patches this
 # automatically; for native builds the user must apply it themselves.
 # See https://github.com/AppImageCrafters/appimage-builder/issues/311
-if python3 -c "from packaging import version; version.parse('1.0ubuntu1')" 2>/dev/null; then
+#
+# We probe whichever Python interpreter actually runs appimage-builder
+# (read from its shebang), so the check works for both system pip
+# installs and pipx-managed venvs.
+ab_py="$(head -1 "$(command -v appimage-builder)" | sed -E 's|^#! *||')"
+if "$ab_py" -c "from packaging import version; version.parse('1.0ubuntu1')" 2>/dev/null; then
     : # packaging is old enough to handle Debian versions (or patched)
-elif ! python3 -c "from pydpkg import Dpkg" 2>/dev/null; then
+elif ! "$ab_py" -c "from pydpkg import Dpkg" 2>/dev/null; then
     echo "WARNING: appimage-builder will likely crash on Debian version strings."
     echo ""
     echo "  The bundled appimage-builder 1.1.0 uses packaging.version.parse(),"
     echo "  which rejects versions like '1.22.18ubuntu2' on packaging>=22."
     echo "  Upstream fixed this (commit 728998d) but never released it."
     echo ""
-    echo "  To fix, install pydpkg and patch package.py:"
+    echo "  To fix, install pydpkg into the same venv and patch package.py:"
     echo ""
-    echo "    pip3 install pydpkg"
-    echo "    pkg_py=\$(python3 -c \"import appimagebuilder.modules.deploy.apt.package as m; print(m.__file__)\")"
+    echo "    pipx inject appimage-builder pydpkg"
+    echo "    pkg_py=\$(\"$ab_py\" -c \"import appimagebuilder.modules.deploy.apt.package as m; print(m.__file__)\")"
     echo "    sed -i 's/from packaging import version/from pydpkg import Dpkg/' \"\$pkg_py\""
     echo "    sed -i 's/return version.parse(self.version) > version.parse(other.version)/return Dpkg.compare_versions(self.version, other.version) > 0/' \"\$pkg_py\""
     echo ""

@@ -167,10 +167,11 @@ jobs:
 
       - name: Extract release notes from CHANGELOG
         id: notes
+        env:
+          TAG: ${{ github.event.workflow_run.head_branch }}
         run: |
           set -euo pipefail
           VERSION="$(cat VERSION)"
-          TAG="${{ github.event.workflow_run.head_branch }}"
 
           # Sanity: the tag should match `v${VERSION}`. The version-drift
           # hook already guarantees VERSION / PKGBUILD / CHANGELOG /

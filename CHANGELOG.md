@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026.05.06.0
+## 2026.05.06.1
 
 🎉 **The first public release of Komai!**
 

@@ -248,11 +248,12 @@ translations-canonicalize *args:
 translations-claude-translate-lang lang *args:
 	python3 {{ justfile_directory() }}/bin/translations/translate.py translate {{ lang }} {{ args }}
 
-# Auto-translates unfinished strings for all languages using Claude CLI.
-# Processes `parallelism` languages concurrently (default: 5).
-translations-claude-translate-all parallelism="5" *args: _ensure_just_temp_directory
+# Override concurrency with `PARALLELISM=10 just translations-claude-translate-all`.
+# Auto-translates unfinished strings for all languages using Claude CLI (default: 5 concurrent)
+translations-claude-translate-all *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
+	parallelism="${PARALLELISM:-5}"
 	langs=()
 	for d in {{ justfile_directory() }}/resources/langs/*/; do
 		lang=$(basename "$d")
@@ -261,7 +262,7 @@ translations-claude-translate-all parallelism="5" *args: _ensure_just_temp_direc
 		langs+=("$lang")
 	done
 	printf '%s\n' "${langs[@]}" \
-		| xargs -P "{{ parallelism }}" -I _LANG_ bash -c '
+		| xargs -P "$parallelism" -I _LANG_ bash -c '
 			lang=_LANG_
 			{ just --justfile "{{ justfile() }}" translations-claude-translate-lang "$lang" "$@" 2>&1 \
 				|| echo "ERROR: Translation failed for $lang, continuing..."; } \

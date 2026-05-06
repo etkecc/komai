@@ -59,20 +59,29 @@ jobs:
       - name: Wire host-mounted flatpak-builder state
         # Mirrors the ci.yml host-mount pattern (see
         # docs/architecture/ci.md). When /var/lib/komai-ci is
-        # writable on the runner host, flatpak-builder's state dir
-        # lives on the dedicated cache disk — no actions/cache
-        # round-trip (the state can be ~multi-GB per release).
-        # `build-flatpak` runs directly on the host (no `container:`
-        # block), so we wire the symlink directly to a host path
-        # without needing a `volumes:` bind-mount on the job.
-        # Falls back to actions/cache below if the host-mount is
-        # absent (workflow stays portable).
+        # writable on the runner host, flatpak-builder's whole
+        # build directory lives on the dedicated cache disk: no
+        # actions/cache round-trip (the state can be ~multi-GB per
+        # release). `build-flatpak` runs directly on the host (no
+        # `container:` block), so we wire the symlink directly to a
+        # host path without needing a `volumes:` bind-mount on the
+        # job. Falls back to actions/cache below if the host-mount
+        # is absent (workflow stays portable).
+        #
+        # We symlink `var/build/flatpak/` (the whole dir) rather
+        # than only `.flatpak-builder/`. flatpak-builder rejects a
+        # state-dir on a different filesystem from the target-dir;
+        # on k150 the cache disk (/var/lib/komai-ci, /dev/vdd) and
+        # the workspace (/home/runner, /dev/vdc) are separate FSes,
+        # so symlinking only the state-dir tripped that check.
+        # Symlinking the parent makes both paths resolve through
+        # the same symlink onto /dev/vdd.
         run: |
-          if mkdir -p /var/lib/komai-ci/flatpak-state 2>/dev/null; then
-            mkdir -p var/build/flatpak
-            ln -sfn /var/lib/komai-ci/flatpak-state var/build/flatpak/.flatpak-builder
+          if mkdir -p /var/lib/komai-ci/flatpak-build 2>/dev/null; then
+            mkdir -p var/build
+            ln -sfn /var/lib/komai-ci/flatpak-build var/build/flatpak
             echo "FLATPAK_HOST_OK=true" >> "${GITHUB_ENV}"
-            echo "Host-mounted flatpak-builder state active"
+            echo "Host-mounted flatpak build dir active"
           else
             echo "FLATPAK_HOST_OK=false" >> "${GITHUB_ENV}"
             echo "No host-mount; falling back to actions/cache"

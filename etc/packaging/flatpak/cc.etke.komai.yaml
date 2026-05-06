@@ -18,6 +18,14 @@ finish-args:
   - --talk-name=org.freedesktop.StatusNotifierItem
   # needed for tray icon
   - --talk-name=org.kde.StatusNotifierWatcher
+# Strips dev/devel files installed primarily by the bundled gstreamer
+# module that end users don't need at runtime. Komai's own install tree
+# no longer touches these paths (its CPMAddPackage calls use
+# EXCLUDE_FROM_ALL so dep headers, cmake configs, and static archives
+# never enter /app in the first place), but the entries below stay
+# load-bearing for gstreamer's headers, pkgconfig, cmake configs, and
+# tooling -- removing them here would leave gstreamer's dev tree in the
+# final bundle.
 cleanup:
   - /include
   - /lib/pkgconfig

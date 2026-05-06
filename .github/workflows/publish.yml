@@ -92,9 +92,10 @@ jobs:
       # and an internal ccache — which together turn a 41 min cold
       # build into a ~7-8 min warm one (measured locally 2026-04-24).
       # Keyed on the flatpak manifest hash so SDK/dep bumps invalidate
-      # cleanly; restore-keys fallback lets a manifest change still
-      # benefit from previously-downloaded tarballs and unchanged
-      # module builds.
+      # cleanly. No restore-keys fallback: a wildcard prefix would let
+      # any prior cache entry restore here and could be poisoned by a
+      # malicious tag push (code-scanning actions/cache-poisoning).
+      # Manifest bumps cold-build, which is the intended behaviour.
       #
       # Gated by FLATPAK_HOST_OK from the wire step above: skipped
       # on runners with the host-mounted cache disk (state persists
@@ -105,8 +106,6 @@ jobs:
         with:
           path: var/build/flatpak/.flatpak-builder
           key: flatpak-state-${{ hashFiles('etc/packaging/flatpak/cc.etke.komai.yaml') }}
-          restore-keys: |
-            flatpak-state-
 
       - name: Build Flatpak
         run: just flatpak-build

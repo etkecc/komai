@@ -56,6 +56,7 @@ fromRustRoomSettings(const ::komai::rust::MatrixRoomSettings &room)
       .canChangeAvatar            = room.can_change_avatar,
       .canChangeJoinRules         = room.can_change_join_rules,
       .canChangeHistoryVisibility = room.can_change_history_visibility,
+      .canChangeEncryption        = room.can_change_encryption,
     };
 }
 

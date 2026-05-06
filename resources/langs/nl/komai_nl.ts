@@ -6098,12 +6098,12 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Naam</translation>
     </message>
@@ -6128,7 +6128,7 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <translation>Versleuteling</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Eenmaal ingeschakeld kan versleuteling niet worden uitgeschakeld.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Matrix backend runtime is niet beschikbaar.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Versleuteling inschakelen mislukt.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Meldingen bijwerken mislukt.</translation>
     </message>

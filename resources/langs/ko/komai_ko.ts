@@ -6090,12 +6090,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
@@ -6120,7 +6120,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>암호화</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>활성화 후에는 암호화를 비활성화할 수 없습니다.</translation>
     </message>
@@ -6568,12 +6568,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Matrix 백엔드 런타임을 사용할 수 없습니다.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>암호화를 활성화하지 못했습니다.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>알림을 업데이트하지 못했습니다.</translation>
     </message>

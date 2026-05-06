@@ -953,6 +953,7 @@ mod bridge {
         can_change_avatar: bool,
         can_change_join_rules: bool,
         can_change_history_visibility: bool,
+        can_change_encryption: bool,
     }
 
     struct MatrixRoomAliases {

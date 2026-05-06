@@ -6098,12 +6098,12 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Namn</translation>
     </message>
@@ -6128,7 +6128,7 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
         <translation>Kryptering</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>När kryptering är aktiverad kan den inte inaktiveras.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Matrix-backend är inte tillgänglig.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Det gick inte att aktivera kryptering.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Det gick inte att uppdatera aviseringar.</translation>
     </message>

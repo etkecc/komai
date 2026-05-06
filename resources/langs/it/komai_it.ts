@@ -6098,12 +6098,12 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
@@ -6128,7 +6128,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
         <translation>Crittografia</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Una volta abilitata, la crittografia non può essere disabilitata.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Il runtime del backend Matrix non è disponibile.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Impossibile abilitare la crittografia.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Impossibile aggiornare le notifiche.</translation>
     </message>

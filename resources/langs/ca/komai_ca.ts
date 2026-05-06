@@ -6098,12 +6098,12 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
@@ -6128,7 +6128,7 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
         <translation>Xifratge</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Un cop activat, el xifratge no es pot desactivar.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>El temps d'execució del backend de Matrix no està disponible.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>No s'ha pogut activar el xifratge.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>No s'han pogut actualitzar les notificacions.</translation>
     </message>

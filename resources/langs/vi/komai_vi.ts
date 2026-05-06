@@ -6090,12 +6090,12 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Hủy</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Tên</translation>
     </message>
@@ -6120,7 +6120,7 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
         <translation>Mã hóa</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Sau khi bật, mã hóa không thể tắt.</translation>
     </message>
@@ -6568,12 +6568,12 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Môi trường chạy backend Matrix không khả dụng.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Không thể bật mã hóa.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Không thể cập nhật thông báo.</translation>
     </message>

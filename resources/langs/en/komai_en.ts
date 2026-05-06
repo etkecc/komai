@@ -6069,12 +6069,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation type="unfinished">Name</translation>
     </message>
@@ -6099,7 +6099,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished">Encryption</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation type="unfinished"/>
     </message>
@@ -6547,12 +6547,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation type="unfinished"/>
     </message>

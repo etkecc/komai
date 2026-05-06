@@ -6090,12 +6090,12 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Ad</translation>
     </message>
@@ -6120,7 +6120,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
         <translation>Şifreleme</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Etkinleştirildikten sonra şifreleme devre dışı bırakılamaz.</translation>
     </message>
@@ -6568,12 +6568,12 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Matrix arka uç çalışma zamanı mevcut değil.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Şifreleme etkinleştirilemedi.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Bildirimler güncellenemedi.</translation>
     </message>

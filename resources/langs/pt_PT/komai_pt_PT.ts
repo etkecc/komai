@@ -6098,12 +6098,12 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
@@ -6128,7 +6128,7 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
         <translation>Encriptação</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Uma vez ativada, a encriptação não pode ser desativada.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
         <translation>O ambiente de execução do backend Matrix não está disponível.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Falha ao ativar a encriptação.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Falha ao atualizar as notificações.</translation>
     </message>

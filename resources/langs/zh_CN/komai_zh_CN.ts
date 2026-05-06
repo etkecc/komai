@@ -6090,12 +6090,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
@@ -6120,7 +6120,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>一旦启用，加密将无法禁用。</translation>
     </message>
@@ -6568,12 +6568,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Matrix 后端运行时不可用。</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>启用加密失败。</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>更新通知设置失败。</translation>
     </message>

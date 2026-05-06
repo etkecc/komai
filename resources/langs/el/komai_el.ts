@@ -6098,12 +6098,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Όνομα</translation>
     </message>
@@ -6128,7 +6128,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Κρυπτογράφηση</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Μόλις ενεργοποιηθεί, η κρυπτογράφηση δεν μπορεί να απενεργοποιηθεί.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Το περιβάλλον εκτέλεσης Matrix δεν είναι διαθέσιμο.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Αποτυχία ενεργοποίησης κρυπτογράφησης.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Αποτυχία ενημέρωσης ειδοποιήσεων.</translation>
     </message>

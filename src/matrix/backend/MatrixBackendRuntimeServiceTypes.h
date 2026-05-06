@@ -234,6 +234,7 @@ struct MatrixRoomSettings
     bool canChangeAvatar            = false;
     bool canChangeJoinRules         = false;
     bool canChangeHistoryVisibility = false;
+    bool canChangeEncryption        = false;
 };
 
 struct MatrixRoomAliases

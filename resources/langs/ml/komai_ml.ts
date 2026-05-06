@@ -6098,12 +6098,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>പേര്</translation>
     </message>
@@ -6128,7 +6128,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>എൻക്രിപ്ഷൻ</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>ഒരിക്കൽ പ്രവർത്തനക്ഷമമാക്കിയാൽ, എൻക്രിപ്ഷൻ പ്രവർത്തനരഹിതമാക്കാൻ കഴിയില്ല.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Matrix ബാക്കെൻഡ് റൺടൈം ലഭ്യമല്ല.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>എൻക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>അറിയിപ്പുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>

@@ -6100,12 +6100,12 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Nuligi</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nomo</translation>
     </message>
@@ -6130,7 +6130,7 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
         <translation>Ĉifrado</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Post ŝaltado, ĉifrado ne povas esti malŝaltita.</translation>
     </message>
@@ -6579,12 +6579,12 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>La Matrix dorsa rulaĵo ne estas disponebla.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Malsukcesis aktivigi ĉifradon.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Malsukcesis ĝisdatigi sciigojn.</translation>
     </message>

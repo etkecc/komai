@@ -6098,12 +6098,12 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
@@ -6128,7 +6128,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <translation>Chiffrement</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Une fois activé, le chiffrement ne peut pas être désactivé.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Le moteur Matrix n'est pas disponible.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Échec de l'activation du chiffrement.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Échec de la mise à jour des notifications.</translation>
     </message>

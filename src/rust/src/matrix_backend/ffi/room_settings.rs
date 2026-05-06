@@ -36,6 +36,7 @@ pub(crate) fn matrix_fetch_room_settings(
         can_change_avatar: result.can_change_avatar,
         can_change_join_rules: result.can_change_join_rules,
         can_change_history_visibility: result.can_change_history_visibility,
+        can_change_encryption: result.can_change_encryption,
     })
 }
 

@@ -6098,12 +6098,12 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Peruuta</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nimi</translation>
     </message>
@@ -6128,7 +6128,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <translation>Salaus</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Kun salaus on otettu käyttöön, sitä ei voi poistaa käytöstä.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Matrix-tausta ei ole käytettävissä.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Salauksen käyttöönotto epäonnistui.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Ilmoitusten päivittäminen epäonnistui.</translation>
     </message>

@@ -6090,12 +6090,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>لغو</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>نام</translation>
     </message>
@@ -6120,7 +6120,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>رمزگذاری</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>پس از فعال‌سازی، رمزگذاری قابل غیرفعال‌سازی نیست.</translation>
     </message>
@@ -6568,12 +6568,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>زمان اجرای پشتیبان Matrix در دسترس نیست.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>فعال‌سازی رمزگذاری ناموفق بود.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>به‌روزرسانی اعلان‌ها ناموفق بود.</translation>
     </message>

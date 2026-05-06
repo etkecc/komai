@@ -480,6 +480,9 @@ pub async fn fetch_room_settings(
         can_change_history_visibility: power_levels.as_ref().is_some_and(|levels| {
             levels.user_can_send_state(&own_user_id, StateEventType::RoomHistoryVisibility)
         }),
+        can_change_encryption: power_levels.as_ref().is_some_and(|levels| {
+            levels.user_can_send_state(&own_user_id, StateEventType::RoomEncryption)
+        }),
     })
 }
 

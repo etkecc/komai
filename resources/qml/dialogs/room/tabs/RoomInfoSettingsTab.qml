@@ -362,6 +362,7 @@ Item {
                             id: encryptionToggle
                             textColor: encryptionRowHover.hovered ? palette.brightText : palette.buttonText
 
+                            enabled: roomSettings && roomSettings.canChangeEncryption && !roomSettings.isEncryptionEnabled
                             checked: roomSettings ? roomSettings.isEncryptionEnabled : false
                             onCheckedChanged: {
                                 if (roomSettings && roomSettings.isEncryptionEnabled) {

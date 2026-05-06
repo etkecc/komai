@@ -6106,12 +6106,12 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Název</translation>
     </message>
@@ -6136,7 +6136,7 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
         <translation>Šifrování</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Po aktivaci nelze šifrování vypnout.</translation>
     </message>
@@ -6586,12 +6586,12 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Běhové prostředí Matrix backendu není dostupné.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Nepodařilo se aktivovat šifrování.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Nepodařilo se aktualizovat oznámení.</translation>
     </message>

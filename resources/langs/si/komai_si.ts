@@ -6098,12 +6098,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>නම</translation>
     </message>
@@ -6128,7 +6128,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>සංකේතනය</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>සක්‍රීය කළ පසු, සංකේතනය අබල කළ නොහැක.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Matrix backend runtime ලබා ගත නොහැක.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>සංකේතනය සක්‍රිය කිරීම අසාර්ථක විය.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>දැනුම්දීම් යාවත්කාලීන කිරීමට අසාර්ථක විය.</translation>
     </message>

@@ -398,6 +398,7 @@ pub struct MatrixRoomSettings {
     pub can_change_avatar: bool,
     pub can_change_join_rules: bool,
     pub can_change_history_visibility: bool,
+    pub can_change_encryption: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

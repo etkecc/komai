@@ -6106,12 +6106,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
@@ -6136,7 +6136,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Шифрование</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>После включения шифрование нельзя отключить.</translation>
     </message>
@@ -6586,12 +6586,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Среда выполнения Matrix недоступна.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Не удалось включить шифрование.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Не удалось обновить уведомления.</translation>
     </message>

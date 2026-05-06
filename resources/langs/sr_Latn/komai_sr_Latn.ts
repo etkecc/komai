@@ -6106,12 +6106,12 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Otkaži</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Naziv</translation>
     </message>
@@ -6136,7 +6136,7 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
         <translation>Šifrovanje</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Jednom kada se omogući, šifrovanje se ne može deaktivirati.</translation>
     </message>
@@ -6586,12 +6586,12 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Matrix backend runtime nije dostupan.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Nije uspelo uključivanje šifrovanja.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Ažuriranje obaveštenja nije uspelo.</translation>
     </message>

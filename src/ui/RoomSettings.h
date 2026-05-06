@@ -98,6 +98,7 @@ class RoomSettings final : public QObject
     Q_PROPERTY(bool canChangeTopic READ canChangeTopic NOTIFY permissionsChanged)
     Q_PROPERTY(
       bool canChangeHistoryVisibility READ canChangeHistoryVisibility NOTIFY permissionsChanged)
+    Q_PROPERTY(bool canChangeEncryption READ canChangeEncryption NOTIFY permissionsChanged)
     Q_PROPERTY(bool isEncryptionEnabled READ isEncryptionEnabled NOTIFY encryptionChanged)
     Q_PROPERTY(bool supportsKnocking READ supportsKnocking NOTIFY permissionsChanged)
     Q_PROPERTY(bool supportsRestricted READ supportsRestricted NOTIFY permissionsChanged)
@@ -145,6 +146,8 @@ public:
     //! Whether the user has enough power level to send m.room.avatar event.
     bool canChangeAvatar() const;
     bool canChangeHistoryVisibility() const;
+    //! Whether the user has enough power level to send m.room.encryption events.
+    bool canChangeEncryption() const;
     bool isEncryptionEnabled() const;
     bool supportsKnocking() const;
     bool supportsRestricted() const;

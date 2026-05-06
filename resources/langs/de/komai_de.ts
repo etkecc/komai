@@ -6098,12 +6098,12 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
@@ -6128,7 +6128,7 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
         <translation>Verschlüsselung</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Einmal aktiviert, kann die Verschlüsselung nicht mehr deaktiviert werden.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Matrix-Backend-Laufzeit ist nicht verfügbar.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Verschlüsselung konnte nicht aktiviert werden.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Benachrichtigungen konnten nicht aktualisiert werden.</translation>
     </message>

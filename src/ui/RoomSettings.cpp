@@ -175,6 +175,7 @@ RoomSettings::applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings)
     const auto previousCanChangeName              = canChangeName();
     const auto previousCanChangeTopic             = canChangeTopic();
     const auto previousCanChangeHistoryVisibility = canChangeHistoryVisibility();
+    const auto previousCanChangeEncryption        = canChangeEncryption();
     const auto previousSupportsKnocking           = supportsKnocking();
     const auto previousSupportsRestricted         = supportsRestricted();
     const auto previousSupportsKnockRestricted    = supportsKnockRestricted();
@@ -219,6 +220,7 @@ RoomSettings::applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings)
         previousCanChangeJoinRules != canChangeJoinRules() ||
         previousCanChangeName != canChangeName() || previousCanChangeTopic != canChangeTopic() ||
         previousCanChangeHistoryVisibility != canChangeHistoryVisibility() ||
+        previousCanChangeEncryption != canChangeEncryption() ||
         previousSupportsKnocking != supportsKnocking() ||
         previousSupportsRestricted != supportsRestricted() ||
         previousSupportsKnockRestricted != supportsKnockRestricted()) {
@@ -295,6 +297,12 @@ bool
 RoomSettings::canChangeAvatar() const
 {
     return matrixRoomSettings_ && matrixRoomSettings_->canChangeAvatar;
+}
+
+bool
+RoomSettings::canChangeEncryption() const
+{
+    return matrixRoomSettings_ && matrixRoomSettings_->canChangeEncryption;
 }
 
 bool

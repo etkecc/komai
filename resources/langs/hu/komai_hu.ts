@@ -6090,12 +6090,12 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Név</translation>
     </message>
@@ -6120,7 +6120,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <translation>Titkosítás</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Az engedélyezés után a titkosítás nem kapcsolható ki.</translation>
     </message>
@@ -6568,12 +6568,12 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>A Matrix háttérrendszer futtatókörnyezete nem érhető el.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Nem sikerült engedélyezni a titkosítást.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Nem sikerült frissíteni az értesítéseket.</translation>
     </message>

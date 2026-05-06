@@ -6098,12 +6098,12 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Cancellar</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
@@ -6128,7 +6128,7 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
         <translation>Cripteration</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Post activation, li cripteration ne posse esser disactivat.</translation>
     </message>
@@ -6577,12 +6577,12 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Le runtime backend Matrix ne es disponibil.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Faliet activar li cripteration.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Fallat a actualisar li notificationes.</translation>
     </message>

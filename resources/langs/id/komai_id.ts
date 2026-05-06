@@ -6090,12 +6090,12 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Batal</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nama</translation>
     </message>
@@ -6120,7 +6120,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <translation>Enkripsi</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Setelah diaktifkan, enkripsi tidak dapat dinonaktifkan.</translation>
     </message>
@@ -6568,12 +6568,12 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Runtime backend Matrix tidak tersedia.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Gagal mengaktifkan enkripsi.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Gagal memperbarui notifikasi.</translation>
     </message>

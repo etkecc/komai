@@ -6101,12 +6101,12 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
@@ -6131,7 +6131,7 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
         <translation>Cifrado</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Una vez activado, el cifrado no se puede desactivar.</translation>
     </message>
@@ -6580,12 +6580,12 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>El backend de Matrix no está disponible.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>No se ha podido activar el cifrado.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>No se ha podido actualizar las notificaciones.</translation>
     </message>

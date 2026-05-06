@@ -6106,12 +6106,12 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     </message>
     <message>
         <location line="+8"/>
-        <location line="+241"/>
+        <location line="+242"/>
         <source>Cancel</source>
         <translation>Anulează</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-194"/>
         <source>Name</source>
         <translation>Nume</translation>
     </message>
@@ -6136,7 +6136,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
         <translation>Criptare</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation>Odată activată, criptarea nu poate fi dezactivată.</translation>
     </message>
@@ -6586,12 +6586,12 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Runtime-ul backend Matrix nu este disponibil.</translation>
     </message>
     <message>
-        <location line="+150"/>
+        <location line="+152"/>
         <source>Failed to enable encryption.</source>
         <translation>Nu s-a putut activa criptarea.</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+71"/>
         <source>Failed to update notifications.</source>
         <translation>Nu s-au putut actualiza notificările.</translation>
     </message>

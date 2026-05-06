@@ -9341,7 +9341,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Mellékletek</translation>
     </message>
@@ -9351,12 +9351,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Összes melléklet leválasztása</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Opcionális fájlnév hozzáadása...</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Opcionális felirat hozzáadása...</translation>
     </message>

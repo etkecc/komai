@@ -9341,7 +9341,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Ekler</translation>
     </message>
@@ -9351,12 +9351,12 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Tüm ekleri ayır</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>İsteğe bağlı dosya adı ekleyin...</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>İsteğe bağlı açıklama ekleyin...</translation>
     </message>

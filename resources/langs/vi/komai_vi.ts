@@ -9341,7 +9341,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Tệp đính kèm</translation>
     </message>
@@ -9351,12 +9351,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Gỡ tất cả tệp đính kèm</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Thêm tên tệp tùy chọn…</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Thêm chú thích tùy chọn…</translation>
     </message>

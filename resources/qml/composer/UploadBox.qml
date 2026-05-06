@@ -42,6 +42,28 @@ Rectangle {
         }
     }
 
+    // After a new attachment is added, move keyboard focus to the newest
+    // (bottom-most) caption field so Enter sends and the user can type a
+    // caption immediately. The composer textarea is hidden while uploads
+    // are staged, so without this nothing meaningful holds focus.
+    function focusLastCaption(retriesLeft) {
+        // The voice-recording flow steers focus to the voice button itself
+        // (see MessageInput.qml's onHasVoiceRecordingChanged); don't fight it.
+        if (VoiceRecorder.recording || VoiceRecorder.paused || VoiceRecorder.hasRecording)
+            return;
+        if (uploadsList.count <= 0)
+            return;
+        const idx = uploadsList.count - 1;
+        uploadsList.positionViewAtIndex(idx, ListView.Contain);
+        const item = uploadsList.itemAtIndex(idx);
+        if (item && item.captionField && item.captionField.enabled) {
+            item.captionField.forceActiveFocus(Qt.OtherFocusReason);
+            return;
+        }
+        if (retriesLeft > 0)
+            Qt.callLater(focusLastCaption, retriesLeft - 1);
+    }
+
     Layout.fillWidth: true
     Layout.minimumHeight: 0
     Layout.maximumHeight: layoutVisible ? implicitHeight : 0
@@ -112,6 +134,11 @@ Rectangle {
         ListView {
             id: uploadsList
 
+            // Tracks the previous upload count so we only auto-focus when an
+            // item was actually added. Detaches (count shrinks) just update
+            // the baseline so the next add still triggers focus.
+            property int _previousCount: 0
+
             width: parent.width
             height: Math.min(contentHeight, uploadPopup.previewSize * 5)
             boundsBehavior: Flickable.StopAtBounds
@@ -122,8 +149,17 @@ Rectangle {
 
             ScrollBar.vertical: ScrollBar {}
 
+            Component.onCompleted: _previousCount = count
+            onCountChanged: {
+                if (count > _previousCount)
+                    Qt.callLater(uploadPopup.focusLastCaption, 3);
+                _previousCount = count;
+            }
+
             delegate: RowLayout {
                 id: uploadRow
+
+                property alias captionField: captionField
 
                 width: uploadsList.width
                 height: Math.max(uploadPopup.previewSize, uploadFields.implicitHeight) + Komai.paddingSmall * 2
@@ -181,6 +217,8 @@ Rectangle {
                     }
 
                     KomaiTextField {
+                        id: captionField
+
                         Layout.fillWidth: true
                         placeholderText: qsTr("Add an optional caption...")
                         text: modelData.body

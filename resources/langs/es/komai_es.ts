@@ -9360,7 +9360,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Adjuntos</translation>
     </message>
@@ -9370,12 +9370,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Desvincular todos los adjuntos</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Añadir un nombre de archivo opcional...</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Añadir una descripción opcional...</translation>
     </message>

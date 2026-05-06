@@ -9373,7 +9373,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Atașamente</translation>
     </message>
@@ -9383,12 +9383,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Detașează toate atașamentele</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Adaugă un nume de fișier opțional…</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Adaugă o legendă opțională…</translation>
     </message>

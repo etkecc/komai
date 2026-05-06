@@ -9357,7 +9357,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Manused</translation>
     </message>
@@ -9367,12 +9367,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Eemalda kõik manused</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Lisa valikuline failinimi…</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Lisa valikuline kirjeldus…</translation>
     </message>

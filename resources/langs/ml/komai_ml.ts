@@ -9357,7 +9357,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>അറ്റാച്ച്മെന്റുകൾ</translation>
     </message>
@@ -9367,12 +9367,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>എല്ലാ അറ്റാച്ച്‌മെന്റുകളും നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>ഐച്ഛിക ഫയൽനാമം ചേർക്കുക…</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>ഐച്ഛിക അടിക്കുറിപ്പ് ചേർക്കുക…</translation>
     </message>

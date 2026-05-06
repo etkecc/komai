@@ -9357,7 +9357,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Attachamentos</translation>
     </message>
@@ -9367,12 +9367,12 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Detacher omni attachamentos</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Adder un nome de file optional…</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Adder un capition optional…</translation>
     </message>

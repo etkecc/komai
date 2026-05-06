@@ -9341,7 +9341,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Lampiran</translation>
     </message>
@@ -9351,12 +9351,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Lepaskan semua lampiran</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Tambahkan nama file opsional…</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Tambahkan keterangan opsional…</translation>
     </message>

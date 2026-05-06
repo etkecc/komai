@@ -9357,7 +9357,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Bilagor</translation>
     </message>
@@ -9367,12 +9367,12 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Koppla loss alla bilagor</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Lägg till ett valfritt filnamn...</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Lägg till en valfri bildtext...</translation>
     </message>

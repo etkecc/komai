@@ -9373,7 +9373,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>UploadBox</name>
     <message>
-        <location filename="../../qml/composer/UploadBox.qml" line="+89"/>
+        <location filename="../../qml/composer/UploadBox.qml" line="+111"/>
         <source>Attachments</source>
         <translation>Přílohy</translation>
     </message>
@@ -9383,12 +9383,12 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Odepnout všechny přílohy</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+92"/>
         <source>Add an optional filename...</source>
         <translation>Přidat volitelný název souboru…</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Add an optional caption...</source>
         <translation>Přidat volitelný popis…</translation>
     </message>

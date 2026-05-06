@@ -37,7 +37,7 @@ Rectangle {
         Label {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
-            text: qsTr("Need more rooms?")
+            text: qsTr("Need more rooms?", "Invitational nudge next to a 'New' button at the bottom of the room list; not asking whether more rooms are required. Keep short — the row also has to fit a button and may elide.")
             font.pixelSize: Komai.fontPixelSize
             color: palette.buttonText
             elide: Text.ElideRight

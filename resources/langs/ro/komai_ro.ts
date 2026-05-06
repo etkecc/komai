@@ -6336,7 +6336,8 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
         <source>Need more rooms?</source>
-        <translation>Ai nevoie de mai multe camere?</translation>
+        <comment>Invitational nudge next to a 'New' button at the bottom of the room list; not asking whether more rooms are required. Keep short — the row also has to fit a button and may elide.</comment>
+        <translation>Mai multe camere?</translation>
     </message>
 </context>
 <context>

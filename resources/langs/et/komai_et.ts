@@ -6328,7 +6328,8 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
         <source>Need more rooms?</source>
-        <translation>Vajad rohkem jututubasid?</translation>
+        <comment>Invitational nudge next to a 'New' button at the bottom of the room list; not asking whether more rooms are required. Keep short — the row also has to fit a button and may elide.</comment>
+        <translation>Veel jututubasid?</translation>
     </message>
 </context>
 <context>

@@ -6331,6 +6331,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
         <source>Need more rooms?</source>
+        <comment>Invitational nudge next to a 'New' button at the bottom of the room list; not asking whether more rooms are required. Keep short — the row also has to fit a button and may elide.</comment>
         <translation>¿Necesitas más salas?</translation>
     </message>
 </context>

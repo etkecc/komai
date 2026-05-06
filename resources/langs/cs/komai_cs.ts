@@ -6336,7 +6336,8 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     <message>
         <location filename="../../qml/shell/components/RoomListFooterBar.qml" line="+40"/>
         <source>Need more rooms?</source>
-        <translation>Potřebuješ více místností?</translation>
+        <comment>Invitational nudge next to a 'New' button at the bottom of the room list; not asking whether more rooms are required. Keep short — the row also has to fit a button and may elide.</comment>
+        <translation>Více místností?</translation>
     </message>
 </context>
 <context>

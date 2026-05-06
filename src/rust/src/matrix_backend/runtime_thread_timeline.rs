@@ -18,10 +18,21 @@
 // the thread event cache's pagination state persists across Timeline
 // instances (so rebuilding doesn't help either).
 //
-// To work around this, the C++ side dispatches `refresh_thread_timeline`
-// on each room timeline sync update.  The Refresh handler fetches
-// `/relations` from the server directly (bypassing the stale SDK cache)
-// and merges the results with the SDK timeline items:
+// To work around this, two paths feed `refresh_thread_timeline`:
+//
+//   1. The C++ side dispatches `refresh_thread_timeline` on each room
+//      timeline sync update — covers events the SDK Live timeline
+//      surfaces (e.g. new top-level messages, latest_thread_summary
+//      bumps from new thread replies).
+//   2. The thread loop subscribes directly to `RoomEventCache` updates
+//      from the same room — covers events that flow into the room cache
+//      but never reach the Live timeline (most importantly, reactions on
+//      thread messages: their parent is in-thread, so the Live timeline
+//      emits no diff and path 1 never fires).
+//
+// Both paths feed the same debounced refresh, which fetches `/relations`
+// from the server directly (bypassing the stale SDK cache) and merges the
+// results with the SDK timeline items:
 //
 //   - Items present in the SDK timeline use the high-quality SDK version
 //     (with reactions, delivery state, reply previews, etc.)
@@ -468,6 +479,35 @@ async fn run_thread_timeline_loop(
         }
     };
 
+    // Subscribe to the room event cache so we get pinged for events that
+    // arrive in the room but don't surface as room timeline diffs — most
+    // importantly remote reactions on thread messages (their parent is
+    // in-thread, so the SDK Live timeline emits no diff and the C++-side
+    // refresh trigger never fires).  `Timeline::build()` above has already
+    // called `client.event_cache().subscribe()`, so the cache is live.
+    let (room_event_cache, _event_cache_drop_handles) = match room.event_cache().await {
+        Ok(rec) => rec,
+        Err(error) => {
+            tracing::warn!(
+                handle_id, room_id, thread_root_id, %error,
+                "Failed to acquire room event cache for thread timeline; \
+                 reactions arriving via sync may not surface until another \
+                 room event triggers a refresh"
+            );
+            return;
+        }
+    };
+    let mut room_event_subscriber = match room_event_cache.subscribe().await {
+        Ok((_initial_events, sub)) => sub,
+        Err(error) => {
+            tracing::warn!(
+                handle_id, room_id, thread_root_id, %error,
+                "Failed to subscribe to room event cache for thread timeline"
+            );
+            return;
+        }
+    };
+
     let empty_receipts = HashSet::new();
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
@@ -575,6 +615,45 @@ async fn run_thread_timeline_loop(
                         );
                         break;
                     }
+                }
+            }
+
+            // Wake up when ANY event lands in the room event cache from
+            // sync.  This is the only signal that catches reactions on
+            // thread messages, since their parent is in-thread and the
+            // SDK Live timeline emits no diff for them.  We schedule a
+            // debounced refresh (the same one the C++ Refresh command
+            // uses) — `/relations` is bounded by the thread root, so the
+            // extra fetches for unrelated room activity are cheap and
+            // coalesce naturally.
+            maybe_update = room_event_subscriber.recv() => {
+                use matrix_sdk::event_cache::{EventsOrigin, RoomEventCacheUpdate};
+                use tokio::sync::broadcast::error::RecvError;
+                let should_schedule = match maybe_update {
+                    Ok(RoomEventCacheUpdate::UpdateTimelineEvents(diffs)) => {
+                        matches!(diffs.origin, EventsOrigin::Sync)
+                    }
+                    Ok(_) => false,
+                    Err(RecvError::Lagged(n)) => {
+                        tracing::warn!(
+                            handle_id, room_id, thread_root_id, lagged = n,
+                            "Thread room event cache subscriber lagged; \
+                             scheduling refresh to recover"
+                        );
+                        true
+                    }
+                    Err(RecvError::Closed) => {
+                        tracing::info!(
+                            handle_id, room_id, thread_root_id,
+                            "Thread room event cache subscriber closed"
+                        );
+                        false
+                    }
+                };
+                if should_schedule && refresh_deadline.is_none() {
+                    refresh_deadline = Some(
+                        tokio::time::Instant::now() + Duration::from_millis(300)
+                    );
                 }
             }
 

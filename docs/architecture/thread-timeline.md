@@ -26,10 +26,21 @@ The SDK timeline is never rebuilt during the session.
 
 ### /relations refresh (live updates)
 
-On each room timeline sync update, the C++ side dispatches a `Refresh` command
-to the thread timeline loop.  After a 300 ms debounce (to coalesce rapid
-updates from pagination and local echo), the loop fetches events from the server
-via the `/relations` endpoint, bypassing the SDK's stale thread event cache.
+Two paths feed the same debounced `/relations` refresh:
+
+1. **C++ → Refresh command.** On each room timeline sync update, the C++ side
+   dispatches a `Refresh` command to the thread timeline loop. This catches
+   anything that surfaces as a Live timeline diff (new top-level messages,
+   `latest_thread_summary` bumps from new thread replies).
+2. **Room event cache subscription.** The thread loop subscribes directly to
+   `RoomEventCache::subscribe()` for the same room and schedules a refresh
+   on every `UpdateTimelineEvents` from `EventsOrigin::Sync`. This catches
+   events that flow into the room cache but never reach the Live timeline —
+   most importantly **reactions on thread reply messages**, whose parent is
+   in-thread, so the Live timeline emits no diff and path 1 never fires.
+
+Both paths converge on a single 300 ms debounce, so coincident triggers
+collapse into one `/relations` fetch.
 
 The debounce is short on purpose: thread reply local echoes never transition
 to remote echoes in matrix-sdk 0.16 (sync events don't reach
@@ -74,6 +85,7 @@ richer data (reactions, reply previews, delivery state).
   │ Thread timeline loop (Rust)     │
   │  • tokio::select! on:           │
   │    - SDK diff stream            │
+  │    - room event cache subscriber│ ◄── reactions on thread messages
   │    - command channel            │ ◄── PaginateBackwards / Refresh
   │    - debounced /relations timer │
   │  • merge SDK + /relations items │
@@ -93,7 +105,9 @@ richer data (reactions, reply previews, delivery state).
 ```
 
 The C++ side triggers `Refresh` on each `handleMatrixBackendRoomTimelineSnapshotUpdated`
-for the active room while in thread mode.
+for the active room while in thread mode. The Rust loop also independently
+schedules a refresh whenever the room event cache emits a sync update — the
+two converge on the same debounce.
 
 ## Thread entry/exit and delegate recycling
 

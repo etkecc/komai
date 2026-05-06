@@ -3539,7 +3539,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1073"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Напиши сообщение или нажми ↑, чтобы выбрать сообщения.</translation>
     </message>

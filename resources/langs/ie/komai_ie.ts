@@ -3534,7 +3534,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1073"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scriver un mesage, o presar ↑ por seleter mesages.</translation>
     </message>

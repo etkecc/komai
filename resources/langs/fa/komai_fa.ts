@@ -3529,7 +3529,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1073"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>پیامی بنویسید، یا ↑ را فشار دهید تا پیام‌ها را انتخاب کنید.</translation>
     </message>

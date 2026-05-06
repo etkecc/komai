@@ -1044,10 +1044,13 @@ Rectangle {
             // live `scrollbarVisible` — that one feeds back through the
             // TextArea's padding → contentHeight → hasVerticalOverflow and
             // closes a binding loop. For WhenNeeded we reserve unconditionally
-            // so the textarea width stays stable as the user types.
+            // so the textarea width stays stable as the user types. Use
+            // `implicitWidth` only; the live `width` is 0 when the bar's policy
+            // is AlwaysOff, which depends on `scrollbarVisible` and reopens the
+            // same loop.
             readonly property real reservedScrollbarWidth: scrollbarPolicy === Settings.ScrollbarPolicy.Never
                 ? 0
-                : Math.max(ScrollBar.vertical.width, ScrollBar.vertical.implicitWidth)
+                : ScrollBar.vertical.implicitWidth
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.maximumHeight: Window.height / 4

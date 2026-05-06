@@ -9165,7 +9165,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>ToggleButton</name>
     <message>
-        <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
+        <location filename="../../qml/ui/ToggleButton.qml" line="+29"/>
         <source>OFF</source>
         <translation>VYP</translation>
     </message>

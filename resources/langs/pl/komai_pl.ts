@@ -9166,7 +9166,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
 <context>
     <name>ToggleButton</name>
     <message>
-        <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
+        <location filename="../../qml/ui/ToggleButton.qml" line="+29"/>
         <source>OFF</source>
         <translation>WYŁ</translation>
     </message>

@@ -9154,7 +9154,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>ToggleButton</name>
     <message>
-        <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
+        <location filename="../../qml/ui/ToggleButton.qml" line="+29"/>
         <source>OFF</source>
         <translation>NO</translation>
     </message>

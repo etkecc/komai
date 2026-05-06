@@ -15,6 +15,7 @@ Switch {
     property int cursor: Qt.PointingHandCursor
     property color textColor: palette.buttonText
     state: checked ? "on" : "off"
+    opacity: enabled ? 1.0 : 0.5
 
     indicator: Row {
         id: indicatorRow
@@ -113,6 +114,6 @@ Switch {
 
     KomaiCursorShape {
         anchors.fill: parent
-        cursorShape: toggleButton.enabled ? toggleButton.cursor : Qt.ArrowCursor
+        cursorShape: toggleButton.enabled ? toggleButton.cursor : Qt.ForbiddenCursor
     }
 }

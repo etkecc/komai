@@ -9151,7 +9151,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
 <context>
     <name>ToggleButton</name>
     <message>
-        <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
+        <location filename="../../qml/ui/ToggleButton.qml" line="+29"/>
         <source>OFF</source>
         <translation>UIT</translation>
     </message>

@@ -9137,7 +9137,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>ToggleButton</name>
     <message>
-        <location filename="../../qml/ui/ToggleButton.qml" line="+28"/>
+        <location filename="../../qml/ui/ToggleButton.qml" line="+29"/>
         <source>OFF</source>
         <translation>NONAKTIF</translation>
     </message>

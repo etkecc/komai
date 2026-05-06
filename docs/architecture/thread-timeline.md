@@ -49,6 +49,25 @@ React/Edit/Reply buttons — until the `/relations` merge replaces them with
 their server-confirmed twin. Every additional millisecond of debounce is a
 millisecond the user can't react to a just-sent thread reply.
 
+### Cache backfill for missing reactions
+
+Synapse's `GET /_matrix/client/v1/rooms/{roomId}/relations/{eventId}` with
+`recurse=true` is observed to silently drop some reactions on thread reply
+events — same homeserver, same user, no redaction. The reaction event is
+still present in the persisted room event cache (and visible in the main
+timeline, which aggregates from there).
+
+After every `/relations` fetch, the loop calls
+`RoomEventCache::find_event_relations(item, RelationType::Annotation)` for
+every item in the thread snapshot (and the root) and folds any reactions
+Synapse omitted into the annotation map. The map is keyed by
+`(parent_event_id, key, sender)` so reactions present in both `/relations`
+and the cache deduplicate naturally.
+
+This is purely a workaround for a server-side shortfall; if Synapse's
+`/relations` becomes complete, the backfill becomes a no-op (silent in
+logs unless it actually adds something).
+
 ### Merged snapshot
 
 Each snapshot published to the C++ model merges both sources:
@@ -88,6 +107,7 @@ richer data (reactions, reply previews, delivery state).
   │    - room event cache subscriber│ ◄── reactions on thread messages
   │    - command channel            │ ◄── PaginateBackwards / Refresh
   │    - debounced /relations timer │
+  │  • /relations + cache backfill  │
   │  • merge SDK + /relations items │
   │  • publish snapshot, notify C++ │
   └──────────┬──────────────────────┘
@@ -148,7 +168,8 @@ server.
   recursion, covering replies, edits, and reactions in the same response.
   In threads where this cap is hit, older reactions still surface from
   whatever the SDK had — the merge takes the union of senders, not just
-  the /relations slice.
+  the /relations slice. The cache backfill (above) also covers reactions
+  Synapse drops outright, regardless of pagination.
 
 - **Local echo delivery indicator timing**: Own messages show a delivery
   indicator (pending -> sent) until the next /relations refresh confirms

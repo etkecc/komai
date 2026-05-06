@@ -40,6 +40,13 @@
 //     converted via a basic converter and added to fill the gap
 //   - Items only in the SDK timeline (e.g. local echo) are preserved
 //
+// After every `/relations` fetch, `augment_annotations_from_room_cache`
+// mines the persisted room event cache for any reaction events Synapse
+// dropped from `/relations` (observed: Synapse's recurse=true silently
+// omits some reactions on thread reply messages even though the events
+// exist on the server). The cache reactions deduplicate against
+// `/relations` on `(parent, key, sender)`, so this is purely additive.
+//
 // This gives the best of both worlds: full SDK features for initial and
 // cached events, and live updates for new events delivered by sync.
 
@@ -532,7 +539,10 @@ async fn run_thread_timeline_loop(
     // first paint reflects server state, not just whatever the SDK Thread
     // event cache happened to have.
     match fetch_relations_events(&room, &parsed_thread_root_id).await {
-        Ok(data) => {
+        Ok(mut data) => {
+            augment_annotations_from_room_cache(
+                &mut data, &room_event_cache, &parsed_thread_root_id,
+            ).await;
             tracing::info!(
                 handle_id, room_id, thread_root_id,
                 relations_count = data.items.len(),
@@ -708,7 +718,10 @@ async fn run_thread_timeline_loop(
                     &room,
                     &parsed_thread_root_id,
                 ).await {
-                    Ok(data) => {
+                    Ok(mut data) => {
+                        augment_annotations_from_room_cache(
+                            &mut data, &room_event_cache, &parsed_thread_root_id,
+                        ).await;
                         let prev_count = relations_data.items.len();
                         tracing::info!(
                             handle_id, room_id, thread_root_id,
@@ -1031,6 +1044,83 @@ fn apply_relations_annotations(
 // ---------------------------------------------------------------------------
 // /relations fetch + raw event conversion
 // ---------------------------------------------------------------------------
+
+/// Augment `/relations` annotations with reactions found in the persisted
+/// room event cache.
+///
+/// Synapse's `GET /_matrix/client/v1/rooms/{roomId}/relations/{eventId}`
+/// with `recurse=true` is observed (2026-05) to silently drop reactions
+/// on some thread reply events — same homeserver, no redaction, the
+/// reaction event is present in our local room cache (and visible in the
+/// main timeline). We work around it by querying the persisted room
+/// cache directly for `m.annotation` relations of every item in the
+/// thread snapshot, then folding any reactions Synapse omitted into the
+/// annotation map.
+///
+/// The annotation map is keyed by `(parent_event_id, key, sender)`, so
+/// reactions present in BOTH `/relations` and the cache deduplicate
+/// naturally. We prefer the existing entry (which may carry a richer
+/// reaction event id) and only insert when the sender is missing.
+async fn augment_annotations_from_room_cache(
+    data: &mut ThreadRelationsData,
+    room_event_cache: &matrix_sdk::event_cache::RoomEventCache,
+    thread_root_id: &OwnedEventId,
+) {
+    use matrix_sdk::ruma::events::relation::RelationType;
+
+    // Collect parent event ids to look up: the thread root + every item
+    // we already pulled via /relations. Items missing an event_id (local
+    // echoes) can't have reactions yet, so we skip them.
+    let mut parents: Vec<OwnedEventId> = Vec::with_capacity(data.items.len() + 1);
+    parents.push(thread_root_id.clone());
+    for item in &data.items {
+        if item.event_id.is_empty() { continue; }
+        if let Ok(eid) = OwnedEventId::try_from(item.event_id.clone()) {
+            parents.push(eid);
+        }
+    }
+
+    let mut added = 0usize;
+    let mut probed = 0usize;
+    for parent in &parents {
+        let related = match room_event_cache
+            .find_event_relations(parent, Some(vec![RelationType::Annotation]))
+            .await
+        {
+            Ok(events) => events,
+            Err(error) => {
+                tracing::warn!(
+                    parent = %parent, %error,
+                    "find_event_relations failed; skipping parent"
+                );
+                continue;
+            }
+        };
+        probed += related.len();
+        for event in related {
+            let raw = event.raw().json().get();
+            let Some(ann) = parse_annotation_event(raw) else { continue; };
+            let by_key = data.annotations.entry(ann.parent_event_id).or_default();
+            let by_sender = by_key.entry(ann.key).or_default();
+            if !by_sender.contains_key(&ann.sender_id) {
+                by_sender.insert(ann.sender_id, ann.reaction_event_id);
+                added += 1;
+            }
+        }
+    }
+
+    // Only log when the workaround actually did something — silent in the
+    // common case where /relations was complete, loud when it backfilled.
+    if added > 0 {
+        tracing::info!(
+            thread_root = %thread_root_id,
+            parents_checked = parents.len(),
+            cache_reactions_seen = probed,
+            added_to_annotations = added,
+            "Augmented thread annotations from room event cache"
+        );
+    }
+}
 
 /// Fetch thread events from the server via `/relations` and split them
 /// into timeline rows + reaction aggregations.  Replies/attachments become

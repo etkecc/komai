@@ -73,7 +73,7 @@ sudo cmake --install var/build/native
 | Dependency | Purpose | CMake flag to disable |
 |-----------|---------|----------------------|
 | [GStreamer](https://gitlab.freedesktop.org/gstreamer) 1.20+ | VoIP (voice & video calls) | `-DVOIP=OFF` |
-| XCB, XCB-EWMH | X11 screensharing | `-DSCREENSHARE_X11=OFF` |
+| XCB, XCB-EWMH | X11 screensharing and window roles | `-DX11=OFF` |
 
 ### System packages vs CPM downloads
 
@@ -194,8 +194,8 @@ installed.
   PowerShell variant) so MSVC, CMake, and Qt are all on `PATH` together.
 - VOIP (voice & video calls) depends on GStreamer, which is Linux-leaning
   — easiest first attempt is to build with `-DVOIP=OFF`.
-- X11 screensharing is Linux-only; pass `-DSCREENSHARE_X11=OFF` (it is
-  off by default on non-Linux platforms but doesn't hurt to be explicit).
+- X11 features (screensharing, window roles) are auto-disabled on
+  Windows; no flag is needed.
 - Long CPM build paths can hit the default Windows 260-character path
   limit. Building from a short path (e.g. `C:\src\komai`) avoids this.
 - OpenSSL needs to be discoverable by CMake. The
@@ -204,7 +204,7 @@ installed.
 
 ```cmd
 cmake -S. -Bvar/build/native -DCMAKE_BUILD_TYPE=Release ^
-    -DVOIP=OFF -DSCREENSHARE_X11=OFF
+    -DVOIP=OFF
 cmake --build var/build/native --parallel
 ```
 

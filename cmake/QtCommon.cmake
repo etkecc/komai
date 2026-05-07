@@ -28,9 +28,17 @@ if (WIN32)
       "windows_metafile.rc"
     )
     set(RES_FILES "windows_metafile.rc")
-    set(CMAKE_RC_COMPILER_INIT windres)
+    # The windres init + compile-command override only fits MinGW. On MSVC
+    # (or clang-cl), CMake picks rc.exe and its /fo /d syntax automatically;
+    # imposing the windres command line would break it (rc.exe parses `coff`
+    # as a source filename).
+    if(MINGW)
+        set(CMAKE_RC_COMPILER_INIT windres)
+    endif()
     ENABLE_LANGUAGE(RC)
-    SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+    if(MINGW)
+        SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+    endif()
 endif()
 
 if (APPLE)

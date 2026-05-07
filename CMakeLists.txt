@@ -1451,7 +1451,10 @@ endif()
 
 if(WIN32)
     # shlwapi for AssocQueryString (external media player lookup by file extension)
-    target_link_libraries(komai PRIVATE shlwapi)
+    # iphlpapi for GetAdaptersAddresses, called by the Rust `ipconfig` crate
+    # (transitive dep of matrix-sdk for network adapter enumeration). The crate's
+    # link declaration doesn't propagate through Corrosion to the C++ linker.
+    target_link_libraries(komai PRIVATE shlwapi iphlpapi)
 endif()
 
 if(MSVC)

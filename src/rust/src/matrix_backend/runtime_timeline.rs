@@ -611,12 +611,13 @@ async fn fetch_member_receipt_targets(
 /// EDU loss, sync gap, broadcast channel lag) the indicator hangs
 /// forever.  See etkecc/komai#117.
 ///
-/// 60s is comfortably longer than the implicit ~5s typing-refresh
-/// cadence: matrix-sdk re-PUTs `typing=true` every 3-4s while the
-/// composer is active, and any composer pause ≥4s expires the server's
-/// state and produces a fresh `m.typing` event when the user resumes —
-/// each such event refreshes our per-user TTL clock.
-const TYPING_USER_TTL: StdDuration = StdDuration::from_secs(60);
+/// 15s is ~4× the server-side typing timeout (matrix-sdk PUTs
+/// `typing=true` with a 4s timeout while the composer is active).  Any
+/// composer pause ≥4s expires the server's state and produces a fresh
+/// `m.typing` event when the user resumes, refreshing the per-user
+/// TTL clock; real-world typing rarely sustains 15s of continuous
+/// keystrokes with zero such pauses.
+const TYPING_USER_TTL: StdDuration = StdDuration::from_secs(15);
 
 /// Minimum interval between two TTL prunes.  Pruning happens inside
 /// the existing 50ms stop-poll arm; this gates how often we actually

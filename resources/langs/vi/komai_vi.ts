@@ -885,9 +885,14 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+227"/>
+        <location filename="../../qml/components/Completer.qml" line="+228"/>
         <source>Pick an emoji</source>
         <translation>Chọn emoji</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pick a custom emoji or sticker</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -915,12 +920,22 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Đóng</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+63"/>
+        <source>No custom emojis defined yet.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>No matches found.</source>
         <translation>Không tìm thấy kết quả.</translation>
     </message>
     <message>
-        <location line="+171"/>
+        <location line="+8"/>
+        <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+173"/>
         <source>Notify the whole room</source>
         <translation>Thông báo toàn bộ phòng</translation>
     </message>

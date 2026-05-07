@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -223,8 +224,10 @@ Control {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignVCenter
                     text: {
-                        if (popup.completerType === "emoji" || popup.completerType === "customEmoji")
+                        if (popup.completerType === "emoji")
                             return qsTr("Pick an emoji");
+                        else if (popup.completerType === "customEmoji")
+                            return qsTr("Pick a custom emoji or sticker");
                         else if (popup.completerType === "user")
                             return qsTr("Pick a user to mention");
                         else if (popup.completerType === "user-mxid")
@@ -263,23 +266,61 @@ Control {
             visible: headerBackground.visible
         }
 
+        // Mirrors the source model so we can detect a genuinely-empty custom-emoji
+        // pool independently of completer.searchString — that property's update
+        // arrives via a QueuedConnection and lags QML bindings by one keystroke.
+        Instantiator {
+            id: customEmojiSourceCounter
+
+            active: popup.completerType === "customEmoji" && !!completer
+            model: active ? completer.sourceModel : null
+            delegate: QtObject {}
+        }
+
         Item {
             id: emptyState
 
-            Layout.fillWidth: true
-            Layout.preferredHeight: Math.ceil(Settings.uiFontSizePt * 4)
-            implicitWidth: noMatchesLabel.implicitWidth + 2 * Komai.paddingLarge
-            visible: !!completer
+            readonly property bool isCustomEmojiEmpty: popup.completerType === "customEmoji"
+                && !!completer
+                && customEmojiSourceCounter.count === 0
+            readonly property bool isNoMatch: !isCustomEmojiEmpty
+                && !!completer
                 && !!completer.searchString
                 && completer.searchString.length > 0
                 && listView.count === 0
 
-            Label {
-                id: noMatchesLabel
+            Layout.fillWidth: true
+            Layout.preferredHeight: Math.max(
+                Math.ceil(Settings.uiFontSizePt * 4),
+                emptyContent.implicitHeight + 2 * Komai.paddingLarge)
+            implicitWidth: emptyContent.implicitWidth + 2 * Komai.paddingLarge
+            visible: isCustomEmojiEmpty || isNoMatch
+
+            ColumnLayout {
+                id: emptyContent
 
                 anchors.centerIn: parent
-                color: palette.buttonText
-                text: qsTr("No matches found.")
+                width: parent.width - 2 * Komai.paddingLarge
+                spacing: Komai.paddingSmall
+
+                Label {
+                    Layout.fillWidth: true
+                    color: palette.buttonText
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    text: emptyState.isCustomEmojiEmpty
+                        ? qsTr("No custom emojis defined yet.")
+                        : qsTr("No matches found.")
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    color: palette.buttonText
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                    text: qsTr("See Room Settings -> Sticker & Emote Settings.")
+                    visible: emptyState.isCustomEmojiEmpty
+                }
             }
         }
 

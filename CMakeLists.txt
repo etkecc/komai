@@ -892,12 +892,22 @@ if(WIN32)
             $<TARGET_FILE_DIR:komai_logo_asset_generator>
         COMMAND_EXPAND_LISTS
     )
+    # Qt's plugin lookup defaults to <exe-dir>/plugins, which is empty in the
+    # build dir; point it at Qt's real plugin directory so qico (needed for
+    # the .ico output) loads. Derived from Qt6Core.dll's location to avoid
+    # hardcoding any specific Qt install layout.
+    set(_komai_logo_helper_env
+        ${CMAKE_COMMAND} -E env
+            "QT_PLUGIN_PATH=$<TARGET_FILE_DIR:Qt6::Core>/../plugins"
+    )
+else()
+    set(_komai_logo_helper_env "")
 endif()
 
 add_custom_command(
     OUTPUT ${KOMAI_LOGO_GENERATED_FILES}
     COMMAND ${CMAKE_COMMAND} -E make_directory "${KOMAI_LOGO_ASSET_DIR}"
-    COMMAND $<TARGET_FILE:komai_logo_asset_generator> ${KOMAI_LOGO_GENERATOR_ARGS}
+    COMMAND ${_komai_logo_helper_env} $<TARGET_FILE:komai_logo_asset_generator> ${KOMAI_LOGO_GENERATOR_ARGS}
     DEPENDS
         komai_logo_asset_generator
         "${KOMAI_LOGO_SOURCE_SVG}"

@@ -112,15 +112,15 @@ CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,
 
     rebuildTrie();
 
-    connect(
-      this,
-      &CompletionProxyModel::newSearchString,
-      this,
-      [this](const QString &s) {
-          searchString_ = normalizeForTrieSearch(s);
-          invalidate();
-      },
-      Qt::QueuedConnection);
+    // searchString_ is updated synchronously in setSearchString so QML bindings
+    // observing the searchString property see the fresh value as soon as the
+    // newSearchString notify fires. Only the trie invalidation stays queued —
+    // that's the expensive part, and we want it to coalesce across keystrokes.
+    connect(this,
+            &CompletionProxyModel::newSearchString,
+            this,
+            &CompletionProxyModel::invalidate,
+            Qt::QueuedConnection);
 
     connect(
       sourceModel(), &QAbstractItemModel::modelReset, this, &CompletionProxyModel::rebuildTrie);
@@ -309,7 +309,11 @@ CompletionProxyModel::completionAt(int i) const
 void
 CompletionProxyModel::setSearchString(const QString &s)
 {
-    emit newSearchString(s);
+    auto normalized = normalizeForTrieSearch(s);
+    if (normalized == searchString_)
+        return;
+    searchString_ = std::move(normalized);
+    emit newSearchString(searchString_);
 }
 
 #include "moc_CompletionProxyModel.cpp"

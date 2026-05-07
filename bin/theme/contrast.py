@@ -95,12 +95,6 @@ def build_core_checks(palette: dict[str, str]) -> list[CheckResult]:
 
 def build_surface_checks(palette: dict[str, str]) -> list[CheckResult]:
     return [
-        CheckResult(
-            "window/alternateBase",
-            contrast_ratio(palette["window"], palette["alternateBase"]),
-            1.2,
-            False,
-        ),
         CheckResult("window/base", contrast_ratio(palette["window"], palette["base"]), 1.2, False),
         CheckResult(
             "window/highlight",

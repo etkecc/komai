@@ -255,6 +255,43 @@ def contrast_ratio(hex1, hex2):
     return (lighter + 0.05) / (darker + 0.05)
 
 
+def _f_lab(t):
+    delta = 6.0 / 29.0
+    return t ** (1.0 / 3.0) if t > delta ** 3 else t / (3 * delta ** 2) + 4.0 / 29.0
+
+
+def _hex_to_lab(hex_str):
+    """Convert a hex color to CIE L*a*b* (D65 reference white)."""
+    r, g, b = parse_color(hex_str)
+    rl, gl, bl = _linearize(r), _linearize(g), _linearize(b)
+    # sRGB (D65) -> XYZ
+    x = rl * 0.4124564 + gl * 0.3575761 + bl * 0.1804375
+    y = rl * 0.2126729 + gl * 0.7151522 + bl * 0.0721750
+    z = rl * 0.0193339 + gl * 0.1191920 + bl * 0.9503041
+    # Normalize by D65 reference white
+    fx = _f_lab(x / 0.95047)
+    fy = _f_lab(y / 1.00000)
+    fz = _f_lab(z / 1.08883)
+    L = 116.0 * fy - 16.0
+    a = 500.0 * (fx - fy)
+    b = 200.0 * (fy - fz)
+    return L, a, b
+
+
+def delta_e_lab(hex1, hex2):
+    """CIE76 perceptual distance (ΔE*ab) between two sRGB colors.
+
+    Rough interpretation of the result:
+      <  1  imperceptible
+      1-2  perceptible only on close inspection
+      2-5  perceptible at a glance
+      > 5  clearly distinguishable surfaces
+    """
+    L1, a1, b1 = _hex_to_lab(hex1)
+    L2, a2, b2 = _hex_to_lab(hex2)
+    return ((L1 - L2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2) ** 0.5
+
+
 def rgb_to_hex(rgb):
     """Convert (r, g, b) ints to a #rrggbb string."""
     return "#{:02x}{:02x}{:02x}".format(*rgb)

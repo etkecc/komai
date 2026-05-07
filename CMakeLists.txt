@@ -883,6 +883,17 @@ endif()
 add_executable(komai_logo_asset_generator etc/tools/logo-assets/LogoAssetGenerator.cpp)
 target_link_libraries(komai_logo_asset_generator PRIVATE Qt::Core Qt::Gui Qt::Svg)
 
+# Windows: stage Qt DLLs next to the helper so it can launch during the build.
+# Linux/macOS resolve Qt via RPATH/ld.so, so the block is a no-op there.
+if(WIN32)
+    add_custom_command(TARGET komai_logo_asset_generator POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_RUNTIME_DLLS:komai_logo_asset_generator>
+            $<TARGET_FILE_DIR:komai_logo_asset_generator>
+        COMMAND_EXPAND_LISTS
+    )
+endif()
+
 add_custom_command(
     OUTPUT ${KOMAI_LOGO_GENERATED_FILES}
     COMMAND ${CMAKE_COMMAND} -E make_directory "${KOMAI_LOGO_ASSET_DIR}"

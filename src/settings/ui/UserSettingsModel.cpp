@@ -47,8 +47,12 @@ public:
         if (q == query_)
             return;
         query_ = q;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
         beginFilterChange();
         endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
+        invalidateFilter();
+#endif
     }
 
     int matchCount() const

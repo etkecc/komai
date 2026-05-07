@@ -6,6 +6,7 @@
 
 #include <QDesktopServices>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QProcess>
 #include <QUrl>
@@ -16,6 +17,7 @@
 #include <QDBusPendingCall>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
+#include <QDBusUnixFileDescriptor>
 #endif
 
 #include "logging/Logging.h"
@@ -32,48 +34,57 @@ openParentDirectory(const QString &filePath)
 }
 
 #if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD) || defined(Q_OS_OPENBSD) || defined(Q_OS_NETBSD)
-// Save dialogs under Flatpak hand back portal paths
-// (/run/user/$UID/doc/$DOC_ID/<basename>); the host file manager doesn't
-// translate them, so without resolving we'd open the doc-portal mount instead
-// of the user's actual save location.
-QString
-resolvePortalDocumentPath(const QString &filePath)
+bool
+isFlatpakSandbox()
 {
-    if (!filePath.startsWith(QStringLiteral("/run/user/")))
-        return filePath;
+    static const bool flatpak = QFileInfo::exists(QStringLiteral("/.flatpak-info"));
+    return flatpak;
+}
 
-    const auto segments = filePath.split(QChar(u'/'), Qt::SkipEmptyParts);
-    if (segments.size() < 6 || segments[3] != QStringLiteral("doc"))
-        return filePath;
-
-    auto bus = QDBusConnection::sessionBus();
-    if (!bus.isConnected())
-        return filePath;
-
-    auto msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.portal.Documents"),
-                                              QStringLiteral("/org/freedesktop/portal/documents"),
-                                              QStringLiteral("org.freedesktop.portal.Documents"),
-                                              QStringLiteral("Info"));
-    msg << segments[4];
-
-    auto reply = bus.call(msg);
-    if (reply.type() != QDBusMessage::ReplyMessage) {
-        komai::logging::ui()->info("Documents.Info failed for doc-id '{}': {}",
-                                   segments[4].toStdString(),
-                                   reply.errorMessage().toStdString());
-        return filePath;
+// Inside a Flatpak sandbox, FileManager1.ShowItems is filtered out by the
+// session-bus proxy and Documents.Info is denied for sandboxed callers, so
+// neither direct ShowItems nor host-path resolution works. The OpenURI portal
+// takes a file fd and opens the parent directory host-side without needing
+// path translation, which is what we want.
+bool
+openDirectoryViaPortal(const QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        komai::logging::ui()->warn("OpenURI.OpenDirectory: cannot open '{}': {}",
+                                   filePath.toStdString(),
+                                   file.errorString().toStdString());
+        return false;
     }
 
-    const auto args = reply.arguments();
-    if (args.isEmpty())
-        return filePath;
+    auto bus = QDBusConnection::sessionBus();
+    if (!bus.isConnected()) {
+        komai::logging::ui()->warn(
+          "OpenURI.OpenDirectory: session bus unavailable, cannot reveal '{}'",
+          filePath.toStdString());
+        return false;
+    }
 
-    QByteArray pathBytes = args.first().toByteArray();
-    while (!pathBytes.isEmpty() && pathBytes.endsWith('\0'))
-        pathBytes.chop(1);
-    if (pathBytes.isEmpty())
-        return filePath;
-    return QString::fromUtf8(pathBytes);
+    auto msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.portal.Desktop"),
+                                              QStringLiteral("/org/freedesktop/portal/desktop"),
+                                              QStringLiteral("org.freedesktop.portal.OpenURI"),
+                                              QStringLiteral("OpenDirectory"));
+    QDBusUnixFileDescriptor qfd(file.handle());
+    msg << QString{} << QVariant::fromValue(qfd) << QVariantMap{};
+
+    auto pending  = bus.asyncCall(msg);
+    auto *watcher = new QDBusPendingCallWatcher(pending);
+    QObject::connect(
+      watcher, &QDBusPendingCallWatcher::finished, [filePath](QDBusPendingCallWatcher *w) {
+          w->deleteLater();
+          QDBusPendingReply<> reply = *w;
+          if (reply.isError()) {
+              komai::logging::ui()->warn("portal OpenURI.OpenDirectory failed for '{}': {}",
+                                         filePath.toStdString(),
+                                         reply.error().message().toStdString());
+          }
+      });
+    return true;
 }
 #endif
 }
@@ -92,30 +103,32 @@ utils::revealInFileManager(const QString &filePath)
     }
 
 #if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD) || defined(Q_OS_OPENBSD) || defined(Q_OS_NETBSD)
+    if (isFlatpakSandbox())
+        return openDirectoryViaPortal(absolutePath);
+
     auto bus = QDBusConnection::sessionBus();
     // Activatable services may not be registered yet; prefer attempting the
     // call and letting D-Bus auto-activate. We only skip the attempt if the
     // bus itself is unreachable.
     if (bus.isConnected()) {
-        const QString hostPath = resolvePortalDocumentPath(absolutePath);
         auto message =
           QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.FileManager1"),
                                          QStringLiteral("/org/freedesktop/FileManager1"),
                                          QStringLiteral("org.freedesktop.FileManager1"),
                                          QStringLiteral("ShowItems"));
         message.setArguments(
-          {QStringList{QUrl::fromLocalFile(hostPath).toString(QUrl::FullyEncoded)}, QString{}});
+          {QStringList{QUrl::fromLocalFile(absolutePath).toString(QUrl::FullyEncoded)}, QString{}});
         auto pending  = bus.asyncCall(message);
         auto *watcher = new QDBusPendingCallWatcher(pending);
         QObject::connect(
-          watcher, &QDBusPendingCallWatcher::finished, [hostPath](QDBusPendingCallWatcher *w) {
+          watcher, &QDBusPendingCallWatcher::finished, [absolutePath](QDBusPendingCallWatcher *w) {
               w->deleteLater();
               QDBusPendingReply<> reply = *w;
               if (reply.isError()) {
                   komai::logging::ui()->info(
                     "FileManager1.ShowItems failed, falling back to parent dir: {}",
                     reply.error().message().toStdString());
-                  openParentDirectory(hostPath);
+                  openParentDirectory(absolutePath);
               }
           });
         return true;

@@ -2543,7 +2543,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Tylko lokalne pliki można załączyć przez przeciągnięcie i upuszczenie.</translation>
     </message>
@@ -8917,7 +8917,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Zakończ edycję bieżącej wiadomości przed dołączeniem plików.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Przeciąganiem i upuszczaniem można dołączać tylko istniejące pliki lokalne.</translation>
     </message>

@@ -2539,7 +2539,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Vain paikallisia tiedostoja voidaan liittää vetämällä ja pudottamalla.</translation>
     </message>
@@ -8903,7 +8903,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Lopeta nykyisen viestin muokkaaminen ennen tiedostojen liittämistä.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Vain olemassa olevia paikallisia tiedostoja voi liittää vetämällä ja pudottamalla.</translation>
     </message>

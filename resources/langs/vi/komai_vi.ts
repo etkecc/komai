@@ -2535,7 +2535,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Chỉ có thể đính kèm tệp cục bộ bằng cách kéo và thả.</translation>
     </message>
@@ -8890,7 +8890,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Hãy hoàn tất chỉnh sửa tin nhắn hiện tại trước khi đính kèm tệp.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Chỉ có thể kéo và thả các tệp cục bộ đã tồn tại để đính kèm.</translation>
     </message>

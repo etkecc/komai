@@ -2539,7 +2539,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Nur lokaj dosieroj povas esti aldonataj per treni kaj faligi.</translation>
     </message>
@@ -8906,7 +8906,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Finu redaktadon de la aktuala mesaĝo antaŭ ol aldoni dosierojn.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Nur ekzistantaj lokaj dosieroj povas esti aldonataj per treni kaj faligi.</translation>
     </message>

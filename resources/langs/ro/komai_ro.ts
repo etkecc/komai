@@ -2543,7 +2543,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Numai fișierele locale pot fi atașate prin drag and drop.</translation>
     </message>
@@ -8916,7 +8916,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Finalizați editarea mesajului curent înainte de a atașa fișiere.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Prin glisare și plasare pot fi atașate doar fișiere locale existente.</translation>
     </message>

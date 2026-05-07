@@ -2539,7 +2539,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Només es poden adjuntar fitxers locals mitjançant arrossegar i deixar anar.</translation>
     </message>
@@ -8903,7 +8903,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Cal acabar d'editar el missatge actual abans d'adjuntar fitxers.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Només es poden adjuntar fitxers locals existents arrossegant i deixant anar.</translation>
     </message>

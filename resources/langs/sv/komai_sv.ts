@@ -2539,7 +2539,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Endast lokala filer kan bifogas med dra och släpp.</translation>
     </message>
@@ -8903,7 +8903,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Slutför redigeringen av det aktuella meddelandet innan du bifogar filer.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Endast befintliga lokala filer kan bifogas med drag och släpp.</translation>
     </message>

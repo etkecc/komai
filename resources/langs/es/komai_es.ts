@@ -2542,7 +2542,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Solo se pueden adjuntar archivos locales mediante arrastrar y soltar.</translation>
     </message>
@@ -8906,7 +8906,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Termina de editar el mensaje actual antes de adjuntar archivos.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Solo se pueden adjuntar archivos locales existentes arrastrando y soltando.</translation>
     </message>

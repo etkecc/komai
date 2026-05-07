@@ -2555,7 +2555,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>يمكن إرفاق الملفات المحلية فقط بالسحب والإفلات.</translation>
     </message>
@@ -8955,7 +8955,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>أنهِ تحرير الرسالة الحالية قبل إرفاق الملفات.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>يمكن إرفاق الملفات المحلية الموجودة فقط بالسحب والإفلات.</translation>
     </message>

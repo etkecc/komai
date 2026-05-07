@@ -2535,7 +2535,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Csak helyi fájlok csatolhatók húzással és ejtéssel.</translation>
     </message>
@@ -8890,7 +8890,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Fejezze be az aktuális üzenet szerkesztését fájlok csatolása előtt.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Húzással és ejtéssel csak meglévő helyi fájlok csatolhatók.</translation>
     </message>

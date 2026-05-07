@@ -2539,7 +2539,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Seuls les fichiers locaux peuvent être joints par glisser-déposer.</translation>
     </message>
@@ -8903,7 +8903,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Terminez la modification du message actuel avant de joindre des fichiers.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Seuls les fichiers locaux existants peuvent être joints par glisser-déposer.</translation>
     </message>

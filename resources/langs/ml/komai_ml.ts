@@ -2539,7 +2539,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>ഡ്രാഗ് ആൻഡ് ഡ്രോപ്പ് വഴി പ്രാദേശിക ഫയലുകൾ മാത്രമേ അറ്റാച്ച് ചെയ്യാൻ കഴിയൂ.</translation>
     </message>
@@ -8903,7 +8903,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഫയലുകൾ അറ്റാച്ч് ചെയ്യുന്നതിന് മുമ്പ് നിലവിലെ സന്ദേശം തിരുത്തൽ പൂർത്തിയാക്കുക.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>നിലവിലുള്ള പ്രാദേശിക ഫയലുകൾ മാത്രം ഡ്രാഗ് ആൻഡ് ഡ്രോപ്പ് വഴി അറ്റാч്ч് ചെയ്യാൻ കഴിയും.</translation>
     </message>

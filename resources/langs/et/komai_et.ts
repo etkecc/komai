@@ -2539,7 +2539,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Lohistamisega saab lisada ainult kohalikke faile.</translation>
     </message>
@@ -8903,7 +8903,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Lõpeta praeguse sõnumi muutmine enne failide lisamist.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Lohistades saab lisada ainult olemasolevaid kohalikke faile.</translation>
     </message>

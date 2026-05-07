@@ -2620,8 +2620,20 @@ TimelineViewManager::stageMatrixAttachmentsForRoom(const QString &roomId,
 
     for (const auto &filePath : filePaths) {
         const QFileInfo info(filePath);
-        if (!info.exists() || !info.isFile())
+        if (!info.exists()) {
+            komai::logging::ui()->warn(
+              "stageMatrixAttachmentsForRoom: rejecting '{}' (path not visible to process; "
+              "under Flatpak this typically means the sandbox lacks read access to the source "
+              "location -- see https://github.com/etkecc/komai/issues/118)",
+              filePath.toStdString());
             continue;
+        }
+        if (!info.isFile()) {
+            komai::logging::ui()->warn(
+              "stageMatrixAttachmentsForRoom: rejecting '{}' (not a regular file)",
+              filePath.toStdString());
+            continue;
+        }
 
         const auto absoluteFilePath = info.absoluteFilePath();
         if (normalizedFilePaths.contains(absoluteFilePath))

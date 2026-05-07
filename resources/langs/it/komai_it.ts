@@ -2539,7 +2539,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Solo i file locali possono essere allegati tramite trascinamento.</translation>
     </message>
@@ -8903,7 +8903,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Termina la modifica del messaggio corrente prima di allegare file.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Solo i file locali esistenti possono essere allegati tramite trascinamento.</translation>
     </message>

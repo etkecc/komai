@@ -2539,7 +2539,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Alleen lokale bestanden kunnen worden bijgevoegd via slepen en neerzetten.</translation>
     </message>
@@ -8903,7 +8903,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Beëindig het bewerken van het huidige bericht voordat je bestanden bijvoegt.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Alleen bestaande lokale bestanden kunnen worden bijgevoegd via slepen en neerzetten.</translation>
     </message>

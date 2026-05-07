@@ -2543,7 +2543,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Přetažením lze přiložit pouze místní soubory.</translation>
     </message>
@@ -8916,7 +8916,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Před připojením souborů nejprve dokonči úpravu aktuální zprávy.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Přetažením lze připojit pouze existující místní soubory.</translation>
     </message>

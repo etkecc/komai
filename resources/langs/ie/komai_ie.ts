@@ -2539,7 +2539,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Solmen files local pot esser attachat per trahar e ponar.</translation>
     </message>
@@ -8903,7 +8903,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Finishe editar li actual mesage ante annexar files.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Solmen files local existente posse esser annexat per drag e drop.</translation>
     </message>

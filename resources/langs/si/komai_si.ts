@@ -2539,7 +2539,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>ඇදීම-අතහැරීම මගින් ප්‍රාදේශීය ගොනු පමණක් අමුණා ගත හැකිය.</translation>
     </message>
@@ -8903,7 +8903,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ගොනු අමුණීමට පෙර වත්මන් පණිවිඩය සංස්කරණය නිමා කරන්න.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>ඇදගෙන හෙළීමෙන් අමුණිය හැක්කේ ස්ථානීයව පවතින ගොනු පමණි.</translation>
     </message>

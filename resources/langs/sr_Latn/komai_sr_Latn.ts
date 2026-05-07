@@ -2543,7 +2543,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Samo lokalne datoteke mogu se priložiti prevlačenjem i ispuštanjem.</translation>
     </message>
@@ -8916,7 +8916,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Završi uređivanje trenutne poruke pre dodavanja fajlova.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Prevlačenjem i ispuštanjem mogu se dodati samo postojeći lokalni fajlovi.</translation>
     </message>

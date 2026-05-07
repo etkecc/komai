@@ -2535,7 +2535,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>KomaiDropArea</name>
     <message>
-        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+52"/>
+        <location filename="../../../src/ui/KomaiDropArea.cpp" line="+113"/>
         <source>Only local files can be attached by drag and drop.</source>
         <translation>Yalnızca yerel dosyalar sürükleyip bırakarak eklenebilir.</translation>
     </message>
@@ -8890,7 +8890,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Dosya eklemeden önce mevcut mesajı düzenlemeyi tamamlayın.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+60"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Yalnızca mevcut yerel dosyalar sürükle ve bırak ile eklenebilir.</translation>
     </message>

@@ -170,16 +170,16 @@ jobs:
           TAG: ${{ github.event.workflow_run.head_branch }}
         run: |
           set -euo pipefail
-          VERSION="$(cat VERSION)"
+          VERSION="$(cat VERSION.txt)"
 
           # Sanity: the tag should match `v${VERSION}`. The version-drift
-          # hook already guarantees VERSION / PKGBUILD / CHANGELOG /
+          # hook already guarantees VERSION.txt / PKGBUILD / CHANGELOG /
           # appdata.xml.in agree with one another; this just verifies the
-          # *tag* name lines up with the VERSION file the tagged commit
+          # *tag* name lines up with the VERSION.txt file the tagged commit
           # contains.
           if [[ "${TAG}" != "v${VERSION}" ]]; then
-            echo "Tag '${TAG}' does not match 'v${VERSION}' from the VERSION file." >&2
-            echo "Refusing to publish a release where the tag and VERSION disagree." >&2
+            echo "Tag '${TAG}' does not match 'v${VERSION}' from VERSION.txt." >&2
+            echo "Refusing to publish a release where the tag and VERSION.txt disagree." >&2
             exit 1
           fi
 

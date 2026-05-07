@@ -5,17 +5,17 @@
 
 """Prepare a new Komai release.
 
-Bumps VERSION (CalVer YYYY.MM.DD.N) and propagates the new value to every
-drift surface the ``version-drift`` pre-commit hook validates:
+Bumps VERSION.txt (CalVer YYYY.MM.DD.N) and propagates the new value to
+every drift surface the ``version-drift`` pre-commit hook validates:
 
-    * ``VERSION``
+    * ``VERSION.txt``
     * ``etc/packaging/archlinux/PKGBUILD``  (pkgver, pkgrel)
     * ``resources/komai.appdata.xml.in``    (<release> entry)
     * ``CHANGELOG.md``                      (new section)
 
 Without an argument, the next version is computed from the current UTC date:
 
-    * if the current VERSION's date prefix matches today, the trailing
+    * if the current VERSION.txt's date prefix matches today, the trailing
       counter is incremented;
     * otherwise, the new version is ``<today>.0``.
 
@@ -34,7 +34,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-VERSION_FILE = REPO_ROOT / "VERSION"
+VERSION_FILE = REPO_ROOT / "VERSION.txt"
 PKGBUILD_FILE = REPO_ROOT / "etc/packaging/archlinux/PKGBUILD"
 APPDATA_FILE = REPO_ROOT / "resources/komai.appdata.xml.in"
 CHANGELOG_FILE = REPO_ROOT / "CHANGELOG.md"
@@ -124,7 +124,7 @@ def edit_changelog(new: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Prepare a new Komai release by bumping VERSION and propagating the change.",
+        description="Prepare a new Komai release by bumping VERSION.txt and propagating the change.",
     )
     parser.add_argument(
         "version",
@@ -140,7 +140,7 @@ def main() -> int:
     try:
         cur_parts = parse_calver(current)
     except ValueError as exc:
-        print(f"ERROR: current VERSION is invalid: {exc}", file=sys.stderr)
+        print(f"ERROR: current VERSION.txt is invalid: {exc}", file=sys.stderr)
         return 1
 
     new = args.version if args.version else compute_next_version(current, today_utc)

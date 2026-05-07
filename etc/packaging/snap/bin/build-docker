@@ -16,7 +16,7 @@ out_dir="${2:?Usage: build-docker <source_dir> <output_dir>}"
 
 snap_dir="$src_dir/etc/packaging/snap"
 image="$(tr -d '[:space:]' < "$snap_dir/builder-image")"
-komai_version="$(tr -d '[:space:]' < "$src_dir/VERSION")"
+komai_version="$(tr -d '[:space:]' < "$src_dir/VERSION.txt")"
 
 # Prepare build tree with snap/snapcraft.yaml in place.
 build_dir="${SNAP_BUILD_DIR:-/tmp/komai-snap-build}"

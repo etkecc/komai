@@ -1,24 +1,24 @@
 #!/usr/bin/env sh
-# Verifies that the version in VERSION has matching entries across every
+# Verifies that the version in VERSION.txt has matching entries across every
 # other release-bearing file Komai tracks. Run `just release-prepare` to
 # update all surfaces in one go.
 
 set -eu
 
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
-version_file="$repo_root/VERSION"
+version_file="$repo_root/VERSION.txt"
 pkgbuild_file="$repo_root/etc/packaging/archlinux/PKGBUILD"
 appdata_file="$repo_root/resources/komai.appdata.xml.in"
 changelog_file="$repo_root/CHANGELOG.md"
 
 if [ ! -f "$version_file" ]; then
-	echo "ERROR: VERSION file not found at $version_file" >&2
+	echo "ERROR: VERSION.txt file not found at $version_file" >&2
 	exit 1
 fi
 
 version="$(tr -d '[:space:]' < "$version_file")"
 if ! printf '%s\n' "$version" | grep -Eq '^[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+$'; then
-	echo "ERROR: VERSION is not a valid CalVer (YYYY.MM.DD.N): '$version'" >&2
+	echo "ERROR: VERSION.txt is not a valid CalVer (YYYY.MM.DD.N): '$version'" >&2
 	exit 1
 fi
 
@@ -44,7 +44,7 @@ fi
 if [ "$fail" -ne 0 ]; then
 	echo >&2
 	echo "Run 'just release-prepare' (optionally with an explicit version) to" >&2
-	echo "bump VERSION and refresh every drift surface in one go." >&2
+	echo "bump VERSION.txt and refresh every drift surface in one go." >&2
 fi
 
 exit "$fail"

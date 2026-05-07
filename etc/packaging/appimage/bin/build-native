@@ -66,7 +66,7 @@ src_dir="${1:?Usage: build-native <source_dir> <output_dir>}"
 out_dir="${2:?Usage: build-native <source_dir> <output_dir>}"
 build_dir="${APPIMAGE_BUILD_DIR:-/tmp/komai-appimage-build}"
 appimage_dir="${APPIMAGE_WORK_DIR:-/tmp/komai-appimage}"
-komai_version="$(cat "$src_dir/VERSION" | tr -d '[:space:]')"
+komai_version="$(cat "$src_dir/VERSION.txt" | tr -d '[:space:]')"
 host_arch="$(uname -m)"
 
 echo "=== Configuring build ==="
@@ -87,7 +87,7 @@ mkdir -p "$appimage_dir"
 DESTDIR="$appimage_dir/AppDir" cmake --install "$build_dir"
 
 echo "=== Packaging AppImage ==="
-# Inject the version from the VERSION file into the AppImageBuilder recipe
+# Inject the version from the VERSION.txt file into the AppImageBuilder recipe
 sed "s/version: latest/version: $komai_version/" \
     "$src_dir/etc/packaging/appimage/AppImageBuilder.yml" > "$appimage_dir/AppImageBuilder.yml"
 cd "$appimage_dir"

@@ -5,7 +5,7 @@
 
 """Verify translations are complete enough to ship a release.
 
-Pre-commit hook: when VERSION changes (the canonical signal that a
+Pre-commit hook: when VERSION.txt changes (the canonical signal that a
 release is being cut), fail if any non-English translation file
 contains ``<translation type="unfinished">`` entries. The English
 source file is exempt — its ``<translation>`` elements are placeholders
@@ -67,7 +67,7 @@ def main() -> int:
         file=sys.stderr,
     )
     print(
-        "workflow) before bumping VERSION, or revert the VERSION change to keep",
+        "workflow) before bumping VERSION.txt, or revert the VERSION.txt change to keep",
         file=sys.stderr,
     )
     print("working without cutting a release.", file=sys.stderr)

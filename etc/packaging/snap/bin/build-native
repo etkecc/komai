@@ -15,7 +15,7 @@ out_dir="${2:?Usage: build-native <source_dir> <output_dir>}"
 
 snap_dir="$src_dir/etc/packaging/snap"
 build_dir="${SNAP_BUILD_DIR:-/tmp/komai-snap-build}"
-komai_version="$(tr -d '[:space:]' < "$src_dir/VERSION")"
+komai_version="$(tr -d '[:space:]' < "$src_dir/VERSION.txt")"
 host_arch="$(dpkg --print-architecture 2>/dev/null || echo amd64)"
 
 echo "=== Preparing snap build tree ==="

@@ -30,7 +30,7 @@ completions-generate: build
 	{{ build_dir }}/komai completions zsh  > {{ justfile_directory() }}/resources/completions/zsh/_komai
 	{{ build_dir }}/komai completions fish > {{ justfile_directory() }}/resources/completions/fish/komai.fish
 
-# Prepares a new release: bumps VERSION and propagates the change to PKGBUILD, CHANGELOG.md, and appdata.xml.in.
+# Prepares a new release: bumps VERSION.txt and propagates the change to PKGBUILD, CHANGELOG.md, and appdata.xml.in.
 # Without an argument, picks the next version from today's UTC date.
 release-prepare *args:
 	python3 {{ justfile_directory() }}/bin/release/prepare.py {{ args }}

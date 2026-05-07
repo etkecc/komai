@@ -7,11 +7,11 @@ For the CI pipeline shape and cache strategy, see [CI Pipeline](../architecture/
 
 ## Version-bearing files
 
-`VERSION` is the source of truth. Three other files have to agree with it; the `version-drift` pre-commit hook will refuse a commit where any of them disagree.
+`VERSION.txt` is the source of truth. Three other files have to agree with it; the `version-drift` pre-commit hook will refuse a commit where any of them disagree.
 
 | File | What must match |
 |---|---|
-| `VERSION` | the version itself (e.g. `2026.05.05.0`) |
+| `VERSION.txt` | the version itself (e.g. `2026.05.05.0`) |
 | `etc/packaging/archlinux/PKGBUILD` | `pkgver=<VERSION>` |
 | `resources/komai.appdata.xml.in` | a `<release version="<VERSION>" .../>` entry |
 | `CHANGELOG.md` | a top-level `## <VERSION>` section |
@@ -41,7 +41,7 @@ just release-prepare 2026.05.05.0   # or pass an explicit CalVer
 
 The auto-computed version is `<today-UTC>.0`, or `<today-UTC>.<N+1>` if a release was already cut today.
 
-This edits `VERSION`, `PKGBUILD`, `appdata.xml.in`, and inserts a new `## <VERSION>` section at the top of `CHANGELOG.md` containing a `<!-- TODO: fill in release notes -->` placeholder. It then prints the next steps.
+This edits `VERSION.txt`, `PKGBUILD`, `appdata.xml.in`, and inserts a new `## <VERSION>` section at the top of `CHANGELOG.md` containing a `<!-- TODO: fill in release notes -->` placeholder. It then prints the next steps.
 
 ### 3. Write the changelog entry
 

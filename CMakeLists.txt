@@ -67,8 +67,11 @@ include(QtCommon)
 include(GNUInstallDirs)
 include(CTest)
 
-# Read version from the top-level VERSION file (CalVer: YYYY.MM.DD.BUILD)
-file(STRINGS "${CMAKE_SOURCE_DIR}/VERSION" KOMAI_VERSION_STRING LIMIT_COUNT 1)
+# Read version from the top-level VERSION.txt file (CalVer: YYYY.MM.DD.BUILD).
+# Stored as VERSION.txt rather than VERSION so it cannot be picked up as
+# the C++ <version> standard header on case-insensitive filesystems
+# (Windows, macOS) when CMAKE_SOURCE_DIR is on the compiler include path.
+file(STRINGS "${CMAKE_SOURCE_DIR}/VERSION.txt" KOMAI_VERSION_STRING LIMIT_COUNT 1)
 string(STRIP "${KOMAI_VERSION_STRING}" KOMAI_VERSION_STRING)
 string(REPLACE "." ";" KOMAI_VERSION_PARTS "${KOMAI_VERSION_STRING}")
 list(GET KOMAI_VERSION_PARTS 0 CPACK_PACKAGE_VERSION_MAJOR)
@@ -253,7 +256,7 @@ if(NOT WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(KOMAI_ENABLE_DEBUG_LOG true)
 endif()
 
-# [komai] Git hash suffix removed — version is read from the top-level VERSION file.
+# [komai] Git hash suffix removed — version is read from the top-level VERSION.txt file.
 
 set(CPACK_PACKAGE_VERSION "${KOMAI_VERSION_STRING}")
 set(PROJECT_VERSION "${KOMAI_VERSION_STRING}")
@@ -289,7 +292,7 @@ message(STATUS "Git commit: ${GIT_COMMIT_HASH}")
 # version/pin bump silently keeps the old values until something else
 # triggers reconfigure.
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
-    "${CMAKE_SOURCE_DIR}/VERSION"
+    "${CMAKE_SOURCE_DIR}/VERSION.txt"
     "${CMAKE_SOURCE_DIR}/rust-toolchain.toml"
     "${CMAKE_SOURCE_DIR}/bin/icons/fluent/VERSION_REF"
     "${CMAKE_SOURCE_DIR}/bin/icons/fontawesome/VERSION_REF"

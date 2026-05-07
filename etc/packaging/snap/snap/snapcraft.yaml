@@ -122,5 +122,5 @@ parts:
     override-prime: |
       export PATH="/usr/libexec/snapcraft:$PATH"
       craftctl default
-      # Set snap version from VERSION file (CalVer: YYYY.MM.DD.BUILD)
-      craftctl set version="$(tr -d '[:space:]' < $CRAFT_PART_SRC/VERSION)"
+      # Set snap version from VERSION.txt file (CalVer: YYYY.MM.DD.BUILD)
+      craftctl set version="$(tr -d '[:space:]' < $CRAFT_PART_SRC/VERSION.txt)"

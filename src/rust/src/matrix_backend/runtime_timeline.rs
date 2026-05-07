@@ -605,6 +605,58 @@ async fn fetch_member_receipt_targets(
     targets
 }
 
+/// Client-side TTL for stuck typing indicators.  matrix-sdk's
+/// `subscribe_to_typing_notifications` is purely event-driven: if the
+/// server's "stopped typing" `m.typing` ephemeral is dropped (federation
+/// EDU loss, sync gap, broadcast channel lag) the indicator hangs
+/// forever.  See etkecc/komai#117.
+///
+/// 60s is comfortably longer than the implicit ~5s typing-refresh
+/// cadence: matrix-sdk re-PUTs `typing=true` every 3-4s while the
+/// composer is active, and any composer pause ≥4s expires the server's
+/// state and produces a fresh `m.typing` event when the user resumes —
+/// each such event refreshes our per-user TTL clock.
+const TYPING_USER_TTL: StdDuration = StdDuration::from_secs(60);
+
+/// Minimum interval between two TTL prunes.  Pruning happens inside
+/// the existing 50ms stop-poll arm; this gates how often we actually
+/// rescan `typing_state`.
+const TYPING_PRUNE_INTERVAL: StdDuration = StdDuration::from_secs(2);
+
+struct RoomTypingEntry {
+    display_name: String,
+    first_seen_at: Instant,
+    last_seen_at: Instant,
+}
+
+/// Compare the current typing state against the last list we published
+/// to C++; emit a new FFI notification only when the rendered list
+/// actually changes.  Sorts by `first_seen_at` so the UI shows the
+/// oldest typer first — matrix-sdk's broadcast carries whatever order
+/// the server's `m.typing` happened to use, which is unstable across
+/// events and looks janky.
+fn publish_typing_state_if_changed(
+    handle_id: u64,
+    room_id: &str,
+    typing_state: &HashMap<OwnedUserId, RoomTypingEntry>,
+    last_published: &mut Vec<String>,
+) {
+    let mut entries: Vec<(&OwnedUserId, &RoomTypingEntry)> = typing_state.iter().collect();
+    entries.sort_by(|(a_uid, a), (b_uid, b)| {
+        a.first_seen_at
+            .cmp(&b.first_seen_at)
+            .then_with(|| a_uid.as_str().cmp(b_uid.as_str()))
+    });
+    let names: Vec<String> = entries
+        .into_iter()
+        .map(|(_, e)| e.display_name.clone())
+        .collect();
+    if names != *last_published {
+        *last_published = names.clone();
+        crate::ffi::matrix_notify_typing_users_updated(handle_id, room_id, names);
+    }
+}
+
 async fn run_room_timeline_loop(
     handle_id: u64,
     client: Client,
@@ -712,6 +764,13 @@ async fn run_room_timeline_loop(
             None => (None, None),
         }
     };
+
+    // Per-user typing state (see TYPING_USER_TTL above).  Replaced
+    // wholesale on every `m.typing` event; entries that aren't refreshed
+    // within TYPING_USER_TTL are pruned by the 50ms stop-poll arm.
+    let mut typing_state: HashMap<OwnedUserId, RoomTypingEntry> = HashMap::new();
+    let mut last_published_typing: Vec<String> = Vec::new();
+    let mut last_typing_prune = Instant::now();
 
     // Receipt targets are fetched after the initial snapshot so they
     // don't block the first paint.  Start with an empty set — delivery
@@ -1161,31 +1220,52 @@ async fn run_room_timeline_loop(
             } => {
                 match maybe_typing {
                     Ok(typing_user_ids) => {
-                        let mut display_names: Vec<String> = Vec::with_capacity(typing_user_ids.len());
-                        if let Some(room) = client.get_room(&parsed_room_id) {
-                            for user_id in &typing_user_ids {
-                                let name = match room.get_member_no_sync(user_id).await {
-                                    Ok(Some(member)) => member
-                                        .display_name()
-                                        .unwrap_or_else(|| user_id.as_str())
-                                        .to_owned(),
-                                    _ => user_id.to_string(),
-                                };
-                                display_names.push(name);
-                            }
-                        } else {
-                            for user_id in &typing_user_ids {
-                                display_names.push(user_id.to_string());
-                            }
+                        let now = Instant::now();
+                        let maybe_room = client.get_room(&parsed_room_id);
+                        let mut new_state: HashMap<OwnedUserId, RoomTypingEntry> =
+                            HashMap::with_capacity(typing_user_ids.len());
+                        for user_id in typing_user_ids {
+                            // Reuse the prior entry's display name when we
+                            // already know it, so we don't hit the member
+                            // store on every typing refresh.
+                            let (display_name, first_seen_at) = match typing_state.remove(&user_id) {
+                                Some(entry) => (entry.display_name, entry.first_seen_at),
+                                None => {
+                                    let name = if let Some(room) = maybe_room.as_ref() {
+                                        match room.get_member_no_sync(&user_id).await {
+                                            Ok(Some(member)) => member
+                                                .display_name()
+                                                .unwrap_or_else(|| user_id.as_str())
+                                                .to_owned(),
+                                            _ => user_id.to_string(),
+                                        }
+                                    } else {
+                                        user_id.to_string()
+                                    };
+                                    (name, now)
+                                }
+                            };
+                            new_state.insert(
+                                user_id,
+                                RoomTypingEntry {
+                                    display_name,
+                                    first_seen_at,
+                                    last_seen_at: now,
+                                },
+                            );
                         }
-                        crate::ffi::matrix_notify_typing_users_updated(
+                        typing_state = new_state;
+                        publish_typing_state_if_changed(
                             handle_id,
                             &room_id,
-                            display_names,
+                            &typing_state,
+                            &mut last_published_typing,
                         );
                     }
                     Err(tokio::sync::broadcast::error::RecvError::Lagged(_)) => {
-                        // Missed some events; continue to get latest state.
+                        // Missed some events; the next event will reconcile,
+                        // and the TTL prune below clears stale entries if
+                        // no further event arrives.
                     }
                     Err(tokio::sync::broadcast::error::RecvError::Closed) => {
                         typing_receiver = None;
@@ -1196,6 +1276,22 @@ async fn run_room_timeline_loop(
             _ = tokio::time::sleep(Duration::from_millis(ROOM_TIMELINE_STOP_POLL_INTERVAL_MS)) => {
                 if stop_requested.load(Ordering::Relaxed) {
                     break;
+                }
+                // TTL prune of typing entries lives here rather than in its
+                // own `select!` arm: a sibling `tokio::time::sleep` arm gets
+                // recreated each loop iteration and would lose the race
+                // against this 50ms poll forever.
+                if !typing_state.is_empty() && last_typing_prune.elapsed() >= TYPING_PRUNE_INTERVAL {
+                    last_typing_prune = Instant::now();
+                    let now = Instant::now();
+                    typing_state
+                        .retain(|_, entry| now.duration_since(entry.last_seen_at) < TYPING_USER_TTL);
+                    publish_typing_state_if_changed(
+                        handle_id,
+                        &room_id,
+                        &typing_state,
+                        &mut last_published_typing,
+                    );
                 }
             }
         }

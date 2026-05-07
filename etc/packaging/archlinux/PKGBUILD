@@ -40,7 +40,7 @@ makedepends=(
 	rust
 )
 optdepends=(
-	'kimageformats: Extends the formats Komai supports for image attachments'
+	'kimageformats: Support for additional image formats (AVIF, JXL, HEIC, etc.)'
 	'gst-plugins-base-libs: VoIP/Video calls'
 	'gst-plugins-good: VoIP/Video calls'
 	'gst-plugins-bad: VoIP/Video calls'

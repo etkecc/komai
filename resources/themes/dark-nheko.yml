@@ -5,7 +5,7 @@ palette:
   window: "#2d3139"
   windowText: "#caccd1"
   base: "#202228"
-  alternateBase: "#2d3139"
+  alternateBase: "#3a3f4a"
   text: "#caccd1"
   brightText: "#f4f5f8"
   button: "#ffffff"

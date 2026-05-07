@@ -894,7 +894,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Selecciona un emoji o sticker personalizado</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -924,7 +924,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Aún no se han definido emojis personalizados.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -934,7 +934,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Consulta Ajustes de sala -&gt; Ajustes de stickers y emotes.</translation>
     </message>
     <message>
         <location line="+173"/>

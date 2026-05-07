@@ -894,7 +894,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Выбрать пользовательское эмодзи или стикер</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -924,7 +924,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Пользовательские эмодзи ещё не заданы.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -934,7 +934,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Перейди в Настройки комнаты → Настройки стикеров и эмодзи.</translation>
     </message>
     <message>
         <location line="+173"/>

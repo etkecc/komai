@@ -893,7 +893,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Elektu propran emojon aŭ glumarkon</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Neniuj propraj emojoj ankoraŭ difinitaj.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Vidu Ĉambrajn Agordojn -&gt; Glumarko- kaj Emoto-Agordoj.</translation>
     </message>
     <message>
         <location line="+173"/>

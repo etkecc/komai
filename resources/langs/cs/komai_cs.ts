@@ -894,7 +894,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Vybrat vlastní emoji nebo nálepku</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -924,7 +924,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Zatím nejsou definovány žádné vlastní emoji.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -934,7 +934,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Viz Nastavení místnosti -&gt; Nastavení nálepek a emotikonů.</translation>
     </message>
     <message>
         <location line="+173"/>

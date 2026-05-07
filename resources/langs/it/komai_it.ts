@@ -893,7 +893,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Scegli un'emoji personalizzata o uno sticker</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Nessuna emoji personalizzata ancora definita.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Vedi Impostazioni stanza -&gt; Impostazioni sticker e emoji.</translation>
     </message>
     <message>
         <location line="+173"/>

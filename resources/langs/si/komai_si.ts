@@ -893,7 +893,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>අභිරුචි ඉමෝජියක් හෝ ස්ටිකරයක් තෝරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>තවම අභිරුචි ඉමෝජි නිර්වචනය කර නොමැත.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරය සැකසුම් -&gt; ස්ටිකර් සහ ඉමෝටේ සැකසුම් බලන්න.</translation>
     </message>
     <message>
         <location line="+173"/>

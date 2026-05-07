@@ -893,7 +893,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Vali kohandatud emotikon või kleebis</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Kohandatud emotikonid pole veel määratud.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Vaata Jututoa seaded -&gt; Kleebise ja emotikoni seaded.</translation>
     </message>
     <message>
         <location line="+173"/>

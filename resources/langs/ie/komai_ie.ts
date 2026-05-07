@@ -893,7 +893,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Selecter un emoji o sticker personalisat</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Null emojis personalisat definit ancor.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Vider Parametres del Chambre -&gt; Parametres de Sticker &amp; Emote.</translation>
     </message>
     <message>
         <location line="+173"/>

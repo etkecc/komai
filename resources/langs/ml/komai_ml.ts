@@ -893,7 +893,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു ഇഷ്ടാനുസൃത ഇമോജിയോ സ്റ്റിക്കറോ തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>ഇതുവരെ ഇഷ്ടാനുസൃത ഇമോജികൾ ഒന്നും നിർവ്വചിക്കപ്പെട്ടിട്ടില്ല.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>മുറി ക്രമീകരണങ്ങൾ -&gt; സ്റ്റിക്കർ &amp; ഇമോട്ട് ക്രമീകരണങ്ങൾ കാണുക.</translation>
     </message>
     <message>
         <location line="+173"/>

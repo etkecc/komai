@@ -893,7 +893,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Eigenes Emoji oder Sticker auswählen</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Noch keine eigenen Emojis definiert.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Siehe Raumeinstellungen → Sticker- &amp; Emote-Einstellungen.</translation>
     </message>
     <message>
         <location line="+173"/>

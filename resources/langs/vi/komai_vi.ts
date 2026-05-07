@@ -892,7 +892,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Chọn emoji hoặc nhãn dán tùy chỉnh</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -922,7 +922,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Chưa có emoji tùy chỉnh nào được định nghĩa.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -932,7 +932,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Xem Cài đặt phòng -&gt; Cài đặt nhãn dán &amp; biểu cảm.</translation>
     </message>
     <message>
         <location line="+173"/>

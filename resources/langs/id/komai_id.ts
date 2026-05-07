@@ -892,7 +892,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Pilih emoji kustom atau stiker</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -922,7 +922,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Belum ada emoji kustom yang ditentukan.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -932,7 +932,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Lihat Pengaturan Ruangan -&gt; Pengaturan Stiker &amp; Emote.</translation>
     </message>
     <message>
         <location line="+173"/>

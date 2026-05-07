@@ -892,7 +892,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>یک ایموجی سفارشی یا استیکر انتخاب کنید</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -922,7 +922,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>هنوز هیچ ایموجی سفارشی تعریف نشده است.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -932,7 +932,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>به تنظیمات اتاق -&gt; تنظیمات استیکر و ایموجی مراجعه کنید.</translation>
     </message>
     <message>
         <location line="+173"/>

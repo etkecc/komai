@@ -892,7 +892,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>사용자 정의 이모지 또는 스티커 선택</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -922,7 +922,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>아직 사용자 정의 이모지가 없습니다.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -932,7 +932,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>방 설정 -&gt; 스티커 &amp; 이모트 설정을 참조하세요.</translation>
     </message>
     <message>
         <location line="+173"/>

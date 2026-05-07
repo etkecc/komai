@@ -892,7 +892,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>选择自定义表情或贴纸</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -922,7 +922,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>尚未定义自定义表情符号。</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -932,7 +932,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>请查看聊天室设置 -&gt; 贴纸与表情设置。</translation>
     </message>
     <message>
         <location line="+173"/>

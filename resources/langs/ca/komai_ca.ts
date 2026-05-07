@@ -893,7 +893,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Tria un emoji personalitzat o un adhesiu</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Encara no hi ha cap emoji personalitzat definit.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Consulta Configuració de la sala -&gt; Configuració d'adhesius i emotes.</translation>
     </message>
     <message>
         <location line="+173"/>

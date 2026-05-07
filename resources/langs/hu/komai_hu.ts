@@ -892,7 +892,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Válassz egyéni emojit vagy matricát</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -922,7 +922,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Még nincsenek egyéni emojik megadva.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -932,7 +932,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Lásd: Szoba beállítások -&gt; Matrica és emote beállítások.</translation>
     </message>
     <message>
         <location line="+173"/>

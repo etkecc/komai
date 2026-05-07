@@ -894,7 +894,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Виберіть власний емодзі або стікер</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -924,7 +924,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Власні емодзі ще не визначено.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -934,7 +934,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Дивіться Налаштування кімнати -&gt; Налаштування стікерів та емоутів.</translation>
     </message>
     <message>
         <location line="+173"/>

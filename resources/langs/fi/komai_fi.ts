@@ -893,7 +893,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Valitse mukautettu emoji tai tarra</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Mukautettuja emojeja ei ole vielä määritelty.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Katso Huoneen asetukset -&gt; Tarra- &amp; emote-asetukset.</translation>
     </message>
     <message>
         <location line="+173"/>

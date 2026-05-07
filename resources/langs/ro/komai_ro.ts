@@ -894,7 +894,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Alege un emoji sau sticker personalizat</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -924,7 +924,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-au definit emoji-uri personalizate încă.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -934,7 +934,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Accesează Setările camerei -&gt; Setări stickere și emote-uri.</translation>
     </message>
     <message>
         <location line="+173"/>

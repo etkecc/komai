@@ -893,7 +893,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+2"/>
         <source>Pick a custom emoji or sticker</source>
-        <translation type="unfinished"/>
+        <translation>Välj en egen emoji eller klisterbild</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -923,7 +923,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+63"/>
         <source>No custom emojis defined yet.</source>
-        <translation type="unfinished"/>
+        <translation>Inga egna emojis definierade ännu.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -933,7 +933,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+8"/>
         <source>See Room Settings -&gt; Sticker &amp; Emote Settings.</source>
-        <translation type="unfinished"/>
+        <translation>Se Ruminställningar -&gt; Klisterbild &amp; Emote-inställningar.</translation>
     </message>
     <message>
         <location line="+173"/>

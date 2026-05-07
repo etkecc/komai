@@ -782,12 +782,21 @@ if(NOT DEFINED Rust_TOOLCHAIN AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rust-toolc
     set(_rust_channel "${CMAKE_MATCH_1}")
 
     if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-        set(_rust_host_triple "aarch64-unknown-linux-gnu")
+        set(_rust_host_arch "aarch64")
     elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
-        set(_rust_host_triple "x86_64-unknown-linux-gnu")
+        set(_rust_host_arch "x86_64")
     else()
-        set(_rust_host_triple "${CMAKE_HOST_SYSTEM_PROCESSOR}-unknown-linux-gnu")
+        set(_rust_host_arch "${CMAKE_HOST_SYSTEM_PROCESSOR}")
     endif()
+    if(CMAKE_HOST_WIN32)
+        # MSVC ABI; MinGW would be -pc-windows-gnu, which we don't support.
+        set(_rust_host_os "pc-windows-msvc")
+    elseif(CMAKE_HOST_APPLE)
+        set(_rust_host_os "apple-darwin")
+    else()
+        set(_rust_host_os "unknown-linux-gnu")
+    endif()
+    set(_rust_host_triple "${_rust_host_arch}-${_rust_host_os}")
     set(Rust_TOOLCHAIN "${_rust_channel}-${_rust_host_triple}" CACHE STRING
         "Rust toolchain used by Corrosion"
     )

@@ -39,6 +39,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/RoomlistModel.h"
+#include "timeline/TimelineEventTypes.h"
 #include "timeline/formattedcode/RawJsonFormatter.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
@@ -3013,6 +3014,85 @@ TimelineViewManager::saveActiveMatrixTimelineMedia(const QString &itemId,
         return false;
 
     fetchActiveMatrixTimelineMediaToFile(trimmedItemId, outputPath, fileName, false);
+    return true;
+}
+
+bool
+TimelineViewManager::copyActiveMatrixTimelineMedia(const QString &itemId)
+{
+    const auto trimmedItemId = itemId.trimmed();
+    if (trimmedItemId.isEmpty())
+        return false;
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty() || !matrixTimelineModel_) {
+        komai::logging::ui()->warn(
+          "Refusing to copy matrix-sdk timeline media without an active runtime "
+          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto item = matrixTimelineModel_->itemByEventId(trimmedItemId);
+    if (!item) {
+        komai::logging::ui()->warn("Refusing to copy unknown matrix-sdk room event '{}' in '{}'",
+                                   trimmedItemId.toStdString(),
+                                   activeMatrixTimelineRoomId_.toStdString());
+        return false;
+    }
+
+    const QString mimeType = item->mimeType.trimmed();
+    const auto eventType =
+      qml_mtx_events::matrixTimelineEventType(item->itemKind, item->matrixEventType);
+    const bool isImage = eventType == qml_mtx_events::EventType::ImageMessage ||
+                         eventType == qml_mtx_events::EventType::Sticker;
+
+    std::thread([this, handleId, trimmedItemId, mimeType, isImage]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
+        QString error;
+        const auto data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+          context, handleId, trimmedItemId, 0, 0, false, &error);
+
+        if (!data.has_value() || data->isEmpty()) {
+            QMetaObject::invokeMethod(
+              this,
+              [trimmedItemId, error]() {
+                  komai::logging::ui()->warn(
+                    "Failed to fetch matrix-sdk timeline media '{}' for clipboard copy: {}",
+                    trimmedItemId.toStdString(),
+                    error.toStdString());
+                  if (auto *mainWindow = MainWindow::instance()) {
+                      mainWindow->showNotification(
+                        tr("Failed to copy attachment: %1")
+                          .arg(error.isEmpty() ? tr("download failed") : error));
+                  }
+              },
+              Qt::QueuedConnection);
+            return;
+        }
+
+        QImage image;
+        if (isImage) {
+            try {
+                image = utils::readImage(*data);
+            } catch (const std::exception &e) {
+                komai::logging::ui()->warn("Error decoding image for clipboard copy: {}", e.what());
+            }
+        }
+
+        QMetaObject::invokeMethod(
+          this,
+          [bytes = *data, mimeType, image = std::move(image)]() {
+              auto *clipContents = new QMimeData();
+              if (!mimeType.isEmpty())
+                  clipContents->setData(mimeType, bytes);
+              if (!image.isNull())
+                  clipContents->setImageData(image);
+              QGuiApplication::clipboard()->setMimeData(clipContents);
+          },
+          Qt::QueuedConnection);
+    }).detach();
+
     return true;
 }
 

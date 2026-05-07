@@ -8873,7 +8873,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>فشل إرسال الرسالة: %1</translation>
@@ -8974,7 +8974,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>حفظ المرفق</translation>
     </message>
     <message>
-        <location line="+384"/>
+        <location line="+54"/>
+        <source>Failed to copy attachment: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>download failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+408"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>فشل إرسال المرفق '%1': %2</translation>
     </message>

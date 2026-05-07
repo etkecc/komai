@@ -344,6 +344,7 @@ public:
     openActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
     Q_INVOKABLE bool
     saveActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
+    Q_INVOKABLE bool copyActiveMatrixTimelineMedia(const QString &itemId);
     Q_INVOKABLE bool resolveActiveMatrixPendingJump();
     Q_INVOKABLE void clearActiveMatrixPendingJump(const QString &eventId = QString());
 

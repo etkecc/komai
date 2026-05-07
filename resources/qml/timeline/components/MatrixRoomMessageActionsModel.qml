@@ -225,6 +225,10 @@ Item {
         TimelineManager.saveActiveMatrixTimelineMedia(eid, fileName);
     }
 
+    function copyMedia(targetEventId) {
+        TimelineManager.copyActiveMatrixTimelineMedia(String(targetEventId || ""));
+    }
+
     function copyLinkToEvent(eventId) {
         TimelineManager.copyMatrixEventLink(roomId, String(eventId || ""));
     }

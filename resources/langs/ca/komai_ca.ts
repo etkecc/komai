@@ -8821,7 +8821,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1171"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
         <source>Failed to send message: %1</source>
         <translation>No s'ha pogut enviar el missatge: %1</translation>
@@ -8922,7 +8922,17 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Desa l'adjunt</translation>
     </message>
     <message>
-        <location line="+384"/>
+        <location line="+54"/>
+        <source>Failed to copy attachment: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>download failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+408"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>No s'ha pogut enviar l'adjunt '%1': %2</translation>
     </message>

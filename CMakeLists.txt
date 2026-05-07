@@ -862,7 +862,6 @@ elseif(WIN32)
         GIT_TAG v1.3.2
         DOWNLOAD_ONLY YES
     )
-    target_include_directories(komai PRIVATE ${WinToast_SOURCE_DIR}/include)
 
     set(SRC_FILES ${SRC_FILES} src/notifications/ManagerWin.cpp ${WinToast_SOURCE_DIR}/src/wintoastlib.cpp)
 else()
@@ -1052,6 +1051,7 @@ qt_add_translations(komai RESOURCE_PREFIX "/translations" TS_FILES
 if(WIN32)
     target_compile_definitions(komai PRIVATE WIN32_LEAN_AND_MEAN)
     target_link_libraries(komai PRIVATE Qt6::DBus)
+    target_include_directories(komai PRIVATE ${WinToast_SOURCE_DIR}/include)
     if(MSVC)
         target_compile_options(komai PUBLIC "/Zc:__cplusplus")
     endif()

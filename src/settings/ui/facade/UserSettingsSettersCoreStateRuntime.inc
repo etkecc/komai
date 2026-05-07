@@ -207,7 +207,7 @@ UserSettings::clearComposerDraftForRoom(const QString &roomId)
     if (roomId.isEmpty())
         return;
 
-    if (composerDraftsByRoom_.remove(roomId) == 0)
+    if (!composerDraftsByRoom_.remove(roomId))
         return;
 
     emit composerDraftsByRoomChanged();

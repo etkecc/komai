@@ -134,7 +134,7 @@ UserSettings::clearIntegrationsTranscriptionOverridesForRoom(const QString &room
 {
     if (roomId.isEmpty())
         return;
-    if (integrationsTranscriptionOverridesByRoom_.remove(roomId) == 0)
+    if (!integrationsTranscriptionOverridesByRoom_.remove(roomId))
         return;
     emit integrationsTranscriptionOverridesByRoomChanged();
     save();

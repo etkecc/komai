@@ -76,11 +76,7 @@ public:
         return true;
     }
 
-    bool removePath(const QString &path) const override
-    {
-        const bool removedText = texts_.remove(path) > 0;
-        return removedText;
-    }
+    bool removePath(const QString &path) const override { return texts_.remove(path); }
 
 private:
     QString profileBasePath(const QString &profile) const

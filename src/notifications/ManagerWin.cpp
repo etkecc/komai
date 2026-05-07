@@ -27,21 +27,28 @@ public:
     {
     }
 
-    void toastActivated() const
+    void toastActivated() const override
     {
         manager->notificationClicked(roomid, eventid);
         manager->removeNotification(roomid, eventid);
     }
 
-    void toastActivated(int) const { manager->removeNotification(roomid, eventid); }
+    void toastActivated(int) const override { manager->removeNotification(roomid, eventid); }
 
-    void toastFailed() const
+    // WinToast 1.3.x added this overload for input-box toasts. Komai doesn't
+    // produce those, so treat the response identically to the other paths.
+    void toastActivated(std::wstring) const override
+    {
+        manager->removeNotification(roomid, eventid);
+    }
+
+    void toastFailed() const override
     {
         std::wcout << L"Error showing current toast" << std::endl;
         manager->removeNotification(roomid, eventid);
     }
 
-    void toastDismissed(WinToastDismissalReason) const
+    void toastDismissed(WinToastDismissalReason) const override
     {
         manager->removeNotification(roomid, eventid);
     }

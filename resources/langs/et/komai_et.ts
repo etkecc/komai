@@ -8924,12 +8924,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Manuse kopeerimine ebaõnnestus: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>allalaadimine ebaõnnestus</translation>
     </message>
     <message>
         <location line="+408"/>

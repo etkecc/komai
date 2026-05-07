@@ -8911,12 +8911,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Sao chép tệp đính kèm thất bại: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>tải xuống thất bại</translation>
     </message>
     <message>
         <location line="+408"/>

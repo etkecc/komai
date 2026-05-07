@@ -8911,12 +8911,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Gagal menyalin lampiran: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>unduhan gagal</translation>
     </message>
     <message>
         <location line="+408"/>

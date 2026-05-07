@@ -8911,12 +8911,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>複製附件失敗：%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>下載失敗</translation>
     </message>
     <message>
         <location line="+408"/>

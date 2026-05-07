@@ -8911,12 +8911,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Nem sikerült másolni a mellékletet: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>letöltés sikertelen</translation>
     </message>
     <message>
         <location line="+408"/>

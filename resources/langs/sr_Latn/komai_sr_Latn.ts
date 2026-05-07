@@ -8937,12 +8937,12 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Kopiranje priloga nije uspelo: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>preuzimanje nije uspelo</translation>
     </message>
     <message>
         <location line="+408"/>

@@ -8911,12 +8911,12 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Ek kopyalanamadı: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>indirme başarısız oldu</translation>
     </message>
     <message>
         <location line="+408"/>

@@ -8937,12 +8937,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Nu s-a putut copia atașamentul: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>descărcare eșuată</translation>
     </message>
     <message>
         <location line="+408"/>

@@ -8927,12 +8927,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Malsukcesis kopii alligaĵon: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>elŝuto malsukcesis</translation>
     </message>
     <message>
         <location line="+408"/>

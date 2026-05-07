@@ -8924,12 +8924,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Liitteen kopiointi epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>lataus epäonnistui</translation>
     </message>
     <message>
         <location line="+408"/>

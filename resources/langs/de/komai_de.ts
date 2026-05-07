@@ -8924,12 +8924,12 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Fehler beim Kopieren des Anhangs: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>Download fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+408"/>

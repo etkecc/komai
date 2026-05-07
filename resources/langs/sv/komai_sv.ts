@@ -8924,12 +8924,12 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <message>
         <location line="+54"/>
         <source>Failed to copy attachment: %1</source>
-        <translation type="unfinished"/>
+        <translation>Kunde inte kopiera bilagan: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>download failed</source>
-        <translation type="unfinished"/>
+        <translation>nedladdning misslyckades</translation>
     </message>
     <message>
         <location line="+408"/>

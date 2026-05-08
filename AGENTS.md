@@ -52,9 +52,10 @@ To cut a release:
 
 1. `just release-prepare` -- bumps `VERSION.txt` and propagates to `PKGBUILD`, `CHANGELOG.md`, `appdata.xml.in`.
 2. Edit `CHANGELOG.md` and replace the TODO with actual release notes.
-3. `git commit -am 'Release v<VERSION>'`
-4. `git tag v<VERSION>`
-5. `git push && git push --tags`
+3. Confirm the picked version and the CHANGELOG draft with the operator before proceeding.
+4. `git commit -am 'Release v<VERSION>'`
+5. `git tag v<VERSION>`
+6. `git push && git push --tags`
 
 [`publish.yml`](.github/workflows/publish.yml) builds and publishes the GitHub Release automatically on the tag push.
 

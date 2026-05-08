@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.05.08.0
+
+- 🔧 Build: Komai no longer depends on the `Qt5Compat.GraphicalEffects` QML module (or the `qt6-5compat` shared library it pulls in); the rounded-corner masking sites have been ported to `QtQuick.Effects.MultiEffect`. Distro packagers can drop `qml6-module-qt5compat-graphicaleffects` (and the equivalent on other distros) from their dependency lists ([992f2e651](https://github.com/etkecc/komai/commit/992f2e651)).
+- 🔧 Build: `matrix-sdk` is now sourced from the crates.io 0.17.0 release instead of a git-pinned `main`-branch snapshot taken on top of 0.16.0 ([c27bdef12](https://github.com/etkecc/komai/commit/c27bdef12)).
+
 ## 2026.05.07.0
 
 - ✨ UI: drag-and-drop into the message composer now works under Flatpak ([594dc71e6](https://github.com/etkecc/komai/commit/594dc71e6)).

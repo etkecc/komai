@@ -3189,7 +3189,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Monstrar</translation>
     </message>
@@ -9392,7 +9392,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Detacher omni attachamentos</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Adder un nome de file optional…</translation>
     </message>

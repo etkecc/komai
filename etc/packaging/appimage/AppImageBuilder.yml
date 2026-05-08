@@ -65,7 +65,6 @@ AppDir:
     - qml6-module-qtcore
     - qml6-module-qt-labs-platform
     - qml6-module-qt-labs-settings
-    - qml6-module-qt5compat-graphicaleffects
 
     # Application runtime dependencies
     - libqt6keychain1

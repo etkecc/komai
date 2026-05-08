@@ -3184,7 +3184,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Hiển thị</translation>
     </message>
@@ -9376,7 +9376,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Gỡ tất cả tệp đính kèm</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Thêm tên tệp tùy chọn…</translation>
     </message>

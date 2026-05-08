@@ -6,7 +6,7 @@
 import "../components" as Components
 import QtQuick
 import QtQuick.Window
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import cc.etke.komai
 
 Item {
@@ -134,17 +134,23 @@ Item {
         onClicked: surface.activated()
     }
 
+    Rectangle {
+        id: imageMask
+
+        anchors.fill: imageClipper
+        radius: surface.cornerRadius
+        layer.enabled: true
+        visible: false
+    }
+
     Item {
         id: imageClipper
 
         anchors.fill: parent
         layer.enabled: hasRenderableGeometry
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: imageClipper.width
-                height: imageClipper.height
-                radius: surface.cornerRadius
-            }
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: imageMask
         }
 
         Image {

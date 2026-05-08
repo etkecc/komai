@@ -3189,7 +3189,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Mostra</translation>
     </message>
@@ -9392,7 +9392,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Rimuovi tutti gli allegati</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Aggiungi un nome file opzionale…</translation>
     </message>

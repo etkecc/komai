@@ -3189,7 +3189,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Afficher</translation>
     </message>
@@ -9392,7 +9392,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Détacher toutes les pièces jointes</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Ajouter un nom de fichier facultatif…</translation>
     </message>

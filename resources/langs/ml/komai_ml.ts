@@ -3189,7 +3189,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>കാണിക്കുക</translation>
     </message>
@@ -9392,7 +9392,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>എല്ലാ അറ്റാച്ച്‌മെന്റുകളും നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>ഐച്ഛിക ഫയൽനാമം ചേർക്കുക…</translation>
     </message>

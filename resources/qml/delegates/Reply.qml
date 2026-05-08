@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import cc.etke.komai
 
 AbstractButton {
@@ -439,6 +439,16 @@ AbstractButton {
                 return "";
             }
 
+            Rectangle {
+                id: mediaThumbMask
+
+                width: r.compactMediaWidth
+                height: r.compactMediaHeight
+                radius: Komai.paddingMedium
+                layer.enabled: true
+                visible: false
+            }
+
             Row {
                 id: compactPreviewRow
 
@@ -450,12 +460,9 @@ AbstractButton {
                     width: r.compactMediaWidth
                     height: r.compactMediaHeight
                     layer.enabled: true
-                    layer.effect: OpacityMask {
-                        maskSource: Rectangle {
-                            width: mediaThumbFrame.width
-                            height: mediaThumbFrame.height
-                            radius: Komai.paddingMedium
-                        }
+                    layer.effect: MultiEffect {
+                        maskEnabled: true
+                        maskSource: mediaThumbMask
                     }
                     Rectangle {
                         anchors.fill: parent

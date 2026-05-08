@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 import "../../../ui"
 
@@ -40,17 +40,23 @@ Item {
         onClicked: {} // absorb
     }
 
+    Rectangle {
+        id: imageMask
+
+        anchors.fill: imageClipper
+        radius: imageContent.cornerRadius
+        layer.enabled: true
+        visible: false
+    }
+
     Item {
         id: imageClipper
 
         anchors.fill: parent
         layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: imageClipper.width
-                height: imageClipper.height
-                radius: imageContent.cornerRadius
-            }
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: imageMask
         }
 
         Image {

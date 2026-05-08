@@ -3189,7 +3189,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
@@ -9392,7 +9392,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>Remover todos os anexos</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Adicionar um nome de ficheiro opcional...</translation>
     </message>

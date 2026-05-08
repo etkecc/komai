@@ -8,7 +8,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import cc.etke.komai 1.0
 
 Rectangle {
@@ -166,17 +166,24 @@ Rectangle {
                 spacing: Komai.paddingSmall
 
                 // ── Preview thumbnail ──
+                Rectangle {
+                    id: previewMask
+
+                    implicitWidth: uploadPopup.previewSize
+                    implicitHeight: uploadPopup.previewSize
+                    radius: Komai.paddingSmall
+                    layer.enabled: true
+                    visible: false
+                }
+
                 Item {
                     Layout.alignment: Qt.AlignTop
                     Layout.preferredWidth: uploadPopup.previewSize
                     Layout.preferredHeight: uploadPopup.previewSize
                     layer.enabled: true
-                    layer.effect: OpacityMask {
-                        maskSource: Rectangle {
-                            width: uploadPopup.previewSize
-                            height: uploadPopup.previewSize
-                            radius: Komai.paddingSmall
-                        }
+                    layer.effect: MultiEffect {
+                        maskEnabled: true
+                        maskSource: previewMask
                     }
 
                     Image {

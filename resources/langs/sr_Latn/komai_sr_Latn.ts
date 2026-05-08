@@ -3194,7 +3194,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Prikaži</translation>
     </message>
@@ -9408,7 +9408,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Odvoji sve priloge</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Dodaj opciono ime fajla…</translation>
     </message>

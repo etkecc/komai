@@ -3189,7 +3189,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Mostra</translation>
     </message>
@@ -9392,7 +9392,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Desadjuntar tots els adjunts</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Afegir un nom de fitxer opcional…</translation>
     </message>

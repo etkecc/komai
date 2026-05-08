@@ -3184,7 +3184,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Megjelenítés</translation>
     </message>
@@ -9376,7 +9376,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Összes melléklet leválasztása</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Opcionális fájlnév hozzáadása...</translation>
     </message>

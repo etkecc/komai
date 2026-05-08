@@ -3184,7 +3184,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Tampilkan</translation>
     </message>
@@ -9376,7 +9376,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Lepaskan semua lampiran</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Tambahkan nama file opsional…</translation>
     </message>

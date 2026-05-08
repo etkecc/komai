@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import cc.etke.komai 1.0
 
 AbstractButton {
@@ -65,17 +65,23 @@ AbstractButton {
         return TimelineManager.userColor(avatar.userid, palette.base)
     }
 
+    Rectangle {
+        id: avatarMask
+
+        anchors.fill: avatarClipper
+        radius: avatar.avatarRadius
+        layer.enabled: true
+        visible: false
+    }
+
     Item {
         id: avatarClipper
 
         anchors.fill: bg
         layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: avatarClipper.width
-                height: avatarClipper.height
-                radius: avatar.avatarRadius
-            }
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: avatarMask
         }
 
         Image {

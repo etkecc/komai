@@ -3194,7 +3194,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Показати</translation>
     </message>
@@ -9408,7 +9408,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Відкріпити всі вкладення</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Додати ім'я файлу (необов'язково)…</translation>
     </message>

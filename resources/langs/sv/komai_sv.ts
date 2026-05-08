@@ -3189,7 +3189,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Visa</translation>
     </message>
@@ -9392,7 +9392,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Koppla loss alla bilagor</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Lägg till ett valfritt filnamn...</translation>
     </message>

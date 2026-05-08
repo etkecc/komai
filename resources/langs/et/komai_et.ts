@@ -3189,7 +3189,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Kuva</translation>
     </message>
@@ -9392,7 +9392,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Eemalda kõik manused</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Lisa valikuline failinimi…</translation>
     </message>

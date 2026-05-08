@@ -3184,7 +3184,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>顯示</translation>
     </message>
@@ -9376,7 +9376,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>移除所有附件</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>新增可選檔名……</translation>
     </message>

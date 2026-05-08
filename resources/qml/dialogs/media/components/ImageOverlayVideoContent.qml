@@ -4,7 +4,7 @@
 
 import QtQuick
 import QtMultimedia
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 import "../../../ui/media"
 
@@ -62,18 +62,24 @@ Item {
         onClicked: videoContent.togglePlayback()
     }
 
-    // Video display with rounded corners via OpacityMask.
+    // Video display with rounded corners via MultiEffect mask.
+    Rectangle {
+        id: videoMask
+
+        anchors.fill: videoClipper
+        radius: videoContent.cornerRadius
+        layer.enabled: true
+        visible: false
+    }
+
     Item {
         id: videoClipper
 
         anchors.fill: parent
         layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: videoClipper.width
-                height: videoClipper.height
-                radius: videoContent.cornerRadius
-            }
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: videoMask
         }
 
         Image {

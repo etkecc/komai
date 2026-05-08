@@ -40,7 +40,6 @@ docker run --rm \
             qml6-module-qtquick-window qml6-module-qtquick-templates \
             qml6-module-qtmultimedia qml6-module-qtqml qml6-module-qtqml-models \
             qml6-module-qtcore qml6-module-qt-labs-platform qml6-module-qt-labs-settings \
-            qml6-module-qt5compat-graphicaleffects \
             qtkeychain-qt6-dev \
             libgtest-dev \
             libsecret-1-dev \

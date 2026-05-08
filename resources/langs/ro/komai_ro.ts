@@ -3194,7 +3194,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Afișează</translation>
     </message>
@@ -9408,7 +9408,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Detașează toate atașamentele</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Adaugă un nume de fișier opțional…</translation>
     </message>

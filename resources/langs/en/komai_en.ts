@@ -3183,7 +3183,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation type="unfinished">Show</translation>
     </message>
@@ -9357,7 +9357,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation type="unfinished"/>
     </message>

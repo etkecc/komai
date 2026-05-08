@@ -3189,7 +3189,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Montri</translation>
     </message>
@@ -9395,7 +9395,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Apartigi ĉiujn aldonojn</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Aldoni laŭvolan dosiernomon…</translation>
     </message>

@@ -3189,7 +3189,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+200"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
         <source>Show</source>
         <translation>Tonen</translation>
     </message>
@@ -9392,7 +9392,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Alle bijlagen losmaken</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <source>Add an optional filename...</source>
         <translation>Optionele bestandsnaam toevoegen…</translation>
     </message>

@@ -7,7 +7,7 @@ import QtMultimedia
 import QtQuick
 import QtQuick.Window
 import cc.etke.komai
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 Item {
     id: content
@@ -52,6 +52,15 @@ Item {
     }
 
     Rectangle {
+        id: videoMask
+
+        anchors.fill: videoContainer
+        radius: 8
+        layer.enabled: true
+        visible: false
+    }
+
+    Rectangle {
         id: videoContainer
 
         color: palette.window
@@ -59,12 +68,9 @@ Item {
         height: parent.height
         radius: 8
         layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: videoContainer.width
-                height: videoContainer.height
-                radius: 8
-            }
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: videoMask
         }
 
         MouseArea {

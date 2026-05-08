@@ -1,11 +1,13 @@
 # 📥 Installation
 
-Komai runs on Linux desktops (x86_64). Pre-built packages are published with each release, and an Arch Linux package is available from the AUR. If you'd rather build it yourself, see 🔨 [Build from source](#-build-from-source).
+Komai runs on Linux desktops (`x86_64`). We offer [pre-built packages](#pre-built-packages), [distro packages](#distro-packages) (for some distros) and the ability to [🔨 Build from source](#-build-from-source).
 
-> **Windows and macOS users:** there are no official builds. Building
-> from source on those platforms has never been tested by the maintainers.
-> If you'd like to try, see 📄 [Native build — Windows and macOS notes](../maintainers/packaging/native.md#-windows-and-macos-untested)
-> for tentative pointers. Contributions to flesh those out are welcome.
+> **Windows and macOS users:** there are no official pre-built
+> packages. Building from source on Windows is verified to work
+> without VOIP -- see 📄 [Native build on Windows](../maintainers/packaging/native/windows.md).
+> macOS has not been tested by the maintainers; tentative pointers
+> are in 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
+> Contributions to flesh either out further are welcome.
 
 ## 📦 Pre-built packages
 
@@ -52,14 +54,16 @@ The `--dangerous` flag is required because the locally-downloaded snap is not si
 For background, see 📄 [Snap packaging](../maintainers/packaging/snap.md).
 
 
-## 🐧 Arch Linux (AUR)
+## 🐧 Distro packages
 
-A [`komai`](https://aur.archlinux.org/packages/komai) package is available on the AUR. Install with your preferred AUR helper:
+Komai is also available through distro-native package channels. These are listed below as they're added; if you package Komai for a distro that isn't listed here yet, please open a PR.
+
+### Arch Linux (AUR)
+
+A [`komai`](https://aur.archlinux.org/packages/komai) package is available on the AUR. Install with your preferred AUR helper. Example:
 
 ```sh
-yay -S komai
-# or
-paru -S komai
+rua install komai
 ```
 
 The AUR package is built from the [PKGBUILD](https://github.com/etkecc/komai/blob/main/etc/packaging/archlinux/PKGBUILD) shipped with the project. For background, see 📄 [Arch Linux packaging](../maintainers/packaging/archlinux.md).

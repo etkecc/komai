@@ -853,7 +853,7 @@ pub async fn mark_room_event_as_read(
             );
         }
 
-        room.set_room_info(info, RoomInfoNotableUpdateReasons::READ_RECEIPT);
+        room.update_room_info(|_| (info, RoomInfoNotableUpdateReasons::READ_RECEIPT)).await;
     }
 
     Ok(())

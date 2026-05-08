@@ -16,11 +16,16 @@ The big picture:
 
 ## What Lives Here
 
+- [`build/`](build/) - native build orchestrator (`native.sh`) backing `just configure` / `just build` / `just test-cpp*`.
 - [`docs/`](docs/README.md) - Markdown quality checks for documentation links.
 - [`emoji/`](emoji/README.md) - generate `src/emoji/Provider.{h,cpp}` from Unicode emoji data.
+- [`flatpak/`](flatpak/) - vendor cargo dependencies for the offline Flatpak build (`cargo-sources.py`).
 - [`icons/`](icons/README.md) - icon audit and pinned Fluent sync helpers.
 - [`license/`](license/README.md) - REUSE license checks and SPDX header injection helpers.
+- [`perf/`](perf/) - performance benchmarking helpers (room-switch latency reports, etc.).
 - [`prek/`](prek/README.md) - project-specific hook wrappers used by `.pre-commit-config.yaml`.
+- [`release/`](release/README.md) - release preparation, build, and publish helpers driven by `just release-*` recipes.
+- [`serverlist/`](serverlist/) - validates `resources/serverlist/servers.yml`.
 - [`theme/`](theme/README.md) - theme validation, import, and C++ header generation.
 - [`translations/`](translations/README.md) - translation normalization and Claude-assisted translation tooling.
 

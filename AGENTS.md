@@ -46,6 +46,23 @@ For C++/header/QML changes, `prek` also runs unit tests via `bin/prek/tests.sh`.
 See [docs/maintainers/packaging/native.md](docs/maintainers/packaging/native.md) for build dependencies.
 
 
+## Releases
+
+To cut a release:
+
+1. `just release-prepare` -- bumps `VERSION.txt` and propagates to `PKGBUILD`, `CHANGELOG.md`, `appdata.xml.in`.
+2. Edit `CHANGELOG.md` and replace the TODO with actual release notes.
+3. `git commit -am 'Release v<VERSION>'`
+4. `git tag v<VERSION>`
+5. `git push && git push --tags`
+
+[`publish.yml`](.github/workflows/publish.yml) builds and publishes the GitHub Release automatically on the tag push.
+
+**Do NOT invoke the `release-manual-*` recipes** (`release-manual-validate`, `release-manual-build`, `release-manual-publish`, `release-manual-all`) unless the user explicitly asks for a local publish. They reproduce `publish.yml`'s pipeline sequentially on one machine, take ~1h to complete, and exist only as a fallback for when CI is unavailable.
+
+See [docs/maintainers/releases.md](docs/maintainers/releases.md) for full details.
+
+
 ## Key Source Locations
 
 ### Settings

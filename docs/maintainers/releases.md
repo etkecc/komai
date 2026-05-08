@@ -79,6 +79,35 @@ Total wall time for a cold release is roughly 1h 40m. Most of that is the packag
 When `publish.yml` finishes, check the [Releases page](https://github.com/etkecc/komai/releases) — the new release should be there with three artefacts attached and the CHANGELOG section as its body. As a smoke test, download the AppImage and run it.
 
 
+## Manual publish (off-CI fallback)
+
+`publish.yml` is the canonical release path. The same pipeline is also exposed as a sequential, single-machine alternative — useful when CI is unavailable or when iterating on the artefact pipeline locally without the ~1h CI loop:
+
+| Recipe | What it does |
+|---|---|
+| `just release-manual-validate` | Runs eight independent gates (clean tree, HEAD on tag, tag pushed to origin, CHANGELOG section non-empty, version-drift hook clean, `gh` authed with `repo` scope, repo context resolves, no existing GitHub release for the tag). Hard-fails with a recovery hint on the first miss. |
+| `just release-manual-build` | Drives `just appimage-build-docker` / `flatpak-build` / `snap-build-docker` sequentially and verifies the expected output paths. ~15 min warm, ~50 min cold. |
+| `just release-manual-publish` | Extracts the CHANGELOG section as release notes and runs `gh release create`. Supports `--dry-run`. |
+| `just release-manual-all` | Orchestrator: validate → build → publish in order. Supports `--dry-run`. |
+
+The underlying scripts under `bin/release/` are shared with `publish.yml`'s release job — the CI workflow calls `bin/release/publish.py` directly so the awk extraction and `gh release create` invocation have a single source of truth.
+
+Prerequisites: `git`, `gh` (authenticated, `repo` scope), `just`, `docker`, `flatpak-builder`. Each recipe checks the tools it directly invokes and fails clearly if any are missing.
+
+Steps 1–4 of [Cutting a release](#cutting-a-release) (prepare → write changelog → commit → tag → push) are identical. After step 4, instead of waiting for `publish.yml`, run:
+
+```sh
+just release-manual-all
+```
+
+If a release for the tag already exists on GitHub, `release-manual-publish` hard-fails (no `--force`, no auto-overwrite). Delete the existing release manually first if you intend to republish:
+
+```sh
+gh release delete v2026.05.05.0
+just release-manual-all
+```
+
+
 ## Re-releasing after a bad release
 
 **Don't reuse tags.** External caches (AUR, downloaded AppImages, mirror sites) will not pick up a moved tag. Instead, bump the counter and release again on the same day:

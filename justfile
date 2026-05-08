@@ -30,10 +30,25 @@ completions-generate: build
 	{{ build_dir }}/komai completions zsh  > {{ justfile_directory() }}/resources/completions/zsh/_komai
 	{{ build_dir }}/komai completions fish > {{ justfile_directory() }}/resources/completions/fish/komai.fish
 
-# Prepares a new release: bumps VERSION.txt and propagates the change to PKGBUILD, CHANGELOG.md, and appdata.xml.in.
-# Without an argument, picks the next version from today's UTC date.
+# Prepares a new release: bumps VERSION.txt and propagates to PKGBUILD/CHANGELOG/appdata. Without args, picks the next version from today's UTC date.
 release-prepare *args:
 	python3 {{ justfile_directory() }}/bin/release/prepare.py {{ args }}
+
+# Local fallback for publish.yml (step 1 of release-manual-all): validates publish prerequisites for v<VERSION.txt> (clean tree, tag, CHANGELOG, drift, gh auth, no existing release).
+release-manual-validate:
+	python3 {{ justfile_directory() }}/bin/release/validate.py
+
+# Local fallback for publish.yml (step 2 of release-manual-all): builds AppImage, Flatpak, and Snap artefacts for v<VERSION.txt>.
+release-manual-build:
+	python3 {{ justfile_directory() }}/bin/release/build.py
+
+# Local fallback for publish.yml (step 3 of release-manual-all): publishes the built artefacts to a GitHub Release; hard-fails if one already exists for the tag. Supports `--dry-run`.
+release-manual-publish *args:
+	python3 {{ justfile_directory() }}/bin/release/publish.py {{ args }}
+
+# Local fallback for publish.yml: end-to-end release for v<VERSION.txt> (validate, build, publish). Run `release-prepare` and tag first. Supports `--dry-run`.
+release-manual-all *args:
+	python3 {{ justfile_directory() }}/bin/release/all.py {{ args }}
 
 # Runs the full supported test suite (C++ unit + integration, then Rust unit tests)
 test: _ensure_just_temp_directory

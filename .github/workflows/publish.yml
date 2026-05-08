@@ -142,9 +142,9 @@ jobs:
   release:
     needs: [ build-appimage, build-flatpak, build-snap ]
     runs-on: [self-hosted, k150]
-    # Runs inside the CI image so the `gh` CLI (and awk) come from the
-    # image, not the host. Keeps the release-creation path self-contained
-    # instead of tying it to another host package.
+    # Runs inside the CI image so `python3` and the `gh` CLI come from
+    # the image, not the host. Keeps the release-creation path
+    # self-contained instead of tying it to another host package.
     container:
       image: ghcr.io/etkecc/komai/ci:latest
       credentials:
@@ -164,47 +164,43 @@ jobs:
         with:
           path: artefacts
 
-      - name: Extract release notes from CHANGELOG
-        id: notes
+      - name: Stage artefacts under var/build/
+        # `bin/release/publish.py` looks for artefacts at the standard
+        # local layout (var/build/<format>/<file>). actions/download-artifact
+        # produces them under artefacts/komai-<format>/, so symlink each
+        # directory into place. This lets the same script that drives
+        # `just release-manual-publish` locally also drive the release
+        # step here -- single source of truth for CHANGELOG extraction
+        # and the `gh release create` invocation.
+        run: |
+          mkdir -p var/build
+          ln -sfn "$(pwd)/artefacts/komai-appimage" var/build/appimage
+          ln -sfn "$(pwd)/artefacts/komai-flatpak"  var/build/flatpak
+          ln -sfn "$(pwd)/artefacts/komai-snap"     var/build/snap
+
+      - name: Verify tag matches VERSION.txt
+        # `bin/prek/version-drift.sh` already guarantees VERSION.txt /
+        # PKGBUILD / CHANGELOG / appdata.xml.in agree at commit time;
+        # this just verifies the *tag* name lines up with the VERSION.txt
+        # file the tagged commit contains. publish.py reads VERSION.txt
+        # to derive the tag it publishes for, so a mismatch here would
+        # silently produce a wrongly-named release.
         env:
           TAG: ${{ github.event.workflow_run.head_branch }}
         run: |
           set -euo pipefail
           VERSION="$(cat VERSION.txt)"
-
-          # Sanity: the tag should match `v${VERSION}`. The version-drift
-          # hook already guarantees VERSION.txt / PKGBUILD / CHANGELOG /
-          # appdata.xml.in agree with one another; this just verifies the
-          # *tag* name lines up with the VERSION.txt file the tagged commit
-          # contains.
           if [[ "${TAG}" != "v${VERSION}" ]]; then
             echo "Tag '${TAG}' does not match 'v${VERSION}' from VERSION.txt." >&2
             echo "Refusing to publish a release where the tag and VERSION.txt disagree." >&2
             exit 1
           fi
 
-          awk -v v="${VERSION}" '
-            $0 ~ "^## " v "([[:space:]]|$)" { inside = 1; next }
-            inside && $0 ~ "^## "             { exit }
-            inside                            { print }
-          ' CHANGELOG.md > notes.md
-
-          if [[ ! -s notes.md ]]; then
-            echo "CHANGELOG.md has no section for version '${VERSION}'." >&2
-            echo "Populate it via 'just release-prepare ${VERSION}' before tagging." >&2
-            exit 1
-          fi
-
-          echo "tag=${TAG}" >> "${GITHUB_OUTPUT}"
-
-      - name: Create GitHub Release
+      - name: Publish GitHub Release
+        # publish.py extracts the matching CHANGELOG section, verifies
+        # the three artefacts exist at their expected paths, and runs
+        # `gh release create`. Same code path as `just release-manual-publish`
+        # locally -- see docs/maintainers/releases.md.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ steps.notes.outputs.tag }}
-        run: |
-          gh release create "${TAG}" \
-            --title "${TAG}" \
-            --notes-file notes.md \
-            artefacts/komai-appimage/*.AppImage \
-            artefacts/komai-flatpak/komai.flatpak \
-            artefacts/komai-snap/komai_*.snap
+        run: python3 bin/release/publish.py

@@ -4,7 +4,7 @@ Komai traces its origins to a fork of [nheko](https://nheko.im/nheko-reborn/nhek
 
 This page still exists for readers curious about where Komai came from and the kinds of things that were reshaped along the way. It lists the notable user-facing differences, but shouldn't be read as a complete diff — far too much has changed for that to be practical.
 
-> 💡 This document was last updated in April 2026, around Komai's initial release period. As both Komai and nheko evolve, some details here may become outdated over time.
+> 💡 This document was last updated in May 2026, around Komai's initial release period. As both Komai and nheko evolve, some details here may become outdated over time.
 
 For project background and naming context, see [🦁 Identity](identity.md).
 

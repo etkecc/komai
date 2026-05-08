@@ -51,7 +51,7 @@ See [docs/maintainers/packaging/native.md](docs/maintainers/packaging/native.md)
 To cut a release:
 
 1. `just release-prepare` -- bumps `VERSION.txt` and propagates to `PKGBUILD`, `CHANGELOG.md`, `appdata.xml.in`.
-2. Edit `CHANGELOG.md` and replace the TODO with actual release notes.
+2. Edit `CHANGELOG.md` and replace the TODO with actual release notes, derived from the commits between the previous release tag and `HEAD` (`git log v<PREV_VERSION>..HEAD`). Give the entries a user-facing spin -- not a commit-log dump.
 3. Confirm the picked version and the CHANGELOG draft with the operator before proceeding.
 4. `git commit -am 'Release v<VERSION>'`
 5. `git tag v<VERSION>`

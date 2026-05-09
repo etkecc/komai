@@ -3102,7 +3102,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Pesan dihapus</translation>
@@ -3176,7 +3176,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
         <translation>Pengaturan…</translation>
     </message>

@@ -204,6 +204,23 @@ Item {
         return handled;
     }
 
+    function handleMouseSelectionRangeTo(eventId) {
+        const normalizedEventId = String(eventId || "");
+        if (normalizedEventId.length === 0)
+            return false;
+
+        if (!rootItem.walkModeActive || String(rootItem.selectionAnchorEventId || "").length === 0)
+            return handleMouseSelectionToggle(normalizedEventId);
+
+        if (!focusWalkModeEventById(normalizedEventId, {
+                "skipScroll": true
+            })) {
+            return false;
+        }
+
+        return rootItem.selectRangeToEventId(normalizedEventId);
+    }
+
     function enterWalkModeFromBottomMostVisible() {
         if (!rootItem.hasTimeline || rootItem.hasPendingAttachments || rootItem.editing)
             return false;

@@ -85,6 +85,11 @@ than one message. Focused and selected messages are shown differently.
 `Ctrl+Click` on a message also enters Selection mode if needed and toggles that message in the
 explicit selection.
 
+`Shift+Click` on a message extends the selection from the last `Ctrl+Click`ed message to the
+clicked one, including everything in between. Repeated `Shift+Click`s keep extending from the same
+anchor, so you can grow the range without losing the starting point. With no prior selection,
+`Shift+Click` behaves like `Ctrl+Click`.
+
 Selection mode also supports several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like
 keys such as `j`/`k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
 

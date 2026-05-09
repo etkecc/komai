@@ -130,6 +130,7 @@ The main entry paths are:
 - plain `Up` from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) when the composer caret is already at the start of the top line; it enters at the bottom-most visible message
 - `Ctrl+U` from the composer, routed from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) into the timeline
 - `Ctrl+Click` on a timeline message, routed from [resources/qml/timeline/TimelineMessageStyleBase.qml](../../resources/qml/timeline/TimelineMessageStyleBase.qml) into [resources/qml/timeline/components/MatrixRoomView.qml](../../resources/qml/timeline/components/MatrixRoomView.qml)
+- `Shift+Click` on a timeline message, routed the same way; it extends the explicit selection from `selectionAnchorEventId` to the clicked event by walking rows in [resources/qml/timeline/components/MatrixRoomEventSupport.qml](../../resources/qml/timeline/components/MatrixRoomEventSupport.qml). It falls back to the `Ctrl+Click` toggle when there is no anchor yet.
 
 `TimelineView.qml` also blocks its usual "type to focus composer" behavior while Selection mode is
 active.

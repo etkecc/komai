@@ -3107,7 +3107,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Poistettu viesti</translation>
@@ -3181,7 +3181,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
         <translation>Asetukset…</translation>
     </message>

@@ -3107,7 +3107,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>നീക്കം ചെയ്ത സന്ദേശം</translation>
@@ -3181,7 +3181,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
         <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>

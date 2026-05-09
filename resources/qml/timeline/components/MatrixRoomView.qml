@@ -293,6 +293,7 @@ ColumnLayout {
     function canExplicitlySelectEventId(eventId) { return eventSupport.canExplicitlySelectEventId(eventId); }
     function updateSelectionAnchor(preferredEventId) { return eventSupport.updateSelectionAnchor(preferredEventId); }
     function toggleSelectionForEventId(eventId) { return eventSupport.toggleSelectionForEventId(eventId); }
+    function selectRangeToEventId(eventId) { return eventSupport.selectRangeToEventId(eventId); }
     function registerVisibleDelegate(eventId, delegateItem) { return eventSupport.registerVisibleDelegate(eventId, delegateItem); }
     function unregisterVisibleDelegate(eventId, delegateItem) { return eventSupport.unregisterVisibleDelegate(eventId, delegateItem); }
     function replaceTrackedEventId(previousId, nextId) { return eventSupport.replaceTrackedEventId(previousId, nextId); }
@@ -309,6 +310,7 @@ ColumnLayout {
 
     function clearSelectedEvents() { return walkModeSupport.clearSelectedEvents(); }
     function handleMouseSelectionToggle(eventId) { return walkModeSupport.handleMouseSelectionToggle(eventId); }
+    function handleMouseSelectionRangeTo(eventId) { return walkModeSupport.handleMouseSelectionRangeTo(eventId); }
     function enterWalkModeFromBottomMostVisible() { return walkModeSupport.enterWalkModeFromBottomMostVisible(); }
     function enterWalkModeAndMoveTowardOlderEventsByChunk() { return walkModeSupport.enterWalkModeAndMoveTowardOlderEventsByChunk(); }
     function isSelectableMatrixTimelineRow(row) { return walkModeSupport.isSelectableMatrixTimelineRow(row); }

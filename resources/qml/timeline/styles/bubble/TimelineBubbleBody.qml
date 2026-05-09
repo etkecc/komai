@@ -683,6 +683,18 @@ Item {
                 root.wrapper.handleMouseSelectionToggle();
             }
         }
+
+        TapHandler {
+            acceptedButtons: Qt.LeftButton
+            acceptedModifiers: Qt.ShiftModifier
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+            enabled: !root.perfDisableTimelineInteraction
+            gesturePolicy: TapHandler.ReleaseWithinBounds
+
+            onSingleTapped: {
+                root.wrapper.handleMouseSelectionRangeTo();
+            }
+        }
     }
 
     Item {

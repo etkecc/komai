@@ -3102,7 +3102,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Tin nhắn đã xóa</translation>
@@ -3176,7 +3176,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
         <translation>Cài đặt…</translation>
     </message>

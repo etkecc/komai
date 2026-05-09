@@ -3107,7 +3107,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+195"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Gelöschte Nachricht</translation>
@@ -3181,7 +3181,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+443"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
         <translation>Einstellungen…</translation>
     </message>

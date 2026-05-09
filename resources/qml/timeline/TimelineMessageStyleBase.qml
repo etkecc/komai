@@ -517,6 +517,13 @@ TimelineEvent {
         chatRoot.handleMouseSelectionToggle(eventId);
     }
 
+    function handleMouseSelectionRangeTo() {
+        if (!chatRoot || typeof chatRoot.handleMouseSelectionRangeTo !== "function")
+            return;
+
+        chatRoot.handleMouseSelectionRangeTo(eventId);
+    }
+
     function avatarImageUrl(userId) {
         if (room)
             return room.avatarUrl(userId).replace("mxc://", "image://MxcImage/");

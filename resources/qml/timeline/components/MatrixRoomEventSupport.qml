@@ -54,6 +54,52 @@ QtObject {
         return true;
     }
 
+    function selectRangeToEventId(eventId) {
+        const normalizedEventId = String(eventId || "");
+        if (!support.canExplicitlySelectEventId(normalizedEventId))
+            return false;
+
+        const anchorEventId = String(rootItem.selectionAnchorEventId || "");
+        if (anchorEventId.length === 0 || anchorEventId === normalizedEventId)
+            return support.toggleSelectionForEventId(normalizedEventId);
+
+        const perRoomModel = rootItem.perRoomModel;
+        if (!perRoomModel)
+            return false;
+
+        const anchorRow = perRoomModel.rowForEventId(anchorEventId);
+        const endRow = perRoomModel.rowForEventId(normalizedEventId);
+        if (anchorRow < 0 || endRow < 0)
+            return support.toggleSelectionForEventId(normalizedEventId);
+
+        const minRow = Math.min(anchorRow, endRow);
+        const maxRow = Math.max(anchorRow, endRow);
+
+        const additions = [];
+        const seen = {};
+        const existing = rootItem.selectedEventIds;
+        for (let i = 0; i < existing.length; i += 1)
+            seen[String(existing[i] || "")] = true;
+
+        for (let row = minRow; row <= maxRow; row += 1) {
+            if (!rootItem.isSelectableMatrixTimelineRow(row))
+                continue;
+            const item = perRoomModel.itemAt(row);
+            if (!item)
+                continue;
+            const rowEventId = String(item.eventId || "");
+            if (rowEventId.length === 0 || seen[rowEventId])
+                continue;
+            seen[rowEventId] = true;
+            additions.push(rowEventId);
+        }
+
+        if (additions.length > 0)
+            rootItem.selectedEventIds = existing.concat(additions);
+
+        return true;
+    }
+
     function registerVisibleDelegate(eventId, delegateItem) {
         const key = String(eventId || "");
         if (key.length === 0 || !delegateItem)

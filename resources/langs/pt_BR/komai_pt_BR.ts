@@ -3138,7 +3138,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MatrixRoomMessageActionsModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+191"/>
+        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+201"/>
         <location line="+0"/>
         <location line="+33"/>
         <location line="+0"/>

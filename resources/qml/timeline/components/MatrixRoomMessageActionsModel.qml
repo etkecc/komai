@@ -125,6 +125,16 @@ Item {
         return root.rootItem.openMatrixForwardDialog(eventId);
     }
 
+    function forwardMessage(eventId, targetRoomId) {
+        TimelineManager.forwardActiveMatrixTimelineEvent(String(eventId || ""),
+                                                         String(targetRoomId || ""));
+    }
+
+    function forwardMessages(eventIds, targetRoomId) {
+        TimelineManager.forwardActiveMatrixTimelineEvents(eventIds || [],
+                                                          String(targetRoomId || ""));
+    }
+
     function formatRedactedEvent(eventId) {
         const model = TimelineManager.matrixTimelineModel;
         if (!model)

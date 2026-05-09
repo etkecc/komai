@@ -3133,7 +3133,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomMessageActionsModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+191"/>
+        <location filename="../../qml/timeline/components/MatrixRoomMessageActionsModel.qml" line="+201"/>
         <location line="+0"/>
         <location line="+33"/>
         <location line="+0"/>

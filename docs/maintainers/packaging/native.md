@@ -37,7 +37,6 @@ The rest of this page is shared reference.
 | [Qt6](https://www.qt.io/) | 6.5 | Base, Declarative, Multimedia, SVG, Tools |
 | [CMake](https://cmake.org/) | 3.15 | |
 | [Python 3](https://www.python.org/) | | Theme generation and emoji data generation at build time |
-| [OpenSSL](https://www.openssl.org/) | 1.1.0 | TLS/cryptography |
 | [qtkeychain](https://github.com/frankosterfeld/qtkeychain) | 0.12 | Credential storage |
 | [KDSingleApplication](https://github.com/KDAB/KDSingleApplication) | 1.0 | Single-instance support |
 

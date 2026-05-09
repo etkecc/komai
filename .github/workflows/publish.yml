@@ -115,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: komai-flatpak
-          path: var/build/flatpak/komai.flatpak
+          path: var/build/flatpak/komai-*.flatpak
           if-no-files-found: error
 
   build-snap:

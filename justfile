@@ -332,15 +332,22 @@ flatpak-build: _ensure_just_temp_directory emoji-fetch flatpak-cargo-sources
 		--force-clean \
 		"{{ flatpak_build_dir }}/app" \
 		"{{ justfile_directory() }}/etc/packaging/flatpak/cc.etke.komai.yaml"
+	# Filename mirrors the AppImage style (komai-<version>-<arch>.<ext>) so
+	# users keeping older bundles can tell them apart. flatpak build-bundle
+	# defaults to the host arch, matching the build above.
+	komai_version="$(tr -d '[:space:]' < "{{ justfile_directory() }}/VERSION.txt")"
+	host_arch="$(uname -m)"
+	bundle_path="{{ flatpak_build_dir }}/komai-${komai_version}-${host_arch}.flatpak"
+	rm -f "{{ flatpak_build_dir }}"/komai-*.flatpak
 	flatpak build-bundle \
 		"{{ flatpak_build_dir }}/repo" \
-		"{{ flatpak_build_dir }}/komai.flatpak" \
+		"$bundle_path" \
 		cc.etke.komai
-	echo "Flatpak bundle: {{ flatpak_build_dir }}/komai.flatpak"
+	echo "Flatpak bundle: $bundle_path"
 
 # Installs the locally-built Flatpak bundle
 flatpak-install:
-	flatpak --user install --or-update -y "{{ flatpak_build_dir }}/komai.flatpak"
+	flatpak --user install --or-update -y "{{ flatpak_build_dir }}"/komai-*.flatpak
 
 # Runs the Flatpak-installed Komai
 flatpak-run *args:

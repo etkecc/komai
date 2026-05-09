@@ -68,8 +68,8 @@ def appimage_path(version: str) -> Path:
     return APPIMAGE_DIR / f"komai-{version}-x86_64.AppImage"
 
 
-def flatpak_path() -> Path:
-    return FLATPAK_DIR / "komai.flatpak"
+def flatpak_path(version: str) -> Path:
+    return FLATPAK_DIR / f"komai-{version}-x86_64.flatpak"
 
 
 def snap_path(version: str) -> Path:
@@ -83,7 +83,7 @@ def windows_zip_path(version: str) -> Path:
 def expected_artefacts(version: str) -> list[Path]:
     return [
         appimage_path(version),
-        flatpak_path(),
+        flatpak_path(version),
         snap_path(version),
         windows_zip_path(version),
     ]

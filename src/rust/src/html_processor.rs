@@ -876,19 +876,47 @@ fn mxc_to_pill_avatar_url(mxc_url: &str, avatar_size: u32) -> String {
     }
 }
 
-fn build_avatar_map<'a>(avatars: &'a [HtmlPillAvatar]) -> HashMap<&'a str, &'a str> {
+/// Append the requested logical avatar size to a pre-formed
+/// `image://default-avatar/...` URL produced by the C++ side.
+fn fallback_to_pill_avatar_url(fallback_url: &str, avatar_size: u32) -> String {
+    if fallback_url.is_empty() {
+        return String::new();
+    }
+    let sep = if fallback_url.contains('?') { '&' } else { '?' };
+    format!("{fallback_url}{sep}avatarSize={avatar_size}")
+}
+
+/// Pick the best avatar source for a pill: a real mxc URL when the user
+/// currently has an avatar, otherwise the default-avatar fallback URL the
+/// C++ side prepared for them. Returns `None` when neither is available
+/// (e.g. for a non-sender mention we have no profile snapshot for).
+fn pill_avatar_src(entry: &HtmlPillAvatar, avatar_size: u32) -> Option<String> {
+    if entry.mxc_url.starts_with("mxc://") {
+        Some(mxc_to_pill_avatar_url(&entry.mxc_url, avatar_size))
+    } else if !entry.fallback_url.is_empty() {
+        Some(fallback_to_pill_avatar_url(&entry.fallback_url, avatar_size))
+    } else {
+        None
+    }
+}
+
+fn build_avatar_map<'a>(avatars: &'a [HtmlPillAvatar]) -> HashMap<&'a str, &'a HtmlPillAvatar> {
     let mut map = HashMap::with_capacity(avatars.len());
     for a in avatars {
-        if !a.user_id.is_empty() && !a.mxc_url.is_empty() {
-            map.entry(a.user_id.as_str()).or_insert(a.mxc_url.as_str());
+        if a.user_id.is_empty() {
+            continue;
         }
+        if a.mxc_url.is_empty() && a.fallback_url.is_empty() {
+            continue;
+        }
+        map.insert(a.user_id.as_str(), a);
     }
     map
 }
 
 fn decorate_matrix_pills(
     html: &str,
-    avatar_map: &HashMap<&str, &str>,
+    avatar_map: &HashMap<&str, &HtmlPillAvatar>,
     avatar_size: u32,
 ) -> String {
     if html.is_empty() {
@@ -950,10 +978,13 @@ fn decorate_matrix_pills(
         out.push_str(pill_type);
         out.push_str("\">");
 
-        // Inject avatar image if available.
-        if let Some(mxc_url) = avatar_map.get(matrix_id.as_str()) {
-            if mxc_url.starts_with("mxc://") {
-                let avatar_src = mxc_to_pill_avatar_url(mxc_url, avatar_size);
+        // Inject an avatar image — real mxc when available, otherwise the
+        // default-avatar fallback URL prepared on the C++ side. We avoid
+        // emitting a bare pill (text only, no `<img>`) here because the
+        // pill-avatar CSS reserves a square slot, and the user expects
+        // parity with the timeline avatar where the fallback always renders.
+        if let Some(entry) = avatar_map.get(matrix_id.as_str()) {
+            if let Some(avatar_src) = pill_avatar_src(entry, avatar_size) {
                 out.push_str("<img class=\"pill-avatar\" src=\"");
                 out.push_str(&html_escape(&avatar_src));
                 out.push_str("\"/>");
@@ -1224,16 +1255,39 @@ mod tests {
 
     // -- decorate_matrix_pills --
 
-    fn avatar_map_from<'a>(entries: &[(&'a str, &'a str)]) -> HashMap<&'a str, &'a str> {
-        entries.iter().copied().collect()
+    fn make_pill_avatar(user_id: &str, mxc_url: &str) -> HtmlPillAvatar {
+        HtmlPillAvatar {
+            user_id: user_id.to_string(),
+            mxc_url: mxc_url.to_string(),
+            fallback_url: String::new(),
+        }
+    }
+
+    fn make_pill_avatar_with_fallback(
+        user_id: &str,
+        mxc_url: &str,
+        fallback_url: &str,
+    ) -> HtmlPillAvatar {
+        HtmlPillAvatar {
+            user_id: user_id.to_string(),
+            mxc_url: mxc_url.to_string(),
+            fallback_url: fallback_url.to_string(),
+        }
+    }
+
+    fn avatar_map_from<'a>(entries: &'a [HtmlPillAvatar]) -> HashMap<&'a str, &'a HtmlPillAvatar> {
+        build_avatar_map(entries)
     }
 
     #[test]
     fn pill_decorates_user_mention() {
         let html = r#"hello <a href="https://matrix.to/#/%40slavi%3Adevture.com">Slavi</a> world"#;
-        let avatars =
-            avatar_map_from(&[("@slavi:devture.com", "mxc://devture.com/abc123")]);
-        let out = decorate_matrix_pills(html, &avatars, 32);
+        let avatars = vec![make_pill_avatar(
+            "@slavi:devture.com",
+            "mxc://devture.com/abc123",
+        )];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
         assert!(out.contains(r#"class="pill pill-user""#), "user pill class");
         assert!(
             out.contains(r#"<img class="pill-avatar""#),
@@ -1252,9 +1306,12 @@ mod tests {
     fn pill_decorates_room_mention() {
         let html =
             r#"<a href="https://matrix.to/#/%23room%3Aexample.org">#room:example.org</a>"#;
-        let avatars =
-            avatar_map_from(&[("#room:example.org", "mxc://example.org/roomavatar")]);
-        let out = decorate_matrix_pills(html, &avatars, 32);
+        let avatars = vec![make_pill_avatar(
+            "#room:example.org",
+            "mxc://example.org/roomavatar",
+        )];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
         assert!(
             out.contains(r#"class="pill pill-room""#),
             "room pill has pill-room class"
@@ -1273,8 +1330,9 @@ mod tests {
     fn pill_decorates_room_id_mention() {
         let html =
             r#"<a href="https://matrix.to/#/!abc123%3Aexample.org">My Room</a>"#;
-        let avatars = HashMap::new();
-        let out = decorate_matrix_pills(html, &avatars, 32);
+        let avatars: Vec<HtmlPillAvatar> = Vec::new();
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
         assert!(
             out.contains(r#"class="pill pill-room""#),
             "room ID pill has pill-room class"
@@ -1289,8 +1347,9 @@ mod tests {
     #[test]
     fn pill_skips_non_matrix_to_links() {
         let html = r#"<a href="https://example.org">Example</a>"#;
-        let avatars = avatar_map_from(&[("@any:server", "mxc://server/img")]);
-        let out = decorate_matrix_pills(html, &avatars, 32);
+        let avatars = vec![make_pill_avatar("@any:server", "mxc://server/img")];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
         assert!(!out.contains("pill"), "non-matrix.to link is not decorated");
         assert_eq!(out, html, "non-matrix.to link is unchanged");
     }
@@ -1301,11 +1360,12 @@ mod tests {
             r#"<a href="https://matrix.to/#/%40alice%3Aexample.org">Alice</a> and "#,
             r#"<a href="https://matrix.to/#/%40bob%3Aexample.org">Bob</a>"#
         );
-        let avatars = avatar_map_from(&[
-            ("@alice:example.org", "mxc://example.org/alice"),
-            ("@bob:example.org", "mxc://example.org/bob"),
-        ]);
-        let out = decorate_matrix_pills(html, &avatars, 32);
+        let avatars = vec![
+            make_pill_avatar("@alice:example.org", "mxc://example.org/alice"),
+            make_pill_avatar("@bob:example.org", "mxc://example.org/bob"),
+        ];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
         assert_eq!(
             count_occurrences(&out, r#"class="pill pill-user""#),
             2,
@@ -1322,8 +1382,9 @@ mod tests {
     fn pill_with_empty_avatar_map() {
         let html =
             r#"<a href="https://matrix.to/#/%40user%3Aexample.org">User</a>"#;
-        let avatars = HashMap::new();
-        let out = decorate_matrix_pills(html, &avatars, 32);
+        let avatars: Vec<HtmlPillAvatar> = Vec::new();
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
         assert!(
             out.contains(r#"class="pill pill-user""#),
             "pill class is added even without avatars"
@@ -1335,9 +1396,9 @@ mod tests {
     fn pill_with_event_link() {
         let html =
             r#"<a href="https://matrix.to/#/!room%3Aserver/%24event%3Aserver">link</a>"#;
-        let avatars =
-            avatar_map_from(&[("!room:server", "mxc://server/roomavatar")]);
-        let out = decorate_matrix_pills(html, &avatars, 32);
+        let avatars = vec![make_pill_avatar("!room:server", "mxc://server/roomavatar")];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
         assert!(
             out.contains(r#"class="pill pill-room""#),
             "event link is decorated as room pill"
@@ -1345,6 +1406,52 @@ mod tests {
         assert!(
             out.contains("image://mxcImage/server/roomavatar"),
             "room avatar is resolved from room ID portion"
+        );
+    }
+
+    #[test]
+    fn pill_uses_fallback_when_user_has_no_mxc_avatar() {
+        let html =
+            r#"<a href="https://matrix.to/#/%40user%3Aexample.org">User</a>"#;
+        let avatars = vec![make_pill_avatar_with_fallback(
+            "@user:example.org",
+            "",
+            "image://default-avatar/@user:example.org?radius=25&displayName=User&color=ab12cd&style=4&_v=4",
+        )];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
+        assert!(
+            out.contains(r#"<img class="pill-avatar""#),
+            "fallback img is injected when no mxc URL is available"
+        );
+        assert!(
+            out.contains("image://default-avatar/@user:example.org"),
+            "default-avatar URL is emitted as the pill avatar source"
+        );
+        assert!(
+            out.contains("avatarSize=32"),
+            "avatarSize is appended for the default-avatar provider"
+        );
+    }
+
+    #[test]
+    fn pill_prefers_mxc_over_fallback_when_both_present() {
+        let html =
+            r#"<a href="https://matrix.to/#/%40user%3Aexample.org">User</a>"#;
+        let avatars = vec![make_pill_avatar_with_fallback(
+            "@user:example.org",
+            "mxc://example.org/abc",
+            "image://default-avatar/@user:example.org?radius=25",
+        )];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
+        assert!(
+            out.contains("image://mxcImage/example.org/abc"),
+            "real mxc avatar wins over fallback"
+        );
+        assert!(
+            !out.contains("image://default-avatar"),
+            "fallback URL is not emitted when mxc is present"
         );
     }
 

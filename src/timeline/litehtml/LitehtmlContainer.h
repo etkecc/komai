@@ -130,6 +130,8 @@ signals:
 private:
     static QColor toQColor(const litehtml::web_color &c);
     void drawBorderLine(const QPoint &from, const QPoint &to, const litehtml::border &border);
+    void loadMxcImage(const QString &srcUrl);
+    void loadDefaultAvatarImage(const QString &srcUrl);
 
     QPainter *m_painter = nullptr;
     QFont m_defaultFont;

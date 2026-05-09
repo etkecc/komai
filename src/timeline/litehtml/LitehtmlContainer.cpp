@@ -11,9 +11,11 @@
 #include <QPointer>
 #include <QScreen>
 #include <QTextDocumentFragment>
+#include <QThreadPool>
 #include <QUrl>
 #include <QtMath>
 
+#include "avatars/default/DefaultAvatarProvider.h"
 #include "providers/MxcImageProvider.h"
 #include "timeline/litehtml/LitehtmlStylesheet.h"
 
@@ -349,20 +351,44 @@ LitehtmlContainer::draw_list_marker(litehtml::uint_ptr /*hdc*/, const litehtml::
 
 // -- Image loading --
 
+namespace {
+
+constexpr auto kMxcImagePrefix      = QLatin1String("image://mxcImage/");
+constexpr auto kDefaultAvatarPrefix = QLatin1String("image://default-avatar/");
+
+double
+maxScreenDevicePixelRatio()
+{
+    double dpr = 1.0;
+    for (const auto *s : QGuiApplication::screens())
+        dpr = qMax(dpr, s->devicePixelRatio());
+    return dpr;
+}
+
+} // namespace
+
 void
 LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*redraw_on_ready*/)
 {
     const auto srcUrl = QString::fromUtf8(src);
 
-    // Security: only allow image://mxcImage/ URLs (rewritten MXC URLs).
-    if (!srcUrl.startsWith(QLatin1String("image://mxcImage/")))
-        return;
-
     if (m_imageCache.contains(srcUrl))
         return;
 
-    // Extract the ID portion after the provider prefix and parse query params.
-    auto id       = srcUrl.mid(QStringLiteral("image://mxcImage/").length());
+    if (srcUrl.startsWith(kMxcImagePrefix)) {
+        loadMxcImage(srcUrl);
+    } else if (srcUrl.startsWith(kDefaultAvatarPrefix)) {
+        loadDefaultAvatarImage(srcUrl);
+    }
+    // Anything else is rejected for safety — pill HTML only ever points at
+    // these two providers, so other schemes are either content from a peer
+    // we shouldn't fetch or a packaging mistake.
+}
+
+void
+LitehtmlContainer::loadMxcImage(const QString &srcUrl)
+{
+    auto id       = srcUrl.mid(kMxcImagePrefix.size());
     bool crop     = false;
     double radius = 0;
     QSize size;
@@ -383,10 +409,7 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
                 radius = b.mid(7).toDouble();
             } else if (b.startsWith(QStringView(u"avatarSize="))) {
                 // Logical avatar size — apply QScreen DPR to get physical size.
-                double dpr = 1.0;
-                for (const auto *s : QGuiApplication::screens())
-                    dpr = qMax(dpr, s->devicePixelRatio());
-                int side = qMax(1, qRound(b.mid(11).toInt() * dpr));
+                int side = qMax(1, qRound(b.mid(11).toInt() * maxScreenDevicePixelRatio()));
                 size     = QSize(side, side);
                 crop     = true; // match Avatar.qml's default crop mode
             } else if (b.startsWith(QStringView(u"height="))) {
@@ -420,6 +443,70 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
       crop,
       radius,
       roomId);
+}
+
+void
+LitehtmlContainer::loadDefaultAvatarImage(const QString &srcUrl)
+{
+    // URL shape mirrors what Avatar.qml builds:
+    //   image://default-avatar/{userid}?radius=N&displayName=...&color=rrggbb&style=N&_v=N&avatarSize=N
+    // Parse manually rather than via QUrl: matrix user IDs contain ':' and '@'
+    // which QUrl tries to interpret as authority/userinfo delimiters and
+    // mangles.
+    auto id    = srcUrl.mid(kDefaultAvatarPrefix.size());
+    int radius = 0;
+    int style  = 0;
+    QString displayName;
+    QString colorHex;
+    QSize size;
+
+    const auto queryStart = id.indexOf(QLatin1Char('?'));
+    if (queryStart != -1) {
+        const auto query     = QStringView(id).mid(queryStart + 1);
+        const auto queryBits = query.split(QLatin1Char('&'));
+        id                   = id.left(queryStart);
+
+        for (const auto &b : queryBits) {
+            if (b.startsWith(QStringView(u"radius="))) {
+                radius = b.mid(7).toInt();
+            } else if (b.startsWith(QStringView(u"style="))) {
+                style = b.mid(6).toInt();
+            } else if (b.startsWith(QStringView(u"displayName="))) {
+                displayName = QUrl::fromPercentEncoding(b.mid(12).toUtf8());
+            } else if (b.startsWith(QStringView(u"color="))) {
+                colorHex = b.mid(6).toString();
+            } else if (b.startsWith(QStringView(u"avatarSize="))) {
+                int side = qMax(1, qRound(b.mid(11).toInt() * maxScreenDevicePixelRatio()));
+                size     = QSize(side, side);
+            }
+            // `_v` is a cache-buster consumed by the QML side — ignored here
+            // because srcUrl is already the full m_imageCache key.
+        }
+    }
+
+    if (size.isEmpty())
+        size = QSize(48, 48);
+
+    QPointer<LitehtmlContainer> guard(this);
+    auto *runnable = new DefaultAvatarRunnable(id, radius, displayName, colorHex, size, style);
+    QObject::connect(
+      runnable, &DefaultAvatarRunnable::done, this, [guard, srcUrl](const QImage &image) {
+          if (!guard || image.isNull())
+              return;
+          // DefaultAvatarRunnable signals on the runnable's
+          // thread; marshal back to the main thread before
+          // touching QObject state.
+          QMetaObject::invokeMethod(
+            QCoreApplication::instance(),
+            [guard, srcUrl, image]() {
+                if (!guard)
+                    return;
+                guard->m_imageCache.insert(srcUrl, image);
+                emit guard->imageLoaded();
+            },
+            Qt::QueuedConnection);
+      });
+    QThreadPool::globalInstance()->start(runnable);
 }
 
 void

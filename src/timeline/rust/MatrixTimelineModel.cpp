@@ -8,6 +8,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/StateEventText.h"
 #include "timeline/TimelineEventTypes.h"
+#include "timeline/TimelineViewManager.h"
 #include "ui/KomaiGlobalObject.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
@@ -15,8 +16,10 @@
 #include <QByteArray>
 #include <QDateTime>
 #include <QGuiApplication>
+#include <QHash>
 #include <QPalette>
 #include <QTextDocument>
+#include <QUrl>
 #include <algorithm>
 
 #include "komai-rust-cxxbridge/ffi.h"
@@ -932,23 +935,62 @@ MatrixTimelineModel::avatarUrl(const QString &userId) const
 }
 
 ::rust::Vec<::komai::rust::HtmlPillAvatar>
-MatrixTimelineModel::buildPillAvatars(const QVector<MatrixTimelineItem> &items)
+MatrixTimelineModel::buildPillAvatars(const QVector<MatrixTimelineItem> &items) const
 {
     ::rust::Vec<::komai::rust::HtmlPillAvatar> avatars;
 
-    QSet<QString> seen;
+    // Last-write-wins per sender: the latest item carries the most current
+    // displayName/avatarUrl snapshot. Using the first occurrence (as the
+    // previous implementation did) leaves stale mxc URLs in the map after a
+    // user clears or rotates their avatar, producing the broken-image gap
+    // in pills described in the bug report.
+    struct PillSourceFields
+    {
+        QString displayName;
+        QString avatarUrl;
+    };
+    QHash<QString, PillSourceFields> bySender;
+    QStringList senderOrder;
     for (const auto &item : items) {
-        if (item.senderId.isEmpty() || item.senderAvatarUrl.isEmpty())
+        if (item.senderId.isEmpty())
             continue;
-        if (!item.senderAvatarUrl.startsWith(QLatin1String("mxc://")))
-            continue;
-        if (seen.contains(item.senderId))
-            continue;
-        seen.insert(item.senderId);
+        if (!bySender.contains(item.senderId))
+            senderOrder.push_back(item.senderId);
+        bySender[item.senderId] = {item.senderDisplayName, item.senderAvatarUrl};
+    }
+
+    auto *timeline       = TimelineViewManager::instance();
+    const auto settings  = UserSettings::instance();
+    const int style      = settings ? static_cast<int>(settings->uiAvatarsDefaultAvatarStyle()) : 0;
+    const int radius     = (settings && settings->uiAvatarsCircular()) ? 100 : 25;
+    const auto baseColor = QGuiApplication::palette().color(QPalette::Base);
+
+    for (const auto &senderId : senderOrder) {
+        const auto &fields = bySender.value(senderId);
+
+        QString mxcUrl;
+        if (fields.avatarUrl.startsWith(QLatin1String("mxc://")))
+            mxcUrl = fields.avatarUrl;
+
+        QString fallbackUrl;
+        if (timeline) {
+            const auto color       = timeline->roomUserColor(roomId_, senderId, baseColor, -1);
+            const QString colorHex = color.isValid() ? color.name().mid(1) : QString();
+            const auto encodedName = QString::fromUtf8(QUrl::toPercentEncoding(fields.displayName));
+            // Mirror the URL shape Avatar.qml builds (including `_v` cache-buster
+            // tied to the avatar style) so the DefaultAvatarProvider picks up
+            // setting changes without stale-cache artefacts.
+            fallbackUrl =
+              QStringLiteral("image://default-avatar/%1?radius=%2&displayName=%3&"
+                             "color=%4&style=%5&_v=%5")
+                .arg(
+                  senderId, QString::number(radius), encodedName, colorHex, QString::number(style));
+        }
 
         ::komai::rust::HtmlPillAvatar entry;
-        entry.user_id = ::rust::String(item.senderId.toStdString());
-        entry.mxc_url = ::rust::String(item.senderAvatarUrl.toStdString());
+        entry.user_id      = ::rust::String(senderId.toStdString());
+        entry.mxc_url      = ::rust::String(mxcUrl.toStdString());
+        entry.fallback_url = ::rust::String(fallbackUrl.toStdString());
         avatars.push_back(std::move(entry));
     }
 

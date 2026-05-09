@@ -114,7 +114,16 @@ mod bridge {
 
     struct HtmlPillAvatar {
         user_id: String,
+        // Most recent mxc:// avatar URL captured for this sender. Empty when
+        // the latest event we have for them carries no avatar (e.g. they
+        // never set one, or they cleared it). When empty, `fallback_url`
+        // is used to render a default avatar instead.
         mxc_url: String,
+        // Fully-formed `image://default-avatar/{userid}?radius=...&...`
+        // URL prepared on the C++ side, where the per-user colour, theme,
+        // and avatar-style settings are all accessible. Rust appends an
+        // `&avatarSize=N` query at decoration time.
+        fallback_url: String,
     }
 
     struct SettingsOptionalString {

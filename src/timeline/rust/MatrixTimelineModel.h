@@ -124,8 +124,8 @@ public:
     Q_INVOKABLE QVariantMap previewDataForEvent(const QString &eventId,
                                                 const QString &relatedTo = QString()) const;
     Q_INVOKABLE QString avatarUrl(const QString &userId) const;
-    static ::rust::Vec<::komai::rust::HtmlPillAvatar>
-    buildPillAvatars(const QVector<MatrixTimelineItem> &items);
+    ::rust::Vec<::komai::rust::HtmlPillAvatar>
+    buildPillAvatars(const QVector<MatrixTimelineItem> &items) const;
     Q_INVOKABLE QVariant dataByIndex(int row, int role) const { return data(index(row), role); }
     Q_INVOKABLE QString copyTextForEventIds(const QVariantList &eventIds, bool plainText) const;
 

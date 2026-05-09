@@ -397,8 +397,8 @@ ColumnLayout {
                 ToggleButton {
                     id: publicHistoryButton
                     textColor: publicHistoryRowHover.hovered ? palette.brightText : palette.buttonText
-                    enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
-                    checked: detailsGrid.roomSettings.historyVisibility == RoomSettings.WorldReadable
+                    enabled: !!detailsGrid.roomSettings && detailsGrid.roomSettings.canChangeHistoryVisibility
+                    checked: !!detailsGrid.roomSettings && detailsGrid.roomSettings.historyVisibility == RoomSettings.WorldReadable
                 }
             }
 
@@ -495,8 +495,8 @@ ColumnLayout {
     }
 
     Components.KomaiButton {
-        visible: publicHistoryButton.checked && detailsGrid.roomSettings.historyVisibility !== RoomSettings.WorldReadable
-        enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
+        visible: publicHistoryButton.checked && !!detailsGrid.roomSettings && detailsGrid.roomSettings.historyVisibility !== RoomSettings.WorldReadable
+        enabled: !!detailsGrid.roomSettings && detailsGrid.roomSettings.canChangeHistoryVisibility
         text: qsTr("Apply visibility changes")
         onClicked: detailsGrid.roomSettings.changeHistoryVisibility(RoomSettings.WorldReadable)
         Layout.fillWidth: true

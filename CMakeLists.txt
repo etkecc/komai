@@ -139,7 +139,14 @@ endif()
 # Dependencies managed by CPM
 #
 
-find_package(PkgConfig REQUIRED)
+# PkgConfig is only consumed by the VOIP block (gstreamer
+# pkg_check_modules) and the X11 block (xcb pkg_check_modules) further
+# below; nothing else in the tree calls into it. Gating the find_package
+# on those flags keeps Windows, macOS, and Linux -DVOIP=OFF builds from
+# requiring a pkg-config tool they never end up invoking.
+if(VOIP OR X11)
+    find_package(PkgConfig REQUIRED)
+endif()
 
 #
 # Discover Qt dependencies.

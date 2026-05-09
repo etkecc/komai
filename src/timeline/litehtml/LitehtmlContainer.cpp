@@ -372,13 +372,15 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
 {
     const auto srcUrl = QString::fromUtf8(src);
 
-    if (m_imageCache.contains(srcUrl))
+    if (m_imageCache.contains(srcUrl) || m_inFlight.contains(srcUrl))
         return;
 
     if (srcUrl.startsWith(kMxcImagePrefix)) {
+        m_inFlight.insert(srcUrl);
         loadMxcImage(srcUrl);
     } else if (srcUrl.startsWith(kDefaultAvatarPrefix)) {
-        loadDefaultAvatarImage(srcUrl);
+        m_inFlight.insert(srcUrl);
+        loadDefaultAvatarImage(srcUrl, srcUrl);
     }
     // Anything else is rejected for safety — pill HTML only ever points at
     // these two providers, so other schemes are either content from a peer
@@ -393,6 +395,12 @@ LitehtmlContainer::loadMxcImage(const QString &srcUrl)
     double radius = 0;
     QSize size;
     QString roomId;
+    // Optional `fallback=<percent-encoded image://default-avatar/...>` query —
+    // emitted by the Rust pill decorator alongside the mxc URL so we can
+    // pre-cache the default avatar under the mxc URL key. Mirrors
+    // Avatar.qml's "show default while loading, keep it on failure"
+    // behaviour for the timeline body.
+    QString fallbackUrl;
 
     const auto queryStart = id.lastIndexOf(QLatin1Char('?'));
     if (queryStart != -1) {
@@ -417,24 +425,39 @@ LitehtmlContainer::loadMxcImage(const QString &srcUrl)
                 size.setWidth(0);
             } else if (b.startsWith(QStringView(u"room="))) {
                 roomId = b.mid(5).toString();
+            } else if (b.startsWith(QStringView(u"fallback="))) {
+                fallbackUrl = QUrl::fromPercentEncoding(b.mid(9).toUtf8());
             }
         }
     }
+
+    // Pre-emptively cache the default avatar under the mxc URL key, so the
+    // pill renders the default while the mxc fetch is in flight (and stays
+    // default if the mxc fetch fails). The mxc download below races this
+    // and is allowed to overwrite the entry on success.
+    if (!fallbackUrl.isEmpty() && fallbackUrl.startsWith(kDefaultAvatarPrefix))
+        loadDefaultAvatarImage(fallbackUrl, srcUrl);
 
     QPointer<LitehtmlContainer> guard(this);
     MxcImageProvider::download(
       id,
       size,
       [guard, srcUrl](const QString &, const QSize &, const QImage &image, const QString &) {
-          if (image.isNull())
-              return;
-          // The callback arrives off the main thread; marshal to the main
-          // thread so the QPointer check and QObject access are thread-safe.
+          // The callback arrives off the main thread; marshal everything
+          // (success and null alike) to the main thread so the QPointer
+          // check, in-flight bookkeeping, and cache update are all
+          // thread-safe.
           QMetaObject::invokeMethod(
             QCoreApplication::instance(),
             [guard, srcUrl, image]() {
                 if (!guard)
                     return;
+                guard->m_inFlight.remove(srcUrl);
+                if (image.isNull()) {
+                    // Leave whatever's already in the cache (typically the
+                    // pre-cached default avatar from the fallback path).
+                    return;
+                }
                 guard->m_imageCache.insert(srcUrl, image);
                 emit guard->imageLoaded();
             },
@@ -446,14 +469,14 @@ LitehtmlContainer::loadMxcImage(const QString &srcUrl)
 }
 
 void
-LitehtmlContainer::loadDefaultAvatarImage(const QString &srcUrl)
+LitehtmlContainer::loadDefaultAvatarImage(const QString &defaultAvatarUrl, const QString &cacheKey)
 {
     // URL shape mirrors what Avatar.qml builds:
     //   image://default-avatar/{userid}?radius=N&displayName=...&color=rrggbb&style=N&_v=N&avatarSize=N
     // Parse manually rather than via QUrl: matrix user IDs contain ':' and '@'
     // which QUrl tries to interpret as authority/userinfo delimiters and
     // mangles.
-    auto id    = srcUrl.mid(kDefaultAvatarPrefix.size());
+    auto id    = defaultAvatarUrl.mid(kDefaultAvatarPrefix.size());
     int radius = 0;
     int style  = 0;
     QString displayName;
@@ -480,32 +503,49 @@ LitehtmlContainer::loadDefaultAvatarImage(const QString &srcUrl)
                 size     = QSize(side, side);
             }
             // `_v` is a cache-buster consumed by the QML side — ignored here
-            // because srcUrl is already the full m_imageCache key.
+            // because cacheKey is already the full m_imageCache key.
         }
     }
 
     if (size.isEmpty())
         size = QSize(48, 48);
 
+    // When the caller provides a different cache key, this is the auxiliary
+    // pre-cache step run from loadMxcImage: in-flight bookkeeping is owned
+    // by the mxc callback, and we must not clobber a real mxc image that
+    // happened to land first.
+    const bool isPrimary = (defaultAvatarUrl == cacheKey);
+
     QPointer<LitehtmlContainer> guard(this);
     auto *runnable = new DefaultAvatarRunnable(id, radius, displayName, colorHex, size, style);
-    QObject::connect(
-      runnable, &DefaultAvatarRunnable::done, this, [guard, srcUrl](const QImage &image) {
-          if (!guard || image.isNull())
-              return;
-          // DefaultAvatarRunnable signals on the runnable's
-          // thread; marshal back to the main thread before
-          // touching QObject state.
-          QMetaObject::invokeMethod(
-            QCoreApplication::instance(),
-            [guard, srcUrl, image]() {
-                if (!guard)
-                    return;
-                guard->m_imageCache.insert(srcUrl, image);
-                emit guard->imageLoaded();
-            },
-            Qt::QueuedConnection);
-      });
+    QObject::connect(runnable,
+                     &DefaultAvatarRunnable::done,
+                     this,
+                     [guard, cacheKey, isPrimary](const QImage &image) {
+                         if (!guard)
+                             return;
+                         // DefaultAvatarRunnable signals on the runnable's
+                         // thread; marshal back to the main thread before
+                         // touching QObject state.
+                         QMetaObject::invokeMethod(
+                           QCoreApplication::instance(),
+                           [guard, cacheKey, isPrimary, image]() {
+                               if (!guard)
+                                   return;
+                               if (isPrimary)
+                                   guard->m_inFlight.remove(cacheKey);
+                               if (image.isNull())
+                                   return;
+                               // Auxiliary path: a real mxc image may already
+                               // be in the cache from a fast download; don't
+                               // overwrite it with the default.
+                               if (!isPrimary && guard->m_imageCache.contains(cacheKey))
+                                   return;
+                               guard->m_imageCache.insert(cacheKey, image);
+                               emit guard->imageLoaded();
+                           },
+                           Qt::QueuedConnection);
+                     });
     QThreadPool::globalInstance()->start(runnable);
 }
 

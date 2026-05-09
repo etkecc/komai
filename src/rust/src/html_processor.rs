@@ -868,12 +868,47 @@ fn pill_class_for_id(matrix_id: &str) -> &'static str {
     }
 }
 
-/// Convert `mxc://server/media_id` to `image://mxcImage/server/media_id?avatarSize=N&radius=25`.
-fn mxc_to_pill_avatar_url(mxc_url: &str, avatar_size: u32) -> String {
-    match mxc_url.strip_prefix("mxc://") {
-        Some(rest) => format!("image://mxcImage/{rest}?avatarSize={avatar_size}&radius=25"),
-        None => String::new(),
+/// Percent-encode a string for safe inclusion as an opaque value inside a
+/// URL query (`?key=...&...`). Only RFC 3986 unreserved characters pass
+/// through verbatim — everything else, including `&`, `=`, `?`, `%`, `/`,
+/// and `:`, is encoded as `%HH`. We need this for stuffing a full
+/// `image://default-avatar/...` URL into the `fallback=` query of an
+/// `image://mxcImage/...` URL: without encoding, the inner URL's own
+/// `&` and `=` separators would bleed into the outer URL's query.
+fn percent_encode_query_value(s: &str) -> String {
+    let mut out = String::with_capacity(s.len());
+    for b in s.bytes() {
+        match b {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                out.push(b as char);
+            }
+            _ => {
+                out.push('%');
+                out.push_str(&format!("{:02X}", b));
+            }
+        }
     }
+    out
+}
+
+/// Convert `mxc://server/media_id` to `image://mxcImage/server/media_id?avatarSize=N&radius=25`.
+/// When `fallback_url` is non-empty, append `&fallback=<percent-encoded>` so
+/// LitehtmlContainer can pre-cache the default avatar under the mxc URL key
+/// (and keep showing it if the mxc fetch fails). The fallback string is the
+/// fully-formed `image://default-avatar/...` URL prepared in C++.
+fn mxc_to_pill_avatar_url(mxc_url: &str, avatar_size: u32, fallback_url: &str) -> String {
+    let rest = match mxc_url.strip_prefix("mxc://") {
+        Some(rest) => rest,
+        None => return String::new(),
+    };
+    let mut url = format!("image://mxcImage/{rest}?avatarSize={avatar_size}&radius=25");
+    if !fallback_url.is_empty() {
+        let sep = if fallback_url.contains('?') { '&' } else { '?' };
+        let full_fallback = format!("{fallback_url}{sep}avatarSize={avatar_size}");
+        url.push_str("&fallback=");
+        url.push_str(&percent_encode_query_value(&full_fallback));
+    }
+    url
 }
 
 /// Append the requested logical avatar size to a pre-formed
@@ -890,9 +925,18 @@ fn fallback_to_pill_avatar_url(fallback_url: &str, avatar_size: u32) -> String {
 /// currently has an avatar, otherwise the default-avatar fallback URL the
 /// C++ side prepared for them. Returns `None` when neither is available
 /// (e.g. for a non-sender mention we have no profile snapshot for).
+///
+/// When both are available, the mxc URL carries the fallback piggybacked as
+/// a percent-encoded `&fallback=` query so LitehtmlContainer can render the
+/// default avatar while the mxc download is in flight (and keep it on
+/// failure), mirroring Avatar.qml's behaviour in the timeline body.
 fn pill_avatar_src(entry: &HtmlPillAvatar, avatar_size: u32) -> Option<String> {
     if entry.mxc_url.starts_with("mxc://") {
-        Some(mxc_to_pill_avatar_url(&entry.mxc_url, avatar_size))
+        Some(mxc_to_pill_avatar_url(
+            &entry.mxc_url,
+            avatar_size,
+            &entry.fallback_url,
+        ))
     } else if !entry.fallback_url.is_empty() {
         Some(fallback_to_pill_avatar_url(&entry.fallback_url, avatar_size))
     } else {
@@ -1447,11 +1491,37 @@ mod tests {
         let out = decorate_matrix_pills(html, &map, 32);
         assert!(
             out.contains("image://mxcImage/example.org/abc"),
-            "real mxc avatar wins over fallback"
+            "real mxc avatar is the primary src"
+        );
+    }
+
+    #[test]
+    fn pill_with_mxc_carries_percent_encoded_fallback_for_litehtml() {
+        let html =
+            r#"<a href="https://matrix.to/#/%40user%3Aexample.org">User</a>"#;
+        let avatars = vec![make_pill_avatar_with_fallback(
+            "@user:example.org",
+            "mxc://example.org/abc",
+            "image://default-avatar/@user:example.org?radius=25&color=ab12cd",
+        )];
+        let map = avatar_map_from(&avatars);
+        let out = decorate_matrix_pills(html, &map, 32);
+        // The outer mxc URL is the primary src. The fallback is tucked into
+        // its query so LitehtmlContainer can pre-cache the default avatar
+        // under the mxc URL key — `&` (HTML-escaped to `&amp;`), `=`, `%`,
+        // `:` and `/` inside the inner URL all need percent-encoding so they
+        // don't break out of the `fallback=` query value.
+        assert!(
+            out.contains("image://mxcImage/example.org/abc"),
+            "mxc URL is the primary src"
         );
         assert!(
-            !out.contains("image://default-avatar"),
-            "fallback URL is not emitted when mxc is present"
+            out.contains("fallback=image%3A%2F%2Fdefault-avatar%2F"),
+            "fallback URL is percent-encoded inside the mxc query"
+        );
+        assert!(
+            out.contains("%26color%3Dab12cd"),
+            "fallback URL's own `&color=...` is encoded so it doesn't bleed into the outer query"
         );
     }
 

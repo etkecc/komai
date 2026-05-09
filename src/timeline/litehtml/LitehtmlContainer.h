@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QRect>
+#include <QSet>
 #include <QString>
 #include <QVector>
 
@@ -52,7 +53,11 @@ public:
     void setDefaultFont(const QFont &font) { m_defaultFont = font; }
     void setDefaultColor(const QColor &color) { m_defaultColor = color; }
     void setEmojiFontFamily(const QString &family) { m_emojiFontFamily = family; }
-    void clearImageCache() { m_imageCache.clear(); }
+    void clearImageCache()
+    {
+        m_imageCache.clear();
+        m_inFlight.clear();
+    }
 
     // litehtml::document_container interface
     litehtml::uint_ptr create_font(const char *faceName,
@@ -131,7 +136,12 @@ private:
     static QColor toQColor(const litehtml::web_color &c);
     void drawBorderLine(const QPoint &from, const QPoint &to, const litehtml::border &border);
     void loadMxcImage(const QString &srcUrl);
-    void loadDefaultAvatarImage(const QString &srcUrl);
+    /// Render an `image://default-avatar/...` URL via DefaultAvatarRunnable
+    /// and insert the result into `m_imageCache` keyed by `cacheKey`. When
+    /// `cacheKey` differs from `defaultAvatarUrl`, this is being used as the
+    /// pre-emptive fallback for an mxc URL: the mxc download is in flight
+    /// in parallel and is allowed to overwrite the cache entry on success.
+    void loadDefaultAvatarImage(const QString &defaultAvatarUrl, const QString &cacheKey);
 
     QPainter *m_painter = nullptr;
     QFont m_defaultFont;
@@ -141,6 +151,14 @@ private:
     int m_viewportWidth  = 0;
     int m_viewportHeight = 0;
     QHash<QString, QImage> m_imageCache;
+    /// URLs currently being loaded. Prevents the same image from being
+    /// re-fetched on every layout pass while the first request is still in
+    /// flight (Avatar.qml has its own dedup; litehtml doesn't, so we add it
+    /// here to avoid re-queueing dozens of fetches for the same hung mxc URL
+    /// before the first one's deadline expires). Cleared alongside
+    /// `m_imageCache` because a cache reset means we want the next
+    /// `load_image` call to actually do work.
+    QSet<QString> m_inFlight;
     QList<QRect> m_clips;
     bool m_hoverMode          = false;
     bool m_pointerCursor      = false;

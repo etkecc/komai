@@ -3225,7 +3225,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>സന്ദേശ പ്രവർത്തനങ്ങൾ</translation>
     </message>

@@ -3230,7 +3230,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Akcije poruke</translation>
     </message>

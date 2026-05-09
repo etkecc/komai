@@ -489,6 +489,7 @@ Item {
             if (actionName === "forward" && messageActionSupport.isForwardableType(type))
                 entries.push({ "row": row, "eid": eid });
             else if (actionName === "remove" && roomModel
+                     && type !== MtxEvent.Redacted
                      && (Boolean(item.isSender)
                          || (roomModel.permissions && roomModel.permissions.canRedact())))
                 entries.push({ "row": row, "eid": eid });

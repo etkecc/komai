@@ -3230,7 +3230,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Akcje wiadomości</translation>
     </message>

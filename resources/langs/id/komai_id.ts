@@ -3220,7 +3220,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Tindakan pesan</translation>
     </message>

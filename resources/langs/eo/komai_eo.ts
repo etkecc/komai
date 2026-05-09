@@ -3225,7 +3225,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Agoj de mesaĝo</translation>
     </message>

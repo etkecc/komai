@@ -3225,7 +3225,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Ações da mensagem</translation>
     </message>

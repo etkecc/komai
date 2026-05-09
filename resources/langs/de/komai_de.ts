@@ -3225,7 +3225,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Nachrichtenaktionen</translation>
     </message>

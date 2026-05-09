@@ -3225,7 +3225,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Accions del missatge</translation>
     </message>

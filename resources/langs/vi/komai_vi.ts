@@ -3220,7 +3220,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Hành động tin nhắn</translation>
     </message>

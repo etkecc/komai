@@ -3225,7 +3225,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>Azioni messaggio</translation>
     </message>

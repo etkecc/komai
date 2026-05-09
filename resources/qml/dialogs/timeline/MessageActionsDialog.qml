@@ -85,6 +85,7 @@ Components.OverlayDialog {
     readonly property bool isTextType: eventType == MtxEvent.TextMessage
         || eventType == MtxEvent.EmoteMessage
         || eventType == MtxEvent.NoticeMessage
+    readonly property bool isRedacted: eventType == MtxEvent.Redacted
     readonly property bool isPinned: effectiveRoomModel && effectiveRoomModel.pinnedMessages && effectiveRoomModel.pinnedMessages.includes(eventId)
 
     overlayViewport: appRoot
@@ -376,7 +377,7 @@ Components.OverlayDialog {
                 iconSource: root.isPinned ? ":/icons/icons/ui/pin-off.svg" : ":/icons/icons/ui/pin.svg"
                 shortcutSequence: "P"
                 shortcutDisplayText: qsTr("P")
-                visible: !root.isLocalEcho && root.canChangePinned && !root.isStateEvent
+                visible: !root.isLocalEcho && root.canChangePinned && !root.isStateEvent && !root.isRedacted
                     && root.effectiveRoomModel
                     && typeof root.effectiveRoomModel.pin === "function"
                     && typeof root.effectiveRoomModel.unpin === "function"
@@ -471,7 +472,7 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/delete.svg"
                 shortcutSequence: "D"
                 shortcutDisplayText: qsTr("D")
-                visible: root.isLocalEcho || root.canRedact || root.isSender
+                visible: !root.isRedacted && (root.isLocalEcho || root.canRedact || root.isSender)
                 onClicked: {
                     root.close();
                     root.chatRoot.openRemoveMessageDialog(root.eventId, root.transactionId);

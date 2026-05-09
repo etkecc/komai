@@ -60,6 +60,10 @@ QtObject {
             || eventType == MtxEvent.Sticker;
     }
 
+    function isRedactedEvent(messageModel) {
+        return !!messageModel && messageModel.type === MtxEvent.Redacted;
+    }
+
     function canSendText(messageModel, roomModel) {
         return !!messageModel
             && !messageModel.isStateEvent
@@ -71,6 +75,7 @@ QtObject {
         return !!messageModel
             && !messageModel.isLocalEcho
             && !messageModel.isStateEvent
+            && !isRedactedEvent(messageModel)
             && actionCapability(messageModel, "supportsReaction", true)
             && roomCanSend(roomModel, MtxEvent.Reaction);
     }
@@ -86,6 +91,7 @@ QtObject {
     function canReply(messageModel, roomModel) {
         return !!messageModel
             && !messageModel.isLocalEcho
+            && !isRedactedEvent(messageModel)
             && actionCapability(messageModel, "supportsReply", true)
             && canSendText(messageModel, roomModel);
     }
@@ -93,6 +99,7 @@ QtObject {
     function canThread(messageModel, roomModel) {
         return !!messageModel
             && !messageModel.isLocalEcho
+            && !isRedactedEvent(messageModel)
             && actionCapability(messageModel, "supportsThread", true)
             && canSendText(messageModel, roomModel);
     }
@@ -122,7 +129,8 @@ QtObject {
     function canRemove(messageModel, roomModel) {
         const _ = permissionsRevision(roomModel);
         if (!messageModel
-                || !actionCapability(messageModel, "supportsRemove", true))
+                || !actionCapability(messageModel, "supportsRemove", true)
+                || isRedactedEvent(messageModel))
             return false;
         // Local echoes never reached the server — cancelling is a local queue op,
         // no redact permission required. Only gate on ownership instead.
@@ -144,6 +152,7 @@ QtObject {
         return !!messageModel
             && !messageModel.isLocalEcho
             && !!messageModel.eventId
+            && !isRedactedEvent(messageModel)
             && actionCapability(messageModel, "supportsPin", true)
             && roomCanChange(roomModel, MtxEvent.PinnedEvents);
     }

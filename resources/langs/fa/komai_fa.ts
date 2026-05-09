@@ -3220,7 +3220,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageActionsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+100"/>
+        <location filename="../../qml/dialogs/timeline/MessageActionsDialog.qml" line="+101"/>
         <source>Message actions</source>
         <translation>اقدامات پیام</translation>
     </message>

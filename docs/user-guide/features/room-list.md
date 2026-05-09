@@ -29,6 +29,12 @@ The scrub is disabled on spaces, invites, and rooms that are already read.
 
 Behind the scenes, both paths send a Matrix read receipt and advance your `m.fully_read` marker to the most recent known event. Other Matrix clients pick this up via account data.
 
+## Mark as Unread
+
+Right-click a read room and choose **Mark as unread**. Komai writes the `m.marked_unread` account-data flag, so the unread state syncs across devices and other Matrix clients. Opening the room (which sends a read receipt) clears the flag again.
+
+If the room is the currently focused tab, Komai refuses with a snackbar -- any read receipt clears the flag, so the mark-unread would be wiped within milliseconds. Switch to another tab first.
+
 ## Context Menu
 
 Right-click (or long-press on touch) a room to open its context menu:
@@ -37,6 +43,7 @@ Right-click (or long-press on touch) a room to open its context menu:
 - **Open in new window** -- detach the room into its own window
 - **Copy room link** -- copy a `matrix.to` link to the clipboard
 - **Mark as read** -- clear the unread state (only shown when there is something to clear; see [above](#mark-as-read))
+- **Mark as unread** -- flag a read room as unread; syncs to other clients via `m.marked_unread` (see [above](#mark-as-unread))
 - **Tag room as** -- toggle Matrix room tags (Favourite, Low priority, custom tags, etc.); used by the [Communities sidebar](communities-sidebar.md) filters
 - **Room settings** -- open the room info / settings dialog
 - **Leave room** -- leave the room (with confirmation)

@@ -727,8 +727,6 @@ set(SRC_FILES
 
 include(FeatureSummary)
 
-find_package(OpenSSL 1.1.0 REQUIRED)
-
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
 
@@ -820,10 +818,6 @@ corrosion_add_cxxbridge(komai-rust-cxxbridge
     FILES ffi.rs
 )
 target_include_directories(komai-rust-cxxbridge PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-# The Rust crate uses native-tls (OpenSSL). Declare the dependency on the static
-# lib target so the linker sees these system libs after the Rust archive.
-set_property(TARGET komai_rust-static APPEND
-    PROPERTY INTERFACE_LINK_LIBRARIES OpenSSL::SSL OpenSSL::Crypto)
 
 if(VOIP)
     include(FindPkgConfig)

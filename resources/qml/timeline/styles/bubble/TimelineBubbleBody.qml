@@ -519,7 +519,12 @@ Item {
         Binding {
             target: root.wrapper.main
             property: "timelineViewportHeight"
-            when: !!root.wrapper.main && typeof root.wrapper.main.timelineViewportHeight !== "undefined"
+            // Use the `in` operator instead of `typeof main.prop !== "undefined"`.
+            // The latter reads the property value and registers a dependency,
+            // so when the Binding writes back the dependency re-fires the
+            // `when` evaluation and Qt 6 flags it as a binding loop. `in`
+            // checks key existence without reading the value.
+            when: !!root.wrapper.main && "timelineViewportHeight" in root.wrapper.main
             value: chat.height
         }
 
@@ -528,7 +533,7 @@ Item {
             property: "stateEventIconOnRight"
             when: root.wrapper.isStateEvent
                   && !!root.wrapper.main
-                  && typeof root.wrapper.main.stateEventIconOnRight !== "undefined"
+                  && "stateEventIconOnRight" in root.wrapper.main
             value: root.wrapper.messageIsRightAligned
         }
 

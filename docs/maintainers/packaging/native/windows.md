@@ -22,7 +22,7 @@ two commands. **Run from an Administrator PowerShell**:
 ```powershell
 choco install -y `
     git cmake python ninja rustup.install `
-    openssl pkgconfiglite
+    pkgconfiglite
 
 choco install -y visualstudio2022buildtools `
     --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
@@ -161,19 +161,13 @@ Installs to `C:\Qt\<QT_VER>\msvc2022_64\`.
 **Manual:** the [Qt online installer](https://www.qt.io/download-qt-installer)
 works but needs a free Qt account and a GUI walkthrough.
 
-### 6. OpenSSL and pkg-config
+### 6. pkg-config
 
 **Chocolatey** (Administrator PowerShell):
 
 ```powershell
-choco install openssl -y
 choco install pkgconfiglite -y
 ```
-
-`openssl` is the [Shining Light Productions](https://slproweb.com/products/Win32OpenSSL.html)
-Win64 build, packaged. Installs to `C:\Program Files\OpenSSL-Win64\`.
-Version 4.x verified working (April 2026); fall back to OpenSSL 3.x
-if you hit runtime symbol issues.
 
 `pkgconfiglite` is only required because
 [`CMakeLists.txt`](../../../../CMakeLists.txt) calls
@@ -181,14 +175,12 @@ if you hit runtime symbol issues.
 `pkg_check_modules` calls fire with `-DVOIP=OFF`, so the install just
 satisfies the configure check.
 
-**Manual:** [Shining Light Productions](https://slproweb.com/products/Win32OpenSSL.html)
-for OpenSSL. pkg-config has no standalone Windows installer; use
+**Manual:** pkg-config has no standalone Windows installer; use
 Chocolatey or `vcpkg install pkgconf`.
 
 Open a new shell so PATH picks up pkg-config, then verify:
 
 ```powershell
-& "C:\Program Files\OpenSSL-Win64\bin\openssl.exe" version
 pkg-config --version
 ```
 
@@ -201,8 +193,7 @@ cmake -S . -B var\build\native -G Ninja `
     -DCMAKE_BUILD_TYPE=Release `
     -DVOIP=OFF `
     -DBUILD_TESTING=OFF `
-    -DCMAKE_PREFIX_PATH=C:\Qt\<QT_VER>\msvc2022_64 `
-    -DOPENSSL_ROOT_DIR="C:\Program Files\OpenSSL-Win64"
+    -DCMAKE_PREFIX_PATH=C:\Qt\<QT_VER>\msvc2022_64
 ```
 
 - `-G Ninja` -- faster than MSBuild, cleaner output. Optional; drop

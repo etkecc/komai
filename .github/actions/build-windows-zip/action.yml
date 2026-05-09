@@ -1,0 +1,204 @@
+name: Build Windows komai zip
+description: |
+  Builds the Windows komai.exe + Qt runtime + QML resources via
+  windeployqt and produces a no-installer ZIP at
+  var/build/windows/komai-<VERSION>-windows-x64-no-installer.zip.
+  Used by both publish.yml (release-tag flow) and packaging-check.yml
+  (manual workflow_dispatch sanity check). The caller is responsible
+  for the prior actions/checkout step and for picking the runner image
+  (windows-2025-vs2026 today).
+
+  Reference for build steps: docs/maintainers/packaging/native/windows.md
+
+inputs:
+  qt-version:
+    description: |
+      Qt version to install via aqtinstall. Pinned to the human-tested
+      baseline in docs/maintainers/packaging/native/windows.md; bump
+      together with that doc.
+    required: false
+    default: "6.10.3"
+  qt-arch:
+    description: aqtinstall arch token for the Qt build.
+    required: false
+    default: "win64_msvc2022_64"
+
+runs:
+  using: composite
+  steps:
+    # ---------- Caches --------------------------------------------------
+    # Each cache restored before its consumer; save happens at end of
+    # job. No host-mount fast path — the runner is GitHub-hosted.
+
+    - name: Cache pip wheels (aqtinstall)
+      uses: actions/cache@v5
+      with:
+        path: ~\AppData\Local\pip\Cache
+        key: pip-aqt-${{ inputs.qt-version }}-v1
+        restore-keys: |
+          pip-aqt-
+
+    - name: Cache Qt install
+      # Qt's aqtinstall download + extract is the longest single
+      # step in a cold run (~5 min). Keying purely on Qt version +
+      # arch means a version bump cold-installs the new tree;
+      # old entries age out via GitHub's 7-day cache TTL.
+      id: qt-cache
+      uses: actions/cache@v5
+      with:
+        path: C:\Qt\${{ inputs.qt-version }}
+        key: qt-${{ inputs.qt-version }}-${{ inputs.qt-arch }}-v1
+
+    - name: Cache cargo registry + git db
+      # Same shape as ci.yml's equivalent cache, but namespaced
+      # `cargo-home-windows-` so it can't collide with the Linux
+      # entries (different host triple ⇒ different fingerprints
+      # on any pre-built host artefacts).
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~\.cargo\registry\index
+          ~\.cargo\registry\cache
+          ~\.cargo\git\db
+        key: cargo-home-windows-${{ hashFiles('src/rust/Cargo.lock') }}
+        restore-keys: |
+          cargo-home-windows-
+
+    # ---------- Toolchain ----------------------------------------------
+
+    - name: Locate vcvars64.bat
+      # vswhere ships in the Visual Studio Installer dir on every
+      # GHA Windows runner image. -latest + -products * works
+      # across all editions (Community/Pro/Enterprise/BuildTools)
+      # and any past or future VS major version, so this survives
+      # GitHub's runner-image refreshes (e.g. the May 2026
+      # windows-2025 → windows-2025-vs2026 redirect that bumps
+      # VS 2022 → VS 2026) without an action edit. Subsequent
+      # cmd-shell steps consume %VCVARS% from $GITHUB_ENV.
+      shell: pwsh
+      run: |
+        $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+        $vsPath = & $vswhere -latest -products * -property installationPath
+        if (-not $vsPath) {
+          Write-Error "vswhere did not locate a Visual Studio installation"
+          exit 1
+        }
+        $vcvars = "$vsPath\VC\Auxiliary\Build\vcvars64.bat"
+        if (-not (Test-Path $vcvars)) {
+          Write-Error "vcvars64.bat not found at $vcvars"
+          exit 1
+        }
+        Write-Host "vcvars64.bat: $vcvars"
+        "VCVARS=$vcvars" >> $env:GITHUB_ENV
+
+    - name: Install aqtinstall
+      # Qt's online installer needs a Qt account; aqtinstall pulls
+      # straight from Qt's CDN and is what windows.md recommends.
+      shell: pwsh
+      run: pip install --upgrade aqtinstall
+
+    - name: Install Qt (${{ inputs.qt-version }} / ${{ inputs.qt-arch }})
+      if: steps.qt-cache.outputs.cache-hit != 'true'
+      # Module list mirrors windows.md verbatim. `qtdeclarative`,
+      # `qtsvg`, and `qttools` are part of the base install on Qt
+      # 6.10 and aqt errors out if listed again as add-ons.
+      shell: pwsh
+      run: |
+        python -m aqt install-qt windows desktop ${{ inputs.qt-version }} ${{ inputs.qt-arch }} `
+            -O C:\Qt -m qtmultimedia qtimageformats qtshadertools
+
+    - name: Install pkg-config
+      # pkgconfiglite is only required because CMakeLists.txt's
+      # `find_package(PkgConfig REQUIRED)` fires unconditionally;
+      # nothing actually queries pkg-config under -DVOIP=OFF on
+      # Windows. Vestigial-but-cheap; removable as a follow-up
+      # once the find_package call moves under an `if(VOIP OR X11)`.
+      shell: pwsh
+      run: choco install -y pkgconfiglite
+
+    # ---------- Build --------------------------------------------------
+
+    - name: Warm Rust toolchain
+      # Force-install the rust-toolchain.toml pinned channel before
+      # Corrosion's FindRust queries `rustup toolchain list`. Without
+      # this, Corrosion can race rustup's lazy auto-install and error
+      # out with "Could not find toolchain '<pin>-x86_64-pc-windows-msvc'"
+      # even though rustup is mid-download in the background. Same
+      # idiom as ci.yml (Linux) uses.
+      shell: pwsh
+      run: cargo --version
+
+    - name: Configure
+      # cmd shell so we can call vcvars64.bat to set
+      # INCLUDE/LIB/PATH for cl.exe / link.exe. Ninja generator
+      # needs these in the current process; the VS generator could
+      # skip vcvars but is measurably slower than Ninja.
+      shell: cmd
+      run: >
+        call "%VCVARS%" &&
+        cmake -S . -B var\build\native -G Ninja
+        -DCMAKE_BUILD_TYPE=Release
+        -DVOIP=OFF
+        -DBUILD_TESTING=OFF
+        -DCMAKE_PREFIX_PATH="C:\Qt\${{ inputs.qt-version }}\msvc2022_64"
+
+    - name: Build
+      shell: cmd
+      run: call "%VCVARS%" && cmake --build var\build\native --parallel
+
+    # ---------- Package: no-installer zip -------------------------------
+
+    - name: Read VERSION
+      id: ver
+      shell: pwsh
+      run: |
+        $raw = (Get-Content VERSION.txt).Trim()
+        "version=$raw" >> $env:GITHUB_OUTPUT
+
+    - name: Stage runnable tree (windeployqt)
+      # Stage directly into the versioned folder name we want as
+      # the ZIP's top-level entry. windeployqt deploys into the
+      # exe's directory, so this is the same dir users see after
+      # extracting the archive — no extra renames or moves.
+      shell: pwsh
+      run: |
+        $stage = "var\build\komai-${{ steps.ver.outputs.version }}-windows-x64"
+        New-Item -ItemType Directory -Force -Path $stage | Out-Null
+        Copy-Item var\build\native\komai.exe $stage\
+        $qtBin = "C:\Qt\${{ inputs.qt-version }}\msvc2022_64\bin"
+        & "$qtBin\windeployqt.exe" --release --qmldir resources\qml "$stage\komai.exe"
+
+    - name: Build no-installer zip
+      # Run 7z from inside var/build/windows/ so the only path
+      # component baked into the archive is the staged folder name.
+      # Users get a single tidy `komai-<version>-windows-x64/` directory
+      # on extract — not a deeply nested `var/build/<...>` tree (7z
+      # preserves source paths from the current working directory).
+      # Output goes to var/build/windows/ to match publish.yml's
+      # var/build/<format>/<file> staging convention used by the
+      # AppImage/Flatpak/Snap jobs and bin/release/_lib.py.
+      # 7-Zip is preinstalled on windows-2025-vs2026 and produces a
+      # smaller archive than PowerShell's Compress-Archive, which
+      # matters for a ~90 MB output.
+      shell: pwsh
+      run: |
+        $version = "${{ steps.ver.outputs.version }}"
+        $folder = "komai-$version-windows-x64"
+        $out = "komai-$version-windows-x64-no-installer.zip"
+        New-Item -ItemType Directory -Force -Path var\build\windows | Out-Null
+        Move-Item -Force "var\build\$folder" "var\build\windows\$folder"
+        Push-Location var\build\windows
+        try {
+          if (Test-Path $out) { Remove-Item $out }
+          7z a "$out" "$folder" | Out-Null
+          Get-Item $out | Format-List FullName,Length
+        } finally {
+          Pop-Location
+        }
+
+    - name: Upload Windows zip
+      uses: actions/upload-artifact@v7
+      with:
+        name: komai-windows
+        path: var/build/windows/komai-*-windows-x64-no-installer.zip
+        if-no-files-found: error

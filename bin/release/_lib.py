@@ -25,6 +25,7 @@ CHANGELOG_FILE = REPO_ROOT / "CHANGELOG.md"
 APPIMAGE_DIR = REPO_ROOT / "var/build/appimage"
 FLATPAK_DIR = REPO_ROOT / "var/build/flatpak"
 SNAP_DIR = REPO_ROOT / "var/build/snap"
+WINDOWS_DIR = REPO_ROOT / "var/build/windows"
 
 CALVER_RE = re.compile(r"^\d{4}\.\d{2}\.\d{2}\.\d+$")
 
@@ -75,8 +76,17 @@ def snap_path(version: str) -> Path:
     return SNAP_DIR / f"komai_{version}_amd64.snap"
 
 
+def windows_zip_path(version: str) -> Path:
+    return WINDOWS_DIR / f"komai-{version}-windows-x64-no-installer.zip"
+
+
 def expected_artefacts(version: str) -> list[Path]:
-    return [appimage_path(version), flatpak_path(), snap_path(version)]
+    return [
+        appimage_path(version),
+        flatpak_path(),
+        snap_path(version),
+        windows_zip_path(version),
+    ]
 
 
 def extract_changelog_section(version: str) -> str:

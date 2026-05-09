@@ -1,9 +1,10 @@
 name: Publish
 
 # Fires after CI succeeds on a `v*` tag push. Builds AppImage, Flatpak,
-# and Snap bundles on the self-hosted runner, then creates a GitHub
-# Release with the CHANGELOG section for that version as release notes
-# and the three artefacts attached.
+# and Snap bundles on the self-hosted runner plus a Windows x64
+# no-installer ZIP on a GitHub-hosted Windows runner, then creates a
+# GitHub Release with the CHANGELOG section for that version as
+# release notes and the four artefacts attached.
 #
 # Pipeline overview, cache strategy, and design rationale:
 #   docs/architecture/ci.md
@@ -139,8 +140,28 @@ jobs:
           path: var/build/snap/komai_*.snap
           if-no-files-found: error
 
+  build-windows:
+    # Explicit OS pin matching every other dep in the repo (Qt, Rust,
+    # AppImage builder image, flatpak SDK, etc.); see the
+    # build-windows-zip composite for the trade-off rationale.
+    # `windows-latest` would auto-bump on GitHub re-aliasing and drag
+    # in surprise toolchain changes.
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: windows-2025-vs2026
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Build Windows no-installer zip
+        uses: ./.github/actions/build-windows-zip
+
   release:
-    needs: [ build-appimage, build-flatpak, build-snap ]
+    needs: [ build-appimage, build-flatpak, build-snap, build-windows ]
     runs-on: [self-hosted, k150]
     # Runs inside the CI image so `python3` and the `gh` CLI come from
     # the image, not the host. Keeps the release-creation path
@@ -177,6 +198,7 @@ jobs:
           ln -sfn "$(pwd)/artefacts/komai-appimage" var/build/appimage
           ln -sfn "$(pwd)/artefacts/komai-flatpak"  var/build/flatpak
           ln -sfn "$(pwd)/artefacts/komai-snap"     var/build/snap
+          ln -sfn "$(pwd)/artefacts/komai-windows"  var/build/windows
 
       - name: Verify tag matches VERSION.txt
         # `bin/prek/version-drift.sh` already guarantees VERSION.txt /
@@ -198,7 +220,7 @@ jobs:
 
       - name: Publish GitHub Release
         # publish.py extracts the matching CHANGELOG section, verifies
-        # the three artefacts exist at their expected paths, and runs
+        # the four artefacts exist at their expected paths, and runs
         # `gh release create`. Same code path as `just release-manual-publish`
         # locally -- see docs/maintainers/releases.md.
         env:

@@ -1,9 +1,11 @@
 name: Packaging check
 
-# Manually-triggered sanity check for the AppImage / Flatpak / Snap build
-# recipes on the self-hosted k150 runner. Used to iterate on each packaging
-# format independently before relying on it from publish.yml, and kept
-# long-term for periodic runtime/SDK drift checks (e.g. Flathub KDE bumps).
+# Manually-triggered sanity check for the AppImage / Flatpak / Snap / Windows
+# build recipes. Linux jobs run on the self-hosted k150 runner; the Windows
+# job runs on a GitHub-hosted windows-2025-vs2026 image. Used to iterate on
+# each packaging format independently before relying on it from publish.yml,
+# and kept long-term for periodic runtime/SDK drift checks (e.g. Flathub
+# KDE bumps).
 
 on:
   workflow_dispatch:
@@ -17,6 +19,7 @@ on:
           - appimage
           - flatpak
           - snap
+          - windows
 
 permissions:
   contents: read
@@ -76,3 +79,14 @@ jobs:
           name: komai-snap
           path: var/build/snap/komai_*.snap
           if-no-files-found: error
+
+  windows:
+    # GitHub-hosted runner; explicit pin matches publish.yml.
+    if: inputs.format == 'all' || inputs.format == 'windows'
+    runs-on: windows-2025-vs2026
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build Windows no-installer zip
+        uses: ./.github/actions/build-windows-zip

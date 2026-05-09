@@ -37,6 +37,15 @@ RUN pacman -Syu --noconfirm --needed \
         github-cli \
     && pacman -Scc --noconfirm
 
+# Arch base images ship without any locale generated, so processes
+# inherit LANG=C / LC_CTYPE=ANSI_X3.4-1968. Qt detects that at every
+# QGuiApplication startup and prints a multi-line warning before
+# auto-switching to "C.UTF-8" itself, which fires once per test
+# binary in `just test-cpp` and spams the CI log. Pin the env to
+# C.UTF-8 (a glibc built-in, no locale-gen needed) so Qt sees a
+# UTF-8 locale up front and stays quiet.
+ENV LANG=C.UTF-8
+
 # Build args passed by ci-image.yml — values derived at build time from
 # `stat` on the bind-mounted workspace (whose owner is the host runner
 # user). Defaults are a sane fallback for local builds.

@@ -6801,18 +6801,28 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Lap rögzítésének feloldása</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Lap rögzítése</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Megjelölés olvasottként</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Megjelölés olvasatlanként</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Lap bezárása [Ctrl+W]</translation>
     </message>
@@ -6842,7 +6852,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Nem rögzített lapok bezárása</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>%1 bezárása</translation>
     </message>

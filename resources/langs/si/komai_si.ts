@@ -6810,18 +6810,28 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>ටැබ් ඇමිනීම ඉවත් කරන්න</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>ටැබ් ඇමිනන්න</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>කියවූ ලෙස සලකුණු කරන්න</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>නොකියවූ ලෙස සලකුණු කරන්න</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>ටැබ් වසන්න [Ctrl+W]</translation>
     </message>
@@ -6851,7 +6861,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>නොඇමිනූ ටැබ් වසන්න</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>%1 වසන්න</translation>
     </message>

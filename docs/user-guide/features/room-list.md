@@ -35,6 +35,8 @@ Right-click a read room and choose **Mark as unread**. Komai writes the `m.marke
 
 If the room is the currently focused tab, Komai refuses with a snackbar -- any read receipt clears the flag, so the mark-unread would be wiped within milliseconds. Switch to another tab first.
 
+Both actions are also available from the [tab context menu](tabs.md#-mark-as-read-or-unread).
+
 ## Context Menu
 
 Right-click (or long-press on touch) a room to open its context menu:

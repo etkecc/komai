@@ -6819,18 +6819,28 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Anulează fixarea filei</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Fixează fila</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Marchează ca citit</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Marchează ca necitit</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Închide fila [Ctrl+W]</translation>
     </message>
@@ -6860,7 +6870,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Închide filele nefixate</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Închide %1</translation>
     </message>

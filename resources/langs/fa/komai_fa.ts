@@ -6801,18 +6801,28 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>برداشتن سنجاق تب</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>سنجاق کردن تب</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>علامت‌گذاری به‌عنوان خوانده‌شده</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>علامت‌گذاری به‌عنوان خوانده‌نشده</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>بستن برگه [Ctrl+W]</translation>
     </message>
@@ -6842,7 +6852,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>بستن تب‌های سنجاق‌نشده</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>بستن %1</translation>
     </message>

@@ -6819,18 +6819,28 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Odepnout kartu</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Připnout kartu</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Označit jako přečtené</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Označit jako nepřečtené</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Zavřít kartu [Ctrl+W]</translation>
     </message>
@@ -6860,7 +6870,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Zavřít nepřipnuté karty</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Zavřít %1</translation>
     </message>

@@ -76,6 +76,11 @@ Pin a tab to keep it in a fixed position at the left of the tab bar — great fo
 - Pinned tabs persist across restarts (so do unpinned tabs, by the way)
 
 
+## 📬 Mark as read or unread
+
+Right-click a tab and choose **Mark as read** (when the tab has unread activity) or **Mark as unread** (when it doesn't). The behavior matches the [room list context menu](room-list.md#mark-as-read): mark-as-unread writes `m.marked_unread` to account data so the state syncs to other clients, and Komai refuses to mark the currently focused tab as unread.
+
+
 ## 🔀 Reordering tabs
 
 Drag tabs left or right to rearrange them. Drag a tab across the pinned/unpinned boundary to pin or unpin it in the same motion. Drop it back in place (or press `Esc` mid-drag) to cancel.

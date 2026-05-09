@@ -6810,18 +6810,28 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Rimuovi fissatura</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Fissa scheda</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Segna come letto</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Segna come non letto</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Chiudi scheda [Ctrl+W]</translation>
     </message>
@@ -6851,7 +6861,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Chiudi schede non fissate</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Chiudi %1</translation>
     </message>

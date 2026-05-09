@@ -6810,18 +6810,28 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Eemalda kinnitus</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Kinnita vahekaart</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Märgi loetuks</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Märgi lugemata</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Sulge vahekaart [Ctrl+W]</translation>
     </message>
@@ -6851,7 +6861,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Sulge kinnitamata vahekaardid</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Sulge %1</translation>
     </message>

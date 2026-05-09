@@ -6801,18 +6801,28 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Lepas Sematan Tab</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Sematkan Tab</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Tandai sebagai dibaca</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Tandai sebagai belum dibaca</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Tutup Tab [Ctrl+W]</translation>
     </message>
@@ -6842,7 +6852,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Tutup Tab yang Tidak Disematkan</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Tutup %1</translation>
     </message>

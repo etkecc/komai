@@ -6810,18 +6810,28 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Desfixa la pestanya</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Fixa la pestanya</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Marcar com a llegit</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Marcar com a no llegit</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Tanca la pestanya [Ctrl+W]</translation>
     </message>
@@ -6851,7 +6861,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Tanca les pestanyes no fixades</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Tanca %1</translation>
     </message>

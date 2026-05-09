@@ -6846,18 +6846,28 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>إلغاء تثبيت علامة التبويب</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>تثبيت علامة التبويب</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>تعليم كمقروء</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>تمييز كغير مقروء</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>إغلاق علامة التبويب [Ctrl+W]</translation>
     </message>
@@ -6887,7 +6897,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>إغلاق علامات التبويب غير المثبتة</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>إغلاق %1</translation>
     </message>

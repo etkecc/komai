@@ -6801,18 +6801,28 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>取消釘選分頁</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>釘選分頁</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>標記為已讀</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>標記為未讀</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>關閉分頁 [Ctrl+W]</translation>
     </message>
@@ -6842,7 +6852,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>關閉未釘選的分頁</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>關閉 %1</translation>
     </message>

@@ -6819,18 +6819,28 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Otkači karticu</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Prikači karticu</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Označi kao pročitano</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Označi kao nepročitano</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Zatvori karticu [Ctrl+W]</translation>
     </message>
@@ -6860,7 +6870,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Zatvori neprikačene kartice</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Zatvori %1</translation>
     </message>

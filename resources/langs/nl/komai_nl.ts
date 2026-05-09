@@ -6810,18 +6810,28 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Tabblad losmaken</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Tabblad vastzetten</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Markeren als gelezen</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Markeren als ongelezen</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Tabblad sluiten [Ctrl+W]</translation>
     </message>
@@ -6851,7 +6861,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Niet-vastgezette tabbladen sluiten</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>%1 sluiten</translation>
     </message>

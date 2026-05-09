@@ -6810,18 +6810,28 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Irrota välilehti</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Kiinnitä välilehti</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Merkitse luetuksi</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Merkitse lukemattomaksi</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Sulje välilehti [Ctrl+W]</translation>
     </message>
@@ -6851,7 +6861,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Sulje kiinnittämättömät välilehdet</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Sulje %1</translation>
     </message>

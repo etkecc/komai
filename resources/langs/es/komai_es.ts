@@ -6813,18 +6813,28 @@ Ten en cuenta que no se puede desactivar después.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Desfijar pestaña</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Fijar pestaña</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Marcar como leído</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Marcar como no leído</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Cerrar pestaña [Ctrl+W]</translation>
     </message>
@@ -6854,7 +6864,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>Cerrar pestañas sin fijar</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Cerrar %1</translation>
     </message>

@@ -6810,18 +6810,28 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Tab lösen</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Tab anheften</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Als gelesen markieren</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Als ungelesen markieren</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Tab schließen [Ctrl+W]</translation>
     </message>
@@ -6851,7 +6861,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
         <translation>Nicht angeheftete Tabs schließen</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>%1 schließen</translation>
     </message>

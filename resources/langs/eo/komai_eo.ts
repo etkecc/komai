@@ -6812,18 +6812,28 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Malalpingliti Langeton</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Alpingliti Langeton</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Marki kiel legita</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Marki kiel nelegita</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Fermi Langeton [Ctrl+W]</translation>
     </message>
@@ -6853,7 +6863,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Fermi Nealpinglitajn Langetojn</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Fermi %1</translation>
     </message>

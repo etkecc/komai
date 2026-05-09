@@ -6820,18 +6820,28 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Odepnij kartę</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Przypnij kartę</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Oznacz jako przeczytany</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Oznacz jako nieprzeczytany</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Zamknij kartę [Ctrl+W]</translation>
     </message>
@@ -6861,7 +6871,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Zamknij nieprzypięte karty</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Zamknij %1</translation>
     </message>

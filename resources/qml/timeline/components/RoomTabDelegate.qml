@@ -350,6 +350,34 @@ Rectangle {
     }
 
     Component {
+        id: menuItemMarkRead
+
+        MenuItem {
+            LayoutMirroring.enabled: tabDelegate.mirrored
+            LayoutMirroring.childrenInherit: true
+
+            text: qsTr("Mark as read")
+            icon.source: "qrc:/icons/icons/ui/checkmark.svg"
+
+            onTriggered: Rooms.markAsRead(tabDelegate.roomId)
+        }
+    }
+
+    Component {
+        id: menuItemMarkUnread
+
+        MenuItem {
+            LayoutMirroring.enabled: tabDelegate.mirrored
+            LayoutMirroring.childrenInherit: true
+
+            text: qsTr("Mark as unread")
+            icon.source: "qrc:/icons/icons/ui/mark-unread.svg"
+
+            onTriggered: Rooms.markAsUnread(tabDelegate.roomId)
+        }
+    }
+
+    Component {
         id: menuItemCloseTab
 
         MenuItem {
@@ -414,6 +442,12 @@ Rectangle {
 
         if (!isEmptyTab) {
             tabContextMenu.addItem(menuItemPinToggle.createObject(null));
+            tabContextMenu.addItem(menuSeparatorComponent.createObject(null));
+
+            if (hasUnread)
+                tabContextMenu.addItem(menuItemMarkRead.createObject(null));
+            else
+                tabContextMenu.addItem(menuItemMarkUnread.createObject(null));
             tabContextMenu.addItem(menuSeparatorComponent.createObject(null));
         }
         if (closeableOtherCount > 0)

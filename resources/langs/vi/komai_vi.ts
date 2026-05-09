@@ -6801,18 +6801,28 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+252"/>
-        <location line="+105"/>
+        <location line="+139"/>
         <source>Unpin Tab</source>
         <translation>Bỏ Ghim Tab</translation>
     </message>
     <message>
-        <location line="-105"/>
-        <location line="+105"/>
+        <location line="-139"/>
+        <location line="+139"/>
         <source>Pin Tab</source>
         <translation>Ghim Tab</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-118"/>
+        <source>Mark as read</source>
+        <translation>Đánh dấu đã đọc</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Mark as unread</source>
+        <translation>Đánh dấu chưa đọc</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation>Đóng Tab [Ctrl+W]</translation>
     </message>
@@ -6842,7 +6852,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Đóng Các Tab Không Ghim</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+45"/>
         <source>Close %1</source>
         <translation>Đóng %1</translation>
     </message>

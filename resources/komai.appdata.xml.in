@@ -111,6 +111,7 @@
   <url type="translate">https://github.com/etkecc/komai/blob/main/docs/maintainers/translations.md</url>
   <update_contact>slavi_AT_devture.com</update_contact>
   <releases>
+    <release version="2026.05.09.0" date="2026-05-09"/>
     <release version="2026.05.08.0" date="2026-05-08"/>
     <release version="2026.05.07.0" date="2026-05-07"/>
     <release version="2026.05.06.3" date="2026-05-06"/>

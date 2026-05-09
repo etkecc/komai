@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026.05.09.0
+
+- ✨ UI: Shift+Click range selection in the timeline, extending the existing Ctrl+Click multi-select ([4d9e9ced4](https://github.com/etkecc/komai/commit/4d9e9ced4)).
+- ✨ UI: redacted messages no longer offer React, Reply, Pin, or Delete actions; inspection actions (Copy permalink, View raw, Read receipts, Report) remain available ([4a56ec5d9](https://github.com/etkecc/komai/commit/4a56ec5d9)).
+- ✨ UI: Forwarding from the media viewer overlay works again; previously, confirming a target room silently failed ([00f73aa81](https://github.com/etkecc/komai/commit/00f73aa81)).
+- ✨ UI: the Forward dialog no longer jumps vertically when switching to confirm mode ([690feb75b](https://github.com/etkecc/komai/commit/690feb75b)).
+- ✨ UI: mention pills now show the default avatar (Bauhaus, LetterInitial, etc.) when there's no mxc avatar or while the mxc fetch is in flight, matching the timeline ([8800bd9cc](https://github.com/etkecc/komai/commit/8800bd9cc), [e3d645ef5](https://github.com/etkecc/komai/commit/e3d645ef5)).
+- ✨ UI: mention pills refresh in-place when avatar settings change, instead of waiting for the timeline to reload ([154ec98f0](https://github.com/etkecc/komai/commit/154ec98f0)).
+- ✨ UI: the `@room` row in the mention picker now uses the actual room avatar instead of the generic fallback ([c20adde65](https://github.com/etkecc/komai/commit/c20adde65)).
+- 🔧 Reliability: matrix-sdk media fetches are now capped by a timeout, so a single broken or hung URL no longer starves the media pipeline ([64a632e41](https://github.com/etkecc/komai/commit/64a632e41), [e3d645ef5](https://github.com/etkecc/komai/commit/e3d645ef5)).
+
 ## 2026.05.08.0
 
 - 🔧 Build: Komai no longer depends on the `Qt5Compat.GraphicalEffects` QML module (or the `qt6-5compat` shared library it pulls in); the rounded-corner masking sites have been ported to `QtQuick.Effects.MultiEffect`. Distro packagers can drop `qml6-module-qt5compat-graphicaleffects` (and the equivalent on other distros) from their dependency lists ([992f2e651](https://github.com/etkecc/komai/commit/992f2e651)).

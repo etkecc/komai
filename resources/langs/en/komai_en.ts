@@ -5895,30 +5895,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation type="unfinished"/>
     </message>
@@ -5939,28 +5939,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation type="unfinished"/>
     </message>
@@ -11291,6 +11311,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
         <translation type="unfinished"/>
     </message>
     <message>

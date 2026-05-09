@@ -158,7 +158,7 @@ UserSettings::setComposerTypingSendEnabled(bool s)
     if (composerTypingSendEnabled_ == s)
         return;
     composerTypingSendEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::ComposerTypingSendEnabled, s);
+    (void)coreStore_.set(settings::core::SettingId::ComposerTypingSendGlobal, s);
     emit composerTypingSendEnabledChanged(s);
     save();
 }

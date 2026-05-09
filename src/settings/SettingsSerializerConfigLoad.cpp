@@ -332,7 +332,13 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setComposerInputTranscriptionEnabled(snapshot.composer.input_transcription_enabled);
     settings.setComposerAttachmentsStripImageMetadata(
       snapshot.composer.attachments_strip_image_metadata);
-    settings.setComposerTypingSendEnabled(snapshot.composer.typing_send_enabled);
+    settings.setComposerTypingSendEnabled(snapshot.composer.typing_send_global);
+    {
+        QMap<QString, bool> byRoom;
+        for (const auto &entry : snapshot.composer.typing_send_by_room)
+            byRoom.insert(QString::fromStdString(static_cast<std::string>(entry.key)), entry.value);
+        settings.setComposerTypingSendEnabledByRoom(byRoom);
+    }
 }
 
 } // namespace settings::serializer

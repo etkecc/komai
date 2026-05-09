@@ -3198,7 +3198,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
-        <translation>Налаштування…</translation>
+        <translation>Налаштування...</translation>
     </message>
 </context>
 <context>
@@ -5932,30 +5932,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (потоковий)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (одноразовий)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Хмара OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Інший (сервер, сумісний з OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Видимість повідомлень</translation>
     </message>
@@ -5976,28 +5976,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Глобальне значення за замовчуванням (зараз: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Увімкнено</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Вимкнено</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Приховує відповіді в гілках з основної стрічки, показуючи лише кореневі повідомлення.&lt;br&gt;⚠️ Відстеження непрочитаних повідомлень для кожної гілки не підтримується, тому ви можете пропустити відповіді в старіших гілках.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Відгук</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Показувати іншим, коли я пишу</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Надсилає сповіщення про введення під час написання, щоб інші могли бачити, що відповідь уже в дорозі.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Голосова транскрипція</translation>
     </message>
@@ -8102,7 +8122,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation>Власний (%1)</translation>
+        <translation>Користувацький (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -11344,7 +11364,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Показувати іншим, що я пишу</translation>
+        <translation>Показувати іншим, коли я пишу</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Надсилає сповіщення про введення під час написання, щоб інші могли бачити, що відповідь уже в дорозі. Можна змінити для кожної кімнати в Інформація про кімнату → Параметри.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11764,7 +11789,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>Відображуване ім'я</translation>
+        <translation>Ім'я для відображення</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11799,7 +11824,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation>Назва пристрою</translation>
+        <translation>Ім'я пристрою</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11879,7 +11904,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation>Кеш медіафайлів</translation>
+        <translation>Кеш медіа</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -12014,7 +12039,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>Команда для відкриття посилань</translation>
+        <translation>Команда браузера для посилань</translation>
     </message>
     <message>
         <location line="+1"/>

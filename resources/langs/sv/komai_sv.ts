@@ -493,7 +493,7 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation>Webbläsarkommando för länkar</translation>
+        <translation>Kommando för länkwebbläsare</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5689,7 +5689,7 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
         <source>Space</source>
-        <translation>Utrymme</translation>
+        <translation>Område</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -5924,30 +5924,30 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (direktuppspelning)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (engångs)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI-molnet</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Annan (OpenAI-kompatibel server)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Meddelandesynlighet</translation>
     </message>
@@ -5968,28 +5968,48 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Global standard (just nu: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>På</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Av</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Döljer trådsvar från huvudtidslinjen och visar bara rotmeddelanden i trådar.&lt;br&gt;⚠️ Spårning av olästa meddelanden per tråd stöds inte, så du kan missa svar i äldre trådar.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Feedback</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Visa för andra när jag skriver</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Skickar en skrivnotis medan du skriver, så att andra kan se att ett svar är på väg.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Rösttranskribering</translation>
     </message>
@@ -10298,7 +10318,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
-        <translation>Återkoppling</translation>
+        <translation>Feedback</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11331,6 +11351,11 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Visa för andra när jag skriver</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Skickar en skrivnotis medan du skriver, så att andra kan se att ett svar är på väg. Kan åsidosättas per rum i Rumsinformation → Inställningar.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Kontoaviseringar</translation>
@@ -11803,7 +11828,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation>Verifiera</translation>
+        <translation>Bekräfta</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11853,7 +11878,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation>Matrix SDK-tillståndslagring</translation>
+        <translation>Matrix SDK-tillståndsarkiv</translation>
     </message>
     <message>
         <location line="+1"/>

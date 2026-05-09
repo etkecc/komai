@@ -493,7 +493,7 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation>සබැඳි බ්‍රවුසර විධානය</translation>
+        <translation>සබැඳි බ්‍රව්සර විධානය</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1697,7 +1697,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 අන්ත-සිට-අන්ත සංකේතනය සක්‍රිය කළේය</translation>
+        <translation>%1 අන්ත-සිට-අන්ත සංකේතනය සක්‍රිය කළා</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2647,7 +2647,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Matrix SDK තත්ව ගබඩාව</translation>
+        <translation>Matrix SDK තත්ත්ව ගබඩාව</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -3193,7 +3193,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
-        <translation>සැකසුම්…</translation>
+        <translation>සැකසීම්…</translation>
     </message>
 </context>
 <context>
@@ -5924,30 +5924,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (ධාරා)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (එක-ගැසීම)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI වලාකුළ</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>අනෙකුත් (OpenAI-අනුකූල සේවාදායකය)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>පණිවිඩ දෘශ්‍යතාව</translation>
     </message>
@@ -5968,28 +5968,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>ගෝලීය පෙරනිමිය (දැනට: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>සක්‍රිය</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>අක්‍රිය</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>ප්‍රධාන කාලරේඛාවෙන් නූල් පිළිතුරු සඟවයි, නූල් මූල පණිවිඩ පමණක් පෙන්වයි.&lt;br&gt;⚠️ නූල් අනුව නොකියවූ ලුහු කිරීම සහාය නොදක්වයි, එබැවින් ඔබට පැරණි නූල්වල පිළිතුරු මගහැරෙනු ඇත.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>ප්‍රතිපෝෂණය</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>ටයිප් කරන විට අනෙක් අයට පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>ඔබ ලිවීමේදී ටයිප් කිරීමේ දැනුම්දීමක් යවයි, එවිට අනෙකුත් අයට පිළිතුරක් එමින් ඇති බව දැකගත හැකිය.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>හඬ පිටපත් කිරීම</translation>
     </message>
@@ -8093,7 +8113,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation>අභිරුචි (%1)</translation>
+        <translation>අභිමත (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8193,7 +8213,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation>මකා දැමූ පණිවිඩය</translation>
+        <translation>මකන ලද පණිවිඩය</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -11331,6 +11351,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ටයිප් කරන විට අනෙක් අයට පෙන්වන්න</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>ඔබ ලිවීමේදී ටයිප් කිරීමේ දැනුම්දීමක් යවයි, එවිට අනෙකුත් අයට පිළිතුරක් එමින් ඇති බව දැකගත හැකිය. කාමර තොරතුරු → මනාපයන් හරහා කාමරය අනුව වෙනස් කළ හැකිය.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>ගිණුම් දැනුම්දීම්</translation>
@@ -11748,7 +11773,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>ප්‍රදර්ශන නාමය</translation>
+        <translation>දර්ශන නාමය</translation>
     </message>
     <message>
         <location line="+21"/>

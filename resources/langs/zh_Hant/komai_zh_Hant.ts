@@ -2643,7 +2643,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Matrix SDK 狀態儲存區</translation>
+        <translation>Matrix SDK 狀態儲存</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5916,30 +5916,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI 即時（串流）</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 批次（單次）</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 雲端</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>其他（OpenAI 相容伺服器）</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>訊息可見性</translation>
     </message>
@@ -5960,28 +5960,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>全域預設（目前：%1）</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>開啟</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>關閉</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>在主時間軸中隱藏討論串回覆，僅顯示討論串根訊息。&lt;br&gt;⚠️ 不支援每個討論串的未讀追蹤，因此您可能會錯過較舊討論串中的回覆。</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>回饋</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>讓他人看到我正在輸入</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>在您輸入時傳送正在輸入中的通知，讓其他人知道您即將回覆。</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>語音轉錄</translation>
     </message>
@@ -8074,7 +8094,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation>版主 (%1)</translation>
+        <translation>版主（%1）</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8084,7 +8104,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation>自訂 (%1)</translation>
+        <translation>自訂（%1）</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -11315,6 +11335,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>讓他人看到我正在輸入</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>在您輸入時傳送正在輸入中的通知，讓其他人知道您即將回覆。可在「聊天室資訊 → 偏好設定」中針對個別聊天室覆蓋此設定。</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>帳號通知</translation>
@@ -11722,7 +11747,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation>設定檔</translation>
+        <translation>個人資料</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -493,7 +493,7 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation>Linke avav brauseri käsk</translation>
+        <translation>Lingi brauseri käsk</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1697,7 +1697,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 võttis kasutusele läbiva krüptimise</translation>
+        <translation>%1 lülitas sisse otsast-otsani krüptimise</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5924,30 +5924,30 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (voogedastus)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ühekordne)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI pilv</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Muu (OpenAI-ühilduv server)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Sõnumi nähtavus</translation>
     </message>
@@ -5968,28 +5968,48 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globaalne vaikesäte (praegu: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Sees</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Väljas</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Peidab lõimu vastused peamisest ajateljest, näidates ainult lõimu juurteated.&lt;br&gt;⚠️ Lõimupõhist lugemata jälgimist ei toetata, seega võite jääda ilma vastustest vanemates lõimudes.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Tagasiside</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Näita teistele, kui kirjutan</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Saadab kirjutamisteatise sõnumi koostamise ajal, nii et teised näevad, et vastus on tulemas.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Hääle transkriptsioon</translation>
     </message>
@@ -11331,6 +11351,11 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Näita teistele, kui kirjutan</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Saadab kirjutamisteatise sõnumi koostamise ajal, nii et teised näevad, et vastus on tulemas. Saab jututubade kaupa muuta jaotises Jututoa teave → Eelistused.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Konto teavitused</translation>
@@ -11863,7 +11888,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation>Meediavahemälu</translation>
+        <translation>Meedia vahemälu</translation>
     </message>
     <message>
         <location line="+1"/>

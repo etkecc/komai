@@ -5916,30 +5916,30 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (trực tuyến)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (một lần)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Đám mây OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Khác (máy chủ tương thích OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Khả năng hiển thị tin nhắn</translation>
     </message>
@@ -5960,28 +5960,48 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Mặc định toàn cục (hiện tại: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Bật</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Tắt</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Ẩn phản hồi chủ đề khỏi dòng thời gian chính, chỉ hiển thị tin nhắn gốc của chủ đề.&lt;br&gt;⚠️ Theo dõi chưa đọc theo từng chủ đề không được hỗ trợ, bạn có thể bỏ lỡ các phản hồi trong chủ đề cũ.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Phản hồi</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Hiển thị cho người khác khi tôi đang gõ</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Gửi thông báo đang gõ trong khi bạn soạn tin nhắn, để người khác thấy rằng có phản hồi đang đến.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Phiên âm giọng nói</translation>
     </message>
@@ -6309,7 +6329,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="+8"/>
         <source>Mark as unread</source>
-        <translation>Đánh dấu là chưa đọc</translation>
+        <translation>Đánh dấu chưa đọc</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -6814,7 +6834,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>Đánh dấu đã đọc</translation>
+        <translation>Đánh dấu là đã đọc</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -11315,6 +11335,11 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hiển thị cho người khác khi tôi đang gõ</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Gửi thông báo đang gõ trong khi bạn soạn tin nhắn, để người khác thấy rằng có phản hồi đang đến. Có thể ghi đè theo từng phòng trong Thông tin phòng → Tùy chọn.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Thông báo tài khoản</translation>
@@ -11837,7 +11862,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation>Kho trạng thái Matrix SDK</translation>
+        <translation>Kho lưu trữ trạng thái Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -16,8 +16,8 @@ use tokens::StorageToken;
 
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
-    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigDesktop,
-    ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
+    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigComposerTypingSend,
+    ConfigDesktop, ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
     ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
     ConfigIntegrations, ConfigIntegrationsTranscription, ConfigIntegrationsTranscriptionOverrides,
     ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
@@ -206,8 +206,16 @@ const COMPOSER_INPUT_TRANSCRIPTION_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "transcription", "enabled"];
 const COMPOSER_ATTACHMENTS_STRIP_IMAGE_METADATA_PATH: [&str; 3] =
     ["composer", "attachments", "strip_image_metadata"];
-const COMPOSER_TYPING_SEND_ENABLED_PATH: [&str; 4] =
+/// Pre-v2 path for the composer typing-send global toggle (a bool leaf
+/// at `composer.typing.send.enabled`). Read for compat-fallback only;
+/// v2 stores the global at `composer.typing.send.global` (sibling of
+/// the new `by_room` map). See `migrations.md` for the v1→v2 step.
+const COMPOSER_TYPING_SEND_ENABLED_PATH_LEGACY: [&str; 4] =
     ["composer", "typing", "send", "enabled"];
+const COMPOSER_TYPING_SEND_GLOBAL_PATH: [&str; 4] =
+    ["composer", "typing", "send", "global"];
+const COMPOSER_TYPING_SEND_BY_ROOM_PATH: [&str; 4] =
+    ["composer", "typing", "send", "by_room"];
 const INTEGRATIONS_TRANSCRIPTION_PROVIDER_PATH: [&str; 3] =
     ["integrations", "transcription", "provider"];
 const INTEGRATIONS_TRANSCRIPTION_API_URL_PATH: [&str; 3] =
@@ -666,8 +674,20 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 &COMPOSER_ATTACHMENTS_STRIP_IMAGE_METADATA_PATH,
             )
             .and_then(parse_scalar_bool),
-            typing_send_enabled: yaml::value_at_path(root, &COMPOSER_TYPING_SEND_ENABLED_PATH)
-                .and_then(parse_scalar_bool),
+            typing_send: model::ConfigComposerTypingSend {
+                // Prefer the v2 path; fall back to the legacy `enabled` leaf
+                // for configs written before the v1→v2 migration step ran.
+                global: yaml::value_at_path(root, &COMPOSER_TYPING_SEND_GLOBAL_PATH)
+                    .and_then(parse_scalar_bool)
+                    .or_else(|| {
+                        yaml::value_at_path(root, &COMPOSER_TYPING_SEND_ENABLED_PATH_LEGACY)
+                            .and_then(parse_scalar_bool)
+                    }),
+                by_room: parse_bool_map(yaml::value_at_path(
+                    root,
+                    &COMPOSER_TYPING_SEND_BY_ROOM_PATH,
+                )),
+            },
         },
     }
 }

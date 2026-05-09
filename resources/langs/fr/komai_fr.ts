@@ -493,7 +493,7 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation>Commande du navigateur pour les liens</translation>
+        <translation>Commande du navigateur de liens</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5924,30 +5924,30 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ponctuel)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Cloud OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Autre (serveur compatible OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Visibilité des messages</translation>
     </message>
@@ -5968,28 +5968,48 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Défaut global (actuellement : %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Activé</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Désactivé</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Masque les réponses aux fils dans la timeline principale, n'affichant que les messages racines des fils.&lt;br&gt;⚠️ Le suivi des messages non lus par fil n'est pas pris en charge ; vous pourriez manquer des réponses dans des fils plus anciens.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Commentaires</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Indiquer aux autres quand je tape</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Envoie une notification de frappe pendant que vous rédigez, afin que les autres puissent voir qu'une réponse est en préparation.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transcription vocale</translation>
     </message>
@@ -8193,7 +8213,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation>Message supprimé</translation>
+        <translation>Message effacé</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10298,7 +10318,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
-        <translation>Retour</translation>
+        <translation>Commentaires</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11328,7 +11348,12 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Indiquer aux autres que je suis en train de taper</translation>
+        <translation>Indiquer aux autres quand je tape</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Envoie une notification de frappe pendant que vous rédigez, afin que les autres puissent voir qu'une réponse est en préparation. Peut être configuré par salon dans Infos du salon → Préférences.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11863,7 +11888,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation>Cache médias</translation>
+        <translation>Cache média</translation>
     </message>
     <message>
         <location line="+1"/>

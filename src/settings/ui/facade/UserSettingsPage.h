@@ -666,6 +666,17 @@ public:
     Q_INVOKABLE QVariant timelineThreadsCollapseRepliesOverrideForRoom(const QString &roomId) const;
     Q_INVOKABLE bool resolvedTimelineThreadsCollapseReplies(const QString &roomId) const;
 
+    // Per-room overrides for "Show others when I'm typing"
+    // (`composer.typing.send.global` + `composer.typing.send.by_room`).
+    // Mirrors the threads-collapse pattern above. The Q_PROPERTY
+    // `composerTypingSendEnabled` is unchanged (it represents the global).
+    Q_INVOKABLE QMap<QString, bool> composerTypingSendEnabledByRoom() const;
+    Q_INVOKABLE void setComposerTypingSendEnabledByRoom(const QMap<QString, bool> &byRoom);
+    Q_INVOKABLE void setComposerTypingSendEnabledForRoom(const QString &roomId, bool value);
+    Q_INVOKABLE void removeComposerTypingSendEnabledForRoom(const QString &roomId);
+    Q_INVOKABLE QVariant composerTypingSendEnabledOverrideForRoom(const QString &roomId) const;
+    Q_INVOKABLE bool resolvedComposerTypingSendEnabled(const QString &roomId) const;
+
     // Per-room transcription overrides. The value type is intentionally a
     // 5-string-fields-per-room shape (unlike the per-room-bool collapse
     // replies pattern), so we expose the QML side through a sparse
@@ -860,6 +871,7 @@ signals:
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void timelineThreadsCollapseRepliesChanged(bool state);
     void timelineThreadsCollapseRepliesByRoomChanged();
+    void composerTypingSendEnabledByRoomChanged();
     void hiddenPinsChanged();
     void openTabsChanged();
     void pinnedTabsChanged();

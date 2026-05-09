@@ -493,7 +493,7 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation>Polecenie przeglądarki do otwierania linków</translation>
+        <translation>Polecenie przeglądarki dla linków</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2646,7 +2646,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+30"/>
         <source>Local cache</source>
-        <translation>Pamięć podręczna</translation>
+        <translation>Lokalna pamięć podręczna</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -5933,30 +5933,30 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (strumieniowanie)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (jednorazowy)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Chmura OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Inny (serwer kompatybilny z OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Widoczność wiadomości</translation>
     </message>
@@ -5977,28 +5977,48 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Domyślne globalne (aktualnie: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Włączone</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Wyłączone</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Ukrywa odpowiedzi w wątkach z głównej osi czasu, pokazując tylko wiadomości inicjujące wątek.&lt;br&gt;⚠️ Śledzenie nieprzeczytanych wiadomości per-wątek nie jest obsługiwane, więc możesz przegapić odpowiedzi w starszych wątkach.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Informacje zwrotne</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Pokaż innym, gdy piszę</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Wysyła powiadomienie o pisaniu podczas redagowania, dzięki czemu inni widzą, że odpowiedź jest w drodze.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transkrypcja głosu</translation>
     </message>
@@ -6833,7 +6853,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>Oznacz jako przeczytany</translation>
+        <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8103,7 +8123,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation>Własny (%1)</translation>
+        <translation>Niestandardowy (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -11348,6 +11368,11 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Pokaż innym, gdy piszę</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Wysyła powiadomienie o pisaniu podczas redagowania, dzięki czemu inni widzą, że odpowiedź jest w drodze. Można nadpisać dla każdego pokoju w Informacje o pokoju → Preferencje.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Powiadomienia konta</translation>
@@ -11765,7 +11790,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>Wyświetlana nazwa</translation>
+        <translation>Nazwa wyświetlana</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11830,7 +11855,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation>Zweryfikowany</translation>
+        <translation>Zweryfikowane</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11870,7 +11895,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation>Magazyn stanów Matrix SDK</translation>
+        <translation>Magazyn stanu Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>

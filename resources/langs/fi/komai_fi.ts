@@ -1697,7 +1697,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 otti päästä-päähän -salauksen käyttöön</translation>
+        <translation>%1 otti käyttöön päästä päähän -salauksen</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2722,7 +2722,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation>Mediavälimuisti</translation>
+        <translation>Median välimuisti</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -5924,30 +5924,30 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (suoratoisto)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (kertakäyttö)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI pilvi</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Muu (OpenAI-yhteensopiva palvelin)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Viestien näkyvyys</translation>
     </message>
@@ -5968,28 +5968,48 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Yleinen oletus (tällä hetkellä: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Päällä</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Pois</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Piilottaa ketjuvastaukset pääaikajanalta ja näyttää vain ketjujen juuriviestit.&lt;br&gt;⚠️ Ketjukohtaista lukemattomien viestien seurantaa ei tueta, joten saatat jäädä paitsi vastauksista vanhemmissa ketjuissa.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Palaute</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Näytä muille, kun kirjoitan</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Lähettää kirjoitusilmoituksen viestiä kirjoitettaessa, jotta muut näkevät, että vastaus on tulossa.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Puheen litterointi</translation>
     </message>
@@ -11331,6 +11351,11 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Näytä muille, kun kirjoitan</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Lähettää kirjoitusilmoituksen viestiä kirjoitettaessa, jotta muut näkevät, että vastaus on tulossa. Voidaan ohittaa huonekohtaisesti kohdassa Huoneen tiedot → Asetukset.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Tilin ilmoitukset</translation>
@@ -11853,12 +11878,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation>Matrix SDK:n tilavarasto</translation>
+        <translation>Matrix SDK -tilavarasto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation>Matrix SDK:n välimuisti</translation>
+        <translation>Matrix SDK -välimuisti</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -493,7 +493,7 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation>Comando del navegador para enlaces</translation>
+        <translation>Comando del navegador de enlaces</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1698,7 +1698,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 cifrado de extremo a extremo activado</translation>
+        <translation>%1 activó el cifrado de extremo a extremo</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5927,30 +5927,30 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Nube de OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Otro (servidor compatible con OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Visibilidad de mensajes</translation>
     </message>
@@ -5971,28 +5971,48 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Predeterminado global (actualmente: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Activado</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Desactivado</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Oculta las respuestas de hilo de la línea de tiempo principal, mostrando solo los mensajes raíz de los hilos.&lt;br&gt;⚠️ No se admite el seguimiento de no leídos por hilo, por lo que es posible que se pierdan respuestas en hilos más antiguos.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Comentarios</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Mostrar a otros cuando estoy escribiendo</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Envía una notificación de escritura mientras redactas, para que otros puedan ver que hay una respuesta en camino.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transcripción de voz</translation>
     </message>
@@ -6831,7 +6851,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>Marcar como no leído</translation>
+        <translation>Marcar como no leída</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -11331,7 +11351,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Mostrar a otros cuándo estoy escribiendo</translation>
+        <translation>Mostrar a otros cuando estoy escribiendo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Envía una notificación de escritura mientras redactas, para que otros puedan ver que hay una respuesta en camino. Se puede cambiar por sala en Información de sala → Preferencias.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11751,7 +11776,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>Nombre para mostrar</translation>
+        <translation>Nombre visible</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11786,7 +11811,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation>Nombre del dispositivo</translation>
+        <translation>Nombre de dispositivo</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11966,7 +11991,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+1"/>
         <source>API key</source>
-        <translation>Clave API</translation>
+        <translation>Clave de API</translation>
     </message>
     <message>
         <location line="+1"/>

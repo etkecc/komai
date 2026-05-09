@@ -75,7 +75,7 @@ enum class SettingId
     ComposerInputInlineUserPickerEnabled,
     ComposerInputTranscriptionEnabled,
     ComposerAttachmentsStripImageMetadata,
-    ComposerTypingSendEnabled,
+    ComposerTypingSendGlobal,
     NotificationsAccountEnabled,
     CallsLegacyEnabled,
     CallsRelayUseFallbackServer,

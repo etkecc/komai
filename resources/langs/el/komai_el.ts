@@ -493,7 +493,7 @@
     <message>
         <location filename="../../qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml" line="+39"/>
         <source>Link browser command</source>
-        <translation>Εντολή προγράμματος περιήγησης για συνδέσμους</translation>
+        <translation>Εντολή περιηγητή συνδέσμων</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1697,7 +1697,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 ενεργοποίησε την κρυπτογράφηση από άκρο σε άκρο</translation>
+        <translation>%1 ενεργοποίησε κρυπτογράφηση άκρου-προς-άκρο</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2647,7 +2647,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Αποθήκη κατάστασης Matrix SDK</translation>
+        <translation>Αποθήκευση καταστάσεων Matrix SDK</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5924,30 +5924,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Άλλο (διακομιστής συμβατός με OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Ορατότητα μηνυμάτων</translation>
     </message>
@@ -5968,28 +5968,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Καθολική προεπιλογή (τρέχουσα: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Ενεργοποιημένο</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Απενεργοποιημένο</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Αποκρύπτει τις απαντήσεις νημάτων από το κύριο χρονολόγιο, εμφανίζοντας μόνο τα αρχικά μηνύματα νήματος.&lt;br&gt;⚠️ Η παρακολούθηση αδιάβαστων ανά νήμα δεν υποστηρίζεται, οπότε ενδέχεται να χάσετε απαντήσεις σε παλαιότερα νήματα.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Ανάδραση</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Εμφάνιση στους άλλους όταν πληκτρολογώ</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Αποστέλλει ειδοποίηση πληκτρολόγησης κατά τη σύνταξη, ώστε οι άλλοι να βλέπουν ότι έρχεται απάντηση.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Μεταγραφή φωνής</translation>
     </message>
@@ -6828,7 +6848,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>Σήμανση ως μη αναγνωσμένο</translation>
+        <translation>Επισήμανση ως μη αναγνωσμένο</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -11331,6 +11351,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Εμφάνιση στους άλλους όταν πληκτρολογώ</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Αποστέλλει ειδοποίηση πληκτρολόγησης κατά τη σύνταξη, ώστε οι άλλοι να βλέπουν ότι έρχεται απάντηση. Μπορεί να παρακαμφθεί ανά δωμάτιο από τις Πληροφορίες Δωματίου → Προτιμήσεις.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Ειδοποιήσεις λογαριασμού</translation>
@@ -11743,7 +11768,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Avatar</source>
-        <translation>Άβαταρ</translation>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location line="+1"/>

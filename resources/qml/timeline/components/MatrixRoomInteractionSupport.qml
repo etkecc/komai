@@ -294,7 +294,7 @@ QtObject {
         if (!ok)
             return false;
 
-        if (Settings.composerTypingSendEnabled)
+        if (Settings.resolvedComposerTypingSendEnabled(rootItem.activeRoomId))
             TimelineManager.sendActiveMatrixTypingNotice(false);
 
         if (!rootItem.editing)

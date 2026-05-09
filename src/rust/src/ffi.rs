@@ -487,7 +487,11 @@ mod bridge {
         input_inline_user_picker_enabled: bool,
         input_transcription_enabled: bool,
         attachments_strip_image_metadata: bool,
-        typing_send_enabled: bool,
+        // Whether to send a typing notice to other users by default.
+        // Per-room overrides live in `typing_send_by_room`; the resolved
+        // value falls back to this global when a room is not in the map.
+        typing_send_global: bool,
+        typing_send_by_room: Vec<SettingsBoolMapEntry>,
     }
 
     struct SettingsConfigSnapshot {

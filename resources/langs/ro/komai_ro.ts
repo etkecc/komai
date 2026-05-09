@@ -5932,30 +5932,30 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (o singură cerere)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Altul (server compatibil OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Vizibilitate mesaje</translation>
     </message>
@@ -5976,28 +5976,48 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Implicit global (în prezent: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Activat</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Dezactivat</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Ascunde răspunsurile din fire din cronologia principală, afișând doar mesajele rădăcină ale firelor.&lt;br&gt;⚠️ Urmărirea mesajelor necitite per fir nu este acceptată, deci este posibil să pierzi răspunsuri din firele mai vechi.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Feedback</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Arată altora când scriu</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Trimite o notificare de tastare în timp ce compui, astfel încât ceilalți să poată vedea că un răspuns este pe drum.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transcriere vocală</translation>
     </message>
@@ -6325,7 +6345,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location line="+8"/>
         <source>Mark as unread</source>
-        <translation>Marchează ca necitită</translation>
+        <translation>Marchează ca necitit</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -11345,6 +11365,11 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Arată altora când scriu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Trimite o notificare de tastare în timp ce compui, astfel încât ceilalți să poată vedea că un răspuns este pe drum. Poate fi modificat per cameră în Informații cameră → Preferințe.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>

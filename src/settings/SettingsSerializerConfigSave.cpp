@@ -246,7 +246,15 @@ stageConfig(const UserSettings &settings,
           .input_inline_user_picker_enabled  = settings.composerInputInlineUserPickerEnabled(),
           .input_transcription_enabled       = settings.composerInputTranscriptionEnabled(),
           .attachments_strip_image_metadata  = settings.composerAttachmentsStripImageMetadata(),
-          .typing_send_enabled               = settings.composerTypingSendEnabled(),
+          .typing_send_global                = settings.composerTypingSendEnabled(),
+          .typing_send_by_room =
+            [&settings]() {
+                rust::Vec<komai::rust::SettingsBoolMapEntry> entries;
+                const auto byRoom = settings.composerTypingSendEnabledByRoom();
+                for (auto it = byRoom.begin(); it != byRoom.end(); ++it)
+                    entries.push_back({.key = it.key().toStdString(), .value = it.value()});
+                return entries;
+            }(),
         },
     };
 

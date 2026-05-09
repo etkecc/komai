@@ -1699,7 +1699,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 je uključio end-to-end šifrovanje</translation>
+        <translation>%1 je omogućio end-to-end šifrovanje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2726,7 +2726,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation>Medijski keš</translation>
+        <translation>Keš medija</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -5932,30 +5932,30 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (jednokratni)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Ostalo (OpenAI-kompatibilni server)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Vidljivost poruka</translation>
     </message>
@@ -5976,28 +5976,48 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globalni podrazumevani (trenutno: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Uključeno</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Isključeno</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Sakriva odgovore na nit iz glavne linije, prikazujući samo korensku poruku niti.&lt;br&gt;⚠️ Praćenje nepročitanih po niti nije podržano, pa možete propustiti odgovore u starijim nitima.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Povratne informacije</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Prikaži drugima kada kucam</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Šalje obaveštenje o kucanju tokom pisanja, kako bi drugi mogli da vide da stiže odgovor.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Glasovna transkripcija</translation>
     </message>
@@ -11347,6 +11367,11 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Prikaži drugima kada kucam</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Šalje obaveštenje o kucanju tokom pisanja, kako bi drugi mogli da vide da stiže odgovor. Može se zameniti po sobi u Informacije o sobi → Podešavanja.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Obaveštenja naloga</translation>
@@ -11764,7 +11789,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>Prikazano ime</translation>
+        <translation>Ime za prikaz</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11774,7 +11799,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation>Odjaviti se</translation>
+        <translation>Odjavi se</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -11799,7 +11824,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation>Naziv uređaja</translation>
+        <translation>Ime uređaja</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11819,7 +11844,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation>Verifikovati</translation>
+        <translation>Verifikuj</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -12014,7 +12039,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>Komanda pregledača za linkove</translation>
+        <translation>Komanda brauzera za linkove</translation>
     </message>
     <message>
         <location line="+1"/>

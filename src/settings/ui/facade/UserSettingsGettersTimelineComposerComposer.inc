@@ -123,8 +123,57 @@ bool
 UserSettings::composerTypingSendEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerTypingSendEnabled);
+          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerTypingSendGlobal);
         value.has_value())
         return *value;
     return composerTypingSendEnabled_;
+}
+
+QMap<QString, bool>
+UserSettings::composerTypingSendEnabledByRoom() const
+{
+    return composerTypingSendEnabledByRoom_;
+}
+
+void
+UserSettings::setComposerTypingSendEnabledByRoom(const QMap<QString, bool> &byRoom)
+{
+    composerTypingSendEnabledByRoom_ = byRoom;
+    emit composerTypingSendEnabledByRoomChanged();
+    save();
+}
+
+void
+UserSettings::setComposerTypingSendEnabledForRoom(const QString &roomId, bool value)
+{
+    composerTypingSendEnabledByRoom_[roomId] = value;
+    emit composerTypingSendEnabledByRoomChanged();
+    save();
+}
+
+void
+UserSettings::removeComposerTypingSendEnabledForRoom(const QString &roomId)
+{
+    if (composerTypingSendEnabledByRoom_.remove(roomId)) {
+        emit composerTypingSendEnabledByRoomChanged();
+        save();
+    }
+}
+
+QVariant
+UserSettings::composerTypingSendEnabledOverrideForRoom(const QString &roomId) const
+{
+    auto it = composerTypingSendEnabledByRoom_.find(roomId);
+    if (it != composerTypingSendEnabledByRoom_.end())
+        return QVariant(it.value());
+    return QVariant();
+}
+
+bool
+UserSettings::resolvedComposerTypingSendEnabled(const QString &roomId) const
+{
+    auto it = composerTypingSendEnabledByRoom_.find(roomId);
+    if (it != composerTypingSendEnabledByRoom_.end())
+        return it.value();
+    return composerTypingSendEnabled();
 }

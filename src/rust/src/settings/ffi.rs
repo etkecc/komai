@@ -445,7 +445,21 @@ pub(crate) fn ffi_config_composer_section(
         input_inline_user_picker_enabled: config.composer.input_inline_user_picker_enabled.unwrap_or(defaults::INPUT_INLINE_USER_PICKER_ENABLED),
         input_transcription_enabled: config.composer.input_transcription_enabled.unwrap_or(defaults::INPUT_TRANSCRIPTION_ENABLED),
         attachments_strip_image_metadata: config.composer.attachments_strip_image_metadata.unwrap_or(defaults::ATTACHMENTS_STRIP_IMAGE_METADATA),
-        typing_send_enabled: config.composer.typing_send_enabled.unwrap_or(defaults::TYPING_SEND_ENABLED),
+        typing_send_global: config
+            .composer
+            .typing_send
+            .global
+            .unwrap_or(defaults::TYPING_SEND_GLOBAL),
+        typing_send_by_room: config
+            .composer
+            .typing_send
+            .by_room
+            .iter()
+            .map(|(room_id, value)| ffi::SettingsBoolMapEntry {
+                key: room_id.clone(),
+                value: *value,
+            })
+            .collect(),
     }
 }
 
@@ -852,7 +866,15 @@ fn clone_config_composer_section(
         input_inline_user_picker_enabled: section.input_inline_user_picker_enabled,
         input_transcription_enabled: section.input_transcription_enabled,
         attachments_strip_image_metadata: section.attachments_strip_image_metadata,
-        typing_send_enabled: section.typing_send_enabled,
+        typing_send_global: section.typing_send_global,
+        typing_send_by_room: section
+            .typing_send_by_room
+            .iter()
+            .map(|entry| ffi::SettingsBoolMapEntry {
+                key: entry.key.clone(),
+                value: entry.value,
+            })
+            .collect(),
     }
 }
 

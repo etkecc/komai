@@ -2643,7 +2643,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Penyimpanan status Matrix SDK</translation>
+        <translation>Penyimpanan state Matrix SDK</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5916,30 +5916,30 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (satu kali)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Lainnya (server kompatibel OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Keterlihatan pesan</translation>
     </message>
@@ -5960,28 +5960,48 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Default Global (saat ini: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Aktif</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Nonaktif</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Menyembunyikan balasan utas dari linimasa utama, hanya menampilkan pesan akar utas.&lt;br&gt;⚠️ Pelacakan pesan belum dibaca per utas tidak didukung, sehingga Anda mungkin melewatkan balasan di utas yang lebih lama.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Umpan balik</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Tampilkan kepada orang lain saat saya mengetik</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Mengirim notifikasi pengetikan saat Anda menulis, agar orang lain dapat melihat bahwa balasan sedang dalam perjalanan.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transkripsi suara</translation>
     </message>
@@ -6304,7 +6324,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="-20"/>
         <source>Mark as read</source>
-        <translation>Tandai sebagai telah dibaca</translation>
+        <translation>Tandai sebagai dibaca</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -8139,7 +8159,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 mengaktifkan enkripsi ujung-ke-ujung</translation>
+        <translation>%1 mengaktifkan enkripsi ujung ke ujung</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -11312,7 +11332,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Tampilkan kepada orang lain saat sedang mengetik</translation>
+        <translation>Tampilkan kepada orang lain saat saya mengetik</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Mengirim notifikasi pengetikan saat Anda menulis, agar orang lain dapat melihat bahwa balasan sedang dalam perjalanan. Dapat diganti per ruangan di Info Ruangan → Preferensi.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11787,7 +11812,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation>Verifikasi</translation>
+        <translation>Lakukan verifikasi</translation>
     </message>
     <message>
         <location line="+1"/>

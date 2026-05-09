@@ -1705,7 +1705,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>فعّل %1 التشفير من طرف إلى طرف</translation>
+        <translation>%1 فعّل التشفير التام بين الطرفين</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2738,7 +2738,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation>ذاكرة الوسائط المؤقتة</translation>
+        <translation>ذاكرة التخزين المؤقت للوسائط</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -5956,30 +5956,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (بث مباشر)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (مرة واحدة)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>سحابة OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>أخرى (خادم متوافق مع OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>رؤية الرسائل</translation>
     </message>
@@ -6000,28 +6000,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>الافتراضي العام (حاليًا: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>تشغيل</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>إيقاف</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>يخفي ردود السلاسل من الجدول الزمني الرئيسي، ويعرض رسائل جذر السلسلة فقط.&lt;br&gt;⚠️ تتبع الرسائل غير المقروءة لكل سلسلة على حدة غير مدعوم، لذا قد تفوتك الردود في السلاسل القديمة.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>التغذية الراجعة</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>إظهار حالة الكتابة للآخرين</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>يُرسل إشعاراً بالكتابة أثناء الكتابة، حتى يتمكن الآخرون من رؤية أن الرد في طريقه.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>النسخ الصوتي</translation>
     </message>
@@ -6349,7 +6369,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+8"/>
         <source>Mark as unread</source>
-        <translation>تمييز كغير مقروءة</translation>
+        <translation>تمييز كغير مقروء</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -8124,7 +8144,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation>مسؤول (%1)</translation>
+        <translation>مدير (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11395,6 +11415,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>إظهار حالة الكتابة للآخرين</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>يُرسل إشعاراً بالكتابة أثناء الكتابة، حتى يتمكن الآخرون من رؤية أن الرد في طريقه. يمكن تجاوز هذا الإعداد لكل غرفة في معلومات الغرفة ← التفضيلات.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>إشعارات الحساب</translation>
@@ -11802,7 +11827,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation>الملف</translation>
+        <translation>الملف الشخصي</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11812,7 +11837,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>اسم العرض</translation>
+        <translation>الاسم المعروض</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11867,12 +11892,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation>توثيق</translation>
+        <translation>تحقّق</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verification</source>
-        <translation>التوثيق</translation>
+        <translation>التحقق</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11907,7 +11932,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Local cache</source>
-        <translation>ذاكرة التخزين المؤقت المحلية</translation>
+        <translation>الذاكرة المؤقتة المحلية</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11922,7 +11947,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation>ذاكرة التخزين المؤقت لـ Matrix SDK</translation>
+        <translation>ذاكرة Matrix SDK المؤقتة</translation>
     </message>
     <message>
         <location line="+1"/>

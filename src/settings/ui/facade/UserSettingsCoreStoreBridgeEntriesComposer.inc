@@ -9,4 +9,4 @@ X(ComposerInputInlineRoomPickerEnabled, settings.composerInputInlineRoomPickerEn
 X(ComposerInputInlineUserPickerEnabled, settings.composerInputInlineUserPickerEnabled())
 X(ComposerInputTranscriptionEnabled, settings.composerInputTranscriptionEnabled())
 X(ComposerAttachmentsStripImageMetadata, settings.composerAttachmentsStripImageMetadata())
-X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())
+X(ComposerTypingSendGlobal, settings.composerTypingSendEnabled())

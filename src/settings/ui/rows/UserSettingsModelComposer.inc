@@ -81,7 +81,7 @@
     // ComposerFeedbackSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // ComposerTypingSendEnabled
+    // ComposerTypingSendGlobal
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Show others when I'm typing"),
-      nullptr,
-      SM::TabComposer, composerTypingSendEnabled, setComposerTypingSendEnabled, nullptr, ComposerTypingSendEnabled, SettingKey::ComposerTypingSendEnabled),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences."),
+      SM::TabComposer, composerTypingSendEnabled, setComposerTypingSendEnabled, nullptr, ComposerTypingSendGlobal, SettingKey::ComposerTypingSendGlobal),

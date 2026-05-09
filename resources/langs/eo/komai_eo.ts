@@ -1697,7 +1697,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 ŝaltis tutvojan ĉifradon</translation>
+        <translation>%1 ebligis fino-al-fino ĉifradon</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5926,30 +5926,30 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (fluanta)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (unu-foja)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI nubo</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Alia (OpenAI-kompatiebla servilo)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Videbleco de mesaĝoj</translation>
     </message>
@@ -5970,28 +5970,48 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Tutmonda Defaŭlto (nuntempe: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Aktiva</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Malaktiva</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Kaŝas fadenajn respondojn de la ĉefa tempolinio, montrante nur fadenajn radikajn mesaĝojn.&lt;br&gt;⚠️ La spurado de nelegitaĵoj laŭ fadeno ne estas subtenata, do vi eble maltrafos respondojn en pli malnovaj fadenoj.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Retroigo</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Montri al aliaj kiam mi skribas</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Sendas skribadan sciigon dum vi redaktas, por ke aliaj vidu, ke respondo estas survoje.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Voĉa transskribo</translation>
     </message>
@@ -6314,12 +6334,12 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     <message>
         <location line="-20"/>
         <source>Mark as read</source>
-        <translation>Marki kiel legitan</translation>
+        <translation>Marki kiel legita</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Mark as unread</source>
-        <translation>Marki kiel nelegitan</translation>
+        <translation>Marki kiel nelegita</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -8085,7 +8105,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation>Moderigisto (%1)</translation>
+        <translation>Moderanto (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10301,7 +10321,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
-        <translation>Retrosciigo</translation>
+        <translation>Retroigo</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11331,7 +11351,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Montri al aliaj kiam mi tajpas</translation>
+        <translation>Montri al aliaj kiam mi skribas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Sendas skribadan sciigon dum vi redaktas, por ke aliaj vidu, ke respondo estas survoje. Eblas superregi ĉi tion por ĉiu ĉambro en Ĉambra Informo → Preferoj.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11751,7 +11776,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>Videbla nomo</translation>
+        <translation>Montrata nomo</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11786,7 +11811,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation>Nomo de aparato</translation>
+        <translation>Aparata nomo</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11856,7 +11881,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation>Matrix SDK ŝtatdeponejo</translation>
+        <translation>Matrix SDK stata stokejo</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11866,7 +11891,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation>Multimedija kaŝmemoro</translation>
+        <translation>Amaskomunikilara kaŝmemoro</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -12001,7 +12026,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>Retumilkomando por ligiloj</translation>
+        <translation>Retumila komando por ligiloj</translation>
     </message>
     <message>
         <location line="+1"/>

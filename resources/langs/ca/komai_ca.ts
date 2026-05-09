@@ -5924,30 +5924,30 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (un sol cop)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Núvol d'OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Altre (servidor compatible amb OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Visibilitat dels missatges</translation>
     </message>
@@ -5968,28 +5968,48 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Per defecte global (ara: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Activat</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Desactivat</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Amaga les respostes dels fils de la línia de temps principal, mostrant només els missatges arrel dels fils.&lt;br&gt;⚠️ El seguiment de no llegits per fil no és compatible; podeu perdre respostes en fils antics.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Comentaris</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Mostra als altres quan estic escrivint</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Envia una notificació d'escriptura mentre redactes, perquè els altres puguin veure que una resposta és en camí.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transcripció de veu</translation>
     </message>
@@ -6823,12 +6843,12 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>Marcar com a llegit</translation>
+        <translation>Marca com a llegit</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>Marcar com a no llegit</translation>
+        <translation>Marca com a no llegida</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8193,7 +8213,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation>Missatge eliminat</translation>
+        <translation>Missatge suprimit</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -11331,6 +11351,11 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Mostra als altres quan estic escrivint</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Envia una notificació d'escriptura mentre redactes, perquè els altres puguin veure que una resposta és en camí. Es pot modificar per sala a Informació de la sala → Preferències.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Notificacions del compte</translation>
@@ -11748,7 +11773,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>Nom visible</translation>
+        <translation>Nom de visualització</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11853,17 +11878,17 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation>Magatzem d'estat del SDK de Matrix</translation>
+        <translation>Emmagatzematge d'estat de Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation>Memòria cau del SDK de Matrix</translation>
+        <translation>Memòria cau de Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Media cache</source>
-        <translation>Memòria cau multimèdia</translation>
+        <translation>Memòria cau de suports</translation>
     </message>
     <message>
         <location line="+1"/>

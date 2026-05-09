@@ -88,7 +88,8 @@ constexpr auto ComposerInputInlineRoomPickerEnabled  = "composer.input.inline_ro
 constexpr auto ComposerInputInlineUserPickerEnabled  = "composer.input.inline_user_picker.enabled";
 constexpr auto ComposerInputTranscriptionEnabled     = "composer.input.transcription.enabled";
 constexpr auto ComposerAttachmentsStripImageMetadata = "composer.attachments.strip_image_metadata";
-constexpr auto ComposerTypingSendEnabled             = "composer.typing.send.enabled";
+constexpr auto ComposerTypingSendGlobal              = "composer.typing.send.global";
+constexpr auto ComposerTypingSendByRoom              = "composer.typing.send.by_room";
 constexpr auto DesktopNotificationsEnabled           = "desktop.notifications.enabled";
 constexpr auto DesktopNotificationsAttentionOnIncoming =
   "desktop.notifications.attention_on_incoming";

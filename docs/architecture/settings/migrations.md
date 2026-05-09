@@ -13,9 +13,15 @@ Migration plumbing exists in:
 Current behavior:
 
 - reads `meta.settings_schema_version` from `config.yml`, `state.yml`, and `session.yml` (`0` when missing)
-- treats `1` as the current schema version for all settings YAML scopes
+- treats `2` as the current `config.yml` schema version; `1` for `state.yml` and `session.yml`
 - runs an explicit step chain (`v0 -> v1`, then next steps as added over time)
 - applies a foundational `v0 -> v1` migration step (schema version stamping only)
+- applies a `v1 -> v2` migration step on `config.yml`: the composer typing-send
+  global toggle moves from `composer.typing.send.enabled` to
+  `composer.typing.send.global` so the new sibling `composer.typing.send.by_room`
+  map (per-room overrides) reads cleanly. The legacy `enabled` path is still
+  read as a fallback when `global` is missing, and is dropped from the YAML on
+  the next save (the encoder only emits `global`+`by_room`).
 - exposes two load paths:
   - `SettingsController::load(...)`: read-only load (no file writes)
   - `SettingsController::loadAndMigrate(...)`: load + migration writeback when needed

@@ -5916,30 +5916,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI 실시간 (스트리밍)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 배치 (일회성)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 클라우드</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>기타 (OpenAI 호환 서버)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>메시지 공개 설정</translation>
     </message>
@@ -5960,28 +5960,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>전역 기본값 (현재: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>켜짐</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>꺼짐</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>메인 타임라인에서 스레드 답글을 숨기고 스레드 루트 메시지만 표시합니다.&lt;br&gt;⚠️ 스레드별 읽지 않음 추적은 지원되지 않으므로, 오래된 스레드의 답글을 놓칠 수 있습니다.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>피드백</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>내가 입력 중일 때 다른 사람에게 알리기</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>메시지를 작성하는 동안 입력 알림을 전송하여, 다른 사람들이 답장이 오고 있음을 알 수 있습니다.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>음성 텍스트 변환</translation>
     </message>
@@ -8074,7 +8094,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation>중재자 (%1)</translation>
+        <translation>운영자 (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8084,7 +8104,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation>사용자 지정 (%1)</translation>
+        <translation>사용자 정의 (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -11313,6 +11333,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>내가 입력 중일 때 다른 사람에게 알리기</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>메시지를 작성하는 동안 입력 알림을 전송하여, 다른 사람들이 답장이 오고 있음을 알 수 있습니다. 방 정보 → 기본 설정에서 방별로 재정의할 수 있습니다.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>

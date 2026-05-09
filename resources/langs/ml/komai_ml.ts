@@ -2642,7 +2642,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+30"/>
         <source>Local cache</source>
-        <translation>പ്രാദേശിക ക്യാഷ്</translation>
+        <translation>പ്രാദേശിക കാഷേ</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -2712,7 +2712,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation>Matrix SDK ക്യാഷ്</translation>
+        <translation>Matrix SDK കാഷേ</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -2722,7 +2722,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation>മീഡിയ ക്യാഷ്</translation>
+        <translation>മീഡിയ കാഷേ</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -5924,30 +5924,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (സ്ട്രീമിംഗ്)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ഒറ്റ-ഷോട്ട്)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI ക്ലൗഡ്</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>മറ്റുള്ളവ (OpenAI-compatible സെർവർ)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>സന്ദേശ ദൃശ്യത</translation>
     </message>
@@ -5968,28 +5968,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>ആഗോള ഡിഫോൾട്ട് (നിലവിൽ: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>ഓൺ</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>ഓഫ്</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറച്ചുവെക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു.&lt;br&gt;⚠️ ത്രെഡ്-അനുസരിച്ചുള്ള വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമാകാം.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>ഫീഡ്ബാക്ക്</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>ഞാൻ ടൈപ്പ് ചെയ്യുകയാണെന്ന് മറ്റുള്ളവരെ അറിയിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു അറിയിപ്പ് അയക്കും, അതുവഴി മറ്റുള്ളവർക്ക് ഒരു മറുപടി വരുന്നുണ്ടെന്ന് അറിയാൻ കഴിയും.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>ശബ്ദ ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
@@ -11328,7 +11348,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>ഞാൻ ടൈപ്പ് ചെയ്യുമ്പോൾ മറ്റുള്ളവർക്ക് കാണിക്കുക</translation>
+        <translation>ഞാൻ ടൈപ്പ് ചെയ്യുകയാണെന്ന് മറ്റുള്ളവരെ അറിയിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു അറിയിപ്പ് അയക്കും, അതുവഴി മറ്റുള്ളവർക്ക് ഒരു മറുപടി വരുന്നുണ്ടെന്ന് അറിയാൻ കഴിയും. മുറി വിവരങ്ങൾ → മുൻഗണനകൾ എന്നതിൽ ഓരോ മുറിക്കും ഇത് മാറ്റിയമർത്താം.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11748,7 +11773,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>പ്രദർശന നാമം</translation>
+        <translation>ഡിസ്‌പ്ലേ നാമം</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11813,7 +11838,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation>പരിശോധിച്ചത്</translation>
+        <translation>പരിശോധിക്കപ്പെട്ടത്</translation>
     </message>
     <message>
         <location line="+1"/>

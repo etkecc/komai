@@ -20,7 +20,7 @@ use super::tokens::{
     ConfigUiDefaultAvatarStyleToken, ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
 };
 
-pub(crate) const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 1;
+pub(crate) const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 2;
 pub(crate) const CONFIG_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_schema_version"];
 
 #[derive(Clone, Debug, Default)]
@@ -360,7 +360,13 @@ pub struct ConfigComposer {
     /// `var/plans/composer-voice-transcription.md` § "Config shape".
     pub input_transcription_enabled: Option<bool>,
     pub attachments_strip_image_metadata: Option<bool>,
-    pub typing_send_enabled: Option<bool>,
+    pub typing_send: ConfigComposerTypingSend,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigComposerTypingSend {
+    pub global: Option<bool>,
+    pub by_room: BTreeMap<String, bool>,
 }
 
 pub struct LoadedConfig {

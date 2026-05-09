@@ -202,6 +202,91 @@ Item {
                 }
             }
 
+            // --- Feedback section ---
+            //
+            // Per-room overrides for "what others see about you in this room"
+            // toggles (typing notifications, and — when added later — read
+            // receipts). Each row uses the same 3-state ComboBox pattern as
+            // the threads-collapse override above (Global Default / On / Off).
+            Components.SettingsSection {
+                label: qsTr("Feedback")
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingLarge
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+            }
+
+            // Show others when I'm typing (per-room override)
+            Item {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                implicitHeight: typingSendRowContent.implicitHeight
+                HoverHandler { id: typingSendRowHover; blocking: false }
+                Rectangle { anchors.fill: typingSendRowContent; color: typingSendRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                ColumnLayout {
+                    id: typingSendRowContent
+                    width: parent.width
+                    spacing: 0
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+
+                        Label {
+                            text: qsTr("Show others when I'm typing")
+                            color: typingSendRowHover.hovered ? palette.brightText : palette.text
+                            font.pointSize: 1.1 * Settings.uiFontSizePt
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Components.KomaiComboBox {
+                            id: typingSendCombo
+
+                            readonly property string roomId: preferencesTab.roomSettings ? preferencesTab.roomSettings.roomId : ""
+                            readonly property bool globalValue: Settings.composerTypingSendEnabled
+
+                            model: [
+                                qsTr("Global Default (currently: %1)").arg(globalValue ? qsTr("On") : qsTr("Off")),
+                                qsTr("On"),
+                                qsTr("Off")
+                            ]
+
+                            currentIndex: {
+                                var override = Settings.composerTypingSendEnabledOverrideForRoom(roomId);
+                                if (override !== undefined && override !== null)
+                                    return override ? 1 : 2;
+                                return 0;
+                            }
+
+                            onActivated: function(index) {
+                                var roomId = typingSendCombo.roomId;
+                                if (!roomId) return;
+                                if (index === 0) {
+                                    Settings.removeComposerTypingSendEnabledForRoom(roomId);
+                                } else {
+                                    Settings.setComposerTypingSendEnabledForRoom(roomId, index === 1);
+                                }
+                            }
+                        }
+                    }
+
+                    Label {
+                        text: qsTr("Sends a typing notification while you compose, so others can see that a reply is on its way.")
+                        color: typingSendRowHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        wrapMode: Text.Wrap
+                    }
+                }
+            }
+
             // --- Voice transcription section ---
             //
             // Per-room overrides for the 5 non-secret transcription fields,

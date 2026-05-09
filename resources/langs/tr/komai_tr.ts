@@ -5682,7 +5682,7 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     <message>
         <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
         <source>Space</source>
-        <translation>Alan</translation>
+        <translation>Uzay</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -5916,30 +5916,30 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (akış)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (tek seferlik)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI bulutu</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Diğer (OpenAI uyumlu sunucu)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Mesaj görünürlüğü</translation>
     </message>
@@ -5960,28 +5960,48 @@ Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Genel Varsayılan (şu an: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Açık</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Kapalı</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Konu yanıtlarını ana zaman tünelinden gizler, yalnızca konu kök mesajlarını gösterir.&lt;br&gt;⚠️ Konu başına okunmamış takibi desteklenmediğinden, eski konulardaki yanıtları kaçırabilirsiniz.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Geri Bildirim</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Yazdığımda diğerlerine göster</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Yazarken bir yazım bildirimi gönderir, böylece diğerleri bir yanıtın gelmekte olduğunu görebilir.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Ses transkripsiyonu</translation>
     </message>
@@ -6309,7 +6329,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     <message>
         <location line="+8"/>
         <source>Mark as unread</source>
-        <translation>Okunmamış olarak işaretle</translation>
+        <translation>Okunmadı olarak işaretle</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -8139,7 +8159,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1, uçtan uca şifrelemeyi etkinleştirdi</translation>
+        <translation>%1 uçtan uça şifrelmeyi aktive etti</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8184,7 +8204,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation>Silinmiş mesaj</translation>
+        <translation>Silinen mesaj</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10282,7 +10302,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
-        <translation>Geri bildirim</translation>
+        <translation>Geri Bildirim</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11313,6 +11333,11 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Yazdığımda diğerlerine göster</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Yazarken bir yazım bildirimi gönderir, böylece diğerleri bir yanıtın gelmekte olduğunu görebilir. Oda Bilgisi → Tercihler bölümünden oda bazında geçersiz kılınabilir.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>

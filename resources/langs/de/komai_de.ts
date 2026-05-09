@@ -1697,7 +1697,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 hat die Ende-zu-Ende-Verschlüsselung aktiviert</translation>
+        <translation>%1 hat Ende-zu-Ende-Verschlüsselung aktiviert</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2647,7 +2647,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Matrix-SDK-Zustandsspeicher</translation>
+        <translation>Matrix SDK Status-Speicher</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2712,7 +2712,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation>Matrix-SDK-Cache</translation>
+        <translation>Matrix SDK Cache</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -3193,7 +3193,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
-        <translation>Einstellungen…</translation>
+        <translation>Einstellungen …</translation>
     </message>
 </context>
 <context>
@@ -5924,30 +5924,30 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (Streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (einmalig)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI Cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Andere (OpenAI-kompatibler Server)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Nachrichtensichtbarkeit</translation>
     </message>
@@ -5968,28 +5968,48 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch gelöscht
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globale Standardeinstellung (aktuell: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>An</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Aus</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Blendet Thread-Antworten aus der Hauptzeitleiste aus und zeigt nur Thread-Startnachrichten an.&lt;br&gt;⚠️ Das Verfolgen ungelesener Nachrichten pro Thread wird nicht unterstützt, sodass du Antworten in älteren Threads verpassen könntest.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Feedback</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Anderen anzeigen, wenn ich schreibe</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Sendet eine Tippbenachrichtigung, während du schreibst, damit andere sehen können, dass eine Antwort unterwegs ist.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Sprachtranskription</translation>
     </message>
@@ -11329,6 +11349,11 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Anderen anzeigen, wenn ich schreibe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Sendet eine Tippbenachrichtigung, während du schreibst, damit andere sehen können, dass eine Antwort unterwegs ist. Kann pro Raum in Rauminfo → Einstellungen überschrieben werden.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>

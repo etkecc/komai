@@ -1699,7 +1699,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 povolil/a šifrování mezi zařízeními</translation>
+        <translation>%1 povolil end-to-end šifrování</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5932,30 +5932,30 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streamování)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (jednorázový)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Jiný (server kompatibilní s OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Viditelnost zpráv</translation>
     </message>
@@ -5976,28 +5976,48 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globální výchozí (aktuálně: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Zapnuto</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Vypnuto</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Skryje odpovědi ve vláknech z hlavní časové osy a zobrazuje pouze kořenové zprávy vláken.&lt;br&gt;⚠️ Sledování nepřečtených zpráv po jednotlivých vláknech není podporováno, takže vám mohou uniknout odpovědi ve starších vláknech.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Zpětná vazba</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Zobrazovat ostatním, že píši</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Odesílá oznámení o psaní, zatímco píšete zprávu, aby ostatní viděli, že přichází odpověď.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Přepis hlasu</translation>
     </message>
@@ -11347,6 +11367,11 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Zobrazovat ostatním, že píši</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Odesílá oznámení o psaní, zatímco píšete zprávu, aby ostatní viděli, že přichází odpověď. Lze přepsat pro každou místnost v Informace o místnosti → Předvolby.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Oznámení účtu</translation>
@@ -11829,7 +11854,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation>Ověřeno</translation>
+        <translation>Ověřené</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11869,7 +11894,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     <message>
         <location line="+1"/>
         <source>Matrix SDK state store</source>
-        <translation>Úložiště stavů Matrix SDK</translation>
+        <translation>Úložiště stavu Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -12014,7 +12039,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>Příkaz prohlížeče odkazů</translation>
+        <translation>Příkaz pro otevírání odkazů</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -1697,7 +1697,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 включи шифроване от край до край</translation>
+        <translation>%1 активира шифроване от край до край</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2647,7 +2647,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Хранилище на Matrix SDK</translation>
+        <translation>Matrix SDK хранилище за стейт</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2712,7 +2712,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation>Кеш на Matrix SDK</translation>
+        <translation>Matrix SDK кеш</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -5924,30 +5924,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (поточно)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (еднократно)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI облак</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Друг (OpenAI-съвместим сървър)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Видимост на съобщенията</translation>
     </message>
@@ -5968,28 +5968,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Глобална настройка по подразбиране (в момента: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Включено</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Изключено</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Скрива отговорите в тредове от основната хронология, показвайки само началните съобщения на тредовете.&lt;br&gt;⚠️ Проследяването на непрочетени по тред не се поддържа, така че може да пропуснете отговори в по-стари тредове.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Обратна връзка</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Показва на другите, когато пиша</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Изпраща известие за писане докато съставяте съобщение, за да могат другите да видят, че идва отговор.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Гласова транскрипция</translation>
     </message>
@@ -6823,12 +6843,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>Отбележи като прочетено</translation>
+        <translation>Маркирай като прочетено</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>Отбележи като непрочетено</translation>
+        <translation>Маркирай като непрочетена</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8093,7 +8113,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation>По избор (%1)</translation>
+        <translation>Персонализиран (%1)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -11331,6 +11351,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Показва на другите, когато пиша</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Изпраща известие за писане докато съставяте съобщение, за да могат другите да видят, че идва отговор. Може да бъде заменено за конкретна стая в Инфо за стаята → Предпочитания.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>Известия за акаунта</translation>
@@ -11758,7 +11783,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation>Изход</translation>
+        <translation>Излез</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -11783,7 +11808,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation>Име на устройството</translation>
+        <translation>Име на устройство</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11998,7 +12023,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>Команда за отваряне на връзки</translation>
+        <translation>Команда за браузър за отваряне на връзки</translation>
     </message>
     <message>
         <location line="+1"/>

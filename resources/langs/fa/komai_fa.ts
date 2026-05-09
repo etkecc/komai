@@ -2638,7 +2638,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+30"/>
         <source>Local cache</source>
-        <translation>حافظه پنهان محلی</translation>
+        <translation>حافظه نهان محلی</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -2708,7 +2708,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+51"/>
         <source>Matrix SDK cache</source>
-        <translation>حافظه پنهان Matrix SDK</translation>
+        <translation>حافظه نهان Matrix SDK</translation>
     </message>
     <message>
         <location line="+86"/>
@@ -2718,7 +2718,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation>حافظه پنهان رسانه</translation>
+        <translation>حافظه نهان رسانه</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3188,7 +3188,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
-        <translation>تنظیمات…</translation>
+        <translation>تنظیمات...</translation>
     </message>
 </context>
 <context>
@@ -5916,30 +5916,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (جریانی)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (یک‌باره)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>ابر OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>سایر (سرور سازگار با OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>قابلیت مشاهده پیام</translation>
     </message>
@@ -5960,28 +5960,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>پیش‌فرض سراسری (در حال حاضر: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>روشن</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>خاموش</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>پاسخ‌های رشته را از جدول زمانی اصلی پنهان می‌کند و فقط پیام‌های ریشه رشته را نشان می‌دهد.&lt;br&gt;⚠️ ردیابی خوانده‌نشده‌های هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌هایی در رشته‌های قدیمی‌تر را از دست بدهید.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>بازخورد</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>نمایش به دیگران هنگام تایپ کردن</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>در حین نوشتن پیام، اعلان تایپ ارسال می‌کند تا دیگران بدانند پاسخی در راه است.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>تبدیل گفتار به متن</translation>
     </message>
@@ -6814,12 +6834,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>علامت‌گذاری به‌عنوان خوانده‌شده</translation>
+        <translation>علامت‌گذاری به عنوان خوانده‌شده</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>علامت‌گذاری به‌عنوان خوانده‌نشده</translation>
+        <translation>علامت‌گذاری به عنوان خوانده‌نشده</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -11315,6 +11335,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>نمایش به دیگران هنگام تایپ کردن</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>در حین نوشتن پیام، اعلان تایپ ارسال می‌کند تا دیگران بدانند پاسخی در راه است. می‌توان آن را برای هر اتاق در اطلاعات اتاق ← تنظیمات برگزیده تغییر داد.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>اعلان‌های حساب کاربری</translation>
@@ -11722,7 +11747,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation>پروفایل</translation>
+        <translation>نمایه</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11742,7 +11767,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation>خروج</translation>
+        <translation>خروج از حساب</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -11787,7 +11812,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+2"/>
         <source>Verify</source>
-        <translation>تأیید کردن</translation>
+        <translation>تأیید</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11982,7 +12007,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>دستور مرورگر برای پیوندها</translation>
+        <translation>دستور مرورگر برای پیوند</translation>
     </message>
     <message>
         <location line="+1"/>

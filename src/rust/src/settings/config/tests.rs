@@ -370,7 +370,10 @@ composer:
     strip_image_metadata: false
   typing:
     send:
-      enabled: false
+      global: false
+      by_room:
+        "!room1:server.tld": true
+        "!room2:server.tld": false
 "#,
     );
 
@@ -384,7 +387,53 @@ composer:
     assert_eq!(config.composer.input_inline_user_picker_enabled, Some(false));
     assert_eq!(config.composer.input_transcription_enabled, Some(false));
     assert_eq!(config.composer.attachments_strip_image_metadata, Some(false));
-    assert_eq!(config.composer.typing_send_enabled, Some(false));
+    assert_eq!(config.composer.typing_send.global, Some(false));
+    assert_eq!(
+        config.composer.typing_send.by_room.get("!room1:server.tld"),
+        Some(&true)
+    );
+    assert_eq!(
+        config.composer.typing_send.by_room.get("!room2:server.tld"),
+        Some(&false)
+    );
+}
+
+#[test]
+fn parses_composer_typing_send_legacy_enabled_path_for_v1_compat() {
+    // v1 stored the global at `composer.typing.send.enabled`. v2 stores it
+    // at `composer.typing.send.global` (sibling of the new `by_room` map).
+    // The parser falls back to the legacy path so v1 configs round-trip
+    // their value through the v1→v2 migration without loss.
+    let config = parse_config_text(
+        r#"
+composer:
+  typing:
+    send:
+      enabled: false
+"#,
+    );
+
+    assert_eq!(config.composer.typing_send.global, Some(false));
+    assert!(config.composer.typing_send.by_room.is_empty());
+}
+
+#[test]
+fn parses_composer_typing_send_global_takes_precedence_over_legacy_enabled() {
+    // When both forms coexist (mid-migration / hand-edited file), the v2
+    // `global` key wins. The legacy `enabled` key gets dropped on the
+    // next snapshot write because the encoder only emits `global` and
+    // `by_room`.
+    let config = parse_config_text(
+        r#"
+composer:
+  typing:
+    send:
+      enabled: true
+      global: false
+"#,
+    );
+
+    assert_eq!(config.composer.typing_send.global, Some(false));
 }
 
 #[test]
@@ -575,14 +624,15 @@ fn encodes_generic_config_values() {
             input_inline_user_picker_enabled: false,
             input_transcription_enabled: false,
             attachments_strip_image_metadata: false,
-            typing_send_enabled: false,
+            typing_send_global: false,
+            typing_send_by_room: vec![],
         },
     });
 
     let root: serde_yaml_ng::Value = serde_yaml_ng::from_str(&yaml).expect("valid yaml");
     assert!(matches!(
         yaml::value_at_path(&root, &["meta", "settings_schema_version"]),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(1)
+        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(2)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "theme", "slug"]),
@@ -896,9 +946,17 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["composer", "typing", "send", "enabled"]),
+        yaml::value_at_path(&root, &["composer", "typing", "send", "global"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
+    // The encoder always emits an empty by_room map alongside the global,
+    // mirroring `timeline.threads.collapse_replies.by_room`. The legacy
+    // `composer.typing.send.enabled` v1 path must not appear in v2 output.
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "typing", "send", "by_room"]),
+        Some(serde_yaml_ng::Value::Mapping(mapping)) if mapping.is_empty()
+    ));
+    assert!(yaml::value_at_path(&root, &["composer", "typing", "send", "enabled"]).is_none());
 }
 
 #[test]
@@ -1006,7 +1064,7 @@ ui:
 
     assert!(!loaded.had_future_version);
     assert_eq!(loaded.source_version, 0);
-    assert_eq!(loaded.migrated_version, 1);
+    assert_eq!(loaded.migrated_version, 2);
     assert!(loaded.should_write_back);
     assert_eq!(loaded.config.ui.theme.slug, "dark-komai");
 }
@@ -1016,9 +1074,42 @@ fn loaded_snapshot_normalizes_non_map_root() {
     let loaded = load_config_snapshot("\"not-a-map\"");
 
     assert_eq!(loaded.source_version, 0);
-    assert_eq!(loaded.migrated_version, 1);
+    assert_eq!(loaded.migrated_version, 2);
     assert!(loaded.should_write_back);
     assert_eq!(loaded.config.ui.theme.slug, "");
+}
+
+#[test]
+fn migrates_composer_typing_send_v1_to_v2() {
+    // A v1 config carries `composer.typing.send.enabled` as a bool leaf.
+    // The v2 schema places the global toggle at
+    // `composer.typing.send.global` so it can sit alongside a sibling
+    // `by_room` map (mirroring `timeline.threads.collapse_replies`).
+    // Loading a v1 file must:
+    //   1. preserve the existing global value (via the legacy-path fallback)
+    //   2. mark the snapshot for write-back so the next save lands at v2
+    //   3. stamp the migrated_version at the new current value so the
+    //      writer triggers the on-disk schema bump
+    //
+    // The legacy `enabled` key is dropped on the next save because
+    // `encode_config_yaml` only emits `global`+`by_room` — that is asserted
+    // by `encodes_full_config_to_yaml` above.
+    let loaded = load_config_snapshot(
+        r#"
+meta:
+  settings_schema_version: 1
+composer:
+  typing:
+    send:
+      enabled: false
+"#,
+    );
+
+    assert_eq!(loaded.source_version, 1);
+    assert_eq!(loaded.migrated_version, 2);
+    assert!(loaded.should_write_back);
+    assert_eq!(loaded.config.composer.typing_send.global, Some(false));
+    assert!(loaded.config.composer.typing_send.by_room.is_empty());
 }
 
 #[test]
@@ -1311,7 +1402,8 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
             input_inline_user_picker_enabled: true,
             input_transcription_enabled: true,
             attachments_strip_image_metadata: true,
-            typing_send_enabled: true,
+            typing_send_global: true,
+            typing_send_by_room: vec![],
         },
     };
 
@@ -1482,7 +1574,8 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             input_inline_user_picker_enabled: true,
             input_transcription_enabled: true,
             attachments_strip_image_metadata: true,
-            typing_send_enabled: true,
+            typing_send_global: true,
+            typing_send_by_room: vec![],
         },
     };
 

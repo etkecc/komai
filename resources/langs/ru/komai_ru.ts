@@ -1699,7 +1699,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 включил(а) сквозное шифрование</translation>
+        <translation>%1 включил сквозное шифрование</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2726,7 +2726,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation>Кэш медиафайлов</translation>
+        <translation>Кэш медиа</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -5932,30 +5932,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (потоковый)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (одиночный)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Облако OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Другое (сервер, совместимый с OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Видимость сообщений</translation>
     </message>
@@ -5976,28 +5976,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Глобальное значение по умолчанию (сейчас: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Вкл</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Выкл</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Скрывает ответы тредов из основной ленты, показывая только корневые сообщения тредов.&lt;br&gt;⚠️ Отслеживание непрочитанных сообщений по тредам не поддерживается, поэтому вы можете пропустить ответы в старых тредах.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Обратная связь</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Показывать другим, когда я печатаю</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Отправляет уведомление о наборе текста во время написания сообщения, чтобы другие видели, что ответ уже в пути.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Голосовая транскрипция</translation>
     </message>
@@ -6832,12 +6852,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>Пометить как прочитанную</translation>
+        <translation>Пометить как прочитанное</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>Пометить как непрочитанную</translation>
+        <translation>Пометить как непрочитанное</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -10314,7 +10334,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+3"/>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
         <source>Feedback</source>
-        <translation>Отзыв</translation>
+        <translation>Обратная связь</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11344,7 +11364,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Показывать другим, что я печатаю</translation>
+        <translation>Показывать другим, когда я печатаю</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Отправляет уведомление о наборе текста во время написания сообщения, чтобы другие видели, что ответ уже в пути. Можно переопределить для каждой комнаты в разделе Информация о комнате → Настройки.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11829,7 +11854,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation>Верифицировано</translation>
+        <translation>Верифицирован</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -12014,7 +12039,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>Команда открытия ссылок</translation>
+        <translation>Команда для открытия ссылок</translation>
     </message>
     <message>
         <location line="+1"/>

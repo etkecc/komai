@@ -541,8 +541,13 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["composer", "typing", "send", "enabled"],
-        Value::Bool(snapshot.composer.typing_send_enabled),
+        &["composer", "typing", "send", "global"],
+        Value::Bool(snapshot.composer.typing_send_global),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "typing", "send", "by_room"],
+        tree::bool_map(&snapshot.composer.typing_send_by_room),
     );
 
     yaml::serialize_yaml(&root)

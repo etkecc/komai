@@ -2647,7 +2647,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Magazin de statu Matrix SDK</translation>
+        <translation>Deposito de estat de Matrix SDK</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -3193,7 +3193,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
-        <translation>Configurationes…</translation>
+        <translation>Parametres…</translation>
     </message>
 </context>
 <context>
@@ -5924,30 +5924,30 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (fluxe)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Altre (servidor compatibil con OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Visibilitat de mesages</translation>
     </message>
@@ -5968,28 +5968,48 @@ Backups de claves del servitor anteriori ne es supressat automaticmen.</translat
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Predefinit global (actualmente: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Activat</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Inactivat</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Occulta responces de filament del timeline principal, monstrant solmen mesages radicales del filament.&lt;br&gt;⚠️ Li sequiment de non-legitat per filament ne es supportat, dunque vu posse mancar responces in filaments plu ancian.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Retroaction</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Monstrar a altri quande yo scriva</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Invia un notification de scriptura dum vu composa, por que altri possi vider que un responde es in via.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transcription vocal</translation>
     </message>
@@ -6823,12 +6843,12 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>Marcar como legit</translation>
+        <translation>Marcar como lectat</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>Marcar como non legit</translation>
+        <translation>Marcar como non lectat</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8148,7 +8168,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 ha activat li cripteration fin-a-fin</translation>
+        <translation>%1 activat li cripteration de extremi a extremi</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8193,7 +8213,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+9"/>
         <source>Deleted message</source>
-        <translation>Mesage deletat</translation>
+        <translation>Mesage delet</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -11328,7 +11348,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Montrar a altris quando yo scriv</translation>
+        <translation>Monstrar a altri quande yo scriva</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Invia un notification de scriptura dum vu composa, por que altri possi vider que un responde es in via. Posset esser supressat per chambre in Info de Chambre → Preferenties.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11748,7 +11773,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+1"/>
         <source>Display name</source>
-        <translation>Nom afichat</translation>
+        <translation>Nom de display</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -11758,7 +11783,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="-8"/>
         <source>Sign out</source>
-        <translation>Disconectar se</translation>
+        <translation>Desconectar</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -11783,7 +11808,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation>Nom de aparate</translation>
+        <translation>Nom del aparate</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11858,7 +11883,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+1"/>
         <source>Matrix SDK cache</source>
-        <translation>Cache de Matrix SDK</translation>
+        <translation>Cache Matrix SDK</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11963,7 +11988,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+1"/>
         <source>API key</source>
-        <translation>Clav API</translation>
+        <translation>Clave API</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11998,7 +12023,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>Comande del navigator por ligamentos</translation>
+        <translation>Comande de navigator por ligaturas</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -1697,7 +1697,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 ha attivato la crittografia end-to-end</translation>
+        <translation>%1 ha abilitato la crittografia end-to-end</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2722,7 +2722,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     <message>
         <location line="+51"/>
         <source>Media cache</source>
-        <translation>Cache multimediale</translation>
+        <translation>Cache media</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -5924,30 +5924,30 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Altro (server compatibile con OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Visibilità dei messaggi</translation>
     </message>
@@ -5968,28 +5968,48 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Predefinito globale (attualmente: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Attivo</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Disattivo</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Nasconde le risposte dei thread dalla timeline principale, mostrando solo i messaggi radice del thread.&lt;br&gt;⚠️ Il tracciamento dei messaggi non letti per thread non è supportato, quindi potresti perdere risposte nei thread più vecchi.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Feedback</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Mostra agli altri quando stai scrivendo</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Invia una notifica di digitazione mentre si compone il messaggio, in modo che gli altri possano vedere che una risposta è in arrivo.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Trascrizione vocale</translation>
     </message>
@@ -6823,12 +6843,12 @@ Si noti che non può essere disabilitata in seguito.</translation>
     <message>
         <location line="-118"/>
         <source>Mark as read</source>
-        <translation>Segna come letto</translation>
+        <translation>Segna come letta</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Mark as unread</source>
-        <translation>Segna come non letto</translation>
+        <translation>Contrassegna come non letta</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -11328,7 +11348,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+5"/>
         <source>Show others when I'm typing</source>
-        <translation>Mostra agli altri quando sto scrivendo</translation>
+        <translation>Mostra agli altri quando stai scrivendo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Invia una notifica di digitazione mentre si compone il messaggio, in modo che gli altri possano vedere che una risposta è in arrivo. Può essere modificato per stanza in Informazioni stanza → Preferenze.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
@@ -11783,7 +11808,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+1"/>
         <source>Device name</source>
-        <translation>Nome dispositivo</translation>
+        <translation>Nome del dispositivo</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -11813,7 +11838,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     <message>
         <location line="+1"/>
         <source>Verified</source>
-        <translation>Verificato</translation>
+        <translation>Verificata</translation>
     </message>
     <message>
         <location line="+1"/>

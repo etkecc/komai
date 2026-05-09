@@ -1695,7 +1695,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/delegates/EncryptionEnabled.qml" line="+41"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1がエンドツーエンド暗号化を有効にしました</translation>
+        <translation>%1 がエンドツーエンド暗号化を有効にしました</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3188,7 +3188,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
         <source>Settings...</source>
-        <translation>設定…</translation>
+        <translation>設定...</translation>
     </message>
 </context>
 <context>
@@ -5916,30 +5916,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI リアルタイム（ストリーミング）</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI バッチ（ワンショット）</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI クラウド</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>その他（OpenAI互換サーバー）</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>メッセージの表示</translation>
     </message>
@@ -5960,28 +5960,48 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>グローバルデフォルト（現在: %1）</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>オン</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>オフ</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>メインタイムラインからスレッドの返信を非表示にし、スレッドのルートメッセージのみを表示します。&lt;br&gt;⚠️ スレッドごとの未読追跡はサポートされていないため、古いスレッドの返信を見逃す可能性があります。</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>フィードバック</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>入力中であることを他のユーザーに表示</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>メッセージを入力中に入力通知を送信し、返信が届くことを他のユーザーに知らせます。</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>音声文字起こし</translation>
     </message>
@@ -8074,17 +8094,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>Moderator (%1)</source>
-        <translation>モデレーター (%1)</translation>
+        <translation>モデレーター（%1）</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Administrator (%1)</source>
-        <translation>管理者 (%1)</translation>
+        <translation>管理者（%1）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Custom (%1)</source>
-        <translation>カスタム (%1)</translation>
+        <translation>カスタム（%1）</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -11315,6 +11335,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>入力中であることを他のユーザーに表示</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>メッセージを入力中に入力通知を送信し、返信が届くことを他のユーザーに知らせます。ルーム情報 → 設定でルームごとに上書きできます。</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>
         <source>Account notifications</source>
         <translation>アカウント通知</translation>
@@ -11722,7 +11747,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
-        <translation>プロファイル</translation>
+        <translation>プロフィール</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -11982,7 +12007,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Link browser command</source>
-        <translation>リンクブラウザーコマンド</translation>
+        <translation>リンクを開くブラウザコマンド</translation>
     </message>
     <message>
         <location line="+1"/>

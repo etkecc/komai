@@ -2647,7 +2647,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+47"/>
         <source>Matrix SDK state store</source>
-        <translation>Repositório de estado do Matrix SDK</translation>
+        <translation>Armazenamento de estado do Matrix SDK</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5924,30 +5924,30 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+227"/>
+        <location line="+312"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-226"/>
-        <location line="+225"/>
+        <location line="-311"/>
+        <location line="+310"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
-        <location line="-219"/>
-        <location line="+321"/>
+        <location line="-304"/>
+        <location line="+406"/>
         <source>OpenAI cloud</source>
         <translation>Nuvem OpenAI</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+321"/>
+        <location line="-405"/>
+        <location line="+406"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Outro (servidor compatível com OpenAI)</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-390"/>
         <source>Message visibility</source>
         <translation>Visibilidade das mensagens</translation>
     </message>
@@ -5968,28 +5968,48 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     </message>
     <message>
         <location line="+14"/>
+        <location line="+86"/>
         <source>Global Default (currently: %1)</source>
         <translation>Predefinição global (atualmente: %1)</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-86"/>
+        <location line="+1"/>
+        <location line="+85"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Ativado</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="-87"/>
+        <location line="+2"/>
+        <location line="+84"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Desativado</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-63"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Oculta as respostas dos tópicos da linha de tempo principal, mostrando apenas as mensagens raiz dos tópicos.&lt;br&gt;⚠️ O acompanhamento de mensagens não lidas por tópico não é suportado, pelo que poderá perder respostas em tópicos mais antigos.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+20"/>
+        <source>Feedback</source>
+        <translation>Feedback</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Show others when I'm typing</source>
+        <translation>Mostrar aos outros quando estou a escrever</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
+        <translation>Envia uma notificação de digitação enquanto escreve, para que os outros possam ver que uma resposta está a caminho.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Voice transcription</source>
         <translation>Transcrição de voz</translation>
     </message>
@@ -8148,7 +8168,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>%1 enabled end-to-end encryption</source>
-        <translation>%1 ativou a encriptação ponta-a-ponta</translation>
+        <translation>%1 ativou a encriptação ponta a ponta</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -11329,6 +11349,11 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <location line="+5"/>
         <source>Show others when I'm typing</source>
         <translation>Mostrar aos outros quando estou a escrever</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sends a typing notification while you compose, so others can see that a reply is on its way. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Envia uma notificação de digitação enquanto escreve, para que os outros possam ver que uma resposta está a caminho. Pode ser substituído por sala em Informações da Sala → Preferências.</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelDesktop.inc" line="+4"/>

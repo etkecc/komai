@@ -1587,9 +1587,9 @@ Rectangle {
                             _draftSaveTimer.restart();
                         }
                     }
-                    if (Settings.composerTypingSendEnabled
-                            && inputBar.room && inputBar.room.isActiveMatrixTimelineRoom
-                            && !inputBar.walkModeActive) {
+                    if (inputBar.room && inputBar.room.isActiveMatrixTimelineRoom
+                            && !inputBar.walkModeActive
+                            && Settings.resolvedComposerTypingSendEnabled(inputBar.room.roomId)) {
                         const shouldType = text.length >= 4 && !text.startsWith("/");
                         TimelineManager.sendActiveMatrixTypingNotice(shouldType);
                     }

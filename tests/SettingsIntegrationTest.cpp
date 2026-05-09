@@ -1786,7 +1786,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerAttachmentsStripImageMetadata));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::ComposerTypingSendEnabled));
+      QString::fromLatin1(SettingKey::ComposerTypingSendGlobal));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

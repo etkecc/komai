@@ -3121,7 +3121,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Liite</translation>
     </message>
@@ -5672,7 +5672,12 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Tila</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Tämä huone on julkinen. Kuka tahansa voi liittyä.</translation>
     </message>

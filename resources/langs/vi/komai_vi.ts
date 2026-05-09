@@ -3116,7 +3116,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Tệp đính kèm</translation>
     </message>
@@ -5665,7 +5665,12 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Không gian</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Phòng này là công khai. Bất kỳ ai cũng có thể tham gia.</translation>
     </message>

@@ -3121,7 +3121,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Anexo</translation>
     </message>
@@ -5672,7 +5672,12 @@ Os backups de chave no servidor não são removidos automaticamente.</translatio
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Espaço</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Esta sala é pública. Qualquer pessoa pode entrar.</translation>
     </message>

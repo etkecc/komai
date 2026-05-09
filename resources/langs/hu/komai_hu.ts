@@ -3116,7 +3116,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Melléklet</translation>
     </message>
@@ -5665,7 +5665,12 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Tér</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ez a szoba nyilvános. Bárki csatlakozhat.</translation>
     </message>

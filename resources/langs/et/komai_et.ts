@@ -3121,7 +3121,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Manus</translation>
     </message>
@@ -5672,7 +5672,12 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Ruum</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>See jututuba on avalik. Igaüks saab liituda.</translation>
     </message>

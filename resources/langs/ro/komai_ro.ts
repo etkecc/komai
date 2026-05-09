@@ -3126,7 +3126,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Atașament</translation>
     </message>
@@ -5679,7 +5679,12 @@ Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</transla
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Spațiu</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Această cameră este publică. Oricine se poate alătura.</translation>
     </message>

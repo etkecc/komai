@@ -3124,7 +3124,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Adjunto</translation>
     </message>
@@ -5675,7 +5675,12 @@ Las copias de seguridad de claves en el servidor no se eliminan automáticamente
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Espacio</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Esta sala es pública. Cualquiera puede unirse.</translation>
     </message>

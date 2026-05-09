@@ -3121,7 +3121,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>ඇමුණුම</translation>
     </message>
@@ -5672,7 +5672,12 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>අවකාශය</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>මෙම කාමරය පොදුයි. ඕනෑ කෙනෙකුට සම්බන්ධ විය හැක.</translation>
     </message>

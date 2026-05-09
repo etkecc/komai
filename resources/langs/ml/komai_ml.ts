@@ -3121,7 +3121,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>അറ്റാച്ച്മെന്റ്</translation>
     </message>
@@ -5672,7 +5672,12 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>സ്പേസ്</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>ഈ മുറി പൊതുവാണ്. ആർക്കും ചേരാം.</translation>
     </message>

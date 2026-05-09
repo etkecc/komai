@@ -3121,7 +3121,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Adjunt</translation>
     </message>
@@ -5672,7 +5672,12 @@ Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàtic
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Espai</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Aquesta sala és pública. Qualsevol es pot unir.</translation>
     </message>

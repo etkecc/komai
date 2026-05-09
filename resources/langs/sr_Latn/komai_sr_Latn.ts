@@ -3126,7 +3126,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Prilog</translation>
     </message>
@@ -5679,7 +5679,12 @@ Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tr
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Prostor</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ova soba je javna. Svako može da se pridruži.</translation>
     </message>

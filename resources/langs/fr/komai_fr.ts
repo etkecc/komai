@@ -3121,7 +3121,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Pièce jointe</translation>
     </message>
@@ -5672,7 +5672,12 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Espace</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ce salon est public. Tout le monde peut le rejoindre.</translation>
     </message>

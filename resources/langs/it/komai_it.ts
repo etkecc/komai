@@ -3121,7 +3121,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Allegato</translation>
     </message>
@@ -5672,7 +5672,12 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Spazio</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Questa stanza è pubblica. Chiunque può accedervi.</translation>
     </message>

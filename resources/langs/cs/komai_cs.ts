@@ -3126,7 +3126,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Příloha</translation>
     </message>
@@ -5679,7 +5679,12 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Prostor</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Tato místnost je veřejná. Kdokoli se může připojit.</translation>
     </message>

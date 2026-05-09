@@ -14,6 +14,7 @@ Item {
     property var room: null
     property bool showVisibilityLabel: false
     readonly property bool isPublic: room ? room.isPublic : true
+    readonly property bool isSpace: room ? !!room.isSpace : false
     readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     readonly property real nameImplicitWidth: nameWidthHelper.implicitWidth
     readonly property real visibilityFullWidth: row.spacing + visibilityIcon.width + visibilityRow.spacing + visibilityLabel.implicitWidth
@@ -52,7 +53,9 @@ Item {
         Label {
             id: nameLabel
 
-            width: Math.min(nameWidthHelper.implicitWidth, Math.max(0, root.width - (visibilityItem.visible ? (row.spacing + visibilityItem.implicitWidth) : 0)))
+            width: Math.min(nameWidthHelper.implicitWidth, Math.max(0, root.width
+                - (spaceBadge.visible ? (row.spacing + spaceBadge.implicitWidth) : 0)
+                - (visibilityItem.visible ? (row.spacing + visibilityItem.implicitWidth) : 0)))
             color: palette.text
             elide: Text.ElideRight
             font.bold: true
@@ -66,6 +69,30 @@ Item {
             // should be the bare room name.
             Accessible.role: Accessible.Heading
             Accessible.name: root.roomName
+        }
+
+        Rectangle {
+            id: spaceBadge
+
+            readonly property color badgeColor: palette.buttonText
+
+            visible: root.isSpace
+            anchors.verticalCenter: nameLabel.verticalCenter
+            implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
+            implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
+            radius: Komai.paddingSmall
+            color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.15)
+            border.color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.4)
+            border.width: 1
+
+            Label {
+                id: spaceBadgeLabel
+
+                anchors.centerIn: parent
+                text: qsTr("Space")
+                color: spaceBadge.badgeColor
+                font.pointSize: Settings.uiFontSizePt * 0.8
+            }
         }
 
         Item {

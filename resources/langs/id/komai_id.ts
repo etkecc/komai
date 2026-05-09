@@ -3116,7 +3116,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Lampiran</translation>
     </message>
@@ -5665,7 +5665,12 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Ruang</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Ruangan ini publik. Siapa pun dapat bergabung.</translation>
     </message>

@@ -3121,7 +3121,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Bijlage</translation>
     </message>
@@ -5672,7 +5672,12 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Ruimte</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Deze kamer is openbaar. Iedereen kan binnengaan.</translation>
     </message>

@@ -3121,7 +3121,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MatrixRoomHeaderModel</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+79"/>
+        <location filename="../../qml/timeline/components/MatrixRoomHeaderModel.qml" line="+80"/>
         <source>Attachment</source>
         <translation>Bilaga</translation>
     </message>
@@ -5672,7 +5672,12 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
 <context>
     <name>RoomHeaderRoomNameLabel</name>
     <message>
-        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+87"/>
+        <location filename="../../qml/room/components/RoomHeaderRoomNameLabel.qml" line="+92"/>
+        <source>Space</source>
+        <translation>Utrymme</translation>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>This room is public. Anyone can join.</source>
         <translation>Det här rummet är offentligt. Vem som helst kan gå med.</translation>
     </message>

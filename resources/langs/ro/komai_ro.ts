@@ -3007,7 +3007,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 scrie…</translation>
     </message>
@@ -3554,7 +3554,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
@@ -3585,6 +3585,11 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Această cameră este un spațiu (o colecție de alte camere). Trimiterea mesajelor este dezactivată.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>Atașează mai multe fișiere sau trimite încărcarea</translation>
     </message>

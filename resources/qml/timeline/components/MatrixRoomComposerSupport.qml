@@ -135,6 +135,7 @@ Item {
         property bool isActiveMatrixTimelineRoom: true
         property bool isDirect: roomPreview ? !!roomPreview.isDirect : false
         property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false
+        property bool isSpace: roomPreview ? !!roomPreview.isSpace : false
         property int roomMemberCount: roomPreview && roomPreview.roomMemberCount !== undefined
             ? Number(roomPreview.roomMemberCount)
             : 0

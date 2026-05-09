@@ -2999,7 +2999,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 gépel…</translation>
     </message>
@@ -3544,7 +3544,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Írj üzenetet, vagy nyomj ↑-t az üzenetek kijelöléséhez.</translation>
     </message>
@@ -3575,6 +3575,11 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Ez a szoba egy tér (más szobák gyűjteménye). Az üzenetküldés le van tiltva.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>További fájlok csatolása vagy a feltöltés elküldése</translation>
     </message>

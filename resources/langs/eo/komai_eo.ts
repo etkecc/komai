@@ -3003,7 +3003,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 skribas…</translation>
     </message>
@@ -3549,7 +3549,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Skribu mesaĝon, aŭ premu ↑ por elekti mesaĝojn.</translation>
     </message>
@@ -3580,6 +3580,11 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Ĉi tiu ĉambro estas spaco (kolekto de aliaj ĉambroj). Sendado de mesaĝoj estas malebligita.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>Aldoni pliajn dosierojn aŭ sendi la alŝutaĵon</translation>
     </message>

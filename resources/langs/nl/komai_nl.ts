@@ -3003,7 +3003,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 is aan het typen…</translation>
     </message>
@@ -3549,7 +3549,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Schrijf een bericht, of druk op ↑ om berichten te selecteren.</translation>
     </message>
@@ -3580,6 +3580,11 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Deze kamer is een ruimte (een verzameling van andere kamers). Berichten verzenden is uitgeschakeld.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>Meer bestanden bijvoegen of de upload verzenden</translation>
     </message>

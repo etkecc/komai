@@ -3003,7 +3003,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
@@ -3549,7 +3549,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ ↑ അമർത്തുക.</translation>
     </message>
@@ -3580,6 +3580,11 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>ഈ മുറി ഒരു സ്പേസ് ആണ് (മറ്റ് മുറികളുടെ ഒരു ശേഖരം). സന്ദേശങ്ങൾ അയയ്ക്കുന്നത് പ്രവർത്തനരഹിതമാക്കിയിരിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>കൂടുതൽ ഫയലുകൾ അറ്റാച്ച് ചെയ്യുക അല്ലെങ്കിൽ അപ്‌ലോഡ് അയക്കുക</translation>
     </message>

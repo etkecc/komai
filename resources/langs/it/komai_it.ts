@@ -3003,7 +3003,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 sta scrivendo…</translation>
     </message>
@@ -3549,7 +3549,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scrivi un messaggio, o premi ↑ per selezionare i messaggi.</translation>
     </message>
@@ -3580,6 +3580,11 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Questa stanza è uno spazio (una raccolta di altre stanze). L'invio di messaggi è disabilitato.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>Allega altri file o invia il caricamento</translation>
     </message>

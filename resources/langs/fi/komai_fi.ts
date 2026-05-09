@@ -3003,7 +3003,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 kirjoittaa…</translation>
     </message>
@@ -3549,7 +3549,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Kirjoita viesti tai paina ↑ valitaksesi viestejä.</translation>
     </message>
@@ -3580,6 +3580,11 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Tämä huone on tila (kokoelma muita huoneita). Viestien lähettäminen on poistettu käytöstä.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>Liitä lisää tiedostoja tai lähetä lataus</translation>
     </message>

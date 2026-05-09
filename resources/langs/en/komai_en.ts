@@ -2997,7 +2997,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation type="unfinished"/>
     </message>
@@ -3543,7 +3543,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation type="unfinished"/>
     </message>
@@ -3574,6 +3574,11 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation type="unfinished"/>
     </message>

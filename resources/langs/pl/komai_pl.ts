@@ -3007,7 +3007,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 pisze…</translation>
     </message>
@@ -3554,7 +3554,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Napisz wiadomość lub naciśnij ↑, aby wybrać wiadomości.</translation>
     </message>
@@ -3585,6 +3585,11 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Ten pokój jest przestrzenią (zbiorem innych pokojów). Wysyłanie wiadomości jest wyłączone.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>Dołącz więcej plików lub wyślij przesyłanie</translation>
     </message>

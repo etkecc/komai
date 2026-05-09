@@ -2999,7 +2999,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
         <source>%1 is typing…</source>
         <translation>%1 đang nhập…</translation>
     </message>
@@ -3544,7 +3544,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1076"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Viết tin nhắn, hoặc nhấn ↑ để chọn tin nhắn.</translation>
     </message>
@@ -3575,6 +3575,11 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
     <message>
         <location line="+6"/>
+        <source>This room is a space (a collection of other rooms). Sending messages is disabled.</source>
+        <translation>Phòng này là một không gian (tập hợp các phòng khác). Gửi tin nhắn đã bị tắt.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Attach more files or send the upload</source>
         <translation>Đính kèm thêm tệp hoặc gửi tệp đã tải lên</translation>
     </message>

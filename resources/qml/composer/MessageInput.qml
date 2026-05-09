@@ -956,12 +956,14 @@ Rectangle {
         }
     }
 
+    readonly property bool roomIsSpace: room ? !!room.isSpace : false
+
     RowLayout {
         id: row
 
         anchors.fill: parent
         spacing: 0
-        visible: inputBar.canSendCurrentRoom
+        visible: inputBar.canSendCurrentRoom && !inputBar.roomIsSpace
 
         ComposerCallButton {
             id: callButton
@@ -1935,7 +1937,16 @@ Rectangle {
         anchors.centerIn: parent
         color: palette.buttonText
         text: qsTr("You don't have permission to send messages in this room")
-        visible: room ? (!inputBar.canSendTextMessages) : false
+        visible: room ? (!inputBar.canSendTextMessages && !inputBar.roomIsSpace) : false
+    }
+    Label {
+        anchors.centerIn: parent
+        color: palette.buttonText
+        text: qsTr("This room is a space (a collection of other rooms). Sending messages is disabled.")
+        visible: inputBar.roomIsSpace
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
+        width: parent.width - Komai.paddingMedium * 2
     }
     Label {
         anchors.centerIn: parent

@@ -76,7 +76,6 @@ parts:
       - qtkeychain-qt6-dev
       - libgtest-dev
       - libsecret-1-dev
-      - libssl-dev
       - libgl1-mesa-dev
       - libxkbcommon-dev
       - libgstreamer1.0-dev

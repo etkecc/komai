@@ -75,7 +75,6 @@ for Wayland screen-share capture.
 
 ```sh
 sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
-    libssl-dev \
     libkdsingleapplication-qt6-dev \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \
     qt6-declarative-dev qtkeychain-qt6-dev qt6-base-private-dev \

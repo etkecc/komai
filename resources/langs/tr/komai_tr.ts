@@ -8680,12 +8680,17 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Yeni odaya git</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Desteklenmeyen: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Desteklenmeyen durum etkinliği (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Desteklenmeyen etkinlik (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Desteklenmeyen mesaj</translation>
     </message>

@@ -8694,12 +8694,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Ir a la sala de sustitución</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>No compatible: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Evento de estado no compatible (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Evento no compatible (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Mensaje no compatible</translation>
     </message>

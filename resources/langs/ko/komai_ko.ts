@@ -8680,12 +8680,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>대체 방으로 이동</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>지원되지 않음: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>지원되지 않는 상태 이벤트 (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>지원되지 않는 이벤트 (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>지원되지 않는 메시지</translation>
     </message>

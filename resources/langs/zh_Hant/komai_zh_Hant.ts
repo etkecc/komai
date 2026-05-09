@@ -8680,12 +8680,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>前往替代聊天室</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>不支援：%1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>不支援的狀態事件（%1）</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>不支援的事件（%1）</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>不支援的訊息</translation>
     </message>

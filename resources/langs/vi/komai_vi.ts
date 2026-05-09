@@ -8680,12 +8680,17 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Đến phòng thay thế</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Không được hỗ trợ: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Sự kiện trạng thái không được hỗ trợ (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Sự kiện không được hỗ trợ (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Tin nhắn không được hỗ trợ</translation>
     </message>

@@ -8691,12 +8691,17 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Ves a la sala de substitució</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>No compatible: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Esdeveniment d'estat no compatible (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Esdeveniment no compatible (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Missatge no compatible</translation>
     </message>

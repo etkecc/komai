@@ -8735,12 +8735,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>الانتقال إلى الغرفة البديلة</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>غير مدعوم: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>حدث حالة غير مدعوم (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>حدث غير مدعوم (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>رسالة غير مدعومة</translation>
     </message>

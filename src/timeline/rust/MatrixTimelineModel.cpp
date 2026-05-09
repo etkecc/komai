@@ -562,6 +562,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return list;
     }
     case MessageShield:      return messageShieldFromCode(item.shieldColor, item.shieldCode);
+    case MatrixEventType:    return item.matrixEventType;
 
     default:                 return {};
     }
@@ -643,6 +644,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case IsVoiceMessage:     return false;
     case Waveform:           return QVariantList{};
     case MessageShield:      return static_cast<int>(crypto::MessageShield::ShieldNone);
+    case MatrixEventType:    return parentItem.replyMatrixEventType;
     default:                 return {};
     }
     // clang-format on
@@ -715,6 +717,7 @@ MatrixTimelineModel::roleNames() const
       {IsVoiceMessage, "isVoiceMessage"},
       {Waveform, "waveform"},
       {MessageShield, "messageShield"},
+      {MatrixEventType, "matrixEventType"},
     };
 }
 

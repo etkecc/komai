@@ -8691,12 +8691,17 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Siirry korvaavaan huoneeseen</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Ei tuettu: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Tukematon tilatapahtuma (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Tukematon tapahtuma (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Ei tuettu viesti</translation>
     </message>

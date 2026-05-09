@@ -8691,12 +8691,17 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>Ir para a sala substituta</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Não suportado: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Evento de estado não suportado (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Evento não suportado (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Mensagem não suportada</translation>
     </message>

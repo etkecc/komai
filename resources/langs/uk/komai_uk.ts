@@ -8702,12 +8702,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Перейти до нової кімнати</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Не підтримується: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Непідтримувана подія стану (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Непідтримувана подія (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Непідтримуване повідомлення</translation>
     </message>

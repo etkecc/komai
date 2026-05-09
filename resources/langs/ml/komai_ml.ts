@@ -8691,12 +8691,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>പകരം മുറിയിലേക്ക് പോകുക</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>പിന്തുണയ്ക്കാത്തത്: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>പിന്തുണയ്ക്കാത്ത സ്റ്റേറ്റ് ഇവന്റ് (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>പിന്തുണയ്ക്കാത്ത ഇവന്റ് (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>പിന്തുണയ്ക്കാത്ത സന്ദേശം</translation>
     </message>

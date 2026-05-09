@@ -8703,12 +8703,17 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Przejdź do zastępczego pokoju</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Nieobsługiwane: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Nieobsługiwane zdarzenie stanu (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Nieobsługiwane zdarzenie (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Nieobsługiwana wiadomość</translation>
     </message>

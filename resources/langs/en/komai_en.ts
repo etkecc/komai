@@ -8660,12 +8660,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Go to replacement room</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation type="unfinished"/>
     </message>

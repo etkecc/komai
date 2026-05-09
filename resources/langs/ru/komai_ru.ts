@@ -8702,12 +8702,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Перейти в комнату-замену</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Не поддерживается: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Неподдерживаемое событие состояния (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Неподдерживаемое событие (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Неподдерживаемое сообщение</translation>
     </message>

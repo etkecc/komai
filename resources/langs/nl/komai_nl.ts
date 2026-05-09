@@ -8691,12 +8691,17 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Ga naar de vervangende kamer</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Niet ondersteund: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Niet-ondersteunde statusgebeurtenis (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Niet-ondersteunde gebeurtenis (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Niet-ondersteund bericht</translation>
     </message>

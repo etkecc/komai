@@ -8702,12 +8702,17 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Idi u zamenu sobe</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Nije podržano: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Nepodržan statusni događaj (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Nepodržan događaj (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Nepodržana poruka</translation>
     </message>

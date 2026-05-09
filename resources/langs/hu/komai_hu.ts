@@ -8680,12 +8680,17 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Ugrás a helyettesítő szobához</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Nem támogatott: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Nem támogatott állapotesemény (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Nem támogatott esemény (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Nem támogatott üzenet</translation>
     </message>

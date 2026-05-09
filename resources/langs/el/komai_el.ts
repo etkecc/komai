@@ -8691,12 +8691,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Μετάβαση στο δωμάτιο αντικατάστασης</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Μη υποστηριζόμενο: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Μη υποστηριζόμενο συμβάν κατάστασης (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Μη υποστηριζόμενο συμβάν (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Μη υποστηριζόμενο μήνυμα</translation>
     </message>

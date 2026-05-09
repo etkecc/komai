@@ -8691,12 +8691,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Отиди в заместващата стая</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Неподдържано: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Неподдържано статусно събитие (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Неподдържано събитие (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Неподдържано съобщение</translation>
     </message>

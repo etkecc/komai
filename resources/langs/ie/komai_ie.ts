@@ -8691,12 +8691,17 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Ir al chambre de substitution</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Ne supportat: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Eveniment de estat non supportat (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Eveniment non supportat (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Mesage ne supportat</translation>
     </message>

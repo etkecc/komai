@@ -8691,12 +8691,17 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Gehe zum neuen Raum</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Nicht unterstützt: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Nicht unterstütztes Zustandsereignis (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Nicht unterstütztes Ereignis (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Nicht unterstützte Nachricht</translation>
     </message>

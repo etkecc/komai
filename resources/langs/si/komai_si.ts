@@ -8691,12 +8691,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ආදේශ කාමරයට යන්න</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>සහාය නොදෙනු ලැබේ: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>සහාය නොදක්වන තත්ව සිදුවීම (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>සහාය නොදක්වන සිදුවීම (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>සහාය නොදෙන පණිවිඩය</translation>
     </message>

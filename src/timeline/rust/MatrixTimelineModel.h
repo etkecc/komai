@@ -103,6 +103,7 @@ public:
         IsVoiceMessage,
         Waveform,
         MessageShield,
+        MatrixEventType,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);

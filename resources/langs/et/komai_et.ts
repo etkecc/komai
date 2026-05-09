@@ -8691,12 +8691,17 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Mine uude jututuppa</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Ei toetata: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Toetamata olekusündmus (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Toetamata sündmus (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Toetamata sõnum</translation>
     </message>

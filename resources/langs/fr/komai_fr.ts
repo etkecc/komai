@@ -8691,12 +8691,17 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Aller au salon de remplacement</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Non pris en charge : %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Événement d'état non pris en charge (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Événement non pris en charge (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Message non pris en charge</translation>
     </message>

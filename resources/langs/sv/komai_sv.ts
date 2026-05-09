@@ -8691,12 +8691,17 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Gå till ersättningsrummet</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Stöds inte: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Tillståndshändelse stöds inte (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Händelse stöds inte (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Meddelande stöds inte</translation>
     </message>

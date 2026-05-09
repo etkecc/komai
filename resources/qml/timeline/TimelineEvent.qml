@@ -453,13 +453,20 @@ EventDelegateChooser {
 
         MatrixText {
             property string typeString: ""
+            property string matrixEventType: ""
+            property bool isStateEvent: false
             required property string userId
             required property string userName
 
             Layout.fillWidth: true
-            text: typeString !== ""
-                ? qsTr("Unsupported: %1").arg(typeString)
-                : qsTr("Unsupported message")
+            text: {
+                const label = matrixEventType !== "" ? matrixEventType : typeString;
+                if (label === "")
+                    return qsTr("Unsupported message");
+                return isStateEvent
+                    ? qsTr("Unsupported state event (%1)").arg(label)
+                    : qsTr("Unsupported event (%1)").arg(label);
+            }
         }
     }
     // qmllint enable required

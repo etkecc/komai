@@ -8680,12 +8680,17 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Pergi ke ruangan baru</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unsupported: %1</source>
-        <translation>Tidak didukung: %1</translation>
+        <location line="+22"/>
+        <source>Unsupported state event (%1)</source>
+        <translation>Peristiwa status tidak didukung (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Unsupported event (%1)</source>
+        <translation>Peristiwa tidak didukung (%1)</translation>
+    </message>
+    <message>
+        <location line="-3"/>
         <source>Unsupported message</source>
         <translation>Pesan tidak didukung</translation>
     </message>

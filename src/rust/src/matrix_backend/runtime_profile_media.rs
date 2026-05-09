@@ -431,9 +431,46 @@ pub async fn fetch_media_content(
         "Fetching matrix media content via matrix-sdk backend runtime"
     );
 
-    client
-        .media()
-        .get_media_content(&request, false)
-        .await
-        .map_err(|e| format!("failed to fetch matrix media content via matrix-sdk: {e}"))
+    // matrix-sdk's get_media_content does not enforce its own deadline on
+    // this path. When a media URL is unreachable (e.g. matrix.org's
+    // authenticated media gating against a homeserver that isn't relaying
+    // it, or any peer that just refuses without responding), the request
+    // hangs indefinitely. Each hung fetch holds a C++ thread-pool worker;
+    // a single broken avatar in a busy room re-queues fetches on every
+    // layout pass and eventually starves all media downloads. Capping the
+    // wait turns the hang into a normal "fetch failed" the rest of the
+    // pipeline already knows how to handle.
+    //
+    // Thumbnails (avatars, inline previews) run on the UI hot path — give
+    // up fast so a broken peer's avatar doesn't leave the slot empty for
+    // long. Full-file fetches (user-initiated downloads, viewer opens)
+    // legitimately handle large bodies on slow links, so they get a
+    // longer ceiling.
+    let fetch_timeout = if width > 0 && height > 0 {
+        std::time::Duration::from_secs(10)
+    } else {
+        std::time::Duration::from_secs(60)
+    };
+
+    match tokio::time::timeout(
+        fetch_timeout,
+        client.media().get_media_content(&request, false),
+    )
+    .await
+    {
+        Ok(Ok(bytes)) => Ok(bytes),
+        Ok(Err(e)) => Err(format!("failed to fetch matrix media content via matrix-sdk: {e}")),
+        Err(_elapsed) => {
+            tracing::warn!(
+                handle_id,
+                mxc_uri = %normalized_mxc_uri,
+                timeout_seconds = fetch_timeout.as_secs(),
+                "matrix-sdk get_media_content timed out — likely homeserver federation media issue"
+            );
+            Err(format!(
+                "matrix-sdk get_media_content timed out after {}s",
+                fetch_timeout.as_secs()
+            ))
+        }
+    }
 }

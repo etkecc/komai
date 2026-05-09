@@ -1865,7 +1865,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+87"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+88"/>
         <source>Forward message?</source>
         <translation>Препращане на съобщение?</translation>
     </message>
@@ -1926,7 +1926,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         </translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+99"/>
         <source>Close</source>
         <translation>Затвори</translation>
     </message>

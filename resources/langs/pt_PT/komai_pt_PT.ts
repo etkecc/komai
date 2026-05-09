@@ -1865,12 +1865,12 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-119"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
         <translation>O reencaminhamento envia este conteúdo (sem revelar o remetente) para outra sala.</translation>
     </message>
@@ -1926,17 +1926,17 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         </translation>
     </message>
     <message>
-        <location line="+163"/>
+        <location line="+173"/>
         <source>Room name, address or id...</source>
         <translation>Nome, endereço ou id da sala...</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-180"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
         <translation>Reencaminhar para &lt;b&gt;%1&lt;/b&gt;?</translation>
     </message>
     <message>
-        <location line="+291"/>
+        <location line="+301"/>
         <source>Forward</source>
         <translation>Reencaminhar</translation>
     </message>

@@ -1865,12 +1865,12 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-119"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
         <translation>Plusendo sendas ĉi tiun enhavon (sen malkaŝi ĝian sendanton) al alia ĉambro.</translation>
     </message>
@@ -1926,17 +1926,17 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         </translation>
     </message>
     <message>
-        <location line="+163"/>
+        <location line="+173"/>
         <source>Room name, address or id...</source>
         <translation>Nomo, adreso aŭ id de ĉambro…</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-180"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
         <translation>Plusendi al &lt;b&gt;%1&lt;/b&gt;?</translation>
     </message>
     <message>
-        <location line="+291"/>
+        <location line="+301"/>
         <source>Forward</source>
         <translation>Plusendi</translation>
     </message>

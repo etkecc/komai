@@ -31,6 +31,7 @@ Popup {
     property string pendingRoomName: ""
     property string pendingRoomAvatarUrl: ""
     property bool confirming: false
+    property real anchoredY: -1
     readonly property int messageCount: messageEventIds.length
     readonly property int effectiveSelectionCount: Math.max(selectionCount, messageCount)
     readonly property bool darkPopupChrome: palette.window.hslLightness < 0.5
@@ -125,7 +126,9 @@ Popup {
                 ? dialogViewportWidth
                 : (Window.window ? Window.window.width : 900)) * 0.8
     x: Math.round(parent.width / 2 - width / 2)
-    y: Math.max(Komai.paddingLarge, Math.round((parent.height - height) / 2))
+    y: anchoredY >= 0
+            ? anchoredY
+            : Math.max(Komai.paddingLarge, Math.round((parent.height - height) / 2))
 
     Overlay.modal: Rectangle {
         color: forwardMessagePopup.modalOverlayColor
@@ -164,7 +167,15 @@ Popup {
         Qt.callLater(() => {
             forwardMessagePopup.forceActiveFocus();
             roomTextInput.forceActiveFocus();
+            // Pin the top of the dialog where it first lands so later mode
+            // changes (search → confirm) don't slide it around as content shrinks.
+            anchoredY = Math.max(Komai.paddingLarge,
+                                 Math.round((parent.height - height) / 2));
         });
+    }
+
+    onClosed: {
+        anchoredY = -1;
     }
 
     contentItem: Column {

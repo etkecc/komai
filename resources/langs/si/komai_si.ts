@@ -1865,12 +1865,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
         <source>Close</source>
         <translation>වසන්න</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-119"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
         <translation>යොමු කිරීමෙන් මෙම අන්තර්ගතය (යවන්නා හෙළිදරව් නොකර) වෙනත් කාමරයකට යවයි.</translation>
     </message>
@@ -1926,17 +1926,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         </translation>
     </message>
     <message>
-        <location line="+163"/>
+        <location line="+173"/>
         <source>Room name, address or id...</source>
         <translation>කාමරයේ නම, ලිපිනය හෝ id…</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-180"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; වෙත යොමු කරන්නද?</translation>
     </message>
     <message>
-        <location line="+291"/>
+        <location line="+301"/>
         <source>Forward</source>
         <translation>ඉදිරියට යවන්න</translation>
     </message>

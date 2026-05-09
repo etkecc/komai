@@ -1867,12 +1867,12 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-119"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
         <translation>Пересылка отправляет это содержимое (не раскрывая отправителя) в другую комнату.</translation>
     </message>
@@ -1930,17 +1930,17 @@ If the problem persists, you can log out and sign in again, but this will delete
         </translation>
     </message>
     <message>
-        <location line="+163"/>
+        <location line="+173"/>
         <source>Room name, address or id...</source>
         <translation>Название, адрес или ID комнаты…</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-180"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
         <translation>Переслать в &lt;b&gt;%1&lt;/b&gt;?</translation>
     </message>
     <message>
-        <location line="+291"/>
+        <location line="+301"/>
         <source>Forward</source>
         <translation>Переслать</translation>
     </message>

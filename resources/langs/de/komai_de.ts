@@ -1865,12 +1865,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+205"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-119"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
         <translation>Weiterleiten sendet diesen Inhalt (ohne den Absender preiszugeben) an einen anderen Raum.</translation>
     </message>
@@ -1926,17 +1926,17 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         </translation>
     </message>
     <message>
-        <location line="+163"/>
+        <location line="+173"/>
         <source>Room name, address or id...</source>
         <translation>Raumname, Adresse oder ID …</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-180"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
         <translation>An &lt;b&gt;%1&lt;/b&gt; weiterleiten?</translation>
     </message>
     <message>
-        <location line="+291"/>
+        <location line="+301"/>
         <source>Forward</source>
         <translation>Weiterleiten</translation>
     </message>

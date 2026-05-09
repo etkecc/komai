@@ -476,7 +476,7 @@ Item {
                         ToggleButton {
                             id: apiKeyOverrideToggle
                             textColor: apiKeyRowHover.hovered ? palette.brightText : palette.buttonText
-                            checked: parent.parent.hasRoomKey
+                            checked: apiKeyRowContent.parent.hasRoomKey
                             onToggled: {
                                 if (!preferencesTab.currentRoomId) {
                                     checked = false;

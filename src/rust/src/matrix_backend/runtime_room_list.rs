@@ -1067,6 +1067,7 @@ async fn room_list_item_to_summary(
         ),
         notification_count: raw_unread_notifications,
         highlight_count: raw_unread_mentions,
+        is_marked_unread: room.is_marked_unread(),
         timestamp,
     }
 }

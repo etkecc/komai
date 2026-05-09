@@ -188,7 +188,7 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
     case Roles::Timestamp:
         return QVariant::fromValue<qulonglong>(room.timestamp);
     case Roles::HasUnreadMessages:
-        return room.unreadMessages > 0;
+        return room.unreadMessages > 0 || room.isMarkedUnread;
     case Roles::HasLoudNotification:
         return room.highlightCount > 0;
     case Roles::UnreadCount:
@@ -203,6 +203,8 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
         return QStringList(room.tags.begin(), room.tags.end());
     case Roles::IsEncrypted:
         return room.isEncrypted;
+    case Roles::IsMarkedUnread:
+        return room.isMarkedUnread;
     default:
         return {};
     }
@@ -240,6 +242,8 @@ RoomlistModel::dataForInviteRoom(const RoomInfo &room, int role) const
         return QStringList();
     case Roles::IsEncrypted:
         return false; // Invites - assume unencrypted
+    case Roles::IsMarkedUnread:
+        return false;
     default:
         return {};
     }
@@ -279,6 +283,8 @@ RoomlistModel::dataForPreviewRoom(const RoomInfo &room, int role) const
         return QStringList();
     case Roles::IsEncrypted:
         return false; // Previews - assume unencrypted
+    case Roles::IsMarkedUnread:
+        return false;
     default:
         return {};
     }
@@ -319,6 +325,8 @@ RoomlistModel::dataForUnavailablePreview(int role) const
         return QStringList();
     case Roles::IsEncrypted:
         return false; // Unknown rooms - assume unencrypted
+    case Roles::IsMarkedUnread:
+        return false;
     default:
         return {};
     }

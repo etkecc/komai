@@ -1835,7 +1835,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>A szobacímkék csak az ebben a munkamenetben elérhető, csatlakozott szobáknál módosíthatók.</translation>
     </message>
@@ -1858,6 +1858,16 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Nem sikerült a szobát olvasottnak jelölni: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Nem jelölhető olvasatlannak, amíg a szoba nyitva és fókuszban van.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Nem sikerült a szobát olvasatlannak jelölni: %1</translation>
     </message>
 </context>
 <context>
@@ -6287,17 +6297,22 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Megnyitás új ablakban</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Szoba hivatkozásának másolása</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Olvasottnak jelölés</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Megjelölés olvasatlanként</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Szoba megcímkézése:</translation>
     </message>
@@ -6871,17 +6886,17 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Függő meghívás</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Függő meghívás.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Szoba előnézete</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Nincs elérhető előnézet</translation>
     </message>

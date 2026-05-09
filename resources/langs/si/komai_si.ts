@@ -1837,7 +1837,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>මෙම සැසියේ ලබාගත හැකි සම්බන්ධ කාමරවල ටැග පමණක් වෙනස් කළ හැකිය.</translation>
     </message>
@@ -1860,6 +1860,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>කාමරය කියවූ ලෙස සලකුණු කිරීමට අසමත් විය: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>කාමරය විවෘතව සහ අවධානය යොමු කළ විට නොකියවූ ලෙස සලකුණු කිරීම ප්‍රතික්ෂේප කෙරේ.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>කාමරය නොකියවූ ලෙස සලකුණු කිරීම අසාර්ථක විය: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>නව කවුළුවක විවෘත කරන්න</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>කාමර සබැඳිය පිටපත් කරන්න</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>කියවූ ලෙස සලකුණු කරන්න</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>නොකියවූ ලෙස සලකුණු කරන්න</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>කාමරය ටැග් කරන්න:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>ලැබී ඇති ආරාධනාව</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>ලැබී ඇති ආරාධනාව.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>මෙම කාමරය පෙරදසුන් කෙරෙමින්</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>පෙරදසුනක් නොමැත</translation>
     </message>

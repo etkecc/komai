@@ -173,6 +173,7 @@ public:
     void clearAll();
 
     Q_INVOKABLE bool waitingForFirstSync() const { return waitingForFirstSync_; }
+    QString activeMatrixTimelineRoomId() const { return activeMatrixTimelineRoomId_; }
     bool isConnected() const { return isConnected_; }
     int colorRevision() const { return colorRevision_; }
     QAbstractItemModel *matrixTimelineModel() const;

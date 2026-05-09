@@ -1839,7 +1839,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Štítky místností lze měnit pouze pro připojené místnosti dostupné v této relaci.</translation>
     </message>
@@ -1862,6 +1862,16 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Nepodařilo se označit místnost jako přečtenou: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Nelze označit jako nepřečtené, pokud je místnost otevřená a aktivní.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Nepodařilo se označit místnost jako nepřečtenou: %1</translation>
     </message>
 </context>
 <context>
@@ -6303,17 +6313,22 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Otevřít v novém okně</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Kopírovat odkaz na místnost</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Označit jako přečtené</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Označit jako nepřečtené</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Označit místnost jako:</translation>
     </message>
@@ -6889,17 +6904,17 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Čekající pozvánka</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Čekající pozvánka.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Náhled této místnosti</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Náhled není k dispozici</translation>
     </message>

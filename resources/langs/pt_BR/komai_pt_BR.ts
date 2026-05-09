@@ -1837,7 +1837,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>As tags de sala só podem ser alteradas para salas ingressadas disponíveis nesta sessão.</translation>
     </message>
@@ -1860,6 +1860,16 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Falha ao marcar sala como lida: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Não é possível marcar como não lida enquanto a sala está aberta e em foco.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Falha ao marcar a sala como não lida: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Abrir em nova janela</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Copiar link da sala</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Marcar como lida</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Marcar como não lida</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Marcar sala como:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Convite pendente</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Convite pendente.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Visualizando esta sala</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Nenhuma prévia disponível</translation>
     </message>

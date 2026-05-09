@@ -37,6 +37,7 @@ pub(crate) fn into_ffi_matrix_room_summary(
         unread_message_count: room.unread_message_count,
         notification_count: room.notification_count,
         highlight_count: room.highlight_count,
+        is_marked_unread: room.is_marked_unread,
         timestamp: room.timestamp,
     }
 }

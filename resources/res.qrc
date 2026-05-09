@@ -133,6 +133,7 @@
         <file alias="icons/ui/folder-open.svg">icons/fluent/assets/Folder Open/SVG/ic_fluent_folder_open_24_regular.svg</file>
         <file alias="icons/ui/transcription.svg">icons/fluent/assets/Slide Microphone/SVG/ic_fluent_slide_microphone_24_regular.svg</file>
         <file alias="icons/ui/spinner.svg">icons/fluent/assets/Spinner iOS/SVG/ic_fluent_spinner_ios_20_regular.svg</file>
+        <file alias="icons/ui/mark-unread.svg">icons/fluent/assets/Comment Badge/SVG/ic_fluent_comment_badge_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

@@ -1837,7 +1837,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Huoneiden tunnisteita voidaan muuttaa vain tässä istunnossa saatavilla oleville liitetyille huoneille.</translation>
     </message>
@@ -1860,6 +1860,16 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Huoneen merkitseminen luetuksi epäonnistui: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Huonetta ei merkitä lukemattomaksi, kun se on auki ja aktiivisena.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Huoneen merkitseminen lukemattomaksi epäonnistui: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Avaa uuteen ikkunaan</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Kopioi huonelinkki</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Merkitse luetuksi</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Merkitse lukemattomaksi</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Merkitse huone:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Odottava kutsu</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Vastausta odottava kutsu.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Esikatsellaan tätä huonetta</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Esikatselua ei saatavilla</translation>
     </message>

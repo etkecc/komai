@@ -17,6 +17,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "utils/QtWorkerTask.h"
 
@@ -619,6 +620,65 @@ FilteredRoomlistModel::markAsRead(const QString &roomid)
                                      error.toStdString());
           if (auto *mainWindow = MainWindow::instance()) {
               mainWindow->showNotification(tr("Failed to mark room as read: %1").arg(error));
+          }
+      });
+}
+
+void
+FilteredRoomlistModel::markAsUnread(const QString &roomid)
+{
+    const auto roomId = roomid.trimmed();
+    if (roomId.isEmpty())
+        return;
+
+    const auto preview = roomlistmodel->getRoomPreviewById(roomId);
+    if (!preview.isMatrixSummary() || preview.isInvite() || preview.isSpace()) {
+        // Spaces have no read state; invites can't carry read receipts.
+        return;
+    }
+
+    // Refuse when the user is currently looking at this room — matrix-sdk's
+    // own send_*_receipt path auto-clears `m.marked_unread` after every
+    // receipt, and `MatrixRoomViewportSupport.qml::updateReadMarkerForVisibleContent`
+    // queues a receipt on visibility/scroll, so the flag would be wiped within
+    // milliseconds. Better to surface the conflict than silently undo.
+    if (auto *manager = TimelineViewManager::instance();
+        manager && manager->activeMatrixTimelineRoomId() == roomId) {
+        if (auto *mainWindow = MainWindow::instance()) {
+            mainWindow->showNotification(
+              tr("Refusing to mark as unread while the room is open and focused."));
+        }
+        return;
+    }
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        komai::logging::ui()->warn(
+          "Refusing to mark matrix-sdk room '{}' as unread without an active backend handle",
+          roomId.toStdString());
+        return;
+    }
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::markRoomUnread(
+            context, handleId, roomId, true, &error);
+          return std::make_pair(ok, error);
+      },
+      [roomId](FilteredRoomlistModel *, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (ok)
+              return;
+
+          komai::logging::ui()->warn("Failed to mark matrix-sdk room '{}' as unread: {}",
+                                     roomId.toStdString(),
+                                     error.toStdString());
+          if (auto *mainWindow = MainWindow::instance()) {
+              mainWindow->showNotification(tr("Failed to mark room as unread: %1").arg(error));
           }
       });
 }

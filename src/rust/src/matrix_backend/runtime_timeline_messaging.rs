@@ -841,6 +841,21 @@ pub async fn mark_room_event_as_read(
         receipts.num_mentions = 0;
         info.set_read_receipts(receipts);
 
+        // matrix-sdk's `send_multiple_receipts` internally calls `set_unread_flag(false)`
+        // after posting the receipt, but that — like our explicit `mark_room_unread` —
+        // only POSTs the account-data write.  Local `is_marked_unread` would otherwise
+        // stay `true` until the sliding-sync echo, leaving a manually-marked-unread
+        // room visually stuck after the user opens it.  Mirror the clear locally too.
+        if matrix_sdk_base::Room::is_marked_unread(&room)
+            && let Err(error) = patch_marked_unread(&mut info, false)
+        {
+            tracing::warn!(
+                room_id = room_id.trim(),
+                %error,
+                "Failed to apply optimistic marked-unread clear; UI will refresh on the next sync echo"
+            );
+        }
+
         let mut state_changes = StateChanges::default();
         state_changes.add_room(info.clone());
         if let Err(error) = room.client().state_store().save_changes(&state_changes).await {
@@ -859,6 +874,68 @@ pub async fn mark_room_event_as_read(
     Ok(())
 }
 
+// `RoomInfo::base_info::is_marked_unread` is `pub(crate)` on matrix-sdk-base,
+// so we can't mutate it through field access from this crate.  RoomInfo derives
+// `Serialize`+`Deserialize` (used for state-store persistence), so a JSON
+// round-trip is the lightest path to an optimistic local update without
+// forking matrix-sdk.  Setting `is_marked_unread_source` to `Stable` matches
+// the content type matrix-sdk's own `set_unread_flag` writes (the stable
+// `m.marked_unread` event), and aligns with `on_unread_marker`'s rule that a
+// stable source can't be downgraded by an unstable echo.
+fn patch_marked_unread(
+    info: &mut matrix_sdk_base::RoomInfo,
+    unread: bool,
+) -> Result<(), String> {
+    let mut json = serde_json::to_value(&*info).map_err(|e| {
+        format!("failed to serialize RoomInfo for optimistic marked-unread update: {e}")
+    })?;
+    let base = json
+        .get_mut("base_info")
+        .and_then(JsonValue::as_object_mut)
+        .ok_or_else(|| "RoomInfo serialization missing base_info object".to_owned())?;
+    base.insert("is_marked_unread".to_owned(), JsonValue::Bool(unread));
+    base.insert(
+        "is_marked_unread_source".to_owned(),
+        JsonValue::String("Stable".to_owned()),
+    );
+    *info = serde_json::from_value(json).map_err(|e| {
+        format!("failed to deserialize RoomInfo after optimistic marked-unread update: {e}")
+    })?;
+    Ok(())
+}
+
+async fn optimistically_flip_marked_unread(
+    room: &matrix_sdk::Room,
+    room_id: &str,
+    unread: bool,
+) {
+    use matrix_sdk_base::{RoomInfoNotableUpdateReasons, StateChanges};
+
+    let mut info = room.clone_info();
+    if let Err(error) = patch_marked_unread(&mut info, unread) {
+        tracing::warn!(
+            room_id = room_id.trim(),
+            %error,
+            "Failed to apply optimistic marked-unread update; UI will refresh on the next sync echo"
+        );
+        return;
+    }
+
+    let mut state_changes = StateChanges::default();
+    state_changes.add_room(info.clone());
+    if let Err(error) = room.client().state_store().save_changes(&state_changes).await {
+        tracing::warn!(
+            room_id = room_id.trim(),
+            %error,
+            "Failed to persist optimistic marked-unread update; \
+             in-memory state is still applied, but the flag may \
+             revert after restart"
+        );
+    }
+
+    room.update_room_info(|_| (info, RoomInfoNotableUpdateReasons::UNREAD_MARKER)).await;
+}
+
 pub async fn mark_room_as_read(handle_id: u64, room_id: &str) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     // UFCS to the synchronous matrix_sdk_base inherent (mirrors the call in
@@ -872,6 +949,29 @@ pub async fn mark_room_as_read(handle_id: u64, room_id: &str) -> Result<(), Stri
     })?;
 
     mark_room_event_as_read(handle_id, room_id, &event_id).await
+}
+
+pub async fn mark_room_unread(handle_id: u64, room_id: &str, unread: bool) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        unread,
+        "Setting matrix-sdk room marked-unread flag"
+    );
+
+    room.set_unread_flag(unread)
+        .await
+        .map_err(|e| format!("failed to set marked-unread flag: {e}"))?;
+
+    // matrix-sdk's `set_unread_flag` only POSTs the account-data write; local
+    // `RoomInfo.is_marked_unread` updates only when the server echoes via the
+    // next sliding-sync round.  Mirror the value locally so the UI refreshes
+    // immediately, matching the optimistic pattern in `mark_room_event_as_read`.
+    optimistically_flip_marked_unread(&room, room_id, unread).await;
+
+    Ok(())
 }
 
 pub async fn report_room_event(

@@ -1845,7 +1845,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>لا يمكن تغيير وسوم الغرفة إلا للغرف المنضم إليها في هذه الجلسة.</translation>
     </message>
@@ -1868,6 +1868,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>فشل تعليم الغرفة كمقروءة: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>رفض التمييز كغير مقروءة بينما الغرفة مفتوحة ونشطة.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>فشل في تمييز الغرفة كغير مقروءة: %1</translation>
     </message>
 </context>
 <context>
@@ -6327,17 +6337,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>فتح في نافذة جديدة</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>نسخ رابط الغرفة</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>تعليم كمقروء</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>تمييز كغير مقروءة</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>وسم الغرفة بـ:</translation>
     </message>
@@ -6916,17 +6931,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>دعوة معلقة</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>دعوة معلقة.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>معاينة هذه الغرفة</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>لا تتوفر معاينة</translation>
     </message>

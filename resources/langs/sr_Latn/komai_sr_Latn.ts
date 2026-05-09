@@ -1839,7 +1839,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Oznake sobe mogu se menjati samo za sobe kojima si se pridružio/la i koje su dostupne u ovoj sesiji.</translation>
     </message>
@@ -1862,6 +1862,16 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Greška pri označavanju sobe kao pročitane: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Označavanje kao nepročitano nije moguće dok je soba otvorena i u fokusu.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Nije uspelo označavanje sobe kao nepročitane: %1</translation>
     </message>
 </context>
 <context>
@@ -6303,17 +6313,22 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Otvori u novom prozoru</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Kopiraj link sobe</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Označi kao pročitano</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Označi kao nepročitano</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Označi sobu kao:</translation>
     </message>
@@ -6889,17 +6904,17 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Poziv na čekanju</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Poziv na čekanju.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Pregled ove sobe</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Pregled nije dostupan</translation>
     </message>

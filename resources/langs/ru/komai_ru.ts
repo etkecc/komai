@@ -1839,7 +1839,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Теги комнат можно изменять только для комнат, в которых ты состоишь и которые доступны в этой сессии.</translation>
     </message>
@@ -1862,6 +1862,16 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Не удалось пометить комнату как прочитанную: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Нельзя пометить как непрочитанную, пока комната открыта и активна.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Не удалось пометить комнату как непрочитанную: %1</translation>
     </message>
 </context>
 <context>
@@ -6303,17 +6313,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Открыть в новом окне</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Скопировать ссылку на комнату</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Пометить как прочитанное</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Пометить как непрочитанное</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Пометить комнату как:</translation>
     </message>
@@ -6889,17 +6904,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Ожидающее приглашение</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Ожидающее приглашение.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Предварительный просмотр комнаты</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Предварительный просмотр недоступен</translation>
     </message>

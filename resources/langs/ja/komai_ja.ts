@@ -1835,7 +1835,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>ルームタグは、このセッションで利用可能な参加済みのルームにのみ変更できます。</translation>
     </message>
@@ -1858,6 +1858,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>ルームを既読にできませんでした: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>ルームが開いてフォーカスされている間は未読にできません。</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>ルームを未読にできませんでした: %1</translation>
     </message>
 </context>
 <context>
@@ -6287,17 +6297,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>新しいウィンドウで開く</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>ルームのリンクをコピー</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>既読にする</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>未読にする</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>ルームにタグを設定:</translation>
     </message>
@@ -6871,17 +6886,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>招待保留中</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>招待保留中。</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>このルームをプレビュー中</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>プレビューなし</translation>
     </message>

@@ -65,18 +65,30 @@ Menu {
     }
     MenuSeparator {}
     MenuItem {
-        text: qsTr("Copy room link")
-        icon.source: "qrc:/icons/icons/ui/copy.svg"
-
-        onTriggered: Rooms.copyLink(root.roomid)
-    }
-    MenuItem {
         text: qsTr("Mark as read")
         icon.source: "qrc:/icons/icons/ui/checkmark.svg"
         height: visible ? implicitHeight : 0
         visible: !root.roomIsSpace && !root.roomIsInvite && root.roomHasUnread
 
         onTriggered: Rooms.markAsRead(root.roomid)
+    }
+    MenuItem {
+        text: qsTr("Mark as unread")
+        icon.source: "qrc:/icons/icons/ui/mark-unread.svg"
+        height: visible ? implicitHeight : 0
+        visible: !root.roomIsSpace && !root.roomIsInvite && !root.roomHasUnread
+
+        onTriggered: Rooms.markAsUnread(root.roomid)
+    }
+    MenuSeparator {
+        height: visible ? implicitHeight : 0
+        visible: !root.roomIsSpace && !root.roomIsInvite
+    }
+    MenuItem {
+        text: qsTr("Copy room link")
+        icon.source: "qrc:/icons/icons/ui/copy.svg"
+
+        onTriggered: Rooms.copyLink(root.roomid)
     }
     Menu {
         id: tagsMenu

@@ -1837,7 +1837,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Таговете на стаи могат да се променят само за присъединени стаи, достъпни в тази сесия.</translation>
     </message>
@@ -1860,6 +1860,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Неуспешно маркиране на стаята като прочетена: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Не може да се маркира като непрочетена, докато стаята е отворена и активна.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Грешка при маркиране на стаята като непрочетена: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Отвори в нов прозорец</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Копирай линка на стаята</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Маркирай като прочетено</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Маркирай като непрочетена</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Маркирай стаята като:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Изчакваща покана</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Изчакваща покана.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Преглед на тази стая</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Няма наличен преглед</translation>
     </message>

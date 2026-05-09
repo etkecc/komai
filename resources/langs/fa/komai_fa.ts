@@ -1835,7 +1835,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>برچسب‌های اتاق فقط برای اتاق‌هایی که در این جلسه به آن‌ها پیوسته‌اید قابل تغییر هستند.</translation>
     </message>
@@ -1858,6 +1858,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>خطا در علامت‌گذاری اتاق به عنوان خوانده‌شده: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>علامت‌گذاری به عنوان خوانده‌نشده در حالی که اتاق باز و فعال است امکان‌پذیر نیست.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>خطا در علامت‌گذاری اتاق به عنوان خوانده‌نشده: %1</translation>
     </message>
 </context>
 <context>
@@ -6287,17 +6297,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>باز کردن در پنجره جدید</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>کپی پیوند اتاق</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>علامت‌گذاری به عنوان خوانده‌شده</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>علامت‌گذاری به عنوان خوانده‌نشده</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>برچسب‌گذاری اتاق به عنوان:</translation>
     </message>
@@ -6871,17 +6886,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>دعوت در انتظار</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>دعوت در انتظار.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>در حال پیش‌نمایش این اتاق</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>پیش‌نمایش در دسترس نیست</translation>
     </message>

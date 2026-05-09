@@ -1837,7 +1837,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Ĉambraj etikedoj povas esti ŝanĝitaj nur por aliĝitaj ĉambroj disponeblaj en ĉi tiu sesio.</translation>
     </message>
@@ -1860,6 +1860,16 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Malsukcesis marki ĉambron kiel legitan: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Rifuzas marki kiel nelegitan dum la ĉambro estas malfermita kaj fokusita.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Malsukcesis marki ĉambron kiel nelegitan: %1</translation>
     </message>
 </context>
 <context>
@@ -6297,17 +6307,22 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Malfermi en nova fenestro</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Kopii ĉambran ligilon</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Marki kiel legitan</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Marki kiel nelegitan</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Etikedi ĉambron kiel:</translation>
     </message>
@@ -6882,17 +6897,17 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Atendanta invito</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Atendanta invito.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Antaŭrigardante ĉi tiun ĉambron</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Neniu antaŭrigardo disponebla</translation>
     </message>

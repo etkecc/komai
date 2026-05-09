@@ -116,6 +116,7 @@ public:
         DirectChatOtherUserId,
         IsBotRoom,
         IsEncrypted,
+        IsMarkedUnread,
     };
 
     RoomlistModel(TimelineViewManager *parent = nullptr);
@@ -365,6 +366,7 @@ public slots:
     void leave(QString roomid, QString reason = "") { roomlistmodel->leave(roomid, reason); }
     void toggleTag(const QString &roomid, const QString &tag, bool on);
     void markAsRead(const QString &roomid);
+    void markAsUnread(const QString &roomid);
     void copyLink(QString roomid);
     void setCurrentRoom(QString roomid) { roomlistmodel->setCurrentRoom(std::move(roomid)); }
     void resetCurrentRoom() { roomlistmodel->resetCurrentRoom(); }

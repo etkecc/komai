@@ -1837,7 +1837,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Le etichette delle stanze possono essere modificate solo per le stanze a cui si è acceduto in questa sessione.</translation>
     </message>
@@ -1860,6 +1860,16 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Impossibile contrassegnare la stanza come letta: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Impossibile contrassegnare come non letta mentre la stanza è aperta e attiva.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Impossibile contrassegnare la stanza come non letta: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Apri in una nuova finestra</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Copia link stanza</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Segna come letta</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Contrassegna come non letta</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Etichetta stanza come:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Invito in sospeso</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Invito in sospeso.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Anteprima di questa stanza</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Nessuna anteprima disponibile</translation>
     </message>

@@ -1839,7 +1839,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Tagi pokoju można zmieniać tylko dla dołączonych pokojów dostępnych w tej sesji.</translation>
     </message>
@@ -1862,6 +1862,16 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Nie udało się oznaczyć pokoju jako przeczytanego: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Nie można oznaczyć pokoju jako nieprzeczytany, gdy jest otwarty i aktywny.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Nie udało się oznaczyć pokoju jako nieprzeczytany: %1</translation>
     </message>
 </context>
 <context>
@@ -6304,17 +6314,22 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Otwórz w nowym oknie</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Kopiuj link do pokoju</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Oznacz jako nieprzeczytany</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Oznacz pokój jako:</translation>
     </message>
@@ -6890,17 +6905,17 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Oczekujące zaproszenie</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Oczekujące zaproszenie.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Podgląd tego pokoju</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Brak podglądu</translation>
     </message>

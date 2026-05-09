@@ -1837,7 +1837,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>ഈ സെഷനിൽ ലഭ്യമായ ചേർന്ന മുറികൾക്ക് മാത്രമേ മുറി ടാഗുകൾ മാറ്റാൻ കഴിയൂ.</translation>
     </message>
@@ -1860,6 +1860,16 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>മുറി വായിച്ചതായി അടയാളപ്പെടുത്തൽ പരാജയപ്പെട്ടു: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>മുറി തുറന്നിരിക്കുകയും ഫോക്കസ് ചെയ്തിരിക്കുകയും ചെയ്യുമ്പോൾ വായിക്കാത്തതായി അടയാളപ്പെടുത്താൻ നിരസിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>മുറി വായിക്കാത്തതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>പുതിയ വിൻഡോയിൽ തുറക്കുക</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>മുറിയുടെ ലിങ്ക് പകർത്തുക</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>വായിച്ചതായി അടയാളപ്പെടുത്തുക</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>വായിക്കാത്തതായി അടയാളപ്പെടുത്തുക</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>മുറിക്ക് ടാഗ് ചെയ്യുക:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>തീർപ്പാകാത്ത ക്ഷണം</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>തീർപ്പാകാത്ത ക്ഷണം.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>ഈ മുറി പ്രിവ്യൂ ചെയ്യുന്നു</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>പ്രിവ്യൂ ലഭ്യമല്ല</translation>
     </message>

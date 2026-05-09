@@ -654,6 +654,12 @@ public:
                                const QString &roomId,
                                QString *errorOut = nullptr);
 
+    static bool markRoomUnread(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
+                               const QString &roomId,
+                               bool unread,
+                               QString *errorOut = nullptr);
+
     static bool reportRoomEvent(matrix_backend::BlockingCallContext context,
                                 uint64_t handleId,
                                 const QString &roomId,

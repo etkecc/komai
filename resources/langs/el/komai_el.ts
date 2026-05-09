@@ -1837,7 +1837,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Οι ετικέτες δωματίου μπορούν να αλλαχτούν μόνο για δωμάτια στα οποία συμμετέχετε και είναι διαθέσιμα σε αυτή τη συνεδρία.</translation>
     </message>
@@ -1860,6 +1860,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Αποτυχία σήμανσης δωματίου ως αναγνωσμένο: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Δεν είναι δυνατή η επισήμανση ως μη αναγνωσμένο ενώ το δωμάτιο είναι ανοιχτό και εστιασμένο.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Αποτυχία επισήμανσης δωματίου ως μη αναγνωσμένο: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Άνοιγμα σε νέο παράθυρο</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Αντιγραφή συνδέσμου δωματίου</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Σήμανση ως αναγνωσμένο</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Επισήμανση ως μη αναγνωσμένο</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Ετικέτα δωματίου ως:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Εκκρεμής πρόσκληση</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Εκκρεμής πρόσκληση.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Προεπισκόπηση αυτού του δωματίου</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Δεν υπάρχει διαθέσιμη προεπισκόπηση</translation>
     </message>

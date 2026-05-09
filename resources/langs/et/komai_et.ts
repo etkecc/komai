@@ -1837,7 +1837,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Jututoa silte saab muuta ainult liitutud jututubade jaoks, mis on selles seanssis saadaval.</translation>
     </message>
@@ -1860,6 +1860,16 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Jututoa lugetuks märkimine ebaõnnestus: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Lugemata märkimine pole võimalik, kuna jututuba on avatud ja fookuses.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Jututoa lugemata märkimine ebaõnnestus: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Ava uues aknas</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Kopeeri jututoa link</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Märgi loetuks</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Märgi lugemata</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Jututoa silt:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Ootelolev kutse</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Ootel kutse.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Jututoa eelvaade</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Eelvaade pole saadaval</translation>
     </message>

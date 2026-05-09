@@ -1837,7 +1837,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Etiquettes del chambre posse solmen esser cambiat por chambres participat disponibil in ci session.</translation>
     </message>
@@ -1860,6 +1860,16 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Fallat de marcar la chambre como lectat: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Refusar de marcar como non lectat dum la chambre es apert e focusat.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Falliat marcar la chambre como non lectat: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Aperter in nov fenestre</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Copiar ligament de chambre</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Marcar como lectat</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Marcar como non lectat</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Etiquettar chambre quam:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Invitation pendant</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Invitation pendant.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Previsionant ti sala</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Necun prevision disponibil</translation>
     </message>

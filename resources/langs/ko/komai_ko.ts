@@ -1835,7 +1835,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>방 태그는 이 세션에서 사용 가능한 참여 중인 방에 대해서만 변경할 수 있습니다.</translation>
     </message>
@@ -1858,6 +1858,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>방을 읽음으로 표시하지 못했습니다: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>방이 열려 있고 포커스된 동안에는 읽지 않음으로 표시하지 않습니다.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>방을 읽지 않음으로 표시하지 못했습니다: %1</translation>
     </message>
 </context>
 <context>
@@ -6287,17 +6297,22 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>새 창에서 열기</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>방 링크 복사</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>읽음으로 표시</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>읽지 않음으로 표시</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>방 태그 지정:</translation>
     </message>
@@ -6871,17 +6886,17 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>초대 대기 중</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>초대 대기 중.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>이 방 미리보기 중</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>미리보기 없음</translation>
     </message>

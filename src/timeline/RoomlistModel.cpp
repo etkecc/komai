@@ -50,7 +50,8 @@ matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::Matri
            left.isEncrypted == right.isEncrypted && left.isPublic == right.isPublic &&
            left.memberCount == right.memberCount && left.unreadMessages == right.unreadMessages &&
            left.notificationCount == right.notificationCount &&
-           left.highlightCount == right.highlightCount && left.timestamp == right.timestamp;
+           left.highlightCount == right.highlightCount &&
+           left.isMarkedUnread == right.isMarkedUnread && left.timestamp == right.timestamp;
 }
 
 bool
@@ -346,6 +347,7 @@ RoomlistModel::roleNames() const
       {DirectChatOtherUserId, "directChatOtherUserId"},
       {IsBotRoom, "isBotRoom"},
       {IsEncrypted, "isEncrypted"},
+      {IsMarkedUnread, "isMarkedUnread"},
     };
 }
 

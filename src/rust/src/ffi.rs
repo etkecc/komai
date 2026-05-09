@@ -885,6 +885,7 @@ mod bridge {
         unread_message_count: u64,
         notification_count: u64,
         highlight_count: u64,
+        is_marked_unread: bool,
         timestamp: u64,
     }
 
@@ -2165,6 +2166,12 @@ mod bridge {
             context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
+        ) -> Result<()>;
+        fn matrix_mark_room_unread(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            unread: bool,
         ) -> Result<()>;
         fn matrix_report_room_event(
             context: MatrixFfiBlockingContext,

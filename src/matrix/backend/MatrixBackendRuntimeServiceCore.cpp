@@ -81,6 +81,7 @@ fromFfiRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .unreadMessages    = room.unread_message_count,
       .notificationCount = room.notification_count,
       .highlightCount    = room.highlight_count,
+      .isMarkedUnread    = room.is_marked_unread,
       .timestamp         = room.timestamp,
     };
 }

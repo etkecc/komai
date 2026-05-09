@@ -162,6 +162,7 @@ struct MatrixRoomSummary
     uint64_t unreadMessages    = 0;
     uint64_t notificationCount = 0;
     uint64_t highlightCount    = 0;
+    bool isMarkedUnread        = false;
     uint64_t timestamp         = 0;
 };
 

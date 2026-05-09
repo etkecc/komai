@@ -1835,7 +1835,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Thẻ phòng chỉ có thể thay đổi cho các phòng đã tham gia trong phiên này.</translation>
     </message>
@@ -1858,6 +1858,16 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Không thể đánh dấu phòng là đã đọc: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>Từ chối đánh dấu là chưa đọc khi phòng đang mở và đang được chọn.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>Không thể đánh dấu phòng là chưa đọc: %1</translation>
     </message>
 </context>
 <context>
@@ -6287,17 +6297,22 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Mở trong cửa sổ mới</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Sao chép liên kết phòng</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Đánh dấu là đã đọc</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Đánh dấu là chưa đọc</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Gắn thẻ phòng là:</translation>
     </message>
@@ -6871,17 +6886,17 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Lời mời đang chờ</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Lời mời đang chờ.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Đang xem trước phòng này</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>Không có bản xem trước</translation>
     </message>

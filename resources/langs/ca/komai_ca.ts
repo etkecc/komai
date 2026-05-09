@@ -1837,7 +1837,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+536"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Les etiquetes de sala només es poden modificar per a sales unides disponibles en aquesta sessió.</translation>
     </message>
@@ -1860,6 +1860,16 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="+45"/>
         <source>Failed to mark room as read: %1</source>
         <translation>No s'ha pogut marcar la sala com a llegida: %1</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Refusing to mark as unread while the room is open and focused.</source>
+        <translation>No es pot marcar com a no llegida mentre la sala estigui oberta i activa.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Failed to mark room as unread: %1</source>
+        <translation>No s'ha pogut marcar la sala com a no llegida: %1</translation>
     </message>
 </context>
 <context>
@@ -6295,17 +6305,22 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Obre en una finestra nova</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+33"/>
         <source>Copy room link</source>
         <translation>Copia l'enllaç de la sala</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-20"/>
         <source>Mark as read</source>
         <translation>Marca com a llegit</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>Mark as unread</source>
+        <translation>Marca com a no llegida</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Tag room as:</source>
         <translation>Etiqueta la sala com:</translation>
     </message>
@@ -6880,17 +6895,17 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Invitació pendent</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Pending invite.</source>
         <translation>Invitació pendent.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Previewing this room</source>
         <translation>Previsualitzant aquesta sala</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+44"/>
         <source>No preview available</source>
         <translation>No hi ha cap previsualització disponible</translation>
     </message>

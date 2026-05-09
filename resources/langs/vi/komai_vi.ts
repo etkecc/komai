@@ -885,7 +885,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Chọn emoji</translation>
     </message>
@@ -935,7 +935,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Xem Cài đặt phòng -&gt; Cài đặt nhãn dán &amp; biểu cảm.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Thông báo toàn bộ phòng</translation>
     </message>
@@ -2999,7 +2999,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 đang nhập…</translation>
     </message>
@@ -3554,7 +3554,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Tin nhắn</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>
     </message>

@@ -886,7 +886,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Tria un emoji</translation>
     </message>
@@ -936,7 +936,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Consulta Configuració de la sala -&gt; Configuració d'adhesius i emotes.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Notifica tota la sala</translation>
     </message>
@@ -3003,7 +3003,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 està escrivint…</translation>
     </message>
@@ -3559,7 +3559,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Missatge</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>

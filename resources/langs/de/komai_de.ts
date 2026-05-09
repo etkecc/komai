@@ -886,7 +886,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Emoji auswählen</translation>
     </message>
@@ -936,7 +936,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Siehe Raumeinstellungen → Sticker- &amp; Emote-Einstellungen.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Den ganzen Raum benachrichtigen</translation>
     </message>
@@ -3003,7 +3003,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 schreibt …</translation>
     </message>
@@ -3559,7 +3559,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Nachricht</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>

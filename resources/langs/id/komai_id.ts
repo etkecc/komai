@@ -885,7 +885,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Pilih emoji</translation>
     </message>
@@ -935,7 +935,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Lihat Pengaturan Ruangan -&gt; Pengaturan Stiker &amp; Emote.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Beri tahu seluruh ruangan</translation>
     </message>
@@ -2999,7 +2999,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 sedang mengetik…</translation>
     </message>
@@ -3554,7 +3554,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Pesan</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Stiker</translation>
     </message>

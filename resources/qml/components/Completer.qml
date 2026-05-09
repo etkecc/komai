@@ -29,6 +29,7 @@ Control {
     property alias currentIndex: listView.currentIndex
     property bool fullWidth: false
     property string roomId
+    property string roomAvatarUrl: ""
     property int rowMargin: 0
     property int rowSpacing: Komai.paddingSmall
     readonly property color commandFooterBorderColor: commandValidation.footerAccentVisible
@@ -463,13 +464,19 @@ Control {
                             spacing: Komai.paddingMedium
 
                             Avatar {
+                                readonly property bool isRoomMention: model.userid === "@room"
+                                readonly property string effectiveAvatarUrl: isRoomMention
+                                    ? popup.roomAvatarUrl
+                                    : model.avatarUrl
+
                                 displayName: model.displayName
                                 enabled: false
                                 Layout.alignment: Qt.AlignTop
                                 Layout.preferredHeight: parent.pickerAvatarSize
                                 Layout.preferredWidth: parent.pickerAvatarSize
-                                url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                                userid: model.userid === "@room" ? "" : model.userid
+                                url: effectiveAvatarUrl.replace("mxc://", "image://MxcImage/")
+                                userid: isRoomMention ? "" : model.userid
+                                roomid: isRoomMention ? popup.roomId : ""
                             }
                             ColumnLayout {
                                 Layout.alignment: Qt.AlignVCenter

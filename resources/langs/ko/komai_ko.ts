@@ -885,7 +885,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>이모지 선택</translation>
     </message>
@@ -935,7 +935,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>방 설정 -&gt; 스티커 &amp; 이모트 설정을 참조하세요.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>방 전체에 알림</translation>
     </message>
@@ -2999,7 +2999,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 님이 입력 중…</translation>
     </message>
@@ -3554,7 +3554,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>메시지</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>스티커</translation>
     </message>

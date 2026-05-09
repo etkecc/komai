@@ -887,7 +887,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Vybrat emoji</translation>
     </message>
@@ -937,7 +937,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Viz Nastavení místnosti -&gt; Nastavení nálepek a emotikonů.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Upozornit celou místnost</translation>
     </message>
@@ -3007,7 +3007,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 píše…</translation>
     </message>
@@ -3564,7 +3564,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Zpráva</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Samolepky</translation>
     </message>

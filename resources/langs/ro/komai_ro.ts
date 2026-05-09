@@ -887,7 +887,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Alege un emoji</translation>
     </message>
@@ -937,7 +937,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Accesează Setările camerei -&gt; Setări stickere și emote-uri.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Notifică întreaga cameră</translation>
     </message>
@@ -3007,7 +3007,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 scrie…</translation>
     </message>
@@ -3564,7 +3564,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>

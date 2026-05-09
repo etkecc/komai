@@ -886,7 +886,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Välj en emoji</translation>
     </message>
@@ -936,7 +936,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Se Ruminställningar -&gt; Klisterbild &amp; Emote-inställningar.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Meddela hela rummet</translation>
     </message>
@@ -3003,7 +3003,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 skriver…</translation>
     </message>
@@ -3559,7 +3559,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Meddelande</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>

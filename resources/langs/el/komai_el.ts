@@ -886,7 +886,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Επιλογή emoji</translation>
     </message>
@@ -936,7 +936,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Δείτε Ρυθμίσεις Δωματίου -&gt; Ρυθμίσεις Αυτοκόλλητων &amp; Emoji.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Ειδοποίηση ολόκληρου του δωματίου</translation>
     </message>
@@ -3003,7 +3003,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 πληκτρολογεί…</translation>
     </message>
@@ -3559,7 +3559,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Μήνυμα</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Αυτοκόλλητα</translation>
     </message>

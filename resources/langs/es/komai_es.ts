@@ -887,7 +887,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Elige un emoji</translation>
     </message>
@@ -937,7 +937,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Consulta Ajustes de sala -&gt; Ajustes de stickers y emotes.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Notificar a toda la sala</translation>
     </message>
@@ -3006,7 +3006,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 está escribiendo…</translation>
     </message>
@@ -3562,7 +3562,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Mensaje</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Pegatinas</translation>
     </message>

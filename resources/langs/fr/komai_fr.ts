@@ -886,7 +886,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>Choisir un emoji</translation>
     </message>
@@ -936,7 +936,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Voir Paramètres du salon -&gt; Paramètres des autocollants et émoticônes.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>Notifier tout le salon</translation>
     </message>
@@ -3003,7 +3003,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 est en train d'écrire…</translation>
     </message>
@@ -3559,7 +3559,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>

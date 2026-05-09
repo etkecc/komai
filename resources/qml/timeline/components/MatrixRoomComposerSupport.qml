@@ -131,6 +131,7 @@ Item {
 
         property string roomId: roomPreview ? roomPreview.roomid : ""
         property string roomName: roomPreview ? String(roomPreview.roomName || "") : ""
+        property string roomAvatarUrl: roomPreview ? String(roomPreview.roomAvatarUrl || "") : ""
         property bool isActiveMatrixTimelineRoom: true
         property bool isDirect: roomPreview ? !!roomPreview.isDirect : false
         property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false

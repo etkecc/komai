@@ -1775,6 +1775,7 @@ Rectangle {
                         rowMargin: 2
                         rowSpacing: 0
                         roomId: room ? room.roomId : ""
+                        roomAvatarUrl: room ? room.roomAvatarUrl : ""
                     }
                 }
                 Connections {

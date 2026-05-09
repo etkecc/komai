@@ -886,7 +886,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Completer</name>
     <message>
-        <location filename="../../qml/components/Completer.qml" line="+228"/>
+        <location filename="../../qml/components/Completer.qml" line="+229"/>
         <source>Pick an emoji</source>
         <translation>ഒരു ഇമോജി തിരഞ്ഞെടുക്കുക</translation>
     </message>
@@ -936,7 +936,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>മുറി ക്രമീകരണങ്ങൾ -&gt; സ്റ്റിക്കർ &amp; ഇമോട്ട് ക്രമീകരണങ്ങൾ കാണുക.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+179"/>
         <source>Notify the whole room</source>
         <translation>മുഴുവൻ മുറിയെയും അറിയിക്കുക</translation>
     </message>
@@ -3003,7 +3003,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+148"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+149"/>
         <source>%1 is typing…</source>
         <translation>%1 ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>
@@ -3559,7 +3559,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>സന്ദേശം</translation>
     </message>
     <message>
-        <location line="+578"/>
+        <location line="+579"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>

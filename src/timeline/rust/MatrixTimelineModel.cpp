@@ -426,6 +426,19 @@ MatrixTimelineModel::MatrixTimelineModel(QObject *parent)
                 &UserSettings::hiddenTimelineEventTypesChanged,
                 this,
                 &MatrixTimelineModel::refreshDerivedFields);
+        // The pill-avatar URLs in cachedFormattedBody bake in the radius and
+        // default-avatar style at HTML-generation time, so a setting flip
+        // doesn't reach the litehtml renderer until we regenerate the body
+        // HTML. Avatar.qml in the timeline body re-evaluates its bindings
+        // automatically; pills are static HTML and need this nudge.
+        connect(settings.get(),
+                &UserSettings::uiAvatarsCircularChanged,
+                this,
+                &MatrixTimelineModel::refreshDerivedFields);
+        connect(settings.get(),
+                &UserSettings::uiAvatarsDefaultAvatarStyleChanged,
+                this,
+                &MatrixTimelineModel::refreshDerivedFields);
     }
 }
 

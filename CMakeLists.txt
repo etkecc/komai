@@ -145,6 +145,14 @@ find_package(PkgConfig REQUIRED)
 # Discover Qt dependencies.
 #
 
+# Suppress the per-Configure CMake warning Qt prints whenever a target
+# pulls a Qt6*Private module. The warning's purpose is to remind that
+# private-module use ties our binary to the exact Qt build it was
+# compiled against; we already accepted that trade-off when we adopted
+# matrix-sdk's GuiPrivate / QmlPrivate dependency, so the recurring
+# nag is pure CI noise.
+set(QT_NO_PRIVATE_MODULE_WARNING ON)
+
 find_package(Qt6 6.5 COMPONENTS Core Widgets Gui LinguistTools Svg Multimedia Qml QuickControls2 Network REQUIRED)
 if (Qt6Qml_VERSION VERSION_GREATER_EQUAL "6.10.0")
     find_package(Qt6 REQUIRED COMPONENTS GuiPrivate QmlPrivate)
@@ -818,6 +826,15 @@ corrosion_add_cxxbridge(komai-rust-cxxbridge
     FILES ffi.rs
 )
 target_include_directories(komai-rust-cxxbridge PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+# GCC's -Wmaybe-uninitialized is a known false-positive against the
+# Vec<T>::Vec() constructor pattern that cxxbridge emits in the
+# generated ffi.cpp (clang and MSVC don't trip). Each `#[cxx::bridge]`
+# entry compiles as its own warning instance, so we get ~30 hits in
+# every CI Build step — pure noise drowning out warnings we'd actually
+# want to see. Scope-limit the suppression to this generated target so
+# our own C++ keeps -Wmaybe-uninitialized fully active.
+target_compile_options(komai-rust-cxxbridge PRIVATE
+    $<$<CXX_COMPILER_ID:GNU>:-Wno-maybe-uninitialized>)
 
 if(VOIP)
     include(FindPkgConfig)

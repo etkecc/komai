@@ -27,6 +27,12 @@ Technical documentation for Komai internals.
 - 🦀 [Rust in Komai](rust.md) -- CXX interop pattern, blocking FFI rules, directory layout, build integration, and packaging
 - 🚦 [CI Pipeline](ci.md) -- workflows, cache strategy (cargo-target unification with Corrosion, lock-hash key, optional host-mount), mold linker, ccache PCH sloppiness
 
+## Research
+
+Forward-looking design notes for features that have not been built yet. See the [research README](research/README.md) for the convention.
+
+- 🔬 [Research Index](research/README.md) -- active forward-looking research on unimplemented features
+
 ## Differences from nheko
 
 - 🔀 [Overview](differences-from-nheko/README.md) -- high-level architecture and behavior differences

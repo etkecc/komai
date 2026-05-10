@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>キーバックアップの回復には、アクティブな matrix-sdk バックエンドランタイムが必要です。</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>鍵バックアップを解除するには、リカバリーキーまたはパスフレーズが必要です。</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>キーバックアップのロックを解除するには、リカバリーキーまたはリカバリーパスフレーズが必要です。</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,14 +5227,14 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>リセットするとこのアカウントに新しい暗号化IDが作成され、セットアップが再開始されます。
+        <translation>リセットすると、このアカウントの新しい暗号化IDが作成され、セットアップが再開されます。
 
-新しいセキュリティキーが発行されます。再リセットを避けるため、保存することをお勧めします。
+新しいリカバリーキーが発行されます。再リセットを避けるために保存しておくことをお勧めします。
 
-以前のサーバー側のキーバックアップは自動的には削除されません。</translation>
+以前のサーバー側キーバックアップは自動的には削除されません。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6950,21 +6950,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>セキュリティキーを保存し、非公開にしてください</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>リカバリーキーを保存し、秘密にしてください</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>暗号化のシークレットが以下のキーで暗号化され、サーバーに保存されました。</translation>
+        <translation>暗号化シークレットがサーバーに保存されました。以下のキーで暗号化されています。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>サインアウト、再インストール、または別のデバイスを設定する際に、暗号化済メッセージにアクセスするために必要です。</translation>
+        <translation>サインアウト、再インストール、または別のデバイスを設定する際に、暗号化されたメッセージにアクセスするために必要です。</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6978,8 +6978,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>セキュリティキーを保存しました</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK、リカバリーキーを保存しました</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>パスフレーズによるシークレットストレージのアンロックを許可する</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>リカバリーパスフレーズによるシークレットストレージのロック解除を許可する</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>リカバリーパスフレーズ</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>任意</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>セキュリティキーと同じシークレットストレージを開くことができる、覚えやすいフレーズです。</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>リカバリーキーと同じシークレットストレージのロックを解除できる、覚えやすいフレーズです。</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>パスフレーズ</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>セキュリティのため、アカウントのパスワードを使い回さないでください。</translation>
     </message>
@@ -9388,19 +9388,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>キーバックアップのロック解除</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>セキュリティキーまたはパスフレーズ（利用可能な場合）を入力して、暗号化シークレットのロックを解除してください。</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>リカバリーキーはこのような形式です: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>セキュリティキーはこのような形式です: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>リカバリーキーまたはリカバリーパスフレーズ（利用可能な場合）を入力して、暗号化シークレットのロックを解除します。</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>セキュリティキーまたはパスフレーズ</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>リカバリーキーまたはリカバリーパスフレーズ</translation>
     </message>
     <message>
         <location line="+10"/>

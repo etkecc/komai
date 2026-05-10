@@ -22,7 +22,7 @@ Components.OverlayDialog {
         color: palette.text
         readOnly: true
         selectByMouse: true
-        text: qsTr("Resetting creates a new encryption identity for this account and starts setup again.\n\nYou will get a new security key. Better save it to avoid resetting again.\n\nPrevious server-side key backups are not removed automatically.")
+        text: qsTr("Resetting creates a new encryption identity for this account and starts setup again.\n\nYou will get a new recovery key. Better save it to avoid resetting again.\n\nPrevious server-side key backups are not removed automatically.")
         textFormat: TextEdit.PlainText
         wrapMode: TextEdit.Wrap
     }

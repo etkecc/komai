@@ -36,7 +36,7 @@ Item {
         }
     }
 
-    SaveSecurityKeyDialog {
+    SaveRecoveryKeyDialog {
         id: showRecoverKeyDialog
     }
 
@@ -251,7 +251,7 @@ Item {
                     Label {
                         color: palette.text
                         font.bold: true
-                        text: qsTr("Allow unlocking Secret Storage with a passphrase")
+                        text: qsTr("Allow unlocking Secret Storage with a recovery passphrase")
                         wrapMode: Text.Wrap
                     }
                     OptionBadge {
@@ -267,7 +267,7 @@ Item {
                     Layout.fillWidth: true
                     color: palette.text
                     opacity: 0.75
-                    text: qsTr("A memorable phrase that unlocks the same Secret Storage as the security key.")
+                    text: qsTr("A memorable phrase that unlocks the same Secret Storage as the recovery key.")
                     wrapMode: Text.Wrap
                 }
             }
@@ -286,7 +286,7 @@ Item {
 
             Layout.fillWidth: true
             echoMode: TextInput.Password
-            placeholderText: qsTr("Passphrase")
+            placeholderText: qsTr("Recovery passphrase")
             visible: storeSecretsOnline.checked && usePassword.checked
         }
 

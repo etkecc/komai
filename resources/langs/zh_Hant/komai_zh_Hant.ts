@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>金鑰備份還原需要正在執行的 matrix-sdk 後端。</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>需要復原金鑰或密語才能解鎖金鑰備份。</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>需要恢復金鑰或恢復密語才能解鎖金鑰備份。</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,14 +5227,14 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>重置將為此帳號建立新的加密身分並重新開始設定。
+        <translation>重設將為此帳號建立新的加密身分並重新開始設定。
 
-你將獲得新的安全金鑰，建議妥善保存以避免再次重置。
+您將獲得新的恢復金鑰。建議妥善儲存以免再次重設。
 
-伺服器端的舊金鑰備份不會自動移除。</translation>
+先前伺服器端的金鑰備份不會自動刪除。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6950,21 +6950,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>儲存你的安全金鑰並妥善保管</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>儲存您的恢復金鑰並妥善保管</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>你的加密機密現已儲存在伺服器上，並使用以下金鑰進行加密。</translation>
+        <translation>您的加密秘密現已儲存於伺服器上，並使用以下金鑰加密。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>如果你登出、重新安裝或設定其他裝置，將需要此金鑰才能存取加密訊息。</translation>
+        <translation>若您登出、重新安裝或設定其他裝置，您將需要它來存取加密訊息。</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6978,8 +6978,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>好的，我已儲存安全金鑰</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>好的，我已儲存我的恢復金鑰</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>允許使用密語解鎖秘密儲存庫</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>允許使用恢復密語解鎖秘密儲存</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>恢復密語</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>選用</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>一個容易記憶的密語，可解鎖與安全金鑰相同的秘密儲存庫。</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>一個易記的短語，可解鎖與恢復金鑰相同的秘密儲存。</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>密語</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>為了最佳安全性，請勿重複使用帳號密碼。</translation>
     </message>
@@ -9388,19 +9388,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>解鎖金鑰備份</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>請提供您的安全金鑰或通行密碼（如有）以解鎖加密機密。</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>恢復金鑰的格式如下：</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>安全金鑰的格式如下： </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>請提供您的恢復金鑰或恢復密語（如有）以解鎖加密秘密。</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>安全金鑰或通行密碼</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>恢復金鑰或恢復密語</translation>
     </message>
     <message>
         <location line="+10"/>

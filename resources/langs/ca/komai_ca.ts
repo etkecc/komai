@@ -684,9 +684,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>La recuperació de la còpia de seguretat de claus requereix un temps d'execució del backend matrix-sdk actiu.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Cal una clau de recuperació o frase de contrasenya per desbloquejar la còpia de seguretat de claus.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Es necessita una clau de recuperació o una frase de recuperació per desbloquejar la còpia de seguretat de claus.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,14 +5234,14 @@ Torna enrere i inicia sessió manualment.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>El restabliment crea una nova identitat de xifratge per a aquest compte i torna a iniciar la configuració.
+        <translation>En reiniciar, es crea una nova identitat de xifratge per a aquest compte i es torna a iniciar la configuració.
 
-Es generarà una nova clau de seguretat. Cal desar-la per evitar haver de restablir de nou.
+Obtindràs una nova clau de recuperació. Desa-la per evitar haver de tornar a reiniciar.
 
-Les còpies de seguretat de claus anteriors al servidor no s'eliminen automàticament.</translation>
+Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàticament.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6959,16 +6959,16 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Desa la teva clau de seguretat i mantén-la privada</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Desa la clau de recuperació i mantén-la privada</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Els teus secrets de xifratge ara s'emmagatzemen al servidor, xifrats amb la clau següent.</translation>
+        <translation>Els secrets de xifratge ara s'emmagatzemen al servidor, xifrats amb la clau que es mostra a continuació.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6987,8 +6987,8 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>D'acord, he desat la meva clau de seguretat</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>D'acord, he desat la meva clau de recuperació</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Permet desbloquejar el Secret Storage amb una frase de pas</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Permet desbloquejar l'Emmagatzematge secret amb una frase de recuperació</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Frase de recuperació</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Opcional</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Una frase memorable que desbloqueja el mateix Secret Storage que la clau de seguretat.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Una frase memorable que desbloqueja el mateix emmagatzematge secret que la clau de recuperació.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Frase de pas</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Per a una seguretat òptima, no reutilitzis la contrasenya del teu compte.</translation>
     </message>
@@ -9404,19 +9404,19 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Desbloqueja la còpia de seguretat de claus</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Desbloqueja els secrets de xifratge proporcionant la teva clau de seguretat o la seva frase de contrasenya (si n'hi ha).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Les claus de recuperació tenen aquest aspecte: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Les claus de seguretat tenen aquest aspecte: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Desbloqueja els secrets de xifratge proporcionant la clau de recuperació o la frase de recuperació (si n'hi ha).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Clau de seguretat o frase de contrasenya</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Clau de recuperació o frase de recuperació</translation>
     </message>
     <message>
         <location line="+10"/>

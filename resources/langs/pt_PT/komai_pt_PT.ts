@@ -684,9 +684,9 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>A recuperação da cópia de segurança de chaves requer um ambiente de execução matrix-sdk ativo.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>É necessária uma chave de recuperação ou frase-passe para desbloquear a cópia de segurança de chaves.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>É necessária uma chave de recuperação ou frase-passe de recuperação para desbloquear a cópia de segurança de chaves.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,12 +5234,12 @@ Volte atrás e inicie sessão manualmente.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>A reposição cria uma nova identidade de encriptação para esta conta e inicia a configuração novamente.
+        <translation>Repor cria uma nova identidade de encriptação para esta conta e inicia a configuração novamente.
 
-Irá obter uma nova chave de segurança. É melhor guardá-la para evitar repor novamente.
+Receberá uma nova chave de recuperação. É melhor guardá-la para evitar ter de repor novamente.
 
 As cópias de segurança de chaves anteriores no servidor não são removidas automaticamente.</translation>
     </message>
@@ -6959,11 +6959,11 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Guarde a sua chave de segurança e mantenha-a privada</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Guarde a sua chave de recuperação e mantenha-a privada</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -6973,7 +6973,7 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Vai precisar dela para aceder a mensagens encriptadas se terminar sessão, reinstalar ou configurar outro dispositivo.</translation>
+        <translation>Precisará dela para aceder a mensagens encriptadas se terminar sessão, reinstalar ou configurar outro dispositivo.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, guardei a minha chave de segurança</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, guardei a minha chave de recuperação</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Tenha em atenção que não pode ser desativada posteriormente.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Permitir desbloquear o Armazenamento Secreto com uma frase-passe</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Permitir desbloquear o Armazenamento Secreto com uma frase-passe de recuperação</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Frase-passe de recuperação</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Opcional</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Uma frase memorável que desbloqueia o mesmo Armazenamento Secreto que a chave de segurança.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Uma frase memorável que desbloqueia o mesmo Armazenamento Secreto que a chave de recuperação.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Frase-passe</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Para maior segurança, não reutilizes a palavra-passe da tua conta.</translation>
     </message>
@@ -9404,19 +9404,19 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>Desbloquear cópia de segurança de chaves</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Desbloqueie os segredos de encriptação fornecendo a sua chave de segurança ou a sua frase-passe (se disponível).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>As chaves de recuperação têm este aspeto: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>As chaves de segurança têm este aspeto: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Desbloqueie os segredos de encriptação fornecendo a sua chave de recuperação ou frase-passe de recuperação (se disponível).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Chave de segurança ou frase-passe</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Chave de recuperação ou frase-passe de recuperação</translation>
     </message>
     <message>
         <location line="+10"/>

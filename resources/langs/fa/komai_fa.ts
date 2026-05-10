@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>بازیابی پشتیبان‌گیری کلید به یک محیط اجرایی فعال سرویس پشتی matrix-sdk نیاز دارد.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>برای بازگشایی پشتیبان‌گیری کلید، کلید بازیابی یا عبارت عبور لازم است.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>برای باز کردن پشتیبان کلید، کلید بازیابی یا عبارت عبور بازیابی مورد نیاز است.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,14 +5227,14 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>بازنشانی یک هویت رمزگذاری جدید برای این حساب ایجاد می‌کند و راه‌اندازی را مجدداً آغاز می‌کند.
+        <translation>بازنشانی یک هویت رمزگذاری جدید برای این حساب ایجاد می‌کند و راه‌اندازی را از نو شروع می‌کند.
 
-یک کلید امنیتی جدید دریافت خواهید کرد. بهتر است آن را ذخیره کنید تا از بازنشانی مجدد جلوگیری شود.
+یک کلید بازیابی جدید دریافت خواهید کرد. بهتر است آن را ذخیره کنید تا از بازنشانی مجدد جلوگیری شود.
 
-پشتیبان‌گیری‌های قبلی کلید سمت سرور به‌طور خودکار حذف نمی‌شوند.</translation>
+پشتیبان‌گیری‌های قبلی کلید در سمت سرور به‌طور خودکار حذف نمی‌شوند.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6950,21 +6950,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>کلید امنیتی خود را ذخیره کنید و آن را محرمانه نگه دارید</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>کلید بازیابی خود را ذخیره کنید و آن را خصوصی نگه دارید</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>اسرار رمزگذاری شما اکنون روی سرور ذخیره شده‌اند و با استفاده از کلید زیر رمزگذاری شده‌اند.</translation>
+        <translation>اسرار رمزگذاری شما اکنون با استفاده از کلید زیر رمزگذاری شده و روی سرور ذخیره شده‌اند.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>در صورت خروج از حساب، نصب مجدد، یا راه‌اندازی دستگاه دیگری، برای دسترسی به پیام‌های رمزگذاری‌شده به آن نیاز خواهید داشت.</translation>
+        <translation>در صورت خروج از حساب، نصب مجدد، یا راه‌اندازی دستگاه دیگری برای دسترسی به پیام‌های رمزگذاری‌شده به آن نیاز خواهید داشت.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6978,8 +6978,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>باشه، کلید امنیتی‌ام را ذخیره کردم</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>باشه، کلید بازیابی‌ام را ذخیره کردم</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>اجازه باز کردن Secret Storage با عبارت عبور</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>اجازه باز کردن ذخیره‌سازی مخفی با عبارت عبور بازیابی</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>عبارت عبور بازیابی</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>اختیاری</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>عبارتی به‌یادماندنی که همان Secret Storage را مانند کلید امنیتی باز می‌کند.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>عبارتی به‌یادماندنی که همان ذخیره‌سازی مخفی را مانند کلید بازیابی باز می‌کند.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>عبارت عبور</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>برای بهترین امنیت، از رمز عبور حساب خود دوباره استفاده نکنید.</translation>
     </message>
@@ -9388,19 +9388,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>بازگشایی پشتیبان کلید</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>اسرار رمزگذاری را با ارائه کلید امنیتی یا رمزعبور آن (در صورت موجود بودن) بازگشایی کنید.</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>کلیدهای بازیابی به این شکل هستند: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>کلیدهای امنیتی این‌گونه به نظر می‌رسند: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>با ارائه کلید بازیابی یا عبارت عبور بازیابی خود (در صورت وجود)، اسرار رمزگذاری را باز کنید.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>کلید امنیتی یا رمزعبور</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>کلید بازیابی یا عبارت عبور بازیابی</translation>
     </message>
     <message>
         <location line="+10"/>

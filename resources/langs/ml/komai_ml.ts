@@ -684,9 +684,9 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>കീ ബാക്കപ്പ് പുനഃസ്ഥാപനത്തിന് ഒരു സജീവ matrix-sdk ബാക്കെൻഡ് റൺടൈം ആവശ്യമാണ്.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യാൻ ഒരു റിക്കവറി കീ അല്ലെങ്കിൽ പാസ്‌ഫ്രേസ് ആവശ്യമാണ്.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യാൻ ഒരു റിക്കവറി കീ അല്ലെങ്കിൽ റിക്കവറി പാസ്‌ഫ്രേസ് ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,14 +5234,14 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>റീസെറ്റ് ചെയ്യുന്നത് ഈ അക്കൗണ്ടിനായി പുതിയ എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി സൃഷ്ടിക്കുകയും സജ്ജീകരണം വീണ്ടും ആരംഭിക്കുകയും ചെയ്യും.
+        <translation>റീസെറ്റ് ചെയ്യുന്നത് ഈ അക്കൗണ്ടിന് ഒരു പുതിയ എൻക്രിപ്ഷൻ ഐഡന്റിറ്റി സൃഷ്ടിക്കുകയും സെറ്റപ്പ് വീണ്ടും ആരംഭിക്കുകയും ചെയ്യും.
 
-നിങ്ങൾക്ക് ഒരു പുതിയ സുരക്ഷാ കീ ലഭിക്കും. വീണ്ടും റീസെറ്റ് ചെയ്യേണ്ടിവരാതിരിക്കാൻ അത് സേവ് ചെയ്യുക.
+നിങ്ങൾക്ക് ഒരു പുതിയ റിക്കവറി കീ ലഭിക്കും. വീണ്ടും റീസെറ്റ് ഒഴിവാക്കാൻ അത് സേവ് ചെയ്യുക.
 
-മുൻ സർവർ-സൈഡ് കീ ബാക്കപ്പുകൾ സ്വയം നീക്കം ചെയ്യില്ല.</translation>
+മുൻ സെർവർ-സൈഡ് കീ ബാക്കപ്പുകൾ സ്വയം നീക്കം ചെയ്യില്ല.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6959,21 +6959,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>നിങ്ങളുടെ സുരക്ഷാ കീ സംരക്ഷിക്കുക, അത് സ്വകാര്യമായി സൂക്ഷിക്കുക</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>നിങ്ങളുടെ റിക്കവറി കീ സേവ് ചെയ്ത് സ്വകാര്യമായി സൂക്ഷിക്കുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>നിങ്ങളുടെ എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ ഇപ്പോൾ സെർവറിൽ സംഭരിച്ചിരിക്കുന്നു, താഴെയുള്ള കീ ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തിരിക്കുന്നു.</translation>
+        <translation>നിങ്ങളുടെ എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ ഇപ്പോൾ സെർവറിൽ സംഭരിച്ചിരിക്കുന്നു, ചുവടെ നൽകിയ കീ ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്തിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>സൈൻ ഔട്ട് ചെയ്യുകയോ, പുനഃസ്ഥാപിക്കുകയോ, മറ്റൊരു ഉപകരണം സജ്ജമാക്കുകയോ ചെയ്താൽ എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ ആക്സസ് ചെയ്യാൻ ഇത് ആവശ്യമായി വരും.</translation>
+        <translation>നിങ്ങൾ സൈൻ ഔട്ട് ചെയ്യുകയോ, പുനഃസ്ഥാപിക്കുകയോ, മറ്റൊരു ഉപകരണം സജ്ജമാക്കുകയോ ചെയ്യുകയാണെങ്കിൽ എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ ആക്സസ് ചെയ്യാൻ ഇത് ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>ശരി, ഞാൻ എന്റെ സുരക്ഷാ കീ സംരക്ഷിച്ചു</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>ശരി, ഞാൻ എന്റെ റിക്കവറി കീ സേവ് ചെയ്തു</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>ഒരു പാസ്‌ഫ്രേസ് ഉപയോഗിച്ച് Secret Storage അൺലോക്ക് ചെയ്യാൻ അനുവദിക്കുക</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>ഒരു റിക്കവറി പാസ്‌ഫ്രേസ് ഉപയോഗിച്ച് സീക്രട്ട് സ്‌റ്റോറേജ് അൺലോക്ക് ചെയ്യാൻ അനുവദിക്കുക</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>റിക്കവറി പാസ്‌ഫ്രേസ്</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>ഐച്ഛികം</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>സുരക്ഷാ കീ പോലെ ഒരേ Secret Storage തുറക്കുന്ന, ഓർമിക്കാൻ എളുപ്പമുള്ള ഒരു വാക്യം.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>റിക്കവറി കീ പോലെ അതേ സീക്രട്ട് സ്‌റ്റോറേജ് അൺലോക്ക് ചെയ്യുന്ന, ഓർമ്മിക്കാൻ എളുപ്പമുള്ള ഒരു വാക്യം.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>പാസ്‌ഫ്രേസ്</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>ഏറ്റവും നല്ല സുരക്ഷയ്ക്കായി, നിങ്ങളുടെ അക്കൗണ്ട് പാസ്‌വേഡ് വീണ്ടും ഉപയോഗിക്കരുത്.</translation>
     </message>
@@ -9404,19 +9404,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>കീ ബാക്കപ്പ് അൺലോക്ക് ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>നിങ്ങളുടെ സുരക്ഷാ കീ അല്ലെങ്കിൽ അതിന്റെ പാസ്‌ഫ്രേസ് (ലഭ്യമെങ്കിൽ) നൽകി എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ അൺലോക്ക് ചെയ്യുക.</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>റിക്കവറി കീകൾ ഇങ്ങനെ കാണപ്പെടുന്നു: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>സുരക്ഷാ കീകൾ ഇങ്ങനെ കാണപ്പെടുന്നു: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>നിങ്ങളുടെ റിക്കവറി കീ അല്ലെങ്കിൽ റിക്കവറി പാസ്‌ഫ്രേസ് (ലഭ്യമാണെങ്കിൽ) നൽകി എൻക്രിപ്ഷൻ രഹസ്യങ്ങൾ അൺലോക്ക് ചെയ്യുക.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>സുരക്ഷാ കീ അല്ലെങ്കിൽ പാസ്‌ഫ്രേസ്</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>റിക്കവറി കീ അല്ലെങ്കിൽ റിക്കവറി പാസ്‌ഫ്രേസ്</translation>
     </message>
     <message>
         <location line="+10"/>

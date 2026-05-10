@@ -684,9 +684,9 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Odzyskiwanie kopii zapasowej kluczy wymaga aktywnego środowiska uruchomieniowego backendu matrix-sdk.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Do odblokowania kopii zapasowej kluczy wymagany jest klucz odzyskiwania lub hasło.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Do odblokowania kopii zapasowej kluczy wymagany jest klucz odzyskiwania lub fraza odzyskiwania.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5242,12 +5242,12 @@ Wróć i zaloguj się ręcznie.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Resetowanie tworzy nową tożsamość szyfrowania dla tego konta i ponownie rozpoczyna konfigurację.
+        <translation>Zresetowanie tworzy nową tożsamość szyfrowania dla tego konta i uruchamia konfigurację ponownie.
 
-Otrzymasz nowy klucz bezpieczeństwa. Lepiej go zapisz, aby uniknąć ponownego resetowania.
+Otrzymasz nowy klucz odzyskiwania. Lepiej go zapisać, aby uniknąć kolejnego resetowania.
 
 Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatycznie.</translation>
     </message>
@@ -6969,11 +6969,11 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Zapisz swój klucz bezpieczeństwa i zachowaj go w tajemnicy</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Zapisz swój klucz odzyskiwania i zachowaj go w tajemnicy</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -6983,7 +6983,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Będziesz go potrzebować, aby uzyskać dostęp do zaszyfrowanych wiadomości po wylogowaniu, ponownej instalacji lub skonfigurowaniu innego urządzenia.</translation>
+        <translation>Będzie ci potrzebny, aby uzyskać dostęp do zaszyfrowanych wiadomości, jeśli się wylogujesz, ponownie zainstalujesz aplikację lub skonfigurujesz inne urządzenie.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6997,8 +6997,8 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, zapisałem(a) swój klucz bezpieczeństwa</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, zapisałem(-am) klucz odzyskiwania</translation>
     </message>
 </context>
 <context>
@@ -7422,26 +7422,26 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Zezwól na odblokowywanie Secret Storage frazą dostępu</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Zezwól na odblokowanie Tajnego Magazynu za pomocą frazy odzyskiwania</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Fraza odzyskiwania</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Opcjonalne</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Łatwa do zapamiętania fraza, która odblokowuje ten sam Secret Storage co klucz bezpieczeństwa.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Łatwy do zapamiętania ciąg słów, który odblokowuje ten sam Tajny Magazyn co klucz odzyskiwania.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Fraza dostępu</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Dla lepszego bezpieczeństwa nie używaj ponownie hasła do konta.</translation>
     </message>
@@ -9421,19 +9421,19 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Odblokuj kopię zapasową kluczy</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Odblokuj zaszyfrowane sekrety, podając swój klucz bezpieczeństwa lub hasło (jeśli dostępne).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Klucze odzyskiwania wyglądają tak: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Klucze bezpieczeństwa wyglądają tak: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Odblokuj tajemnice szyfrowania, podając klucz odzyskiwania lub frazę odzyskiwania (jeśli dostępna).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Klucz bezpieczeństwa lub hasło</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Klucz odzyskiwania lub fraza odzyskiwania</translation>
     </message>
     <message>
         <location line="+10"/>

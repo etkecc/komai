@@ -684,9 +684,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Återställning av nyckelkopia kräver en aktiv matrix-sdk-bakgrundskörning.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>En återställningsnyckel eller lösenfras krävs för att låsa upp säkerhetskopian av nycklar.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>En återställningsnyckel eller återställningslösenfras krävs för att låsa upp nyckelbackupen.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,14 +5234,14 @@ Gå tillbaka och logga in manuellt.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Återställning skapar en ny krypteringsidentitet för det här kontot och startar om installationen.
+        <translation>Återställning skapar en ny krypteringsidentitet för det här kontot och startar inställningarna på nytt.
 
-Du kommer att få en ny säkerhetsnyckel. Spara den för att undvika att behöva återställa igen.
+Du får en ny återställningsnyckel. Spara den gärna för att slippa återställa igen.
 
-Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</translation>
+Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6959,26 +6959,26 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Spara din säkerhetsnyckel och håll den privat</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Spara din återställningsnyckel och håll den hemlig</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Dina krypteringshemligheter lagras nu på servern, krypterade med nyckeln nedan.</translation>
+        <translation>Dina krypteringshemligheter är nu lagrade på servern, krypterade med nyckeln nedan.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Du behöver den för att komma åt krypterade meddelanden om du loggar ut, installerar om eller konfigurerar en annan enhet.</translation>
+        <translation>Du behöver den för att komma åt krypterade meddelanden om du loggar ut, installerar om eller konfigurerar en ny enhet.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation>Kopierat</translation>
+        <translation>Kopierad</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -6987,8 +6987,8 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, jag har sparat min säkerhetsnyckel</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, jag har sparat min återställningsnyckel</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Tillåt upplåsning av hemlig lagring med en lösenfras</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Tillåt upplåsning av hemlig lagring med en återställningslösenfras</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Återställningslösenfras</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Valfritt</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>En minnesvärd fras som låser upp samma hemliga lagring som säkerhetsnyckeln.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>En minnesvärd fras som låser upp samma hemliga lagring som återställningsnyckeln.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Lösenfras</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Återanvänd inte ditt kontolösenord för bästa säkerhet.</translation>
     </message>
@@ -9404,19 +9404,19 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Lås upp nyckelbackup</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Lås upp krypteringshemligheter genom att ange din säkerhetsnyckel eller dess lösenfras (om tillgänglig).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Återställningsnycklar ser ut så här: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Säkerhetsnycklar ser ut så här: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Lås upp krypteringshemligheter genom att ange din återställningsnyckel eller återställningslösenfras (om tillgänglig).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Säkerhetsnyckel eller lösenfras</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Återställningsnyckel eller återställningslösenfras</translation>
     </message>
     <message>
         <location line="+10"/>

@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>යතුරු උපස්ථ ප්‍රතිසාධනයට ක්‍රියාකාරී matrix-sdk backend runtime එකක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>යතුරු උපස්ථය අගුළු ඇරීමට ප්‍රතිසාධන යතුරක් හෝ මුරපදයක් අවශ්‍ය වේ.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>යතුරු උපස්ථය අගුළු ඇරීමට ප්‍රතිසාධන යතුරක් හෝ ප්‍රතිසාධන මුරපදයක් අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,14 +5234,14 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>යළි සැකසීම මෙම ගිණුම සඳහා නව සංකේතන අනන්‍යතාවක් සාදා නැවත සැකසීම ආරම්භ කරයි.
+        <translation>නැවත සැකසීමෙන් මෙම ගිණුම සඳහා නව සංකේතන අනන්‍යතාවක් නිර්මාණය වී සැකසීම නැවතත් ආරම්භ වේ.
 
-ඔබට නව ආරක්ෂා යතුරක් ලැබෙනු ඇත. නැවත යළි සැකසීම වළක්වා ගැනීමට එය සුරකින්න.
+ඔබට නව ප්‍රතිසාධන යතුරක් ලැබේ. නැවත සැකසීම වළක්වා ගැනීමට එය සුරැකීම වඩා හොඳය.
 
-කලින් සේවාදායක-පාර්ශ්ව යතුරු උපස්ථ ස්වයංක්‍රීයව ඉවත් නොකෙරේ.</translation>
+කලින් සේවාදායක-පාර්ශ්වීය යතුරු උපස්ථ ස්වයංක්‍රීයව ඉවත් නොකෙරේ.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6959,21 +6959,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>ඔබේ ආරක්ෂක යතුර සුරකින්න සහ පෞද්ගලිකව තබා ගන්න</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>ඔබේ ප්‍රතිසාධන යතුර සුරකින්න සහ එය රහසිගතව තබා ගන්න</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>ඔබේ සංකේතන රහස් දැන් සේවාදායකයේ ගබඩා කර ඇති අතර, පහත යතුර භාවිතා කර සංකේතිත කර ඇත.</translation>
+        <translation>ඔබේ සංකේතන රහස් දැන් සේවාදායකය මත ගබඩා කර ඇති අතර, පහත යතුර භාවිතා කර සංකේතිත කර ඇත.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>ඔබ ලොග් අවුට් වූ, නැවත ස්ථාපනය කළ, හෝ වෙනත් උපකරණයක් සකසා ගත් විට සංකේතිත පණිවිඩ ප්‍රවේශ වීමට ඔබට එය අවශ්‍ය වනු ඇත.</translation>
+        <translation>ඔබ ඉවත් වුවහොත්, නැවත ස්ථාපනය කළහොත්, හෝ වෙනත් උපකරණයක් සැකසුවහොත් සංකේතිත පණිවිඩ වෙත ප්‍රවේශ වීමට ඔබට එය අවශ්‍ය වේ.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>හරි, මම මගේ ආරක්ෂක යතුර සුරැකිවා</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>හරි, මම මගේ ප්‍රතිසාධන යතුර සුරැකුවා</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>රහස් වාක්‍ය මගින් Secret Storage අගුළු හැරීමට ඉඩ දෙන්න</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>ප්‍රතිසාධන මුරපදයකින් රහස් ගබඩාව අගුළු ඇරීමට ඉඩ දෙන්න</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>ප්‍රතිසාධන මුරපදය</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>විකල්ප</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>ආරක්‍ෂක යතුරට සමාන Secret Storage අගුළු හරිනු ලබන, මතක තබාගත හැකි වාක්‍ය ඛණ්ඩය.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>ප්‍රතිසාධන යතුර ලෙස එකම රහස් ගබඩාව අගුළු ඇරිය හැකි මතකයේ රඳවා ගත හැකි වාක්‍ය ඛණ්ඩයකි.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>රහස් වාක්‍ය</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>උපරිම ආරක්‍ෂාව සඳහා, ඔබගේ ගිණුම් මුරපදය නැවත භාවිත නොකරන්න.</translation>
     </message>
@@ -9404,19 +9404,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>යතුරු උපස්ථය අගුළු හරින්න</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>ඔබේ ආරක්ෂක යතුර හෝ එහි මුර පදය (ලබා ගත හැකි නම්) ඇතුළු කිරීමෙන් සංකේතන රහස් අගුළු හරින්න.</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>ප්‍රතිසාධන යතුරු මෙලෙස පෙනේ: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>ආරක්ෂක යතුරු මෙලෙස පෙනේ: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>ඔබේ ප්‍රතිසාධන යතුර හෝ ප්‍රතිසාධන මුරපදය (ලබා ගත හැකි නම්) ලබා දෙමින් සංකේතන රහස් අගුළු අරින්න.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>ආරක්ෂක යතුර හෝ මුර පදය</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>ප්‍රතිසාධන යතුර හෝ ප්‍රතිසාධන මුරපදය</translation>
     </message>
     <message>
         <location line="+10"/>

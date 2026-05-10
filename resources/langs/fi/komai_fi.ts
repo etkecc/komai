@@ -684,9 +684,9 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Avainvarmuuskopion palautus vaatii aktiivisen matrix-sdk-taustasuoritusympäristön.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Avainvarmuuskopion lukituksen avaamiseen tarvitaan palautusavain tai salasana.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Avainvarmuuskopion avaamiseen tarvitaan palautusavain tai palautuslauseke.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,12 +5234,12 @@ Palaa takaisin ja kirjaudu sisään manuaalisesti.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Nollaaminen luo tälle tilille uuden salausidentiteetin ja aloittaa asetukset alusta.
+        <translation>Nollaus luo tälle tilille uuden salausidentiteetin ja aloittaa asetukset uudelleen.
 
-Saat uuden turva-avaimen. Tallenna se, jotta vältät uuden nollauksen.
+Saat uuden palautusavaimen. Tallenna se mielellään, jotta vältyt uudelta nollaukselta.
 
 Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</translation>
     </message>
@@ -6959,21 +6959,21 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Tallenna turva-avaimesi ja pidä se yksityisenä</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Tallenna palautusavaimesi ja pidä se yksityisenä</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Salausvarmistuksesi on nyt tallennettu palvelimelle, alla olevalla avaimella salattuna.</translation>
+        <translation>Salaussalaisuutesi on nyt tallennettu palvelimelle alla olevalla avaimella salattuna.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Tarvitset sitä salattuihin viesteihin pääsemiseen, jos kirjaudut ulos, asennat uudelleen tai otat käyttöön toisen laitteen.</translation>
+        <translation>Tarvitset sitä salattujen viestien käyttämiseen, jos kirjaudut ulos, asennat uudelleen tai otat käyttöön toisen laitteen.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, tallensin turva-avaimeni</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, tallensin palautusavaimeni</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Salli Salaisen tallennuksen avaaminen salasanalauseella</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Salli Secret Storage:n avaaminen palautuslausekkeella</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Palautuslauseke</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Valinnainen</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Muistettava lause, joka avaa saman Salaisen tallennuksen kuin turva-avain.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Mieleenpainuva lause, joka avaa saman Secret Storage:n kuin palautusavain.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Salasanalause</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Parhaan tietoturvan takaamiseksi älä käytä tilisi salasanaa uudelleen.</translation>
     </message>
@@ -9404,19 +9404,19 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Avaa avainten varmuuskopio</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Avaa salauksen salaisuudet antamalla turva-avaimesi tai sen tunnuslause (jos käytettävissä).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Palautusavaimet näyttävät tältä: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Turva-avaimet näyttävät tältä: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Avaa salaussalaisuudet antamalla palautusavain tai palautuslauseke (jos saatavilla).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Turva-avain tai tunnuslause</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Palautusavain tai palautuslauseke</translation>
     </message>
     <message>
         <location line="+10"/>

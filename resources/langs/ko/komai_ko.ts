@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>키 백업 복구에는 활성 matrix-sdk 백엔드 런타임이 필요합니다.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>키 백업을 잠금 해제하려면 복구 키 또는 암호 문구가 필요합니다.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>키 백업을 잠금 해제하려면 복구 키 또는 복구 암호가 필요합니다.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,12 +5227,12 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>초기화하면 이 계정에 새 암호화 신원이 생성되고 설정이 다시 시작됩니다.
+        <translation>초기화하면 이 계정의 새 암호화 ID가 생성되고 설정이 다시 시작됩니다.
 
-새 보안 키가 생성됩니다. 다시 초기화하지 않으려면 저장해 두세요.
+새 복구 키가 발급됩니다. 다시 초기화하지 않으려면 저장해 두세요.
 
 이전 서버 측 키 백업은 자동으로 삭제되지 않습니다.</translation>
     </message>
@@ -6950,16 +6950,16 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>보안 키를 저장하고 비공개로 유지하세요</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>복구 키를 저장하고 안전하게 보관하세요</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>암호화 비밀이 이제 아래 키로 암호화되어 서버에 저장되었습니다.</translation>
+        <translation>암호화 비밀이 아래 키를 사용하여 암호화된 상태로 서버에 저장되었습니다.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6978,8 +6978,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>보안 키를 저장했습니다</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>확인, 복구 키를 저장했습니다</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>암호문으로 비밀 저장소 잠금 해제 허용</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>복구 암호로 비밀 저장소 잠금 해제 허용</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>복구 암호</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>선택 사항</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>보안 키와 동일한 비밀 저장소를 잠금 해제하는 기억하기 쉬운 문구입니다.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>복구 키와 동일한 비밀 저장소를 잠금 해제하는 기억하기 쉬운 문구입니다.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>암호문</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>최상의 보안을 위해 계정 비밀번호를 재사용하지 마세요.</translation>
     </message>
@@ -9388,19 +9388,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>키 백업 잠금 해제</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>보안 키 또는 암호를 입력하여 암호화 비밀을 잠금 해제하세요(사용 가능한 경우).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>복구 키는 다음과 같습니다: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>보안 키는 다음과 같은 형식입니다: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>복구 키 또는 복구 암호(사용 가능한 경우)를 입력하여 암호화 비밀을 잠금 해제하세요.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>보안 키 또는 암호</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>복구 키 또는 복구 암호</translation>
     </message>
     <message>
         <location line="+10"/>

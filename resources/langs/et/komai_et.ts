@@ -684,9 +684,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Võtmevarunduse taastamine nõuab aktiivset matrix-sdk taustaprogrammi käitusaega.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Võtmevarunduse avamiseks on vajalik taastevõti või paroolilause.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Võtmevarunduse avamiseks on vaja taastevõtit või taastefraasi.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,14 +5234,14 @@ Palun mine tagasi ja logi sisse käsitsi.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
         <translation>Lähtestamine loob sellele kontole uue krüptimisidentiteedi ja alustab seadistamist uuesti.
 
-Saate uue turvavõtme. Salvestage see, et vältida korduvat lähtestamist.
+Saad uue taastevõtme. Parem salvesta see, et vältida uuesti lähtestamist.
 
-Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
+Eelmisi serveripoolseid võtmevarukoopiaid ei eemaldata automaatselt.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6959,21 +6959,21 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Salvesta turvaklahv ja hoia seda privaatsena</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Salvesta oma taastevõti ja hoia seda privaatsena</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Sinu krüptimissaladused on nüüd serveris salvestatud, krüptitud alloleva võtmega.</translation>
+        <translation>Sinu krüptimissaladused on nüüd serveris salvestatud, krüptitud alltoodud võtmega.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Seda on vaja krüptitud sõnumite avamiseks, kui logid välja, paigaldad rakenduse uuesti või seadistad uue seadme.</translation>
+        <translation>Seda läheb vaja krüptitud sõnumitele juurdepääsemiseks väljalogimise, uuesti installimise või teise seadme seadistamise korral.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, salvestasin turvaklahvi</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, salvestasin oma taastevõtme</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Luba salajase hoidla avamine paroolifraasiga</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Luba salahoidla avamine taastefraasiga</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Taastefraas</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Valikuline</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Meeldejääv fraas, mis avab sama salajase hoidla nagu turvavõti.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Meeldejääv fraas, mis avab sama salahoidla nagu taastevõti.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Paroolifraas</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Parima turvalisuse tagamiseks ära kasuta konto parooli uuesti.</translation>
     </message>
@@ -9404,19 +9404,19 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Ava võtmevarukoopia</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Krüptimissaladuste avamiseks esita oma turvavõti või selle paroolilause (kui see on saadaval).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Taastevõtmed näevad välja nii: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Turvavõtmed näevad välja nii: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Ava krüptimissaladused, esitades oma taastevõtme või taastefraasi (kui see on saadaval).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Turvavõti või paroolilause</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Taastevõti või taastefraas</translation>
     </message>
     <message>
         <location line="+10"/>

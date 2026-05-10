@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Възстановяването на резервното копие на ключовете изисква активен matrix-sdk backend runtime.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Необходим е ключ за възстановяване или парола за отключване на резервното копие на ключовете.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>За отключване на архива с ключове е необходим ключ за възстановяване или парола за възстановяване.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,12 +5234,12 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Нулирането създава нова идентичност за шифроване за тази сметка и започва настройката отново.
+        <translation>Нулирането създава нов шифровъчен идентитет за този акаунт и започва настройката отново.
 
-Ще получите нов ключ за сигурност. По-добре го запазете, за да избегнете повторно нулиране.
+Ще получиш нов ключ за възстановяване. По-добре го запази, за да избегнеш повторно нулиране.
 
 Предишните резервни копия на ключове от страна на сървъра не се премахват автоматично.</translation>
     </message>
@@ -6959,21 +6959,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Запази ключа си за сигурност и го пази в тайна</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Запази ключа си за възстановяване и го пази в тайна</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Тайните ти за шифроване вече са съхранени на сървъра, шифровани с ключа по-долу.</translation>
+        <translation>Твоите шифровъчни тайни вече са съхранени на сървъра, шифровани с ключа по-долу.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Ще имаш нужда от него за достъп до шифровани съобщения, ако излезеш, преинсталираш или настроиш друго устройство.</translation>
+        <translation>Ще ти трябва, за да достъпиш шифрованите съобщения, ако излезеш, преинсталираш или настроиш друго устройство.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, запазих ключа си за сигурност</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>ОК, запазих ключа си за възстановяване</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Позволи отключване на Тайното хранилище с парола-фраза</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Позволи отключване на тайното хранилище с парола за възстановяване</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Парола за възстановяване</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>По избор</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Запомняща се фраза, която отключва същото Тайно хранилище като ключа за сигурност.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Запомняема фраза, която отключва същото Secret Storage като ключа за възстановяване.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Парола-фраза</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>За най-добра сигурност, не използвай повторно паролата на акаунта си.</translation>
     </message>
@@ -9404,19 +9404,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Отключване на резервното копие на ключа</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Отключи тайните за шифроване, като предоставиш своя ключ за сигурност или неговата парола (ако е налична).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Ключовете за възстановяване изглеждат така: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Ключовете за сигурност изглеждат така: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Отключи шифрованите тайни, като предоставиш ключ за възстановяване или парола за възстановяване (ако е налична).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Ключ за сигурност или парола</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Ключ за възстановяване или парола за възстановяване</translation>
     </message>
     <message>
         <location line="+10"/>

@@ -13,7 +13,7 @@ Components.OverlayDialog {
     id: root
 
     property bool completionHandled: false
-    property string securityKeyExample: "EsUJ G5yL 75Sw 5cas scd8 4gSU rdVX Uuzk QsKC vYxe rTdc Hxee"
+    property string recoveryKeyExample: "EsUJ G5yL 75Sw 5cas scd8 4gSU rdVX Uuzk QsKC vYxe rTdc Hxee"
     signal unlockRequested(string value)
     signal cancelled()
 
@@ -43,7 +43,7 @@ Components.OverlayDialog {
     Label {
         Layout.fillWidth: true
         color: palette.text
-        text: qsTr("Unlock encryption secrets by providing your security key or its passphrase (if available).")
+        text: qsTr("Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).")
         textFormat: Text.PlainText
         wrapMode: Text.Wrap
     }
@@ -51,7 +51,7 @@ Components.OverlayDialog {
     Label {
         Layout.fillWidth: true
         color: palette.text
-        text: qsTr("Security keys look like this: ") + "<code>" + root.securityKeyExample + "</code>"
+        text: qsTr("Recovery keys look like this: ") + "<code>" + root.recoveryKeyExample + "</code>"
         textFormat: Text.RichText
         wrapMode: Text.Wrap
     }
@@ -61,7 +61,7 @@ Components.OverlayDialog {
 
         Layout.fillWidth: true
         echoMode: TextInput.Password
-        placeholderText: qsTr("Security key or passphrase")
+        placeholderText: qsTr("Recovery key or recovery passphrase")
 
         onAccepted: root.submitUnlock()
     }

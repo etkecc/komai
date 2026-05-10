@@ -684,9 +684,9 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Il ripristino del backup delle chiavi richiede un runtime backend matrix-sdk attivo.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>È necessaria una chiave di ripristino o una passphrase per sbloccare il backup delle chiavi.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Per sbloccare il backup delle chiavi è necessaria una chiave di ripristino o una passphrase di ripristino.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,12 +5234,12 @@ Tornare indietro e accedere manualmente.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>La reimpostazione crea una nuova identità di crittografia per questo account e avvia nuovamente la configurazione.
+        <translation>Il ripristino crea una nuova identità di crittografia per questo account e riavvia la configurazione.
 
-Riceverai una nuova chiave di sicurezza. È consigliabile salvarla per evitare di dover reimpostare nuovamente.
+Riceverai una nuova chiave di ripristino. Salvala per evitare di dover ripristinare di nuovo.
 
 I backup delle chiavi lato server precedenti non vengono rimossi automaticamente.</translation>
     </message>
@@ -6959,21 +6959,21 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Salva la chiave di sicurezza e tienila privata</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Salva la tua chiave di ripristino e tienila al sicuro</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>I tuoi segreti di crittografia sono ora archiviati sul server, crittati con la chiave sottostante.</translation>
+        <translation>I tuoi segreti di crittografia sono ora archiviati sul server, crittografati con la chiave qui sotto.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Sarà necessaria per accedere ai messaggi crittati in caso di disconnessione, reinstallazione o configurazione di un altro dispositivo.</translation>
+        <translation>Ne avrai bisogno per accedere ai messaggi crittografati se effettui il logout, reinstalli l'app o configuri un altro dispositivo.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, ho salvato la mia chiave di sicurezza</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, ho salvato la mia chiave di ripristino</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Consenti lo sblocco di Secret Storage con una passphrase</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Consenti lo sblocco dell'Archivio Segreto con una passphrase di ripristino</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Passphrase di ripristino</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Facoltativo</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Una frase memorabile che sblocca lo stesso Secret Storage della chiave di sicurezza.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Una frase memorabile che sblocca lo stesso Archivio Segreto della chiave di ripristino.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Passphrase</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Per una maggiore sicurezza, non riutilizzare la password dell'account.</translation>
     </message>
@@ -9404,19 +9404,19 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Sblocca backup delle chiavi</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Sblocca i segreti di crittografia fornendo la tua chiave di sicurezza o la sua passphrase (se disponibile).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Le chiavi di ripristino hanno questo aspetto: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Le chiavi di sicurezza si presentano così: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Sblocca i segreti di crittografia fornendo la tua chiave di ripristino o la passphrase di ripristino (se disponibile).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Chiave di sicurezza o passphrase</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Chiave di ripristino o passphrase di ripristino</translation>
     </message>
     <message>
         <location line="+10"/>

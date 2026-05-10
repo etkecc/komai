@@ -684,9 +684,9 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Recuperarea copiei de rezervă a cheilor necesită un runtime activ pentru backend-ul matrix-sdk.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Este necesară o cheie de recuperare sau o frază de acces pentru a debloca copia de rezervă a cheilor.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Este necesară o cheie de recuperare sau o frază de recuperare pentru a debloca copia de rezervă a cheilor.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5241,14 +5241,14 @@ Reveniți și autentificați-vă manual.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
         <translation>Resetarea creează o nouă identitate de criptare pentru acest cont și repornește configurarea.
 
-Vei primi o nouă cheie de securitate. Salvează-o pentru a evita o nouă resetare.
+Vei primi o nouă cheie de recuperare. E mai bine să o salvezi pentru a evita resetarea din nou.
 
-Copiile de rezervă ale cheilor de pe server nu sunt eliminate automat.</translation>
+Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6968,16 +6968,16 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Salvează-ți cheia de securitate și păstreaz-o privată</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Salvează-ți cheia de recuperare și păstrează-o privată</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Secretele tale de criptare sunt acum stocate pe server, criptate cu cheia de mai jos.</translation>
+        <translation>Secretele tale de criptare sunt acum stocate pe server, criptate folosind cheia de mai jos.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6992,12 +6992,12 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     <message>
         <location line="+0"/>
         <source>Copy</source>
-        <translation>Copiere</translation>
+        <translation>Copiază</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, mi-am salvat cheia de securitate</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, mi-am salvat cheia de recuperare</translation>
     </message>
 </context>
 <context>
@@ -7421,26 +7421,26 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Permite deblocarea Secret Storage cu o frază de acces</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Permite deblocarea Secret Storage cu o frază de recuperare</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Frază de recuperare</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Opțional</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>O expresie memorabilă care deblochează același Secret Storage ca și cheia de securitate.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>O frază memorabilă care deblochează același Secret Storage ca și cheia de recuperare.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Frază de acces</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Pentru securitate maximă, nu refolosi parola contului.</translation>
     </message>
@@ -9420,19 +9420,19 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Deblochează backup-ul cheilor</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Deblocați secretele de criptare furnizând cheia de securitate sau fraza de acces (dacă este disponibilă).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Cheile de recuperare arată astfel: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Cheile de securitate arată astfel: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Secretele de criptare se deblochează furnizând cheia de recuperare sau fraza de recuperare (dacă este disponibilă).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Cheie de securitate sau frază de acces</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Cheie de recuperare sau frază de recuperare</translation>
     </message>
     <message>
         <location line="+10"/>

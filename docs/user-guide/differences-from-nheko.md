@@ -104,7 +104,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 ## 🔐 Encryption Setup and Recovery
 
 - **Clear encryption backup prompt** -- when backup is missing, Komai shows a focused banner that explains why setup matters and lets you start immediately
-- **One-click backup setup flow** -- creates a new security key and then shows a dedicated "save this key" dialog with copy support and keyboard-friendly actions
+- **One-click backup setup flow** -- creates a new recovery key and then shows a dedicated "save this key" dialog with copy support and keyboard-friendly actions
 - **Improved encryption prompts** -- unlock and verification flows now use clearer, more human wording so next steps are easier to understand
 
 

@@ -16,7 +16,7 @@ Components.OverlayDialog {
     property bool copied: false
 
     closePolicy: Popup.NoAutoClose
-    title: qsTr("Save your security key and keep it private")
+    title: qsTr("Save your recovery key and keep it private")
     titleIcon: ":/icons/icons/ui/shield-regular-checkmark.svg"
     titleIconColor: Komai.theme.success
     onOpened: recoveryKeyField.forceActiveFocus()
@@ -92,7 +92,7 @@ Components.OverlayDialog {
 
             icon.source: "qrc:/icons/icons/ui/checkmark.svg"
             KeyNavigation.backtab: copyRecoveryKeyButton
-            text: qsTr("OK, I saved my security key")
+            text: qsTr("OK, I saved my recovery key")
             highlighted: true
             onClicked: root.close()
             Keys.onReturnPressed: event => {

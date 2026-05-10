@@ -136,7 +136,8 @@ ChatPage::processDownloadedSecretsUnlockInput(const QString &text)
 
     const auto trimmedSecret = text.trimmed();
     if (trimmedSecret.isEmpty()) {
-        emit showNotification(tr("A recovery key or passphrase is required to unlock key backup."));
+        emit showNotification(
+          tr("A recovery key or recovery passphrase is required to unlock key backup."));
         return;
     }
 

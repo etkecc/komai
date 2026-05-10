@@ -684,9 +684,9 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>A kulcsmentés visszaállításához aktív matrix-sdk futtatókörnyezet szükséges.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>A kulcsmentés feloldásához visszaállítási kulcs vagy jelszó szükséges.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>A kulcsmentés feloldásához helyreállítási kulcs vagy helyreállítási jelszó szükséges.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,12 +5227,12 @@ Kérjük, lépjen vissza, és jelentkezzen be manuálisan.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>A visszaállítás új titkosítási azonosítót hoz létre ehhez a fiókhoz, és újraindítja a beállítást.
+        <translation>Az alaphelyzetbe állítás új titkosítási azonosítót hoz létre ehhez a fiókhoz, és újraindítja a beállítást.
 
-Kap egy új biztonsági kulcsot. Érdemes elmenteni, hogy ne kelljen újra visszaállítani.
+Új helyreállítási kulcsot kap. Érdemes elmenteni, hogy elkerülje az újbóli alaphelyzetbe állítást.
 
 A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</translation>
     </message>
@@ -6950,11 +6950,11 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Mentse el a biztonsági kulcsát, és tartsa titokban</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Mentse el a helyreállítási kulcsát, és tartsa titokban</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -6964,7 +6964,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Szüksége lesz rá a titkosított üzenetek eléréséhez, ha kijelentkezik, újratelepíti az alkalmazást, vagy beállít egy másik eszközt.</translation>
+        <translation>Szükséges lesz a titkosított üzenetek eléréséhez, ha kijelentkezik, újratelepít, vagy egy másik eszközt állít be.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6978,8 +6978,8 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>Rendben, elmentettem a biztonsági kulcsomat</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, elmentettem a helyreállítási kulcsomat</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Titkos Tároló feloldásának engedélyezése jelszóval</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>A titkos tároló feloldásának engedélyezése helyreállítási jelszóval</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Helyreállítási jelszó</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Opcionális</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Egy emlékezetes mondat, amely ugyanazt a Titkos Tárolót nyitja meg, mint a biztonsági kulcs.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Egy könnyen megjegyezhető mondat, amely ugyanazt a titkos tárolót oldja fel, mint a helyreállítási kulcs.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Jelmondat</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>A legjobb biztonság érdekében ne használja újra a fiókjelszavát.</translation>
     </message>
@@ -9388,19 +9388,19 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Kulcsmentés feloldása</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Titkosítási titkok feloldása a biztonsági kulcs vagy annak jelszava megadásával (ha elérhető).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>A helyreállítási kulcsok így néznek ki: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>A biztonsági kulcsok így néznek ki: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Oldja fel a titkosítási titkait a helyreállítási kulcs vagy a helyreállítási jelszó megadásával (ha elérhető).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Biztonsági kulcs vagy jelszó</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Helyreállítási kulcs vagy helyreállítási jelszó</translation>
     </message>
     <message>
         <location line="+10"/>

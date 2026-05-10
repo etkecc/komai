@@ -684,9 +684,9 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>La rekupero de ŝlosilsavkopio postulas aktivan matrix-sdk-dorsan rultempan.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Rekupera ŝlosilo aŭ pasfrazo estas bezonata por malŝlosi la ŝlosilsavkopion.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Reakira ŝlosilo aŭ reakira pasfrazo estas necesa por malŝlosi ŝlosil-sekurkopion.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5236,14 +5236,14 @@ forigi la enhavon, se necese.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Reagordado kreas novan ĉifran identecon por ĉi tiu konto kaj rekomencas la agordon.
+        <translation>Restarigo kreas novan ĉifran identecon por ĉi tiu konto kaj rekomencas la agordon.
 
-Vi ricevos novan sekurecan ŝlosilon. Pli bone konservu ĝin por eviti denovan reagordon.
+Vi ricevos novan reakiran ŝlosilon. Pli bone konservu ĝin por eviti restarigon denove.
 
-Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
+Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6961,21 +6961,21 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Konservu vian sekurecan ŝlosilon kaj gardu ĝin privata</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Konservu vian reakiran ŝlosilon kaj gardu ĝin privata.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Viaj ĉifradaj sekretoj nun estas konservitaj sur la servilo, ĉifritaj per la suba ŝlosilo.</translation>
+        <translation>Viaj ĉifradaj sekretoj nun estas stokitaj sur la servilo, ĉifritaj per la ŝlosilo sube.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Vi bezonos ĝin por aliri ĉifritajn mesaĝojn se vi elsalutas, reinstalaS, aŭ agordas alian aparaton.</translation>
+        <translation>Vi bezonos ĝin por aliri ĉifritajn mesaĝojn se vi elsalutas, reinstalas aŭ agordas alian aparaton.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6989,8 +6989,8 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>Bone, mi konservis mian sekurecan ŝlosilon</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>Bone, mi konservis mian reakiran ŝlosilon.</translation>
     </message>
 </context>
 <context>
@@ -7414,26 +7414,26 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Permesi malŝlosi Sekreta Stokadon per pasfrazo</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Permesi malŝlosi Sekretan Stokadon per reakira pasfrazo</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Reakira pasfrazo</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Laŭvola</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Memorinda frazo kiu malŝlosas la saman Sekreta Stokadon kiel la sekureca ŝlosilo.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Memorinda frazo, kiu malŝlosas la saman Sekretan Stokadon kiel la reakira ŝlosilo.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Pasfrazo</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Por plej bona sekureco, ne reuzu la pasvorton de via konto.</translation>
     </message>
@@ -9407,19 +9407,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Malŝlosi ŝlosilan sekurkopion</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Malŝlosi ĉifradosekretojn provizante vian sekurecŝlosilon aŭ ĝian pasfrazon (se disponebla).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Reakiraj ŝlosiloj aspektas tiel: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Sekurecŝlosiloj aspektas jene: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Malŝlosu ĉifradajn sekretojn per via reakira ŝlosilo aŭ reakira pasfrazo (se disponebla).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Sekurecŝlosilo aŭ pasfrazo</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Reakira ŝlosilo aŭ reakira pasfrazo</translation>
     </message>
     <message>
         <location line="+10"/>

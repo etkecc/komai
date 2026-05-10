@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Η ανάκτηση αντιγράφου ασφαλείας κλειδιών απαιτεί ενεργό χρόνο εκτέλεσης matrix-sdk.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Απαιτείται κλειδί ανάκτησης ή φράση πρόσβασης για ξεκλείδωμα του αντιγράφου ασφαλείας κλειδιών.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Απαιτείται κλειδί ανάκτησης ή φράση ανάκτησης για το ξεκλείδωμα του αντιγράφου ασφαλείας κλειδιών.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,12 +5234,12 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Η επαναφορά δημιουργεί νέα κρυπτογραφική ταυτότητα για αυτόν τον λογαριασμό και ξεκινά ξανά τη ρύθμιση.
+        <translation>Η επαναφορά δημιουργεί νέα ταυτότητα κρυπτογράφησης για αυτόν τον λογαριασμό και ξεκινά ξανά τη ρύθμιση.
 
-Θα λάβετε νέο κλειδί ασφαλείας. Καλό είναι να το αποθηκεύσετε για να αποφύγετε μελλοντική επαναφορά.
+Θα λάβετε νέο κλειδί ανάκτησης. Καλύτερα να το αποθηκεύσετε για να αποφύγετε νέα επαναφορά.
 
 Τα προηγούμενα αντίγραφα ασφαλείας κλειδιών στον διακομιστή δεν αφαιρούνται αυτόματα.</translation>
     </message>
@@ -6959,16 +6959,16 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Αποθηκεύστε το κλειδί ασφαλείας σας και κρατήστε το μυστικό</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Αποθηκεύστε το κλειδί ανάκτησής σας και κρατήστε το απόρρητο</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Τα μυστικά κρυπτογράφησής σας αποθηκεύτηκαν τώρα στον διακομιστή, κρυπτογραφημένα με το παρακάτω κλειδί.</translation>
+        <translation>Τα μυστικά κρυπτογράφησής σας είναι τώρα αποθηκευμένα στον διακομιστή, κρυπτογραφημένα με το παρακάτω κλειδί.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6987,8 +6987,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>ΟΚ, αποθήκευσα το κλειδί ασφαλείας μου</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>ΟΚ, αποθήκευσα το κλειδί ανάκτησής μου</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Να επιτρέπεται το ξεκλείδωμα του Secret Storage με συνθηματική φράση</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Να επιτρέπεται το ξεκλείδωμα της Μυστικής Αποθήκευσης με φράση ανάκτησης</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Φράση ανάκτησης</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Προαιρετικό</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Μια αξιομνημόνευτη φράση που ξεκλειδώνει το ίδιο Secret Storage με το κλειδί ασφαλείας.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Μια αξέχαστη φράση που ξεκλειδώνει την ίδια Μυστική Αποθήκη όπως το κλειδί ανάκτησης.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Συνθηματική φράση</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Για βέλτιστη ασφάλεια, μην επαναχρησιμοποιείτε τον κωδικό πρόσβασης του λογαριασμού σας.</translation>
     </message>
@@ -9404,19 +9404,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Ξεκλείδωμα αντιγράφου ασφαλείας κλειδιών</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Ξεκλειδώστε τα μυστικά κρυπτογράφησης παρέχοντας το κλειδί ασφαλείας ή τη φράση πρόσβασής του (αν είναι διαθέσιμη).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Τα κλειδιά ανάκτησης μοιάζουν έτσι: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Τα κλειδιά ασφαλείας μοιάζουν ως εξής: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Ξεκλειδώστε τα κρυπτογραφικά μυστικά παρέχοντας το κλειδί ανάκτησης ή τη φράση ανάκτησής σας (εάν διατίθεται).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Κλειδί ασφαλείας ή φράση πρόσβασης</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Κλειδί ανάκτησης ή φράση ανάκτησης</translation>
     </message>
     <message>
         <location line="+10"/>

@@ -684,9 +684,9 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Li recuperation de copia de reserva de clés require un runtime backend matrix-sdk activ.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Un clé de recuperation o frase-passe es requisit por desbloquear li copia de reserva de clés.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Un clave de recuperation o frase-passe de recuperation es requisit por disblocar li backup de claves.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,14 +5234,14 @@ Per favor revenir e connecter se manualmente.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Restabliment crea un nov identitat de cripteration por ci conto e comensa li configuration de nov.
+        <translation>Reinitialisar creat un nov identité de cripteration por ti conto e recomença li configuration.
 
-Vu recevrá un nov clave de securité. Melio salvar it por evitar un altri restabliment.
+Vu recevará un nov clave de recuperation. Plu bon salvar it por evitar reinitialisar ancor.
 
-Backups de claves del servitor anteriori ne es supressat automaticmen.</translation>
+Previ backups de claves del servidor ne es removet automaticmen.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6959,21 +6959,21 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Salvar vun clave de securita e mantener it privat</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Salvar vu clave de recuperation e conservar it privat</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Vun secretes de cripteration es nu depositat sul servidor, criptat per li clave sub.</translation>
+        <translation>Vu secrets de cripteration es nu stockat sur li servidor, criptat usante li clave sub.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Vu besonia it por acceder mesages criptat si vu disconnecta se, reinstalla, o configura un altri aparate.</translation>
+        <translation>Vu necessitará it por acceder mesages criptat si vu disconnecta se, reinstalla, o configura un altri aparate.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, yo salvet mi clave de securita</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, yo salvat mi clave de recuperation</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Permisser desclusion del Secret Storage con un passphrase</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Permisser disblocar Stockage Secret con un frase-passe de recuperation</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Frase-passe de recuperation</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Optional</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Un frase memorable que descluda li mem Secret Storage quam li clave de securitá.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Un frase memorabil que disbloca li mem Stockage Secret quam li clave de recuperation.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Passphrase</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Por maxim securitá, ne reusar vun passe de conto.</translation>
     </message>
@@ -9404,19 +9404,19 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Desblocar salvaguarda de claves</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Desblocar secretes de cripteration per provider vun clave de securité o su parafrase (si disponibil).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Claves de recuperation aspicta tal: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Claves de securité apare assi: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Disblocar secrets de cripteration per fornier vu clave de recuperation o frase-passe de recuperation (si disponibil).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Clave de securité o parafrase</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Clave de recuperation o frase-passe de recuperation</translation>
     </message>
     <message>
         <location line="+10"/>

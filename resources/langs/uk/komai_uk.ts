@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Відновлення резервної копії ключів потребує активного середовища виконання бекенду matrix-sdk.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Для розблокування резервної копії ключів потрібен ключ відновлення або парольна фраза.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Для розблокування резервної копії ключів потрібен ключ відновлення або парольна фраза відновлення.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5241,14 +5241,14 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Скидання створює новий шифрувальний ідентифікатор для цього акаунту та починає налаштування знову.
+        <translation>Скидання створює нову ідентичність шифрування для цього облікового запису та починає налаштування заново.
 
-Ви отримаєте новий ключ безпеки. Краще збережіть його, щоб уникнути повторного скидання.
+Ти отримаєш новий ключ відновлення. Краще збережи його, щоб уникнути повторного скидання.
 
-Попередні резервні копії ключів на сервері не видаляються автоматично.</translation>
+Попередні резервні копії ключів на стороні сервера не видаляються автоматично.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6968,21 +6968,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Збережіть ключ безпеки та тримайте його в таємниці</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Збережи свій ключ відновлення та тримай його в таємниці</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Ваші секрети шифрування тепер зберігаються на сервері, зашифровані за допомогою ключа нижче.</translation>
+        <translation>Твої секрети шифрування тепер зберігаються на сервері, зашифровані за допомогою ключа нижче.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Він знадобиться для доступу до зашифрованих повідомлень, якщо ви вийдете з облікового запису, перевстановите застосунок або налаштуєте інший пристрій.</translation>
+        <translation>Він знадобиться тобі для доступу до зашифрованих повідомлень, якщо ти вийдеш з облікового запису, перевстановиш додаток або налаштуєш інший пристрій.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6996,8 +6996,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>Гаразд, ключ безпеки збережено</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, мій ключ відновлення збережено</translation>
     </message>
 </context>
 <context>
@@ -7421,26 +7421,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Дозволити розблокування Секретного сховища за допомогою парольної фрази</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Дозволити розблокування Сховища секретів за допомогою парольної фрази відновлення</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Парольна фраза відновлення</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Необов'язково</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Запам'ятовувана фраза, яка відкриває те саме Секретне сховище, що й ключ безпеки.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Запам'ятовувана фраза, яка відкриває те саме Сховище секретів, що й ключ відновлення.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Парольна фраза</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Для кращої безпеки не використовуйте пароль облікового запису повторно.</translation>
     </message>
@@ -9420,19 +9420,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Розблокувати резервну копію ключів</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Розблокуйте секрети шифрування, вказавши ключ безпеки або парольну фразу до нього (якщо є).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Ключі відновлення виглядають так: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Ключі безпеки виглядають так: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Розблокуй секрети шифрування, надавши свій ключ відновлення або парольну фразу відновлення (якщо доступна).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Ключ безпеки або парольна фраза</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Ключ відновлення або парольна фраза відновлення</translation>
     </message>
     <message>
         <location line="+10"/>

@@ -684,9 +684,9 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Khôi phục sao lưu khóa yêu cầu runtime backend matrix-sdk đang hoạt động.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Cần khóa khôi phục hoặc cụm mật khẩu để mở khóa sao lưu khóa.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Cần có khóa khôi phục hoặc cụm mật khẩu khôi phục để mở khóa sao lưu.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,14 +5227,14 @@ Vui lòng quay lại và đăng nhập thủ công.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Đặt lại sẽ tạo danh tính mã hóa mới cho tài khoản này và bắt đầu thiết lập lại từ đầu.
+        <translation>Đặt lại sẽ tạo một danh tính mã hóa mới cho tài khoản này và bắt đầu thiết lập lại từ đầu.
 
-Bạn sẽ nhận được khóa bảo mật mới. Hãy lưu lại để tránh phải đặt lại lần nữa.
+Bạn sẽ nhận được một khóa khôi phục mới. Tốt hơn là nên lưu lại để tránh phải đặt lại một lần nữa.
 
-Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa tự động.</translation>
+Các sao lưu khóa phía máy chủ trước đây không được xóa tự động.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6950,21 +6950,21 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Lưu khóa bảo mật của bạn và giữ bí mật</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Lưu khóa khôi phục của bạn và giữ bí mật</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Bí mật mã hóa của bạn hiện được lưu trên máy chủ, được mã hóa bằng khóa bên dưới.</translation>
+        <translation>Các bí mật mã hóa của bạn hiện đã được lưu trữ trên máy chủ, được mã hóa bằng khóa bên dưới.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Bạn sẽ cần nó để truy cập các tin nhắn đã mã hóa nếu bạn đăng xuất, cài đặt lại, hoặc thiết lập thiết bị khác.</translation>
+        <translation>Bạn sẽ cần đến nó để truy cập các tin nhắn đã mã hóa nếu bạn đăng xuất, cài đặt lại, hoặc thiết lập một thiết bị khác.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6978,8 +6978,8 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, tôi đã lưu khóa bảo mật của mình</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, tôi đã lưu khóa khôi phục của mình</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Cho phép mở khóa Secret Storage bằng cụm mật khẩu</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Cho phép mở khóa Kho lưu trữ bí mật bằng cụm mật khẩu khôi phục</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Cụm mật khẩu khôi phục</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Tùy chọn</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Một cụm từ dễ nhớ để mở khóa cùng Secret Storage như khóa bảo mật.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Một cụm từ dễ nhớ dùng để mở khóa cùng Kho lưu trữ bí mật như khóa khôi phục.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Cụm mật khẩu</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Để bảo mật tốt nhất, đừng sử dụng lại mật khẩu tài khoản của bạn.</translation>
     </message>
@@ -9388,19 +9388,19 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Mở khóa sao lưu khóa</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Mở khóa bí mật mã hóa bằng cách cung cấp khóa bảo mật hoặc cụm mật khẩu của bạn (nếu có).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Khóa khôi phục trông như thế này: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Khóa bảo mật trông như thế này: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Mở khóa các bí mật mã hóa bằng cách cung cấp khóa khôi phục hoặc cụm mật khẩu khôi phục (nếu có) của bạn.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Khóa bảo mật hoặc cụm mật khẩu</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Khóa khôi phục hoặc cụm mật khẩu khôi phục</translation>
     </message>
     <message>
         <location line="+10"/>

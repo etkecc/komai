@@ -684,9 +684,9 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Sleutelback-upherstel vereist een actieve matrix-sdk-backendruntime.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Een herstelsleutel of wachtzin is vereist om de sleutelback-up te ontgrendelen.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Een herstelsleutel of herstelzin is vereist om de sleutelback-up te ontgrendelen.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5234,14 +5234,14 @@ Ga terug en meld je handmatig aan.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Resetten maakt een nieuwe versleutelingsidentiteit aan voor dit account en start de instelling opnieuw.
+        <translation>Opnieuw instellen maakt een nieuwe versleutelingsidentiteit aan voor dit account en start de instelling opnieuw.
 
-Je ontvangt een nieuwe beveiligingssleutel. Sla deze op om te voorkomen dat je opnieuw moet resetten.
+Je krijgt een nieuwe herstelsleutel. Sla hem op om te voorkomen dat je opnieuw moet instellen.
 
-Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</translation>
+Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6959,11 +6959,11 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Sla je beveiligingssleutel op en houd hem privé</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Sla je herstelsleutel op en houd hem privé</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -6973,7 +6973,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Je hebt hem nodig om toegang te krijgen tot versleutelde berichten als je uitlogt, opnieuw installeert of een ander apparaat instelt.</translation>
+        <translation>Je hebt hem nodig om versleutelde berichten te bekijken als je uitlogt, opnieuw installeert of een ander apparaat instelt.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6987,8 +6987,8 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, ik heb mijn beveiligingssleutel opgeslagen</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, ik heb mijn herstelsleutel opgeslagen</translation>
     </message>
 </context>
 <context>
@@ -7412,26 +7412,26 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Secret Storage ontgrendelen met een wachtzin toestaan</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Ontgrendeling van Geheime opslag met een herstelzin toestaan</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Herstelzin</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Optioneel</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Een gedenkwaardige zin die dezelfde Secret Storage ontgrendelt als de beveiligingssleutel.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Een gedenkwaardige zin die dezelfde Geheime opslag ontgrendelt als de herstelsleutel.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Wachtzin</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Gebruik voor de beste beveiliging je accountwachtwoord niet opnieuw.</translation>
     </message>
@@ -9404,19 +9404,19 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Sleutelback-up ontgrendelen</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Ontgrendel versleutelingsgeheimen door je beveiligingssleutel of bijbehorende wachtwoordzin op te geven (indien beschikbaar).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Herstelsleutels zien er zo uit: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Beveiligingssleutels zien er zo uit: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Ontgrendel versleutelingsgeheimen door je herstelsleutel of herstelzin op te geven (indien beschikbaar).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Beveiligingssleutel of wachtwoordzin</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Herstelsleutel of herstelzin</translation>
     </message>
     <message>
         <location line="+10"/>

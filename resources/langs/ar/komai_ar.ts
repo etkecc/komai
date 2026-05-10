@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>يتطلب استرداد النسخ الاحتياطي للمفاتيح تشغيل الواجهة الخلفية لـ matrix-sdk.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>مطلوب مفتاح استرداد أو عبارة مرور لفتح النسخ الاحتياطي للمفاتيح.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>يلزم توفير مفتاح الاسترداد أو عبارة مرور الاسترداد لفتح النسخ الاحتياطي للمفاتيح.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5262,14 +5262,14 @@ Please go back and sign in manually.</source>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>تؤدي إعادة التعيين إلى إنشاء هوية تشفير جديدة لهذا الحساب وبدء الإعداد من جديد.
+        <translation>إعادة التعيين تُنشئ هوية تشفير جديدة لهذا الحساب وتبدأ الإعداد من جديد.
 
-ستحصل على مفتاح أمان جديد. من الأفضل حفظه لتجنب إعادة التعيين مرة أخرى.
+ستحصل على مفتاح استرداد جديد. من الأفضل حفظه لتجنب الاضطرار إلى إعادة التعيين مرة أخرى.
 
-لا تتم إزالة النسخ الاحتياطية السابقة للمفاتيح على الخادم تلقائيًا.</translation>
+لا تُحذف النسخ الاحتياطية للمفاتيح على الخادم السابقة تلقائيًا.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6995,21 +6995,21 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>احفظ مفتاح الأمان الخاص بك واحتفظ به سرياً</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>احفظ مفتاح الاسترداد الخاص بك واحتفظ به سريًا</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>تم تخزين أسرار التشفير الخاصة بك على الخادم الآن، مشفرةً باستخدام المفتاح أدناه.</translation>
+        <translation>أسرار التشفير الخاصة بك محفوظة الآن على الخادم، مشفرة باستخدام المفتاح أدناه.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>ستحتاج إليه للوصول إلى الرسائل المشفرة إذا قمت بتسجيل الخروج أو إعادة التثبيت أو إعداد جهاز آخر.</translation>
+        <translation>ستحتاجه للوصول إلى الرسائل المشفرة إذا قمت بتسجيل الخروج أو إعادة التثبيت أو إعداد جهاز آخر.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -7023,8 +7023,8 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>حسناً، لقد حفظت مفتاح الأمان</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>حسنًا، لقد حفظت مفتاح الاسترداد الخاص بي</translation>
     </message>
 </context>
 <context>
@@ -7448,26 +7448,26 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>السماح بفتح التخزين السري بعبارة مرور</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>السماح بفتح التخزين السري باستخدام عبارة مرور الاسترداد</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>عبارة مرور الاسترداد</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>اختياري</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>عبارة سهلة التذكر تفتح نفس التخزين السري مثل مفتاح الأمان.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>عبارة سهلة التذكر تفتح نفس التخزين السري كمفتاح الاسترداد.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>عبارة المرور</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>للحصول على أفضل أمان، لا تعيد استخدام كلمة مرور حسابك.</translation>
     </message>
@@ -9468,19 +9468,19 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>فتح النسخة الاحتياطية للمفتاح</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>فتح أسرار التشفير عن طريق توفير مفتاح الأمان أو عبارة المرور الخاصة به (إن كانت متاحة).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>تبدو مفاتيح الاسترداد كالتالي: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>تبدو مفاتيح الأمان هكذا: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>افتح أسرار التشفير بتوفير مفتاح الاسترداد أو عبارة مرور الاسترداد (إن كانت متاحة).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>مفتاح الأمان أو عبارة المرور</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>مفتاح الاسترداد أو عبارة مرور الاسترداد</translation>
     </message>
     <message>
         <location line="+10"/>

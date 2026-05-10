@@ -684,9 +684,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Anahtar yedeklemesi kurtarma, aktif bir matrix-sdk arka uç çalışma zamanı gerektirir.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Anahtar yedeklemesinin kilidini açmak için bir kurtarma anahtarı veya parola gereklidir.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Anahtar yedeğinin kilidini açmak için bir kurtarma anahtarı veya kurtarma parolası gereklidir.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,14 +5227,14 @@ Lütfen geri gidin ve manuel olarak oturum açın.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
         <translation>Sıfırlama, bu hesap için yeni bir şifreleme kimliği oluşturur ve kurulumu yeniden başlatır.
 
-Yeni bir güvenlik anahtarı alacaksınız. Tekrar sıfırlamak zorunda kalmamak için kaydetmeniz önerilir.
+Yeni bir kurtarma anahtarı alacaksınız. Tekrar sıfırlamaktan kaçınmak için kaydetmeniz önerilir.
 
-Önceki sunucu taraflı anahtar yedekleri otomatik olarak kaldırılmaz.</translation>
+Önceki sunucu tarafı anahtar yedeklemeleri otomatik olarak kaldırılmaz.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6950,21 +6950,21 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Güvenlik anahtarınızı kaydedin ve gizli tutun</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Kurtarma anahtarınızı kaydedin ve gizli tutun</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Şifreleme sırlarınız artık sunucuda, aşağıdaki anahtar kullanılarak şifrelenmiş biçimde saklanmaktadır.</translation>
+        <translation>Şifreleme sırlarınız artık sunucuda, aşağıdaki anahtar kullanılarak şifrelenmiş şekilde saklanmaktadır.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Çıkış yaparsanız, yeniden yüklerseniz veya başka bir cihaz kurarsanız şifreli mesajlara erişmek için buna ihtiyacınız olacak.</translation>
+        <translation>Çıkış yaparsanız, yeniden yüklerseniz veya başka bir cihaz kurarsanız şifreli mesajlara erişmek için buna ihtiyacınız olacaktır.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6978,8 +6978,8 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>Tamam, güvenlik anahtarımı kaydettim</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>Tamam, kurtarma anahtarımı kaydettim</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Gizli Depolamayı bir parola ifadesiyle açmaya izin ver</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Gizli Depolamanın kurtarma parolasıyla açılmasına izin ver</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Kurtarma parolası</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>İsteğe bağlı</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Güvenlik anahtarıyla aynı Gizli Depolamayı açan, akılda kalıcı bir ifade.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Kurtarma anahtarıyla aynı Gizli Depolamayı açan akılda kalıcı bir ifade.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Parola ifadesi</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>En iyi güvenlik için hesap parolanızı yeniden kullanmayın.</translation>
     </message>
@@ -9388,19 +9388,19 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Anahtar Yedeğinin Kilidini Aç</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Güvenlik anahtarınızı veya parolasını (varsa) girerek şifreleme sırlarının kilidini açın.</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Kurtarma anahtarları şöyle görünür: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Güvenlik anahtarları şuna benzer: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Kurtarma anahtarınızı veya kurtarma parolanızı (varsa) girerek şifreleme sırlarının kilidini açın.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Güvenlik anahtarı veya parola</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Kurtarma anahtarı veya kurtarma parolası</translation>
     </message>
     <message>
         <location line="+10"/>

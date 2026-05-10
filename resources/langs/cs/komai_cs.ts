@@ -684,9 +684,9 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Obnovení zálohy klíčů vyžaduje aktivní běhové prostředí matrix-sdk.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>K odemčení zálohy klíčů je nutný obnovovací klíč nebo přístupová fráze.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>K odemčení zálohy klíčů je vyžadován obnovovací klíč nebo obnovovací přístupová fráze.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5241,14 +5241,14 @@ Vraťte se zpět a přihlaste se ručně.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Resetováním vznikne nová šifrovací identita pro tento účet a nastavení začne znovu.
+        <translation>Resetování vytvoří novou identitu šifrování pro tento účet a znovu spustí nastavení.
 
-Obdržíš nový bezpečnostní klíč. Raději si ho ulož, aby nebylo nutné resetovat znovu.
+Získáš nový obnovovací klíč. Raději si ho ulož, abys nemusel/a resetovat znovu.
 
-Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation>
+Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6968,16 +6968,16 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Ulož si bezpečnostní klíč a uchovej ho v tajnosti</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Ulož si obnovovací klíč a uchovej ho v soukromí</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Tvá šifrovací tajemství jsou nyní uložena na serveru, zašifrována klíčem níže.</translation>
+        <translation>Tvoje šifrovací tajemství jsou nyní uložena na serveru a zašifrována klíčem níže.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6996,8 +6996,8 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>OK, bezpečnostní klíč mám uložený</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>OK, uložil/a jsem obnovovací klíč</translation>
     </message>
 </context>
 <context>
@@ -7421,26 +7421,26 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Povolit odemknutí Tajného úložiště pomocí přístupové fráze</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Povolit odemčení tajného úložiště pomocí obnovovací přístupové fráze</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Obnovovací přístupová fráze</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Volitelné</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Zapamatovatelná fráze, která odemkne stejné Tajné úložiště jako bezpečnostní klíč.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Zapamatovatelná fráze, která odemkne stejné Tajné úložiště jako obnovovací klíč.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Přístupová fráze</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Pro nejlepší zabezpečení nepoužívej znovu heslo ke svému účtu.</translation>
     </message>
@@ -9420,19 +9420,19 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Odemknout zálohu klíčů</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Odemkněte šifrovací tajemství zadáním bezpečnostního klíče nebo přístupové fráze (je-li k dispozici).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Obnovovací klíče vypadají takto: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Bezpečnostní klíče vypadají takto: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Odemkněte šifrovací tajemství zadáním svého obnovovacího klíče nebo obnovovací přístupové fráze (je-li k dispozici).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Bezpečnostní klíč nebo přístupová fráze</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Obnovovací klíč nebo obnovovací přístupová fráze</translation>
     </message>
     <message>
         <location line="+10"/>

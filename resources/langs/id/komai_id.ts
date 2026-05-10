@@ -684,9 +684,9 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Pemulihan cadangan kunci memerlukan runtime backend matrix-sdk yang aktif.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Kunci pemulihan atau frasa sandi diperlukan untuk membuka cadangan kunci.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Kunci pemulihan atau frasa sandi pemulihan diperlukan untuk membuka cadangan kunci.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5227,12 +5227,12 @@ Silakan kembali dan masuk secara manual.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Pengaturan ulang membuat identitas enkripsi baru untuk akun ini dan memulai pengaturan dari awal.
+        <translation>Mengatur ulang akan membuat identitas enkripsi baru untuk akun ini dan memulai pengaturan lagi.
 
-Anda akan mendapatkan kunci keamanan baru. Sebaiknya simpan untuk menghindari pengaturan ulang lagi.
+Anda akan mendapatkan kunci pemulihan baru. Simpan segera untuk menghindari pengaturan ulang lagi.
 
 Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translation>
     </message>
@@ -6950,26 +6950,26 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Simpan kunci keamanan Anda dan rahasiakan</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Simpan kunci pemulihan dan rahasiakan</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Rahasia enkripsi Anda kini tersimpan di server, dienkripsi menggunakan kunci di bawah ini.</translation>
+        <translation>Rahasia enkripsi Anda kini tersimpan di server, terenkripsi menggunakan kunci di bawah ini.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Anda akan membutuhkannya untuk mengakses pesan terenkripsi jika keluar, menginstal ulang, atau menyiapkan perangkat lain.</translation>
+        <translation>Anda memerlukannya untuk mengakses pesan terenkripsi jika keluar, menginstal ulang, atau mengatur perangkat lain.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation>Disalin</translation>
+        <translation>Tersalin</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -6978,8 +6978,8 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>Oke, kunci keamanan telah disimpan</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>Oke, saya sudah menyimpan kunci pemulihan</translation>
     </message>
 </context>
 <context>
@@ -7403,26 +7403,26 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Izinkan membuka Secret Storage dengan frasa sandi</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Izinkan pembukaan Penyimpanan Rahasia dengan frasa sandi pemulihan</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Frasa sandi pemulihan</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Opsional</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Frasa mudah diingat yang membuka Secret Storage yang sama seperti kunci keamanan.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Frasa yang mudah diingat yang membuka Penyimpanan Rahasia yang sama seperti kunci pemulihan.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Frasa sandi</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Untuk keamanan terbaik, jangan gunakan ulang kata sandi akun Anda.</translation>
     </message>
@@ -9388,19 +9388,19 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Buka cadangan kunci</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Buka kunci rahasia enkripsi dengan memberikan kunci keamanan atau frasa sandi (jika tersedia).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Kunci pemulihan terlihat seperti ini: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Kunci keamanan terlihat seperti ini: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Buka kunci rahasia enkripsi dengan memberikan kunci pemulihan atau frasa sandi pemulihan (jika tersedia).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Kunci keamanan atau frasa sandi</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Kunci pemulihan atau frasa sandi pemulihan</translation>
     </message>
     <message>
         <location line="+10"/>

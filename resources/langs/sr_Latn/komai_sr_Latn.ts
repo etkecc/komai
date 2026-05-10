@@ -684,9 +684,9 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Oporavak rezervne kopije ključeva zahteva aktivan matrix-sdk backend runtime.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>A recovery key or passphrase is required to unlock key backup.</source>
-        <translation>Za otključavanje rezervne kopije ključeva potreban je ključ za oporavak ili lozinka.</translation>
+        <location line="+7"/>
+        <source>A recovery key or recovery passphrase is required to unlock key backup.</source>
+        <translation>Za otključavanje rezervne kopije ključeva potreban je ključ za oporavak ili lozinka za oporavak.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -5241,14 +5241,14 @@ Vrati se i prijavi se ručno.</translation>
         <location line="+9"/>
         <source>Resetting creates a new encryption identity for this account and starts setup again.
 
-You will get a new security key. Better save it to avoid resetting again.
+You will get a new recovery key. Better save it to avoid resetting again.
 
 Previous server-side key backups are not removed automatically.</source>
-        <translation>Resetovanje kreira novi šifrovani identitet za ovaj nalog i ponovo pokreće podešavanje.
+        <translation>Resetovanje kreira novi identitet šifrovanja za ovaj nalog i ponovo pokreće podešavanje.
 
-Dobićeš novi bezbednosni ključ. Bolje ga sačuvaj kako bi se izbeglo ponovo resetovanje.
+Dobićeš novi ključ za oporavak. Bolje ga sačuvaj da izbegneš ponovni reset.
 
-Prethod­ne rezervne kopije ključeva na serveru se ne uklanjaju automatski.</translation>
+Prethodni rezervne kopije ključeva na serveru se ne uklanjaju automatski.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -6968,21 +6968,21 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     </message>
 </context>
 <context>
-    <name>SaveSecurityKeyDialog</name>
+    <name>SaveRecoveryKeyDialog</name>
     <message>
-        <location filename="../../qml/components/encryption/SaveSecurityKeyDialog.qml" line="+19"/>
-        <source>Save your security key and keep it private</source>
-        <translation>Sačuvaj bezbednosni ključ i drži ga tajnim</translation>
+        <location filename="../../qml/components/encryption/SaveRecoveryKeyDialog.qml" line="+19"/>
+        <source>Save your recovery key and keep it private</source>
+        <translation>Sačuvaj ključ za oporavak i drži ga privatnim</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Your encryption secrets are now stored on the server, encrypted using the key below.</source>
-        <translation>Tvoje tajne šifrovanja su sada sačuvane na serveru, šifrovane ključem ispod.</translation>
+        <translation>Tvoji tajni podaci šifrovanja su sada sačuvani na serveru, šifrovani ključem navedenim ispod.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You'll need it to access encrypted messages if you sign out, reinstall, or set up another device.</source>
-        <translation>Biće ti potreban za pristup šifrovanim porukama ako se odjaviš, ponovo instaliraš ili podesiš drugi uređaj.</translation>
+        <translation>Biće ti potreban za pristup šifrovanim porukama ako se odjaviš, ponovo instaliraš aplikaciju ili podesiš drugi uređaj.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -6996,8 +6996,8 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>OK, I saved my security key</source>
-        <translation>U redu, sačuvao sam bezbednosni ključ</translation>
+        <source>OK, I saved my recovery key</source>
+        <translation>U redu, sačuvao/la sam ključ za oporavak</translation>
     </message>
 </context>
 <context>
@@ -7421,26 +7421,26 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
     </message>
     <message>
         <location line="+29"/>
-        <source>Allow unlocking Secret Storage with a passphrase</source>
-        <translation>Dozvoli otključavanje Tajnog Skladišta pristupnom frazom</translation>
+        <source>Allow unlocking Secret Storage with a recovery passphrase</source>
+        <translation>Dozvoli otključavanje Tajnog Skladišta pomoću lozinke za oporavak</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+35"/>
+        <source>Recovery passphrase</source>
+        <translation>Lozinka za oporavak</translation>
+    </message>
+    <message>
+        <location line="-30"/>
         <source>Optional</source>
         <translation>Opciono</translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>A memorable phrase that unlocks the same Secret Storage as the security key.</source>
-        <translation>Pamtljiva fraza koja otključava isto Tajno Skladište kao i sigurnosni ključ.</translation>
+        <source>A memorable phrase that unlocks the same Secret Storage as the recovery key.</source>
+        <translation>Pamtljiva fraza koja otključava isto Tajno Skladište kao i ključ za oporavak.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Passphrase</source>
-        <translation>Pristupna fraza</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+27"/>
         <source>For best security, don't reuse your account password.</source>
         <translation>Za najbolju sigurnost, nemoj ponovo koristiti lozinku svog naloga.</translation>
     </message>
@@ -9420,19 +9420,19 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Otključaj rezervnu kopiju ključeva</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Unlock encryption secrets by providing your security key or its passphrase (if available).</source>
-        <translation>Otključaj tajne šifrovanja unosom bezbednosnog ključa ili lozinke (ako je dostupna).</translation>
+        <location line="+24"/>
+        <source>Recovery keys look like this: </source>
+        <translation>Ključevi za oporavak izgledaju ovako: </translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Security keys look like this: </source>
-        <translation>Bezbednosni ključevi izgledaju ovako: </translation>
+        <location line="-8"/>
+        <source>Unlock encryption secrets by providing your recovery key or recovery passphrase (if available).</source>
+        <translation>Otključaj tajne podatke šifrovanja unosom ključa za oporavak ili lozinke za oporavak (ako je dostupna).</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Security key or passphrase</source>
-        <translation>Bezbednosni ključ ili lozinka</translation>
+        <location line="+18"/>
+        <source>Recovery key or recovery passphrase</source>
+        <translation>Ključ za oporavak ili lozinka za oporavak</translation>
     </message>
     <message>
         <location line="+10"/>

@@ -784,7 +784,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
         <source>Settings...</source>
         <translation>Setări…</translation>
     </message>
@@ -6307,7 +6307,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
         <source>Settings...</source>
         <translation>Setări…</translation>
     </message>

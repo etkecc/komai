@@ -281,7 +281,17 @@ Page {
             boundsBehavior: Flickable.StopAtBounds
 
             Keys.onShortcutOverride: event => {
-                if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event))
+                if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event)) {
+                    event.accepted = true;
+                    return;
+                }
+                // Claim Escape so it reaches Keys.onPressed below instead of
+                // activating the timeline-window Escape Shortcut. We need
+                // local handling so we can delegate to the active room's
+                // handleEscape() (and its walk-mode / reply / edit cascade)
+                // even when sidebar focus has pulled the activeFocusItem
+                // out of the timeline's focus chain.
+                if (event.key === Qt.Key_Escape && roomListPage.eventUsesNoModifiers(event))
                     event.accepted = true;
             }
             Keys.priority: Keys.BeforeItem
@@ -362,7 +372,7 @@ Page {
                     event.accepted = true;
                     break;
                 case Qt.Key_Escape:
-                    TimelineManager.focusMessageInput();
+                    TimelineManager.requestEscape();
                     event.accepted = true;
                     break;
                 default:

@@ -784,7 +784,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>
@@ -6299,7 +6299,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>

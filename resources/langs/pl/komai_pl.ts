@@ -784,7 +784,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
         <source>Settings...</source>
         <translation>Ustawienia…</translation>
     </message>
@@ -6308,7 +6308,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
         <source>Settings...</source>
         <translation>Ustawienia…</translation>
     </message>

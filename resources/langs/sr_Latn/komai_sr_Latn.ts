@@ -784,7 +784,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
         <source>Settings...</source>
         <translation>Podešavanja…</translation>
     </message>
@@ -6307,7 +6307,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
         <source>Settings...</source>
         <translation>Podešavanja…</translation>
     </message>

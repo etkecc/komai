@@ -288,6 +288,7 @@ public:
     Q_INVOKABLE void ignoreUser(const QString &userId);
 
     Q_INVOKABLE void focusMessageInput();
+    Q_INVOKABLE void requestEscape();
     Q_INVOKABLE void markRoomSwitchPhase(const QString &roomId, const QString &phase);
     Q_INVOKABLE bool roomSwitchPerfEnabled() const { return roomSwitchPerfEnabled_; }
     Q_INVOKABLE bool perfUiFlagEnabled(const QString &flag) const;
@@ -368,6 +369,7 @@ signals:
     void showRoomList();
     void narrowViewChanged();
     void focusInput();
+    void escapeRequested();
     void openRoomInfoDialog(RoomSettings *settings,
                             MemberList *members,
                             QObject *room,

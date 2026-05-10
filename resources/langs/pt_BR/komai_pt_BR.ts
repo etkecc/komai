@@ -784,7 +784,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+541"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
         <source>Settings...</source>
         <translation>Configurações…</translation>
     </message>
@@ -6299,7 +6299,7 @@ Observe que ela não pode ser desativada depois.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+501"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
         <source>Settings...</source>
         <translation>Configurações…</translation>
     </message>

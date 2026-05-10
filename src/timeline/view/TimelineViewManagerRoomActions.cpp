@@ -331,3 +331,9 @@ TimelineViewManager::focusMessageInput()
 {
     emit focusInput();
 }
+
+void
+TimelineViewManager::requestEscape()
+{
+    emit escapeRequested();
+}

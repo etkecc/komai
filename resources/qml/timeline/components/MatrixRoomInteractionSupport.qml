@@ -429,5 +429,30 @@ QtObject {
         function onFocusInput() {
             support.focusTextInput();
         }
+
+        function onEscapeRequested() {
+            // Only the active pool entry should react: walk-mode exit and
+            // composer focus would otherwise act on whichever inactive
+            // pool slot also has this Connections instance attached.
+            // `rootItem.roomPreview` is set only for the active pool slot.
+            if (!rootItem.roomPreview)
+                return;
+
+            // Sidebar Escape goes straight to the composer rather than
+            // running the full handleEscape() cascade. The cascade clears
+            // a pending reply/edit/thread/attachments before focusing,
+            // which is the right semantic when Escape is pressed from
+            // inside the room itself but feels destructive from the
+            // sidebar (the user wasn't touching the draft state).
+            //
+            // Walk mode is the one case where focusTextInput() no-ops:
+            // the composer is hidden, so we explicitly exit walk mode
+            // (which itself focuses the composer afterwards).
+            if (rootItem.walkModeActive) {
+                rootItem.exitWalkMode({ "focusComposer": true });
+                return;
+            }
+            support.focusTextInput();
+        }
     }
 }

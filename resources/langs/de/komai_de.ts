@@ -2813,12 +2813,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="-290"/>
-        <location line="+754"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Anmeldemethode</translation>
     </message>
     <message>
-        <location line="-697"/>
+        <location line="-698"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
@@ -2826,13 +2826,13 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Anmelden</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -2867,7 +2867,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Server wird geprüft …</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Weiter</translation>
@@ -2904,8 +2904,8 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Browser (SSO)</translation>
     </message>
     <message>
-        <location line="-774"/>
-        <location line="+657"/>
+        <location line="-775"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
@@ -2918,8 +2918,8 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Passwort anzeigen oder verstecken</translation>
     </message>
     <message>
-        <location line="-888"/>
-        <location line="+424"/>
+        <location line="-889"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Gerätename</translation>
     </message>

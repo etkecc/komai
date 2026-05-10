@@ -2813,12 +2813,12 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     </message>
     <message>
         <location line="-290"/>
-        <location line="+754"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Ensaluta metodo</translation>
     </message>
     <message>
-        <location line="-697"/>
+        <location line="-698"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Nuligi</translation>
@@ -2826,13 +2826,13 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Ensaluti</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -2867,7 +2867,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Kontrolante servilon…</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Daŭrigi</translation>
@@ -2904,8 +2904,8 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Retumilo (SSO)</translation>
     </message>
     <message>
-        <location line="-774"/>
-        <location line="+657"/>
+        <location line="-775"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
@@ -2918,8 +2918,8 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Montri/Kaŝi Pasvorton</translation>
     </message>
     <message>
-        <location line="-888"/>
-        <location line="+424"/>
+        <location line="-889"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Aparata nomo</translation>
     </message>

@@ -450,6 +450,7 @@ Rectangle {
                         color: serverHover.hovered ? palette.brightText : palette.buttonText
                         visible: loginPage.currentStep === 0 && !loginPage.error && login.lookingUpHs
                         text: qsTr("Checking server...")
+                        horizontalAlignment: Text.AlignHCenter
                         wrapMode: TextEdit.Wrap
                     }
                 }

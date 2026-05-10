@@ -2751,26 +2751,26 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="-291"/>
-        <location line="+424"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Име на устройство</translation>
     </message>
     <message>
-        <location line="-423"/>
-        <location line="+754"/>
+        <location line="-424"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Метод за влизане</translation>
     </message>
     <message>
-        <location line="-753"/>
-        <location line="+657"/>
+        <location line="-754"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
         <translation>Парола</translation>
     </message>
     <message>
-        <location line="-810"/>
+        <location line="-811"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
@@ -2778,13 +2778,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Влез</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Акаунт</translation>
     </message>
@@ -2819,7 +2819,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Проверка на сървъра…</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Продължи</translation>

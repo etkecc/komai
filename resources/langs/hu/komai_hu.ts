@@ -2809,12 +2809,12 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     </message>
     <message>
         <location line="-290"/>
-        <location line="+754"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Bejelentkezési mód</translation>
     </message>
     <message>
-        <location line="-697"/>
+        <location line="-698"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
@@ -2822,13 +2822,13 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Bejelentkezés</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Fiók</translation>
     </message>
@@ -2863,7 +2863,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Szerver ellenőrzése...</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Folytatás</translation>
@@ -2900,8 +2900,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Böngésző (SSO)</translation>
     </message>
     <message>
-        <location line="-774"/>
-        <location line="+657"/>
+        <location line="-775"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
@@ -2914,8 +2914,8 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Jelszó megjelenítése/elrejtése</translation>
     </message>
     <message>
-        <location line="-888"/>
-        <location line="+424"/>
+        <location line="-889"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Eszköznév</translation>
     </message>

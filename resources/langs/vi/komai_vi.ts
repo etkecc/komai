@@ -2747,12 +2747,12 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
     <message>
         <location line="-290"/>
-        <location line="+754"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Phương thức đăng nhập</translation>
     </message>
     <message>
-        <location line="-697"/>
+        <location line="-698"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Hủy</translation>
@@ -2760,13 +2760,13 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Đăng nhập</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Tài khoản</translation>
     </message>
@@ -2801,7 +2801,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Đang kiểm tra máy chủ…</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Tiếp tục</translation>
@@ -2838,8 +2838,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Trình duyệt (SSO)</translation>
     </message>
     <message>
-        <location line="-774"/>
-        <location line="+657"/>
+        <location line="-775"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
@@ -2852,8 +2852,8 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Hiện/Ẩn mật khẩu</translation>
     </message>
     <message>
-        <location line="-888"/>
-        <location line="+424"/>
+        <location line="-889"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Tên thiết bị</translation>
     </message>

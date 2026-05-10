@@ -2813,12 +2813,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="-290"/>
-        <location line="+754"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Sisselogimise meetod</translation>
     </message>
     <message>
-        <location line="-697"/>
+        <location line="-698"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Tühista</translation>
@@ -2826,13 +2826,13 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Logi sisse</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -2867,7 +2867,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Kontrollitakse serverit…</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Jätka</translation>
@@ -2904,8 +2904,8 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Brauser (SSO)</translation>
     </message>
     <message>
-        <location line="-774"/>
-        <location line="+657"/>
+        <location line="-775"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
@@ -2918,8 +2918,8 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Näita või peida salasõna</translation>
     </message>
     <message>
-        <location line="-888"/>
-        <location line="+424"/>
+        <location line="-889"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Seadme nimi</translation>
     </message>

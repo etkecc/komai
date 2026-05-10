@@ -2817,12 +2817,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="-290"/>
-        <location line="+754"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Способ входа</translation>
     </message>
     <message>
-        <location line="-697"/>
+        <location line="-698"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
@@ -2830,13 +2830,13 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Войти</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Аккаунт</translation>
     </message>
@@ -2871,7 +2871,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Проверка сервера…</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Продолжить</translation>
@@ -2908,8 +2908,8 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Браузер (SSO)</translation>
     </message>
     <message>
-        <location line="-774"/>
-        <location line="+657"/>
+        <location line="-775"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
@@ -2922,8 +2922,8 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Показать/Скрыть пароль</translation>
     </message>
     <message>
-        <location line="-888"/>
-        <location line="+424"/>
+        <location line="-889"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Имя устройства</translation>
     </message>

@@ -2809,12 +2809,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="-290"/>
-        <location line="+754"/>
+        <location line="+755"/>
         <source>Sign in method</source>
         <translation>Metode masuk</translation>
     </message>
     <message>
-        <location line="-697"/>
+        <location line="-698"/>
         <location line="+27"/>
         <source>Cancel</source>
         <translation>Batal</translation>
@@ -2822,13 +2822,13 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+27"/>
         <location line="+32"/>
-        <location line="+581"/>
+        <location line="+582"/>
         <location line="+217"/>
         <source>Sign in</source>
         <translation>Masuk</translation>
     </message>
     <message>
-        <location line="-800"/>
+        <location line="-801"/>
         <source>Account</source>
         <translation>Akun</translation>
     </message>
@@ -2863,7 +2863,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Memeriksa server…</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <location line="+157"/>
         <source>Continue</source>
         <translation>Lanjutkan</translation>
@@ -2900,8 +2900,8 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Browser (SSO)</translation>
     </message>
     <message>
-        <location line="-774"/>
-        <location line="+657"/>
+        <location line="-775"/>
+        <location line="+658"/>
         <location line="+118"/>
         <location line="+91"/>
         <source>Password</source>
@@ -2914,8 +2914,8 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Tampilkan/Sembunyikan Kata Sandi</translation>
     </message>
     <message>
-        <location line="-888"/>
-        <location line="+424"/>
+        <location line="-889"/>
+        <location line="+425"/>
         <source>Device name</source>
         <translation>Nama perangkat</translation>
     </message>

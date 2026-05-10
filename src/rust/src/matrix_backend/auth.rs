@@ -19,6 +19,7 @@ use matrix_sdk::{
         ClientRegistrationData,
         registration::{ApplicationType, ClientMetadata, Localized, OAuthGrantType},
     },
+    config::RequestConfig,
     utils::UrlOrQuery,
     Client, ClientBuildError, Error as MatrixSdkError, HttpError, RumaApiError,
     ruma::{
@@ -619,7 +620,14 @@ async fn build_discovery_client(
     server_name_or_url: &str,
     verify_certificates: bool,
 ) -> Result<Client, ClientBuildError> {
-    let mut builder = Client::builder().server_name_or_homeserver_url(server_name_or_url);
+    // Discovery is interactive: the user is staring at "Checking server...".
+    // matrix-sdk's default RequestConfig has no retry limit and treats any 5xx
+    // as transient, retrying with exponential backoff for up to 15 minutes
+    // (e.g. when a homeserver returns 500 on /_matrix/client/v1/auth_metadata).
+    // Fail fast instead and let the user retry by clicking Continue again.
+    let mut builder = Client::builder()
+        .server_name_or_homeserver_url(server_name_or_url)
+        .request_config(RequestConfig::default().disable_retry());
     if !verify_certificates {
         builder = builder.disable_ssl_verification();
     }

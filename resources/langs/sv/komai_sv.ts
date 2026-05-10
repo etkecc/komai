@@ -2326,7 +2326,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+414"/>
         <source>External player</source>
         <translation>Extern spelare</translation>
     </message>

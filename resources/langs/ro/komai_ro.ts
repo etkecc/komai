@@ -2330,7 +2330,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+414"/>
         <source>External player</source>
         <translation>Player extern</translation>
     </message>

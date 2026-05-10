@@ -2326,7 +2326,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+414"/>
         <source>External player</source>
         <translation>Lettore esterno</translation>
     </message>

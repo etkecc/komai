@@ -2330,7 +2330,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+414"/>
         <source>External player</source>
         <translation>Zewnętrzny odtwarzacz</translation>
     </message>

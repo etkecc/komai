@@ -34,8 +34,6 @@ Rectangle {
     readonly property real configuredDefaultPlaybackRate: Settings.timelineMediaDefaultAudioPlaybackSpeed
     readonly property bool inlinePlaybackEnabled: !Settings.timelineMediaOpenAudioExternal
     readonly property bool loading: autoPlayPending
-        || mediaPlayer.mediaStatus === MediaPlayer.LoadingMedia
-        || mediaPlayer.mediaStatus === MediaPlayer.BufferingMedia
     readonly property bool playing: mediaPlayer.playbackState === MediaPlayer.PlayingState
     readonly property bool mediaReady: mediaPlayer.loaded
     readonly property var allPlaybackRates: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]

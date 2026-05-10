@@ -2322,7 +2322,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>InlineAudioPlayer</name>
     <message>
-        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+416"/>
+        <location filename="../../qml/ui/media/InlineAudioPlayer.qml" line="+414"/>
         <source>External player</source>
         <translation>Pemutar eksternal</translation>
     </message>

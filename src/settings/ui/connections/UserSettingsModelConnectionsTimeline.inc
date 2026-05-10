@@ -27,7 +27,7 @@
                        timelineFormattedCodeSyntaxHighlightingChanged,
                        Value);
     CONNECT_SETTING_ID(TimelineTypingShowEnabled, timelineTypingShowEnabledChanged, Value);
-    CONNECT_SETTING_ID(TimelineReadReceiptsEnabled, timelineReadReceiptsEnabledChanged, Value);
+    CONNECT_SETTING_ID(TimelineReadReceiptsGlobal, timelineReadReceiptsEnabledChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessageActionsActivationPolicy, timelineMessageActionsActivationPolicyChanged, Value);
     CONNECT_SETTING_ID(TimelineMessageActionsPinnedReactions, timelineMessageActionsPinnedReactionsChanged, Value);

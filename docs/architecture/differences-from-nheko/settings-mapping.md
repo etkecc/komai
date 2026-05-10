@@ -79,7 +79,7 @@ Note:
 | Composer | FEEDBACK | Show others when I'm typing (global default; per-room override at `composer.typing.send.by_room`) | `settings::core::SettingId::ComposerTypingSendGlobal` | `typing_notifications` | `composer.typing.send.global` | config.yml | yes |
 | Composer | -- | Enable stickers | *(removed -- not yet supported in Komai; see [Stickers](../../user-guide/features/stickers.md))* | `enable_stickers` | -- | -- | -- |
 | Timeline | FEEDBACK | Show when others are typing | `settings::core::SettingId::TimelineTypingShowEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
-| Timeline | FEEDBACK | Read receipts | `settings::core::SettingId::TimelineReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |
+| Timeline | FEEDBACK | Show others when I've read their messages (global default; per-room override at `timeline.read_receipts.by_room`) | `settings::core::SettingId::TimelineReadReceiptsGlobal` | `read_receipts` | `timeline.read_receipts.global` | config.yml | yes |
 | Desktop | SYSTEM NOTIFICATIONS | Enable system notifications | `settings::core::SettingId::DesktopNotificationsEnabled` | `desktop_notifications` | `desktop.notifications.enabled` | config.yml | yes |
 | Desktop | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `settings::core::SettingId::DesktopNotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `desktop.notifications.attention_on_incoming` | config.yml | yes |
 | Desktop | SYSTEM NOTIFICATIONS | Message content in notifications | `settings::core::SettingId::DesktopNotificationsMessageContentPolicy` | `decrypt_notifications` | `desktop.notifications.message_content_policy` | config.yml | yes |

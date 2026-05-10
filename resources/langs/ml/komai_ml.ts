@@ -5924,30 +5924,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (സ്ട്രീമിംഗ്)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ഒറ്റ-ഷോട്ട്)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI ക്ലൗഡ്</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>മറ്റുള്ളവ (OpenAI-compatible സെർവർ)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>സന്ദേശ ദൃശ്യത</translation>
     </message>
@@ -5969,27 +5969,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>ആഗോള ഡിഫോൾട്ട് (നിലവിൽ: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>ഓൺ</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>ഓഫ്</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>പ്രധാന ടൈംലൈനിൽ നിന്ന് ത്രെഡ് മറുപടികൾ മറച്ചുവെക്കുന്നു, ത്രെഡ് റൂട്ട് സന്ദേശങ്ങൾ മാത്രം കാണിക്കുന്നു.&lt;br&gt;⚠️ ത്രെഡ്-അനുസരിച്ചുള്ള വായിക്കാത്ത ട്രാക്കിംഗ് പിന്തുണക്കുന്നില്ല, അതിനാൽ പഴയ ത്രെഡുകളിലെ മറുപടികൾ നഷ്ടമാകാം.</translation>
     </message>
@@ -6007,6 +6012,16 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>ടൈപ്പ് ചെയ്യുമ്പോൾ ഒരു അറിയിപ്പ് അയക്കും, അതുവഴി മറ്റുള്ളവർക്ക് ഒരു മറുപടി വരുന്നുണ്ടെന്ന് അറിയാൻ കഴിയും.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>ഞാൻ അവരുടെ സന്ദേശങ്ങൾ വായിച്ചിട്ടുണ്ടെന്ന് മറ്റുള്ളവർക്ക് കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>ഒരു മുറിയിൽ ഒരു സന്ദേശം വായിക്കുമ്പോൾ ഒരു വായന രസീത് അയയ്ക്കുന്നു, അതിലൂടെ നിങ്ങൾ അത് വായിച്ചുവെന്ന് മറ്റുള്ളവർക്ക് കാണാൻ സഹായിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8917,7 +8932,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ചില സന്ദേശങ്ങൾ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>സന്ദേശം വായിച്ചതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -10328,12 +10343,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>ഞാൻ അവരുടെ സന്ദേശങ്ങൾ വായിച്ചിട്ടുണ്ടെന്ന് മറ്റുള്ളവർക്ക് കാണിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>ഒരു മുറിയിൽ ഒരു സന്ദേശം വായിക്കുമ്പോൾ ഒരു വായന രസീത് അയയ്ക്കുന്നു, അതിലൂടെ നിങ്ങൾ അത് വായിച്ചുവെന്ന് മറ്റുള്ളവർക്ക് കാണാൻ സഹായിക്കുന്നു. Room Info → Preferences ൽ ഓരോ മുറിക്കും ഇത് മേലെഴുതാം.</translation>
     </message>
     <message>
         <location line="+3"/>

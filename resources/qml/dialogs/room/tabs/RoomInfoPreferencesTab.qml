@@ -287,6 +287,77 @@ Item {
                 }
             }
 
+            // Show others when I've read their messages (per-room override)
+            Item {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                implicitHeight: readReceiptsRowContent.implicitHeight
+                HoverHandler { id: readReceiptsRowHover; blocking: false }
+                Rectangle { anchors.fill: readReceiptsRowContent; color: readReceiptsRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                ColumnLayout {
+                    id: readReceiptsRowContent
+                    width: parent.width
+                    spacing: 0
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+
+                        Label {
+                            text: qsTr("Show others when I've read their messages")
+                            color: readReceiptsRowHover.hovered ? palette.brightText : palette.text
+                            font.pointSize: 1.1 * Settings.uiFontSizePt
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Components.KomaiComboBox {
+                            id: readReceiptsCombo
+
+                            readonly property string roomId: preferencesTab.roomSettings ? preferencesTab.roomSettings.roomId : ""
+                            readonly property bool globalValue: Settings.timelineReadReceiptsEnabled
+
+                            model: [
+                                qsTr("Global Default (currently: %1)").arg(globalValue ? qsTr("On") : qsTr("Off")),
+                                qsTr("On"),
+                                qsTr("Off")
+                            ]
+
+                            currentIndex: {
+                                var override = Settings.timelineReadReceiptsEnabledOverrideForRoom(roomId);
+                                if (override !== undefined && override !== null)
+                                    return override ? 1 : 2;
+                                return 0;
+                            }
+
+                            onActivated: function(index) {
+                                var roomId = readReceiptsCombo.roomId;
+                                if (!roomId) return;
+                                if (index === 0) {
+                                    Settings.removeTimelineReadReceiptsEnabledForRoom(roomId);
+                                } else {
+                                    Settings.setTimelineReadReceiptsEnabledForRoom(roomId, index === 1);
+                                }
+                            }
+                        }
+                    }
+
+                    Label {
+                        text: qsTr("Sends a read receipt when you read a message in a room, so others can see you've read it.")
+                        color: readReceiptsRowHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        wrapMode: Text.Wrap
+                    }
+                }
+            }
+
             // --- Voice transcription section ---
             //
             // Per-room overrides for the 5 non-secret transcription fields,

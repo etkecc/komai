@@ -5926,30 +5926,30 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (fluanta)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (unu-foja)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI nubo</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Alia (OpenAI-kompatiebla servilo)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Videbleco de mesaĝoj</translation>
     </message>
@@ -5971,27 +5971,32 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Tutmonda Defaŭlto (nuntempe: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Aktiva</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Malaktiva</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Kaŝas fadenajn respondojn de la ĉefa tempolinio, montrante nur fadenajn radikajn mesaĝojn.&lt;br&gt;⚠️ La spurado de nelegitaĵoj laŭ fadeno ne estas subtenata, do vi eble maltrafos respondojn en pli malnovaj fadenoj.</translation>
     </message>
@@ -6009,6 +6014,16 @@ Antaŭaj servilflankaj ŝlosilkopiaĵoj ne foriĝas aŭtomate.</translation>
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Sendas skribadan sciigon dum vi redaktas, por ke aliaj vidu, ke respondo estas survoje.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Montri al aliaj kiam mi legis iliajn mesaĝojn</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Sendas kvitancon kiam vi legas mesaĝon en ĉambro, por ke aliaj vidu, ke vi ĝin legis.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8920,7 +8935,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Malsukcesis forigi kelkajn mesaĝojn: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Malsukcesis marki mesaĝon kiel legitan: %1</translation>
     </message>
@@ -10331,12 +10346,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Montri al aliaj kiam mi legis iliajn mesaĝojn</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Sendas kvitancon kiam vi legas mesaĝon en ĉambro, por ke aliaj vidu, ke vi ĝin legis. Eblas superregi laŭ ĉambro en Ĉambra Informo → Preferoj.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -5932,30 +5932,30 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streamování)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (jednorázový)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Jiný (server kompatibilní s OpenAI)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Viditelnost zpráv</translation>
     </message>
@@ -5977,27 +5977,32 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globální výchozí (aktuálně: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Zapnuto</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Vypnuto</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Skryje odpovědi ve vláknech z hlavní časové osy a zobrazuje pouze kořenové zprávy vláken.&lt;br&gt;⚠️ Sledování nepřečtených zpráv po jednotlivých vláknech není podporováno, takže vám mohou uniknout odpovědi ve starších vláknech.</translation>
     </message>
@@ -6015,6 +6020,16 @@ Předchozí zálohy klíčů na serveru se neodstraní automaticky.</translation
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Odesílá oznámení o psaní, zatímco píšete zprávu, aby ostatní viděli, že přichází odpověď.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Zobrazovat ostatním, kdy jsem si přečetl jejich zprávy</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Odešle potvrzení o přečtení, když si přečtete zprávu v místnosti, aby ostatní viděli, že jste ji přečetli.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8930,7 +8945,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Nepodařilo se smazat některé zprávy: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Nepodařilo se označit zprávu jako přečtenou: %1</translation>
     </message>
@@ -10344,12 +10359,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Zobrazovat ostatním, kdy jsem si přečetl jejich zprávy</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Odešle potvrzení o přečtení, když si přečtete zprávu v místnosti, aby ostatní viděli, že jste ji přečetli. Lze přepsat pro každou místnost v Informace o místnosti → Předvolby.</translation>
     </message>
     <message>
         <location line="+3"/>

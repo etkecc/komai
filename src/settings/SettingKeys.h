@@ -60,8 +60,9 @@ constexpr auto TimelineMessagesEmojiOnlyEnlarge      = "timeline.messages.emoji_
 constexpr auto TimelineMessagesHoverHighlight        = "timeline.messages.hover_highlight";
 constexpr auto TimelineFormattedCodeSyntaxHighlighting =
   "timeline.messages.formatted.code_syntax_highlighting";
-constexpr auto TimelineTypingShowEnabled   = "timeline.typing.show.enabled";
-constexpr auto TimelineReadReceiptsEnabled = "timeline.read_receipts.enabled";
+constexpr auto TimelineTypingShowEnabled  = "timeline.typing.show.enabled";
+constexpr auto TimelineReadReceiptsGlobal = "timeline.read_receipts.global";
+constexpr auto TimelineReadReceiptsByRoom = "timeline.read_receipts.by_room";
 constexpr auto TimelineMessageActionsActivationPolicy =
   "timeline.messages.actions.activation_policy";
 constexpr auto TimelineMessageActionsPinnedReactions = "timeline.messages.actions.pinned_reactions";

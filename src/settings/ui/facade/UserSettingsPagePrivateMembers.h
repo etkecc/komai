@@ -127,6 +127,7 @@ double timelineMediaDefaultAudioPlaybackSpeed_ = 1.0;
 bool timelineThreadsCollapseReplies_           = false;
 QMap<QString, bool> timelineThreadsCollapseRepliesByRoom_;
 QMap<QString, bool> composerTypingSendEnabledByRoom_;
+QMap<QString, bool> timelineReadReceiptsEnabledByRoom_;
 int integrationsDbusApiAccess_ = 0;
 QString integrationsBrowserCommand_;
 QString integrationsTranscriptionProvider_;

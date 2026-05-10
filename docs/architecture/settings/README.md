@@ -137,7 +137,7 @@ Files:
 
 Schema version key for versioned settings files:
 
-- `meta.settings_schema_version` (currently `2` for `config.yml`, `1` for `state.yml` and `session.yml`)
+- `meta.settings_schema_version` (currently `3` for `config.yml`, `1` for `state.yml` and `session.yml`)
 
 Profile id normalization:
 

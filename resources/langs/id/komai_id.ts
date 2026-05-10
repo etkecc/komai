@@ -5916,30 +5916,30 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (satu kali)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Lainnya (server kompatibel OpenAI)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Keterlihatan pesan</translation>
     </message>
@@ -5961,27 +5961,32 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Default Global (saat ini: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Aktif</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Nonaktif</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Menyembunyikan balasan utas dari linimasa utama, hanya menampilkan pesan akar utas.&lt;br&gt;⚠️ Pelacakan pesan belum dibaca per utas tidak didukung, sehingga Anda mungkin melewatkan balasan di utas yang lebih lama.</translation>
     </message>
@@ -5999,6 +6004,16 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Mengirim notifikasi pengetikan saat Anda menulis, agar orang lain dapat melihat bahwa balasan sedang dalam perjalanan.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Tampilkan kepada orang lain saat saya sudah membaca pesan mereka</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Mengirim konfirmasi baca saat Anda membaca pesan di ruangan, sehingga orang lain dapat melihat bahwa Anda telah membacanya.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8904,7 +8919,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal menghapus beberapa pesan: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Gagal menandai pesan sebagai telah dibaca: %1</translation>
     </message>
@@ -10312,12 +10327,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Tampilkan kepada orang lain saat saya sudah membaca pesan mereka</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Mengirim konfirmasi baca saat Anda membaca pesan di ruangan, sehingga orang lain dapat melihat bahwa Anda telah membacanya. Dapat diganti per ruangan di Info Ruangan → Preferensi.</translation>
     </message>
     <message>
         <location line="+3"/>

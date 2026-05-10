@@ -5924,30 +5924,30 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (eenmalig)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI cloud</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Overig (OpenAI-compatibele server)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Berichtzichtbaarheid</translation>
     </message>
@@ -5969,27 +5969,32 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globale standaard (momenteel: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Aan</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Uit</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Verbergt threadreacties uit de hoofdtijdlijn en toont alleen de startberichten van threads.&lt;br&gt;⚠️ Ongelezen bijhouden per thread wordt niet ondersteund, waardoor je reacties in oudere threads kunt missen.</translation>
     </message>
@@ -6007,6 +6012,16 @@ Eerdere server-back-ups van sleutels worden niet automatisch verwijderd.</transl
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Stuurt een typmelding terwijl je schrijft, zodat anderen kunnen zien dat er een antwoord aankomt.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Toon anderen wanneer ik hun berichten heb gelezen</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Stuurt een leesbevestiging wanneer je een bericht in een kamer leest, zodat anderen kunnen zien dat je het gelezen hebt.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8917,7 +8932,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Sommige berichten verwijderen mislukt: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Bericht markeren als gelezen mislukt: %1</translation>
     </message>
@@ -10328,12 +10343,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Toon anderen wanneer ik hun berichten heb gelezen</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Stuurt een leesbevestiging wanneer je een bericht in een kamer leest, zodat anderen kunnen zien dat je het gelezen hebt. Kan per kamer worden overschreven via Kamerinformatie → Voorkeuren.</translation>
     </message>
     <message>
         <location line="+3"/>

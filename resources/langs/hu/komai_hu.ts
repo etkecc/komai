@@ -5916,30 +5916,30 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (egyszeri)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI felhő</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Egyéb (OpenAI-kompatibilis szerver)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Üzenetek láthatósága</translation>
     </message>
@@ -5961,27 +5961,32 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globális alapértelmezett (jelenleg: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Be</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Ki</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Elrejti a szálválaszokat a fő idővonalból, csak a szálgyökér üzeneteket mutatja.&lt;br&gt;⚠️ A szálankénti olvasatlan nyomon követés nem támogatott, ezért lemaradhat a régebbi szálak válaszairól.</translation>
     </message>
@@ -5999,6 +6004,16 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Gépelési értesítést küld írás közben, így mások láthatják, hogy válasz van készülőben.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Mutassa meg másoknak, ha elolvastam az üzeneteiket</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Olvasási visszaigazolást küld, ha elolvasol egy üzenetet egy szobában, hogy mások láthassák, hogy elolvastad.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8904,7 +8919,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Nem sikerült törölni néhány üzenetet: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Nem sikerült olvasottnak jelölni az üzenetet: %1</translation>
     </message>
@@ -10312,12 +10327,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Mutassa meg másoknak, ha elolvastam az üzeneteiket</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Olvasási visszaigazolást küld, ha elolvasol egy üzenetet egy szobában, hogy mások láthassák, hogy elolvastad. Szobánként felülírható a Szoba adatai → Beállítások menüpontban.</translation>
     </message>
     <message>
         <location line="+3"/>

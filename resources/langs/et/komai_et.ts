@@ -5924,30 +5924,30 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (voogedastus)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ühekordne)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI pilv</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Muu (OpenAI-ühilduv server)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Sõnumi nähtavus</translation>
     </message>
@@ -5969,27 +5969,32 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Globaalne vaikesäte (praegu: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Sees</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Väljas</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Peidab lõimu vastused peamisest ajateljest, näidates ainult lõimu juurteated.&lt;br&gt;⚠️ Lõimupõhist lugemata jälgimist ei toetata, seega võite jääda ilma vastustest vanemates lõimudes.</translation>
     </message>
@@ -6007,6 +6012,16 @@ Eelmisi serveri võtmevarukoopiaid ei kustutata automaatselt.</translation>
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Saadab kirjutamisteatise sõnumi koostamise ajal, nii et teised näevad, et vastus on tulemas.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Näita teistele, kui olen nende sõnumid lugenud</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Saadab lugemiskinnituse, kui loete jututoas sõnumit, et teised näeksid, et olete selle lugenud.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8917,7 +8932,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Mõnede sõnumite kustutamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Sõnumi loetuks märkimine ebaõnnestus: %1</translation>
     </message>
@@ -10328,12 +10343,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Näita teistele, kui olen nende sõnumid lugenud</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Saadab lugemiskinnituse, kui loete jututoas sõnumit, et teised näeksid, et olete selle lugenud. Saab jututoa kaupa seadistada: Jututoa teave → Eelistused.</translation>
     </message>
     <message>
         <location line="+3"/>

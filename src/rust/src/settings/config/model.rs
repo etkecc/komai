@@ -20,7 +20,7 @@ use super::tokens::{
     ConfigUiDefaultAvatarStyleToken, ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
 };
 
-pub(crate) const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 2;
+pub(crate) const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 3;
 pub(crate) const CONFIG_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_schema_version"];
 
 #[derive(Clone, Debug, Default)]
@@ -184,7 +184,8 @@ pub struct ConfigTimelineTyping {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimelineReadReceipts {
-    pub enabled: Option<bool>,
+    pub global: Option<bool>,
+    pub by_room: BTreeMap<String, bool>,
 }
 
 #[derive(Clone, Debug, Default)]

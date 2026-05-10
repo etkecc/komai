@@ -1681,7 +1681,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineTypingShowEnabled));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::TimelineReadReceiptsEnabled));
+      QString::fromLatin1(SettingKey::TimelineReadReceiptsGlobal));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessageActionsActivationPolicy));
     serializerHandledConfigKeys.insert(

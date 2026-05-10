@@ -5924,30 +5924,30 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (direktuppspelning)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (engångs)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI-molnet</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Annan (OpenAI-kompatibel server)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Meddelandesynlighet</translation>
     </message>
@@ -5969,27 +5969,32 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Global standard (just nu: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>På</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Av</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Döljer trådsvar från huvudtidslinjen och visar bara rotmeddelanden i trådar.&lt;br&gt;⚠️ Spårning av olästa meddelanden per tråd stöds inte, så du kan missa svar i äldre trådar.</translation>
     </message>
@@ -6007,6 +6012,16 @@ Tidigare serverbaserade säkerhetskopior av nycklar tas inte bort automatiskt.</
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Skickar en skrivnotis medan du skriver, så att andra kan se att ett svar är på väg.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Visa andra när jag har läst deras meddelanden</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Skickar en läsbekräftelse när du läser ett meddelande i ett rum, så att andra kan se att du har läst det.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8917,7 +8932,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Kunde inte radera vissa meddelanden: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Kunde inte markera meddelande som läst: %1</translation>
     </message>
@@ -10328,12 +10343,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Visa andra när jag har läst deras meddelanden</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Skickar en läsbekräftelse när du läser ett meddelande i ett rum, så att andra kan se att du har läst det. Kan åsidosättas per rum i Rumsinformation → Inställningar.</translation>
     </message>
     <message>
         <location line="+3"/>

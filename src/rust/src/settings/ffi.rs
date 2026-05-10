@@ -226,7 +226,21 @@ pub(crate) fn ffi_config_timeline_section(
             show_enabled: config.timeline.typing.show_enabled.unwrap_or(defaults::TYPING_SHOW_ENABLED),
         },
         read_receipts: ffi::SettingsConfigTimelineReadReceiptsSection {
-            enabled: config.timeline.read_receipts.enabled.unwrap_or(defaults::READ_RECEIPTS_ENABLED),
+            global: config
+                .timeline
+                .read_receipts
+                .global
+                .unwrap_or(defaults::READ_RECEIPTS_GLOBAL),
+            by_room: config
+                .timeline
+                .read_receipts
+                .by_room
+                .iter()
+                .map(|(room_id, value)| ffi::SettingsBoolMapEntry {
+                    key: room_id.clone(),
+                    value: *value,
+                })
+                .collect(),
         },
         message_actions: ffi::SettingsConfigTimelineMessageActionsSection {
             activation_policy: config.timeline.message_actions.activation_policy.to_storage_string(),
@@ -699,7 +713,16 @@ fn clone_config_timeline_section(
             show_enabled: section.typing.show_enabled,
         },
         read_receipts: ffi::SettingsConfigTimelineReadReceiptsSection {
-            enabled: section.read_receipts.enabled,
+            global: section.read_receipts.global,
+            by_room: section
+                .read_receipts
+                .by_room
+                .iter()
+                .map(|entry| ffi::SettingsBoolMapEntry {
+                    key: entry.key.clone(),
+                    value: entry.value,
+                })
+                .collect(),
         },
         message_actions: ffi::SettingsConfigTimelineMessageActionsSection {
             activation_policy: section.message_actions.activation_policy.clone(),

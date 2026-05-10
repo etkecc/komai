@@ -77,7 +77,10 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     // the toggle off, the auto-mark-as-read path is gated upstream and no
     // receipt is sent, so the server still considers the room unread.  Zeroing
     // the badge here would make the UI lie until the next sync corrected it.
-    if (interactionSuppressed_ && UserSettings::instance()->timelineReadReceiptsEnabled()) {
+    // Use the resolved value so a per-room override (set under Room Info →
+    // Preferences) wins over the global default.
+    if (interactionSuppressed_ &&
+        UserSettings::instance()->resolvedTimelineReadReceiptsEnabled(roomid)) {
         auto &room = matrixJoinedRooms_[roomid];
         if (room.unreadMessages > 0 || room.notificationCount > 0 || room.highlightCount > 0) {
             room.unreadMessages    = 0;

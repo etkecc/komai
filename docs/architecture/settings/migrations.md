@@ -13,7 +13,7 @@ Migration plumbing exists in:
 Current behavior:
 
 - reads `meta.settings_schema_version` from `config.yml`, `state.yml`, and `session.yml` (`0` when missing)
-- treats `2` as the current `config.yml` schema version; `1` for `state.yml` and `session.yml`
+- treats `3` as the current `config.yml` schema version; `1` for `state.yml` and `session.yml`
 - runs an explicit step chain (`v0 -> v1`, then next steps as added over time)
 - applies a foundational `v0 -> v1` migration step (schema version stamping only)
 - applies a `v1 -> v2` migration step on `config.yml`: the composer typing-send
@@ -22,6 +22,11 @@ Current behavior:
   map (per-room overrides) reads cleanly. The legacy `enabled` path is still
   read as a fallback when `global` is missing, and is dropped from the YAML on
   the next save (the encoder only emits `global`+`by_room`).
+- applies a `v2 -> v3` migration step on `config.yml`: the timeline
+  read-receipts global toggle moves from `timeline.read_receipts.enabled` to
+  `timeline.read_receipts.global`, with a sibling
+  `timeline.read_receipts.by_room` map for per-room overrides. Same compat-
+  fallback shape as the v1→v2 step above.
 - exposes two load paths:
   - `SettingsController::load(...)`: read-only load (no file writes)
   - `SettingsController::loadAndMigrate(...)`: load + migration writeback when needed

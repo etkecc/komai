@@ -98,7 +98,15 @@ stageConfig(const UserSettings &settings,
             },
           .read_receipts =
             {
-              .enabled = settings.timelineReadReceiptsEnabled(),
+              .global = settings.timelineReadReceiptsEnabled(),
+              .by_room =
+                [&settings]() {
+                    rust::Vec<komai::rust::SettingsBoolMapEntry> entries;
+                    const auto byRoom = settings.timelineReadReceiptsEnabledByRoom();
+                    for (auto it = byRoom.begin(); it != byRoom.end(); ++it)
+                        entries.push_back({.key = it.key().toStdString(), .value = it.value()});
+                    return entries;
+                }(),
             },
           .message_actions =
             {

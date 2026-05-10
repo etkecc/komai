@@ -135,7 +135,10 @@ timeline:
     show:
       enabled: false
   read_receipts:
-    enabled: false
+    global: false
+    by_room:
+      "!rr1:server.tld": true
+      "!rr2:server.tld": false
   media:
     effects:
       enabled: false
@@ -177,7 +180,15 @@ timeline:
         Some(false)
     );
     assert_eq!(config.timeline.typing.show_enabled, Some(false));
-    assert_eq!(config.timeline.read_receipts.enabled, Some(false));
+    assert_eq!(config.timeline.read_receipts.global, Some(false));
+    assert_eq!(
+        config.timeline.read_receipts.by_room.get("!rr1:server.tld"),
+        Some(&true)
+    );
+    assert_eq!(
+        config.timeline.read_receipts.by_room.get("!rr2:server.tld"),
+        Some(&false)
+    );
     assert_eq!(config.timeline.media.effects_enabled, Some(false));
     assert_eq!(config.timeline.media.animate_on_hover, Some(true));
     assert_eq!(config.timeline.media.image_display, ConfigTimelineMediaImageDisplayToken::Never);
@@ -514,7 +525,8 @@ fn encodes_generic_config_values() {
                 show_enabled: false,
             },
             read_receipts: SettingsConfigTimelineReadReceiptsSection {
-                enabled: false,
+                global: false,
+                by_room: vec![],
             },
             message_actions: SettingsConfigTimelineMessageActionsSection {
                 activation_policy: "on_message_hover".to_owned(),
@@ -632,7 +644,7 @@ fn encodes_generic_config_values() {
     let root: serde_yaml_ng::Value = serde_yaml_ng::from_str(&yaml).expect("valid yaml");
     assert!(matches!(
         yaml::value_at_path(&root, &["meta", "settings_schema_version"]),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(2)
+        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(3)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "theme", "slug"]),
@@ -697,9 +709,17 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["timeline", "read_receipts", "enabled"]),
+        yaml::value_at_path(&root, &["timeline", "read_receipts", "global"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
+    // Encoder always emits an empty by_room map alongside the global,
+    // mirroring `composer.typing.send.by_room`. The legacy
+    // `timeline.read_receipts.enabled` v2 path must not appear in v3 output.
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "read_receipts", "by_room"]),
+        Some(serde_yaml_ng::Value::Mapping(mapping)) if mapping.is_empty()
+    ));
+    assert!(yaml::value_at_path(&root, &["timeline", "read_receipts", "enabled"]).is_none());
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "effects", "enabled"]),
         Some(serde_yaml_ng::Value::Bool(false))
@@ -1064,7 +1084,7 @@ ui:
 
     assert!(!loaded.had_future_version);
     assert_eq!(loaded.source_version, 0);
-    assert_eq!(loaded.migrated_version, 2);
+    assert_eq!(loaded.migrated_version, 3);
     assert!(loaded.should_write_back);
     assert_eq!(loaded.config.ui.theme.slug, "dark-komai");
 }
@@ -1074,7 +1094,7 @@ fn loaded_snapshot_normalizes_non_map_root() {
     let loaded = load_config_snapshot("\"not-a-map\"");
 
     assert_eq!(loaded.source_version, 0);
-    assert_eq!(loaded.migrated_version, 2);
+    assert_eq!(loaded.migrated_version, 3);
     assert!(loaded.should_write_back);
     assert_eq!(loaded.config.ui.theme.slug, "");
 }
@@ -1106,10 +1126,67 @@ composer:
     );
 
     assert_eq!(loaded.source_version, 1);
-    assert_eq!(loaded.migrated_version, 2);
+    assert_eq!(loaded.migrated_version, 3);
     assert!(loaded.should_write_back);
     assert_eq!(loaded.config.composer.typing_send.global, Some(false));
     assert!(loaded.config.composer.typing_send.by_room.is_empty());
+}
+
+#[test]
+fn migrates_timeline_read_receipts_v2_to_v3() {
+    // A v2 config carries `timeline.read_receipts.enabled` as a bool leaf.
+    // The v3 schema places the global toggle at
+    // `timeline.read_receipts.global` so it can sit alongside a sibling
+    // `by_room` map (mirroring `composer.typing.send`). Loading a v2 file
+    // must preserve the existing global value via the legacy-path
+    // fallback and stamp the snapshot at the new current schema version.
+    let loaded = load_config_snapshot(
+        r#"
+meta:
+  settings_schema_version: 2
+timeline:
+  read_receipts:
+    enabled: false
+"#,
+    );
+
+    assert_eq!(loaded.source_version, 2);
+    assert_eq!(loaded.migrated_version, 3);
+    assert!(loaded.should_write_back);
+    assert_eq!(loaded.config.timeline.read_receipts.global, Some(false));
+    assert!(loaded.config.timeline.read_receipts.by_room.is_empty());
+}
+
+#[test]
+fn parses_timeline_read_receipts_legacy_enabled_path_for_v2_compat() {
+    let config = parse_config_text(
+        r#"
+timeline:
+  read_receipts:
+    enabled: false
+"#,
+    );
+
+    assert_eq!(config.timeline.read_receipts.global, Some(false));
+    assert!(config.timeline.read_receipts.by_room.is_empty());
+}
+
+#[test]
+fn parses_timeline_read_receipts_global_takes_precedence_over_legacy_enabled() {
+    // When both forms coexist (mid-migration / hand-edited file), the v3
+    // `global` key wins. The legacy `enabled` key gets dropped on the
+    // next snapshot write because the encoder only emits `global` and
+    // `by_room`.
+    let config = parse_config_text(
+        r#"
+timeline:
+  read_receipts:
+    enabled: true
+    global: false
+"#,
+    );
+
+    assert_eq!(config.timeline.read_receipts.global, Some(false));
 }
 
 #[test]
@@ -1260,7 +1337,10 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
                 code_syntax_highlighting: true,
             },
             typing: SettingsConfigTimelineTypingSection { show_enabled: true },
-            read_receipts: SettingsConfigTimelineReadReceiptsSection { enabled: true },
+            read_receipts: SettingsConfigTimelineReadReceiptsSection {
+                global: true,
+                by_room: vec![],
+            },
             message_actions: SettingsConfigTimelineMessageActionsSection {
                 activation_policy: "actions_button".to_owned(),
                 pinned_reactions: "👍".to_owned(),
@@ -1500,7 +1580,10 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             },
             formatted: SettingsConfigTimelineFormattedSection { code_syntax_highlighting: true },
             typing: SettingsConfigTimelineTypingSection { show_enabled: true },
-            read_receipts: SettingsConfigTimelineReadReceiptsSection { enabled: true },
+            read_receipts: SettingsConfigTimelineReadReceiptsSection {
+                global: true,
+                by_room: vec![],
+            },
             message_actions: SettingsConfigTimelineMessageActionsSection {
                 activation_policy: "actions_button".to_owned(),
                 pinned_reactions: "👍".to_owned(),

@@ -5916,30 +5916,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (جریانی)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (یک‌باره)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>ابر OpenAI</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>سایر (سرور سازگار با OpenAI)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>قابلیت مشاهده پیام</translation>
     </message>
@@ -5961,27 +5961,32 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>پیش‌فرض سراسری (در حال حاضر: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>روشن</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>خاموش</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>پاسخ‌های رشته را از جدول زمانی اصلی پنهان می‌کند و فقط پیام‌های ریشه رشته را نشان می‌دهد.&lt;br&gt;⚠️ ردیابی خوانده‌نشده‌های هر رشته پشتیبانی نمی‌شود، بنابراین ممکن است پاسخ‌هایی در رشته‌های قدیمی‌تر را از دست بدهید.</translation>
     </message>
@@ -5999,6 +6004,16 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>در حین نوشتن پیام، اعلان تایپ ارسال می‌کند تا دیگران بدانند پاسخی در راه است.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>نشان دادن به دیگران که پیام‌هایشان را خوانده‌ام</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>هنگامی که پیامی را در یک اتاق می‌خوانید، رسید خواندن ارسال می‌شود تا دیگران بتوانند ببینند که آن را خوانده‌اید.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8904,7 +8919,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>حذف برخی پیام‌ها با خطا مواجه شد: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>علامت‌گذاری پیام به‌عنوان خوانده‌شده ناموفق بود: %1</translation>
     </message>
@@ -10312,12 +10327,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>نشان دادن به دیگران که پیام‌هایشان را خوانده‌ام</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>هنگامی که پیامی را در یک اتاق می‌خوانید، رسید خواندن ارسال می‌شود تا دیگران بتوانند ببینند که آن را خوانده‌اید. می‌توان به ازای هر اتاق در اطلاعات اتاق ← ترجیحات تغییر داد.</translation>
     </message>
     <message>
         <location line="+3"/>

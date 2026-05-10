@@ -1683,7 +1683,11 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
     // takes a different code path (see FilteredRoomlistModel::markAsRead
     // → MatrixBackendRuntimeService::markRoomAsRead) and is intentionally
     // not gated here.
-    if (!UserSettings::instance()->timelineReadReceiptsEnabled())
+    //
+    // Honour the per-room override before falling back to the global
+    // toggle, so rooms with `Off` (or `On`) under Room Info → Preferences
+    // win over the user's default.
+    if (!UserSettings::instance()->resolvedTimelineReadReceiptsEnabled(activeMatrixTimelineRoomId_))
         return false;
 
     auto *mainWindow    = MainWindow::instance();

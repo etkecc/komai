@@ -222,8 +222,13 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["timeline", "read_receipts", "enabled"],
-        Value::Bool(snapshot.timeline.read_receipts.enabled),
+        &["timeline", "read_receipts", "global"],
+        Value::Bool(snapshot.timeline.read_receipts.global),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "read_receipts", "by_room"],
+        tree::bool_map(&snapshot.timeline.read_receipts.by_room),
     );
     yaml::set_value(
         &mut root,

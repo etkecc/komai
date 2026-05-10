@@ -54,8 +54,57 @@ bool
 UserSettings::timelineReadReceiptsEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineReadReceiptsEnabled);
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineReadReceiptsGlobal);
         value.has_value())
         return *value;
     return timelineReadReceiptsEnabled_;
+}
+
+QMap<QString, bool>
+UserSettings::timelineReadReceiptsEnabledByRoom() const
+{
+    return timelineReadReceiptsEnabledByRoom_;
+}
+
+void
+UserSettings::setTimelineReadReceiptsEnabledByRoom(const QMap<QString, bool> &byRoom)
+{
+    timelineReadReceiptsEnabledByRoom_ = byRoom;
+    emit timelineReadReceiptsEnabledByRoomChanged();
+    save();
+}
+
+void
+UserSettings::setTimelineReadReceiptsEnabledForRoom(const QString &roomId, bool value)
+{
+    timelineReadReceiptsEnabledByRoom_[roomId] = value;
+    emit timelineReadReceiptsEnabledByRoomChanged();
+    save();
+}
+
+void
+UserSettings::removeTimelineReadReceiptsEnabledForRoom(const QString &roomId)
+{
+    if (timelineReadReceiptsEnabledByRoom_.remove(roomId)) {
+        emit timelineReadReceiptsEnabledByRoomChanged();
+        save();
+    }
+}
+
+QVariant
+UserSettings::timelineReadReceiptsEnabledOverrideForRoom(const QString &roomId) const
+{
+    auto it = timelineReadReceiptsEnabledByRoom_.find(roomId);
+    if (it != timelineReadReceiptsEnabledByRoom_.end())
+        return QVariant(it.value());
+    return QVariant();
+}
+
+bool
+UserSettings::resolvedTimelineReadReceiptsEnabled(const QString &roomId) const
+{
+    auto it = timelineReadReceiptsEnabledByRoom_.find(roomId);
+    if (it != timelineReadReceiptsEnabledByRoom_.end())
+        return it.value();
+    return timelineReadReceiptsEnabled();
 }

@@ -5924,30 +5924,30 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (streaming)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (one-shot)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>Nuvem OpenAI</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Outro (servidor compatível com OpenAI)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Visibilidade das mensagens</translation>
     </message>
@@ -5969,27 +5969,32 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Predefinição global (atualmente: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Ativado</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Desativado</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Oculta as respostas dos tópicos da linha de tempo principal, mostrando apenas as mensagens raiz dos tópicos.&lt;br&gt;⚠️ O acompanhamento de mensagens não lidas por tópico não é suportado, pelo que poderá perder respostas em tópicos mais antigos.</translation>
     </message>
@@ -6007,6 +6012,16 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Envia uma notificação de digitação enquanto escreve, para que os outros possam ver que uma resposta está a caminho.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Mostrar a outros quando li as mensagens deles</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Envia uma confirmação de leitura ao ler uma mensagem numa sala, para que outros possam ver que a leu.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8917,7 +8932,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>Falha ao eliminar algumas mensagens: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Falha ao marcar mensagem como lida: %1</translation>
     </message>
@@ -10328,12 +10343,12 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar a outros quando li as mensagens deles</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Envia uma confirmação de leitura ao ler uma mensagem numa sala, para que outros possam ver que a leu. Pode ser substituído por sala em Informações da sala → Preferências.</translation>
     </message>
     <message>
         <location line="+3"/>

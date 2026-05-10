@@ -677,6 +677,17 @@ public:
     Q_INVOKABLE QVariant composerTypingSendEnabledOverrideForRoom(const QString &roomId) const;
     Q_INVOKABLE bool resolvedComposerTypingSendEnabled(const QString &roomId) const;
 
+    // Per-room overrides for "Show others when I've read their messages"
+    // (`timeline.read_receipts.global` + `timeline.read_receipts.by_room`).
+    // The Q_PROPERTY `timelineReadReceiptsEnabled` is unchanged (it
+    // represents the global value).
+    Q_INVOKABLE QMap<QString, bool> timelineReadReceiptsEnabledByRoom() const;
+    Q_INVOKABLE void setTimelineReadReceiptsEnabledByRoom(const QMap<QString, bool> &byRoom);
+    Q_INVOKABLE void setTimelineReadReceiptsEnabledForRoom(const QString &roomId, bool value);
+    Q_INVOKABLE void removeTimelineReadReceiptsEnabledForRoom(const QString &roomId);
+    Q_INVOKABLE QVariant timelineReadReceiptsEnabledOverrideForRoom(const QString &roomId) const;
+    Q_INVOKABLE bool resolvedTimelineReadReceiptsEnabled(const QString &roomId) const;
+
     // Per-room transcription overrides. The value type is intentionally a
     // 5-string-fields-per-room shape (unlike the per-room-bool collapse
     // replies pattern), so we expose the QML side through a sparse
@@ -872,6 +883,7 @@ signals:
     void timelineThreadsCollapseRepliesChanged(bool state);
     void timelineThreadsCollapseRepliesByRoomChanged();
     void composerTypingSendEnabledByRoomChanged();
+    void timelineReadReceiptsEnabledByRoomChanged();
     void hiddenPinsChanged();
     void openTabsChanged();
     void pinnedTabsChanged();

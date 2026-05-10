@@ -159,7 +159,13 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setTimelineFormattedCodeSyntaxHighlighting(
       snapshot.timeline.formatted.code_syntax_highlighting);
     settings.setTimelineTypingShowEnabled(snapshot.timeline.typing.show_enabled);
-    settings.setTimelineReadReceiptsEnabled(snapshot.timeline.read_receipts.enabled);
+    settings.setTimelineReadReceiptsEnabled(snapshot.timeline.read_receipts.global);
+    {
+        QMap<QString, bool> byRoom;
+        for (const auto &entry : snapshot.timeline.read_receipts.by_room)
+            byRoom.insert(QString::fromStdString(static_cast<std::string>(entry.key)), entry.value);
+        settings.setTimelineReadReceiptsEnabledByRoom(byRoom);
+    }
 
     settings.setTimelineMessageActionsActivationPolicy(
       cfg::timelineMessageActionsActivationPolicyFromStorage(

@@ -103,7 +103,7 @@ enum class SettingId
     TimelineMessagesHoverHighlight,
     TimelineFormattedCodeSyntaxHighlighting,
     TimelineTypingShowEnabled,
-    TimelineReadReceiptsEnabled,
+    TimelineReadReceiptsGlobal,
     TimelineMessageActionsActivationPolicy,
     TimelineMessageActionsPinnedReactions,
     TimelineMediaEffectsEnabled,

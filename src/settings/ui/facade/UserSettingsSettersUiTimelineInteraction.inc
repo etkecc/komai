@@ -25,7 +25,7 @@ UserSettings::setTimelineReadReceiptsEnabled(bool s)
     if (timelineReadReceiptsEnabled_ == s)
         return;
     timelineReadReceiptsEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineReadReceiptsEnabled, s);
+    (void)coreStore_.set(settings::core::SettingId::TimelineReadReceiptsGlobal, s);
     emit timelineReadReceiptsEnabledChanged(s);
     save();
 }

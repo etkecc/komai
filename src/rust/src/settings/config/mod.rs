@@ -112,8 +112,16 @@ const TIMELINE_FORMATTED_CODE_SYNTAX_HIGHLIGHTING_PATH: [&str; 3] =
     ["timeline", "formatted", "code_syntax_highlighting"];
 const TIMELINE_TYPING_SHOW_ENABLED_PATH: [&str; 4] =
     ["timeline", "typing", "show", "enabled"];
-const TIMELINE_READ_RECEIPTS_ENABLED_PATH: [&str; 3] =
+/// Pre-v3 path for the timeline read-receipts global toggle (a bool leaf
+/// at `timeline.read_receipts.enabled`). Read for compat-fallback only;
+/// v3 stores the global at `timeline.read_receipts.global` (sibling of
+/// the new `by_room` map). See `migrations.md` for the v2→v3 step.
+const TIMELINE_READ_RECEIPTS_ENABLED_PATH_LEGACY: [&str; 3] =
     ["timeline", "read_receipts", "enabled"];
+const TIMELINE_READ_RECEIPTS_GLOBAL_PATH: [&str; 3] =
+    ["timeline", "read_receipts", "global"];
+const TIMELINE_READ_RECEIPTS_BY_ROOM_PATH: [&str; 3] =
+    ["timeline", "read_receipts", "by_room"];
 const TIMELINE_MESSAGE_ACTIONS_ACTIVATION_POLICY_PATH: [&str; 4] =
     ["timeline", "messages", "actions", "activation_policy"];
 const TIMELINE_MESSAGE_ACTIONS_PINNED_REACTIONS_PATH: [&str; 4] =
@@ -413,8 +421,18 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     .and_then(parse_scalar_bool),
             },
             read_receipts: ConfigTimelineReadReceipts {
-                enabled: yaml::value_at_path(root, &TIMELINE_READ_RECEIPTS_ENABLED_PATH)
-                    .and_then(parse_scalar_bool),
+                // Prefer the v3 path; fall back to the legacy `enabled` leaf
+                // for configs written before the v2→v3 migration step ran.
+                global: yaml::value_at_path(root, &TIMELINE_READ_RECEIPTS_GLOBAL_PATH)
+                    .and_then(parse_scalar_bool)
+                    .or_else(|| {
+                        yaml::value_at_path(root, &TIMELINE_READ_RECEIPTS_ENABLED_PATH_LEGACY)
+                            .and_then(parse_scalar_bool)
+                    }),
+                by_room: parse_bool_map(yaml::value_at_path(
+                    root,
+                    &TIMELINE_READ_RECEIPTS_BY_ROOM_PATH,
+                )),
             },
             message_actions: ConfigTimelineMessageActions {
                 activation_policy: parse_storage_token(yaml::value_at_path(

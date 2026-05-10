@@ -5916,30 +5916,30 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+312"/>
+        <location line="+383"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (trực tuyến)</translation>
     </message>
     <message>
-        <location line="-311"/>
-        <location line="+310"/>
+        <location line="-382"/>
+        <location line="+381"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (một lần)</translation>
     </message>
     <message>
-        <location line="-304"/>
-        <location line="+406"/>
+        <location line="-375"/>
+        <location line="+477"/>
         <source>OpenAI cloud</source>
         <translation>Đám mây OpenAI</translation>
     </message>
     <message>
-        <location line="-405"/>
-        <location line="+406"/>
+        <location line="-476"/>
+        <location line="+477"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Khác (máy chủ tương thích OpenAI)</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-461"/>
         <source>Message visibility</source>
         <translation>Khả năng hiển thị tin nhắn</translation>
     </message>
@@ -5961,27 +5961,32 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
     <message>
         <location line="+14"/>
         <location line="+86"/>
+        <location line="+71"/>
         <source>Global Default (currently: %1)</source>
         <translation>Mặc định toàn cục (hiện tại: %1)</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-157"/>
         <location line="+1"/>
         <location line="+85"/>
+        <location line="+1"/>
+        <location line="+70"/>
         <location line="+1"/>
         <source>On</source>
         <translation>Bật</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-158"/>
         <location line="+2"/>
         <location line="+84"/>
+        <location line="+2"/>
+        <location line="+69"/>
         <location line="+2"/>
         <source>Off</source>
         <translation>Tắt</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-134"/>
         <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation>Ẩn phản hồi chủ đề khỏi dòng thời gian chính, chỉ hiển thị tin nhắn gốc của chủ đề.&lt;br&gt;⚠️ Theo dõi chưa đọc theo từng chủ đề không được hỗ trợ, bạn có thể bỏ lỡ các phản hồi trong chủ đề cũ.</translation>
     </message>
@@ -5999,6 +6004,16 @@ Các bản sao lưu khóa phía máy chủ trước đó sẽ không bị xóa t
         <location line="+39"/>
         <source>Sends a typing notification while you compose, so others can see that a reply is on its way.</source>
         <translation>Gửi thông báo đang gõ trong khi bạn soạn tin nhắn, để người khác thấy rằng có phản hồi đang đến.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Show others when I've read their messages</source>
+        <translation>Hiển thị cho người khác khi tôi đã đọc tin nhắn của họ</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation>Gửi xác nhận đã đọc khi bạn đọc tin nhắn trong phòng, để người khác có thể thấy bạn đã đọc.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -8904,7 +8919,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể xóa một số tin nhắn: %1</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+132"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Không thể đánh dấu tin nhắn là đã đọc: %1</translation>
     </message>
@@ -10312,12 +10327,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+4"/>
         <source>Show others when I've read their messages</source>
-        <translation type="unfinished"/>
+        <translation>Hiển thị cho người khác khi tôi đã đọc tin nhắn của họ</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation type="unfinished"/>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
+        <translation>Gửi xác nhận đã đọc khi bạn đọc tin nhắn trong phòng, để người khác có thể thấy bạn đã đọc. Có thể ghi đè theo từng phòng trong Thông tin phòng → Tùy chọn.</translation>
     </message>
     <message>
         <location line="+3"/>

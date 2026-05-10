@@ -315,7 +315,11 @@ mod bridge {
     }
 
     struct SettingsConfigTimelineReadReceiptsSection {
-        enabled: bool,
+        // Whether to send a read receipt as you read messages by default.
+        // Per-room overrides live in `by_room`; the resolved value falls
+        // back to this global when a room is not in the map.
+        global: bool,
+        by_room: Vec<SettingsBoolMapEntry>,
     }
 
     struct SettingsConfigTimelineMessageActionsSection {

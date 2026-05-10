@@ -1837,7 +1837,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>As etiquetas de sala só podem ser alteradas para salas em que tenha entrado e que estejam disponíveis nesta sessão.</translation>
     </message>

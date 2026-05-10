@@ -1837,7 +1837,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Le etichette delle stanze possono essere modificate solo per le stanze a cui si è acceduto in questa sessione.</translation>
     </message>

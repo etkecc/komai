@@ -1839,7 +1839,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Etichetele camerei pot fi modificate doar pentru camerele alăturate disponibile în această sesiune.</translation>
     </message>

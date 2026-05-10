@@ -1837,7 +1837,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Rumstaggarna kan bara ändras för rum du gått med i som är tillgängliga i den här sessionen.</translation>
     </message>

@@ -1835,7 +1835,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Thẻ phòng chỉ có thể thay đổi cho các phòng đã tham gia trong phiên này.</translation>
     </message>

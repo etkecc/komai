@@ -33,6 +33,11 @@ Rectangle {
         function onCurrentRoomIdChanged(currentRoomId) {
             tabController.handleExternalRoomChange(currentRoomId);
         }
+
+        function onRoomLeft(roomId) {
+            if (tabController.findTab(roomId) !== -1)
+                tabController.closeTab(roomId);
+        }
     }
 
     // Tab keyboard shortcuts.

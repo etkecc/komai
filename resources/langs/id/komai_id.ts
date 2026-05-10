@@ -1835,7 +1835,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Tag ruangan hanya dapat diubah untuk ruangan yang telah dimasuki dan tersedia dalam sesi ini.</translation>
     </message>

@@ -1835,7 +1835,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>聊天室标签只能在此会话中可用的已加入聊天室中更改。</translation>
     </message>

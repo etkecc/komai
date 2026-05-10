@@ -109,6 +109,7 @@ RoomlistModel::leave(QString roomid, QString reason)
     }
 
     removeRoomState(roomid);
+    emit roomLeft(roomid);
 }
 
 RoomPreview

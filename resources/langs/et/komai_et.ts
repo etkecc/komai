@@ -1837,7 +1837,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Jututoa silte saab muuta ainult liitutud jututubade jaoks, mis on selles seanssis saadaval.</translation>
     </message>

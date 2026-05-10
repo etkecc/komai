@@ -1837,7 +1837,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>As tags de sala só podem ser alteradas para salas ingressadas disponíveis nesta sessão.</translation>
     </message>

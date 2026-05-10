@@ -1839,7 +1839,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Теги комнат можно изменять только для комнат, в которых ты состоишь и которые доступны в этой сессии.</translation>
     </message>

@@ -185,6 +185,7 @@ signals:
     void fetchedPreview(QString roomid, RoomInfo info);
     void suppressedUpdatesChanged();
     void spaceSelected(QString roomId);
+    void roomLeft(QString roomid);
 
 private:
     struct AttentionState
@@ -429,6 +430,7 @@ signals:
     void currentRoomIdChanged(QString currentRoomId);
     void currentRoomPreviewChanged();
     void hasSuppressedUpdatesChanged();
+    void roomLeft(QString roomid);
 
 private:
     QModelIndex sourceRowIndex(int sourceRow) const;

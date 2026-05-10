@@ -1839,7 +1839,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+537"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Tagi pokoju można zmieniać tylko dla dołączonych pokojów dostępnych w tej sesji.</translation>
     </message>

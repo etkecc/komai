@@ -1824,7 +1824,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
         <source>Save</source>
         <translation>Desa</translation>
     </message>

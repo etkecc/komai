@@ -446,6 +446,10 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
 }
 
 fn formatted_html(message_type: &MessageType) -> &str {
+    // ruma exposes `formatted: Option<FormattedBody>` on every media content
+    // type too (image/video/audio/file), so rich captions on attachments —
+    // see Element X's behaviour and Komai's own send path — surface the same
+    // way as text-message bodies.
     match message_type {
         MessageType::Text(content) => content
             .formatted
@@ -458,6 +462,26 @@ fn formatted_html(message_type: &MessageType) -> &str {
             .map(|f| f.body.as_str())
             .unwrap_or(""),
         MessageType::Emote(content) => content
+            .formatted
+            .as_ref()
+            .map(|f| f.body.as_str())
+            .unwrap_or(""),
+        MessageType::Image(content) => content
+            .formatted
+            .as_ref()
+            .map(|f| f.body.as_str())
+            .unwrap_or(""),
+        MessageType::Video(content) => content
+            .formatted
+            .as_ref()
+            .map(|f| f.body.as_str())
+            .unwrap_or(""),
+        MessageType::Audio(content) => content
+            .formatted
+            .as_ref()
+            .map(|f| f.body.as_str())
+            .unwrap_or(""),
+        MessageType::File(content) => content
             .formatted
             .as_ref()
             .map(|f| f.body.as_str())
@@ -488,20 +512,24 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
             s
         }
         MessageType::Image(content) => {
-            summary_with_media(
+            let mut s = summary_with_media(
                 "image",
                 "m.room.message",
                 caption_or_filename(content),
                 media_for_image(content),
-            )
+            );
+            s.formatted_body = formatted_html(message_type).to_owned();
+            s
         }
         MessageType::Video(content) => {
-            summary_with_media(
+            let mut s = summary_with_media(
                 "video",
                 "m.room.message",
                 caption_or_filename(content),
                 media_for_video(content),
-            )
+            );
+            s.formatted_body = formatted_html(message_type).to_owned();
+            s
         }
         MessageType::Audio(content) => {
             let mut s = summary_with_media(
@@ -510,6 +538,7 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
                 caption_or_filename(content),
                 media_for_audio(content),
             );
+            s.formatted_body = formatted_html(message_type).to_owned();
             s.is_voice_message = content.voice.is_some();
             if let Some(ref audio) = content.audio {
                 s.waveform = audio
@@ -524,12 +553,14 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
             s
         }
         MessageType::File(content) => {
-            summary_with_media(
+            let mut s = summary_with_media(
                 "file",
                 "m.room.message",
                 caption_or_filename(content),
                 media_for_file(content),
-            )
+            );
+            s.formatted_body = formatted_html(message_type).to_owned();
+            s
         }
         MessageType::Location(_) => summary("location", "m.room.message", message_type.body()),
         _ => summary("unknown_message", "m.room.message", message_type.body()),

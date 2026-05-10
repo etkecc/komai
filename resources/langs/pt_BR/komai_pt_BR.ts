@@ -1824,7 +1824,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>

@@ -1824,7 +1824,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>

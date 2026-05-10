@@ -1822,7 +1822,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>

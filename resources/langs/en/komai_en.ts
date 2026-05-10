@@ -1818,7 +1818,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+106"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
         <source>Save</source>
         <translation type="unfinished"/>
     </message>

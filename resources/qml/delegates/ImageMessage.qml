@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components"
 import QtQuick
 import cc.etke.komai
 
@@ -16,6 +17,7 @@ Item {
     required property string url
     required property string blurhash
     required property string body
+    required property string formattedBody
     required property string filename
     required property string eventId
     required property string mimetype
@@ -70,6 +72,7 @@ Item {
     // A non-empty body that doesn't look like a filename is treated as a real caption
     readonly property bool hasCaption: body.length > 0 && !body.match(/\.\w{2,5}$/)
     readonly property bool showPersistentCaption: hasCaption && !EventDelegateChooser.isReply
+    readonly property bool useFormattedCaption: showPersistentCaption && formattedBody.length > 0
     readonly property bool showHoverOverlay: mediaHover.hovered
                                              && hoverOverlayText.length > 0
                                              && !showPersistentCaption
@@ -91,9 +94,12 @@ Item {
     TextEdit {
         id: captionWidthMeasurer
         visible: false
-        text: root.body
+        // Measure whichever form is actually rendered: raw markdown source is
+        // longer than the rendered HTML (e.g. `[dir](https://...)` vs. `dir`),
+        // so measuring the wrong one stretches the bubble well past the image.
+        text: root.useFormattedCaption ? root.formattedBody : root.body
         font: persistentCaptionText.font
-        textFormat: TextEdit.PlainText
+        textFormat: root.useFormattedCaption ? TextEdit.RichText : TextEdit.PlainText
         wrapMode: TextEdit.NoWrap
         readOnly: true
     }
@@ -200,6 +206,8 @@ Item {
             TextEdit {
                 id: persistentCaptionText
 
+                property point hoverPoint: Qt.point(0, 0)
+
                 width: Math.max(1, parent.width - Komai.paddingMedium * 2)
                 x: Komai.paddingMedium
                 y: Komai.paddingSmall
@@ -208,9 +216,38 @@ Item {
                 selectionColor: palette.highlight
                 selectedTextColor: palette.highlightedText
                 wrapMode: TextEdit.Wrap
-                textFormat: TextEdit.PlainText
-                text: root.body
+                textFormat: root.useFormattedCaption ? TextEdit.RichText : TextEdit.PlainText
+                text: root.useFormattedCaption ? root.formattedBody : root.body
                 color: palette.text
+                onLinkActivated: (link) => Komai.openLink(link)
+                HoverHandler {
+                    cursorShape: persistentCaptionText.hoveredLink.length > 0
+                        ? Qt.PointingHandCursor
+                        : Qt.IBeamCursor
+                    onPointChanged: if (hovered)
+                        persistentCaptionText.hoverPoint = Qt.point(point.position.x, point.position.y)
+                }
+                Loader {
+                    active: persistentCaptionText.hoveredLink.length > 0
+                    sourceComponent: Component {
+                        Item {
+                            TextMetrics {
+                                id: linkMetrics
+                                text: Komai.punyLink(persistentCaptionText.hoveredLink)
+                            }
+                            KomaiToolTip {
+                                anchorItem: persistentCaptionText
+                                anchorX: persistentCaptionText.hoverPoint.x
+                                anchorY: persistentCaptionText.hoverPoint.y
+                                gapX: Komai.paddingMedium
+                                gapY: Komai.paddingMedium
+                                text: linkMetrics.text
+                                requestedVisible: persistentCaptionText.hoveredLink.length > 0
+                                width: Math.min(linkMetrics.advanceWidth + leftPadding + rightPadding, 500)
+                            }
+                        }
+                    }
+                }
             }
         }
     }

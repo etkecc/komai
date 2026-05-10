@@ -8867,7 +8867,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>No s'ha pogut enviar el missatge: %1</translation>
     </message>
@@ -9039,7 +9039,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>La sessió Matrix encara no està preparada.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>No s'han trobat missatges de %1 a la línia de temps visible.</translation>
     </message>

@@ -8867,7 +8867,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>സന്ദേശം അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -9039,7 +9039,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix സെഷൻ ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>ദൃശ്യമായ ടൈംലൈനിൽ %1 ൽ നിന്ന് സന്ദേശങ്ങൾ കണ്ടെത്തിയില്ല.</translation>
     </message>

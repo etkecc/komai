@@ -8867,7 +8867,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Viestin lähettäminen epäonnistui: %1</translation>
     </message>
@@ -9039,7 +9039,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Matrix-istunto ei ole vielä valmis.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Käyttäjältä %1 ei löytynyt viestejä näkyvässä aikajanassa.</translation>
     </message>

@@ -8854,7 +8854,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Nem sikerült elküldeni az üzenetet: %1</translation>
     </message>
@@ -9026,7 +9026,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>A Matrix munkamenet még nem áll készen.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nem található üzenet %1-tól a látható idővonalban.</translation>
     </message>

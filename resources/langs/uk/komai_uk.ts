@@ -8880,7 +8880,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Не вдалося надіслати повідомлення: %1</translation>
     </message>
@@ -9052,7 +9052,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Сеанс Matrix ще не готовий.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Повідомлень від %1 у видимій стрічці не знайдено.</translation>
     </message>

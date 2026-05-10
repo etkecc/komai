@@ -8854,7 +8854,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Gagal mengirim pesan: %1</translation>
     </message>
@@ -9026,7 +9026,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Sesi Matrix belum siap.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Tidak ada pesan dari %1 di linimasa yang terlihat.</translation>
     </message>

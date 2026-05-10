@@ -17,6 +17,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/RoomlistModel.h"
 #include "timeline/SlashCommands.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
@@ -332,7 +333,10 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
     case CommandId::Leave:
         if (!requireChatPage() || !requireActiveRoom())
             return false;
-        chatPage->leaveRoom(activeMatrixTimelineRoomId_, arguments);
+        // Route through FilteredRoomlistModel so the row is removed from the
+        // model synchronously and the roomLeft signal fires, matching the
+        // Leave dialog path (closes any open tab, resets the current room).
+        FilteredRoomlistModel::instance()->leave(activeMatrixTimelineRoomId_, arguments);
         ok = true;
         break;
     case CommandId::Invite:

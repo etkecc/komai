@@ -8854,7 +8854,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>傳送訊息失敗：%1</translation>
     </message>
@@ -9026,7 +9026,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix 工作階段尚未就緒。</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>在可見的時間軸中未找到來自 %1 的訊息。</translation>
     </message>

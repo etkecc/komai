@@ -8854,7 +8854,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>메시지 전송 실패: %1</translation>
     </message>
@@ -9026,7 +9026,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix 세션이 아직 준비되지 않았습니다.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>표시된 타임라인에서 %1의 메시지를 찾을 수 없습니다.</translation>
     </message>

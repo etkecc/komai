@@ -8880,7 +8880,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <name>TimelineViewManager</name>
     <message>
         <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+295"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Nu s-a putut trimite mesajul: %1</translation>
     </message>
@@ -9052,7 +9052,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Sesiunea Matrix nu este încă pregătită.</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Niciun mesaj de la %1 în cronologia vizibilă.</translation>
     </message>

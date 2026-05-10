@@ -194,7 +194,7 @@ ItemDelegate {
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
             onSingleTapped: {
-                if (!TimelineManager.isInvite)
+                if (!isInvite)
                     roomContextMenu.show(roomItemTh.parent, roomId, tags, isSpace, isInvite, hasUnreadMessages || hasLoudNotification);
             }
         }
@@ -316,7 +316,12 @@ ItemDelegate {
                     return;
                 }
                 if (mouse.button === Qt.MiddleButton) {
-                    tabController.openTab(roomId);
+                    // Middle-click opens a tab; for invites we surface the
+                    // accept/decline dialog instead, matching left-click.
+                    if (isInvite)
+                        TimelineManager.openInviteResponseDialog(roomId);
+                    else
+                        tabController.openTab(roomId);
                     return;
                 }
                 var ctrlHeld = !!(mouse.modifiers & Qt.ControlModifier);

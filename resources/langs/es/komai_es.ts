@@ -5188,37 +5188,7 @@ Vuelve atrás e inicia sesión manualmente.</translation>
         <translation>Escriba el motivo del reporte:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>¿Cómo de malo es el mensaje?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Nada mal</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Suave</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Mal</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Grave</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Muy grave</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -8940,7 +8910,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>No se ha podido marcar el mensaje como leído: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Informe enviado</translation>
     </message>

@@ -5178,37 +5178,7 @@ Vui lòng quay lại và đăng nhập thủ công.</translation>
         <translation>Nhập lý do báo cáo của bạn:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Tin nhắn này tệ đến mức nào?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Không xấu</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Nhẹ</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Xấu</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Nghiêm trọng</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Cực kỳ nghiêm trọng</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Hủy</translation>
     </message>
@@ -8924,7 +8894,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể đánh dấu tin nhắn là đã đọc: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Báo cáo đã gửi</translation>
     </message>

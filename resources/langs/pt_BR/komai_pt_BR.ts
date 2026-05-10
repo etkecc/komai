@@ -5185,37 +5185,7 @@ Volte e faça login manualmente.</translation>
         <translation>Insira o motivo da denúncia:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Quão grave é a mensagem?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Não é ruim</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Leve</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Ruim</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Grave</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Extremamente grave</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -8937,7 +8907,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>Falha ao marcar mensagem como lida: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Denúncia enviada</translation>
     </message>

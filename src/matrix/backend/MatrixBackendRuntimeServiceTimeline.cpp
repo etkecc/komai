@@ -577,21 +577,19 @@ MatrixBackendRuntimeService::reportRoomEvent(matrix_backend::BlockingCallContext
                                              const QString &roomId,
                                              const QString &eventId,
                                              const QString &reason,
-                                             int score,
                                              QString *errorOut)
 {
     try {
         matrix_backend::invokeBlockingCall(
           "matrix_report_room_event",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, eventId, reason, score, context]() {
+          [handleId, roomId, eventId, reason, context]() {
               ::komai::rust::matrix_report_room_event(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
                 eventId.toStdString(),
-                reason.toStdString(),
-                score);
+                reason.toStdString());
           });
         return true;
     } catch (const std::exception &e) {

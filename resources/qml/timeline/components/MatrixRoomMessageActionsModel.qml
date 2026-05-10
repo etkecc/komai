@@ -251,10 +251,9 @@ Item {
         TimelineManager.unpinActiveMatrixTimelineEvent(String(eventId || ""));
     }
 
-    function reportEvent(eventId, reason, score) {
+    function reportEvent(eventId, reason) {
         TimelineManager.reportActiveMatrixTimelineEvent(String(eventId || ""),
-                                                       String(reason || ""),
-                                                       Number(score || -50));
+                                                       String(reason || ""));
     }
 
     function viewRawMessage(eventId) {

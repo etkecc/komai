@@ -5185,37 +5185,7 @@ Bitte geh zurück und melde dich manuell an.</translation>
         <translation>Warum ist die Nachricht diese Meldung wert:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Wie schlimm ist diese Nachricht?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Nicht so schlimm</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Mittel</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Schlimm</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Sehr schlimm</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Extrem schlimm</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -8937,7 +8907,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Fehler beim Markieren der Nachricht als gelesen: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Meldung gesendet</translation>
     </message>

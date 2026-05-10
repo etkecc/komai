@@ -5178,37 +5178,7 @@ Please go back and sign in manually.</source>
         <translation>신고 이유를 입력하세요:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>메시지가 얼마나 심각한가요?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>나쁘지 않음</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>경미</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>나쁨</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>심각</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>매우 심각</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
@@ -8924,7 +8894,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>메시지를 읽음으로 표시 실패: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>신고가 전송되었습니다</translation>
     </message>

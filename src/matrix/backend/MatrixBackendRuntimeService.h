@@ -665,7 +665,6 @@ public:
                                 const QString &roomId,
                                 const QString &eventId,
                                 const QString &reason,
-                                int score,
                                 QString *errorOut = nullptr);
 
     struct ThreadRootsResult

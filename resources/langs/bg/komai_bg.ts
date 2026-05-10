@@ -5185,37 +5185,7 @@ Please go back and sign in manually.</source>
         <translation>Въведете причината за докладването:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Колко лошо е съобщението?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Не е лошо</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Леко</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Лошо</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Сериозно</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Изключително сериозно</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
     </message>
@@ -8937,7 +8907,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Неуспешно маркиране на съобщение като прочетено: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Докладът е изпратен</translation>
     </message>

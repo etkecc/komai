@@ -311,9 +311,8 @@ public:
     Q_INVOKABLE bool cancelActiveMatrixTimelineLocalEcho(const QString &transactionId);
     Q_INVOKABLE bool retryActiveMatrixTimelineLocalEcho(const QString &transactionId);
     Q_INVOKABLE bool markActiveMatrixTimelineEventAsRead(const QString &eventId);
-    Q_INVOKABLE bool reportActiveMatrixTimelineEvent(const QString &eventId,
-                                                     const QString &reason = QString(),
-                                                     int score             = -50);
+    Q_INVOKABLE bool
+    reportActiveMatrixTimelineEvent(const QString &eventId, const QString &reason = QString());
     Q_INVOKABLE bool
     forwardActiveMatrixTimelineEvent(const QString &eventId, const QString &targetRoomId);
     Q_INVOKABLE bool

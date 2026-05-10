@@ -5192,37 +5192,7 @@ Vrati se i prijavi se ručno.</translation>
         <translation>Unesi razlog prijave:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Koliko je poruka loša?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Nije loše</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Blago</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Loše</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Ozbiljno</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Izuzetno ozbiljno</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Otkaži</translation>
     </message>
@@ -8950,7 +8920,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspelo označavanje poruke kao pročitane: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Prijava poslata</translation>
     </message>

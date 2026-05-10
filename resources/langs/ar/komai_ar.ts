@@ -5213,37 +5213,7 @@ Please go back and sign in manually.</source>
         <translation>أدخل سبب الإبلاغ:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>ما مدى سوء الرسالة؟</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>ليس سيئًا</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>خفيف</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>سيئ</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>خطير</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>خطير للغاية</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>إلغاء</translation>
     </message>
@@ -8989,7 +8959,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>فشل تحديد الرسالة كمقروءة: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>تم إرسال التقرير</translation>
     </message>

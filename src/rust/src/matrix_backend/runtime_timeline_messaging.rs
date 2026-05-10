@@ -979,7 +979,6 @@ pub async fn report_room_event(
     room_id: &str,
     event_id: &str,
     reason: &str,
-    score: i32,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let event_id = event_id.trim();
@@ -995,9 +994,8 @@ pub async fn report_room_event(
         handle_id,
         room_id = room_id.trim(),
         event_id,
-        score,
         has_reason = trimmed_reason.is_some(),
-        "Reporting matrix-sdk room event (score field is accepted for UI compatibility but ignored: removed from the Matrix spec)"
+        "Reporting matrix-sdk room event"
     );
 
     room.report_content(parsed_event_id, trimmed_reason)

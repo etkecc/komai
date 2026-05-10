@@ -5178,37 +5178,7 @@ Please go back and sign in manually.</source>
         <translation>報告の理由を入力してください:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>メッセージはどの程度問題がありますか？</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>問題なし</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>軽微</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>悪い</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>深刻</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>非常に深刻</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
@@ -8924,7 +8894,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>メッセージを既読にする操作に失敗しました: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>通報を送信しました</translation>
     </message>

@@ -5185,37 +5185,7 @@ Torna enrere i inicia sessió manualment.</translation>
         <translation>Introdueix el motiu de la denúncia:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Com de greu és el missatge?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Poc greu</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Lleu</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Dolent</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Greu</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Molt greu</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>
@@ -8937,7 +8907,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No s'ha pogut marcar el missatge com a llegit: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Denúncia enviada</translation>
     </message>

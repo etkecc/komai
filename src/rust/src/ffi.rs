@@ -2187,7 +2187,6 @@ mod bridge {
             room_id: &str,
             event_id: &str,
             reason: &str,
-            score: i32,
         ) -> Result<()>;
         fn matrix_fetch_room_thread_roots(
             context: MatrixFfiBlockingContext,

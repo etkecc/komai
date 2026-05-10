@@ -5185,37 +5185,7 @@ Please go back and sign in manually.</source>
         <translation>റിപ്പോർട്ട് ചെയ്യാനുള്ള നിങ്ങളുടെ കാരണം നൽകുക:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>സന്ദേശം എത്ര മോശമാണ്?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>മോശമില്ല</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>നേരിയ</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>മോശം</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>ഗുരുതരം</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>അത്യന്തം ഗുരുതരം</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>റദ്ദാക്കുക</translation>
     </message>
@@ -8937,7 +8907,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>സന്ദേശം വായിച്ചതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>റിപ്പോർട്ട് അയച്ചു</translation>
     </message>

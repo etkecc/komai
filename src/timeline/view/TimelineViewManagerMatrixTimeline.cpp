@@ -1803,9 +1803,7 @@ TimelineViewManager::clearMatrixReadMarkerQueue()
 }
 
 bool
-TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
-                                                     const QString &reason,
-                                                     int score)
+TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId, const QString &reason)
 {
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
@@ -1823,11 +1821,11 @@ TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
     const auto roomId = activeMatrixTimelineRoomId_;
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId, trimmedEventId, reason, score]() {
+      [handleId, roomId, trimmedEventId, reason]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = komai::MatrixBackendRuntimeService::reportRoomEvent(
-            context, handleId, roomId, trimmedEventId, reason, score, &error);
+            context, handleId, roomId, trimmedEventId, reason, &error);
           return MatrixTimelineEventActionResult{
             .handleId = handleId,
             .roomId   = roomId,

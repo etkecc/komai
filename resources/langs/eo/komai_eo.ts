@@ -5187,37 +5187,7 @@ forigi la enhavon, se necese.</translation>
         <translation>Entajpu vian kialon por la raporto:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Kiom malbonas la mesaĝo?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Ne malbona</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Iom malbona</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Malbona</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Grave malbona</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Ekstreme malbona</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Nuligi</translation>
     </message>
@@ -8940,7 +8910,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Malsukcesis marki mesaĝon kiel legitan: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Raporto sendita</translation>
     </message>

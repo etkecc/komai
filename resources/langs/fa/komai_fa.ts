@@ -5178,37 +5178,7 @@ Please go back and sign in manually.</source>
         <translation>دلیل گزارش خود را وارد کنید:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>این پیام چقدر بد است؟</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>بد نیست</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>خفیف</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>بد</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>جدی</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>بسیار جدی</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>لغو</translation>
     </message>
@@ -8924,7 +8894,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>علامت‌گذاری پیام به‌عنوان خوانده‌شده ناموفق بود: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>گزارش ارسال شد</translation>
     </message>

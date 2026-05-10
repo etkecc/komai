@@ -5178,37 +5178,7 @@ Kérjük, lépjen vissza, és jelentkezzen be manuálisan.</translation>
         <translation>Adja meg a bejelentés okát:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Mennyire súlyos az üzenet?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Nem rossz</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Enyhe</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Rossz</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Súlyos</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Rendkívül súlyos</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
@@ -8924,7 +8894,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Nem sikerült olvasottnak jelölni az üzenetet: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Jelentés elküldve</translation>
     </message>

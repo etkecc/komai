@@ -5192,37 +5192,7 @@ Please go back and sign in manually.</source>
         <translation>Укажи причину жалобы:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Насколько плохое сообщение?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Не плохое</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Незначительное</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Плохое</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Серьёзное</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Крайне серьёзное</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -8950,7 +8920,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не удалось отметить сообщение как прочитанное: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Жалоба отправлена</translation>
     </message>

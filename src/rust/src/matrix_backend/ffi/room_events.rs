@@ -366,12 +366,11 @@ pub(crate) fn matrix_report_room_event(
     room_id: &str,
     event_id: &str,
     reason: &str,
-    score: i32,
 ) -> Result<(), String> {
     ffi_block_on(
         context,
         "matrix_report_room_event",
-        matrix_backend::runtime::report_room_event(handle_id, room_id, event_id, reason, score),
+        matrix_backend::runtime::report_room_event(handle_id, room_id, event_id, reason),
     )
 }
 

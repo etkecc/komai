@@ -5185,37 +5185,7 @@ Per favor revenir e connecter se manualmente.</translation>
         <translation>Entrar vu razone por rapportar:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Quanto mal es li mesage?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Ne mal</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Legier</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Mal</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Seriosse</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Extremmen seriosse</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Cancellar</translation>
     </message>
@@ -8937,7 +8907,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse marcar mesage como legit: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Raport sendat</translation>
     </message>

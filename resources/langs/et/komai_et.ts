@@ -5185,37 +5185,7 @@ Palun mine tagasi ja logi sisse käsitsi.</translation>
         <translation>Palun lisa teatamise põhjus:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Kui halb on see sõnum?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Üldsegi mitte halb</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Mingil määral halb</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Halb</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Tõsiselt halb</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Väga tõsiselt halb</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Tühista</translation>
     </message>
@@ -8937,7 +8907,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Sõnumi loetuks märkimine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Kaebus saadetud</translation>
     </message>

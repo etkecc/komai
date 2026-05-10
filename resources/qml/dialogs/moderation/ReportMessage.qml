@@ -42,39 +42,6 @@ Components.OverlayDialog {
 
             Layout.fillWidth: true
         }
-
-        Label {
-            text: qsTr("How bad is the message?")
-            color: palette.text
-        }
-
-        Slider {
-            id: score
-
-            from: 0
-            to: -100
-            stepSize: 25
-            snapMode: Slider.SnapAlways
-            Layout.fillWidth: true
-        }
-
-        Item {}
-
-        Label {
-            color: palette.text
-            text: {
-                if (score.value === 0)
-                    return qsTr("Not bad")
-                else if (score.value === -25)
-                    return qsTr("Mild")
-                else if (score.value === -50)
-                    return qsTr("Bad")
-                else if (score.value === -75)
-                    return qsTr("Serious")
-                else if (score.value === -100)
-                    return qsTr("Extremely serious")
-            }
-        }
     }
 
     RowLayout {
@@ -94,7 +61,7 @@ Components.OverlayDialog {
             text: qsTr("Report")
             highlighted: true
             onClicked: {
-                room.reportEvent(root.eventId, reason.text, score.value);
+                room.reportEvent(root.eventId, reason.text);
                 root.close();
             }
         }

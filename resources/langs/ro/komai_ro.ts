@@ -5192,37 +5192,7 @@ Reveniți și autentificați-vă manual.</translation>
         <translation>Introdu motivul raportării:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Cât de grav este mesajul?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Nu e rău</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Ușor</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Rău</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Grav</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Extrem de grav</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Anulează</translation>
     </message>
@@ -8950,7 +8920,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut marca mesajul ca citit: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Raport trimis</translation>
     </message>

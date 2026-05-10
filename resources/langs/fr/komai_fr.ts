@@ -5185,37 +5185,7 @@ Veuillez revenir en arrière et vous connecter manuellement.</translation>
         <translation>Entrez la raison de votre signalement :</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>En quoi ce message est-il mauvais ?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Pas mauvais</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Moyen</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Mauvais</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Sérieux</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Extrêmement sérieux</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -8937,7 +8907,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Échec du marquage du message comme lu : %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Rapport envoyé</translation>
     </message>

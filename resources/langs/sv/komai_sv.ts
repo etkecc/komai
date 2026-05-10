@@ -5185,37 +5185,7 @@ Gå tillbaka och logga in manuellt.</translation>
         <translation>Ange din anledning till rapporten:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Hur allvarligt är meddelandet?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Inte allvarligt</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Lindrigt</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Dåligt</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Allvarligt</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Extremt allvarligt</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
@@ -8937,7 +8907,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Kunde inte markera meddelande som läst: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Rapport skickad</translation>
     </message>

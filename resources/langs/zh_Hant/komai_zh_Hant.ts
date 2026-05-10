@@ -5178,37 +5178,7 @@ Please go back and sign in manually.</source>
         <translation>請輸入檢舉原因：</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>此訊息的嚴重程度如何？</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>不嚴重</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>輕微</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>不良</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>嚴重</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>極度嚴重</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -8924,7 +8894,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>將訊息標記為已讀失敗：%1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>舉報已送出</translation>
     </message>

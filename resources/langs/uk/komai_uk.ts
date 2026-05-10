@@ -5192,37 +5192,7 @@ Please go back and sign in manually.</source>
         <translation>Вкажіть причину скарги:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Наскільки погане повідомлення?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Не погане</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Незначне</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Погане</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Серйозне</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Вкрай серйозне</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
@@ -8950,7 +8920,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не вдалося позначити повідомлення як прочитане: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Скаргу надіслано</translation>
     </message>

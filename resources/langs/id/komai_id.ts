@@ -5178,37 +5178,7 @@ Silakan kembali dan masuk secara manual.</translation>
         <translation>Masukkan alasan Anda melaporkan:</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>How bad is the message?</source>
-        <translation>Seberapa buruk pesan tersebut?</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Not bad</source>
-        <translation>Tidak terlalu buruk</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Mild</source>
-        <translation>Sedikit buruk</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bad</source>
-        <translation>Buruk</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Serious</source>
-        <translation>Sangat buruk</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Extremely serious</source>
-        <translation>Terlalu buruk</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>Cancel</source>
         <translation>Batal</translation>
     </message>
@@ -8924,7 +8894,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal menandai pesan sebagai telah dibaca: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+59"/>
         <source>Report sent</source>
         <translation>Laporan terkirim</translation>
     </message>

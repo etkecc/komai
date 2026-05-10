@@ -8969,7 +8969,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>tải xuống thất bại</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Không thể gửi tệp đính kèm '%1': %2</translation>
     </message>

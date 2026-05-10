@@ -8982,7 +8982,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>nedladdning misslyckades</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Kunde inte skicka bilaga '%1': %2</translation>
     </message>

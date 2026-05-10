@@ -8969,7 +8969,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>unduhan gagal</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Gagal mengirim lampiran '%1': %2</translation>
     </message>

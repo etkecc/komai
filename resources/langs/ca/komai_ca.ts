@@ -8982,7 +8982,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>descàrrega fallida</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>No s'ha pogut enviar l'adjunt '%1': %2</translation>
     </message>

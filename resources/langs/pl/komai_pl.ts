@@ -8996,7 +8996,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>pobieranie nie powiodło się</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nie udało się wysłać załącznika '%1': %2</translation>
     </message>

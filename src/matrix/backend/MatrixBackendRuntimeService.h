@@ -765,6 +765,7 @@ public:
                                    const QString &filePath,
                                    const QString &filename,
                                    const QString &caption,
+                                   bool useMarkdownFormatting,
                                    const QString &replyEventId,
                                    const QString &threadId,
                                    const QString &mimeType,

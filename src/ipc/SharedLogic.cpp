@@ -924,20 +924,25 @@ sendImageFromFile(const QString &roomIdOrAlias,
           const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(context,
-                                                                                 handleId,
-                                                                                 roomId,
-                                                                                 effectiveFilePath,
-                                                                                 effectiveFilename,
-                                                                                 trimmedBody,
-                                                                                 {},
-                                                                                 {},
-                                                                                 mimeType,
-                                                                                 0,
-                                                                                 false,
-                                                                                 {},
-                                                                                 stripImageMetadata,
-                                                                                 &error);
+          // IPC callers ship their own bodies verbatim; don't reinterpret
+          // them as Markdown.
+          const bool useMarkdownFormatting = false;
+          const bool ok =
+            komai::MatrixBackendRuntimeService::sendRoomAttachment(context,
+                                                                   handleId,
+                                                                   roomId,
+                                                                   effectiveFilePath,
+                                                                   effectiveFilename,
+                                                                   trimmedBody,
+                                                                   useMarkdownFormatting,
+                                                                   {},
+                                                                   {},
+                                                                   mimeType,
+                                                                   0,
+                                                                   false,
+                                                                   {},
+                                                                   stripImageMetadata,
+                                                                   &error);
           if (ok) {
               result.eventId = QStringLiteral("queued");
           } else {

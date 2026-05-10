@@ -8982,7 +8982,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Échec du téléchargement</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Échec de l'envoi de la pièce jointe '%1' : %2</translation>
     </message>

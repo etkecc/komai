@@ -9034,7 +9034,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>فشل التنزيل</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>فشل إرسال المرفق '%1': %2</translation>
     </message>

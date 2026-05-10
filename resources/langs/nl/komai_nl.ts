@@ -8982,7 +8982,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>download mislukt</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Bijlage '%1' verzenden mislukt: %2</translation>
     </message>

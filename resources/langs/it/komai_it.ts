@@ -8982,7 +8982,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>download non riuscito</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Impossibile inviare l'allegato '%1': %2</translation>
     </message>

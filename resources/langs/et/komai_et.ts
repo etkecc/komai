@@ -8982,7 +8982,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>allalaadimine ebaõnnestus</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Manuse '%1' saatmine ebaõnnestus: %2</translation>
     </message>

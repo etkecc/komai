@@ -3125,8 +3125,9 @@ TimelineViewManager::startNextPendingMatrixAttachment()
 
     const bool stripImageMetadata =
       UserSettings::instance()->composerAttachmentsStripImageMetadata();
+    const bool useMarkdownFormatting = matrixMessageUsesMarkdownFormatting();
 
-    std::thread([this, attachment, stripImageMetadata]() {
+    std::thread([this, attachment, stripImageMetadata, useMarkdownFormatting]() {
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         const bool ok =
@@ -3136,6 +3137,7 @@ TimelineViewManager::startNextPendingMatrixAttachment()
                                                                  attachment.filePath,
                                                                  attachment.filename,
                                                                  attachment.body,
+                                                                 useMarkdownFormatting,
                                                                  attachment.replyEventId,
                                                                  attachment.threadId,
                                                                  attachment.mimeType,

@@ -8969,7 +8969,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>letöltés sikertelen</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nem sikerült elküldeni a(z) '%1' mellékletet: %2</translation>
     </message>

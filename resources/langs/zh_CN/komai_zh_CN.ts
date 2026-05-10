@@ -8969,7 +8969,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>下载失败</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>发送附件 '%1' 失败：%2</translation>
     </message>

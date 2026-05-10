@@ -8995,7 +8995,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не удалось загрузить</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Не удалось отправить вложение '%1': %2</translation>
     </message>

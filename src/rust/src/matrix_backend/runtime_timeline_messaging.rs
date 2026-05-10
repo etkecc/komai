@@ -19,7 +19,7 @@ use matrix_sdk::{
         html::{HtmlSanitizerMode, RemoveReplyFallback},
         events::EventContentFromType,
         events::room::message::{
-            AddMentions, MessageType, RoomMessageEventContentWithoutRelation,
+            AddMentions, FormattedBody, MessageType, RoomMessageEventContentWithoutRelation,
             TextMessageEventContent,
         },
     },
@@ -87,6 +87,20 @@ fn message_type_from_kind(
     })?;
 
     Ok((message_type, formatted_html.is_some()))
+}
+
+/// Build a `TextMessageEventContent` for a media-attachment caption, mirroring
+/// the markdown→HTML logic of regular text sends. We can't reuse
+/// `message_type_from_kind` here because the attachment path takes a
+/// `TextMessageEventContent` directly via `AttachmentConfig::caption`, not a
+/// JSON-built `MessageType`. Element X populates `formatted_body` on
+/// `m.image`/etc. the same way; receiving clients render it as HTML.
+fn caption_text_content(caption: &str, use_markdown_formatting: bool) -> TextMessageEventContent {
+    let mut content = TextMessageEventContent::plain(caption.to_owned());
+    if let Some(html) = formatted_html_from_markdown(caption, use_markdown_formatting) {
+        content.formatted = Some(FormattedBody::html(html));
+    }
+    content
 }
 
 fn formatted_html_from_markdown(body: &str, use_markdown_formatting: bool) -> Option<String> {
@@ -386,6 +400,7 @@ pub async fn send_room_attachment(
     file_path: &str,
     filename: &str,
     caption: &str,
+    use_markdown_formatting: bool,
     reply_event_id: &str,
     thread_id: &str,
     mime_type: &str,
@@ -457,8 +472,16 @@ pub async fn send_room_attachment(
     let attachment_info = build_attachment_info(&mime, &data, duration_ms, is_voice, waveform);
 
     let mut config = AttachmentConfig::new().info(attachment_info);
-    if !caption.is_empty() {
-        config = config.caption(Some(TextMessageEventContent::plain(caption)));
+    let caption_content = if caption.is_empty() {
+        None
+    } else {
+        Some(caption_text_content(caption, use_markdown_formatting))
+    };
+    let caption_has_formatted_html = caption_content
+        .as_ref()
+        .is_some_and(|c| c.formatted.is_some());
+    if let Some(content) = caption_content {
+        config = config.caption(Some(content));
     }
     if let Some(reply) = reply {
         config = config.reply(Some(reply));
@@ -470,6 +493,7 @@ pub async fn send_room_attachment(
         file_path,
         filename,
         has_caption = !caption.is_empty(),
+        caption_has_formatted_html,
         has_reply = !reply_event_id.trim().is_empty(),
         mime_type,
         file_size = data.len(),
@@ -1061,5 +1085,28 @@ mod tests {
     #[test]
     fn formatted_html_disabled_when_markdown_off() {
         assert_eq!(formatted_html_from_markdown("**bold**", false), None);
+    }
+
+    #[test]
+    fn caption_carries_formatted_body_for_real_markdown() {
+        let content = caption_text_content("**bold** [link](https://example.com)", true);
+        assert_eq!(content.body, "**bold** [link](https://example.com)");
+        let formatted = content.formatted.expect("expected formatted_body");
+        assert!(formatted.body.contains("<strong>bold</strong>"));
+        assert!(formatted.body.contains("href=\"https://example.com\""));
+    }
+
+    #[test]
+    fn caption_omits_formatted_body_when_markdown_off() {
+        let content = caption_text_content("**bold**", false);
+        assert!(content.formatted.is_none());
+    }
+
+    #[test]
+    fn caption_omits_formatted_body_for_plain_text_when_markdown_on() {
+        // Same guard as text messages: a paragraph wrapper around plain text
+        // doesn't add value, so we don't pay the formatted_body cost.
+        let content = caption_text_content("hello world", true);
+        assert!(content.formatted.is_none());
     }
 }

@@ -8995,7 +8995,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>descărcare eșuată</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nu s-a putut trimite atașamentul '%1': %2</translation>
     </message>

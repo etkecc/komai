@@ -8995,7 +8995,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>stažení selhalo</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nepodařilo se odeslat přílohu '%1': %2</translation>
     </message>

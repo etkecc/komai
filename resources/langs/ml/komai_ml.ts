@@ -8982,7 +8982,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഡൗൺലോഡ് പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>അറ്റാച്ч്മെന്റ് '%1' അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>

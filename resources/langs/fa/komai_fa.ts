@@ -8969,7 +8969,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>دانلود ناموفق بود</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>ارسال پیوست '%1' ناموفق بود: %2</translation>
     </message>

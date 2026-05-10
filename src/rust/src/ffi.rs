@@ -2262,6 +2262,7 @@ mod bridge {
             file_path: &str,
             filename: &str,
             caption: &str,
+            use_markdown_formatting: bool,
             reply_event_id: &str,
             thread_id: &str,
             mime_type: &str,

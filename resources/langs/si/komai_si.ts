@@ -8982,7 +8982,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>බාගත කිරීම අසමත් විය</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>අමුණුම '%1' යැවීම අසාර්ථක විය: %2</translation>
     </message>

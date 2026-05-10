@@ -8995,7 +8995,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>preuzimanje nije uspelo</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nije uspelo slanje priloga '%1': %2</translation>
     </message>

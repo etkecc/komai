@@ -8969,7 +8969,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>indirme başarısız oldu</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>'%1' eki gönderilemedi: %2</translation>
     </message>

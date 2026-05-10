@@ -8982,7 +8982,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>transferência falhada</translation>
     </message>
     <message>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Falha ao enviar anexo '%1': %2</translation>
     </message>

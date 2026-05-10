@@ -447,7 +447,7 @@ Rectangle {
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.bottomMargin: Komai.paddingSmall
                         textFormat: Text.PlainText
-                        color: palette.buttonText
+                        color: serverHover.hovered ? palette.brightText : palette.buttonText
                         visible: loginPage.currentStep === 0 && !loginPage.error && login.lookingUpHs
                         text: qsTr("Checking server...")
                         wrapMode: TextEdit.Wrap

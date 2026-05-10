@@ -156,17 +156,38 @@ pub async fn create_room(
 pub async fn leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<(), String> {
     let client = client_for_handle(handle_id)?;
     let parsed_room_id = parse_room_id(room_id)?;
+    let trimmed_reason = reason.trim();
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
-        has_reason = !reason.trim().is_empty(),
+        has_reason = !trimmed_reason.is_empty(),
         "Leaving room via matrix-sdk backend runtime"
     );
 
     let room = client
         .get_room(&parsed_room_id)
         .ok_or_else(|| format!("room {room_id} not found in matrix-sdk room list"))?;
+
+    // matrix-sdk's Room::leave() doesn't expose the optional `reason` on
+    // m.room.member/leave. Send the leave request manually first so the
+    // membership event carries the user-supplied reason, then delegate to
+    // room.leave() for predecessor cleanup, local state transition, and
+    // auto-forgetting invites. POST /leave is idempotent server-side, and
+    // matrix-sdk's leave() short-circuits if state has already settled to
+    // Left, so the pair never sends two reason-bearing requests.
+    if !trimmed_reason.is_empty() {
+        let mut request = leave_room::v3::Request::new(parsed_room_id.clone());
+        request.reason = Some(trimmed_reason.to_owned());
+        if let Err(error) = client.send(request).await {
+            tracing::warn!(
+                handle_id,
+                room_id = room_id.trim(),
+                %error,
+                "Failed to send leave request with reason; falling back to plain leave"
+            );
+        }
+    }
 
     room.leave()
         .await

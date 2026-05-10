@@ -26,7 +26,7 @@ use matrix_sdk::{
         MxcUri, OwnedDeviceId, OwnedEventId, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
         RoomOrAliasId, ServerName, UInt, UserId,
         api::client::{
-            membership::invite_user,
+            membership::{invite_user, leave_room},
             room::{Visibility, create_room},
         },
         api::client::media::get_content_thumbnail::v3::Method,

@@ -7836,12 +7836,17 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>%1 s-a alăturat camerei</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
+        <source>%1 left the room: %2</source>
+        <translation>%1 a părăsit camera: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>%1 left the room</source>
         <translation>%1 a părăsit camera</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>%1 was banned by %2: %3</source>
         <translation>%1 a fost banat de %2: %3</translation>
     </message>

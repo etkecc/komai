@@ -7827,12 +7827,17 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>%1 liitus jututoaga</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
+        <source>%1 left the room: %2</source>
+        <translation>%1 lahkus jututoast: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>%1 left the room</source>
         <translation>%1 lahkus jututoast</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>%1 was banned by %2: %3</source>
         <translation>%1 keelustati %2 poolt: %3</translation>
     </message>

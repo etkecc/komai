@@ -7863,12 +7863,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 انضم إلى الغرفة</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
+        <source>%1 left the room: %2</source>
+        <translation>%1 غادر الغرفة: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>%1 left the room</source>
         <translation>%1 غادر الغرفة</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>%1 was banned by %2: %3</source>
         <translation>تم حظر %1 بواسطة %2: %3</translation>
     </message>

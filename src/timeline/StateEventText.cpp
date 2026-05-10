@@ -53,8 +53,11 @@ translateMembershipChange(const MatrixTimelineItem &item)
     if (kind == QStringLiteral("joined"))
         return Tr::tr("%1 joined the room").arg(user);
 
-    if (kind == QStringLiteral("left"))
+    if (kind == QStringLiteral("left")) {
+        if (hasReason)
+            return Tr::tr("%1 left the room: %2").arg(user, reason);
         return Tr::tr("%1 left the room").arg(user);
+    }
 
     if (kind == QStringLiteral("banned")) {
         if (hasSender && hasReason)

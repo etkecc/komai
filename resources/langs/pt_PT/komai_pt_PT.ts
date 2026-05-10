@@ -7827,12 +7827,17 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>%1 entrou na sala</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
+        <source>%1 left the room: %2</source>
+        <translation>%1 saiu da sala: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>%1 left the room</source>
         <translation>%1 saiu da sala</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>%1 was banned by %2: %3</source>
         <translation>%1 foi banido por %2: %3</translation>
     </message>

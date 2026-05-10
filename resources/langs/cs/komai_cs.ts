@@ -7836,12 +7836,17 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>%1 se připojil k místnosti</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
+        <source>%1 left the room: %2</source>
+        <translation>%1 opustil místnost: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>%1 left the room</source>
         <translation>%1 opustil místnost</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>%1 was banned by %2: %3</source>
         <translation>%1 byl zabanován uživatelem %2: %3</translation>
     </message>

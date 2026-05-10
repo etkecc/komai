@@ -1,13 +1,11 @@
 # 📥 Installation
 
-Komai runs on Linux desktops (`x86_64`). We offer [pre-built packages](#pre-built-packages), [distro packages](#distro-packages) (for some distros) and the ability to [🔨 Build from source](#-build-from-source).
+Komai runs on Linux (`x86_64`) and Windows (`x64`) desktops. We offer [pre-built packages](#pre-built-packages), [distro packages](#distro-packages) (for some distros) and the ability to [🔨 Build from source](#-build-from-source).
 
-> **Windows and macOS users:** there are no official pre-built
-> packages. Building from source on Windows is verified to work
-> without VOIP -- see 📄 [Native build on Windows](../maintainers/packaging/native/windows.md).
-> macOS has not been tested by the maintainers; tentative pointers
-> are in 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
-> Contributions to flesh either out further are welcome.
+> **macOS users:** there are no official pre-built packages. macOS
+> has not been tested by the maintainers; tentative pointers are in
+> 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
+> Contributions to flesh this out further are welcome.
 
 ## 📦 Pre-built packages
 
@@ -52,6 +50,22 @@ snap run komai
 The `--dangerous` flag is required because the locally-downloaded snap is not signed by the Snap Store.
 
 For background, see 📄 [Snap packaging](../maintainers/packaging/snap.md).
+
+### 🪟 Windows ZIP (no installer)
+
+A portable ZIP for Windows 10 (22H2+) and later on `x64`. Extract anywhere and run `komai.exe` -- no installer, no admin rights required.
+
+Download `komai-*-windows-x64-no-installer.zip` from the release page, extract the archive (right-click -> *Extract All...* in Explorer, or use any zip tool), then run `komai.exe` from inside the extracted folder.
+
+The first launch shows a **"Windows protected your PC"** SmartScreen warning because Komai isn't code-signed. Click **More info** -> **Run anyway**. Subsequent launches don't re-prompt.
+
+What's not in the Windows build:
+
+- **VOIP.** No voice or video calls (`-DVOIP=OFF`).
+- **Auto-update.** Each release is a fresh ZIP download from [GitHub Releases](https://github.com/etkecc/komai/releases).
+- **Windows on ARM.** Only `x64` is available as a pre-built binary right now. Building on ARM has not yet been tested.
+
+For background, see 📄 [Native build on Windows](../maintainers/packaging/native/windows.md).
 
 
 ## 🐧 Distro packages

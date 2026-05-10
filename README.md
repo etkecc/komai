@@ -59,9 +59,11 @@ More screenshots are inlined on individual feature pages — see the [👤 User 
 
 ## 📥 Installation
 
-Komai ships as **AppImage**, **Flatpak**, and **Snap** packages on the [GitHub Releases](https://github.com/etkecc/komai/releases) page, plus a [`komai`](https://aur.archlinux.org/packages/komai) package on the Arch Linux AUR.
+**🐧 Linux** (`x86_64`): Komai ships as **AppImage**, **Flatpak**, and **Snap** packages on the [GitHub Releases](https://github.com/etkecc/komai/releases) page, plus a [`komai`](https://aur.archlinux.org/packages/komai) package on the Arch Linux AUR.
 
-Komai's pre-built packages are **Linux-only** for now (x86_64). There are no official Windows or macOS builds. Building from source on Windows is verified to work without VOIP -- see 📄 [Native build on Windows](docs/maintainers/packaging/native/windows.md). macOS has not been tested by the maintainers; tentative pointers are in 📄 [Native build on macOS](docs/maintainers/packaging/native/macos.md).
+**🪟 Windows** (`x64`): a portable **ZIP** for Windows 10 (22H2+) and later is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build excludes VOIP (no voice or video calls) and isn't code-signed, so the first launch shows a SmartScreen warning that needs **More info** -> **Run anyway**.
+
+**🍏 macOS**: there are no official builds. macOS hasn't been tested by the maintainers; tentative pointers for building from source are in 📄 [Native build on macOS](docs/maintainers/packaging/native/macos.md).
 
 See 📄 [Installation](docs/user-guide/installation.md) for download links and install commands. To build Komai yourself, see 📄 [Native build](docs/maintainers/packaging/native.md).
 

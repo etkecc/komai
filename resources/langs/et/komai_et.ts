@@ -8937,7 +8937,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Sõnumi loetuks märkimine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Kaebus saadetud</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Sõnumist teatamine ebaõnnestus: %1</translation>
     </message>

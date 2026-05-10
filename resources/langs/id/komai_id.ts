@@ -8924,7 +8924,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal menandai pesan sebagai telah dibaca: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Laporan terkirim</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Gagal melaporkan pesan: %1</translation>
     </message>

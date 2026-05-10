@@ -8937,7 +8937,12 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Bericht markeren als gelezen mislukt: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Rapport verzonden</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Bericht rapporteren mislukt: %1</translation>
     </message>

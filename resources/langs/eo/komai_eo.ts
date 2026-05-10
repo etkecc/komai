@@ -8940,7 +8940,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Malsukcesis marki mesaĝon kiel legitan: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Raporto sendita</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Malsukcesis raporti mesaĝon: %1</translation>
     </message>

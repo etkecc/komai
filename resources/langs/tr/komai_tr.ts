@@ -8924,7 +8924,12 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Mesaj okundu olarak işaretlenemedi: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Rapor gönderildi</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Mesaj raporlanamadı: %1</translation>
     </message>

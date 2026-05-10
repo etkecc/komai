@@ -8950,7 +8950,12 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspelo označavanje poruke kao pročitane: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Prijava poslata</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Nije uspelo prijavljivanje poruke: %1</translation>
     </message>

@@ -8937,7 +8937,12 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Kunde inte markera meddelande som läst: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Rapport skickad</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Kunde inte rapportera meddelande: %1</translation>
     </message>

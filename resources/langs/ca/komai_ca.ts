@@ -8937,7 +8937,12 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No s'ha pogut marcar el missatge com a llegit: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Denúncia enviada</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>No s'ha pogut denunciar el missatge: %1</translation>
     </message>

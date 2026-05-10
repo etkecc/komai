@@ -8989,7 +8989,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>فشل تحديد الرسالة كمقروءة: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>تم إرسال التقرير</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>فشل الإبلاغ عن الرسالة: %1</translation>
     </message>

@@ -8924,7 +8924,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>将消息标记为已读失败：%1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>举报已发送</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>举报消息失败：%1</translation>
     </message>

@@ -8924,7 +8924,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>メッセージを既読にする操作に失敗しました: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>通報を送信しました</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>メッセージの通報に失敗しました: %1</translation>
     </message>

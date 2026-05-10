@@ -8937,7 +8937,12 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Fehler beim Markieren der Nachricht als gelesen: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Meldung gesendet</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Fehler beim Melden der Nachricht: %1</translation>
     </message>

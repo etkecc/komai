@@ -8937,7 +8937,12 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse marcar mesage como legit: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Raport sendat</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Insuccesse reportar mesage: %1</translation>
     </message>

@@ -8937,7 +8937,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>സന്ദേശം വായിച്ചതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>റിപ്പോർട്ട് അയച്ചു</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>സന്ദേശം റിപ്പോർട്ട് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>

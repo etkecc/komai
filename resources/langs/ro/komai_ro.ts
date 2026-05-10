@@ -8950,7 +8950,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut marca mesajul ca citit: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Raport trimis</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Nu s-a putut raporta mesajul: %1</translation>
     </message>

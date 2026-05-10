@@ -8937,7 +8937,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Неуспешно маркиране на съобщение като прочетено: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Докладът е изпратен</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Неуспешно докладване на съобщение: %1</translation>
     </message>

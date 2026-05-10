@@ -8937,7 +8937,12 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>Falha ao marcar mensagem como lida: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Denúncia enviada</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Falha ao denunciar mensagem: %1</translation>
     </message>

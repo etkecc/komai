@@ -8950,7 +8950,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не удалось отметить сообщение как прочитанное: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Жалоба отправлена</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Не удалось пожаловаться на сообщение: %1</translation>
     </message>

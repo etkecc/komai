@@ -8924,7 +8924,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>將訊息標記為已讀失敗：%1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>舉報已送出</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>回報訊息失敗：%1</translation>
     </message>

@@ -8937,7 +8937,12 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Échec du marquage du message comme lu : %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Rapport envoyé</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Échec du signalement du message : %1</translation>
     </message>

@@ -8950,7 +8950,12 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Nepodařilo se označit zprávu jako přečtenou: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Hlášení odesláno</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Nepodařilo se nahlásit zprávu: %1</translation>
     </message>

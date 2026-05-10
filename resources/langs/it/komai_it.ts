@@ -8937,7 +8937,12 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Impossibile contrassegnare il messaggio come letto: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Segnalazione inviata</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Impossibile segnalare il messaggio: %1</translation>
     </message>

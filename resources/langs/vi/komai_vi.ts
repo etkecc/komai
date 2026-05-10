@@ -8924,7 +8924,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể đánh dấu tin nhắn là đã đọc: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Báo cáo đã gửi</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Không thể báo cáo tin nhắn: %1</translation>
     </message>

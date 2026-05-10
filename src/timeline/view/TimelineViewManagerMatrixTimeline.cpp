@@ -1842,8 +1842,10 @@ TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
           if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
               return;
 
-          if (result.ok)
+          if (result.ok) {
+              mainWindow->showNotification(TimelineViewManager::tr("Report sent"));
               return;
+          }
 
           komai::logging::ui()->warn(
             "Failed to report matrix-sdk room event '{}' in '{}' on handle {}: {}",

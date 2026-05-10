@@ -8937,7 +8937,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>පණිවිඩය කියවූ ලෙස සලකුණු කිරීම අසාර්ථක විය: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>වාර්තාව යැවිණ</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>පණිවිඩය වාර්තා කිරීම අසාර්ථක විය: %1</translation>
     </message>

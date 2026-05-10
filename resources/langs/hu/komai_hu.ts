@@ -8924,7 +8924,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Nem sikerült olvasottnak jelölni az üzenetet: %1</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
+        <source>Report sent</source>
+        <translation>Jelentés elküldve</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Failed to report message: %1</source>
         <translation>Nem sikerült bejelenteni az üzenetet: %1</translation>
     </message>

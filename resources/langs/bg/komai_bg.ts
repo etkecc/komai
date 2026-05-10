@@ -2572,32 +2572,32 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location filename="../../qml/dialogs/room/LeaveRoomDialog.qml" line="+25"/>
         <source>This is a public space, so re-joining later should be easy.</source>
-        <translation>Това е публично пространство, затова повторното влизане по-късно трябва да е лесно.</translation>
+        <translation>Това е публично пространство и повторното влизане по-късно трябва да е лесно.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a public room, so re-joining later should be easy.</source>
-        <translation>Това е публична стая, затова повторното влизане по-късно трябва да е лесно.</translation>
+        <translation>Това е публична стая и повторното влизане по-късно трябва да е лесно.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This is a private space, so you may need an invitation to re-join.</source>
-        <translation>Това е частно пространство, затова може да се нуждаеш от покана, за да влезеш отново.</translation>
+        <translation>Това е частно пространство и повторното влизане може да изисква покана.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This is a private room, so you may need an invitation to re-join.</source>
-        <translation>Това е частна стая, затова може да се нуждаеш от покана, за да влезеш отново.</translation>
+        <translation>Това е частна стая и повторното влизане може да изисква покана.</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Leave the %1 space?</source>
-        <translation>Напускаш пространство %1?</translation>
+        <translation>Напускане на пространство %1?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Leave the %1 room?</source>
-        <translation>Напускаш стая %1?</translation>
+        <translation>Напускане на стая %1?</translation>
     </message>
     <message>
         <location line="+2"/>

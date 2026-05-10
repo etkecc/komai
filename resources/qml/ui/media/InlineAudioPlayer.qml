@@ -163,10 +163,10 @@ Rectangle {
 
     function displayLabel()
     {
+        // The body is rendered separately as a media caption below the
+        // player when it differs from the filename, so don't pull it into
+        // the in-player label as well.
         const safeFilename = compactFilename(filename);
-        if (body.length > 0 && safeFilename.length > 0 && body !== filename)
-            return body + " (" + safeFilename + ")";
-
         return safeFilename.length > 0 ? safeFilename : body;
     }
 

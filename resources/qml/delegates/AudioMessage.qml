@@ -2,16 +2,19 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components"
 import "../ui/media"
 import QtQuick
+import QtQuick.Layouts
 
-Item {
+ColumnLayout {
     id: content
 
     property var roomAdapter: null
     required property int duration
     required property string eventId
     required property string body
+    required property string formattedBody
     required property string filename
     required property string filesize
     required property string mimetype
@@ -23,9 +26,12 @@ Item {
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
 
-    implicitWidth: 500
-    width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
-    height: audioPlayer.implicitHeight
+    // Treat the body as a real caption only when it differs from the filename
+    // — voice messages and bare uploads otherwise show the auto-generated
+    // file name twice (once inside the player, once as a "caption").
+    readonly property bool hasCaption: body.length > 0 && body !== filename
+
+    spacing: Komai.paddingSmall
 
     property int metadataWidth
     property bool fitsMetadata: parent != null ? ((parent.width - width) > metadataWidth + 4) : false
@@ -33,7 +39,9 @@ Item {
     InlineAudioPlayer {
         id: audioPlayer
 
-        width: parent.width
+        Layout.preferredWidth: 500
+        Layout.maximumWidth: 500
+        Layout.fillWidth: false
         room: content.roomContext
         eventId: content.eventId
         duration: content.duration
@@ -43,5 +51,11 @@ Item {
         mimetype: content.mimetype
         isVoiceMessage: content.isVoiceMessage
         waveform: content.waveform
+    }
+
+    MediaCaption {
+        Layout.fillWidth: true
+        body: content.hasCaption ? content.body : ""
+        formattedBody: content.hasCaption ? content.formattedBody : ""
     }
 }

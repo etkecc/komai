@@ -32,9 +32,10 @@ Item {
         : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
-    readonly property string mediaLabel: body.length > 0 && filename.length > 0 && body !== filename
-        ? body + " (" + filename + ")"
-        : (filename.length > 0 ? filename : body)
+    // Body (when it differs from filename) is rendered separately as a
+    // media caption below the video, so don't pull it into the in-frame
+    // info overlay as well.
+    readonly property string mediaLabel: filename.length > 0 ? filename : body
 
     implicitWidth: Math.round(tempWidth * Math.min((timelineView.height / divisor) / (tempWidth * safeProportionalHeight), 1))
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)

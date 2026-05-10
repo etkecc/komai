@@ -72,7 +72,12 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     // Because dynamic sorting is already disabled during suppression, emitting
     // dataChanged here only updates the visual badge without reordering rooms.
     // The deferred snapshot replaces matrixJoinedRooms_ when the pause ends.
-    if (interactionSuppressed_) {
+    //
+    // Skip this optimistic mirror when read-receipt sending is disabled: with
+    // the toggle off, the auto-mark-as-read path is gated upstream and no
+    // receipt is sent, so the server still considers the room unread.  Zeroing
+    // the badge here would make the UI lie until the next sync corrected it.
+    if (interactionSuppressed_ && UserSettings::instance()->timelineReadReceiptsEnabled()) {
         auto &room = matrixJoinedRooms_[roomid];
         if (room.unreadMessages > 0 || room.notificationCount > 0 || room.highlightCount > 0) {
             room.unreadMessages    = 0;

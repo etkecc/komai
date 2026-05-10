@@ -103,8 +103,8 @@
       nullptr,
       SM::TabTimeline, timelineTypingShowEnabled, setTimelineTypingShowEnabled, nullptr, TimelineTypingShowEnabled, SettingKey::TimelineTypingShowEnabled),
     // TimelineReadReceiptsEnabled
-    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Read receipts"),
-      QT_TRANSLATE_NOOP("UserSettingsModel", "Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read."),
+    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Show others when I've read their messages"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Sends a read receipt when you read a message in a room, so others can see you've read it."),
       SM::TabTimeline, timelineReadReceiptsEnabled, setTimelineReadReceiptsEnabled, nullptr, TimelineReadReceiptsEnabled, SettingKey::TimelineReadReceiptsEnabled),
     // TimelineActionsSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Actions"), nullptr, SM::SectionTitle, SM::TabTimeline,

@@ -8904,7 +8904,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể xóa một số tin nhắn: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Không thể đánh dấu tin nhắn là đã đọc: %1</translation>
     </message>
@@ -10311,13 +10311,13 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Xác nhận đã đọc</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Hiển thị xem tin nhắn của bạn đã được đọc chưa. Nếu homeserver của bạn không hỗ trợ biên nhận đọc, phòng có thể không được đánh dấu là đã đọc.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

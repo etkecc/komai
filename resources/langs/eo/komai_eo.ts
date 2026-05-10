@@ -8920,7 +8920,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Malsukcesis forigi kelkajn mesaĝojn: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Malsukcesis marki mesaĝon kiel legitan: %1</translation>
     </message>
@@ -10330,13 +10330,13 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Kvitancoj</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Montri ĉu viaj mesaĝoj estis legitaj. Se via hejma servilo ne subtenas lego-kvitancojn, ĉambroj eble ne estos markitaj kiel legitaj.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

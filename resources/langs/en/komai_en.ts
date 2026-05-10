@@ -8886,7 +8886,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation type="unfinished"/>
     </message>
@@ -10290,12 +10290,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation type="unfinished">Read receipts</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
         <translation type="unfinished"/>
     </message>
     <message>

@@ -8904,7 +8904,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal menghapus beberapa pesan: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Gagal menandai pesan sebagai telah dibaca: %1</translation>
     </message>
@@ -10311,13 +10311,13 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Laporan dibaca</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Tampilkan apakah pesan Anda telah dibaca. Jika homeserver tidak mendukung tanda terima baca, ruangan mungkin tidak ditandai sebagai sudah dibaca.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

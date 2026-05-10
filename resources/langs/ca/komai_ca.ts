@@ -8917,7 +8917,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No s'han pogut eliminar alguns missatges: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>No s'ha pogut marcar el missatge com a llegit: %1</translation>
     </message>
@@ -10327,13 +10327,13 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Confirmacions de lectura</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Mostra si els teus missatges s'han llegit. Si el teu servidor d'inici no admet les confirmacions de lectura, pot ser que les sales no es marquin com a llegides.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

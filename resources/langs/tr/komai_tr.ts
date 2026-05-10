@@ -8904,7 +8904,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Bazı mesajlar silinemedi: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Mesaj okundu olarak işaretlenemedi: %1</translation>
     </message>
@@ -10311,13 +10311,13 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Okundu bildirimleri</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Mesajlarınızın okunup okunmadığını göster. Ana sunucunuz okundu bilgisini desteklemiyorsa, odalar okundu olarak işaretlenmeyebilir.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

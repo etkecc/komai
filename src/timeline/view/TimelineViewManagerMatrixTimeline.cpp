@@ -1678,6 +1678,14 @@ TimelineViewManager::redactActiveMatrixTimelineEventsByUser(const QString &userI
 bool
 TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
 {
+    // Auto-mark-as-read driven by viewport scroll / live-edge follow.
+    // Manual "Mark as read" from the room list or room tab context menu
+    // takes a different code path (see FilteredRoomlistModel::markAsRead
+    // → MatrixBackendRuntimeService::markRoomAsRead) and is intentionally
+    // not gated here.
+    if (!UserSettings::instance()->timelineReadReceiptsEnabled())
+        return false;
+
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {

@@ -8917,7 +8917,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ചില സന്ദേശങ്ങൾ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>സന്ദേശം വായിച്ചതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -10327,13 +10327,13 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>വായന രസീതുകൾ</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>നിങ്ങളുടെ സന്ദേശങ്ങൾ വായിച്ചോ എന്ന് കാണിക്കുക. നിങ്ങളുടെ ഹോംസർവർ റീഡ് രസീതുകൾ പിന്തുണയ്ക്കുന്നില്ലെങ്കിൽ, മുറികൾ വായിച്ചതായി അടയാളപ്പെടുത്തിയേക്കില്ല.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

@@ -8917,7 +8917,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Échec de la suppression de certains messages : %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Échec du marquage du message comme lu : %1</translation>
     </message>
@@ -10327,13 +10327,13 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Accusés de lecture</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Afficher si vos messages ont été lus. Si votre serveur d'accueil ne prend pas en charge les confirmations de lecture, les salons peuvent ne pas être marqués comme lus.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

@@ -45,7 +45,7 @@ Item {
         .arg("<a href=\"" + previewMatrixUrl + "\">" + previewMatrixLabel + "</a>"))
     readonly property string previewOwnBody: qsTr("I'm giving it a try too! Currently tweaking how messages look.\nIt seems pleasing to the eye and insanely fast! 🚀")
     readonly property string previewOwnFormattedBody: Komai.formatHtmlEmojis(previewOwnBody.split("\n").join("<br>"))
-    readonly property int previewOwnMessageStatus: Settings.timelineReadReceiptsEnabled ? MtxEvent.Read : MtxEvent.Received
+    readonly property int previewOwnMessageStatus: MtxEvent.Read
     readonly property date previewTsAlice: new Date(Date.now() - (9 * 60 * 1000))
     readonly property date previewTsBob: new Date(Date.now() - (6 * 60 * 1000))
     readonly property date previewTsYou: new Date(Date.now() - (2 * 60 * 1000))

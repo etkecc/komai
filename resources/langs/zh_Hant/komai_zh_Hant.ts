@@ -8904,7 +8904,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>刪除部分訊息失敗：%1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>將訊息標記為已讀失敗：%1</translation>
     </message>
@@ -10311,13 +10311,13 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>已讀回執</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>顯示您的訊息是否已被讀取。如果您的主伺服器不支援已讀回條，聊天室可能不會被標記為已讀。</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

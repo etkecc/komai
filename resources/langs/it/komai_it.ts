@@ -8917,7 +8917,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Impossibile eliminare alcuni messaggi: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Impossibile contrassegnare il messaggio come letto: %1</translation>
     </message>
@@ -10327,13 +10327,13 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Conferme di lettura</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Mostra se i tuoi messaggi sono stati letti. Se il tuo homeserver non supporta le ricevute di lettura, le stanze potrebbero non essere contrassegnate come lette.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

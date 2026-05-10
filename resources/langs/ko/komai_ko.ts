@@ -8904,7 +8904,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>일부 메시지 삭제 실패: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>메시지를 읽음으로 표시 실패: %1</translation>
     </message>
@@ -10311,13 +10311,13 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>읽음 확인</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>메시지가 읽혔는지 표시합니다. 홈서버가 읽음 확인을 지원하지 않으면 방이 읽음으로 표시되지 않을 수 있습니다.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

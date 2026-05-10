@@ -8930,7 +8930,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Nepodařilo se smazat některé zprávy: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Nepodařilo se označit zprávu jako přečtenou: %1</translation>
     </message>
@@ -10343,13 +10343,13 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Potvrzení o přečtení</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Zobrazit, zda byly vaše zprávy přečteny. Pokud váš domovský server nepodporuje potvrzení přečtení, místnosti nemusí být označeny jako přečtené.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

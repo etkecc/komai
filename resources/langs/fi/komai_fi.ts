@@ -8917,7 +8917,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Joidenkin viestien poistaminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Viestin merkitseminen luetuksi epäonnistui: %1</translation>
     </message>
@@ -10327,13 +10327,13 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Lukukuitit</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Näytä, onko viestisi luettu. Jos kotipalvelimesi ei tue lukukuittauksia, huoneita ei välttämättä merkitä luetuiksi.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

@@ -8904,7 +8904,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Nem sikerült törölni néhány üzenetet: %1</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Nem sikerült olvasottnak jelölni az üzenetet: %1</translation>
     </message>
@@ -10311,13 +10311,13 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+4"/>
-        <source>Read receipts</source>
-        <translation>Olvasási visszaigazolások</translation>
+        <source>Show others when I've read their messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read.</source>
-        <translation>Az üzenetek olvasottságának megjelenítése. Ha a kezdőkiszolgáló nem támogatja az olvasási visszaigazolásokat, a szobák esetleg nem jelölhetők olvasottként.</translation>
+        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

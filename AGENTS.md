@@ -48,20 +48,9 @@ See [docs/maintainers/packaging/native.md](docs/maintainers/packaging/native.md)
 
 ## Releases
 
-To cut a release:
-
-1. `just release-prepare` -- bumps `VERSION.txt` and propagates to `PKGBUILD`, `CHANGELOG.md`, `appdata.xml.in`.
-2. Edit `CHANGELOG.md` and replace the TODO with actual release notes, derived from the commits between the previous release tag and `HEAD` (`git log v<PREV_VERSION>..HEAD`). Give the entries a user-facing spin -- not a commit-log dump.
-3. Confirm the picked version and the CHANGELOG draft with the operator before proceeding.
-4. `git commit -am 'Release v<VERSION>'`
-5. `git tag v<VERSION>`
-6. `git push && git push --tags`
-
-[`publish.yml`](.github/workflows/publish.yml) builds and publishes the GitHub Release automatically on the tag push.
+To cut a release, follow [docs/maintainers/releases.md](docs/maintainers/releases.md). The CHANGELOG entry shape (categories, voice, commit-linking) is documented separately in [docs/maintainers/changelog-style.md](docs/maintainers/changelog-style.md) -- read it before drafting the entry.
 
 **Do NOT invoke the `release-manual-*` recipes** (`release-manual-validate`, `release-manual-build`, `release-manual-publish`, `release-manual-all`) unless the user explicitly asks for a local publish. They reproduce `publish.yml`'s pipeline sequentially on one machine, take ~1h to complete, and exist only as a fallback for when CI is unavailable.
-
-See [docs/maintainers/releases.md](docs/maintainers/releases.md) for full details.
 
 
 ## Key Source Locations

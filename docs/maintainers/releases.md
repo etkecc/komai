@@ -47,6 +47,8 @@ This edits `VERSION.txt`, `PKGBUILD`, `appdata.xml.in`, and inserts a new `## <V
 
 Open `CHANGELOG.md` and replace the TODO placeholder with the actual user-facing notes for this release. This text becomes the body of the GitHub Release — write it for end users, not commit-log readers.
 
+See [Changelog style](changelog-style.md) for the entry shape (categories, voice, commit-linking conventions) every section follows.
+
 ### 4. Review, commit, tag, push
 
 ```sh

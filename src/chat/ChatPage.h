@@ -65,7 +65,6 @@ public slots:
     bool tryHandleMatrixUri(const QUrl &uri);
 
     void startChat(QString userid) { startChat(userid, std::nullopt); }
-    void leaveRoom(const QString &room_id, const QString &reason);
     void createRoom(const komai::MatrixCreateRoomRequest &request);
     void joinRoom(const QString &room, const QString &reason = "");
     void knockRoom(const QString &room, QString reason = "") { knockRoom(room, {}, reason, false); }

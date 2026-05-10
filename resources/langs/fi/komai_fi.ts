@@ -593,6 +593,7 @@ Jos ongelma jatkuu, voit kirjautua ulos ja kirjautua uudelleen sisään, mutta t
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix-tausta ei ole vielä valmis.</translation>
     </message>
@@ -617,7 +618,7 @@ Jos ongelma jatkuu, voit kirjautua ulos ja kirjautua uudelleen sisään, mutta t
         <translation>Huoneen luominen epäonnistui: Epäkelpo alias</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Käyttäjän %1 kutsuminen huoneeseen %2 epäonnistui:%3</translation>
     </message>
@@ -647,7 +648,7 @@ Jos ongelma jatkuu, voit kirjautua ulos ja kirjautua uudelleen sisään, mutta t
         <translation>Purettiin porttikielto käyttäjältä %1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>Liittymisesi huoneeseen %1 epäonnistui. Voit yrittää koputtaa, jotta muut voivat päästää sinut sisään. Haluatko tehdä sen?
@@ -664,12 +665,12 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Huoneen luominen epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Huoneesta poistuminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Ei onnistuttu potkimaan käyttäjää %1 huoneesta %2: %3</translation>
     </message>

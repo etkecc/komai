@@ -593,6 +593,7 @@ Ako se problem nastavi, možeš se odjaviti i ponovo prijaviti, ali ovo će obri
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix backend još nije spreman.</translation>
     </message>
@@ -634,12 +635,12 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Kreiranje sobe nije uspelo: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Napuštanje sobe nije uspelo: %1</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Pozivanje korisnika %1 u %2 nije uspelo: %3</translation>
     </message>

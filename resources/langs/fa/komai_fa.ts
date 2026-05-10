@@ -593,6 +593,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>سرویس پشتی Matrix هنوز آماده نیست.</translation>
     </message>
@@ -617,7 +618,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ایجاد اتاق ناموفق بود: نام مستعار نامعتبر</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>دعوت %1 به %2 ناموفق بود: %3</translation>
     </message>
@@ -647,7 +648,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>کاربر لغو محرومیت‌شده: %1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>پیوستن به %1 ناموفق بود. می‌توانید در بزنید تا دیگران شما را دعوت کنند. آیا می‌خواهید این کار را انجام دهید؟
@@ -664,12 +665,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ایجاد اتاق ناموفق بود: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>ترک اتاق ناموفق بود: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>اخراج %1 از %2 ناموفق بود: %3</translation>
     </message>

@@ -593,6 +593,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix 백엔드가 아직 준비되지 않았습니다.</translation>
     </message>
@@ -617,7 +618,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>방 생성에 실패했습니다: 잘못된 별칭</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>%1을(를) %2에 초대하지 못했습니다: %3</translation>
     </message>
@@ -647,7 +648,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>차단 해제된 사용자: %1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1에 참여하지 못했습니다. 다른 사용자가 초대할 수 있도록 참여 요청을 시도할 수 있습니다. 하시겠습니까?
@@ -664,12 +665,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>방 생성에 실패했습니다: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>방을 나가지 못했습니다: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>%2에서 %1을(를) 추방하지 못했습니다: %3</translation>
     </message>

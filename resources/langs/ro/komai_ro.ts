@@ -592,7 +592,7 @@ Dacă problema persistă, poți să te deconectezi și să te reconectezi, dar a
         <translation>Deconectează-te &amp;&amp; reîncepe</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+267"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+237"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Nu s-a putut invita %1 în %2: %3</translation>
     </message>
@@ -627,7 +627,8 @@ Dacă problema persistă, poți să te deconectezi și să te reconectezi, dar a
         <translation>Utilizator dezinterzis: %1</translation>
     </message>
     <message>
-        <location line="-315"/>
+        <location line="-285"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Backend-ul Matrix nu este pregătit încă.</translation>
     </message>
@@ -669,7 +670,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Nu s-a putut crea camera: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Nu s-a putut părăsi camera: %1</translation>
     </message>

@@ -593,6 +593,7 @@ Si el problema persisteix, pots tancar la sessió i tornar a iniciar-la, però a
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>El backend de Matrix encara no està a punt.</translation>
     </message>
@@ -634,12 +635,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Ha fallat la creació de la sala: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>No s'ha pogut sortir de la sala: %1</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>No s'ha pogut convidar %1 a %2: %3</translation>
     </message>

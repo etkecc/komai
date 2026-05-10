@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix-backend är inte redo ännu.</translation>
     </message>
@@ -582,7 +583,7 @@ Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</t
         <translation>Rumskapandet misslyckades: Ogiltigt alias</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Kunde inte bjuda in %1 till %2: %3</translation>
     </message>
@@ -659,7 +660,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Logga ut &amp;&amp; börja om</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>Kunde inte gå med i rum: %1</translation>
     </message>
@@ -669,7 +670,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Kunde inte skapa rum: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Kunde inte lämna rum: %1</translation>
     </message>

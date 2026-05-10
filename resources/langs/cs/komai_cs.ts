@@ -593,6 +593,7 @@ Pokud problém přetrvává, můžeš se odhlásit a přihlásit znovu, ale tím
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Backend Matrix ještě není připraven.</translation>
     </message>
@@ -634,12 +635,12 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Vytvoření místnosti selhalo: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Nepodařilo se opustit místnost: %1</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Nepodařilo se pozvat %1 do %2: %3</translation>
     </message>

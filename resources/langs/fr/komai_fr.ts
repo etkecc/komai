@@ -593,6 +593,7 @@ Si le problème persiste, vous pouvez vous déconnecter et vous reconnecter, mai
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Le backend Matrix n'est pas encore prêt.</translation>
     </message>
@@ -617,7 +618,7 @@ Si le problème persiste, vous pouvez vous déconnecter et vous reconnecter, mai
         <translation>Impossible de créer le salon : mauvais alias</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Échec de l'invitation de %1 dans %2 : %3</translation>
     </message>
@@ -647,7 +648,7 @@ Si le problème persiste, vous pouvez vous déconnecter et vous reconnecter, mai
         <translation>%1 n'est plus banni(e)</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>Vous avez échoué à rejoindre %1. Vous pouvez essayer de toquer afin que d'autres membres vous invitent. Souhaitez-vous le faire ?
@@ -664,12 +665,12 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Échec de la création du salon : %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Impossible de quitter le salon : %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Échec de l'expulsion de %1 de %2  : %3</translation>
     </message>

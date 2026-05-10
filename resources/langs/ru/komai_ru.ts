@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix-бэкенд ещё не готов.</translation>
     </message>
@@ -582,7 +583,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не удалось создать комнату: недопустимый псевдоним</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Не удалось пригласить %1 в %2: %3</translation>
     </message>
@@ -654,7 +655,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Выйти &amp;&amp; начать заново</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>Не удалось присоединиться к комнате: %1</translation>
     </message>
@@ -664,12 +665,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Не удалось создать комнату: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Не удалось покинуть комнату: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Не удалось исключить %1 из %2: %3</translation>
     </message>

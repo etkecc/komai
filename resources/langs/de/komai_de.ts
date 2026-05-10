@@ -593,6 +593,7 @@ Wenn das Problem weiterhin besteht, kannst du dich abmelden und erneut anmelden,
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix-Backend ist noch nicht bereit.</translation>
     </message>
@@ -617,7 +618,7 @@ Wenn das Problem weiterhin besteht, kannst du dich abmelden und erneut anmelden,
         <translation>Raumerstellung fehlgeschlagen: Ungültiger Alias</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Einladung von %1 in Raum %2 fehlgeschlagen: %3</translation>
     </message>
@@ -647,7 +648,7 @@ Wenn das Problem weiterhin besteht, kannst du dich abmelden und erneut anmelden,
         <translation>Verbannung aufgehoben: %1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>Du konntest %1 nicht betreten. Du kannst versuchen anzuklopfen, so dass andere Leute dich einladen können. Möchtest du das tun?
@@ -664,12 +665,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Raum konnte nicht erstellt werden: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Konnte den Raum nicht verlassen: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Konnte %1 nicht aus %2 entfernen: %3</translation>
     </message>

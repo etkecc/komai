@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>El backend de Matrix aún no está listo.</translation>
     </message>
@@ -583,7 +584,7 @@ Opcionalmente puedes dar una razón para que otros acepten tu toc:</translation>
         <translation>Falló la creación de la sala: Alias incorrecto</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>No se ha podido invitar a %1 a %2: %3</translation>
     </message>
@@ -655,7 +656,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Cerrar sesión &amp;&amp; empezar de nuevo</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>No se pudo unir a la sala %1</translation>
     </message>
@@ -665,12 +666,12 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>No se pudo crear la sala: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Error al salir de la sala: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Falló al expulsar a %1 de %2: %3</translation>
     </message>

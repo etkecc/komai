@@ -598,6 +598,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix backend-ът все още не е готов.</translation>
     </message>
@@ -639,12 +640,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Неуспешно създаване на стая: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Неуспешно напускане на стаята: %1</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Неуспешна покана на %1 в %2: %3</translation>
     </message>

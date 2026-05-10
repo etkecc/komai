@@ -205,36 +205,6 @@ ChatPage::createRoom(const komai::MatrixCreateRoomRequest &request)
 }
 
 void
-ChatPage::leaveRoom(const QString &room_id, const QString &reason)
-{
-    const auto handleId = requireMatrixBackendHandle(this, "leave a room");
-    if (!handleId)
-        return;
-
-    runMatrixRuntimeTask(
-      this,
-      [handleId = *handleId, room_id, reason]() {
-          const auto context = komai::matrix_backend::blockingCallContext();
-          QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::leaveRoom(
-            context, handleId, room_id, reason, &error);
-          return std::make_pair(ok, error);
-      },
-      [room_id](ChatPage *page, const auto &result) {
-          const auto &[ok, error] = result;
-          if (!ok) {
-              Q_EMIT page->showNotification(ChatPage::tr("Failed to leave room: %1").arg(error));
-              komai::logging::ui()->warn("Failed to leave room '{}' via matrix-sdk runtime: {}",
-                                         room_id.toStdString(),
-                                         error.toStdString());
-              return;
-          }
-
-          Q_UNUSED(room_id)
-      });
-}
-
-void
 ChatPage::changeRoom(const QString &room_id)
 {
     view_manager_->rooms()->setCurrentRoom(room_id);

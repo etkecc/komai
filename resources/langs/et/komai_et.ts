@@ -593,6 +593,7 @@ Kui probleem püsib, saab välja logida ja uuesti sisse logida, kuid see kustuta
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix taustaprogramm pole veel valmis.</translation>
     </message>
@@ -617,7 +618,7 @@ Kui probleem püsib, saab välja logida ja uuesti sisse logida, kuid see kustuta
         <translation>Jututoa loomine ei õnnestunud: vigane või vale alias</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Kasutaja %1 kutsumine %2 jututuppa ei õnnestunud: %3</translation>
     </message>
@@ -647,7 +648,7 @@ Kui probleem püsib, saab välja logida ja uuesti sisse logida, kuid see kustuta
         <translation>Suhtluskeeld eemaldatud: %1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>Jututoaga %1 liitumine ei õnnestunud. Sa võid proovida jututoa uksele koputamist ja seal olijad saavad sind sisse lasta. Kas sa soovid seda teha?
@@ -664,12 +665,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Jututoa loomine ei õnnestunud: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Jututoast lahkumine ei õnnestunud: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Kasutaja %1 väljamüksamine %2 jututoast ei õnnestunud: %3</translation>
     </message>

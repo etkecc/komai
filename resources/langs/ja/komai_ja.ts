@@ -593,6 +593,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix バックエンドはまだ準備できていません。</translation>
     </message>
@@ -624,7 +625,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ルームの作成に失敗しました: 不正なエイリアス</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>%2に%1を招待できませんでした: %3</translation>
     </message>
@@ -659,7 +660,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>永久追放を解除されたユーザー: %1</translation>
     </message>
     <message>
-        <location line="-191"/>
+        <location line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>ルームに参加できませんでした: %1</translation>
     </message>
@@ -669,7 +670,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ルームを作成できませんでした: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>ルームから出られませんでした: %1</translation>
     </message>

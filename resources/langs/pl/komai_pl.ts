@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Backend Matrix nie jest jeszcze gotowy.</translation>
     </message>
@@ -582,7 +583,7 @@ Opcjonalnie możesz podać powód, dla którego inni mieliby cię przyjąć:</tr
         <translation>Nie udało się utworzyć pokoju: niepoprawny alias</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Zaproszenie %1 do %2 nie powiodło się: %3</translation>
     </message>
@@ -654,7 +655,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Wyloguj się &amp;&amp; zacznij od nowa</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>Nie udało się dołączyć do pokoju: %1</translation>
     </message>
@@ -664,12 +665,12 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Tworzenie pokoju nie powiodło się: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Nie udało się opuścić pokoju: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Nie udało się wyrzucić %1 z %2: %3</translation>
     </message>

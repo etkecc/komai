@@ -5,10 +5,62 @@
 
 #include "RoomlistModel.h"
 
+#include <thread>
+
+#include <QPointer>
+
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "matrix/backend/MatrixBlockingCall.h"
+#include "ui/MainWindow.h"
 #include "utils/Utils.h"
+
+namespace {
+// Async leave-room dispatch. Lives here (rather than on ChatPage) so the
+// matrix-sdk RPC plumbing isn't reachable from arbitrary callers — leaving
+// a room must go through Rooms.leave() / RoomlistModel::leave() so the row
+// is removed from the model and the roomLeft signal fires.
+void
+performMatrixLeaveRoom(const QString &room_id, const QString &reason)
+{
+    auto *chatPage = ChatPage::instance();
+    if (!chatPage)
+        return;
+
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() == 0) {
+        komai::logging::ui()->warn(
+          "Cannot leave a room because no active matrix-sdk runtime handle exists");
+        Q_EMIT chatPage->showNotification(ChatPage::tr("Matrix backend is not ready yet."));
+        return;
+    }
+    const auto handleId = mainWindow->matrixBackendHandleId();
+
+    QPointer<ChatPage> guard(chatPage);
+    std::thread([guard, handleId, room_id, reason]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
+        QString error;
+        const bool ok =
+          komai::MatrixBackendRuntimeService::leaveRoom(context, handleId, room_id, reason, &error);
+
+        if (!guard)
+            return;
+
+        Q_EMIT guard->callFunctionOnGuiThread([guard, ok, error, room_id]() {
+            if (!guard || guard->isShuttingDown())
+                return;
+            if (!ok) {
+                Q_EMIT guard->showNotification(ChatPage::tr("Failed to leave room: %1").arg(error));
+                komai::logging::ui()->warn("Failed to leave room '{}' via matrix-sdk runtime: {}",
+                                           room_id.toStdString(),
+                                           error.toStdString());
+            }
+        });
+    }).detach();
+}
+} // namespace
 
 void
 RoomlistModel::fetchPreviews(QString roomid_, const std::string &from)
@@ -75,10 +127,10 @@ RoomlistModel::declineInvite(QString roomid)
             roomids.erase(roomids.begin() + idx);
             invites.remove(roomid);
             endRemoveRows();
-            ChatPage::instance()->leaveRoom(roomid, "");
+            performMatrixLeaveRoom(roomid, "");
         }
     } else if (matrixJoinedRooms_.contains(roomid) && matrixJoinedRooms_.value(roomid).isInvite) {
-        ChatPage::instance()->leaveRoom(roomid, "");
+        performMatrixLeaveRoom(roomid, "");
         if (currentRoomPreview_ && currentRoomPreview_->roomid() == roomid)
             resetCurrentRoom();
 
@@ -97,7 +149,7 @@ void
 RoomlistModel::leave(QString roomid, QString reason)
 {
     // We want to leave in any case, even if this is an invite or similar.
-    ChatPage::instance()->leaveRoom(roomid, reason);
+    performMatrixLeaveRoom(roomid, reason);
     if (currentRoomPreview_ && currentRoomPreview_->roomid() == roomid)
         resetCurrentRoom();
 

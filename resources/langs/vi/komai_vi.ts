@@ -593,6 +593,7 @@ Nếu sự cố tiếp diễn, bạn có thể đăng xuất và đăng nhập l
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Backend Matrix chưa sẵn sàng.</translation>
     </message>
@@ -634,12 +635,12 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Tạo phòng thất bại: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Không thể rời khỏi phòng: %1</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Không thể mời %1 vào %2: %3</translation>
     </message>

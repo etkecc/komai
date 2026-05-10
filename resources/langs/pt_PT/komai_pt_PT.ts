@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>O backend Matrix ainda não está pronto.</translation>
     </message>
@@ -582,7 +583,7 @@ Opcionalmente, pode indicar uma razão para que outros aceitem o seu pedido de e
         <translation>A criação da sala falhou: Má alcunha</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Falha ao convidar %1 para %2: %3</translation>
     </message>
@@ -654,7 +655,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Terminar sessão &amp;&amp; recomeçar</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>Falha ao entrar em sala: %1</translation>
     </message>
@@ -664,12 +665,12 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Falha ao criar sala: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Falha ao sair da sala: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Falha ao expulsar %1 de %2: %3</translation>
     </message>

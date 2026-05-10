@@ -593,6 +593,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix 后端尚未就绪。</translation>
     </message>
@@ -617,7 +618,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>创建聊天室失败：别名错误</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>未能邀请 %1 到 %2：%3</translation>
     </message>
@@ -647,7 +648,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>解封用户：%1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>你未能加入 %1。你可以尝试请求加入，以便其他人可以邀请你进来。你想这样做吗？
@@ -664,12 +665,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>创建聊天室失败：%1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>未能离开聊天室：%1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>未能踢出 %2 里的 %1：%3</translation>
     </message>

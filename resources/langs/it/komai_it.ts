@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Il backend Matrix non è ancora pronto.</translation>
     </message>
@@ -582,7 +583,7 @@ Puoi facoltativamente fornire un motivo affinché gli altri accettino la tua ric
         <translation>Creazione stanza non riuscita: alias non valido</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Impossibile invitare %1 a %2: %3</translation>
     </message>
@@ -654,7 +655,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Disconnetti &amp;&amp; ricomincia</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>Impossibile accedere alla stanza: %1</translation>
     </message>
@@ -664,12 +665,12 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Creazione della stanza fallita: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Impossibile lasciare la stanza: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Fallita l'espulsione di %1 da %2: %3</translation>
     </message>

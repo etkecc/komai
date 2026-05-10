@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>A Matrix háttérrendszer még nem áll készen.</translation>
     </message>
@@ -582,7 +583,7 @@ Opcionálisan megadhat egy indokot, hogy mások elfogadják a kopogtatását:</t
         <translation>A szoba létrehozása sikertelen: Hibás álnév</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Nem sikerült %1 meghívása a(z) %2 szobába: %3</translation>
     </message>
@@ -654,7 +655,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Kijelentkezés &amp;&amp; újrakezdés</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>Nem sikerült csatlakozni a szobához: %1</translation>
     </message>
@@ -664,12 +665,12 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Nem sikerült létrehozni a szobát: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Nem sikerült elhagyni a szobát: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Nem sikerült kirúgni %1 felhasználót %2 szobából: %3</translation>
     </message>

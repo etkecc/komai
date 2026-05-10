@@ -593,6 +593,7 @@ Als het probleem aanhoudt, kun je uitloggen en opnieuw aanmelden, maar dit verwi
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix-backend is nog niet gereed.</translation>
     </message>
@@ -617,7 +618,7 @@ Als het probleem aanhoudt, kun je uitloggen en opnieuw aanmelden, maar dit verwi
         <translation>Kamer aanmaken mislukt: slechte alias</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Uitnodigen van %1 naar %2 mislukt: %3</translation>
     </message>
@@ -647,7 +648,7 @@ Als het probleem aanhoudt, kun je uitloggen en opnieuw aanmelden, maar dit verwi
         <translation>Toegelaten gebruiker: %1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>Je kon %1 niet binnengaan. Je kan proberen aan te kloppen. Wil je dat?
@@ -664,12 +665,12 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Kamer aanmaken mislukt: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Kamer verlaten mislukt: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>Kon %1 niet verwijderen uit %2: %3</translation>
     </message>

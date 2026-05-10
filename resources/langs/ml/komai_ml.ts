@@ -551,6 +551,7 @@
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix ബാക്കെൻഡ് ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
@@ -582,12 +583,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>മുറി സൃഷ്ടിക്കൽ പരാജയപ്പെട്ടു: മോശം Alias</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>മുറി വിടുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>%1 നെ %2-ലേക്ക് ക്ഷണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %3</translation>
     </message>
@@ -664,7 +665,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ലോഗ് ഔട്ട് ചെയ്ത് &amp;&amp; വീണ്ടും ആരംഭിക്കുക</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-191"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="-161"/>
         <source>Failed to join room: %1</source>
         <translation>മുറിയിൽ ചേരുന്നതിൽ പരാജയം: %1</translation>
     </message>

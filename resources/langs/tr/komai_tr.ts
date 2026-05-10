@@ -593,6 +593,7 @@ Sorun devam ederse oturumu kapatıp yeniden oturum açabilirsiniz; ancak bu işl
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Matrix arka ucu henüz hazır değil.</translation>
     </message>
@@ -617,7 +618,7 @@ Sorun devam ederse oturumu kapatıp yeniden oturum açabilirsiniz; ancak bu işl
         <translation>Oda oluşturma başarısız: Hatalı Adres</translation>
     </message>
     <message>
-        <location line="+89"/>
+        <location line="+59"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>%1 adlı kişi %2'ye davet edilemedi: %3</translation>
     </message>
@@ -647,7 +648,7 @@ Sorun devam ederse oturumu kapatıp yeniden oturum açabilirsiniz; ancak bu işl
         <translation>Yasak kaldırıldı: %1</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-235"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1 adlı odaya katılamadınız. Diğerlerinin sizi içeri alması için kapı tıklatmayı deneyebilirsiniz. Şimdi denemek ister misiniz?
@@ -664,12 +665,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Oda oluşturma başarısız: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Odadan ayrılma başarısız: %1</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+66"/>
         <source>Failed to kick %1 from %2: %3</source>
         <translation>%1 adlı kişi %2'den atılamadı: %3</translation>
     </message>

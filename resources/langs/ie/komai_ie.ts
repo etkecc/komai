@@ -593,6 +593,7 @@ Si li problema persiste, vu pote sortir e reingressar, ma to va deleter vun cach
     </message>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+36"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>Li backend Matrix ne es ancor pret.</translation>
     </message>
@@ -634,12 +635,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Creation de chambre faliat: %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location filename="../../../src/timeline/roomlist/RoomlistModelPreviews.cpp" line="+19"/>
         <source>Failed to leave room: %1</source>
         <translation>Faliat a departer li chambre: %1</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Failed to invite %1 to %2: %3</source>
         <translation>Faliat a invitar %1 ad %2: %3</translation>
     </message>

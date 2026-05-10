@@ -2615,7 +2615,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Opuścić ten pokój?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Pozostaniesz w pokojach, do których dołączono przez tę przestrzeń.</translation>
     </message>
@@ -2626,6 +2626,11 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Dodaj opcjonalny powód opuszczenia</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>

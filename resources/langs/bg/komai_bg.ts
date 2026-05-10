@@ -2611,7 +2611,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Напускаш тази стая?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Ще останеш в стаите, в които си влязъл чрез него.</translation>
     </message>
@@ -2622,6 +2622,11 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Добави незадължителна причина за напускане</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
     </message>

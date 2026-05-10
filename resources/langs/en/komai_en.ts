@@ -2605,7 +2605,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation type="unfinished"/>
     </message>
@@ -2616,6 +2616,11 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>

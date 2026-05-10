@@ -2615,7 +2615,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Покинуть эту комнату?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Ты останешься во всех комнатах, к которым присоединился через него.</translation>
     </message>
@@ -2626,6 +2626,11 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Добавьте необязательную причину выхода</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>

@@ -2607,7 +2607,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Rời khỏi phòng này?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Bạn vẫn sẽ ở trong các phòng bạn đã tham gia qua không gian này.</translation>
     </message>
@@ -2618,6 +2618,11 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Thêm lý do rời phòng (tùy chọn)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Hủy</translation>
     </message>

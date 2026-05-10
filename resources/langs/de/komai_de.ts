@@ -2611,7 +2611,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Diesen Raum verlassen?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Du bleibst in allen Räumen, denen du darüber beigetreten bist.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Optionalen Grund für das Verlassen angeben</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>

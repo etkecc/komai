@@ -2607,7 +2607,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>このルームを退出しますか？</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>そのスペースを通じて参加したルームには引き続き参加したままになります。</translation>
     </message>
@@ -2618,6 +2618,11 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>退出理由を入力（任意）</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>

@@ -2611,7 +2611,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Lahkuda sellest jututoast?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Jääd kõigisse jututubadesse, kuhu oled selle kaudu liitunud.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Lisa valikuline lahkumispõhjus</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Tühista</translation>
     </message>

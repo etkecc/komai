@@ -2611,7 +2611,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Sortir d'aquesta sala?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Continuaràs en totes les sales a les quals t'has unit a través seu.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Afegiu un motiu opcional per sortir</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>

@@ -2611,7 +2611,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഈ മുറി വിടണോ?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>അതിലൂടെ ചേർന്ന എല്ലാ മുറികളിലും നിങ്ങൾ തുടരും.</translation>
     </message>
@@ -2622,6 +2622,11 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>വിട്ടുപോകാനുള്ള ഐഛിക കാരണം ചേർക്കുക</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>റദ്ദാക്കുക</translation>
     </message>

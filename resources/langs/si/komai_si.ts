@@ -2611,7 +2611,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>මෙම කාමරයෙන් පිටවන්නද?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>ඔබ එමගින් සම්බන්ධ වූ ඕනෑම කාමරයක සිටිනු ඇත.</translation>
     </message>
@@ -2622,6 +2622,11 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>පිටවීමට විකල්ප හේතුවක් ඇතුළු කරන්න</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>අවලංගු කරන්න</translation>
     </message>

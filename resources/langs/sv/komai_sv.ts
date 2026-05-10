@@ -2611,7 +2611,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Lämna det här rummet?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Du kommer att vara kvar i alla rum du gick med i via det.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Lägg till valfri anledning för att lämna</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>

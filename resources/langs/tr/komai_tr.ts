@@ -2607,7 +2607,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Bu odadan ayrılsın mı?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Bu alan aracılığıyla katıldığınız odalarda kalmaya devam edeceksiniz.</translation>
     </message>
@@ -2618,6 +2618,11 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Ayrılma için isteğe bağlı neden ekleyin</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>

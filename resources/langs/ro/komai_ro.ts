@@ -2615,7 +2615,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Părăsești această cameră?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Vei rămâne în orice cameră la care te-ai alăturat prin intermediul acestuia.</translation>
     </message>
@@ -2626,6 +2626,11 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Adaugă un motiv opțional pentru plecare</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Anulează</translation>
     </message>

@@ -2611,7 +2611,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Poistutaanko tästä huoneesta?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Jäät edelleen kaikkiin huoneisiin, joihin liityit sen kautta.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Lisää valinnainen syy poistumiselle</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Peruuta</translation>
     </message>

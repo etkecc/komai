@@ -2607,7 +2607,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>离开该聊天室？</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>你通过该空间加入的聊天室仍然保留。</translation>
     </message>
@@ -2618,6 +2618,11 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>添加离开原因（可选）</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

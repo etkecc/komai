@@ -2611,7 +2611,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Sortir de iste chambre?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Vu remanera in omni chambres que vu juntate per it.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Adder un raison optional por departar</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Cancellar</translation>
     </message>

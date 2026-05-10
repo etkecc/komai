@@ -2607,7 +2607,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Elhagyja ezt a szobát?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Azokban a szobákban marad, amelyekhez ezen keresztül csatlakozott.</translation>
     </message>
@@ -2618,6 +2618,11 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Opcionális indok az elhagyáshoz</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>

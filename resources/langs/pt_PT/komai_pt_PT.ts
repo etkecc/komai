@@ -2611,7 +2611,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Sair desta sala?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Continuará nas salas em que entrou através deste espaço.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Adicionar motivo opcional para sair</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>

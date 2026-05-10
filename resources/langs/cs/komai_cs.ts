@@ -2615,7 +2615,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Opustit tuto místnost?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Zůstaneš ve všech místnostech, do nichž ses přes něj připojil/a.</translation>
     </message>
@@ -2626,6 +2626,11 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Přidej volitelný důvod pro opuštění</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>

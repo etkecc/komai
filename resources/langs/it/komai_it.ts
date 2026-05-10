@@ -2611,7 +2611,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Uscire da questa stanza?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Rimarrai nelle stanze a cui hai acceduto tramite di esso.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Aggiungi un motivo opzionale per uscire</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>

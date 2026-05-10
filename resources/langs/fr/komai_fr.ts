@@ -2611,7 +2611,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Quitter ce salon ?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Vous resterez dans tous les salons que vous avez rejoints via cet espace.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Ajouter une raison facultative pour quitter</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>

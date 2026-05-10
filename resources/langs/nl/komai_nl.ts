@@ -2611,7 +2611,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Deze kamer verlaten?</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+44"/>
         <source>You will remain in any rooms you joined through it.</source>
         <translation>Je blijft in alle kamers die je via deze ruimte hebt betreden.</translation>
     </message>
@@ -2622,6 +2622,11 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+9"/>
+        <source>Add optional reason for leaving</source>
+        <translation>Voeg een optionele reden voor verlaten toe</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>

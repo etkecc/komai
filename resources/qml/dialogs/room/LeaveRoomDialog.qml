@@ -40,6 +40,16 @@ Components.OverlayDialog {
     }
     titleIcon: ":/icons/icons/ui/power-off.svg"
 
+    function submit() {
+        if (CallManager.haveCallInvite) {
+            CallManager.rejectInvite();
+        } else if (CallManager.isOnCall) {
+            CallManager.hangUp();
+        }
+        Rooms.leave(leaveRoomRoot.roomId, reasonInput.text);
+        leaveRoomRoot.close();
+    }
+
     RowLayout {
         Layout.fillWidth: true
         visible: leaveRoomRoot.hasVisibilityInfo
@@ -85,6 +95,17 @@ Components.OverlayDialog {
         visible: !leaveRoomRoot.hasVisibilityInfo
     }
 
+    Components.KomaiTextField {
+        id: reasonInput
+
+        Layout.fillWidth: true
+        text: leaveRoomRoot.reason
+        placeholderText: qsTr("Add optional reason for leaving")
+        onAccepted: leaveRoomRoot.submit()
+
+        Component.onCompleted: Qt.callLater(() => reasonInput.forceActiveFocus())
+    }
+
     RowLayout {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
@@ -101,15 +122,7 @@ Components.OverlayDialog {
         Components.KomaiButton {
             text: qsTr("Leave")
             highlighted: true
-            onClicked: {
-                if (CallManager.haveCallInvite) {
-                    CallManager.rejectInvite();
-                } else if (CallManager.isOnCall) {
-                    CallManager.hangUp();
-                }
-                Rooms.leave(leaveRoomRoot.roomId, leaveRoomRoot.reason);
-                leaveRoomRoot.close();
-            }
+            onClicked: leaveRoomRoot.submit()
         }
     }
 }

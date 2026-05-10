@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026.05.10.0
+
+🎉 **The first pre-built Windows binary of Komai!** Every tagged release now ships a Windows no-installer ZIP (`komai-<version>-windows-x64-no-installer.zip`) alongside the AppImage, Flatpak, and Snap. The build is unsigned, so SmartScreen warns on first launch ("More info" → "Run anyway") ([62ad50480](https://github.com/etkecc/komai/commit/62ad50480), [d644ad8fc](https://github.com/etkecc/komai/commit/d644ad8fc)).
+
+- ✨ Feature: spaces are now first-class. A "Space" badge appears in the room header, and the composer is hidden in space rooms (since space messages don't surface on other clients) ([d80eedad6](https://github.com/etkecc/komai/commit/d80eedad6), [e28820c9b](https://github.com/etkecc/komai/commit/e28820c9b)).
+- ✨ Feature: room-level "Mark as unread" from the [room list](https://github.com/etkecc/komai/blob/b3cec3d0a88ee10e317592863834f0011f9cf38d/docs/user-guide/features/room-list.md#mark-as-unread) and the [tab context menu](https://github.com/etkecc/komai/blob/b3cec3d0a88ee10e317592863834f0011f9cf38d/docs/user-guide/features/tabs.md#-mark-as-read-or-unread); the unread state syncs across devices and to other Matrix clients ([920b2f29f](https://github.com/etkecc/komai/commit/920b2f29f), [9036b1fd5](https://github.com/etkecc/komai/commit/9036b1fd5), [cc67e76b5](https://github.com/etkecc/komai/commit/cc67e76b5)).
+- ✨ Feature: per-room override for "Show others when I'm typing" and "Show others when I've read their messages" in Room Info → Preferences ([a385946fa](https://github.com/etkecc/komai/commit/a385946fa), [708a65566](https://github.com/etkecc/komai/commit/708a65566)).
+- 🐛 Fix: the "Show others when I've read their messages" toggle now actually has effect; it had been ignored before, so receipts went out regardless ([e7a815081](https://github.com/etkecc/komai/commit/e7a815081)).
+- 🐛 Fix: child-space references and other previously-unrouted state events render properly in the timeline, instead of falling through to a generic "Unsupported" placeholder ([c084371fb](https://github.com/etkecc/komai/commit/c084371fb), [cba45c300](https://github.com/etkecc/komai/commit/cba45c300)).
+- 🐛 Fix: Sign In gives up quickly when the homeserver is unreachable, instead of silently retrying for up to 15 minutes ([871086e6f](https://github.com/etkecc/komai/commit/871086e6f)).
+- 🐛 Fix: Escape returns focus to the composer when focus is on highlighted message text or on the room-list / communities sidebar; Tab and Shift+Tab from a highlighted message do the same ([4173428fa](https://github.com/etkecc/komai/commit/4173428fa), [a5ead0faf](https://github.com/etkecc/komai/commit/a5ead0faf)).
+- 🔧 Build: Komai no longer depends on OpenSSL, thanks to matrix-sdk 0.17.0. This simplifies packaging by removing a dependency ([5bbcbcf1c](https://github.com/etkecc/komai/commit/5bbcbcf1c), [7caacac4e](https://github.com/etkecc/komai/commit/7caacac4e), [be76bf2c1](https://github.com/etkecc/komai/commit/be76bf2c1), [e035c7366](https://github.com/etkecc/komai/commit/e035c7366)).
+- 🔧 Build: `pkg-config` is no longer required when VOIP and X11 are both disabled (typical Windows and macOS builds) ([e5778ed20](https://github.com/etkecc/komai/commit/e5778ed20)).
+- 📦 Flatpak: the bundle filename now carries version + arch (`komai-<version>-<arch>.flatpak`), matching the AppImage / Snap / Windows ZIP naming ([c7fea0559](https://github.com/etkecc/komai/commit/c7fea0559)).
+
 ## 2026.05.09.0
 
 - ✨ Feature: Shift+Click range selection in the timeline, extending the existing Ctrl+Click multi-select ([4d9e9ced4](https://github.com/etkecc/komai/commit/4d9e9ced4)).

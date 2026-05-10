@@ -8572,7 +8572,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+187"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
         <source>Show more</source>
         <translation>Hiển thị thêm</translation>
     </message>

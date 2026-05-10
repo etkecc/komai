@@ -8590,7 +8590,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+187"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
         <source>Show more</source>
         <translation>Zobrazit více</translation>
     </message>

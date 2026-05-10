@@ -8581,7 +8581,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+187"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
         <source>Show more</source>
         <translation>Mehr anzeigen</translation>
     </message>

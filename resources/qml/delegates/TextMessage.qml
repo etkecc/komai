@@ -88,6 +88,11 @@ LitehtmlItem {
         Komai.openLink(link);
     }
 
+    // Selection drags grab focus on this paint item; Escape and Tab/Backtab
+    // route back through the same path the sidebars use, so the user always
+    // has a way out.
+    onFocusReleaseRequested: TimelineManager.requestEscape()
+
     Loader {
         active: !perfDisableTimelineInteraction && hoveredLink.length > 0
         sourceComponent: Component {

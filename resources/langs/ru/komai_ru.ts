@@ -8590,7 +8590,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+187"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
         <source>Show more</source>
         <translation>Развернуть</translation>
     </message>

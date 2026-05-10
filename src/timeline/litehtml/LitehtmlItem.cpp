@@ -623,6 +623,24 @@ LitehtmlItem::mouseDoubleClickEvent(QMouseEvent *event)
     event->accept();
 }
 
+bool
+LitehtmlItem::event(QEvent *event)
+{
+    // Claim Escape at the ShortcutOverride layer so it reaches our
+    // keyPressEvent below instead of activating the timeline-window
+    // Escape Shortcut. The Shortcut path's handleEscape()/focusTextInput()
+    // doesn't reliably move focus off this paint item, leaving the user
+    // stuck after a text selection drag pulls focus here.
+    if (event->type() == QEvent::ShortcutOverride) {
+        auto *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Escape) {
+            event->accept();
+            return true;
+        }
+    }
+    return QQuickPaintedItem::event(event);
+}
+
 void
 LitehtmlItem::keyPressEvent(QKeyEvent *event)
 {
@@ -631,6 +649,24 @@ LitehtmlItem::keyPressEvent(QKeyEvent *event)
         event->accept();
         return;
     }
+
+    // Clicking inside a message body for text selection grabs focus here
+    // (see mousePressEvent). Without explicit handling, Escape and
+    // Tab/Backtab leave the user "stuck" — Escape's window-level Shortcut
+    // doesn't reliably re-focus the composer from this paint-item focus
+    // chain, and Tab has nowhere natural to go in a timeline of
+    // non-focusable delegates. Drop our focus and let the QML side route
+    // back to the composer.
+    if (event->key() == Qt::Key_Escape || event->key() == Qt::Key_Tab ||
+        event->key() == Qt::Key_Backtab) {
+        clearSelection();
+        update();
+        setFocus(false);
+        emit focusReleaseRequested();
+        event->accept();
+        return;
+    }
+
     QQuickPaintedItem::keyPressEvent(event);
 }
 

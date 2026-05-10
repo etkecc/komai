@@ -103,6 +103,12 @@ signals:
     void rightPaddingChanged();
     void compactChanged();
     void linkActivated(const QString &link);
+    // Emitted when the focused item should release focus to whatever the
+    // surrounding view considers the natural fallback target. We can't
+    // call into a QML singleton from here without coupling, so the QML
+    // delegate is expected to wire this to the right action (typically
+    // `TimelineManager.requestEscape()`).
+    void focusReleaseRequested();
 
 protected:
     void componentComplete() override;
@@ -112,6 +118,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    bool event(QEvent *event) override;
 
 private:
     void requestDocumentRebuild();

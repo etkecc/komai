@@ -52,16 +52,14 @@
 
 use super::*;
 use super::event_summary::summarize_sync_timeline_event;
-use super::timeline_snapshot::{
-    build_room_timeline_snapshot, collect_unavailable_reply_event_ids, compute_read_own_event_ids,
-};
+use super::timeline_snapshot::{build_room_timeline_snapshot, collect_unavailable_reply_event_ids};
 
 use std::collections::{BTreeMap, HashSet};
 use std::time::Duration;
 
 use matrix_sdk::deserialized_responses::TimelineEvent;
 use matrix_sdk::ruma::EventId;
-use matrix_sdk_ui::timeline::TimelineReadReceiptTracking;
+use matrix_sdk::ruma::events::receipt::{ReceiptThread, ReceiptType};
 
 /// `/relations` result split into things that become timeline rows
 /// (replies, attachments, …) and reaction aggregations to fold onto
@@ -478,17 +476,7 @@ async fn run_thread_timeline_loop(
         root_event_id: parsed_thread_root_id.clone(),
     };
 
-    // Track thread read receipts (and the thread's fully-read marker) so
-    // delivery indicators on our own thread messages flip "Received" ->
-    // "Read" the same way the main room timeline does.  For a `Thread`
-    // focus the SDK scopes this to the thread's own receipts.
-    let timeline = match room
-        .timeline_builder()
-        .with_focus(focus)
-        .track_read_marker_and_receipts(TimelineReadReceiptTracking::MessageLikeEvents)
-        .build()
-        .await
-    {
+    let timeline = match room.timeline_builder().with_focus(focus).build().await {
         Ok(t) => Arc::new(t),
         Err(error) => {
             tracing::warn!(
@@ -539,9 +527,11 @@ async fn run_thread_timeline_loop(
     let mut relations_data = ThreadRelationsData::default();
 
     // Publish the initial snapshot from the SDK timeline.
+    let read_state = fetch_thread_read_state(&room, &parsed_thread_root_id).await;
     publish_merged_snapshot(
         handle_id, &room_id, &thread_root_id,
         &current_values, own_user_id,
+        &read_state,
         &relations_data,
         &thread_timeline_snapshot,
         &room_timeline_media_lookup,
@@ -562,9 +552,11 @@ async fn run_thread_timeline_loop(
                 "Initial thread /relations fetch"
             );
             relations_data = data;
+            let read_state = fetch_thread_read_state(&room, &parsed_thread_root_id).await;
             publish_merged_snapshot(
                 handle_id, &room_id, &thread_root_id,
                 &current_values, own_user_id,
+                &read_state,
                 &relations_data,
                 &thread_timeline_snapshot,
                 &room_timeline_media_lookup,
@@ -614,9 +606,11 @@ async fn run_thread_timeline_loop(
                             diff.apply(&mut current_values);
                         }
 
+                        let read_state = fetch_thread_read_state(&room, &parsed_thread_root_id).await;
                         publish_merged_snapshot(
                             handle_id, &room_id, &thread_root_id,
                             &current_values, own_user_id,
+                            &read_state,
                             &relations_data,
                             &thread_timeline_snapshot,
                             &room_timeline_media_lookup,
@@ -654,6 +648,15 @@ async fn run_thread_timeline_loop(
                 let should_schedule = match maybe_update {
                     Ok(RoomEventCacheUpdate::UpdateTimelineEvents(diffs)) => {
                         matches!(diffs.origin, EventsOrigin::Sync)
+                    }
+                    // A read receipt landing in the room can change one of our
+                    // own thread messages from "Received" to "Read"; typing
+                    // notifications can't, so don't refresh for those.
+                    Ok(RoomEventCacheUpdate::AddEphemeralEvents { events }) => {
+                        events.iter().any(|e| {
+                            e.get_field::<String>("type").ok().flatten().as_deref()
+                                == Some("m.receipt")
+                        })
                     }
                     Ok(_) => false,
                     Err(RecvError::Lagged(n)) => {
@@ -752,9 +755,11 @@ async fn run_thread_timeline_loop(
                     }
                 }
 
+                let read_state = fetch_thread_read_state(&room, &parsed_thread_root_id).await;
                 publish_merged_snapshot(
                     handle_id, &room_id, &thread_root_id,
                     &current_values, own_user_id,
+                    &read_state,
                     &relations_data,
                     &thread_timeline_snapshot,
                     &room_timeline_media_lookup,
@@ -770,22 +775,81 @@ async fn run_thread_timeline_loop(
 // Merged snapshot building
 // ---------------------------------------------------------------------------
 
+/// Other members' read positions for a thread, fetched fresh from the
+/// receipt store.  We don't trust the `TimelineFocus::Thread` timeline's own
+/// receipt tracking for delivery indicators — it loads receipts once at
+/// build time and ignores receipts that arrive afterwards (the common case
+/// while you're actively chatting in a thread) — so this is re-queried on
+/// every snapshot rebuild, mirroring what the "Read receipts" dialog does so
+/// the two stay consistent.
+#[derive(Default)]
+struct ThreadReadState {
+    /// Highest `m.read` receipt timestamp seen across other members (any of
+    /// Main / Unthreaded / Thread(root)); a cumulative "read at least this
+    /// far" watermark.
+    max_receipt_ts: u64,
+    /// Event IDs those receipts point directly at.
+    receipt_event_ids: HashSet<String>,
+}
+
+async fn fetch_thread_read_state(room: &Room, thread_root: &EventId) -> ThreadReadState {
+    let own_user_id = room.own_user_id().to_owned();
+    let members = match room.members(matrix_sdk::RoomMemberships::ACTIVE).await {
+        Ok(m) => m,
+        Err(error) => {
+            tracing::warn!(%error, "Failed to load room members for thread read receipts");
+            return ThreadReadState::default();
+        }
+    };
+    // Threaded receipts first; some clients (e.g. bots) only ever send
+    // those for thread messages, so they'd be missed if we only looked at
+    // Main / Unthreaded.
+    let receipt_threads = [
+        ReceiptThread::Thread(thread_root.to_owned()),
+        ReceiptThread::Unthreaded,
+        ReceiptThread::Main,
+    ];
+    let mut state = ThreadReadState::default();
+    for member in members.iter() {
+        if member.user_id() == own_user_id {
+            continue;
+        }
+        for thread in &receipt_threads {
+            if let Ok(Some((receipt_event_id, receipt))) = room
+                .load_user_receipt(ReceiptType::Read, thread.clone(), member.user_id())
+                .await
+            {
+                let ts = receipt.ts.map(|t| u64::from(t.0)).unwrap_or(0);
+                state.max_receipt_ts = state.max_receipt_ts.max(ts);
+                state.receipt_event_ids.insert(receipt_event_id.to_string());
+            }
+        }
+    }
+    state
+}
+
 /// Build a merged snapshot from SDK timeline items and /relations data,
-/// then publish it to the shared snapshot and notify C++.
+/// then publish it to the shared snapshot and notify C++.  `read_state` is
+/// other members' freshly-fetched thread read positions, used to set the
+/// "Received"/"Read" delivery indicator on our own messages.
 fn publish_merged_snapshot(
     handle_id: u64,
     room_id: &str,
     thread_root_id: &str,
     sdk_values: &Vector<Arc<TimelineItem>>,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
+    read_state: &ThreadReadState,
     relations_data: &ThreadRelationsData,
     thread_timeline_snapshot: &Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: &Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
 ) {
     let relations_items = &relations_data.items;
-    let read_own_event_ids = compute_read_own_event_ids(sdk_values, own_user_id);
+    // The SDK Thread timeline's own read-receipt tracking is unreliable
+    // for delivery indicators (it loads receipts at build time and ignores
+    // later ones), so we don't ask it for a "read" set here — `read_state`
+    // is re-fetched per rebuild and applied in a pass below.
     let (mut sdk_items, media_lookup) =
-        build_room_timeline_snapshot(sdk_values, own_user_id, &read_own_event_ids, None);
+        build_room_timeline_snapshot(sdk_values, own_user_id, &HashSet::new(), None);
 
     // Fix stale local echoes.  In matrix-sdk 0.16, the Thread-focused
     // timeline never transitions local echoes to remote events (sync
@@ -793,12 +857,9 @@ fn publish_merged_snapshot(
     // update send_state from NotSentYet → Sent via the send queue, but
     // the item stays as a local echo with a delivery indicator forever.
     //
-    // When /relations data is available, replace these stale local
-    // echoes with the server-authoritative /relations version — but the
-    // /relations converter leaves `delivery_state` empty, so for our own,
-    // now-confirmed messages we re-derive "received"/"read" from the
-    // thread read-receipt watermark (and clear `transaction_id`, since a
-    // confirmed remote event must not look like a stuck local echo).
+    // When /relations data is available, replace these stale local echoes
+    // with the server-authoritative /relations version (the delivery-state
+    // pass below restores a "received"/"read" indicator on it).
     if !relations_items.is_empty() {
         for sdk_item in &mut sdk_items {
             if !sdk_item.is_own {
@@ -841,17 +902,7 @@ fn publish_merged_snapshot(
             };
 
             if let Some(rel_item) = matched {
-                let mut replacement = rel_item.clone();
-                if !replacement.event_id.is_empty() {
-                    replacement.delivery_state =
-                        if read_own_event_ids.contains(&replacement.event_id) {
-                            "read".to_owned()
-                        } else {
-                            "received".to_owned()
-                        };
-                    replacement.transaction_id.clear();
-                }
-                *sdk_item = replacement;
+                *sdk_item = rel_item.clone();
             }
         }
     }
@@ -892,6 +943,25 @@ fn publish_merged_snapshot(
     if added > 0 {
         // Re-sort: newest first (highest timestamp = index 0).
         sdk_items.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
+    }
+
+    // Delivery indicators for our own messages.  The SDK Thread timeline
+    // doesn't reflect post-build read receipts and the /relations converter
+    // leaves `delivery_state` empty, so derive it here from the freshly
+    // fetched `read_state` (same data the "Read receipts" dialog uses).  A
+    // confirmed remote event must also not look like a stuck local echo, so
+    // clear `transaction_id`; leave genuinely in-flight echoes alone.
+    for item in &mut sdk_items {
+        if !item.is_own
+            || item.event_id.is_empty()
+            || matches!(item.delivery_state.as_str(), "pending" | "failed")
+        {
+            continue;
+        }
+        let read = read_state.receipt_event_ids.contains(&item.event_id)
+            || (read_state.max_receipt_ts > 0 && item.timestamp <= read_state.max_receipt_ts);
+        item.delivery_state = if read { "read".to_owned() } else { "received".to_owned() };
+        item.transaction_id.clear();
     }
 
     // `transaction_id` on /relations items is populated from the round-tripped

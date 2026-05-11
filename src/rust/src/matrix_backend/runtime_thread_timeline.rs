@@ -52,13 +52,16 @@
 
 use super::*;
 use super::event_summary::summarize_sync_timeline_event;
-use super::timeline_snapshot::{build_room_timeline_snapshot, collect_unavailable_reply_event_ids};
+use super::timeline_snapshot::{
+    build_room_timeline_snapshot, collect_unavailable_reply_event_ids, compute_read_own_event_ids,
+};
 
 use std::collections::{BTreeMap, HashSet};
 use std::time::Duration;
 
 use matrix_sdk::deserialized_responses::TimelineEvent;
 use matrix_sdk::ruma::EventId;
+use matrix_sdk_ui::timeline::TimelineReadReceiptTracking;
 
 /// `/relations` result split into things that become timeline rows
 /// (replies, attachments, …) and reaction aggregations to fold onto
@@ -475,7 +478,17 @@ async fn run_thread_timeline_loop(
         root_event_id: parsed_thread_root_id.clone(),
     };
 
-    let timeline = match room.timeline_builder().with_focus(focus).build().await {
+    // Track thread read receipts (and the thread's fully-read marker) so
+    // delivery indicators on our own thread messages flip "Received" ->
+    // "Read" the same way the main room timeline does.  For a `Thread`
+    // focus the SDK scopes this to the thread's own receipts.
+    let timeline = match room
+        .timeline_builder()
+        .with_focus(focus)
+        .track_read_marker_and_receipts(TimelineReadReceiptTracking::MessageLikeEvents)
+        .build()
+        .await
+    {
         Ok(t) => Arc::new(t),
         Err(error) => {
             tracing::warn!(
@@ -515,7 +528,6 @@ async fn run_thread_timeline_loop(
         }
     };
 
-    let empty_receipts = HashSet::new();
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
 
@@ -529,7 +541,7 @@ async fn run_thread_timeline_loop(
     // Publish the initial snapshot from the SDK timeline.
     publish_merged_snapshot(
         handle_id, &room_id, &thread_root_id,
-        &current_values, own_user_id, &empty_receipts,
+        &current_values, own_user_id,
         &relations_data,
         &thread_timeline_snapshot,
         &room_timeline_media_lookup,
@@ -552,7 +564,7 @@ async fn run_thread_timeline_loop(
             relations_data = data;
             publish_merged_snapshot(
                 handle_id, &room_id, &thread_root_id,
-                &current_values, own_user_id, &empty_receipts,
+                &current_values, own_user_id,
                 &relations_data,
                 &thread_timeline_snapshot,
                 &room_timeline_media_lookup,
@@ -604,7 +616,7 @@ async fn run_thread_timeline_loop(
 
                         publish_merged_snapshot(
                             handle_id, &room_id, &thread_root_id,
-                            &current_values, own_user_id, &empty_receipts,
+                            &current_values, own_user_id,
                             &relations_data,
                             &thread_timeline_snapshot,
                             &room_timeline_media_lookup,
@@ -742,7 +754,7 @@ async fn run_thread_timeline_loop(
 
                 publish_merged_snapshot(
                     handle_id, &room_id, &thread_root_id,
-                    &current_values, own_user_id, &empty_receipts,
+                    &current_values, own_user_id,
                     &relations_data,
                     &thread_timeline_snapshot,
                     &room_timeline_media_lookup,
@@ -766,14 +778,14 @@ fn publish_merged_snapshot(
     thread_root_id: &str,
     sdk_values: &Vector<Arc<TimelineItem>>,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
-    read_own_event_ids: &HashSet<String>,
     relations_data: &ThreadRelationsData,
     thread_timeline_snapshot: &Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: &Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
 ) {
     let relations_items = &relations_data.items;
+    let read_own_event_ids = compute_read_own_event_ids(sdk_values, own_user_id);
     let (mut sdk_items, media_lookup) =
-        build_room_timeline_snapshot(sdk_values, own_user_id, read_own_event_ids, None);
+        build_room_timeline_snapshot(sdk_values, own_user_id, &read_own_event_ids, None);
 
     // Fix stale local echoes.  In matrix-sdk 0.16, the Thread-focused
     // timeline never transitions local echoes to remote events (sync

@@ -2557,6 +2557,15 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
 </context>
 <context>
+    <name>KomaiSearchField</name>
+    <message>
+        <location filename="../../qml/components/KomaiSearchField.qml" line="+82"/>
+        <location line="+8"/>
+        <source>Clear</source>
+        <translation>Xóa</translation>
+    </message>
+</context>
+<context>
     <name>KomaiSearchableComboBox</name>
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
@@ -12086,12 +12095,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
         <source>Settings</source>
         <translation>Cài đặt</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-302"/>
         <source>Look &amp; Feel</source>
         <translation>Giao diện &amp; Cảm nhận</translation>
     </message>
@@ -12136,7 +12145,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Về Komai</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+239"/>
         <source>Available after login</source>
         <translation>Khả dụng sau khi đăng nhập</translation>
     </message>
@@ -12146,7 +12155,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Tìm kiếm cài đặt…</translation>
     </message>
     <message>
-        <location line="-299"/>
+        <location line="-309"/>
         <source>Calls</source>
         <translation>Cuộc gọi</translation>
     </message>
@@ -12157,7 +12166,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="-8"/>
-        <location line="+91"/>
+        <location line="+101"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Quay lại</translation>

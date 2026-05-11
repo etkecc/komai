@@ -2561,6 +2561,15 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     </message>
 </context>
 <context>
+    <name>KomaiSearchField</name>
+    <message>
+        <location filename="../../qml/components/KomaiSearchField.qml" line="+82"/>
+        <location line="+8"/>
+        <source>Clear</source>
+        <translation>Esborra</translation>
+    </message>
+</context>
+<context>
     <name>KomaiSearchableComboBox</name>
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
@@ -12102,12 +12111,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-302"/>
         <source>Look &amp; Feel</source>
         <translation>Aparença</translation>
     </message>
@@ -12152,7 +12161,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Sobre el Komai</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+239"/>
         <source>Available after login</source>
         <translation>Disponible després d'iniciar sessió</translation>
     </message>
@@ -12162,7 +12171,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Cerca la configuració…</translation>
     </message>
     <message>
-        <location line="-299"/>
+        <location line="-309"/>
         <source>Calls</source>
         <translation>Trucades</translation>
     </message>
@@ -12173,7 +12182,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="-8"/>
-        <location line="+91"/>
+        <location line="+101"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Enrere</translation>

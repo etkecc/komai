@@ -2561,6 +2561,15 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
 </context>
 <context>
+    <name>KomaiSearchField</name>
+    <message>
+        <location filename="../../qml/components/KomaiSearchField.qml" line="+82"/>
+        <location line="+8"/>
+        <source>Clear</source>
+        <translation>Löschen</translation>
+    </message>
+</context>
+<context>
     <name>KomaiSearchableComboBox</name>
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
@@ -12102,12 +12111,12 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-302"/>
         <source>Look &amp; Feel</source>
         <translation>Erscheinungsbild</translation>
     </message>
@@ -12152,7 +12161,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Über Komai</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+239"/>
         <source>Available after login</source>
         <translation>Nach Anmeldung verfügbar</translation>
     </message>
@@ -12162,7 +12171,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Einstellungen suchen …</translation>
     </message>
     <message>
-        <location line="-299"/>
+        <location line="-309"/>
         <source>Calls</source>
         <translation>Anrufe</translation>
     </message>
@@ -12173,7 +12182,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     </message>
     <message>
         <location line="-8"/>
-        <location line="+91"/>
+        <location line="+101"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Zurück</translation>

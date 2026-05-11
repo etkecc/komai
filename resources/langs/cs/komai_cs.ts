@@ -2565,6 +2565,15 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     </message>
 </context>
 <context>
+    <name>KomaiSearchField</name>
+    <message>
+        <location filename="../../qml/components/KomaiSearchField.qml" line="+82"/>
+        <location line="+8"/>
+        <source>Clear</source>
+        <translation>Vymazat</translation>
+    </message>
+</context>
+<context>
     <name>KomaiSearchableComboBox</name>
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
@@ -12118,12 +12127,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+328"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-302"/>
         <source>Look &amp; Feel</source>
         <translation>Vzhled &amp; chování</translation>
     </message>
@@ -12168,7 +12177,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>O Komai</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+239"/>
         <source>Available after login</source>
         <translation>Dostupné po přihlášení</translation>
     </message>
@@ -12178,7 +12187,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Hledat nastavení…</translation>
     </message>
     <message>
-        <location line="-299"/>
+        <location line="-309"/>
         <source>Calls</source>
         <translation>Hovory</translation>
     </message>
@@ -12189,7 +12198,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="-8"/>
-        <location line="+91"/>
+        <location line="+101"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Zpět</translation>

@@ -19,6 +19,10 @@ Rectangle {
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
     property string scrollToSection: ""
+    // True while the search box holds a query. Root's Escape shortcut reads
+    // this to clear the search before falling back to closing the page.
+    readonly property bool searchActive: (UserSettingsModel.searchQuery ?? "").length > 0
+    function clearSearch() { settingsSearchField.clear(); }
     readonly property bool mirrored: LayoutMirroring.enabled || Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
@@ -52,6 +56,16 @@ Rectangle {
         id: sidebarNavFontMetrics
         font.bold: true
         font.pointSize: Settings.uiFontSizePt
+    }
+
+    // Ctrl+F jumps to the search box (and selects any existing query so it
+    // can be typed over), mirroring the room timeline's search shortcut.
+    Shortcut {
+        sequences: [StandardKey.Find]
+        onActivated: {
+            settingsSearchField.forceActiveFocus();
+            settingsSearchField.selectAll();
+        }
     }
 
     // Sidebar + Content layout, with AttributionFooter capping the page
@@ -333,7 +347,7 @@ Rectangle {
 
                         Item { Layout.fillWidth: true }
 
-                        KomaiTextField {
+                        KomaiSearchField {
                             id: settingsSearchField
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: Math.min(360, parent.width / 2)
@@ -342,9 +356,6 @@ Rectangle {
                             onTextChanged: {
                                 if (text !== UserSettingsModel.searchQuery)
                                     UserSettingsModel.searchQuery = text;
-                            }
-                            Keys.onEscapePressed: {
-                                text = "";
                             }
                         }
                     }

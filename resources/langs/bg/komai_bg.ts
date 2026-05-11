@@ -2561,6 +2561,15 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>KomaiSearchField</name>
+    <message>
+        <location filename="../../qml/components/KomaiSearchField.qml" line="+82"/>
+        <location line="+8"/>
+        <source>Clear</source>
+        <translation>Изчисти</translation>
+    </message>
+</context>
+<context>
     <name>KomaiSearchableComboBox</name>
     <message>
         <location filename="../../qml/components/KomaiSearchableComboBox.qml" line="+201"/>
@@ -12102,14 +12111,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+29"/>
-        <location line="+91"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+33"/>
+        <location line="+101"/>
         <location line="+15"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location line="-99"/>
+        <location line="-109"/>
         <source>Look &amp; Feel</source>
         <translation>Вид и усещане</translation>
     </message>
@@ -12164,7 +12173,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>За Komai</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+239"/>
         <source>Available after login</source>
         <translation>Налично след вход</translation>
     </message>

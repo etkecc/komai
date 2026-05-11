@@ -179,7 +179,14 @@ function openCatalogDialog(componentUrl, properties) {
         enabled: mainWindow.depth > 1
                  && mainWindow.currentItem
                  && mainWindow.currentItem.objectName === "userSettingsPage"
-        onActivated: mainWindow.pop()
+        // Escape first clears the settings search box; once it's empty,
+        // Escape closes the settings page.
+        onActivated: {
+            if (mainWindow.currentItem.searchActive)
+                mainWindow.currentItem.clearSearch();
+            else
+                mainWindow.pop();
+        }
     }
     StackView {
         id: mainWindow

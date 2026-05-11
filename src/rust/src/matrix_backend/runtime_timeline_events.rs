@@ -5,6 +5,7 @@
 // Event inspection, frequent reactions, pinned events, permissions, and read receipts.
 
 use super::*;
+use super::thread_timeline::extract_relations_from_raw;
 
 use matrix_sdk_base::event_cache::store::EventCacheStoreLockState;
 use matrix_sdk::room::ListThreadsOptions;
@@ -584,15 +585,37 @@ pub async fn fetch_room_read_receipts(
     let parsed_event_id =
         EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
 
-    // Get the target event's timestamp so we can determine which members
-    // have read *at least* up to this event (cumulative receipts).
-    let target_ts = room
-        .load_or_fetch_event(&parsed_event_id, None)
-        .await
-        .ok()
-        .and_then(|e| e.timestamp())
-        .map(|ts| u64::from(ts.0))
-        .unwrap_or(0);
+    // Get the target event's timestamp (so we can include members who've read
+    // *at least* this far — receipts are cumulative) and, if it's a threaded
+    // message, its thread root.  A threaded message's read receipts live in
+    // the `ReceiptThread::Thread(root)` namespace; some clients (notably
+    // bots) only ever send threaded receipts, so checking just Main /
+    // Unthreaded would miss them and the dialog would come up empty even
+    // though the timeline's delivery indicator (which reads the SDK's
+    // thread-scoped receipt tracking) shows "Read".
+    let (target_ts, thread_root) = match room.load_or_fetch_event(&parsed_event_id, None).await {
+        Ok(event) => {
+            let ts = event.timestamp().map(|ts| u64::from(ts.0)).unwrap_or(0);
+            let (thread_root_id, _) = extract_relations_from_raw(event.raw().json().get());
+            let root = if thread_root_id.is_empty() {
+                None
+            } else {
+                EventId::parse(&thread_root_id).ok()
+            };
+            (ts, root)
+        }
+        Err(_) => (0, None),
+    };
+
+    // Receipt threads to consult per member.  Always Main + Unthreaded; plus
+    // `Thread(root)` when the target is a threaded reply, or `Thread(target)`
+    // when it might itself be a thread root (so threaded receipts pointing at
+    // its replies still count it as read).
+    let mut receipt_threads = vec![ReceiptThread::Main, ReceiptThread::Unthreaded];
+    match thread_root {
+        Some(root) => receipt_threads.push(ReceiptThread::Thread(root)),
+        None => receipt_threads.push(ReceiptThread::Thread(parsed_event_id.clone())),
+    }
 
     let own_user_id = room.own_user_id().to_owned();
     let members = room
@@ -605,10 +628,9 @@ pub async fn fetch_room_read_receipts(
         if member.user_id() == own_user_id {
             continue;
         }
-        // Check Main (newer spec) then Unthreaded (legacy).
-        for thread in [ReceiptThread::Main, ReceiptThread::Unthreaded] {
+        for thread in &receipt_threads {
             if let Ok(Some((receipt_event_id, receipt))) =
-                room.load_user_receipt(ReceiptType::Read, thread, member.user_id()).await
+                room.load_user_receipt(ReceiptType::Read, thread.clone(), member.user_id()).await
             {
                 let receipt_ts = receipt.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
                 // Include this member if their receipt targets this exact event,

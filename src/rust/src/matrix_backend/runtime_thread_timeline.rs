@@ -794,8 +794,11 @@ fn publish_merged_snapshot(
     // the item stays as a local echo with a delivery indicator forever.
     //
     // When /relations data is available, replace these stale local
-    // echoes with the server-authoritative /relations version (which
-    // has no delivery indicator — correct for a delivered remote event).
+    // echoes with the server-authoritative /relations version — but the
+    // /relations converter leaves `delivery_state` empty, so for our own,
+    // now-confirmed messages we re-derive "received"/"read" from the
+    // thread read-receipt watermark (and clear `transaction_id`, since a
+    // confirmed remote event must not look like a stuck local echo).
     if !relations_items.is_empty() {
         for sdk_item in &mut sdk_items {
             if !sdk_item.is_own {
@@ -838,7 +841,17 @@ fn publish_merged_snapshot(
             };
 
             if let Some(rel_item) = matched {
-                *sdk_item = rel_item.clone();
+                let mut replacement = rel_item.clone();
+                if !replacement.event_id.is_empty() {
+                    replacement.delivery_state =
+                        if read_own_event_ids.contains(&replacement.event_id) {
+                            "read".to_owned()
+                        } else {
+                            "received".to_owned()
+                        };
+                    replacement.transaction_id.clear();
+                }
+                *sdk_item = replacement;
             }
         }
     }
@@ -1403,7 +1416,7 @@ async fn resolve_member_profile(
 }
 
 /// Extract thread root ID and reply-to event ID from raw event JSON.
-fn extract_relations_from_raw(json_str: &str) -> (String, String) {
+pub(super) fn extract_relations_from_raw(json_str: &str) -> (String, String) {
     let parsed: serde_json::Value = match serde_json::from_str(json_str) {
         Ok(v) => v,
         Err(_) => return (String::new(), String::new()),

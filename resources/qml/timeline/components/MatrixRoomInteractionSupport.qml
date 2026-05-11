@@ -41,11 +41,15 @@ QtObject {
 
     function jumpToLoadedMatrixEvent(eventId) {
         const trimmedEventId = String(eventId || "").trim();
-        if (trimmedEventId.length === 0 || !rootItem.perRoomModel || !timelineList)
+        // Resolve against the model the ListView is bound to (the thread
+        // timeline while a thread is open) so the row passed to
+        // positionViewAtIndex below addresses the right delegate.
+        const model = rootItem.activeTimelineModel;
+        if (trimmedEventId.length === 0 || !model || !timelineList)
             return false;
 
         let targetEventId = trimmedEventId;
-        let row = rootItem.perRoomModel.rowForEventId(targetEventId);
+        let row = model.rowForEventId(targetEventId);
         if (row < 0)
             return false;
 
@@ -54,7 +58,7 @@ QtObject {
             if (targetEventId.length === 0)
                 return false;
 
-            row = rootItem.perRoomModel.rowForEventId(targetEventId);
+            row = model.rowForEventId(targetEventId);
             if (row < 0)
                 return false;
         }

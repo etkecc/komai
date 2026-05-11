@@ -115,6 +115,21 @@ ColumnLayout {
     readonly property bool threadViewActive: TimelineManager.matrixTimelineThreadEventId.length > 0
     readonly property var threadTimelineModel: TimelineManager.matrixThreadTimelineModel
     readonly property bool threadTimelineLoading: TimelineManager.matrixThreadTimelineLoading
+    // The MatrixTimelineModel the selection / walk-mode / visible-row helpers
+    // must operate on: the thread timeline while a thread is open, the room
+    // timeline otherwise. Both are `komai::MatrixTimelineModel` instances, so
+    // they share the same API (rowForEventId / itemAt / count / rawCount).
+    //
+    // Note: in the room case the ListView is sometimes bound to `filteredTimeline`
+    // instead (search / collapse-thread-replies), but the selection code is
+    // designed to walk the *unfiltered* `perRoomModel` and skip filtered-out
+    // rows in JS (see isSelectableMatrixTimelineRow), so `perRoomModel` is the
+    // correct value here. Inside a thread view no such filtering applies.
+    //
+    // Routing every row lookup through this single property keeps selection in
+    // sync with what is actually on screen — querying `perRoomModel` directly
+    // while a thread is open silently desyncs row indices (issue #139).
+    readonly property var activeTimelineModel: threadViewActive ? threadTimelineModel : perRoomModel
     property int _collapseByRoomRevision: 0
 
 

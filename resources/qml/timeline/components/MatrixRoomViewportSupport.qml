@@ -143,8 +143,11 @@ QtObject {
     }
 
     function selectableEventIdNearMatrixRow(row) {
-        const model = rootItem.perRoomModel;
-        const rowCount = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0);
+        // `row` originates from `timelineList.indexAt()` / a lookup against
+        // `activeTimelineModel`, both of which track whichever model the
+        // ListView is bound to — so resolve it against the same model.
+        const model = rootItem.activeTimelineModel;
+        const rowCount = model ? model.count : 0;
         if (!model || row < 0 || row >= rowCount)
             return "";
 
@@ -176,7 +179,7 @@ QtObject {
                 return latestEventId;
         }
 
-        if (!timelineList || !rootItem.perRoomModel || timelineList.width <= 0
+        if (!timelineList || !rootItem.activeTimelineModel || timelineList.width <= 0
                 || timelineList.height <= 0) {
             const delegateItem = support.bottomMostVisibleDelegate();
             return delegateItem && delegateItem.eventId

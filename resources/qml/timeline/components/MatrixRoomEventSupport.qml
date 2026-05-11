@@ -17,10 +17,11 @@ QtObject {
 
     function canExplicitlySelectEventId(eventId) {
         const normalizedEventId = String(eventId || "");
-        if (normalizedEventId.length === 0 || !rootItem.perRoomModel)
+        const model = rootItem.activeTimelineModel;
+        if (normalizedEventId.length === 0 || !model)
             return false;
 
-        const row = rootItem.perRoomModel.rowForEventId(normalizedEventId);
+        const row = model.rowForEventId(normalizedEventId);
         return row >= 0 && rootItem.isSelectableMatrixTimelineRow(row);
     }
 
@@ -63,12 +64,12 @@ QtObject {
         if (anchorEventId.length === 0 || anchorEventId === normalizedEventId)
             return support.toggleSelectionForEventId(normalizedEventId);
 
-        const perRoomModel = rootItem.perRoomModel;
-        if (!perRoomModel)
+        const model = rootItem.activeTimelineModel;
+        if (!model)
             return false;
 
-        const anchorRow = perRoomModel.rowForEventId(anchorEventId);
-        const endRow = perRoomModel.rowForEventId(normalizedEventId);
+        const anchorRow = model.rowForEventId(anchorEventId);
+        const endRow = model.rowForEventId(normalizedEventId);
         if (anchorRow < 0 || endRow < 0)
             return support.toggleSelectionForEventId(normalizedEventId);
 
@@ -84,7 +85,7 @@ QtObject {
         for (let row = minRow; row <= maxRow; row += 1) {
             if (!rootItem.isSelectableMatrixTimelineRow(row))
                 continue;
-            const item = perRoomModel.itemAt(row);
+            const item = model.itemAt(row);
             if (!item)
                 continue;
             const rowEventId = String(item.eventId || "");

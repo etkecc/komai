@@ -3137,7 +3137,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Usunięta wiadomość</translation>
@@ -3211,7 +3211,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
         <source>Settings...</source>
         <translation>Ustawienia…</translation>
     </message>

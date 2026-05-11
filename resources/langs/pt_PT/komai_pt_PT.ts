@@ -3132,7 +3132,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Mensagem eliminada</translation>
@@ -3206,7 +3206,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
         <source>Settings...</source>
         <translation>Definições...</translation>
     </message>

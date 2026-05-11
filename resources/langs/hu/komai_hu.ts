@@ -3127,7 +3127,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+241"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Törölt üzenet</translation>
@@ -3201,7 +3201,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+445"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
         <source>Settings...</source>
         <translation>Beállítások...</translation>
     </message>

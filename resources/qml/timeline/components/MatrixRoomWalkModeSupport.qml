@@ -59,7 +59,7 @@ Item {
         if (eventId.length === 0)
             return null;
 
-        const model = rootItem.perRoomModel;
+        const model = rootItem.activeTimelineModel;
         if (!model)
             return null;
 
@@ -248,7 +248,7 @@ Item {
             });
         }
 
-        return focusWalkModeEventById(targetEventId, {
+        return focusWalkModeEventById(bottomMostEventId, {
             "skipScroll": true,
             "deferFocus": true
         });
@@ -286,25 +286,35 @@ Item {
 
     function matrixTimelineRowForEventId(eventId) {
         const normalizedEventId = String(eventId || "");
-        if (normalizedEventId.length === 0 || !rootItem.perRoomModel)
+        const model = rootItem.activeTimelineModel;
+        if (normalizedEventId.length === 0 || !model)
             return -1;
 
-        return rootItem.perRoomModel.rowForEventId(normalizedEventId);
+        return model.rowForEventId(normalizedEventId);
+    }
+
+    function activeTimelineRowCount() {
+        const model = rootItem.activeTimelineModel;
+        return model ? model.count : 0;
     }
 
     function isSelectableMatrixTimelineRow(row) {
-        if (!rootItem.perRoomModel || row < 0 || row >= (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0))
+        const model = rootItem.activeTimelineModel;
+        if (!model || row < 0 || row >= model.count)
             return false;
 
-        const item = rootItem.perRoomModel.itemAt(row);
+        const item = model.itemAt(row);
         if (!item
             || String(item.eventId || "").length === 0
             || String(item.typeString || "") === "date_divider"
             || Boolean(item.isHiddenEvent))
             return false;
 
-        // Skip collapsed thread replies (not visible in the timeline).
-        if (rootItem.filteredTimeline.collapseThreadReplies
+        // Skip collapsed thread replies — they are hidden from the *room*
+        // timeline. Inside a thread view every reply is shown, so the
+        // collapse preference does not apply there.
+        if (!rootItem.threadViewActive
+                && rootItem.filteredTimeline.collapseThreadReplies
                 && String(item.threadId || "").length > 0
                 && !Boolean(item.isThreadRoot))
             return false;
@@ -316,7 +326,7 @@ Item {
         if (!isSelectableMatrixTimelineRow(row))
             return false;
 
-        const item = rootItem.perRoomModel.itemAt(row);
+        const item = rootItem.activeTimelineModel.itemAt(row);
         return focusWalkModeEventById(String(item.eventId || ""), options || {});
     }
 
@@ -325,7 +335,8 @@ Item {
         if (currentRow < 0)
             return false;
 
-        for (let row = currentRow + step; row >= 0 && row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row += step) {
+        const rowCount = activeTimelineRowCount();
+        for (let row = currentRow + step; row >= 0 && row < rowCount; row += step) {
             if (focusMatrixTimelineRow(row))
                 return true;
         }
@@ -345,8 +356,9 @@ Item {
         if (currentRow < 0)
             return false;
 
+        const rowCount = activeTimelineRowCount();
         let remaining = walkModeChunkSize();
-        for (let row = currentRow + step; row >= 0 && row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row += step) {
+        for (let row = currentRow + step; row >= 0 && row < rowCount; row += step) {
             if (!isSelectableMatrixTimelineRow(row))
                 continue;
 
@@ -375,7 +387,7 @@ Item {
     }
 
     function focusOldestLoadedWalkModeEvent(options) {
-        for (let row = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0) - 1; row >= 0; row--) {
+        for (let row = activeTimelineRowCount() - 1; row >= 0; row--) {
             if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }
@@ -384,7 +396,8 @@ Item {
     }
 
     function focusLatestWalkModeEvent(options) {
-        for (let row = 0; row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row++) {
+        const rowCount = activeTimelineRowCount();
+        for (let row = 0; row < rowCount; row++) {
             if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }
@@ -465,7 +478,7 @@ Item {
     }
 
     function selectedEventIdsForAction(actionName) {
-        const model = rootItem.perRoomModel;
+        const model = rootItem.activeTimelineModel;
         if (!model)
             return [];
 
@@ -502,7 +515,7 @@ Item {
     }
 
     function orderedExistingEventIds(eventIds) {
-        const model = rootItem.perRoomModel;
+        const model = rootItem.activeTimelineModel;
         if (!model)
             return [];
 

@@ -24,24 +24,24 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 
 ## 🌟 Features
 
-- 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime)
-- 📎 [Attachments](docs/user-guide/features/attachments.md) (file, image, audio) with a [built-in media viewer](docs/user-guide/features/media-playback.md) featuring gallery navigation and in-app video playback
-- 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to record speech and have it transcribed into the composer; works with OpenAI cloud or any OpenAI-compatible local server
-- 📞 [Calls](docs/user-guide/features/calls.md) -- legacy 1:1 voice works; video and screen-share have known send-side bugs; no [Element Call](https://github.com/element-hq/element-call) support yet. Disabled by default
-- 😀 [Emoji](docs/user-guide/features/emojis.md) messages (with custom emojis). Support for richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃)
+- 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support, on the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime
+- 📎 [Attachments](docs/user-guide/features/attachments.md) (file, image, audio) with a [built-in media viewer](docs/user-guide/features/media-playback.md) and in-app video playback
+- 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to dictate speech into the composer (OpenAI-API-compatible)
+- 📞 [Calls](docs/user-guide/features/calls.md) -- legacy 1:1 voice only; video/screen-share buggy. Disabled by default; no [Element Call](docs/user-guide/features/calls.md#-element-call) yet
+- 😀 [Emoji](docs/user-guide/features/emojis.md) messages with custom emojis and localized [CLDR](https://cldr.unicode.org/) keyword search (`:whiskey` finds 🥃)
 - 💬 Replies, [Discord](https://discord.com/)-style [threads](docs/user-guide/features/threads.md), and message forwarding
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)
-- 🎨 10+ [built-in themes](docs/user-guide/features/themes.md#-built-in-themes), maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for common UI text pairings. Also [🗂️ user-themable](docs/user-guide/features/themes.md#️-user-themes)
-- 🌐 [30+ languages](docs/maintainers/translations.md) with inherited nheko translations and AI-assisted gap filling
+- 🎨 10+ [built-in themes](docs/user-guide/features/themes.md#-built-in-themes) tuned for [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), plus [user themes](docs/user-guide/features/themes.md#️-user-themes)
+- 🌐 [30+ languages](docs/maintainers/translations.md), with AI-assisted gap filling
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md), grouped into tabs and searchable
-- 🧭 Polished [Room Directory](docs/user-guide/features/room-directory.md) with first-class [Matrix Rooms Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme)), language filtering, and room size filtering
+- 🧭 Polished [Room Directory](docs/user-guide/features/room-directory.md) with built-in [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) ([MRS](https://github.com/etkecc/mrs)) search and filters
 - 📋 Good support for hundreds of rooms and spaces
-- 📑 Browser-style [room tabs](docs/user-guide/features/tabs.md) for juggling multiple conversations at once, with pinning and more (a power-user feature still rare among Matrix clients)
-- ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/features/keyboard-shortcuts.md), with human and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts
+- 📑 Browser-style [room tabs](docs/user-guide/features/tabs.md) with pinning -- still rare among Matrix clients
+- ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/features/keyboard-shortcuts.md), with human- and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts
 - 🔀 [Selection mode](docs/user-guide/features/keyboard-shortcuts.md#selection-mode) for bulk actions (forwarding, moderation)
-- ⚡ Quick & relatively lightweight native application ([Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
-- 🤖 Human- and agent-ready local automation via [Model Context Protocol (MCP)](docs/user-guide/features/automations/mcp.md), [CLI commands](docs/user-guide/features/automations/cli.md), and the [D-Bus API](docs/user-guide/features/automations/dbus.md)
-- 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping
+- ⚡ Quick, lightweight native app ([Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B), [QML](https://en.wikipedia.org/wiki/QML)) -- no [Electron](https://www.electronjs.org/)
+- 🤖 Automation via [MCP](docs/user-guide/features/automations/mcp.md), [CLI commands](docs/user-guide/features/automations/cli.md), and the [D-Bus API](docs/user-guide/features/automations/dbus.md)
+- 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement), no gatekeeping
 
 Curious where Komai came from and what changed along the way? See 📄 [Differences from nheko](docs/user-guide/differences-from-nheko.md).
 

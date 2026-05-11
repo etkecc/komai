@@ -10,7 +10,7 @@ use std::{
     time::{Duration as StdDuration, Instant},
 };
 use matrix_sdk::ruma::EventId;
-use matrix_sdk::ruma::events::receipt::{ReceiptThread, ReceiptType};
+use matrix_sdk_ui::timeline::TimelineReadReceiptTracking;
 
 fn is_truthy_env_value(name: &str) -> bool {
     std::env::var_os(name).is_some_and(|value| {
@@ -442,6 +442,25 @@ pub async fn fetch_room_timeline_snapshot(
     Ok(snapshot)
 }
 
+/// Build a live room timeline with read-receipt and fully-read-marker
+/// tracking enabled.
+///
+/// Tracking is scoped to message-like events (matching the SDK's default
+/// event filter, which only materializes those into items) — this is what
+/// makes the timeline stream emit `Set` diffs when another member's read
+/// receipt moves, keeping the "Received" → "Read" delivery indicator live
+/// without polling.  Every path that builds a room timeline (the active
+/// loop, the background preloader, the one-shot IPC fetch) goes through here
+/// so the cached `Timeline` handles all share the same tracking config.
+pub(crate) async fn build_room_timeline(
+    room: &matrix_sdk::Room,
+) -> Result<Timeline, matrix_sdk_ui::timeline::Error> {
+    room.timeline_builder()
+        .track_read_marker_and_receipts(TimelineReadReceiptTracking::MessageLikeEvents)
+        .build()
+        .await
+}
+
 /// Fetch a room's timeline with optional server-side backfill.
 ///
 /// Uses the preloaded timeline cache when available, otherwise builds a fresh
@@ -476,7 +495,7 @@ pub async fn fetch_room_timeline(
         let room = client
             .get_room(&parsed_room_id)
             .ok_or_else(|| format!("room '{}' not known to client", room_id))?;
-        room.timeline()
+        build_room_timeline(&room)
             .await
             .map_err(|e| format!("failed to build timeline for '{}': {e}", room_id))?
     };
@@ -569,40 +588,6 @@ pub async fn fetch_active_room_timeline_media_content(
         .get_media_content(&request, false)
         .await
         .map_err(|e| format!("failed to fetch matrix-sdk active timeline media: {e}"))
-}
-
-/// Fetch the event IDs that non-own members' latest read receipts point to.
-/// These are used as watermark targets: every own event at or before the
-/// newest target in the timeline is considered "read".
-async fn fetch_member_receipt_targets(
-    room: &matrix_sdk::Room,
-    own_user_id: &matrix_sdk::ruma::UserId,
-) -> HashSet<String> {
-    let members = match room.members(matrix_sdk::RoomMemberships::ACTIVE).await {
-        Ok(m) => m,
-        Err(e) => {
-            tracing::warn!("Failed to fetch room members for receipt watermark: {e}");
-            return HashSet::new();
-        }
-    };
-
-    let mut targets = HashSet::new();
-    for member in members.iter() {
-        if member.user_id() == own_user_id {
-            continue;
-        }
-        // Try Main thread (newer spec) first, then Unthreaded (legacy).
-        for thread in [ReceiptThread::Main, ReceiptThread::Unthreaded] {
-            if let Ok(Some((event_id, _))) =
-                room.load_user_receipt(ReceiptType::Read, thread, member.user_id()).await
-            {
-                targets.insert(event_id.to_string());
-                break;
-            }
-        }
-    }
-
-    targets
 }
 
 /// Client-side TTL for stuck typing indicators.  matrix-sdk's
@@ -727,7 +712,7 @@ async fn run_room_timeline_loop(
         );
 
         let build_started_at = Instant::now();
-        match room.timeline().await {
+        match build_room_timeline(&room).await {
             Ok(timeline) => {
                 log_room_timeline_perf(
                     handle_id,
@@ -773,11 +758,6 @@ async fn run_room_timeline_loop(
     let mut last_published_typing: Vec<String> = Vec::new();
     let mut last_typing_prune = Instant::now();
 
-    // Receipt targets are fetched after the initial snapshot so they
-    // don't block the first paint.  Start with an empty set — delivery
-    // status indicators will appear once receipts are loaded.
-    let mut receipt_targets = HashSet::new();
-
     let subscribe_started_at = Instant::now();
     let (items, stream) = timeline.subscribe().await;
     log_room_timeline_perf(
@@ -801,7 +781,7 @@ async fn run_room_timeline_loop(
     let mut seen_thread_reply_event_ids: HashSet<String> = HashSet::new();
 
     {
-        let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
+        let read_own_event_ids = compute_read_own_event_ids(&current_values, own_user_id);
         let snapshot_build_started_at = Instant::now();
         let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
         let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, room_counts.as_ref());
@@ -867,37 +847,6 @@ async fn run_room_timeline_loop(
                 }
             });
         }
-    }
-
-    // Fetch read receipt watermark targets now that the initial snapshot
-    // has been delivered.  Delivery status indicators update shortly after.
-    receipt_targets = if let Some(room) = client.get_room(&parsed_room_id) {
-        if let Some(uid) = own_user_id {
-            fetch_member_receipt_targets(&room, uid).await
-        } else {
-            HashSet::new()
-        }
-    } else {
-        HashSet::new()
-    };
-    if !receipt_targets.is_empty() && subscribe_count > 0 {
-        let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
-        let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
-        let (snapshot, media_lookup) =
-            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, room_counts.as_ref());
-        {
-            let mut snapshot_guard = room_timeline_snapshot
-                .lock()
-                .expect("poisoned matrix room timeline snapshot mutex");
-            *snapshot_guard = snapshot;
-        }
-        {
-            let mut media_guard = room_timeline_media_lookup
-                .lock()
-                .expect("poisoned matrix room timeline media lookup mutex");
-            media_guard.extend(media_lookup);
-        }
-        crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
     }
 
     // Spawn a background task to fetch thread reply counts from the server.
@@ -1021,7 +970,7 @@ async fn run_room_timeline_loop(
                             }
                         }
 
-                        let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
+                        let read_own_event_ids = compute_read_own_event_ids(&current_values, own_user_id);
                         let snapshot_build_started_at = Instant::now();
                         let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
                         let (snapshot, media_lookup) =

@@ -40,26 +40,29 @@ fn shield_code_tag(code: TimelineEventShieldStateCode) -> &'static str {
 }
 
 /// Compute which own event IDs should show "read" status based on other
-/// members' read receipt positions in the timeline.  `receipt_target_event_ids`
-/// contains the event IDs that non-own members' latest read receipts point to.
-/// Every own event at or before the latest such receipt is considered "read".
+/// members' read receipt positions in the timeline.  Read receipts are
+/// point-in-time markers (one per user, attached to their latest read
+/// event), and the SDK keeps them on the timeline items via
+/// `track_read_marker_and_receipts` — so we walk the items, find the newest
+/// one carrying a receipt from somebody other than us, and treat every own
+/// event at or before that watermark as read.
 pub fn compute_read_own_event_ids(
     items: &Vector<Arc<TimelineItem>>,
-    receipt_target_event_ids: &HashSet<String>,
+    own_user_id: Option<&matrix_sdk::ruma::UserId>,
 ) -> HashSet<String> {
-    if receipt_target_event_ids.is_empty() {
-        return HashSet::new();
-    }
+    let own_user_id = own_user_id.map(|id| id.as_str());
 
     // Items are in SDK order (oldest first).  Find the highest index
-    // (newest) that matches any receipt target — that's the watermark.
+    // (newest) whose item has a read receipt from another member.
     let mut watermark_idx: Option<usize> = None;
     for (idx, item) in items.iter().enumerate() {
         if let Some(event) = item.as_event() {
-            if let Some(eid) = event.event_id() {
-                if receipt_target_event_ids.contains(eid.as_str()) {
-                    watermark_idx = Some(idx);
-                }
+            let read_by_other = event
+                .read_receipts()
+                .keys()
+                .any(|user_id| Some(user_id.as_str()) != own_user_id);
+            if read_by_other {
+                watermark_idx = Some(idx);
             }
         }
     }

@@ -31,6 +31,7 @@
 
 use super::*;
 use super::event_summary::summarize_timeline_content;
+use super::timeline::build_room_timeline;
 use std::time::{Duration as StdDuration, Instant};
 
 /// How many rooms to preload concurrently (Phase 1).
@@ -369,7 +370,7 @@ async fn preload_single_room(client: &Client, room_id: &str) -> PreloadResult {
         None => return PreloadResult::Failed("room not known to client".to_owned()),
     };
 
-    let timeline = match room.timeline().await {
+    let timeline = match build_room_timeline(&room).await {
         Ok(t) => t,
         Err(e) => return PreloadResult::Failed(format!("failed to build timeline: {e}")),
     };
@@ -417,8 +418,7 @@ async fn warm_single_room(client: &Client, room_id: &str) -> Result<Timeline, St
         .get_room(&parsed_room_id)
         .ok_or_else(|| "room not known to client".to_owned())?;
 
-    let timeline = room
-        .timeline()
+    let timeline = build_room_timeline(&room)
         .await
         .map_err(|e| format!("failed to build timeline: {e}"))?;
 

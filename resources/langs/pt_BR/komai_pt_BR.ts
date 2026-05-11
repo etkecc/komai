@@ -5997,7 +5997,7 @@ Os backups de chaves anteriores no servidor não são removidos automaticamente.
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Quando desativado, uma confirmação de leitura privada é enviada em vez disso, para que as salas ainda sejam marcadas como lidas para você.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Quando desativado, uma confirmação de leitura privada é enviada em vez disso, para que as salas ainda sejam marcadas como lidas para você.</translation>
     </message>
     <message>
         <location line="+3"/>

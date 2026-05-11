@@ -5997,7 +5997,7 @@ Previ backups de claves del servidor ne es removet automaticmen.</translation>
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Quande desactivat, un recepisse de lectura privat es inviat in loc, dunque li chambres ancore es marcat como lectat por vu.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Quande desactivat, un recepisse de lectura privat es inviat in loc, dunque li chambres ancore es marcat como lectat por vu.</translation>
     </message>
     <message>
         <location line="+3"/>

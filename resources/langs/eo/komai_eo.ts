@@ -5999,7 +5999,7 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kiam malŝaltita, anstataŭe estas sendita privata lega kvitanco, do ĉambroj ankoraŭ estas markitaj kiel legitaj por vi.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10337,7 +10337,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kiam malŝaltita, anstataŭe estas sendita privata lega kvitanco, do ĉambroj ankoraŭ estas markitaj kiel legitaj por vi.</translation>
     </message>
     <message>
         <location line="+3"/>

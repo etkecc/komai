@@ -5997,7 +5997,7 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>När inaktiverat skickas ett privat läskvitto istället, så att rum fortfarande markeras som lästa för dig.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>När inaktiverat skickas ett privat läskvitto istället, så att rum fortfarande markeras som lästa för dig.</translation>
     </message>
     <message>
         <location line="+3"/>

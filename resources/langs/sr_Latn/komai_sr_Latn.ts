@@ -6005,7 +6005,7 @@ Prethodni rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tran
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kada je onemogućeno, umesto toga se šalje privatna potvrda o čitanju, tako da se sobe i dalje označavaju kao pročitane za tebe.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10350,7 +10350,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kada je onemogućeno, umesto toga se šalje privatna potvrda o čitanju, tako da se sobe i dalje označavaju kao pročitane za tebe.</translation>
     </message>
     <message>
         <location line="+3"/>

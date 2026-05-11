@@ -5997,7 +5997,7 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Quan es desactiva, s'envia en canvi un rebut de lectura privat, de manera que les sales es continuen marcant com a llegides.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Quan es desactiva, s'envia en canvi un rebut de lectura privat, de manera que les sales es continuen marcant com a llegides.</translation>
     </message>
     <message>
         <location line="+3"/>

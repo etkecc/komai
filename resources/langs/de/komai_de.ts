@@ -5997,7 +5997,7 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch entfernt.
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Wenn deaktiviert, wird stattdessen eine private Lesebestätigung gesendet, sodass Räume für dich weiterhin als gelesen markiert werden.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Wenn deaktiviert, wird stattdessen eine private Lesebestätigung gesendet, sodass Räume für dich weiterhin als gelesen markiert werden.</translation>
     </message>
     <message>
         <location line="+3"/>

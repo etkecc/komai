@@ -6006,7 +6006,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Gdy opcja jest wyłączona, zamiast tego wysyłane jest prywatne potwierdzenie przeczytania, więc pokoje nadal są oznaczane jako przeczytane dla ciebie.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10351,7 +10351,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Gdy opcja jest wyłączona, zamiast tego wysyłane jest prywatne potwierdzenie przeczytania, więc pokoje nadal są oznaczane jako przeczytane dla ciebie.</translation>
     </message>
     <message>
         <location line="+3"/>

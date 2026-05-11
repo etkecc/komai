@@ -6005,7 +6005,7 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Při vypnutí se místo toho odešle soukromé potvrzení o přečtení, takže místnosti ti budou stále označeny jako přečtené.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10350,7 +10350,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Při vypnutí se místo toho odešle soukromé potvrzení o přečtení, takže místnosti ti budou stále označeny jako přečtené.</translation>
     </message>
     <message>
         <location line="+3"/>

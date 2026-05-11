@@ -5989,7 +5989,7 @@ Yeni bir kurtarma anahtarı alacaksınız. Tekrar sıfırlamaktan kaçınmak iç
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Devre dışı bırakıldığında, bunun yerine özel bir okundu bildirimi gönderilir; böylece odalar sizin için yine de okundu olarak işaretlenir.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10318,7 +10318,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Devre dışı bırakıldığında, bunun yerine özel bir okundu bildirimi gönderilir; böylece odalar sizin için yine de okundu olarak işaretlenir.</translation>
     </message>
     <message>
         <location line="+3"/>

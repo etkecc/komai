@@ -5997,7 +5997,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>අක්‍රිය කළ විට, ඒ වෙනුවට පෞද්ගලික කියවීමේ දැනුම්දීමක් යවනු ලැබේ, එබැවින් කාමර ඔබ වෙනුවෙන් තවමත් කියවූ ලෙස සලකුණු කෙරේ.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>අක්‍රිය කළ විට, ඒ වෙනුවට පෞද්ගලික කියවීමේ දැනුම්දීමක් යවනු ලැබේ, එබැවින් කාමර ඔබ වෙනුවෙන් තවමත් කියවූ ලෙස සලකුණු කෙරේ.</translation>
     </message>
     <message>
         <location line="+3"/>

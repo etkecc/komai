@@ -5997,7 +5997,7 @@ Eelmisi serveripoolseid võtmevarukoopiaid ei eemaldata automaatselt.</translati
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kui keelatud, saadetakse selle asemel privaatne lugemiskinnitus, nii et jututoad märgitakse ikka sinu jaoks loetuks.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kui keelatud, saadetakse selle asemel privaatne lugemiskinnitus, nii et jututoad märgitakse ikka sinu jaoks loetuks.</translation>
     </message>
     <message>
         <location line="+3"/>

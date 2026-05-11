@@ -5997,7 +5997,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Lorsque cette option est désactivée, un accusé de lecture privé est envoyé à la place, afin que les salons soient tout de même marqués comme lus pour vous.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Lorsque cette option est désactivée, un accusé de lecture privé est envoyé à la place, afin que les salons soient tout de même marqués comme lus pour vous.</translation>
     </message>
     <message>
         <location line="+3"/>

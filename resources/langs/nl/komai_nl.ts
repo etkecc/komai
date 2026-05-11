@@ -5997,7 +5997,7 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Wanneer uitgeschakeld, wordt er in plaats daarvan een privé leesbevestiging verzonden, zodat kamers voor jou nog steeds als gelezen worden gemarkeerd.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Wanneer uitgeschakeld, wordt er in plaats daarvan een privé leesbevestiging verzonden, zodat kamers voor jou nog steeds als gelezen worden gemarkeerd.</translation>
     </message>
     <message>
         <location line="+3"/>

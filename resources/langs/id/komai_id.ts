@@ -5989,7 +5989,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Saat dinonaktifkan, tanda terima baca privat dikirim sebagai gantinya, sehingga ruangan tetap ditandai sebagai sudah dibaca untuk Anda.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10318,7 +10318,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Saat dinonaktifkan, tanda terima baca privat dikirim sebagai gantinya, sehingga ruangan tetap ditandai sebagai sudah dibaca untuk Anda.</translation>
     </message>
     <message>
         <location line="+3"/>

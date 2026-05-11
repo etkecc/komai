@@ -6000,7 +6000,7 @@ Las copias de seguridad de claves anteriores en el servidor no se eliminan autom
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Cuando está desactivado, se envía una confirmación de lectura privada en su lugar, para que las salas sigan marcándose como leídas.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10337,7 +10337,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Cuando está desactivado, se envía una confirmación de lectura privada en su lugar, para que las salas sigan marcándose como leídas.</translation>
     </message>
     <message>
         <location line="+3"/>

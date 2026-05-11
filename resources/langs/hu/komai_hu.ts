@@ -5989,7 +5989,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Ha le van tiltva, helyette privát olvasási visszaigazolás kerül elküldésre, így a szobák számodra továbbra is olvasottként lesznek megjelölve.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10318,7 +10318,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Ha le van tiltva, helyette privát olvasási visszaigazolás kerül elküldésre, így a szobák számodra továbbra is olvasottként lesznek megjelölve.</translation>
     </message>
     <message>
         <location line="+3"/>

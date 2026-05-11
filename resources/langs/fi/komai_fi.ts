@@ -5997,7 +5997,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kun tämä on poistettu käytöstä, lähetetään sen sijaan yksityinen lukukuittaus, joten huoneet merkitään silti sinulle luetuiksi.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10334,7 +10334,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Kun tämä on poistettu käytöstä, lähetetään sen sijaan yksityinen lukukuittaus, joten huoneet merkitään silti sinulle luetuiksi.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -5989,7 +5989,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>禁用时，将改为发送私密已读回执，聊天室仍会被标记为已读。</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10318,7 +10318,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>禁用时，将改为发送私密已读回执，聊天室仍会被标记为已读。</translation>
     </message>
     <message>
         <location line="+3"/>

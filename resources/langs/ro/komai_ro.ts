@@ -6005,7 +6005,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Când este dezactivată, se trimite în schimb o confirmare de citire privată, astfel încât camerele sunt în continuare marcate ca citite pentru tine.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10350,7 +10350,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Când este dezactivată, se trimite în schimb o confirmare de citire privată, astfel încât camerele sunt în continuare marcate ca citite pentru tine.</translation>
     </message>
     <message>
         <location line="+3"/>

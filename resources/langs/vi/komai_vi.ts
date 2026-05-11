@@ -5989,7 +5989,7 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Khi tắt, một xác nhận đã đọc riêng tư sẽ được gửi thay thế, để các phòng vẫn được đánh dấu là đã đọc với bạn.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10318,7 +10318,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>Khi tắt, một xác nhận đã đọc riêng tư sẽ được gửi thay thế, để các phòng vẫn được đánh dấu là đã đọc với bạn.</translation>
     </message>
     <message>
         <location line="+3"/>

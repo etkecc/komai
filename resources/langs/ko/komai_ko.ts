@@ -5989,7 +5989,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+39"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>비활성화되면 대신 비공개 읽음 확인이 전송되어 방은 여전히 읽음으로 표시됩니다.</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -10318,7 +10318,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
-        <translation type="unfinished"/>
+        <translation>비활성화되면 대신 비공개 읽음 확인이 전송되어 방은 여전히 읽음으로 표시됩니다.</translation>
     </message>
     <message>
         <location line="+3"/>

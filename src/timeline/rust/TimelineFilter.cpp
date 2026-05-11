@@ -297,6 +297,22 @@ TimelineFilter::source() const
     return sourceModel();
 }
 
+int
+TimelineFilter::rowForEventId(const QString &eventId) const
+{
+    auto *src = qobject_cast<komai::MatrixTimelineModel *>(sourceModel());
+    if (!src)
+        return -1;
+
+    const int sourceRow = src->rowForEventId(eventId);
+    if (sourceRow < 0)
+        return -1;
+
+    // mapFromSource() returns an invalid index (row() == -1) when the source
+    // row is filtered out, which is exactly the contract callers expect.
+    return mapFromSource(src->index(sourceRow, 0)).row();
+}
+
 void
 TimelineFilter::setCurrentIndex(int /*idx*/)
 {

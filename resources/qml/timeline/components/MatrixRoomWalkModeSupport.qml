@@ -96,12 +96,20 @@ Item {
         if (!timelineList)
             return;
 
-        const row = matrixTimelineRowForEventId(eventId);
-        if (row < 0)
+        // Position the ListView by *its own* model's row index. When a
+        // filter proxy is interposed (search / collapse-thread-replies) the
+        // proxy's row space differs from the raw timeline model's, so reusing
+        // `matrixTimelineRowForEventId()` (which walks `activeTimelineModel`)
+        // here scrolls to the wrong place — the "weird jumps" of issue #139.
+        const listModel = timelineList.model;
+        const listRow = (listModel && typeof listModel.rowForEventId === "function")
+            ? listModel.rowForEventId(String(eventId || ""))
+            : -1;
+        if (listRow < 0)
             return;
 
         timelineList.forceLayout();
-        timelineList.positionViewAtIndex(row, ListView.Contain);
+        timelineList.positionViewAtIndex(listRow, ListView.Contain);
     }
 
     function focusWalkModeEventById(eventId, options) {

@@ -41,30 +41,35 @@ QtObject {
 
     function jumpToLoadedMatrixEvent(eventId) {
         const trimmedEventId = String(eventId || "").trim();
-        // Resolve against the model the ListView is bound to (the thread
-        // timeline while a thread is open) so the row passed to
-        // positionViewAtIndex below addresses the right delegate.
-        const model = rootItem.activeTimelineModel;
-        if (trimmedEventId.length === 0 || !model || !timelineList)
+        // Selectability is decided on `activeTimelineModel` (the model the
+        // selection logic walks)...
+        const selModel = rootItem.activeTimelineModel;
+        if (trimmedEventId.length === 0 || !selModel || !timelineList)
             return false;
 
         let targetEventId = trimmedEventId;
-        let row = model.rowForEventId(targetEventId);
-        if (row < 0)
+        let selRow = selModel.rowForEventId(targetEventId);
+        if (selRow < 0)
             return false;
 
-        if (!rootItem.isSelectableMatrixTimelineRow(row)) {
-            targetEventId = String(rootItem.selectableEventIdNearMatrixRow(row) || "");
+        if (!rootItem.isSelectableMatrixTimelineRow(selRow)) {
+            targetEventId = String(rootItem.selectableEventIdNearMatrixRow(selRow) || "");
             if (targetEventId.length === 0)
-                return false;
-
-            row = model.rowForEventId(targetEventId);
-            if (row < 0)
                 return false;
         }
 
+        // ...but the row handed to positionViewAtIndex must come from the
+        // ListView's *own* model, which may be a filter proxy with a
+        // different row space (search / collapse-thread-replies).
+        const listModel = timelineList.model;
+        const listRow = (listModel && typeof listModel.rowForEventId === "function")
+            ? listModel.rowForEventId(targetEventId)
+            : -1;
+        if (listRow < 0)
+            return false;
+
         rootItem.highlightedEventId = "";
-        timelineList.positionViewAtIndex(row, ListView.Center);
+        timelineList.positionViewAtIndex(listRow, ListView.Center);
         rootItem.highlightedEventId = targetEventId;
         return true;
     }

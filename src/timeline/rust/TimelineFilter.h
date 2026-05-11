@@ -48,6 +48,14 @@ public:
         return data(index(i, 0), role);
     }
 
+    /// Row index of `eventId` in *this* (proxy) model, or -1 if the event is
+    /// not in the backing model or is currently filtered out. Lets QML
+    /// position the timeline ListView by event id while it is bound to the
+    /// filtered proxy rather than the raw MatrixTimelineModel — the two have
+    /// different row spaces, so reusing a source-model row index against the
+    /// proxy mispositions the view (issue #139 walk-mode jumps).
+    Q_INVOKABLE int rowForEventId(const QString &eventId) const;
+
     bool event(QEvent *ev) override;
 
 signals:

@@ -1858,7 +1858,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Huoneen tunnisteen poistaminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Huoneen merkitseminen luetuksi epäonnistui: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Lähettää lukuvahvistuksen, kun luet viestin huoneessa, jotta muut näkevät, että olet lukenut sen.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Viestin merkitseminen luetuksi epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Raportti lähetetty</translation>
     </message>
@@ -10333,8 +10333,8 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Lähettää lukuvahvistuksen, kun luet viestin huoneessa, jotta muut näkevät, että olet lukenut sen. Voidaan ohittaa huonekohtaisesti kohdassa Huoneen tiedot → Asetukset.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

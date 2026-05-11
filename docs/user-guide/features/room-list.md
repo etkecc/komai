@@ -29,11 +29,11 @@ The scrub is disabled on spaces, invites, and rooms that are already read.
 
 Behind the scenes, both paths send a Matrix read receipt and advance your `m.fully_read` marker to the most recent known event. Other Matrix clients pick this up via account data.
 
-If you've turned off **Show others when I've read their messages** (Settings > Timeline), opening a room no longer clears its unread state on its own. The two methods above are how you clear it manually.
+If you've turned off **Show others when I've read their messages** (Settings > Timeline), the receipt is sent as a *private* (`m.read.private`) receipt instead, so the room still gets marked as read for you without other users seeing the receipt.
 
 ## Mark as Unread
 
-Right-click a read room and choose **Mark as unread**. Komai writes the `m.marked_unread` account-data flag, so the unread state syncs across devices and other Matrix clients. Opening the room sends a read receipt that clears the flag again, unless you've turned off **Show others when I've read their messages** (Settings > Timeline).
+Right-click a read room and choose **Mark as unread**. Komai writes the `m.marked_unread` account-data flag, so the unread state syncs across devices and other Matrix clients. Opening the room sends a read receipt that clears the flag again.
 
 If the room is the currently focused tab, Komai refuses with a snackbar -- any read receipt clears the flag, so the mark-unread would be wiped within milliseconds. Switch to another tab first.
 

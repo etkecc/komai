@@ -1858,7 +1858,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Falha ao remover tag de sala: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Falha ao marcar sala como lida: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Os backups de chaves anteriores no servidor não são removidos automaticamente.
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Envia uma confirmação de leitura quando você lê uma mensagem em uma sala, para que outros possam ver que você a leu.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>Falha ao marcar mensagem como lida: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Denúncia enviada</translation>
     </message>
@@ -10333,8 +10333,8 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Envia uma confirmação de leitura quando você lê uma mensagem em uma sala, para que outros possam ver que você a leu. Pode ser substituído por sala em Informações da Sala → Preferências.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

@@ -1858,7 +1858,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Jututoa sildi eemaldamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Jututoa lugetuks märkimine ebaõnnestus: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Eelmisi serveripoolseid võtmevarukoopiaid ei eemaldata automaatselt.</translati
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Saadab lugemiskinnituse, kui loete jututoas sõnumit, et teised näeksid, et olete selle lugenud.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Sõnumi loetuks märkimine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Kaebus saadetud</translation>
     </message>
@@ -10333,8 +10333,8 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Saadab lugemiskinnituse, kui loete jututoas sõnumit, et teised näeksid, et olete selle lugenud. Saab jututoa kaupa seadistada: Jututoa teave → Eelistused.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

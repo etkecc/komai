@@ -1856,7 +1856,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>移除聊天室標籤失敗：%1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>標記聊天室為已讀失敗：%1</translation>
     </message>
@@ -5988,8 +5988,8 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>當你在聊天室中閱讀訊息時發送已讀回條，讓其他人可以看到你已閱讀。</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8905,7 +8905,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>將訊息標記為已讀失敗：%1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>舉報已送出</translation>
     </message>
@@ -10317,8 +10317,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>當你在聊天室中閱讀訊息時發送已讀回條，讓其他人可以看到你已閱讀。可在「聊天室資訊 → 偏好設定」中針對個別聊天室覆寫此設定。</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

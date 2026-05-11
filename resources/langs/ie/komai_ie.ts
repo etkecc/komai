@@ -1858,7 +1858,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Falliment al remover etiquette del chambre: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Fallat de marcar la chambre como lectat: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Previ backups de claves del servidor ne es removet automaticmen.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Manda un recepte de lectura quand vu lecte un mesage in un chambre, por que li altres posse vider que vu ha lectat lo.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse marcar mesage como legit: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Raport sendat</translation>
     </message>
@@ -10333,8 +10333,8 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Manda un recepte de lectura quand vu lecte un mesage in un chambre, por que li altres posse vider que vu ha lectat lo. Posse esser modificat per chambre in Info del Chambre → Preferentias.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

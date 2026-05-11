@@ -602,13 +602,19 @@ FilteredRoomlistModel::markAsRead(const QString &roomid)
         return;
     }
 
+    // Honour the per-room read-receipt toggle on the manual path too, so the
+    // context-menu action matches the user's broadcast preference (it used to
+    // always send a public receipt regardless of the setting).
+    const bool publicReceipt =
+      UserSettings::instance()->resolvedTimelineReadReceiptsEnabled(roomId);
+
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId]() {
+      [handleId, roomId, publicReceipt]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          const bool ok =
-            komai::MatrixBackendRuntimeService::markRoomAsRead(context, handleId, roomId, &error);
+          const bool ok = komai::MatrixBackendRuntimeService::markRoomAsRead(
+            context, handleId, roomId, publicReceipt, &error);
           return std::make_pair(ok, error);
       },
       [roomId](FilteredRoomlistModel *, const std::pair<bool, QString> &result) {

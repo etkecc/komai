@@ -647,11 +647,13 @@ public:
                                     uint64_t handleId,
                                     const QString &roomId,
                                     const QString &eventId,
+                                    bool publicReceipt,
                                     QString *errorOut = nullptr);
 
     static bool markRoomAsRead(matrix_backend::BlockingCallContext context,
                                uint64_t handleId,
                                const QString &roomId,
+                               bool publicReceipt,
                                QString *errorOut = nullptr);
 
     static bool markRoomUnread(matrix_backend::BlockingCallContext context,

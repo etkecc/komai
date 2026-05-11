@@ -1860,7 +1860,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Nepodařilo se odebrat štítek místnosti: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Nepodařilo se označit místnost jako přečtenou: %1</translation>
     </message>
@@ -6004,8 +6004,8 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Odešle potvrzení o přečtení, když si přečtete zprávu v místnosti, aby ostatní viděli, že jste ji přečetli.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8931,7 +8931,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Nepodařilo se označit zprávu jako přečtenou: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Hlášení odesláno</translation>
     </message>
@@ -10349,8 +10349,8 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Odešle potvrzení o přečtení, když si přečtete zprávu v místnosti, aby ostatní viděli, že jste ji přečetli. Lze přepsat pro každou místnost v Informace o místnosti → Předvolby.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

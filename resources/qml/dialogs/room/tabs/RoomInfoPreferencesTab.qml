@@ -346,7 +346,7 @@ Item {
                     }
 
                     Label {
-                        text: qsTr("Sends a read receipt when you read a message in a room, so others can see you've read it.")
+                        text: qsTr("When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.")
                         color: readReceiptsRowHover.hovered ? palette.brightText : palette.buttonText
                         font.pointSize: Settings.uiFontSizePt
                         Layout.fillWidth: true

@@ -1856,7 +1856,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Oda etiketi kaldırılamadı: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Oda okundu olarak işaretlenemedi: %1</translation>
     </message>
@@ -5988,8 +5988,8 @@ Yeni bir kurtarma anahtarı alacaksınız. Tekrar sıfırlamaktan kaçınmak iç
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Bir odada mesaj okuduğunuzda okundu bilgisi gönderir, böylece diğerleri mesajı okuduğunuzu görebilir.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8905,7 +8905,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Mesaj okundu olarak işaretlenemedi: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Rapor gönderildi</translation>
     </message>
@@ -10317,8 +10317,8 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Bir odada mesaj okuduğunuzda okundu bilgisi gönderir, böylece diğerleri mesajı okuduğunuzu görebilir. Oda Bilgisi → Tercihler'den oda bazında geçersiz kılınabilir.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

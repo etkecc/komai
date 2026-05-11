@@ -1856,7 +1856,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Gagal menghapus tag ruangan: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Gagal menandai ruangan sebagai telah dibaca: %1</translation>
     </message>
@@ -5988,8 +5988,8 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Mengirim konfirmasi baca saat Anda membaca pesan di ruangan, sehingga orang lain dapat melihat bahwa Anda telah membacanya.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8905,7 +8905,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal menandai pesan sebagai telah dibaca: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Laporan terkirim</translation>
     </message>
@@ -10317,8 +10317,8 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Mengirim konfirmasi baca saat Anda membaca pesan di ruangan, sehingga orang lain dapat melihat bahwa Anda telah membacanya. Dapat diganti per ruangan di Info Ruangan → Preferensi.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

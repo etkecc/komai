@@ -1858,7 +1858,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Malsukcesis forigi ĉambran etikedon: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Malsukcesis marki ĉambron kiel legitan: %1</translation>
     </message>
@@ -5998,8 +5998,8 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Sendas kvitancon kiam vi legas mesaĝon en ĉambro, por ke aliaj vidu, ke vi ĝin legis.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8921,7 +8921,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Malsukcesis marki mesaĝon kiel legitan: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Raporto sendita</translation>
     </message>
@@ -10336,8 +10336,8 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Sendas kvitancon kiam vi legas mesaĝon en ĉambro, por ke aliaj vidu, ke vi ĝin legis. Eblas superregi laŭ ĉambro en Ĉambra Informo → Preferoj.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

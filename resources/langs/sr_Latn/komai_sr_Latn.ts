@@ -1860,7 +1860,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Uklanjanje oznake sobe nije uspelo: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Greška pri označavanju sobe kao pročitane: %1</translation>
     </message>
@@ -6004,8 +6004,8 @@ Prethodni rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tran
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Šalje potvrdu čitanja kada pročitaš poruku u sobi, kako bi drugi videli da si je pročitao/la.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8931,7 +8931,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspelo označavanje poruke kao pročitane: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Prijava poslata</translation>
     </message>
@@ -10349,8 +10349,8 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Šalje potvrdu čitanja kada pročitaš poruku u sobi, kako bi drugi videli da si je pročitao/la. Može se zameniti po sobi u Informacije o sobi → Preference.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

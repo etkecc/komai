@@ -1860,7 +1860,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Eroare la eliminarea etichetei camerei: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Nu s-a putut marca camera ca citită: %1</translation>
     </message>
@@ -6004,8 +6004,8 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Trimite o confirmare de citire când citești un mesaj într-o cameră, pentru ca alții să poată vedea că l-ai citit.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8931,7 +8931,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut marca mesajul ca citit: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Raport trimis</translation>
     </message>
@@ -10349,8 +10349,8 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Trimite o confirmare de citire când citești un mesaj într-o cameră, pentru ca alții să poată vedea că l-ai citit. Poate fi modificat per cameră în Informații cameră → Preferințe.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

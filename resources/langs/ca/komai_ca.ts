@@ -1858,7 +1858,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>No s'ha pogut eliminar l'etiqueta de la sala: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>No s'ha pogut marcar la sala com a llegida: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Envia una confirmació de lectura quan llegeixes un missatge en una sala, perquè els altres puguin veure que l'has llegit.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No s'ha pogut marcar el missatge com a llegit: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Denúncia enviada</translation>
     </message>
@@ -10333,8 +10333,8 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Envia una confirmació de lectura quan llegeixes un missatge en una sala, perquè els altres puguin veure que l'has llegit. Es pot substituir per sala a Informació de la sala → Preferències.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

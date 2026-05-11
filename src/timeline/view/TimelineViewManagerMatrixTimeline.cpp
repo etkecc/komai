@@ -1678,18 +1678,6 @@ TimelineViewManager::redactActiveMatrixTimelineEventsByUser(const QString &userI
 bool
 TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
 {
-    // Auto-mark-as-read driven by viewport scroll / live-edge follow.
-    // Manual "Mark as read" from the room list or room tab context menu
-    // takes a different code path (see FilteredRoomlistModel::markAsRead
-    // → MatrixBackendRuntimeService::markRoomAsRead) and is intentionally
-    // not gated here.
-    //
-    // Honour the per-room override before falling back to the global
-    // toggle, so rooms with `Off` (or `On`) under Room Info → Preferences
-    // win over the user's default.
-    if (!UserSettings::instance()->resolvedTimelineReadReceiptsEnabled(activeMatrixTimelineRoomId_))
-        return false;
-
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
@@ -1703,7 +1691,16 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
     if (trimmedEventId.isEmpty())
         return false;
 
-    queueMatrixRoomReadMarker(handleId, activeMatrixTimelineRoomId_, trimmedEventId);
+    // Honour the per-room override before falling back to the global toggle,
+    // so rooms with `Off` (or `On`) under Room Info → Preferences win over
+    // the user's default.  When the toggle is off we still send a receipt,
+    // but as `m.read.private` — the homeserver clears this user's unread
+    // count without broadcasting the receipt over /sync or federating it
+    // to other users.
+    const bool publicReceipt =
+      UserSettings::instance()->resolvedTimelineReadReceiptsEnabled(activeMatrixTimelineRoomId_);
+
+    queueMatrixRoomReadMarker(handleId, activeMatrixTimelineRoomId_, trimmedEventId, publicReceipt);
 
     return true;
 }
@@ -1711,7 +1708,8 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
 void
 TimelineViewManager::queueMatrixRoomReadMarker(uint64_t handleId,
                                                const QString &roomId,
-                                               const QString &eventId)
+                                               const QString &eventId,
+                                               bool publicReceipt)
 {
     if (handleId == 0 || roomId.isEmpty() || eventId.isEmpty())
         return;
@@ -1728,6 +1726,7 @@ TimelineViewManager::queueMatrixRoomReadMarker(uint64_t handleId,
 
     matrixReadMarkerPendingHandlesByRoom_.insert(roomId, handleId);
     matrixReadMarkerPendingEventIdsByRoom_.insert(roomId, eventId);
+    matrixReadMarkerPendingPublicByRoom_.insert(roomId, publicReceipt);
     dispatchPendingMatrixReadMarker(roomId);
 }
 
@@ -1740,19 +1739,20 @@ TimelineViewManager::dispatchPendingMatrixReadMarker(const QString &roomId)
         return;
     }
 
-    const auto handleId = matrixReadMarkerPendingHandlesByRoom_.take(roomId);
-    const auto eventId  = matrixReadMarkerPendingEventIdsByRoom_.take(roomId);
+    const auto handleId      = matrixReadMarkerPendingHandlesByRoom_.take(roomId);
+    const auto eventId       = matrixReadMarkerPendingEventIdsByRoom_.take(roomId);
+    const bool publicReceipt = matrixReadMarkerPendingPublicByRoom_.take(roomId);
     if (handleId == 0 || eventId.isEmpty())
         return;
 
     matrixReadMarkerInFlightEventIdsByRoom_.insert(roomId, eventId);
 
     QPointer<TimelineViewManager> guard(this);
-    std::thread([guard, handleId, roomId, eventId]() {
+    std::thread([guard, handleId, roomId, eventId, publicReceipt]() {
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         const bool ok = komai::MatrixBackendRuntimeService::markRoomEventAsRead(
-          context, handleId, roomId, eventId, &error);
+          context, handleId, roomId, eventId, publicReceipt, &error);
 
         if (!guard)
             return;
@@ -1799,6 +1799,7 @@ TimelineViewManager::clearMatrixReadMarkerQueue()
 {
     matrixReadMarkerPendingHandlesByRoom_.clear();
     matrixReadMarkerPendingEventIdsByRoom_.clear();
+    matrixReadMarkerPendingPublicByRoom_.clear();
     matrixReadMarkerInFlightEventIdsByRoom_.clear();
 }
 

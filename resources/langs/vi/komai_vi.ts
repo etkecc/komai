@@ -1856,7 +1856,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Không thể xóa thẻ phòng: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Không thể đánh dấu phòng là đã đọc: %1</translation>
     </message>
@@ -5988,8 +5988,8 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Gửi xác nhận đã đọc khi bạn đọc tin nhắn trong phòng, để người khác có thể thấy bạn đã đọc.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8905,7 +8905,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể đánh dấu tin nhắn là đã đọc: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Báo cáo đã gửi</translation>
     </message>
@@ -10317,8 +10317,8 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Gửi xác nhận đã đọc khi bạn đọc tin nhắn trong phòng, để người khác có thể thấy bạn đã đọc. Có thể ghi đè theo từng phòng trong Thông tin phòng → Tùy chọn.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

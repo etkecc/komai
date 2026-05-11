@@ -315,9 +315,12 @@ mod bridge {
     }
 
     struct SettingsConfigTimelineReadReceiptsSection {
-        // Whether to send a read receipt as you read messages by default.
-        // Per-room overrides live in `by_room`; the resolved value falls
-        // back to this global when a room is not in the map.
+        // Whether to send a *public* read receipt as you read messages by
+        // default. When false, a private (`m.read.private`) receipt is sent
+        // instead, so the room still clears its unread state for the user
+        // but other participants don't see the receipt.  Per-room overrides
+        // live in `by_room`; the resolved value falls back to this global
+        // when a room is not in the map.
         global: bool,
         by_room: Vec<SettingsBoolMapEntry>,
     }
@@ -2169,11 +2172,13 @@ mod bridge {
             handle_id: u64,
             room_id: &str,
             event_id: &str,
+            public_receipt: bool,
         ) -> Result<()>;
         fn matrix_mark_room_as_read(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
+            public_receipt: bool,
         ) -> Result<()>;
         fn matrix_mark_room_unread(
             context: MatrixFfiBlockingContext,

@@ -444,8 +444,10 @@ public slots:
 private:
     void scheduleMatrixSidebarRefresh();
     bool setIgnoredUsers(QVector<QString> ignoredUsers);
-    void
-    queueMatrixRoomReadMarker(uint64_t handleId, const QString &roomId, const QString &eventId);
+    void queueMatrixRoomReadMarker(uint64_t handleId,
+                                   const QString &roomId,
+                                   const QString &eventId,
+                                   bool publicReceipt);
     void dispatchPendingMatrixReadMarker(const QString &roomId);
     void clearMatrixReadMarkerQueue();
     void queueActiveMatrixPendingJump(const QString &roomId, const QString &eventId);
@@ -508,6 +510,7 @@ private:
     QString matrixTimelineRoomStateInFlightRoomId_;
     QHash<QString, uint64_t> matrixReadMarkerPendingHandlesByRoom_;
     QHash<QString, QString> matrixReadMarkerPendingEventIdsByRoom_;
+    QHash<QString, bool> matrixReadMarkerPendingPublicByRoom_;
     QHash<QString, QString> matrixReadMarkerInFlightEventIdsByRoom_;
     int preferredInitialMatrixTimelinePageSize_  = 0;
     bool matrixTimelineInitialPrefetchAttempted_ = false;

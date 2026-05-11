@@ -798,6 +798,7 @@ pub async fn mark_room_event_as_read(
     handle_id: u64,
     room_id: &str,
     event_id: &str,
+    public_receipt: bool,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let event_id = event_id.trim();
@@ -812,16 +813,25 @@ pub async fn mark_room_event_as_read(
         handle_id,
         room_id = room_id.trim(),
         event_id,
+        public_receipt,
         "Marking matrix-sdk room event as read"
     );
 
-    room.send_multiple_receipts(
-        Receipts::new()
-            .fully_read_marker(Some(parsed_event_id.clone()))
-            .public_read_receipt(Some(parsed_event_id.clone())),
-    )
-    .await
-    .map_err(|e| format!("failed to mark matrix-sdk room event as read: {e}"))?;
+    // When the user has opted out of advertising read state, we still need the
+    // homeserver to consider the room read for *this* user (so unread counts
+    // clear, `m.fully_read` advances, `m.marked_unread` is cleared) — we just
+    // switch the ephemeral receipt from public to private so it isn't
+    // federated outward or surfaced to other users via /sync.
+    let mut receipts = Receipts::new().fully_read_marker(Some(parsed_event_id.clone()));
+    if public_receipt {
+        receipts = receipts.public_read_receipt(Some(parsed_event_id.clone()));
+    } else {
+        receipts = receipts.private_read_receipt(Some(parsed_event_id.clone()));
+    }
+
+    room.send_multiple_receipts(receipts)
+        .await
+        .map_err(|e| format!("failed to mark matrix-sdk room event as read: {e}"))?;
 
     // Optimistically anchor `read_receipts.latest_active` to the just-acked
     // event and zero the counts.  matrix-sdk's `Room::send_multiple_receipts`
@@ -960,7 +970,11 @@ async fn optimistically_flip_marked_unread(
     room.update_room_info(|_| (info, RoomInfoNotableUpdateReasons::UNREAD_MARKER)).await;
 }
 
-pub async fn mark_room_as_read(handle_id: u64, room_id: &str) -> Result<(), String> {
+pub async fn mark_room_as_read(
+    handle_id: u64,
+    room_id: &str,
+    public_receipt: bool,
+) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     // UFCS to the synchronous matrix_sdk_base inherent (mirrors the call in
     // runtime_room_list.rs); avoids dispatching to the async UI extension trait.
@@ -972,7 +986,7 @@ pub async fn mark_room_as_read(handle_id: u64, room_id: &str) -> Result<(), Stri
         )
     })?;
 
-    mark_room_event_as_read(handle_id, room_id, &event_id).await
+    mark_room_event_as_read(handle_id, room_id, &event_id, public_receipt).await
 }
 
 pub async fn mark_room_unread(handle_id: u64, room_id: &str, unread: bool) -> Result<(), String> {

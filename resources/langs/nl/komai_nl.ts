@@ -1858,7 +1858,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Kan kamertag niet verwijderen: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Mislukt om kamer als gelezen te markeren: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Stuurt een leesbevestiging wanneer je een bericht in een kamer leest, zodat anderen kunnen zien dat je het gelezen hebt.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Bericht markeren als gelezen mislukt: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Rapport verzonden</translation>
     </message>
@@ -10333,8 +10333,8 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Stuurt een leesbevestiging wanneer je een bericht in een kamer leest, zodat anderen kunnen zien dat je het gelezen hebt. Kan per kamer worden overschreven via Kamerinformatie → Voorkeuren.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

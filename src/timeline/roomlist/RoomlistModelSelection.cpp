@@ -73,14 +73,11 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     // dataChanged here only updates the visual badge without reordering rooms.
     // The deferred snapshot replaces matrixJoinedRooms_ when the pause ends.
     //
-    // Skip this optimistic mirror when read-receipt sending is disabled: with
-    // the toggle off, the auto-mark-as-read path is gated upstream and no
-    // receipt is sent, so the server still considers the room unread.  Zeroing
-    // the badge here would make the UI lie until the next sync corrected it.
-    // Use the resolved value so a per-room override (set under Room Info →
-    // Preferences) wins over the global default.
-    if (interactionSuppressed_ &&
-        UserSettings::instance()->resolvedTimelineReadReceiptsEnabled(roomid)) {
+    // We always fire this regardless of the read-receipts toggle: when the
+    // toggle is off we send `m.read.private` rather than skipping the send,
+    // so the homeserver still clears this user's unread counts — the only
+    // difference is that other users don't see the receipt.
+    if (interactionSuppressed_) {
         auto &room = matrixJoinedRooms_[roomid];
         if (room.unreadMessages > 0 || room.notificationCount > 0 || room.highlightCount > 0) {
             room.unreadMessages    = 0;

@@ -84,7 +84,9 @@ timeline:
     show:
       enabled: true
   read_receipts:
-    # Whether to send read receipts as you read messages in a room.
+    # Whether to send public read receipts as you read messages in a room.
+    # When false, private (`m.read.private`) receipts are sent instead, so the
+    # room is still marked as read for you, but other users don't see it.
     global: true
     # Per-room overrides (true/false). Omit a room to use the global default.
     by_room: {}

@@ -1858,7 +1858,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>മുറി ടാഗ് നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>മുറി വായിച്ചതായി അടയാളപ്പെടുത്തൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>ഒരു മുറിയിൽ ഒരു സന്ദേശം വായിക്കുമ്പോൾ ഒരു വായന രസീത് അയയ്ക്കുന്നു, അതിലൂടെ നിങ്ങൾ അത് വായിച്ചുവെന്ന് മറ്റുള്ളവർക്ക് കാണാൻ സഹായിക്കുന്നു.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>സന്ദേശം വായിച്ചതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>റിപ്പോർട്ട് അയച്ചു</translation>
     </message>
@@ -10333,8 +10333,8 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>ഒരു മുറിയിൽ ഒരു സന്ദേശം വായിക്കുമ്പോൾ ഒരു വായന രസീത് അയയ്ക്കുന്നു, അതിലൂടെ നിങ്ങൾ അത് വായിച്ചുവെന്ന് മറ്റുള്ളവർക്ക് കാണാൻ സഹായിക്കുന്നു. Room Info → Preferences ൽ ഓരോ മുറിക്കും ഇത് മേലെഴുതാം.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

@@ -503,18 +503,20 @@ MatrixBackendRuntimeService::markRoomEventAsRead(matrix_backend::BlockingCallCon
                                                  uint64_t handleId,
                                                  const QString &roomId,
                                                  const QString &eventId,
+                                                 bool publicReceipt,
                                                  QString *errorOut)
 {
     try {
         matrix_backend::invokeBlockingCall(
           "matrix_mark_room_event_as_read",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, eventId, context]() {
+          [handleId, roomId, eventId, publicReceipt, context]() {
               ::komai::rust::matrix_mark_room_event_as_read(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
-                eventId.toStdString());
+                eventId.toStdString(),
+                publicReceipt);
           });
         return true;
     } catch (const std::exception &e) {
@@ -528,15 +530,19 @@ bool
 MatrixBackendRuntimeService::markRoomAsRead(matrix_backend::BlockingCallContext context,
                                             uint64_t handleId,
                                             const QString &roomId,
+                                            bool publicReceipt,
                                             QString *errorOut)
 {
     try {
         matrix_backend::invokeBlockingCall(
           "matrix_mark_room_as_read",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, context]() {
+          [handleId, roomId, publicReceipt, context]() {
               ::komai::rust::matrix_mark_room_as_read(
-                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                publicReceipt);
           });
         return true;
     } catch (const std::exception &e) {

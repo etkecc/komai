@@ -1856,7 +1856,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Nem sikerült eltávolítani a szobacímkét: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Nem sikerült a szobát olvasottnak jelölni: %1</translation>
     </message>
@@ -5988,8 +5988,8 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Olvasási visszaigazolást küld, ha elolvasol egy üzenetet egy szobában, hogy mások láthassák, hogy elolvastad.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8905,7 +8905,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Nem sikerült olvasottnak jelölni az üzenetet: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Jelentés elküldve</translation>
     </message>
@@ -10317,8 +10317,8 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Olvasási visszaigazolást küld, ha elolvasol egy üzenetet egy szobában, hogy mások láthassák, hogy elolvastad. Szobánként felülírható a Szoba adatai → Beállítások menüpontban.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

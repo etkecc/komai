@@ -1856,7 +1856,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>방 태그 제거 실패: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>방을 읽음으로 표시하지 못했습니다: %1</translation>
     </message>
@@ -5988,8 +5988,8 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>방에서 메시지를 읽으면 읽음 확인을 전송하여 다른 사람들이 읽었음을 알 수 있게 합니다.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8905,7 +8905,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>메시지를 읽음으로 표시 실패: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>신고가 전송되었습니다</translation>
     </message>
@@ -10317,8 +10317,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>방에서 메시지를 읽으면 읽음 확인을 전송하여 다른 사람들이 읽었음을 알 수 있게 합니다. 방 정보 → 설정에서 방별로 재정의할 수 있습니다.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

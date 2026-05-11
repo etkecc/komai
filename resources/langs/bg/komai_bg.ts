@@ -1858,7 +1858,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Неуспешно премахване на таг от стая: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>Неуспешно маркиране на стаята като прочетена: %1</translation>
     </message>
@@ -5996,8 +5996,8 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>Изпраща потвърждение за прочитане, когато прочетеш съобщение в стая, за да могат другите да видят, че си го прочел.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8918,7 +8918,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Неуспешно маркиране на съобщение като прочетено: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>Докладът е изпратен</translation>
     </message>
@@ -10333,8 +10333,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>Изпраща потвърждение за прочитане, когато прочетеш съобщение в стая, за да могат другите да видят, че си го прочел. Може да се замени поотделно за всяка стая в Информация за стаята → Предпочитания.</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

@@ -1856,7 +1856,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ルームタグの削除に失敗しました: %1</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+51"/>
         <source>Failed to mark room as read: %1</source>
         <translation>ルームを既読にできませんでした: %1</translation>
     </message>
@@ -5988,8 +5988,8 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+39"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it.</source>
-        <translation>ルームでメッセージを読むと既読確認が送信され、他のユーザーがあなたが読んだことを確認できます。</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
@@ -8905,7 +8905,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>メッセージを既読にする操作に失敗しました: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Report sent</source>
         <translation>通報を送信しました</translation>
     </message>
@@ -10317,8 +10317,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Sends a read receipt when you read a message in a room, so others can see you've read it. Can be overridden per room in Room Info → Preferences.</source>
-        <translation>ルームでメッセージを読むと既読確認が送信され、他のユーザーがあなたが読んだことを確認できます。ルーム情報 → 設定でルームごとに上書きできます。</translation>
+        <source>When disabled, a private read receipt is sent instead, so rooms still get marked as read for you.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

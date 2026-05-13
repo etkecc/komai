@@ -952,7 +952,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>ComposerAttachButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
+        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+17"/>
         <source>Attach an image or file</source>
         <translation>Priloži sliku ili datoteku</translation>
     </message>

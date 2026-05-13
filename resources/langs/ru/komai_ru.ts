@@ -952,7 +952,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ComposerAttachButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
+        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+17"/>
         <source>Attach an image or file</source>
         <translation>Прикрепить изображение или файл</translation>
     </message>

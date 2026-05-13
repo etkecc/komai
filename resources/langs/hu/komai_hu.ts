@@ -950,7 +950,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>ComposerAttachButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
+        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+17"/>
         <source>Attach an image or file</source>
         <translation>Kép vagy fájl csatolása</translation>
     </message>

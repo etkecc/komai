@@ -951,7 +951,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ComposerAttachButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
+        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+17"/>
         <source>Attach an image or file</source>
         <translation>Attacher un imagine o file</translation>
     </message>

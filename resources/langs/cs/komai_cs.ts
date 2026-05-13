@@ -952,7 +952,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>ComposerAttachButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
+        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+17"/>
         <source>Attach an image or file</source>
         <translation>Přiložit obrázek nebo soubor</translation>
     </message>

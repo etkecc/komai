@@ -950,7 +950,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ComposerAttachButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+16"/>
+        <location filename="../../qml/composer/ComposerAttachButton.qml" line="+17"/>
         <source>Attach an image or file</source>
         <translation>이미지 또는 파일 첨부</translation>
     </message>

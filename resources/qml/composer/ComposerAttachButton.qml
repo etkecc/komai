@@ -4,6 +4,7 @@
 
 import QtQuick
 import QtQuick.Layouts
+import cc.etke.komai
 
 ComposerToolbarButton {
     id: root
@@ -57,8 +58,13 @@ ComposerToolbarButton {
                 duration: 1200
                 from: 0
                 loops: Animation.Infinite
-                running: root.uploadInProgress
+                running: root.uploadInProgress && Settings.uiMotionAnimationsEnabled
                 to: 1
+
+                onRunningChanged: {
+                    if (!running)
+                        uploadProgressAnimation.progress = 0;
+                }
             }
         }
     }

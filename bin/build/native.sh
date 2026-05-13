@@ -12,7 +12,7 @@ info_file="${lock_dir}/native-build.lock.info"
 jobs="${KOMAI_BUILD_JOBS:-$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)}"
 lock_fd=""
 heartbeat_pid=""
-lock_started_at="$(date --iso-8601=seconds)"
+lock_started_at="$(date +%FT%T%z)"
 lock_state_dir=""
 lock_heartbeat_file=""
 lock_owner_pid="${BASHPID}"
@@ -83,7 +83,7 @@ start_lock_heartbeat() {
 			fi
 
 			local heartbeat_at=""
-			heartbeat_at="$(date --iso-8601=seconds)"
+			heartbeat_at="$(date +%FT%T%z)"
 
 			if [[ -n "${lock_heartbeat_file}" ]]; then
 				touch "${lock_heartbeat_file}" 2>/dev/null || exit 0

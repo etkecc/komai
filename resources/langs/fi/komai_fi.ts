@@ -4503,7 +4503,7 @@ Vahvista avataksesi salatut viestit.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Käynnistä annetulla profiililla. Uusi profiili luodaan automaattisesti, jos sitä ei vielä ole. Useat profiilit mahdollistavat erilliset tilit ja samanaikaiset instanssit. Sallitut ei-tyhjät profiilin tunnisteet: ensimmäinen merkki A-Z, a-z tai '_'; loput merkit A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

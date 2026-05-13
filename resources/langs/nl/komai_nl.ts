@@ -4503,7 +4503,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Uitvoeren met het opgegeven profiel. Een nieuw profiel wordt automatisch aangemaakt als het nog niet bestaat. Meerdere profielen maken aparte accounts en gelijktijdige instanties mogelijk. Toegestane niet-lege profiel-id's: eerste teken A-Z, a-z of '_'; overige tekens A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

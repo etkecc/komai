@@ -4496,7 +4496,7 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Futtatás a megadott profillal. Új profil automatikusan jön létre, ha még nem létezik. Több profil lehetővé teszi különálló fiókok és egyidejű példányok használatát. Engedélyezett nem üres profilazonosítók: az első karakter A-Z, a-z vagy '_'; a maradék karakterek A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

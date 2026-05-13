@@ -4510,7 +4510,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Rulează cu profilul specificat. Un profil nou este creat automat dacă nu există încă. Profilurile multiple permit conturi separate și instanțe simultane. ID-uri de profil valide (non-vide): primul caracter A-Z, a-z sau '_'; caracterele rămase A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

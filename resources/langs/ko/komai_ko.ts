@@ -4496,7 +4496,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>지정된 프로필로 실행합니다. 프로필이 아직 없으면 자동으로 생성됩니다. 여러 프로필을 사용하면 별도의 계정과 동시 인스턴스를 사용할 수 있습니다. 허용되는 비어 있지 않은 프로필 ID: 첫 번째 문자는 A-Z, a-z 또는 '_'; 나머지 문자는 A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

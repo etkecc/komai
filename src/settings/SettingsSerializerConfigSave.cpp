@@ -253,6 +253,8 @@ stageConfig(const UserSettings &settings,
           .input_inline_room_picker_enabled  = settings.composerInputInlineRoomPickerEnabled(),
           .input_inline_user_picker_enabled  = settings.composerInputInlineUserPickerEnabled(),
           .input_transcription_enabled       = settings.composerInputTranscriptionEnabled(),
+          .input_spellcheck_enabled          = settings.composerInputSpellcheckEnabled(),
+          .input_spellcheck_languages        = {},
           .attachments_strip_image_metadata  = settings.composerAttachmentsStripImageMetadata(),
           .typing_send_global                = settings.composerTypingSendEnabled(),
           .typing_send_by_room =
@@ -272,6 +274,8 @@ stageConfig(const UserSettings &settings,
 
     for (const auto &value : settings.hiddenTimelineEventTypes())
         snapshot.timeline.hidden_events.global.push_back(value.toStdString());
+    for (const auto &value : settings.composerInputSpellcheckLanguages())
+        snapshot.composer.input_spellcheck_languages.push_back(value.toStdString());
     for (auto it = settings.hiddenTimelineEventTypesByRoom().constBegin();
          it != settings.hiddenTimelineEventTypesByRoom().constEnd();
          ++it) {

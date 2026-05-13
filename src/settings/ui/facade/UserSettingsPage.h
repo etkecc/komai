@@ -121,6 +121,11 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool composerInputTranscriptionEnabled READ composerInputTranscriptionEnabled WRITE
         setComposerInputTranscriptionEnabled NOTIFY composerInputTranscriptionEnabledChanged)
+    Q_PROPERTY(bool composerInputSpellcheckEnabled READ composerInputSpellcheckEnabled WRITE
+                 setComposerInputSpellcheckEnabled NOTIFY composerInputSpellcheckEnabledChanged)
+    Q_PROPERTY(
+      QStringList composerInputSpellcheckLanguages READ composerInputSpellcheckLanguages WRITE
+        setComposerInputSpellcheckLanguages NOTIFY composerInputSpellcheckLanguagesChanged)
     Q_PROPERTY(bool composerAttachmentsStripImageMetadata READ composerAttachmentsStripImageMetadata
                  WRITE setComposerAttachmentsStripImageMetadata NOTIFY
                    composerAttachmentsStripImageMetadataChanged)
@@ -573,6 +578,8 @@ public:
     void setComposerInputInlineRoomPickerEnabled(bool state);
     void setComposerInputInlineUserPickerEnabled(bool state);
     void setComposerInputTranscriptionEnabled(bool state);
+    void setComposerInputSpellcheckEnabled(bool state);
+    void setComposerInputSpellcheckLanguages(QStringList languages);
     void setComposerAttachmentsStripImageMetadata(bool state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesLayoutPositioning(TimelineMessagesLayoutPositioning positioning);
@@ -808,6 +815,8 @@ signals:
     void composerInputInlineRoomPickerEnabledChanged(bool state);
     void composerInputInlineUserPickerEnabledChanged(bool state);
     void composerInputTranscriptionEnabledChanged(bool state);
+    void composerInputSpellcheckEnabledChanged(bool state);
+    void composerInputSpellcheckLanguagesChanged(QStringList languages);
     void composerAttachmentsStripImageMetadataChanged(bool state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesLayoutPositioningChanged(TimelineMessagesLayoutPositioning positioning);

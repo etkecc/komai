@@ -30,6 +30,10 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Voice transcription"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Enables speech-to-text. Configure the transcription provider in <a href=\"komai://settings/integrations/transcription\">Integrations → Voice transcription</a>."),
       SM::TabComposer, composerInputTranscriptionEnabled, setComposerInputTranscriptionEnabled, nullptr, ComposerInputTranscriptionEnabled, SettingKey::ComposerInputTranscriptionEnabled),
+    // ComposerInputSpellcheckEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Spell checking"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Underlines misspelled words in the composer and room-topic field. Pick the dictionaries to use in the Spellcheck section below."),
+      SM::TabComposer, composerInputSpellcheckEnabled, setComposerInputSpellcheckEnabled, nullptr, ComposerInputSpellcheckEnabled, SettingKey::ComposerInputSpellcheckEnabled),
     // ComposerAttachmentsSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Attachments"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

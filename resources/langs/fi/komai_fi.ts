@@ -3584,7 +3584,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Viesti</translation>
     </message>
     <message>
-        <location line="+579"/>
+        <location line="+617"/>
         <source>Stickers</source>
         <translation>Tarrat</translation>
     </message>
@@ -6121,7 +6121,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
 <context>
     <name>RoomInfoSettingsTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+83"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+84"/>
         <source>General settings</source>
         <translation>Yleiset asetukset</translation>
     </message>
@@ -6153,12 +6153,12 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
     </message>
     <message>
         <location line="+8"/>
-        <location line="+242"/>
+        <location line="+266"/>
         <source>Cancel</source>
         <translation>Peruuta</translation>
     </message>
     <message>
-        <location line="-194"/>
+        <location line="-218"/>
         <source>Name</source>
         <translation>Nimi</translation>
     </message>
@@ -6178,7 +6178,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <translation>Aihetta ei ole asetettu</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+72"/>
         <source>Encryption</source>
         <translation>Salaus</translation>
     </message>
@@ -7821,6 +7821,84 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckContextMenu</name>
+    <message>
+        <location filename="../../qml/composer/SpellcheckContextMenu.qml" line="+61"/>
+        <source>Spellcheck (%1): [%2]</source>
+        <extracomment>Submenu header in the right-click spelling-suggestions menu. %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory); %2 is the number of suggestions in this group (an integer).</extracomment>
+        <translation>Oikeinkirjoitustarkistus (%1): [%2]</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>No spelling suggestions</source>
+        <translation>Ei kirjoitusehdotuksia</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Add to dictionary</source>
+        <translation>Lisää sanakirjaan</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Undo</source>
+        <translation>Kumoa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Redo</source>
+        <translation>Tee uudelleen</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Cut</source>
+        <translation>Leikkaa</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Copy</source>
+        <translation>Kopioi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Paste</source>
+        <translation>Liitä</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Select All</source>
+        <translation>Valitse kaikki</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <source>Spellcheck</source>
+        <translation>Oikeinkirjoitus</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Underlines misspelled words (those not recognized by any of the enabled dictionaries).</source>
+        <translation>Alleviivaa väärin kirjoitetut sanat (sanat, joita mikään aktivoiduista sanakirjoista ei tunnista).</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Don't see a language? You need to install a Hunspell dictionary. See the &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;spell checking documentation&lt;/a&gt;. English (US) is built in.</source>
+        <translation>Puuttuuko kieli? Sinun täytyy asentaa Hunspell-sanakirja. Katso &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;oikeinkirjoitusdokumentaatio&lt;/a&gt;. Englanti (US) on sisäänrakennettu.</translation>
+    </message>
+    <message>
+        <location line="-53"/>
+        <source>Enable spell checking</source>
+        <translation>Ota oikeinkirjoitus käyttöön</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>%1 (built-in)</source>
+        <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
+        <translation>%1 (sisäänrakennettu)</translation>
     </message>
 </context>
 <context>
@@ -10326,7 +10404,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
         <source>Feedback</source>
         <translation>Palaute</translation>
     </message>
@@ -11220,7 +11298,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>historia, äskettäin suljetut, suorituskyky, ram, muisti</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
         <source>Input</source>
         <translation>Syöte</translation>
     </message>
@@ -11279,6 +11357,16 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <location line="+1"/>
         <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
         <translation>Ottaa puheentunnistuksen käyttöön. Määritä transkriptiopalveluntarjoaja kohdassa &lt;a href="komai://settings/integrations/transcription"&gt;Integraatiot → Puheentunnistus&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Spell checking</source>
+        <translation>Oikeinkirjoitus</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Underlines misspelled words in the composer and room-topic field. Pick the dictionaries to use in the Spellcheck section below.</source>
+        <translation>Alleviivaa väärin kirjoitetut sanat viestieditorissa ja huoneen aihekentässä. Valitse käytettävät sanakirjat alla olevasta Oikeinkirjoitus-osiosta.</translation>
     </message>
     <message>
         <location line="+3"/>

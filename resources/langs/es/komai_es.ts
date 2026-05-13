@@ -3587,7 +3587,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Mensaje</translation>
     </message>
     <message>
-        <location line="+579"/>
+        <location line="+617"/>
         <source>Stickers</source>
         <translation>Pegatinas</translation>
     </message>
@@ -6124,7 +6124,7 @@ Las copias de seguridad de claves anteriores en el servidor no se eliminan autom
 <context>
     <name>RoomInfoSettingsTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+83"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+84"/>
         <source>General settings</source>
         <translation>Configuración general</translation>
     </message>
@@ -6156,12 +6156,12 @@ Las copias de seguridad de claves anteriores en el servidor no se eliminan autom
     </message>
     <message>
         <location line="+8"/>
-        <location line="+242"/>
+        <location line="+266"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-194"/>
+        <location line="-218"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
@@ -6181,7 +6181,7 @@ Las copias de seguridad de claves anteriores en el servidor no se eliminan autom
         <translation>Sin tema definido</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+72"/>
         <source>Encryption</source>
         <translation>Cifrado</translation>
     </message>
@@ -7824,6 +7824,84 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckContextMenu</name>
+    <message>
+        <location filename="../../qml/composer/SpellcheckContextMenu.qml" line="+61"/>
+        <source>Spellcheck (%1): [%2]</source>
+        <extracomment>Submenu header in the right-click spelling-suggestions menu. %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory); %2 is the number of suggestions in this group (an integer).</extracomment>
+        <translation>Corrección ortográfica (%1): [%2]</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>No spelling suggestions</source>
+        <translation>Sin sugerencias ortográficas</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Add to dictionary</source>
+        <translation>Añadir al diccionario</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Undo</source>
+        <translation>Deshacer</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Redo</source>
+        <translation>Rehacer</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Cut</source>
+        <translation>Cortar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Paste</source>
+        <translation>Pegar</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Select All</source>
+        <translation>Seleccionar todo</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <source>Spellcheck</source>
+        <translation>Corrector ortográfico</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Underlines misspelled words (those not recognized by any of the enabled dictionaries).</source>
+        <translation>Subraya las palabras mal escritas (aquellas no reconocidas por ninguno de los diccionarios activados).</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Don't see a language? You need to install a Hunspell dictionary. See the &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;spell checking documentation&lt;/a&gt;. English (US) is built in.</source>
+        <translation>¿No ves un idioma? Necesitas instalar un diccionario Hunspell. Consulta la &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;documentación del corrector ortográfico&lt;/a&gt;. El inglés (EE. UU.) está integrado.</translation>
+    </message>
+    <message>
+        <location line="-53"/>
+        <source>Enable spell checking</source>
+        <translation>Activar corrector ortográfico</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>%1 (built-in)</source>
+        <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
+        <translation>%1 (integrado)</translation>
     </message>
 </context>
 <context>
@@ -10329,7 +10407,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
         <source>Feedback</source>
         <translation>Comentarios</translation>
     </message>
@@ -11223,7 +11301,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>historial, cerradas recientemente, rendimiento, ram, memoria</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
         <source>Input</source>
         <translation>Entrada</translation>
     </message>
@@ -11282,6 +11360,16 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <location line="+1"/>
         <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
         <translation>Activa el reconocimiento de voz. Configura el proveedor de transcripción en &lt;a href="komai://settings/integrations/transcription"&gt;Integraciones → Transcripción de voz&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Spell checking</source>
+        <translation>Corrector ortográfico</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Underlines misspelled words in the composer and room-topic field. Pick the dictionaries to use in the Spellcheck section below.</source>
+        <translation>Subraya las palabras mal escritas en el compositor y en el campo del tema de la sala. Elige los diccionarios a usar en la sección Corrector ortográfico de abajo.</translation>
     </message>
     <message>
         <location line="+3"/>

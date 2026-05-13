@@ -3584,7 +3584,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Meddelande</translation>
     </message>
     <message>
-        <location line="+579"/>
+        <location line="+617"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>
@@ -6121,7 +6121,7 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
 <context>
     <name>RoomInfoSettingsTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+83"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+84"/>
         <source>General settings</source>
         <translation>Allmänna inställningar</translation>
     </message>
@@ -6153,12 +6153,12 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+242"/>
+        <location line="+266"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location line="-194"/>
+        <location line="-218"/>
         <source>Name</source>
         <translation>Namn</translation>
     </message>
@@ -6178,7 +6178,7 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
         <translation>Inget ämne angivet</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+72"/>
         <source>Encryption</source>
         <translation>Kryptering</translation>
     </message>
@@ -7821,6 +7821,84 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckContextMenu</name>
+    <message>
+        <location filename="../../qml/composer/SpellcheckContextMenu.qml" line="+61"/>
+        <source>Spellcheck (%1): [%2]</source>
+        <extracomment>Submenu header in the right-click spelling-suggestions menu. %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory); %2 is the number of suggestions in this group (an integer).</extracomment>
+        <translation>Stavningskontroll (%1): [%2]</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>No spelling suggestions</source>
+        <translation>Inga stavningsförslag</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Add to dictionary</source>
+        <translation>Lägg till i ordlistan</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Undo</source>
+        <translation>Ångra</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Redo</source>
+        <translation>Gör om</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Cut</source>
+        <translation>Klipp ut</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Copy</source>
+        <translation>Kopiera</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Paste</source>
+        <translation>Klistra in</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Select All</source>
+        <translation>Markera allt</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <source>Spellcheck</source>
+        <translation>Stavningskontroll</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Underlines misspelled words (those not recognized by any of the enabled dictionaries).</source>
+        <translation>Stryker under felstavade ord (de som inte känns igen av någon av de aktiverade ordböckerna).</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Don't see a language? You need to install a Hunspell dictionary. See the &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;spell checking documentation&lt;/a&gt;. English (US) is built in.</source>
+        <translation>Hittar du inte ditt språk? Du behöver installera en Hunspell-ordbok. Se &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;dokumentationen för stavningskontroll&lt;/a&gt;. Engelska (USA) är inbyggd.</translation>
+    </message>
+    <message>
+        <location line="-53"/>
+        <source>Enable spell checking</source>
+        <translation>Aktivera stavningskontroll</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>%1 (built-in)</source>
+        <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
+        <translation>%1 (inbyggd)</translation>
     </message>
 </context>
 <context>
@@ -10326,7 +10404,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
         <source>Feedback</source>
         <translation>Feedback</translation>
     </message>
@@ -11220,7 +11298,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>historik, nyligen stängda, prestanda, ram, minne</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
         <source>Input</source>
         <translation>Inmatning</translation>
     </message>
@@ -11279,6 +11357,16 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <location line="+1"/>
         <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
         <translation>Aktiverar tal till text. Konfigurera transkriberingstjänst under &lt;a href="komai://settings/integrations/transcription"&gt;Integrationer → Rösttranskribering&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Spell checking</source>
+        <translation>Stavningskontroll</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Underlines misspelled words in the composer and room-topic field. Pick the dictionaries to use in the Spellcheck section below.</source>
+        <translation>Stryker under felstavade ord i meddelandefältet och rummets ämnesfält. Välj vilka ordböcker som ska användas i avsnittet Stavningskontroll nedan.</translation>
     </message>
     <message>
         <location line="+3"/>

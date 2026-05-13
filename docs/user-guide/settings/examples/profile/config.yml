@@ -106,6 +106,11 @@ composer:
       enabled: true
     inline_user_picker:
       enabled: true
+    spellcheck:
+      enabled: true
+      # Active dictionary locale codes (e.g. en_US). An empty list means
+      # "derive from the system locale on next launch and persist here".
+      languages: []
   typing:
     send:
       # Whether to send typing notifications by default.

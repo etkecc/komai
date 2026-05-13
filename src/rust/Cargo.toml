@@ -33,6 +33,8 @@ img-parts = "0.4"
 bytes = "1"
 blurhash = "0.2"
 linkify = "0.11"
+spellbook = "0.4.0"
+unicode-script = "0.5.8"
 syntect = { version = "5", default-features = false, features = ["default-fancy"] }
 # ruma is pinned to the same version matrix-rust-sdk uses at this release to avoid
 # duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.  The

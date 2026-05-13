@@ -110,6 +110,22 @@ UserSettings::composerInputTranscriptionEnabled() const
 }
 
 bool
+UserSettings::composerInputSpellcheckEnabled() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerInputSpellcheckEnabled);
+        value.has_value())
+        return *value;
+    return composerInputSpellcheckEnabled_;
+}
+
+QStringList
+UserSettings::composerInputSpellcheckLanguages() const
+{
+    return composerInputSpellcheckLanguages_;
+}
+
+bool
 UserSettings::composerAttachmentsStripImageMetadata() const
 {
     if (const auto value = coreStore_.valueAs<bool>(

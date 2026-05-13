@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: Komai Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+version = 1
+
+# Bundled fallback Hunspell dictionary (en_US), derived from SCOWL. Komai
+# discovers and prefers system / user-installed dictionaries at runtime; this
+# embedded copy guarantees working English spell checking on a fresh install
+# (notably on platforms with no system Hunspell dictionaries: Windows, macOS,
+# Flatpak/Snap sandboxes). Sourced from https://github.com/LibreOffice/dictionaries
+# (`en/en_US.{dic,aff}`). Full credits and license text: LICENSES/LicenseRef-SCOWL.txt.
+[[annotations]]
+path = ["en_US.dic", "en_US.aff"]
+SPDX-FileCopyrightText = [
+  "Copyright 2000-2018 by Kevin Atkinson",
+  "Copyright 1993, Geoff Kuenning, Granada Hills, CA",
+  "Copyright 2016 by Benjamin Titze",
+]
+SPDX-License-Identifier = "LicenseRef-SCOWL"

@@ -1784,6 +1784,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerInputTranscriptionEnabled));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputSpellcheckEnabled));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerAttachmentsStripImageMetadata));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerTypingSendGlobal));

@@ -504,6 +504,12 @@ set(SRC_FILES
     src/voip/WebRTCSession.cpp
     src/voip/WebRTCSession.h
 
+    # Spell checking
+    src/spellcheck/SpellCheckEngine.cpp
+    src/spellcheck/SpellCheckEngine.h
+    src/spellcheck/SpellChecker.cpp
+    src/spellcheck/SpellChecker.h
+
     src/encryption/DeviceVerificationFlow.cpp
     src/encryption/DeviceVerificationFlowHandlers.cpp
     src/encryption/DeviceVerificationFlowProtocol.cpp
@@ -1101,7 +1107,7 @@ else()
     target_link_libraries(komai PRIVATE Qt6::DBus)
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/timeline/rust/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/timeline/rust/ src/ui/ src/encryption/ src/voip/ src/spellcheck/)
 
 # Fixup bundled kdsingleapplication include dirs
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})

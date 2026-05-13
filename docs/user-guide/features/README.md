@@ -14,6 +14,7 @@ User-facing capabilities of Komai. Each page covers one feature in depth.
 - 🧭 [Room Directory](room-directory.md) -- browse public rooms on your homeserver, custom servers, or globally via Matrix Rooms Search
 - 📋 [Room List](room-list.md) -- switching rooms, the context menu, and other room-list interactions
 - 📑 [Room Tabs](tabs.md) -- browser-style tabs for juggling multiple conversations, with pinning and closed-tab recovery
+- 🔤 [Spell checking](spellcheck.md) -- offline Hunspell-based squiggles in the composer and room-topic editor; bundles English (US), picks up system + per-user dictionaries
 - 🩹 [Stickers](stickers.md) -- what's supported today (receiving, displaying, pack management) and what isn't (sending)
 - 🎨 [Themes](themes.md) -- built-in and custom themes
 - 💬 [Threads](threads.md) -- Discord-style threads, the Threads dialog, and collapsing replies on the main timeline

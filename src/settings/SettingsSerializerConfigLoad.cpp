@@ -336,6 +336,13 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setComposerInputInlineUserPickerEnabled(
       snapshot.composer.input_inline_user_picker_enabled);
     settings.setComposerInputTranscriptionEnabled(snapshot.composer.input_transcription_enabled);
+    settings.setComposerInputSpellcheckEnabled(snapshot.composer.input_spellcheck_enabled);
+    {
+        QStringList languages;
+        for (const auto &value : snapshot.composer.input_spellcheck_languages)
+            languages.push_back(QString::fromStdString(static_cast<std::string>(value)));
+        settings.setComposerInputSpellcheckLanguages(languages);
+    }
     settings.setComposerAttachmentsStripImageMetadata(
       snapshot.composer.attachments_strip_image_metadata);
     settings.setComposerTypingSendEnabled(snapshot.composer.typing_send_global);

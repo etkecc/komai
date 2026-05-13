@@ -1816,14 +1816,52 @@ Rectangle {
                     target: TimelineManager
                 }
                 MouseArea {
-                    acceptedButtons: Qt.MiddleButton
+                    // Middle-click: paste-attachment workaround. Right-click:
+                    // the spell-check context menu (intercepted here, ahead of
+                    // the TextArea's own context menu). Left clicks aren't in
+                    // acceptedButtons, so they fall through to the text editor
+                    // for selection/cursor placement as usual.
+                    acceptedButtons: Qt.MiddleButton | Qt.RightButton
                     // workaround for wrong cursor shape on some platforms
                     anchors.fill: parent
                     cursorShape: Qt.IBeamCursor
 
-                    onPressed: mouse => mouse.accepted = inputBar.inputController
-                        ? inputBar.inputController.tryPasteAttachment(true)
-                        : false
+                    onPressed: mouse => {
+                        if (mouse.button === Qt.RightButton) {
+                            // Claim the press so the TextArea's own context menu
+                            // doesn't fire; we pop ours on release (below) so
+                            // there's no press-drag-release that could
+                            // accidentally activate a menu item.
+                            mouse.accepted = true;
+                            return;
+                        }
+                        mouse.accepted = inputBar.inputController
+                            ? inputBar.inputController.tryPasteAttachment(true)
+                            : false;
+                    }
+                    onClicked: mouse => {
+                        if (mouse.button === Qt.RightButton)
+                            composerSpellcheckCtx.show(Qt.point(mouse.x, mouse.y));
+                    }
+                }
+
+                // Spell checking: draws the squiggles for the composer.
+                SpellChecker {
+                    id: composerSpellChecker
+
+                    document: messageInput.textDocument
+                    underlineColor: Komai.theme.error
+
+                    // `textDocument` is a CONSTANT property — if it wasn't ready
+                    // when the binding above first evaluated, re-assign once the
+                    // component tree is complete.
+                    Component.onCompleted: if (!composerSpellChecker.document) composerSpellChecker.document = messageInput.textDocument
+                }
+
+                SpellcheckContextMenu {
+                    id: composerSpellcheckCtx
+                    target: messageInput
+                    spellChecker: composerSpellChecker
                 }
             }
         }

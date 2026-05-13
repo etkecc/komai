@@ -22,6 +22,7 @@
 - ✨ [Message Effects](features/message-effects.md) -- confetti, sunshine, rain, storms, and other timeline flourishes
 - 🧭 [Room Directory](features/room-directory.md) -- browse public rooms on your homeserver, custom servers, or globally via Matrix Rooms Search
 - 📑 [Room Tabs](features/tabs.md) -- browser-style tabs for juggling multiple conversations, with pinning and closed-tab recovery
+- 🔤 [Spell checking](features/spellcheck.md) -- offline Hunspell-based squiggles in the composer and room-topic editor; bundles English (US), picks up system + per-user dictionaries
 - 🎨 [Themes](features/themes.md) -- built-in and custom themes
 - 💬 [Threads](features/threads.md) -- Discord-style threads, the Threads dialog, and collapsing replies on the main timeline
 - 🎙️ [Voice Transcription](features/voice-transcription.md) -- long-press Space (or click the microphone button) to record speech and have it transcribed into the composer via any OpenAI-compatible API

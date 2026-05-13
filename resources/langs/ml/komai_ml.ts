@@ -3584,7 +3584,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>സന്ദേശം</translation>
     </message>
     <message>
-        <location line="+579"/>
+        <location line="+617"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>
@@ -6121,7 +6121,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoSettingsTab</name>
     <message>
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+83"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoSettingsTab.qml" line="+84"/>
         <source>General settings</source>
         <translation>പൊതു ക്രമീകരണങ്ങൾ</translation>
     </message>
@@ -6153,12 +6153,12 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+242"/>
+        <location line="+266"/>
         <source>Cancel</source>
         <translation>റദ്ദാക്കുക</translation>
     </message>
     <message>
-        <location line="-194"/>
+        <location line="-218"/>
         <source>Name</source>
         <translation>പേര്</translation>
     </message>
@@ -6178,7 +6178,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>വിഷയമൊന്നും സജ്ജമാക്കിയിട്ടില്ല</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+72"/>
         <source>Encryption</source>
         <translation>എൻക്രിപ്ഷൻ</translation>
     </message>
@@ -7821,6 +7821,84 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="-119"/>
         <source>+%1</source>
         <translation>+%1</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckContextMenu</name>
+    <message>
+        <location filename="../../qml/composer/SpellcheckContextMenu.qml" line="+61"/>
+        <source>Spellcheck (%1): [%2]</source>
+        <extracomment>Submenu header in the right-click spelling-suggestions menu. %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory); %2 is the number of suggestions in this group (an integer).</extracomment>
+        <translation>അക്ഷരലേഖന പരിശോധന (%1): [%2]</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>No spelling suggestions</source>
+        <translation>അക്ഷരലേഖന നിർദ്ദേശങ്ങളൊന്നുമില്ല</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Add to dictionary</source>
+        <translation>നിഘണ്ടുവിൽ ചേർക്കുക</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Undo</source>
+        <translation>പഴയപടിയാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Redo</source>
+        <translation>വീണ്ടും ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Cut</source>
+        <translation>മുറിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Copy</source>
+        <translation>പകർത്തുക</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Paste</source>
+        <translation>ഒട്ടിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Select All</source>
+        <translation>എല്ലാം തിരഞ്ഞെടുക്കുക</translation>
+    </message>
+</context>
+<context>
+    <name>SpellcheckSetting</name>
+    <message>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <source>Spellcheck</source>
+        <translation>അക്ഷരവിന്യാസ പരിശോധന</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Underlines misspelled words (those not recognized by any of the enabled dictionaries).</source>
+        <translation>തെറ്റായ അക്ഷരവിന്യാസമുള്ള വാക്കുകൾ അടിവരയിടുന്നു (പ്രവർത്തനക്ഷമമാക്കിയ നിഘണ്ടുക്കളൊന്നും തിരിച്ചറിയാത്തവ).</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Don't see a language? You need to install a Hunspell dictionary. See the &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;spell checking documentation&lt;/a&gt;. English (US) is built in.</source>
+        <translation>ഒരു ഭാഷ കാണുന്നില്ലേ? നിങ്ങൾ ഒരു Hunspell നിഘണ്ടു ഇൻസ്റ്റാൾ ചെയ്യണം. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/spellcheck.md"&gt;അക്ഷരവിന്യാസ പരിശോധന ഡോക്യുമെന്റേഷൻ&lt;/a&gt; കാണുക. ഇംഗ്ലീഷ് (US) ഉൾനിർമ്മിതമാണ്.</translation>
+    </message>
+    <message>
+        <location line="-53"/>
+        <source>Enable spell checking</source>
+        <translation>അക്ഷരവിന്യാസ പരിശോധന പ്രവർത്തനക്ഷമമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>%1 (built-in)</source>
+        <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
+        <translation>%1 (ഉൾനിർമ്മിത)</translation>
     </message>
 </context>
 <context>
@@ -10326,7 +10404,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
         <source>Feedback</source>
         <translation>ഫീഡ്ബാക്ക്</translation>
     </message>
@@ -11220,7 +11298,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ചരിത്രം, അടുത്തിടെ അടച്ചത്, പ്രകടനം, റാം, മെമ്മറി</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-78"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
         <source>Input</source>
         <translation>ഇൻപുട്ട്</translation>
     </message>
@@ -11279,6 +11357,16 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <location line="+1"/>
         <source>Enables speech-to-text. Configure the transcription provider in &lt;a href="komai://settings/integrations/transcription"&gt;Integrations → Voice transcription&lt;/a&gt;.</source>
         <translation>സ്പീച്ച്-ടു-ടെക്സ്റ്റ് പ്രവർത്തനക്ഷമമാക്കുന്നു. ട്രാൻസ്ക്രിപ്ഷൻ പ്രൊവൈഡർ &lt;a href="komai://settings/integrations/transcription"&gt;ഇന്റഗ്രേഷനുകൾ → വോയ്‌സ് ട്രാൻസ്ക്രിപ്ഷൻ&lt;/a&gt;-ൽ ക്രമീകരിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Spell checking</source>
+        <translation>അക്ഷരവിന്യാസ പരിശോധന</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Underlines misspelled words in the composer and room-topic field. Pick the dictionaries to use in the Spellcheck section below.</source>
+        <translation>കമ്പോസറിലും മുറി-വിഷയ ഫീൽഡിലും തെറ്റായ അക്ഷരവിന്യാസമുള്ള വാക്കുകൾ അടിവരയിടുന്നു. ഉപയോഗിക്കേണ്ട നിഘണ്ടുക്കൾ ചുവടെ അക്ഷരവിന്യാസ പരിശോധന വിഭാഗത്തിൽ തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="+3"/>

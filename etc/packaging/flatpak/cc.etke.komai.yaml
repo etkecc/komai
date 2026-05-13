@@ -18,6 +18,20 @@ finish-args:
   - --talk-name=org.freedesktop.StatusNotifierItem
   # needed for tray icon
   - --talk-name=org.kde.StatusNotifierWatcher
+# Spell-check dictionaries. The bundled en_US dictionary always works; on top
+# of that, the freedesktop Hunspell language extensions (org.freedesktop.
+# Platform.Hunspell.<locale>) mount their .dic/.aff into /app/share/hunspell,
+# where Komai's dictionary discovery picks them up automatically. With
+# locale-subset enabled, Flatpak auto-installs the ones matching the user's
+# configured languages; any others can be added with `flatpak install`.
+add-extensions:
+  org.freedesktop.Platform.Hunspell:
+    directory: share/hunspell
+    version: '24.08'
+    subdirectories: true
+    no-autodownload: true
+    autodelete: false
+    locale-subset: true
 # Strips dev/devel files installed primarily by the bundled gstreamer
 # module that end users don't need at runtime. Komai's own install tree
 # no longer touches these paths (its CPMAddPackage calls use
@@ -85,6 +99,11 @@ modules:
   #
   - name: komai
     builddir: true
+    # Create the mount point for the org.freedesktop.Platform.Hunspell.*
+    # extensions declared in add-extensions; flatpak-builder requires the
+    # directory to exist in /app.
+    post-install:
+      - mkdir -p ${FLATPAK_DEST}/share/hunspell
     build-options:
       # Rust is installed into the source tree (not /app) so flatpak-builder's
       # global strip pass cannot corrupt rustc's libLLVM shared object.

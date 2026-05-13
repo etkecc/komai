@@ -143,6 +143,25 @@ UserSettings::setComposerInputTranscriptionEnabled(bool s)
     save();
 }
 void
+UserSettings::setComposerInputSpellcheckEnabled(bool s)
+{
+    if (composerInputSpellcheckEnabled_ == s)
+        return;
+    composerInputSpellcheckEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputSpellcheckEnabled, s);
+    emit composerInputSpellcheckEnabledChanged(s);
+    save();
+}
+void
+UserSettings::setComposerInputSpellcheckLanguages(QStringList languages)
+{
+    if (composerInputSpellcheckLanguages_ == languages)
+        return;
+    composerInputSpellcheckLanguages_ = languages;
+    emit composerInputSpellcheckLanguagesChanged(languages);
+    save();
+}
+void
 UserSettings::setComposerAttachmentsStripImageMetadata(bool s)
 {
     if (composerAttachmentsStripImageMetadata_ == s)

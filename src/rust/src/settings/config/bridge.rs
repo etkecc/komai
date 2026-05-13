@@ -541,6 +541,23 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["composer", "input", "spellcheck", "enabled"],
+        Value::Bool(snapshot.composer.input_spellcheck_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "spellcheck", "languages"],
+        Value::Sequence(
+            snapshot
+                .composer
+                .input_spellcheck_languages
+                .iter()
+                .map(|value| Value::String(value.clone()))
+                .collect(),
+        ),
+    );
+    yaml::set_value(
+        &mut root,
         &["composer", "attachments", "strip_image_metadata"],
         Value::Bool(snapshot.composer.attachments_strip_image_metadata),
     );

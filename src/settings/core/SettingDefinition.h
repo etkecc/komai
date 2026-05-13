@@ -118,6 +118,7 @@ enum class SettingId
     EncryptionKeySharingOnlyVerifiedUsers,
     EncryptionKeySharingShareWithTrusted,
     EncryptionBackupOnlineEnabled,
+    ComposerInputSpellcheckEnabled,
 };
 
 struct SettingDefinition

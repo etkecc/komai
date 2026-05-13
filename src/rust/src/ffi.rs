@@ -7,6 +7,10 @@ pub(crate) use crate::logging::{init_logging, log_from_cpp};
 pub(crate) use crate::matrix_backend::ffi::*;
 pub(crate) use crate::settings::ffi::*;
 pub(crate) use crate::settings::profile::SettingsProfileHandle;
+pub(crate) use crate::spellcheck::{
+    spellcheck_add_word, spellcheck_check_block, spellcheck_discover_dictionaries,
+    spellcheck_register_builtin_dictionary, spellcheck_set_config, spellcheck_suggest,
+};
 pub(crate) use crate::syntax_highlight::{highlight_formatted_code_blocks, highlight_raw_json};
 pub(crate) use crate::transcription::ffi::{
     transcription_clear_global_api_key, transcription_clear_room_api_key,
@@ -493,6 +497,8 @@ mod bridge {
         input_inline_room_picker_enabled: bool,
         input_inline_user_picker_enabled: bool,
         input_transcription_enabled: bool,
+        input_spellcheck_enabled: bool,
+        input_spellcheck_languages: Vec<String>,
         attachments_strip_image_metadata: bool,
         // Whether to send a typing notice to other users by default.
         // Per-room overrides live in `typing_send_by_room`; the resolved
@@ -722,6 +728,41 @@ mod bridge {
     struct ServerListResult {
         entries: Vec<ServerListEntry>,
         error_message: String,
+    }
+
+    // ----- Spell checking (see crate::spellcheck) -----------------------
+
+    struct SpellcheckDictionaryEntry {
+        // Normalised locale code, e.g. "en_US", "bg_BG", "de_DE".
+        code: String,
+        // Filesystem path of the .dic file; empty for the bundled dictionary.
+        path: String,
+        // True for the bundled en_US dictionary (not removable in the UI).
+        builtin: bool,
+    }
+
+    // A misspelled span within a checked block, in UTF-16 code units from the
+    // start of the block — the units QString / QTextCursor index by.
+    struct SpellcheckRange {
+        start_utf16: u32,
+        length_utf16: u32,
+    }
+
+    struct SpellcheckBlockResult {
+        ranges: Vec<SpellcheckRange>,
+        // Whether the document is still inside an unterminated triple-backtick
+        // fenced code block after this block. The C++ highlighter threads this
+        // through QSyntaxHighlighter block state into the next block's
+        // `in_code_fence_before`.
+        in_code_fence_after: bool,
+    }
+
+    struct SpellcheckSuggestionGroup {
+        // Locale code of the dictionary the suggestions came from; C++ maps it
+        // to a human language name and only shows a header when there are >=2
+        // groups.
+        language_code: String,
+        suggestions: Vec<String>,
     }
 
     struct RegistrationFlowStages {
@@ -1539,6 +1580,18 @@ mod bridge {
 
         fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -> String;
         fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String;
+
+        // ----- Spell checking (crate::spellcheck) -----------------------
+        fn spellcheck_register_builtin_dictionary(code: &str, aff: &str, dic: &str);
+        fn spellcheck_discover_dictionaries() -> Vec<SpellcheckDictionaryEntry>;
+        fn spellcheck_set_config(
+            data_dir: &str,
+            master_enabled: bool,
+            enabled_codes: &Vec<String>,
+        );
+        fn spellcheck_check_block(text: &str, in_code_fence_before: bool) -> SpellcheckBlockResult;
+        fn spellcheck_suggest(word: &str) -> Vec<SpellcheckSuggestionGroup>;
+        fn spellcheck_add_word(word: &str);
 
         fn emoji_only_visual_count(body: &str) -> i32;
 

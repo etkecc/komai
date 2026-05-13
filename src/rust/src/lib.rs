@@ -15,6 +15,7 @@ pub mod logging;
 pub mod matrix_backend;
 pub mod serverlist;
 pub mod settings;
+pub mod spellcheck;
 pub mod syntax_highlight;
 pub mod theme;
 pub mod transcription;

@@ -458,6 +458,8 @@ pub(crate) fn ffi_config_composer_section(
         input_inline_room_picker_enabled: config.composer.input_inline_room_picker_enabled.unwrap_or(defaults::INPUT_INLINE_ROOM_PICKER_ENABLED),
         input_inline_user_picker_enabled: config.composer.input_inline_user_picker_enabled.unwrap_or(defaults::INPUT_INLINE_USER_PICKER_ENABLED),
         input_transcription_enabled: config.composer.input_transcription_enabled.unwrap_or(defaults::INPUT_TRANSCRIPTION_ENABLED),
+        input_spellcheck_enabled: config.composer.input_spellcheck_enabled.unwrap_or(defaults::INPUT_SPELLCHECK_ENABLED),
+        input_spellcheck_languages: config.composer.input_spellcheck_languages.clone().unwrap_or_default(),
         attachments_strip_image_metadata: config.composer.attachments_strip_image_metadata.unwrap_or(defaults::ATTACHMENTS_STRIP_IMAGE_METADATA),
         typing_send_global: config
             .composer
@@ -888,6 +890,8 @@ fn clone_config_composer_section(
         input_inline_room_picker_enabled: section.input_inline_room_picker_enabled,
         input_inline_user_picker_enabled: section.input_inline_user_picker_enabled,
         input_transcription_enabled: section.input_transcription_enabled,
+        input_spellcheck_enabled: section.input_spellcheck_enabled,
+        input_spellcheck_languages: section.input_spellcheck_languages.iter().cloned().collect(),
         attachments_strip_image_metadata: section.attachments_strip_image_metadata,
         typing_send_global: section.typing_send_global,
         typing_send_by_room: section

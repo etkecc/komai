@@ -151,4 +151,8 @@
         <file>media/ringback.ogg</file>
         <file>media/callend.ogg</file>
     </qresource>
+    <qresource prefix="/dictionaries">
+        <file alias="en_US.aff">dictionaries/en_US.aff</file>
+        <file alias="en_US.dic">dictionaries/en_US.dic</file>
+    </qresource>
 </RCC>

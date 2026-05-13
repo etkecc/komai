@@ -34,6 +34,7 @@
     QString integrationsTranscriptionModel() const;
     QString integrationsTranscriptionLanguage() const;
     QString integrationsTranscriptionPrompt() const;
+    QStringList composerInputSpellcheckLanguages() const;
     QString sponsoringStatus() const;
     bool desktopSystemTrayFirstClosePrompted() const;
     int windowWidth() const;

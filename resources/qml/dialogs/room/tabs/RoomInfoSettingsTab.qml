@@ -4,6 +4,7 @@
 
 import "../components"
 import "../../../components" as Components
+import "../../../composer" as Composer
 import "../../../ui"
 import QtQuick
 import QtQuick.Controls
@@ -318,6 +319,30 @@ Item {
                             onEditingFinished: applyTopic()
                             onActiveFocusChanged: if (!activeFocus) applyTopic()
                             Component.onDestruction: applyTopic()
+
+                            SpellChecker {
+                                id: roomTopicSpellChecker
+                                document: roomTopicField.textDocument
+                                underlineColor: Komai.theme.error
+                                Component.onCompleted: if (!roomTopicSpellChecker.document) roomTopicSpellChecker.document = roomTopicField.textDocument
+                            }
+
+                            Composer.SpellcheckContextMenu {
+                                id: roomTopicSpellcheckCtx
+                                target: roomTopicField
+                                spellChecker: roomTopicSpellChecker
+                            }
+
+                            // Intercept right-click ahead of the TextArea's
+                            // built-in context menu so we can pop ours (which
+                            // adds the per-dictionary suggestion submenus).
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.RightButton
+                                cursorShape: Qt.IBeamCursor
+                                onPressed: mouse => { mouse.accepted = true; }
+                                onClicked: mouse => roomTopicSpellcheckCtx.show(Qt.point(mouse.x, mouse.y))
+                            }
                         }
                     }
                 }

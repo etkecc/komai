@@ -1,6 +1,7 @@
     // Composer
     CONNECT_SETTING_ID(ComposerInputMarkdownToHtmlEnabled, composerInputMarkdownToHtmlEnabledChanged, Value);
     CONNECT_SETTING_ID(ComposerInputTranscriptionEnabled, composerInputTranscriptionEnabledChanged, Value);
+    CONNECT_SETTING_ID(ComposerInputSpellcheckEnabled, composerInputSpellcheckEnabledChanged, Value);
     CONNECT_SETTING_ID(ComposerAttachmentsStripImageMetadata, composerAttachmentsStripImageMetadataChanged, Value);
     CONNECT_SETTING_ID(ComposerInputSendKey, composerInputSendKeyChanged, Value);
     CONNECT_SETTING_ID(ComposerInputAutoReplaceEmoji, composerInputAutoReplaceEmojiChanged, Value);

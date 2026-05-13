@@ -36,7 +36,10 @@ qmlMessageHandler(QtMsgType type, const QMessageLogContext &context, const QStri
       // Qt Particles module property shadowing warnings (Qt 6.11.0)
       msg.startsWith(QStringLiteral("Member enabled of the object QQuickParticleEmitter")) ||
       msg.startsWith(QStringLiteral("Member enabled of the object QQuickParticleAffector")) ||
-      msg.startsWith(QStringLiteral("Member rotation of the object QQuickImageParticle")))
+      msg.startsWith(QStringLiteral("Member rotation of the object QQuickImageParticle")) ||
+      // Benign: a MenuItem/MenuSeparator created for a Menu that isn't open yet
+      // (we build the composer context menu fresh on each right-click).
+      msg.contains(QStringLiteral("Created graphical object was not placed in the graphics scene")))
         return;
 
     switch (type) {

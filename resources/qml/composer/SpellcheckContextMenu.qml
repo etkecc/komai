@@ -1,0 +1,146 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import QtQuick
+import QtQuick.Controls
+import cc.etke.komai 1.0
+
+// Right-click context menu for a TextArea/TextEdit that has a SpellChecker
+// attached. Builds per-dictionary spelling-suggestion submenus when the click
+// landed on a misspelled word, plus the standard edit actions (Undo, Redo,
+// Cut, Copy, Paste, Select All). Used by the message composer and the
+// room-topic editor.
+//
+// Usage:
+//
+//   SpellcheckContextMenu {
+//       id: spellcheckCtx
+//       target: myTextArea
+//       spellChecker: mySpellChecker
+//   }
+//   MouseArea {
+//       anchors.fill: myTextArea
+//       acceptedButtons: Qt.RightButton
+//       cursorShape: Qt.IBeamCursor
+//       onPressed: mouse => { mouse.accepted = true; }
+//       onClicked: mouse => spellcheckCtx.show(Qt.point(mouse.x, mouse.y))
+//   }
+QtObject {
+    id: root
+
+    // The TextArea/TextEdit. Must support positionAt(x,y), cut/copy/paste/
+    // selectAll/undo/redo methods, canPaste/canUndo/canRedo/selectedText/
+    // length/readOnly properties.
+    required property var target
+
+    // The SpellChecker bound to target.textDocument. Provides
+    // misspelledWordAround(pos) and replaceRange(start, length, replacement).
+    required property var spellChecker
+
+    function show(point) {
+        const t = root.target;
+        const sc = root.spellChecker;
+        const pos = t.positionAt(point.x, point.y);
+        const info = sc.misspelledWordAround(pos);
+        const menu = _menuComponent.createObject(t);
+        if (!menu)
+            return;
+
+        if (info.found) {
+            const groups = SpellCheckEngine.suggestionsFor(info.word);
+            for (let g = 0; g < groups.length; ++g) {
+                const group = groups[g];
+                //: Submenu header in the right-click spelling-suggestions
+                //: menu. %1 is the dictionary's display name
+                //: ("English / United States", "Bulgarian / Bulgaria",
+                //: or just "Esperanto" for locale codes without a
+                //: territory); %2 is the number of suggestions in this
+                //: group (an integer).
+                const sub = _submenuComponent.createObject(t, {
+                    title: qsTr("Spellcheck (%1): [%2]").arg(group.language).arg(group.suggestions.length)
+                });
+                for (let s = 0; s < group.suggestions.length; ++s) {
+                    const w = group.suggestions[s];
+                    sub.addItem(_mkItem(w, true, function () {
+                        sc.replaceRange(info.start, info.length, w);
+                    }, ""));
+                }
+                menu.addMenu(sub);
+                _sizeMenuToContents(sub);
+            }
+            if (groups.length === 0)
+                menu.addItem(_mkItem(qsTr("No spelling suggestions"), false, null, ""));
+            menu.addItem(_separatorComponent.createObject(t));
+            menu.addItem(_mkItem(qsTr("Add to dictionary"), true, function () {
+                SpellCheckEngine.addToDictionary(info.word);
+            }, ""));
+            menu.addItem(_separatorComponent.createObject(t));
+        }
+
+        // Undo/Redo when the target supports it (every TextArea does; left
+        // optional so unusual targets without these still work).
+        if (t.canUndo !== undefined) {
+            menu.addItem(_mkItem(qsTr("Undo"), t.canUndo && !t.readOnly,
+                function () { t.undo(); }, "edit-undo"));
+            menu.addItem(_mkItem(qsTr("Redo"), t.canRedo && !t.readOnly,
+                function () { t.redo(); }, "edit-redo"));
+            menu.addItem(_separatorComponent.createObject(t));
+        }
+        menu.addItem(_mkItem(qsTr("Cut"),
+            t.selectedText.length > 0 && !t.readOnly,
+            function () { t.cut(); }, "edit-cut"));
+        menu.addItem(_mkItem(qsTr("Copy"),
+            t.selectedText.length > 0,
+            function () { t.copy(); }, "edit-copy"));
+        menu.addItem(_mkItem(qsTr("Paste"),
+            t.canPaste,
+            function () { t.paste(); }, "edit-paste"));
+        menu.addItem(_separatorComponent.createObject(t));
+        menu.addItem(_mkItem(qsTr("Select All"),
+            t.length > 0,
+            function () { t.selectAll(); }, "edit-select-all"));
+
+        _sizeMenuToContents(menu);
+        menu.closed.connect(function () { menu.destroy(); });
+        menu.popup(point);
+    }
+
+    // Items/separators are parented to `target` (which is in the graphics
+    // scene, so there's no "not placed in the graphics scene" warning) and
+    // then addItem/addMenu reparents them into the menu — which therefore
+    // owns them and frees them when it's destroyed.
+    function _mkItem(label, isEnabled, action, iconName) {
+        const opts = { text: label, enabled: isEnabled };
+        if (iconName)
+            opts["icon.name"] = iconName;
+        const item = _itemComponent.createObject(root.target, opts);
+        if (action)
+            item.triggered.connect(action);
+        return item;
+    }
+
+    // Force the menu to be wide enough for its longest item. The Basic
+    // style's Menu otherwise keeps its background's default width and
+    // elides long labels (e.g. "Spellcheck (Bulgarian / Bulgaria): [12]");
+    // a dynamically-built menu doesn't always recompute contentWidth from
+    // the items, so set it explicitly.
+    function _sizeMenuToContents(m) {
+        let w = 0;
+        for (let i = 0; i < m.count; ++i) {
+            const it = m.itemAt(i);
+            if (it && it.implicitWidth > w)
+                w = it.implicitWidth;
+        }
+        if (w > 0)
+            m.contentWidth = w;
+    }
+
+    // `cascade` keeps sub-menus opening to the side rather than
+    // overlaying/replacing the parent; the default popupType (an in-window
+    // item popup) makes that work reliably.
+    property Component _menuComponent: Component { Menu { cascade: true } }
+    property Component _submenuComponent: Component { Menu { cascade: true } }
+    property Component _itemComponent: Component { MenuItem {} }
+    property Component _separatorComponent: Component { MenuSeparator {} }
+}

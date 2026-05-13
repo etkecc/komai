@@ -27,6 +27,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support, on the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime
 - 📎 [Attachments](docs/user-guide/features/attachments.md) (file, image, audio) with a [built-in media viewer](docs/user-guide/features/media-playback.md) and in-app video playback
 - 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to dictate speech into the composer (OpenAI-API-compatible)
+- ✍️ [Spell checking](docs/user-guide/features/spellcheck.md) -- offline, multi-language, with a bundled English dictionary; picks up your system's Hunspell dictionaries
 - 📞 [Calls](docs/user-guide/features/calls.md) -- legacy 1:1 voice only; video/screen-share buggy. Disabled by default; no [Element Call](docs/user-guide/features/calls.md#-element-call) yet
 - 😀 [Emoji](docs/user-guide/features/emojis.md) messages with custom emojis and localized [CLDR](https://cldr.unicode.org/) keyword search (`:whiskey` finds 🥃)
 - 💬 Replies, [Discord](https://discord.com/)-style [threads](docs/user-guide/features/threads.md), and message forwarding

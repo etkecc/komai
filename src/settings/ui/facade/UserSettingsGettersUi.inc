@@ -31,6 +31,7 @@
     bool composerInputInlineRoomPickerEnabled() const;
     bool composerInputInlineUserPickerEnabled() const;
     bool composerInputTranscriptionEnabled() const;
+    bool composerInputSpellcheckEnabled() const;
     bool composerAttachmentsStripImageMetadata() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
     TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning() const;

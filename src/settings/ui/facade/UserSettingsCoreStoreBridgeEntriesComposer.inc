@@ -8,5 +8,6 @@ X(ComposerInputInlineEmojiPickerEnabled, settings.composerInputInlineEmojiPicker
 X(ComposerInputInlineRoomPickerEnabled, settings.composerInputInlineRoomPickerEnabled())
 X(ComposerInputInlineUserPickerEnabled, settings.composerInputInlineUserPickerEnabled())
 X(ComposerInputTranscriptionEnabled, settings.composerInputTranscriptionEnabled())
+X(ComposerInputSpellcheckEnabled, settings.composerInputSpellcheckEnabled())
 X(ComposerAttachmentsStripImageMetadata, settings.composerAttachmentsStripImageMetadata())
 X(ComposerTypingSendGlobal, settings.composerTypingSendEnabled())

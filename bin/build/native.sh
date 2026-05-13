@@ -18,6 +18,13 @@ lock_heartbeat_file=""
 lock_owner_pid="${BASHPID}"
 cmake_target_help_cache=""
 
+# `stat -c %Y` is GNU coreutils; BSD/Darwin uses `stat -f %m` to print a file's modification time as a Unix epoch. Pick once at startup.
+if [[ "$(uname)" == "Darwin" ]]; then
+	file_mtime() { stat -f %m "$1"; }
+else
+	file_mtime() { stat -c %Y "$1"; }
+fi
+
 usage() {
 	cat >&2 <<'EOF'
 Usage:
@@ -204,7 +211,7 @@ acquire_legacy_lock() {
 			local now
 			now="$(date +%s)"
 			local beat
-			beat="$(stat -c %Y "${lock_heartbeat_file}")"
+			beat="$(file_mtime "${lock_heartbeat_file}")"
 			heartbeat_age="$((now - beat))"
 		fi
 
@@ -224,7 +231,7 @@ acquire_legacy_lock() {
 			local now
 			now="$(date +%s)"
 			local beat
-			beat="$(stat -c %Y "${lock_heartbeat_file}")"
+			beat="$(file_mtime "${lock_heartbeat_file}")"
 			echo "  heartbeat_age_seconds=$((now - beat))" >&2
 		fi
 		echo "Refusing to run concurrently against ${build_dir}." >&2

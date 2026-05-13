@@ -27,18 +27,6 @@ ColumnLayout {
 
     TimelineCallStatusBars {}
 
-    Composer.UploadBox {
-        Layout.minimumHeight: 0
-        Layout.preferredHeight: composerContainer.visible
-            && layoutVisible
-            && !composerContainer._walkMode ? implicitHeight : 0
-        Layout.maximumHeight: composerContainer.visible
-            && layoutVisible
-            && !composerContainer._walkMode ? implicitHeight : 0
-        uploadsController: root.uploadsController
-        uploadsSending: TimelineManager.matrixTimelineAttachmentSending
-    }
-
     Composer.ReplyPopup {
         Layout.minimumHeight: 0
         Layout.preferredHeight: composerContainer.visible
@@ -55,6 +43,18 @@ ColumnLayout {
         matrixThreadEventId: ""
         roomModel: root.composerRoom
         roundTopCorners: true
+    }
+
+    Composer.UploadBox {
+        Layout.minimumHeight: 0
+        Layout.preferredHeight: composerContainer.visible
+            && layoutVisible
+            && !composerContainer._walkMode ? implicitHeight : 0
+        Layout.maximumHeight: composerContainer.visible
+            && layoutVisible
+            && !composerContainer._walkMode ? implicitHeight : 0
+        uploadsController: root.uploadsController
+        uploadsSending: TimelineManager.matrixTimelineAttachmentSending
     }
 
     Composer.ComposerTranscriptionBanner {

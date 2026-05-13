@@ -4531,7 +4531,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>التشغيل بالملف الشخصي المحدد. يتم إنشاء ملف شخصي جديد تلقائيًا إذا لم يكن موجودًا بعد. تسمح الملفات الشخصية المتعددة بحسابات منفصلة ونسخ متزامنة. معرّفات الملفات الشخصية غير الفارغة المسموح بها: الحرف الأول A-Z أو a-z أو '_'؛ الأحرف المتبقية A-Z أو a-z أو 0-9 أو '_' أو '-'.</translation>
     </message>

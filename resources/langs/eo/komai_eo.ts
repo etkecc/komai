@@ -4503,7 +4503,7 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Ruli per la donita profilo. Nova profilo estas kreata aŭtomate se ĝi ankoraŭ ne ekzistas. Multaj profiloj permesas apartajn kontojn kaj samtempajn instancojn. Permesataj ne-malplenaj profil-identigaĵoj: unua signo A-Z, a-z, aŭ '_'; restaj signoj A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

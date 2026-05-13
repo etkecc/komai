@@ -4503,7 +4503,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Avvia con il profilo indicato. Un nuovo profilo viene creato automaticamente se non esiste ancora. Più profili consentono account separati e istanze concorrenti. ID profilo non vuoti consentiti: primo carattere A-Z, a-z o '_'; caratteri rimanenti A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

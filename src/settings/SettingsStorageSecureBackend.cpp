@@ -136,8 +136,12 @@ invokeSecureBackendBlocking(Func &&func)
     }
 
 #ifdef Q_OS_MACOS
-    // qtkeychain's macOS backend dispatches Job::finished completions via the main GCD queue, so hopping to our worker via BlockingQueuedConnection from the main thread deadlocks: main blocks waiting for the worker, the worker spins inside performRead*'s nested QEventLoop waiting for finished, and the completion that would fire finished is itself queued on the (now blocked) main thread.
-    // Running on the caller thread lets the nested QEventLoop pump the dispatch queue directly and the call returns normally.
+    // qtkeychain's macOS backend dispatches Job::finished completions via the main GCD queue, so
+    // hopping to our worker via BlockingQueuedConnection from the main thread deadlocks: main
+    // blocks waiting for the worker, the worker spins inside performRead*'s nested QEventLoop
+    // waiting for finished, and the completion that would fire finished is itself queued on the
+    // (now blocked) main thread. Running on the caller thread lets the nested QEventLoop pump the
+    // dispatch queue directly and the call returns normally.
     return std::forward<Func>(func)();
 #else
     auto &state    = secureBackendThreadState();

@@ -7,7 +7,8 @@
 #include <optional>
 
 // _exit() is in <process.h> on MSVC and <unistd.h> on POSIX.
-// Linux libstdc++ exposes it transitively through other headers, so Linux/CI builds compile without an explicit include; Apple's libc++ does not.
+// Linux libstdc++ exposes it transitively through other headers, so Linux/CI builds compile without
+// an explicit include; Apple's libc++ does not.
 #ifdef _WIN32
 #include <process.h>
 #else
@@ -57,8 +58,8 @@
 #include "utils/Utils.h"
 
 #if defined(Q_OS_MACOS)
-#include "notifications/Manager.h"
 #include "notifications/MacReopenHandler.h"
+#include "notifications/Manager.h"
 #endif
 
 #ifdef GSTREAMER_AVAILABLE
@@ -535,9 +536,14 @@ app::runMainApplication(int argc, char *argv[])
     // notification itself.
     NotificationsManager::attachToMacNotifCenter();
 
-    // macOS doesn't bridge "user wants the app's window back" to a show() on its own. The window goes away via MainWindow::closeEvent (close-to-tray) or never appears at all (desktop.system_tray.autostart), and from there:
-    //   - Cmd+Tab away then back fires Qt::ApplicationActive on applicationStateChanged — caught below.
-    //   - Dock-icon click while NSApp is still in the "active, just windowless" state does NOT fire applicationStateChanged (no transition), so we hook AppKit's applicationShouldHandleReopen: directly via MacReopenHandler.
+    // macOS doesn't bridge "user wants the app's window back" to a show() on its own. The window
+    // goes away via MainWindow::closeEvent (close-to-tray) or never appears at all
+    // (desktop.system_tray.autostart), and from there:
+    //   - Cmd+Tab away then back fires Qt::ApplicationActive on applicationStateChanged — caught
+    //   below.
+    //   - Dock-icon click while NSApp is still in the "active, just windowless" state does NOT fire
+    //   applicationStateChanged (no transition), so we hook AppKit's applicationShouldHandleReopen:
+    //   directly via MacReopenHandler.
     // Together the two paths cover every way macOS surfaces "summon the window".
     auto showMainWindow = [&w] {
         if (w.isVisible())
@@ -546,22 +552,25 @@ app::runMainApplication(int argc, char *argv[])
         w.raise();
         w.requestActivate();
     };
-    // The reopen handler only fires on an explicit dock-icon click, which is the user's unambiguous "show me the window" signal — fine to always honour.
+    // The reopen handler only fires on an explicit dock-icon click, which is the user's unambiguous
+    // "show me the window" signal — fine to always honour.
     komai::mac::installReopenHandler(showMainWindow);
-    // applicationStateChanged also fires once at launch as the app gains focus, which would override desktop.system_tray.autostart. Gate it on "has the user ever seen the window once" so the launch-time activation can't undo start-in-tray, while Cmd+Tab away → back still triggers a re-show.
+    // applicationStateChanged also fires once at launch as the app gains focus, which would
+    // override desktop.system_tray.autostart. Gate it on "has the user ever seen the window once"
+    // so the launch-time activation can't undo start-in-tray, while Cmd+Tab away → back still
+    // triggers a re-show.
     auto hasBeenVisible = std::make_shared<bool>(false);
     QObject::connect(&w, &QWindow::visibleChanged, &w, [hasBeenVisible](bool visible) {
         if (visible)
             *hasBeenVisible = true;
     });
-    QObject::connect(
-      &app,
-      &QApplication::applicationStateChanged,
-      &w,
-      [showMainWindow, hasBeenVisible](Qt::ApplicationState state) {
-          if (state == Qt::ApplicationActive && *hasBeenVisible)
-              showMainWindow();
-      });
+    QObject::connect(&app,
+                     &QApplication::applicationStateChanged,
+                     &w,
+                     [showMainWindow, hasBeenVisible](Qt::ApplicationState state) {
+                         if (state == Qt::ApplicationActive && *hasBeenVisible)
+                             showMainWindow();
+                     });
 #endif
 
     komai::logging::ui()->info("starting komai {}", komai::version);

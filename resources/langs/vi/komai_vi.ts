@@ -4496,7 +4496,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Chạy với hồ sơ đã cho. Hồ sơ mới được tạo tự động nếu chưa tồn tại. Nhiều hồ sơ cho phép các tài khoản riêng biệt và các phiên bản đồng thời. ID hồ sơ hợp lệ (không được trống): ký tự đầu là A-Z, a-z hoặc '_'; các ký tự còn lại là A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

@@ -4503,7 +4503,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Käivita antud profiiliga. Uus profiil luuakse automaatselt, kui seda veel ei ole. Mitu profiili võimaldavad eraldi kontosid ja samaaegset käivitamist. Lubatud mittetühja profiili ID-d: esimene märk A-Z, a-z või '_'; ülejäänud märgid A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

@@ -4510,7 +4510,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+163"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Spustit se zadaným profilem. Nový profil je automaticky vytvořen, pokud ještě neexistuje. Více profilů umožňuje oddělené účty a souběžné instance. Povolená neprázdná ID profilů: první znak A–Z, a–z nebo '_'; zbývající znaky A–Z, a–z, 0–9, '_', '-'.</translation>
     </message>

@@ -40,7 +40,8 @@ set(
 set(CMAKE_CXX_STANDARD 20 CACHE STRING "C++ standard")
 set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL "Require C++ standard to be supported")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON CACHE BOOL "compile as PIC by default")
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "macos deployment target")
+# std::format with float/double pulls in libc++'s to_chars(long double), which Apple marks __builtin_available(macos 13.3); the prior 10.15 default broke every native macOS build with "'to_chars' is unavailable" inside std::format instantiations.
+set(CMAKE_OSX_DEPLOYMENT_TARGET "13.3" CACHE STRING "macos deployment target")
 
 include(cmake/CPM.cmake)
 

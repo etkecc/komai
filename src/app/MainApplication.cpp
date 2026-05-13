@@ -6,6 +6,14 @@
 #include <iostream>
 #include <optional>
 
+// _exit() is in <process.h> on MSVC and <unistd.h> on POSIX.
+// Linux libstdc++ exposes it transitively through other headers, so Linux/CI builds compile without an explicit include; Apple's libc++ does not.
+#ifdef _WIN32
+#include <process.h>
+#else
+#include <unistd.h>
+#endif
+
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDesktopServices>

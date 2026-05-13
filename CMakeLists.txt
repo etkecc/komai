@@ -879,9 +879,9 @@ qt_add_resources(QRC resources/res.qrc)
 
 if(APPLE)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework Foundation -framework Cocoa -framework UserNotifications")
-    set(SRC_FILES ${SRC_FILES} src/notifications/NotificationManagerProxy.h src/notifications/MacNotificationDelegate.h src/notifications/MacNotificationDelegate.mm src/notifications/ManagerMac.mm src/notifications/ManagerMac.cpp)
+    set(SRC_FILES ${SRC_FILES} src/notifications/NotificationManagerProxy.h src/notifications/MacNotificationDelegate.h src/notifications/MacNotificationDelegate.mm src/notifications/ManagerMac.mm src/notifications/ManagerMac.cpp src/notifications/MacReopenHandler.h src/notifications/MacReopenHandler.mm)
     if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")
-        set_source_files_properties( src/notifications/NotificationManagerProxy.h src/notifications/MacNotificationDelegate.h src/notifications/MacNotificationDelegate.mm src/notifications/ManagerMac.mm PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
+        set_source_files_properties( src/notifications/NotificationManagerProxy.h src/notifications/MacNotificationDelegate.h src/notifications/MacNotificationDelegate.mm src/notifications/ManagerMac.mm src/notifications/MacReopenHandler.h src/notifications/MacReopenHandler.mm PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
     endif()
 elseif(WIN32)
     CPMAddPackage(

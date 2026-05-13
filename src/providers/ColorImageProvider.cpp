@@ -23,6 +23,10 @@ ColorImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &r
     if (args.size() < 2)
         return source;
 
+    // Painting into a null QPixmap dereferences a null QPlatformPixmap inside QPixmap::detach() and segfaults; source can be null when the requested image-format plugin is missing in a packaged build or the QRC path is wrong.
+    if (source.isNull())
+        return source;
+
     QColor color(args[1]);
 
     QPixmap colorized = source;

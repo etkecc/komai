@@ -1472,6 +1472,8 @@ endif()
 if(APPLE)
     # CoreServices for Launch Services API (external media player lookup by MIME type)
     target_link_libraries(komai PRIVATE "-framework CoreServices")
+    # SystemConfiguration is needed by the `system_configuration` Rust crate (transitive via rustls-platform-verifier); its `cargo:rustc-link-lib=framework=` directive doesn't reach the C++ link line through Corrosion, mirroring the Windows `iphlpapi` workaround below.
+    target_link_libraries(komai PRIVATE "-framework SystemConfiguration")
 endif()
 
 if(WIN32)

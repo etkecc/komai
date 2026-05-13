@@ -67,7 +67,7 @@ QtObject {
                     }, ""));
                 }
                 menu.addMenu(sub);
-                _sizeMenuToContents(sub);
+                MenuSizing.sizeMenuToContents(sub);
             }
             if (groups.length === 0)
                 menu.addItem(_mkItem(qsTr("No spelling suggestions"), false, null, ""));
@@ -101,7 +101,7 @@ QtObject {
             t.length > 0,
             function () { t.selectAll(); }, "edit-select-all"));
 
-        _sizeMenuToContents(menu);
+        MenuSizing.sizeMenuToContents(menu);
         menu.closed.connect(function () { menu.destroy(); });
         menu.popup(point);
     }
@@ -118,22 +118,6 @@ QtObject {
         if (action)
             item.triggered.connect(action);
         return item;
-    }
-
-    // Force the menu to be wide enough for its longest item. The Basic
-    // style's Menu otherwise keeps its background's default width and
-    // elides long labels (e.g. "Spellcheck (Bulgarian / Bulgaria): [12]");
-    // a dynamically-built menu doesn't always recompute contentWidth from
-    // the items, so set it explicitly.
-    function _sizeMenuToContents(m) {
-        let w = 0;
-        for (let i = 0; i < m.count; ++i) {
-            const it = m.itemAt(i);
-            if (it && it.implicitWidth > w)
-                w = it.implicitWidth;
-        }
-        if (w > 0)
-            m.contentWidth = w;
     }
 
     // `cascade` keeps sub-menus opening to the side rather than

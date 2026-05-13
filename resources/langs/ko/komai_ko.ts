@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>표시</translation>
     </message>
@@ -3471,7 +3471,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>답&amp;장</translation>
     </message>
@@ -5123,7 +5123,7 @@ Please go back and sign in manually.</source>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;복사</translation>
     </message>
@@ -6253,7 +6253,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>방 참여</translation>
     </message>
@@ -6292,7 +6292,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>사용할 태그를 입력하세요:</translation>
     </message>
@@ -6337,7 +6337,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>방 태그 지정:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>즐겨찾기</translation>
     </message>
@@ -6439,7 +6439,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>상태 메시지를 입력하세요:</translation>
     </message>
@@ -6529,7 +6529,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>설정</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>프로필 설정</translation>
     </message>
@@ -6821,18 +6821,18 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>탭 고정 해제</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>탭 고정</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>읽음으로 표시</translation>
     </message>
@@ -6872,7 +6872,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>고정되지 않은 탭 닫기</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>%1 닫기</translation>
     </message>

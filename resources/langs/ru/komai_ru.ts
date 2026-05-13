@@ -767,7 +767,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>
@@ -3481,7 +3481,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Отве&amp;тить</translation>
     </message>
@@ -5137,7 +5137,7 @@ Please go back and sign in manually.</source>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Копировать</translation>
     </message>
@@ -6269,7 +6269,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Присоединиться к комнате</translation>
     </message>
@@ -6308,7 +6308,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Введи тег, который хочешь использовать:</translation>
     </message>
@@ -6353,7 +6353,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Пометить комнату как:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Избранное</translation>
     </message>
@@ -6457,7 +6457,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Введи статусное сообщение:</translation>
     </message>
@@ -6547,7 +6547,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Настройки профиля</translation>
     </message>
@@ -6839,18 +6839,18 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Открепить вкладку</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Закрепить вкладку</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Пометить как прочитанное</translation>
     </message>
@@ -6890,7 +6890,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Закрыть незакреплённые вкладки</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Закрыть %1</translation>
     </message>

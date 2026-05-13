@@ -458,6 +458,7 @@ Rectangle {
             tabContextMenu.addItem(menuItemCloseUnpinned.createObject(null));
         tabContextMenu.addItem(menuItemCloseTab.createObject(null));
 
+        MenuSizing.sizeMenuToContents(tabContextMenu);
         var popupX = tabDelegate.mirrored
             ? localX - tabContextMenu.implicitWidth
             : localX;

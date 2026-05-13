@@ -767,7 +767,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
@@ -3476,7 +3476,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Respo&amp;nder</translation>
     </message>
@@ -5130,7 +5130,7 @@ Volte e faça login manualmente.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copiar</translation>
     </message>
@@ -6261,7 +6261,7 @@ Observe que ela não pode ser desativada depois.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Entrar na sala</translation>
     </message>
@@ -6300,7 +6300,7 @@ Observe que ela não pode ser desativada depois.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Digite a etiqueta que deseja usar:</translation>
     </message>
@@ -6345,7 +6345,7 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Marcar sala como:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Favorito</translation>
     </message>
@@ -6448,7 +6448,7 @@ Observe que ela não pode ser desativada depois.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Digite sua mensagem de status:</translation>
     </message>
@@ -6538,7 +6538,7 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Definir</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Configurações do perfil</translation>
     </message>
@@ -6830,18 +6830,18 @@ Observe que ela não pode ser desativada depois.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Desafixar Aba</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Fixar Aba</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Marcar como lida</translation>
     </message>
@@ -6881,7 +6881,7 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Fechar Abas Não Fixadas</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Fechar %1</translation>
     </message>

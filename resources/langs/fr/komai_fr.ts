@@ -767,7 +767,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Afficher</translation>
     </message>
@@ -3476,7 +3476,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Répond&amp;re</translation>
     </message>
@@ -5130,7 +5130,7 @@ Veuillez revenir en arrière et vous connecter manuellement.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copier</translation>
     </message>
@@ -6261,7 +6261,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Rejoindre le salon</translation>
     </message>
@@ -6300,7 +6300,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Entrez le tag que vous souhaitez utiliser :</translation>
     </message>
@@ -6345,7 +6345,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Étiqueter le salon comme :</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Favori</translation>
     </message>
@@ -6448,7 +6448,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Entrez votre message de statut :</translation>
     </message>
@@ -6538,7 +6538,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Définir</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Paramètres de profil</translation>
     </message>
@@ -6830,18 +6830,18 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Désépingler l'onglet</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Épingler l'onglet</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Marquer comme lu</translation>
     </message>
@@ -6881,7 +6881,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Fermer les onglets non épinglés</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Fermer %1</translation>
     </message>

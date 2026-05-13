@@ -767,7 +767,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Kuva</translation>
     </message>
@@ -3476,7 +3476,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Vast&amp;a</translation>
     </message>
@@ -5130,7 +5130,7 @@ Palun mine tagasi ja logi sisse käsitsi.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopeeri</translation>
     </message>
@@ -6261,7 +6261,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Liitu jututoaga</translation>
     </message>
@@ -6300,7 +6300,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Sisesta soovitud silt:</translation>
     </message>
@@ -6345,7 +6345,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Jututoa silt:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Lemmik</translation>
     </message>
@@ -6448,7 +6448,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Sisesta olekusõnum:</translation>
     </message>
@@ -6538,7 +6538,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Määra</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Profiili seaded</translation>
     </message>
@@ -6830,18 +6830,18 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Eemalda kinnitus</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Kinnita vahekaart</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Märgi loetuks</translation>
     </message>
@@ -6881,7 +6881,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Sulge kinnitamata vahekaardid</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Sulge %1</translation>
     </message>

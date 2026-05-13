@@ -767,7 +767,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Hiển thị</translation>
     </message>
@@ -3471,7 +3471,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Trả &amp;lời</translation>
     </message>
@@ -5123,7 +5123,7 @@ Vui lòng quay lại và đăng nhập thủ công.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Sao chép</translation>
     </message>
@@ -6253,7 +6253,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Tham gia phòng</translation>
     </message>
@@ -6292,7 +6292,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Nhập thẻ bạn muốn sử dụng:</translation>
     </message>
@@ -6337,7 +6337,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Gắn thẻ phòng là:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Yêu thích</translation>
     </message>
@@ -6439,7 +6439,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Nhập tin nhắn trạng thái của bạn:</translation>
     </message>
@@ -6529,7 +6529,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Đặt</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Cài đặt hồ sơ</translation>
     </message>
@@ -6821,18 +6821,18 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Bỏ Ghim Tab</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Ghim Tab</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Đánh dấu là đã đọc</translation>
     </message>
@@ -6872,7 +6872,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Đóng Các Tab Không Ghim</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Đóng %1</translation>
     </message>

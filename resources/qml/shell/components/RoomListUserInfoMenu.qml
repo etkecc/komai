@@ -40,6 +40,8 @@ Item {
     Menu {
         id: contextMenu
 
+        Component.onCompleted: MenuSizing.applyAutoWidth(contextMenu)
+
         MenuItem {
             text: qsTr("Profile settings")
 

@@ -767,7 +767,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Mostra</translation>
     </message>
@@ -3476,7 +3476,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Risp&amp;ondi</translation>
     </message>
@@ -5130,7 +5130,7 @@ Tornare indietro e accedere manualmente.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copia</translation>
     </message>
@@ -6261,7 +6261,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Accedi alla stanza</translation>
     </message>
@@ -6300,7 +6300,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Inserisci il tag da utilizzare:</translation>
     </message>
@@ -6345,7 +6345,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Etichetta stanza come:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Preferita</translation>
     </message>
@@ -6448,7 +6448,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Inserisci il tuo messaggio di stato:</translation>
     </message>
@@ -6538,7 +6538,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Imposta</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Impostazioni profilo</translation>
     </message>
@@ -6830,18 +6830,18 @@ Si noti che non può essere disabilitata in seguito.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Rimuovi fissatura</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Fissa scheda</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Segna come letta</translation>
     </message>
@@ -6881,7 +6881,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Chiudi schede non fissate</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Chiudi %1</translation>
     </message>

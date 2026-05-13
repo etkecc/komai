@@ -108,6 +108,7 @@ Menu {
     Component.onCompleted: {
         if (messageContextMenuRoot.popupType != undefined)
             messageContextMenuRoot.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
+        MenuSizing.applyAutoWidth(messageContextMenuRoot);
     }
     onClosed: {
         lastClosedAtMs = Date.now();

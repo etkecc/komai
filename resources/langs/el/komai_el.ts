@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Εμφάνιση</translation>
     </message>
@@ -3476,7 +3476,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Απάντ&amp;ηση</translation>
     </message>
@@ -5130,7 +5130,7 @@ Please go back and sign in manually.</source>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Αντιγραφή</translation>
     </message>
@@ -6261,7 +6261,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Συμμετοχή σε δωμάτιο</translation>
     </message>
@@ -6300,7 +6300,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Εισάγετε την ετικέτα που θέλετε να χρησιμοποιήσετε:</translation>
     </message>
@@ -6345,7 +6345,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Ετικέτα δωματίου ως:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Αγαπημένο</translation>
     </message>
@@ -6448,7 +6448,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Εισάγετε το μήνυμα κατάστασής σας:</translation>
     </message>
@@ -6538,7 +6538,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Ορισμός</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Ρυθμίσεις προφίλ</translation>
     </message>
@@ -6830,18 +6830,18 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Ξεκαρφίτσωμα Καρτέλας</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Καρφίτσωμα Καρτέλας</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Σήμανση ως αναγνωσμένο</translation>
     </message>
@@ -6881,7 +6881,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Κλείσιμο μη καρφιτσωμένων καρτελών</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Κλείσιμο %1</translation>
     </message>

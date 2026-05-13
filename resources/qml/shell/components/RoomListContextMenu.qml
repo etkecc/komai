@@ -31,6 +31,7 @@ Menu {
     Component.onCompleted: {
         if (root.popupType != undefined)
             root.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
+        MenuSizing.applyAutoWidth(root);
     }
 
     InputDialog {
@@ -95,6 +96,8 @@ Menu {
 
         title: qsTr("Tag room as:")
         icon.source: "qrc:/icons/icons/ui/tag.svg"
+
+        Component.onCompleted: MenuSizing.applyAutoWidth(tagsMenu)
 
         Instantiator {
             model: Communities.tagsWithDefault

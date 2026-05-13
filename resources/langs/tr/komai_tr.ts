@@ -767,7 +767,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Göster</translation>
     </message>
@@ -3471,7 +3471,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>&amp;Yanıtla</translation>
     </message>
@@ -5123,7 +5123,7 @@ Lütfen geri gidin ve manuel olarak oturum açın.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopyala</translation>
     </message>
@@ -6253,7 +6253,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Odaya katıl</translation>
     </message>
@@ -6292,7 +6292,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Kullanmak istediğiniz etiketi girin:</translation>
     </message>
@@ -6337,7 +6337,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Odayı şu şekilde etiketle:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Favori</translation>
     </message>
@@ -6439,7 +6439,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Durum mesajınızı girin:</translation>
     </message>
@@ -6529,7 +6529,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Ayarla</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Profil ayarları</translation>
     </message>
@@ -6821,18 +6821,18 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Sekmenin Sabitini Kaldır</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Sekmeyi Sabitle</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Okundu olarak işaretle</translation>
     </message>
@@ -6872,7 +6872,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Sabitlenmemiş Sekmeleri Kapat</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>%1'i Kapat</translation>
     </message>

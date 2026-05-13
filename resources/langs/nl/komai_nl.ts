@@ -767,7 +767,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Tonen</translation>
     </message>
@@ -3476,7 +3476,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Bea&amp;ntwoorden</translation>
     </message>
@@ -5130,7 +5130,7 @@ Ga terug en meld je handmatig aan.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopiëren</translation>
     </message>
@@ -6261,7 +6261,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Kamer binnengaan</translation>
     </message>
@@ -6300,7 +6300,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Voer de tag in die je wilt gebruiken:</translation>
     </message>
@@ -6345,7 +6345,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Kamer taggen als:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Favoriet</translation>
     </message>
@@ -6448,7 +6448,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Voer je statusbericht in:</translation>
     </message>
@@ -6538,7 +6538,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Instellen</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Profielinstellingen</translation>
     </message>
@@ -6830,18 +6830,18 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Tabblad losmaken</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Tabblad vastzetten</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Markeren als gelezen</translation>
     </message>
@@ -6881,7 +6881,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Niet-vastgezette tabbladen sluiten</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>%1 sluiten</translation>
     </message>

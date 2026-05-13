@@ -13,6 +13,7 @@ Menu {
     Component.onCompleted: {
         if (root.popupType != undefined)
             root.popupType = 2;
+        MenuSizing.applyAutoWidth(root);
     }
 
     InputDialog {

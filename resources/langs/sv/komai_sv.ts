@@ -767,7 +767,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Visa</translation>
     </message>
@@ -3476,7 +3476,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Svar&amp;a</translation>
     </message>
@@ -5130,7 +5130,7 @@ Gå tillbaka och logga in manuellt.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopiera</translation>
     </message>
@@ -6261,7 +6261,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Gå med i rum</translation>
     </message>
@@ -6300,7 +6300,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Ange etiketten du vill använda:</translation>
     </message>
@@ -6345,7 +6345,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Tagga rum som:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Favorit</translation>
     </message>
@@ -6448,7 +6448,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Ange ditt statusmeddelande:</translation>
     </message>
@@ -6538,7 +6538,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Ange</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Profilinställningar</translation>
     </message>
@@ -6830,18 +6830,18 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Avfäst flik</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Fäst flik</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Markera som läst</translation>
     </message>
@@ -6881,7 +6881,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Stäng ej fästa flikar</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Stäng %1</translation>
     </message>

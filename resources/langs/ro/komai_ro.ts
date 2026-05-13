@@ -767,7 +767,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Afișează</translation>
     </message>
@@ -3481,7 +3481,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>Răspun&amp;de</translation>
     </message>
@@ -5137,7 +5137,7 @@ Reveniți și autentificați-vă manual.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copiază</translation>
     </message>
@@ -6269,7 +6269,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Alătură-te camerei</translation>
     </message>
@@ -6308,7 +6308,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Introdu eticheta pe care vrei să o folosești:</translation>
     </message>
@@ -6353,7 +6353,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Etichetează camera ca:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Favorit</translation>
     </message>
@@ -6457,7 +6457,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Introdu mesajul de stare:</translation>
     </message>
@@ -6547,7 +6547,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Setează</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Setările profilului</translation>
     </message>
@@ -6839,18 +6839,18 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Anulează fixarea filei</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Fixează fila</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Marchează ca citit</translation>
     </message>
@@ -6890,7 +6890,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Închide filele nefixate</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>Închide %1</translation>
     </message>

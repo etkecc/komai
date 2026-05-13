@@ -27,6 +27,7 @@ Menu {
         if (replyContextMenuRoot.popupType != undefined) {
             replyContextMenuRoot.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
         }
+        MenuSizing.applyAutoWidth(replyContextMenuRoot);
     }
 
     KomaiMenuVisibilityFilter on contentData {

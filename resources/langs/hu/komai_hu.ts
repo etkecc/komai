@@ -767,7 +767,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>CommunitiesContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+52"/>
+        <location filename="../../qml/shell/components/CommunitiesContextMenu.qml" line="+56"/>
         <source>Show</source>
         <translation>Megjelenítés</translation>
     </message>
@@ -3471,7 +3471,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+131"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
         <source>Repl&amp;y</source>
         <translation>V&amp;álasz</translation>
     </message>
@@ -5123,7 +5123,7 @@ Kérjük, lépjen vissza, és jelentkezzen be manuálisan.</translation>
 <context>
     <name>ReplyContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+37"/>
+        <location filename="../../qml/timeline/components/ReplyContextMenu.qml" line="+38"/>
         <source>&amp;Copy</source>
         <translation>&amp;Másolás</translation>
     </message>
@@ -6253,7 +6253,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
 <context>
     <name>RoomJoinCreateMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+13"/>
+        <location filename="../../qml/shell/components/RoomJoinCreateMenu.qml" line="+15"/>
         <source>Join room</source>
         <translation>Csatlakozás szobához</translation>
     </message>
@@ -6292,7 +6292,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+39"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+40"/>
         <source>Enter the tag you want to use:</source>
         <translation>Adja meg a használni kívánt cimkét:</translation>
     </message>
@@ -6337,7 +6337,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Szoba megcímkézése:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Favourite</source>
         <translation>Kedvenc</translation>
     </message>
@@ -6439,7 +6439,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
 <context>
     <name>RoomListProfileMenu</name>
     <message>
-        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+23"/>
+        <location filename="../../qml/shell/RoomListProfileMenu.qml" line="+24"/>
         <source>Enter your status message:</source>
         <translation>Adja meg az állapotüzenetét:</translation>
     </message>
@@ -6529,7 +6529,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Beállítás</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+14"/>
         <source>Profile settings</source>
         <translation>Profilbeállítások</translation>
     </message>
@@ -6821,18 +6821,18 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
     </message>
     <message>
         <location line="+252"/>
-        <location line="+139"/>
+        <location line="+140"/>
         <source>Unpin Tab</source>
         <translation>Lap rögzítésének feloldása</translation>
     </message>
     <message>
-        <location line="-139"/>
-        <location line="+139"/>
+        <location line="-140"/>
+        <location line="+140"/>
         <source>Pin Tab</source>
         <translation>Lap rögzítése</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-119"/>
         <source>Mark as read</source>
         <translation>Megjelölés olvasottként</translation>
     </message>
@@ -6872,7 +6872,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Nem rögzített lapok bezárása</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Close %1</source>
         <translation>%1 bezárása</translation>
     </message>

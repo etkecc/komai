@@ -42,12 +42,16 @@ Menu {
     Component.onCompleted: {
         if (root.popupType != undefined)
             root.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
+        MenuSizing.applyAutoWidth(root);
     }
 
     MenuItem {
         checkable: true
         checked: root.tagId.startsWith("space:") ? !Communities.isSpaceHidden(root.tagId) : true
         visible: root.isHideableFilter
+        // Collapse to zero height when hidden; otherwise the ListView
+        // delegate still reserves the row and leaves a blank gap.
+        height: visible ? implicitHeight : 0
         icon.source: "qrc:/icons/icons/ui/eye-show.svg"
         text: qsTr("Show")
 

@@ -9,6 +9,8 @@ import cc.etke.komai
 Menu {
     id: root
 
+    Component.onCompleted: MenuSizing.applyAutoWidth(root)
+
     MenuItem {
         text: qsTr("Join room")
 

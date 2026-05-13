@@ -1513,10 +1513,14 @@ if(APPLE)
         install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp${CMAKE_EXECUTABLE_SUFFIX}"
             DESTINATION ${CMAKE_INSTALL_BINDIR})
     endif()
+    # Default empty so a normal `just build` on a developer Mac gets stripped + ad-hoc-signed frameworks from macdeployqt.
+    # Packagers can override (e.g. `-no-strip;-no-codesign`) when the host toolchain's strip or codesign isn't safe to invoke during install; Nix sandboxes need this for LC_DYLD_CHAINED_FIXUPS support and a spawn-codesign env quirk.
+    set(KOMAI_DEPLOY_TOOL_OPTIONS "" CACHE STRING "Extra options forwarded to macdeployqt via DEPLOY_TOOL_OPTIONS")
     qt_generate_deploy_qml_app_script(
         TARGET komai
         OUTPUT_SCRIPT deploy_script
         NO_UNSUPPORTED_PLATFORM_ERROR
+        DEPLOY_TOOL_OPTIONS ${KOMAI_DEPLOY_TOOL_OPTIONS}
     )
     install(SCRIPT ${deploy_script})
 endif()

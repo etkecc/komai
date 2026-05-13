@@ -342,6 +342,14 @@ build_runtime_bundle() {
 	fi
 }
 
+# macOS-only: cmake --install runs macdeployqt to copy Qt frameworks, plugins, and QML modules into the bundle and ad-hoc-sign it. Without it, ${build_dir}/komai.app has no Qt dylibs at runtime and won't launch from Finder.
+bundle_macos_app() {
+	if [[ "$(uname)" != "Darwin" ]]; then
+		return 0
+	fi
+	cmake --install "${build_dir}" --prefix "${build_dir}/dist"
+}
+
 run_test_label() {
 	local label="$1"
 	shift || true
@@ -371,12 +379,14 @@ build)
 		configure_release
 	fi
 	build_runtime_bundle "$@"
+	bundle_macos_app
 	;;
 rebuild)
 	ensure_rust_toolchain
 	rm -rf "${build_dir}"
 	configure_release "$@"
 	build_runtime_bundle
+	bundle_macos_app
 	;;
 test-cpp-unit|test-unit)
 	ensure_rust_toolchain

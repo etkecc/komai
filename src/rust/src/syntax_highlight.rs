@@ -641,24 +641,39 @@ fn is_highlight_eligible(decoded: &str) -> bool {
 }
 
 /// syntect's `highlighted_html_for_string` wraps output in
-/// `<pre style="..."><code>CONTENT</code>\n</pre>\n`.
-/// We strip that wrapper because we supply our own `<pre><code>` tags with
-/// the original attributes preserved.
+/// `<pre style="background-color:#xxx;">CONTENT</pre>\n`.
+///
+/// Note: syntect's output has **no inner `<code>`** — it's just `<pre>` wrapping
+/// the highlighted `<span>`s. We strip that wrapper because we supply our own
+/// `<pre><code>` tags with the original attributes preserved. Leaving the
+/// wrapper in place produces nested `<pre>` elements: our outer one paints the
+/// bubble's alternate-base background, while syntect's inner one paints its
+/// own theme background, giving the message bubble a stacked "double rectangle"
+/// look — issue #155.
 fn strip_syntect_wrapper(html: &str) -> &str {
-    // Find start of inner content after <code>.
-    let inner_start = if let Some(pos) = html.find("<code>") {
-        pos + "<code>".len()
-    } else {
-        // No wrapper — return as-is (shouldn't happen).
+    // Skip past the opening `<pre …>`.
+    let Some(pre_start) = html.find("<pre") else {
         return html;
     };
+    let Some(gt_off) = html[pre_start..].find('>') else {
+        return html;
+    };
+    let mut inner_start = pre_start + gt_off + 1;
 
-    // Find end — last </code>.
-    let inner_end = if let Some(pos) = html.rfind("</code>") {
-        pos
-    } else {
+    // syntect emits a literal newline immediately after the opening tag (and
+    // sometimes another one before the closing tag). Our outer `<pre>` is
+    // whitespace-preserving, so those newlines would render as blank lines
+    // at the top/bottom of the highlighted block.
+    if html.as_bytes().get(inner_start) == Some(&b'\n') {
+        inner_start += 1;
+    }
+
+    let Some(mut inner_end) = html.rfind("</pre>") else {
         return &html[inner_start..];
     };
+    while inner_end > inner_start && html.as_bytes()[inner_end - 1] == b'\n' {
+        inner_end -= 1;
+    }
 
     if inner_start <= inner_end {
         &html[inner_start..inner_end]
@@ -688,6 +703,44 @@ mod tests {
             output.contains("<pre><code class=\"language-diff\">"),
             "should preserve original code tag attrs"
         );
+    }
+
+    #[test]
+    fn no_nested_pre_after_highlighting() {
+        // Regression for https://github.com/etkecc/komai/issues/155 — syntect's
+        // output `<pre style="…">…</pre>` was being spliced inside our own
+        // `<pre><code>…</code></pre>`, producing two stacked `<pre>` boxes in
+        // the rendered bubble (a faded outer rectangle and a prominent inner
+        // one) because `strip_syntect_wrapper` looked for an inner `<code>`
+        // tag that syntect never emits.
+        let input = "<pre><code class=\"language-yaml\">a\nb\n</code></pre>";
+        let output = highlight_formatted_code_blocks(input, true);
+        let pre_opens = output.matches("<pre").count();
+        let pre_closes = output.matches("</pre>").count();
+        assert_eq!(
+            pre_opens, 1,
+            "exactly one <pre> opening tag expected, got: {output}"
+        );
+        assert_eq!(
+            pre_closes, 1,
+            "exactly one </pre> closing tag expected, got: {output}"
+        );
+        // syntect's inline background-color must not leak through.
+        assert!(
+            !output.contains("background-color"),
+            "syntect background wrapper not stripped: {output}"
+        );
+    }
+
+    #[test]
+    fn strip_syntect_wrapper_handles_pre_with_no_inner_code() {
+        let input = "<pre style=\"background-color:#2b303b;\">\n<span>foo</span></pre>\n";
+        assert_eq!(strip_syntect_wrapper(input), "<span>foo</span>");
+    }
+
+    #[test]
+    fn strip_syntect_wrapper_returns_original_when_no_pre() {
+        assert_eq!(strip_syntect_wrapper("plain"), "plain");
     }
 
     #[test]
@@ -881,9 +934,16 @@ class Greeter {
 
     #[test]
     fn strip_syntect_wrapper_works() {
-        let input = r#"<pre style="background-color:#2b303b;"><code>hello</code>
-</pre>
-"#;
-        assert_eq!(strip_syntect_wrapper(input), "hello");
+        // Matches the real shape of `syntect::html::highlighted_html_for_string`
+        // output: a single `<pre style="background-color:#xxx;">` wrapper
+        // around `<span>` runs, with a literal newline immediately after the
+        // open tag and (sometimes) before the close tag. There is no inner
+        // `<code>` element.
+        let input = "<pre style=\"background-color:#2b303b;\">\n\
+                     <span style=\"color:#a3be8c;\">hello</span></pre>\n";
+        assert_eq!(
+            strip_syntect_wrapper(input),
+            "<span style=\"color:#a3be8c;\">hello</span>"
+        );
     }
 }

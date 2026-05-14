@@ -69,7 +69,7 @@ latinKeyDefinition(LatinKey latinKey)
     return kNativeLatinKeys[latinKeyIndex(latinKey)];
 }
 
-bool
+[[maybe_unused]] bool
 matchesLinuxScanCode(quint32 nativeScanCode, const NativeLatinKeyDefinition &definition)
 {
     if (nativeScanCode == 0)

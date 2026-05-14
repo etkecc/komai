@@ -191,8 +191,11 @@ if(WIN32)
     list(APPEND KOMAI_LOGO_GENERATOR_ARGS --with-ico)
 endif()
 if(APPLE)
-    list(APPEND KOMAI_LOGO_GENERATED_FILES "${KOMAI_LOGO_ASSET_DIR}/komai.icns")
-    list(APPEND KOMAI_LOGO_GENERATOR_ARGS --with-icns)
+    list(APPEND KOMAI_LOGO_GENERATED_FILES
+        "${KOMAI_LOGO_ASSET_DIR}/komai.icns"
+        "${KOMAI_LOGO_ASSET_DIR}/komai-dmg-background.png"
+        "${KOMAI_LOGO_ASSET_DIR}/komai-dmg-background@2x.png")
+    list(APPEND KOMAI_LOGO_GENERATOR_ARGS --with-icns --with-dmg-background)
 endif()
 CPMAddPackage(
     NAME qt6keychain

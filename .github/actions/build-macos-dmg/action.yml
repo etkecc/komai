@@ -1,0 +1,262 @@
+name: Build macOS komai DMG
+description: |
+  Builds the macOS komai.app + Qt runtime + QML resources via macdeployqt
+  (driven by `just build` → PR #158's bundle_macos_app step) and packages it
+  into a styled DMG via create-dmg, producing
+  var/build/macos/komai-<VERSION>-macos-arm64.dmg.
+
+  Apple Silicon (arm64) only. Intel macOS is consciously out of scope:
+  Apple's macos-13 GitHub-hosted runner queue depth was observed >1 hour
+  during this branch's iteration, and Apple itself has wound down Intel
+  support — anyone capable of running our 13.3+-floor build is overwhelm-
+  ingly on Apple Silicon already.
+
+  Used by both publish.yml (release-tag flow) and packaging-check.yml
+  (manual workflow_dispatch sanity check). The caller is responsible for
+  the prior actions/checkout step and for using a macos-15 runner.
+
+  Reference for build steps: docs/maintainers/packaging/native/macos.md
+
+inputs:
+  qt-version:
+    description: |
+      Qt version to install via aqtinstall. Pinned to the human-tested
+      baseline in docs/maintainers/packaging/native/macos.md; bump
+      together with that doc.
+    required: false
+    default: "6.10.3"
+
+runs:
+  using: composite
+  steps:
+    # ---------- Caches --------------------------------------------------
+    # Each cache restored before its consumer; save happens at end of
+    # job. No host-mount fast path — the runner is GitHub-hosted.
+
+    - name: Cache pip wheels (aqtinstall)
+      uses: actions/cache@v5
+      with:
+        path: ~/Library/Caches/pip
+        key: pip-aqt-macos-${{ inputs.qt-version }}-v1
+        restore-keys: |
+          pip-aqt-macos-
+
+    - name: Cache Qt install
+      # Keying purely on Qt version means a version bump cold-installs
+      # the new tree; old entries age out via GitHub's 7-day cache TTL.
+      id: qt-cache
+      uses: actions/cache@v5
+      with:
+        path: ~/Qt/${{ inputs.qt-version }}
+        key: qt-macos-${{ inputs.qt-version }}-v1
+
+    - name: Cache cargo registry + git db
+      # Same shape as ci.yml's Linux cache and build-windows-zip's
+      # Windows cache.
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.cargo/registry/index
+          ~/.cargo/registry/cache
+          ~/.cargo/git/db
+        key: cargo-home-macos-${{ hashFiles('src/rust/Cargo.lock') }}
+        restore-keys: |
+          cargo-home-macos-
+
+    # ---------- Toolchain ----------------------------------------------
+
+    - name: Install Homebrew tools
+      # `just` drives the build, `create-dmg` does the final DMG
+      # packaging, `bash` overrides Apple's pinned 3.2 (GPL-3 holdout)
+      # which lacks BASHPID — native.sh trips on it immediately under
+      # set -u otherwise. Brew's bin dir is early on PATH on GH-hosted
+      # macOS runners so `/usr/bin/env bash` from the shebang picks up
+      # the new one. HOMEBREW_NO_AUTO_UPDATE=1 skips brew's ~1-2 min
+      # formulae self-update; we don't need bleeding-edge formulae for
+      # these well-established tools.
+      shell: bash
+      env:
+        HOMEBREW_NO_AUTO_UPDATE: "1"
+      run: brew install bash just create-dmg
+
+    - name: Install aqtinstall
+      # GH-hosted macOS runner ships brewed Python 3, which enforces
+      # PEP 668 ("externally-managed-environment") on plain `pip install`.
+      # `--break-system-packages` overrides for the ephemeral CI VM
+      # (there is no system to break). Installing without `--user`
+      # lands in the brewed Python's site-packages, so the `-m aqt`
+      # invocation below finds it without PATH munging.
+      shell: bash
+      run: python3 -m pip install --break-system-packages --upgrade aqtinstall
+
+    - name: Install Qt (${{ inputs.qt-version }} / clang_64)
+      if: steps.qt-cache.outputs.cache-hit != 'true'
+      # `clang_64` is the only macOS aqt arch token; Qt's macOS build
+      # is universal-binary since 6.2 and works on both runners.
+      # Module list mirrors build-windows-zip's verbatim.
+      shell: bash
+      run: |
+        python3 -m aqt install-qt mac desktop "${{ inputs.qt-version }}" clang_64 \
+          -O "$HOME/Qt" -m qtmultimedia qtimageformats qtshadertools
+
+    - name: Warm Rust toolchain
+      # Force-install the rust-toolchain.toml pinned channel before
+      # Corrosion's FindRust queries `rustup toolchain list`. Same idiom
+      # as ci.yml (Linux) and build-windows-zip (Windows) use.
+      shell: bash
+      run: cargo --version
+
+    # ---------- Build --------------------------------------------------
+
+    - name: Configure
+      # aqtinstall places macOS Qt at ~/Qt/<ver>/macos/. VOIP off because
+      # GStreamer-on-macOS is unverified (see macos.md from PR #158).
+      # BUILD_TESTING off to keep the build minimal; release artefacts
+      # don't need the test binaries.
+      shell: bash
+      env:
+        QT_VERSION: ${{ inputs.qt-version }}
+      run: |
+        just configure \
+          -DCMAKE_PREFIX_PATH="$HOME/Qt/${QT_VERSION}/macos" \
+          -DVOIP=OFF \
+          -DBUILD_TESTING=OFF
+
+    - name: Build
+      # PR #158's bundle_macos_app step runs `cmake --install` on Darwin
+      # automatically at the tail of `just build`, so komai.app lands at
+      # var/build/native/dist/komai.app self-contained (Qt frameworks,
+      # plugins, QML modules deployed via macdeployqt).
+      shell: bash
+      run: just build
+
+    - name: Ad-hoc sign the .app bundle
+      # macdeployqt in Qt 6.10 does NOT sign by default — its invocation
+      # here lacks `-codesign=...`. The arm64 main binary still ends up
+      # with the linker's automatic per-binary ad-hoc stamp (kernel
+      # requirement for loading arm64 code), but no
+      # _CodeSignature/CodeResources manifest at the bundle level, so
+      # `codesign --verify --deep --strict` reports "code has no
+      # resources but signature indicates they must be present".
+      #
+      # Explicit bundle-level ad-hoc signing produces the manifest and
+      # makes the smoke-test pass. UX impact is zero (Gatekeeper still
+      # rejects on macOS 15+ without notarisation), but the bundle is
+      # now well-formed — and the same step plugs in a Developer-ID
+      # cert later (replace `-` with the identity, the rest stays).
+      shell: bash
+      run: codesign --sign - --force --deep var/build/native/dist/komai.app
+
+    # ---------- Package: styled DMG ------------------------------------
+
+    - name: Read VERSION
+      id: ver
+      shell: bash
+      run: echo "version=$(cat VERSION.txt)" >> "$GITHUB_OUTPUT"
+
+    - name: Stage komai.app for DMG
+      # `cmake --install` deposits the .app *plus* bin/komai-mcp into the
+      # install prefix. The release DMG should contain only komai.app —
+      # mirroring how build-windows-zip ships only komai.exe — so copy
+      # the .app into a clean staging dir create-dmg can use as its
+      # source folder. create-dmg adds the /Applications drop-link from
+      # the --app-drop-link flag below.
+      shell: bash
+      run: |
+        mkdir -p var/build/macos/staging var/build/macos
+        cp -R var/build/native/dist/komai.app var/build/macos/staging/
+
+    - name: Combine 1x + @2x backgrounds into a multi-resolution TIFF
+      # create-dmg's `--background` accepts a single image. It does NOT
+      # auto-pick the `name@2x.png` companion that LogoAssetGenerator
+      # produces alongside — that convention is specific to appdmg /
+      # dmgbuild. To get retina-sharp rendering on Apple-Silicon Finder,
+      # combine the pair into a multi-resolution TIFF that macOS natively
+      # understands and selects between per display. `tiffutil` ships
+      # with macOS dev tools (no extra install).
+      shell: bash
+      run: |
+        tiffutil -cathidpicheck \
+          var/build/native/logo-assets/komai-dmg-background.png \
+          var/build/native/logo-assets/komai-dmg-background@2x.png \
+          -out var/build/native/logo-assets/komai-dmg-background.tiff
+
+    - name: Build DMG
+      # Window dims and icon positions match LogoAssetGenerator's
+      # --with-dmg-background composition: icons centred at (140, 225)
+      # and (400, 225) with 128 px size, arrow drawn between them.
+      # Volume icon = komai.icns so the DMG itself shows the komai logo
+      # in Finder/Downloads. Background is the multi-resolution TIFF
+      # combined in the preceding step.
+      shell: bash
+      env:
+        VERSION: ${{ steps.ver.outputs.version }}
+      run: |
+        create-dmg \
+          --volname komai \
+          --volicon var/build/native/logo-assets/komai.icns \
+          --background var/build/native/logo-assets/komai-dmg-background.tiff \
+          --window-pos 200 120 \
+          --window-size 540 380 \
+          --icon-size 128 \
+          --icon komai.app 140 225 \
+          --app-drop-link 400 225 \
+          --no-internet-enable \
+          "var/build/macos/komai-${VERSION}-macos-arm64.dmg" \
+          var/build/macos/staging
+
+    - name: Smoke-test the DMG
+      # Catches packaging-side regressions that `just build` itself
+      # can't notice — DMG corruption, missing app, broken bundle
+      # structure, signature damage during create-dmg's round-trip,
+      # wrong-architecture binary. Cheap to run, all the tools are
+      # built into macOS (hdiutil, codesign, lipo). It does NOT
+      # confirm the app actually launches; only a human running it
+      # on real hardware can do that.
+      shell: bash
+      env:
+        VERSION: ${{ steps.ver.outputs.version }}
+      run: |
+        set -euo pipefail
+        dmg="var/build/macos/komai-${VERSION}-macos-arm64.dmg"
+        echo "::group::hdiutil verify"
+        hdiutil verify "$dmg"
+        echo "::endgroup::"
+
+        mount_point="$(mktemp -d)"
+        echo "::group::hdiutil attach"
+        hdiutil attach "$dmg" -nobrowse -readonly -mountpoint "$mount_point"
+        echo "::endgroup::"
+        trap 'hdiutil detach "$mount_point" -quiet || true' EXIT
+
+        if [[ ! -d "$mount_point/komai.app" ]]; then
+          echo "::error::komai.app missing from mounted DMG"
+          exit 1
+        fi
+        if [[ ! -L "$mount_point/Applications" ]]; then
+          echo "::error::Applications drag-link missing from mounted DMG"
+          exit 1
+        fi
+
+        echo "::group::lipo -archs (komai binary)"
+        bin_arch="$(lipo -archs "$mount_point/komai.app/Contents/MacOS/komai")"
+        echo "binary arches: ${bin_arch}"
+        echo "::endgroup::"
+        # The pipeline is arm64-only; guard against an accidental wrong-
+        # runner rewire that would otherwise ship a binary that can't
+        # launch on the Apple-Silicon machines we're publishing to.
+        if [[ "${bin_arch}" != "arm64" ]]; then
+          echo "::error::komai binary is ${bin_arch}; expected arm64"
+          exit 1
+        fi
+
+        echo "::group::codesign --verify --deep --strict"
+        codesign --verify --deep --strict --verbose=2 "$mount_point/komai.app"
+        echo "::endgroup::"
+
+    - name: Upload macOS DMG
+      uses: actions/upload-artifact@v7
+      with:
+        name: komai-macos-arm64
+        path: var/build/macos/komai-*-macos-arm64.dmg
+        if-no-files-found: error

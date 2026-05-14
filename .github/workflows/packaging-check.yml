@@ -19,6 +19,7 @@ on:
           - appimage
           - flatpak
           - snap
+          - macos-arm64
           - windows
 
 permissions:
@@ -79,6 +80,18 @@ jobs:
           name: komai-snap
           path: var/build/snap/komai_*.snap
           if-no-files-found: error
+
+  macos-arm64:
+    # GitHub-hosted Apple-Silicon runner; explicit pin matches publish.yml.
+    # `macos-latest` would auto-bump on GitHub re-aliasing.
+    if: inputs.format == 'all' || inputs.format == 'macos-arm64'
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build macOS arm64 DMG
+        uses: ./.github/actions/build-macos-dmg
 
   windows:
     # GitHub-hosted runner; explicit pin matches publish.yml.

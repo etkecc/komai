@@ -48,6 +48,21 @@ constexpr std::array<PngTarget, 9> kPngTargets = {
   PngTarget{512, "komai-512.png"},
 };
 
+struct DmgBackgroundTarget
+{
+    int width;
+    int height;
+    const char *fileName;
+};
+
+// 1x then @2x retina. Window dims (540x380) match the create-dmg invocation in
+// the macOS release composite action; icon positions baked into that config
+// land at the icon-row y the arrow is drawn at below.
+constexpr std::array<DmgBackgroundTarget, 2> kDmgBackgroundTargets = {
+  DmgBackgroundTarget{540, 380, "komai-dmg-background.png"},
+  DmgBackgroundTarget{1080, 760, "komai-dmg-background@2x.png"},
+};
+
 void
 printError(const QString &message)
 {
@@ -104,11 +119,66 @@ renderSvg(QSvgRenderer &renderer, int size)
     return image;
 }
 
+// Composes the chrome behind the two real icons Finder floats in the DMG
+// window: subtle vertical light-grey gradient, komai mark top-centred, a soft
+// grey arrow at the icon row pointing toward the Applications symlink. Icon
+// positions are baked into create-dmg metadata (not drawn here) — drawing
+// icon placeholders into the background would create double-icons.
+QImage
+renderDmgBackground(QSvgRenderer &renderer, int width, int height)
+{
+    QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
+
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+    QLinearGradient gradient(0, 0, 0, height);
+    gradient.setColorAt(0.0, QColor(0xfa, 0xfa, 0xfa));
+    gradient.setColorAt(1.0, QColor(0xe4, 0xe4, 0xe4));
+    painter.fillRect(image.rect(), gradient);
+
+    // All positions are expressed in the 540x380 reference window; @2x just
+    // doubles the scale.
+    const qreal scale       = qreal(width) / 540.0;
+    const qreal logoSize    = 100.0 * scale;
+    const qreal logoX       = (width - logoSize) / 2.0;
+    const qreal logoY       = 25.0 * scale;
+    renderer.render(&painter, QRectF(logoX, logoY, logoSize, logoSize));
+
+    // Icons are 128 px centred at y=225 (so they span y=161..289). The arrow
+    // spans the gap between them — left icon's right edge is ~x=204, right
+    // icon's left edge is ~x=336, so the shaft sits at x=215..320 with a small
+    // arrowhead beyond.
+    const qreal arrowY        = 225.0 * scale;
+    const qreal arrowStartX   = 215.0 * scale;
+    const qreal arrowEndX     = 320.0 * scale;
+    const qreal arrowStroke   = 2.5 * scale;
+    const qreal arrowHeadLen  = 12.0 * scale;
+    const qreal arrowHeadHalf = 8.0 * scale;
+    const QColor arrowColor(0xa0, 0xa0, 0xa0);
+
+    QPen arrowPen(arrowColor, arrowStroke);
+    arrowPen.setCapStyle(Qt::FlatCap);
+    painter.setPen(arrowPen);
+    painter.drawLine(QPointF(arrowStartX, arrowY), QPointF(arrowEndX, arrowY));
+
+    QPolygonF arrowHead;
+    arrowHead << QPointF(arrowEndX + arrowHeadLen, arrowY)
+              << QPointF(arrowEndX, arrowY - arrowHeadHalf)
+              << QPointF(arrowEndX, arrowY + arrowHeadHalf);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(arrowColor);
+    painter.drawPolygon(arrowHead);
+
+    return image;
+}
+
 QStringList
-requiredOutputs(bool withIco, bool withIcns)
+requiredOutputs(bool withIco, bool withIcns, bool withDmgBackground)
 {
     QStringList outputs;
-    outputs.reserve(int(kPngTargets.size()) + 4);
+    outputs.reserve(int(kPngTargets.size()) + int(kDmgBackgroundTargets.size()) + 4);
 
     for (const auto &target : kPngTargets)
         outputs.append(QString::fromUtf8(target.fileName));
@@ -119,6 +189,10 @@ requiredOutputs(bool withIco, bool withIcns)
         outputs.append(QStringLiteral("komai.ico"));
     if (withIcns)
         outputs.append(QStringLiteral("komai.icns"));
+    if (withDmgBackground) {
+        for (const auto &target : kDmgBackgroundTargets)
+            outputs.append(QString::fromUtf8(target.fileName));
+    }
 
     return outputs;
 }
@@ -139,6 +213,7 @@ generateAssets(const QByteArray &svgData,
                const QDir &outputDir,
                bool withIco,
                bool withIcns,
+               bool withDmgBackground,
                QString *error)
 {
     QSvgRenderer renderer(svgData);
@@ -168,6 +243,14 @@ generateAssets(const QByteArray &svgData,
     if (withIcns && !saveImage(imageForSize(512), outputDir.filePath(QStringLiteral("komai.icns")), error))
         return false;
 
+    if (withDmgBackground) {
+        for (const auto &target : kDmgBackgroundTargets) {
+            const QImage background = renderDmgBackground(renderer, target.width, target.height);
+            if (!saveImage(background, outputDir.filePath(QString::fromUtf8(target.fileName)), error))
+                return false;
+        }
+    }
+
     return true;
 }
 
@@ -194,18 +277,23 @@ main(int argc, char *argv[])
                                      QStringLiteral("Generate a Windows .ico file."));
     QCommandLineOption withIcnsOption(QStringLiteral("with-icns"),
                                       QStringLiteral("Generate a macOS .icns file."));
+    QCommandLineOption withDmgBackgroundOption(
+      QStringLiteral("with-dmg-background"),
+      QStringLiteral("Generate background PNGs (1x and @2x) for the macOS release DMG."));
 
     parser.addOption(inputOption);
     parser.addOption(outputDirOption);
     parser.addOption(withIcoOption);
     parser.addOption(withIcnsOption);
+    parser.addOption(withDmgBackgroundOption);
     parser.process(app);
 
-    const QString inputPath   = parser.value(inputOption);
-    const QString outputPath  = parser.value(outputDirOption);
-    const bool withIco        = parser.isSet(withIcoOption);
-    const bool withIcns       = parser.isSet(withIcnsOption);
-    const QString checksumRel = QStringLiteral("komai.svg.sha256");
+    const QString inputPath      = parser.value(inputOption);
+    const QString outputPath     = parser.value(outputDirOption);
+    const bool withIco           = parser.isSet(withIcoOption);
+    const bool withIcns          = parser.isSet(withIcnsOption);
+    const bool withDmgBackground = parser.isSet(withDmgBackgroundOption);
+    const QString checksumRel    = QStringLiteral("komai.svg.sha256");
 
     if (inputPath.isEmpty() || outputPath.isEmpty())
         parser.showHelp(2);
@@ -228,7 +316,7 @@ main(int argc, char *argv[])
 
     const QString checksumPath = outputDir.filePath(checksumRel);
     QFile checksumFile(checksumPath);
-    const auto outputs = requiredOutputs(withIco, withIcns);
+    const auto outputs = requiredOutputs(withIco, withIcns, withDmgBackground);
 
     if (checksumFile.exists() && checksumFile.open(QIODevice::ReadOnly) &&
         checksumFile.readAll().trimmed() == checksum && allOutputsExist(outputDir, outputs)) {
@@ -236,7 +324,7 @@ main(int argc, char *argv[])
     }
 
     QString error;
-    if (!generateAssets(svgData, outputDir, withIco, withIcns, &error)) {
+    if (!generateAssets(svgData, outputDir, withIco, withIcns, withDmgBackground, &error)) {
         printError(error);
         return 1;
     }

@@ -26,6 +26,7 @@ APPIMAGE_DIR = REPO_ROOT / "var/build/appimage"
 FLATPAK_DIR = REPO_ROOT / "var/build/flatpak"
 SNAP_DIR = REPO_ROOT / "var/build/snap"
 WINDOWS_DIR = REPO_ROOT / "var/build/windows"
+MACOS_DIR = REPO_ROOT / "var/build/macos"
 
 CALVER_RE = re.compile(r"^\d{4}\.\d{2}\.\d{2}\.\d+$")
 
@@ -80,12 +81,17 @@ def windows_zip_path(version: str) -> Path:
     return WINDOWS_DIR / f"komai-{version}-windows-x64-no-installer.zip"
 
 
+def macos_dmg_path(version: str) -> Path:
+    return MACOS_DIR / f"komai-{version}-macos-arm64.dmg"
+
+
 def expected_artefacts(version: str) -> list[Path]:
     return [
         appimage_path(version),
         flatpak_path(version),
         snap_path(version),
         windows_zip_path(version),
+        macos_dmg_path(version),
     ]
 
 

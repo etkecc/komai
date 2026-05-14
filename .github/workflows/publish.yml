@@ -160,8 +160,27 @@ jobs:
       - name: Build Windows no-installer zip
         uses: ./.github/actions/build-windows-zip
 
+  build-macos-arm64:
+    # Apple-Silicon-only (Intel deliberately out of scope — see the
+    # build-macos-dmg composite's description for the rationale). Pin
+    # matches packaging-check.yml; `macos-latest` would auto-bump on
+    # GitHub re-aliasing and drag in surprise toolchain changes.
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: macos-15
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Build macOS arm64 DMG
+        uses: ./.github/actions/build-macos-dmg
+
   release:
-    needs: [ build-appimage, build-flatpak, build-snap, build-windows ]
+    needs: [ build-appimage, build-flatpak, build-snap, build-windows, build-macos-arm64 ]
     runs-on: [self-hosted, k150]
     # Runs inside the CI image so `python3` and the `gh` CLI come from
     # the image, not the host. Keeps the release-creation path
@@ -195,10 +214,11 @@ jobs:
         # and the `gh release create` invocation.
         run: |
           mkdir -p var/build
-          ln -sfn "$(pwd)/artefacts/komai-appimage" var/build/appimage
-          ln -sfn "$(pwd)/artefacts/komai-flatpak"  var/build/flatpak
-          ln -sfn "$(pwd)/artefacts/komai-snap"     var/build/snap
-          ln -sfn "$(pwd)/artefacts/komai-windows"  var/build/windows
+          ln -sfn "$(pwd)/artefacts/komai-appimage"    var/build/appimage
+          ln -sfn "$(pwd)/artefacts/komai-flatpak"     var/build/flatpak
+          ln -sfn "$(pwd)/artefacts/komai-snap"        var/build/snap
+          ln -sfn "$(pwd)/artefacts/komai-windows"     var/build/windows
+          ln -sfn "$(pwd)/artefacts/komai-macos-arm64" var/build/macos
 
       - name: Verify tag matches VERSION.txt
         # `bin/prek/version-drift.sh` already guarantees VERSION.txt /

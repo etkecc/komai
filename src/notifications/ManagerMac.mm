@@ -130,8 +130,8 @@ void NotificationsManager::objCxxPostNotification(
                 content.sound = [UNNotificationSound defaultSound];
             }
             content.userInfo = @{
-                @"roomId": threadIdentifier ?: @"",
-                @"eventId": eventIdentifier ?: @""
+                @"roomId": threadIdentifier ? threadIdentifier : @"",
+                @"eventId": eventIdentifier ? eventIdentifier : @""
             };
 
             if (!room_id.isEmpty()) {

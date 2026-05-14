@@ -82,24 +82,24 @@ QtObject {
         // optional so unusual targets without these still work).
         if (t.canUndo !== undefined) {
             menu.addItem(_mkItem(qsTr("Undo"), t.canUndo && !t.readOnly,
-                function () { t.undo(); }, "edit-undo"));
+                function () { t.undo(); }, "qrc:/icons/icons/ui/undo.svg"));
             menu.addItem(_mkItem(qsTr("Redo"), t.canRedo && !t.readOnly,
-                function () { t.redo(); }, "edit-redo"));
+                function () { t.redo(); }, "qrc:/icons/icons/ui/redo.svg"));
             menu.addItem(_separatorComponent.createObject(t));
         }
         menu.addItem(_mkItem(qsTr("Cut"),
             t.selectedText.length > 0 && !t.readOnly,
-            function () { t.cut(); }, "edit-cut"));
+            function () { t.cut(); }, "qrc:/icons/icons/ui/cut.svg"));
         menu.addItem(_mkItem(qsTr("Copy"),
             t.selectedText.length > 0,
-            function () { t.copy(); }, "edit-copy"));
+            function () { t.copy(); }, "qrc:/icons/icons/ui/copy.svg"));
         menu.addItem(_mkItem(qsTr("Paste"),
             t.canPaste,
-            function () { t.paste(); }, "edit-paste"));
+            function () { t.paste(); }, "qrc:/icons/icons/ui/paste.svg"));
         menu.addItem(_separatorComponent.createObject(t));
         menu.addItem(_mkItem(qsTr("Select All"),
             t.length > 0,
-            function () { t.selectAll(); }, "edit-select-all"));
+            function () { t.selectAll(); }, "qrc:/icons/icons/ui/select-all-on.svg"));
 
         MenuSizing.sizeMenuToContents(menu);
         menu.closed.connect(function () { menu.destroy(); });
@@ -110,10 +110,14 @@ QtObject {
     // scene, so there's no "not placed in the graphics scene" warning) and
     // then addItem/addMenu reparents them into the menu — which therefore
     // owns them and frees them when it's destroyed.
-    function _mkItem(label, isEnabled, action, iconName) {
+    //
+    // iconSource is a qrc path (e.g. "qrc:/icons/icons/ui/cut.svg") rather
+    // than a freedesktop theme name, so the rendered glyph is identical on
+    // every install regardless of which system icon theme is active.
+    function _mkItem(label, isEnabled, action, iconSource) {
         const opts = { text: label, enabled: isEnabled };
-        if (iconName)
-            opts["icon.name"] = iconName;
+        if (iconSource)
+            opts["icon.source"] = iconSource;
         const item = _itemComponent.createObject(root.target, opts);
         if (action)
             item.triggered.connect(action);

@@ -13,6 +13,7 @@ Verified on Apple Silicon, macOS 26.
 - [Rust](https://rustup.rs/) — `rustup` reads [`rust-toolchain.toml`](../../../../rust-toolchain.toml) and picks the pinned version.
 - Xcode 14+ or a recent Apple Clang from Command Line Tools.
 - CMake 3.15+.
+- **`bash` 4 or newer** (`brew install bash`). Apple ships `/bin/bash` at 3.2; `bin/build/native.sh` uses bash 4+ features (e.g. `BASHPID`) and aborts immediately on the stock shell. The brewed bash is picked up automatically by the script's `#!/usr/bin/env bash` shebang, since Homebrew's bin directory comes earlier on `PATH`.
 - [`just`](https://github.com/casey/just) (`brew install just`) — optional but recommended; the rest of this guide drives the build through it.
 
 ## Get the source

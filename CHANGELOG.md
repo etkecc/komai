@@ -1,5 +1,33 @@
 # Changelog
 
+## 2026.05.15.0
+
+🎉 **The first pre-built macOS binary of Komai!** Every tagged release now ships an Apple Silicon (arm64) `.dmg` (`komai-<version>-macos-arm64.dmg`) alongside the AppImage, Flatpak, Snap, and Windows ZIP. The build is unsigned and not notarized: on macOS 13/14, right-click `komai.app` and choose **Open**; on macOS 15+, open the app once, then go to System Settings -> Privacy & Security and click **Open Anyway**. Subsequent launches don't re-prompt ([e4ed671a4](https://github.com/etkecc/komai/commit/e4ed671a4)).
+
+Huge thanks to [@hareeen](https://github.com/hareeen) (Suyoung Hwang) whose [PR #158](https://github.com/etkecc/komai/pull/158) did the heavy lifting of making the native macOS build work in the first place. Komai building and running on macOS was a "tentative, untested by maintainers" footnote before that PR.
+
+- ✨ Feature: [offline spell checking](https://github.com/etkecc/komai/blob/v2026.05.15.0/docs/user-guide/features/spellcheck.md) in the message composer and the room-topic editor, backed by [Hunspell](https://hunspell.github.io/) dictionaries. English (US) is built in ([be56c4452](https://github.com/etkecc/komai/commit/be56c4452)).
+- ✨ Feature: the "Leave room" dialog now takes an optional reason, sends it to the homeserver, and Komai renders the reason inline in the timeline of other rooms when it sees it on incoming leave events ([f7644bf51](https://github.com/etkecc/komai/commit/f7644bf51), [3390c2041](https://github.com/etkecc/komai/commit/3390c2041), [5952ac4c7](https://github.com/etkecc/komai/commit/5952ac4c7)).
+- ✨ Feature: private read receipts. When "Show others when I've read their messages" is off, Komai sends `m.read.private` receipts instead of suppressing receipts entirely, so your own read state still syncs across your sessions and you don't need to use "Mark as read" manually ([e972f7b67](https://github.com/etkecc/komai/commit/e972f7b67)).
+- ✨ Feature: image, file, video, and audio messages now respect the "Auto-convert Markdown to HTML" composer setting on send, so captions go out with HTML formatting when the toggle is on ([310473558](https://github.com/etkecc/komai/commit/310473558)).
+- ✨ Feature: formatted captions on image, file, video, and audio messages now render in the timeline instead of showing as raw Markdown ([1f77580ba](https://github.com/etkecc/komai/commit/1f77580ba), [183f344c8](https://github.com/etkecc/komai/commit/183f344c8)).
+- ✨ Feature: a clear button (and `Ctrl+F` focus shortcut) on the settings search box ([adef26bd8](https://github.com/etkecc/komai/commit/adef26bd8)).
+- ✨ Feature: a snackbar confirms when a message report has been delivered, instead of the action vanishing silently ([0ae57d73e](https://github.com/etkecc/komai/commit/0ae57d73e)).
+- 🐛 Fix: read/received delivery indicators now stay live in the thread timeline, and thread read receipts are honoured in the Read Receipts dialog and the merged-timeline snapshot ([3b8ef3c6e](https://github.com/etkecc/komai/commit/3b8ef3c6e), [2ce7137e4](https://github.com/etkecc/komai/commit/2ce7137e4), [375c1644b](https://github.com/etkecc/komai/commit/375c1644b), [33b728ca5](https://github.com/etkecc/komai/commit/33b728ca5)).
+- 🐛 Fix: timeline selection and walk-mode are now scoped to the active timeline model, so multi-select works correctly in thread view; the ListView also positions by its own model's row index, avoiding off-by-one slips in subset timelines ([e68aacdce](https://github.com/etkecc/komai/commit/e68aacdce), [39f65b433](https://github.com/etkecc/komai/commit/39f65b433)).
+- 🐛 Fix: the "Replying to" banner has been relocated above the staged file attachments row ([2213a048b](https://github.com/etkecc/komai/commit/2213a048b)).
+- 🐛 Fix: highlighted code blocks no longer render with a doubled rectangle around the highlight ([ccd733e2a](https://github.com/etkecc/komai/commit/ccd733e2a)).
+- 🐛 Fix: long context-menu labels are no longer truncated with an ellipsis; the menu grows to fit ([fc8473e31](https://github.com/etkecc/komai/commit/fc8473e31)).
+- 🐛 Fix: the upload-progress logo on the composer attach button now respects the "Enable UI animations" setting (Settings -> General -> Interface), just like the spinner and search-status icons already did ([33d8c39a3](https://github.com/etkecc/komai/commit/33d8c39a3)).
+- 🐛 Fix: disabled controls are now visually distinct from enabled ones in every built-in theme via a derived "Disabled" palette group ([33080a97a](https://github.com/etkecc/komai/commit/33080a97a)).
+- 🐛 Fix: textarea context menus use Fluent icons (as opposed to falling back to system icons) to guarantee consistency ([403d39af1](https://github.com/etkecc/komai/commit/403d39af1)).
+- 🐛 Fix: the audio attachment loading spinner hides once playback actually starts ([77c3b4e0d](https://github.com/etkecc/komai/commit/77c3b4e0d)).
+- 🐛 Fix: leaving rooms now auto-closes their respective tabs ([487e8f1bc](https://github.com/etkecc/komai/commit/487e8f1bc)).
+- 🐛 Fix: invite rooms can no longer be opened as a tab (they were never really functional as one) ([392bff165](https://github.com/etkecc/komai/commit/392bff165)).
+- 📝 Copy: the encryption flow now consistently says "recovery key" and "recovery passphrase" everywhere ([a62a0a2bb](https://github.com/etkecc/komai/commit/a62a0a2bb)).
+- 📝 Copy: the score field has been dropped from the message-report dialog (the Matrix spec deprecated it and servers ignore it) ([b9a72cc53](https://github.com/etkecc/komai/commit/b9a72cc53)).
+- 🔧 Build: two macOS-specific compiler warnings cleaned up ([782de9a28](https://github.com/etkecc/komai/commit/782de9a28), [05f01033c](https://github.com/etkecc/komai/commit/05f01033c)).
+
 ## 2026.05.10.0
 
 🎉 **The first pre-built Windows binary of Komai!** Every tagged release now ships a Windows no-installer ZIP (`komai-<version>-windows-x64-no-installer.zip`) alongside the AppImage, Flatpak, and Snap. The build is unsigned, so SmartScreen warns on first launch ("More info" → "Run anyway") ([62ad50480](https://github.com/etkecc/komai/commit/62ad50480), [d644ad8fc](https://github.com/etkecc/komai/commit/d644ad8fc)).

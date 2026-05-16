@@ -64,11 +64,11 @@ For background, see 📄 [Native build on Windows](../maintainers/packaging/nati
 
 ### 🍏 macOS DMG (Apple Silicon)
 
-A `.dmg` for macOS 13.3 and later on `arm64` (Apple Silicon). The build is unsigned and not notarised, so the first launch needs an extra step; after that, the app opens normally.
+A `.dmg` for macOS 13.3 and later on `arm64` (Apple Silicon). The build is unsigned and not notarized, so the first launch needs an extra step; after that, the app opens normally.
 
 Download `komai-*-macos-arm64.dmg` from the release page, open it (double-click in Finder, or `open <file>` in Terminal), and drag `komai.app` into the **Applications** folder.
 
-The first launch shows a Gatekeeper warning because Komai isn't code-signed or notarised:
+The first launch shows a Gatekeeper warning because Komai isn't code-signed or notarized:
 
 - **macOS 13 (Ventura) or 14 (Sonoma):** in Finder, right-click `komai.app` in **Applications**, choose **Open**, then click **Open** in the dialog.
 - **macOS 15 (Sequoia) or later:** double-click `komai.app` and click **Done** in the warning dialog. Then open **System Settings**, go to **Privacy & Security**, scroll to the bottom, click **Open Anyway** next to the komai.app entry, and confirm.
@@ -80,7 +80,7 @@ What's not in the macOS build:
 - **VOIP.** No voice or video calls (`-DVOIP=OFF`).
 - **Auto-update.** Each release is a fresh DMG download from [GitHub Releases](https://github.com/etkecc/komai/releases).
 - **Intel Macs.** Only `arm64` is available as a pre-built binary. Building on Intel from source still works; see 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
-- **Code-signing / notarisation.** Komai is shipped unsigned, hence the first-launch dance.
+- **Code-signing / notarization.** Komai is shipped unsigned, hence the first-launch dance.
 
 For background, see 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
 

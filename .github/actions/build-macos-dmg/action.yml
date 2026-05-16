@@ -141,7 +141,7 @@ runs:
       #
       # Explicit bundle-level ad-hoc signing produces the manifest and
       # makes the smoke-test pass. UX impact is zero (Gatekeeper still
-      # rejects on macOS 15+ without notarisation), but the bundle is
+      # rejects on macOS 15+ without notarization), but the bundle is
       # now well-formed — and the same step plugs in a Developer-ID
       # cert later (replace `-` with the identity, the rest stays).
       shell: bash

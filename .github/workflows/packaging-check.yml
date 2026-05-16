@@ -85,7 +85,7 @@ jobs:
     # GitHub-hosted Apple-Silicon runner; explicit pin matches publish.yml.
     # `macos-latest` would auto-bump on GitHub re-aliasing.
     if: inputs.format == 'all' || inputs.format == 'macos-arm64'
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v6

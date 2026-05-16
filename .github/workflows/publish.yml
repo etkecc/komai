@@ -169,7 +169,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
       startsWith(github.event.workflow_run.head_branch || '', 'v')
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout tagged commit
         uses: actions/checkout@v6

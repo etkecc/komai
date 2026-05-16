@@ -2492,7 +2492,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>需要設定檔名稱。</translation>
@@ -3569,17 +3569,17 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>輸入訊息，或按 ↑ 選取訊息。</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+220"/>
         <source>Message</source>
         <translation>訊息</translation>
     </message>
     <message>
-        <location line="+617"/>
+        <location line="+621"/>
         <source>Stickers</source>
         <translation>貼圖</translation>
     </message>

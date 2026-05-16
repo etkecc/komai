@@ -2496,7 +2496,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Le nom du profil est obligatoire.</translation>
@@ -3574,17 +3574,17 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Écrivez un message, ou appuyez sur ↑ pour sélectionner des messages.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+220"/>
         <source>Message</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+617"/>
+        <location line="+621"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>

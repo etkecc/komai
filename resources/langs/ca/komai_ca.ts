@@ -2496,7 +2496,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>El nom de perfil és obligatori.</translation>
@@ -3574,17 +3574,17 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Escriu un missatge, o prem ↑ per seleccionar missatges.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+220"/>
         <source>Message</source>
         <translation>Missatge</translation>
     </message>
     <message>
-        <location line="+617"/>
+        <location line="+621"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>

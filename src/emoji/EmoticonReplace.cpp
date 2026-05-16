@@ -92,4 +92,17 @@ replaceEmoticons(const QString &input, UserSettings::AutoReplaceEmoji mode)
     return result;
 }
 
+bool
+isEmoticonShortcut(const QString &input)
+{
+    if (input.isEmpty())
+        return false;
+
+    for (const auto &e : kTable) {
+        if (input.compare(QLatin1String(e.pattern), Qt::CaseInsensitive) == 0)
+            return true;
+    }
+    return false;
+}
+
 } // namespace emoji

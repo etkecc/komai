@@ -8,6 +8,7 @@
 #include <algorithm>
 
 #include "emoji/EmojiNormalize.h"
+#include "emoji/EmoticonReplace.h"
 #include "utils/Utils.h"
 
 #include <QApplication>
@@ -418,6 +419,12 @@ QString
 Komai::formatHtmlEmojis(const QString &html)
 {
     return utils::replaceEmoji(html);
+}
+
+bool
+Komai::isEmoticonShortcut(const QString &text)
+{
+    return emoji::isEmoticonShortcut(text);
 }
 
 int

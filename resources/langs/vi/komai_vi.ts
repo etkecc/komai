@@ -2492,7 +2492,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Tên hồ sơ là bắt buộc.</translation>
@@ -3569,17 +3569,17 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Viết tin nhắn, hoặc nhấn ↑ để chọn tin nhắn.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+220"/>
         <source>Message</source>
         <translation>Tin nhắn</translation>
     </message>
     <message>
-        <location line="+617"/>
+        <location line="+621"/>
         <source>Stickers</source>
         <translation>Nhãn dán</translation>
     </message>

@@ -2496,7 +2496,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+520"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Li nomine de profil es obligatori.</translation>
@@ -3574,17 +3574,17 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1078"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scriver un mesage, o presar ↑ por seleter mesages.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+220"/>
         <source>Message</source>
         <translation>Mesage</translation>
     </message>
     <message>
-        <location line="+617"/>
+        <location line="+621"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

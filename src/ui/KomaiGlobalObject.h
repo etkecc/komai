@@ -129,6 +129,11 @@ public:
     }
     Q_INVOKABLE static QString normalizeEmojiForComparison(const QString &emoji);
     Q_INVOKABLE static QString formatHtmlEmojis(const QString &html);
+    //! True when `text` is exactly a known text emoticon shortcut (`:)`, `:D`,
+    //! `:'(`, etc.). The composer uses this to dismiss the inline emoji picker
+    //! once the user has typed a complete emoticon that auto-conversion will
+    //! turn into an emoji on send.
+    Q_INVOKABLE static bool isEmoticonShortcut(const QString &text);
     //! Walk grapheme cluster boundaries in `text`. Used by the composer so
     //! Backspace/Delete remove a whole cluster (e.g. base + VS16, ZWJ
     //! sequence, or skin-tone modifier) rather than a single UTF-16 code unit.

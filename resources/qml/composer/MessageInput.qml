@@ -1073,6 +1073,12 @@ Rectangle {
                 id: messageInput
 
                 property int completerTriggeredAt: 0
+                // Position of the `:` whose emoji picker we auto-suppressed
+                // because the typed token was a complete emoticon shortcut
+                // (`:)`, `:D`, ...). If the user keeps typing into the same
+                // token so it's no longer an emoticon (`:D` → `:Dog`), we
+                // reopen the picker at this position.
+                property int emoticonSuppressedTriggerAt: -1
                 readonly property int horizontalTextPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 property string lastChar
                 property string placeholderLabelText: qsTr("Write a message, or press ↑ to select messages.")
@@ -1107,7 +1113,12 @@ Rectangle {
                     }
                 }
                 function refreshCompleterSearchString() {
-                    if (!popup.opened || !completer.completer)
+                    // Gate on completerType (set synchronously by openCompleter)
+                    // rather than popup.opened. The popup's 100ms enter
+                    // transition leaves popup.opened=false for a frame or two
+                    // after a fresh open, which would let an `:emoticon` typed
+                    // immediately after `:` slip past the auto-close path.
+                    if (!completer.completer || completer.completerType === "")
                         return;
 
                     const searchString = messageInput.currentCompleterSearchString();
@@ -1117,7 +1128,42 @@ Rectangle {
                         return;
                     }
 
+                    // Once the typed token is itself a complete emoticon
+                    // shortcut (e.g. `:)` or `:D`), the picker's lookup for
+                    // that string is noise — auto-conversion will turn it
+                    // into an emoji on send anyway. Remember the trigger so
+                    // we can reopen if the user extends the token past the
+                    // shortcut (`:D` → `:Dog`).
+                    if (completer.completerType === "emoji"
+                            && Settings.composerInputAutoReplaceEmoji !== Settings.AutoReplaceEmoji.Never
+                            && Komai.isEmoticonShortcut(searchString)) {
+                        emoticonSuppressedTriggerAt = completerTriggeredAt;
+                        completer.completerType = "";
+                        popup.close();
+                        return;
+                    }
+
                     completer.completer.setSearchString(searchString);
+                }
+                function maybeReopenAfterEmoticonSuppression() {
+                    // Same rationale as in refreshCompleterSearchString: use
+                    // completerType, not popup.opened, so we don't get
+                    // confused mid-transition.
+                    if (completer.completerType !== "" || emoticonSuppressedTriggerAt < 0)
+                        return;
+                    const trigger = emoticonSuppressedTriggerAt;
+                    if (cursorPosition <= trigger || cursorPosition > text.length) {
+                        emoticonSuppressedTriggerAt = -1;
+                        return;
+                    }
+                    const token = text.substring(trigger, cursorPosition) + messageInput.preeditText;
+                    if (token.length === 0 || /\s/.test(token)) {
+                        emoticonSuppressedTriggerAt = -1;
+                        return;
+                    }
+                    if (Komai.isEmoticonShortcut(token))
+                        return; // still a shortcut — keep the picker dismissed
+                    messageInput.openCompleter(trigger, "emoji");
                 }
                 function insertCompletion(completion, activeType, activeUserid) {
                     if (activeType === undefined)
@@ -1149,6 +1195,7 @@ Rectangle {
                         inputBar.inputController.addMention(activeUserid, completion);
                 }
                 function openCompleter(pos, type) {
+                    emoticonSuppressedTriggerAt = -1;
                     completerTriggeredAt = pos;
                     completer.completerType = type;
                     if (!popup.opened) {
@@ -1540,6 +1587,8 @@ Rectangle {
                     inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
                     if (popup.opened && cursorPosition <= completerTriggeredAt)
                         popup.close();
+                    if (emoticonSuppressedTriggerAt >= 0 && cursorPosition <= emoticonSuppressedTriggerAt)
+                        emoticonSuppressedTriggerAt = -1;
                     messageInput.refreshCompleterSearchString();
                 }
                 onPreeditTextChanged: {
@@ -1576,6 +1625,8 @@ Rectangle {
                             messageInput.openCompleter(triggerPos, type);
                     } else if (insertedLength > 1) {
                         messageInput.maybeOpenCompleterForTrailingTokenAfterBulkInsert();
+                    } else {
+                        messageInput.maybeReopenAfterEmoticonSuppression();
                     }
                     previousTextLength = text.length;
                     inputBar._draftText = text;

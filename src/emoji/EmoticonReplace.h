@@ -19,4 +19,11 @@ namespace emoji {
 QString
 replaceEmoticons(const QString &input, UserSettings::AutoReplaceEmoji mode);
 
+/// Returns true when `input` is exactly one of the known emoticon shortcuts
+/// (e.g. `:)`, `:D`, `:'(`). Compared case-insensitively to match
+/// replaceEmoticons. Used by the composer to skip the inline emoji picker when
+/// the user has typed a complete emoticon that auto-conversion will replace.
+bool
+isEmoticonShortcut(const QString &input);
+
 } // namespace emoji
